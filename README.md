@@ -1,8 +1,13 @@
-# ⚡️ SeamlessPay for iOS
+# SeamlessPayCore
 
 *The Seamless Payments iOS SDK makes it quick and easy to build an excellent payment experience in your iOS app.*
 
 Our framework provides elements that can be used out-of-the-box to collect your users' payment details. We also expose the low-level APIs that power those UIs so that you can build fully custom experiences. Additionally, a low-level `SPAPIClient` is included which corresponds to resources and methods in the Seamless Payments API, so that you can build any custom functionality on top of this layer while still taking advantage of utilities from the `SeamlessPayCore` framework.
+
+[![CI Status](https://img.shields.io/travis/reeppoo.ping@gmail.com/SeamlessPayCore.svg?style=flat)](https://travis-ci.org/reeppoo.ping@gmail.com/SeamlessPayCore)
+[![Version](https://img.shields.io/cocoapods/v/SeamlessPayCore.svg?style=flat)](https://cocoapods.org/pods/SeamlessPayCore)
+[![License](https://img.shields.io/cocoapods/l/SeamlessPayCore.svg?style=flat)](https://cocoapods.org/pods/SeamlessPayCore)
+[![Platform](https://img.shields.io/cocoapods/p/SeamlessPayCore.svg?style=flat)](https://cocoapods.org/pods/SeamlessPayCore)
 
 ## Native UI Elements
 
@@ -12,24 +17,28 @@ Our framework provides elements that can be used out-of-the-box to collect your 
 
 ![image](https://rc-docs.seamlesspay.com/images/card-field.gif)
 
-## Usage
 
 *Requirements: The SeamlessPay iOS SDK requires Xcode 10.1 or later and is compatible with apps targeting iOS 10 or above.*
 
-1. Clone framework repo `git clone https://github.com/seamlesspay/ios-sdk.git`
-2. Checkout the appropriate release `git checkout release_1.0.1` (where "1.0.1" is the version you want to use)
-3. In XCode, select your project file, then right click and add `SeamlessPayCore.xcodeproj`
-4. In XCode's "Build Phase" view:
-   - Add `SeamlessPayCore` framework as a dependency
-   - Add `SeamlessPayCore` framework to "Link Binary" section
-   - Add `SeamlessPayCore` framework to "Copy Bundle Resources" by dragging it from the left pane, Products Folder
+## Example
 
-Note: In order to make requests to our sandbox, you will need to add an API key from your dashboard.
+To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-## Demos
+## Requirements
 
-There are three demo apps included with the framework:
+## Installation
 
- - **[SeamlessPay iOS Demo](https://github.com/seamlesspay/ios-sdk/tree/master/SeamlessPayDemo)**: Demonstrates various capabilities of our service
- - **[Objective-C Starter](https://github.com/seamlesspay/ios-sdk/tree/master/Example_Objective-C/SeamlessPayExample)**: Reference for Objective-C integration
- - **[Swift Starter](https://github.com/seamlesspay/ios-sdk/tree/master/Example_Swift/SeamlessPayExample)**: Reference for Swift integration
+SeamlessPayCore is available through [CocoaPods](https://cocoapods.org). To install
+it, simply add the following line to your Podfile:
+
+```ruby
+pod 'SeamlessPayCore'
+```
+
+## Author
+
+reeppoo.ping@gmail.com, den-awsdev2@datasub.com
+
+## License
+
+SeamlessPayCore is available under the MIT license. See the LICENSE file for more info.
