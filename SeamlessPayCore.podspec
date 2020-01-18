@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SeamlessPayCore'
-  s.version          = '1.0.1'
+  s.version          = '1.0.2'
   s.summary          = 'There are three demo apps included with the framework.'
 
 # This description is used to generate tags and improve search results.
@@ -30,11 +30,11 @@ TODO: The SeamlessPay iOS SDK makes it quick and easy to build an excellent paym
 
   s.ios.deployment_target = '11.0'
 
-  s.source_files = 'SeamlessPayCore/Classes/*.{h,m}'
-  s.resources = 'SeamlessPayCore/Assets/*.png'
+  s.source_files = 'SeamlessPayCore/Classes/*'
+  s.resources = 'SeamlessPayCore/Assets/*'
   
   # s.resource_bundles = {
-  #   'SeamlessPayCore' => ['SeamlessPayCore/Assets/Images/*.png']
+  #   'SeamlessPayCore' => ['SeamlessPayCore/Assets/*.png']
   # }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
