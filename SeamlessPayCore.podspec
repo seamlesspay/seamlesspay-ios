@@ -30,8 +30,8 @@ TODO: The SeamlessPay iOS SDK makes it quick and easy to build an excellent paym
 
   s.ios.deployment_target = '11.0'
 
-  s.source_files = 'SeamlessPayCore/Classes/**/*'
-  s.resources = "SeamlessPayCore/Assets/**/*.png"
+  s.source_files = 'SeamlessPayCore/Classes/*.{h,m}'
+  s.resources = 'SeamlessPayCore/Assets/*.png'
   
   # s.resource_bundles = {
   #   'SeamlessPayCore' => ['SeamlessPayCore/Assets/Images/*.png']
