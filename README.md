@@ -4,10 +4,6 @@
 
 Our framework provides elements that can be used out-of-the-box to collect your users' payment details. We also expose the low-level APIs that power those UIs so that you can build fully custom experiences. Additionally, a low-level `SPAPIClient` is included which corresponds to resources and methods in the Seamless Payments API, so that you can build any custom functionality on top of this layer while still taking advantage of utilities from the `SeamlessPayCore` framework.
 
-[![CI Status](https://img.shields.io/travis/reeppoo.ping@gmail.com/SeamlessPayCore.svg?style=flat)](https://travis-ci.org/reeppoo.ping@gmail.com/SeamlessPayCore)
-[![Version](https://img.shields.io/cocoapods/v/SeamlessPayCore.svg?style=flat)](https://cocoapods.org/pods/SeamlessPayCore)
-[![License](https://img.shields.io/cocoapods/l/SeamlessPayCore.svg?style=flat)](https://cocoapods.org/pods/SeamlessPayCore)
-[![Platform](https://img.shields.io/cocoapods/p/SeamlessPayCore.svg?style=flat)](https://cocoapods.org/pods/SeamlessPayCore)
 
 ## Native UI Elements
 
@@ -37,7 +33,7 @@ pod 'SeamlessPayCore'
 
 ## Author
 
-reeppoo.ping@gmail.com, den-awsdev2@datasub.com
+den-awsdev2@datasub.com
 
 ## License
 
