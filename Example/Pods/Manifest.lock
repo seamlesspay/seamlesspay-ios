@@ -1,0 +1,16 @@
+PODS:
+  - SeamlessPayCore (1.0.1)
+
+DEPENDENCIES:
+  - SeamlessPayCore (from `../`)
+
+EXTERNAL SOURCES:
+  SeamlessPayCore:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  SeamlessPayCore: fe93bcdac1984749aa07e65a778e1e10ebd3ea4a
+
+PODFILE CHECKSUM: 15037a58281042354aaa3b5e8a5912c87eedc6c5
+
+COCOAPODS: 1.8.4

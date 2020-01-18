@@ -1,0 +1,980 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		02CB96B5EB0F6B0B5AF0ED4A /* Pods_SeamlessPay_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79CC6C296D3B41B7E8E61EB5 /* Pods_SeamlessPay_Swift.framework */; };
+		1A5612ED54796973FE426168 /* Pods_SeamlessPay_ObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD7E6869259C2983C4ADD57D /* Pods_SeamlessPay_ObjC.framework */; };
+		1C94043323D3451700BC4697 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C94043223D3451700BC4697 /* AppDelegate.m */; };
+		1C94043623D3451700BC4697 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C94043523D3451700BC4697 /* SceneDelegate.m */; };
+		1C94043923D3451700BC4697 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C94043823D3451700BC4697 /* MasterViewController.m */; };
+		1C94043C23D3451700BC4697 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C94043B23D3451700BC4697 /* DetailViewController.m */; };
+		1C94043F23D3451700BC4697 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C94043D23D3451700BC4697 /* Main.storyboard */; };
+		1C94044123D3451C00BC4697 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C94044023D3451C00BC4697 /* Assets.xcassets */; };
+		1C94044423D3451C00BC4697 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C94044223D3451C00BC4697 /* LaunchScreen.storyboard */; };
+		1C94044723D3451C00BC4697 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C94044623D3451C00BC4697 /* main.m */; };
+		1C94045323D349AF00BC4697 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C94045223D349AF00BC4697 /* AppDelegate.m */; };
+		1C94045623D349AF00BC4697 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C94045523D349AF00BC4697 /* SceneDelegate.m */; };
+		1C94045923D349AF00BC4697 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C94045823D349AF00BC4697 /* ViewController.m */; };
+		1C94045C23D349AF00BC4697 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C94045A23D349AF00BC4697 /* Main.storyboard */; };
+		1C94045E23D349B200BC4697 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C94045D23D349B200BC4697 /* Assets.xcassets */; };
+		1C94046123D349B200BC4697 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C94045F23D349B200BC4697 /* LaunchScreen.storyboard */; };
+		1C94046423D349B200BC4697 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C94046323D349B200BC4697 /* main.m */; };
+		1C94046F23D34E3600BC4697 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C94046E23D34E3600BC4697 /* AppDelegate.swift */; };
+		1C94047123D34E3600BC4697 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C94047023D34E3600BC4697 /* SceneDelegate.swift */; };
+		1C94047323D34E3600BC4697 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C94047223D34E3600BC4697 /* ViewController.swift */; };
+		1C94047623D34E3600BC4697 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C94047423D34E3600BC4697 /* Main.storyboard */; };
+		1C94047823D34E4000BC4697 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C94047723D34E4000BC4697 /* Assets.xcassets */; };
+		1C94047B23D34E4000BC4697 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C94047923D34E4000BC4697 /* LaunchScreen.storyboard */; };
+		29408695B99007EA7344049D /* Pods_SeamlessPayDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6484F826A672FAAF56ACB478 /* Pods_SeamlessPayDemo.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		01B8C9E4F5FF6D9C7CB35985 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		077E59229D7CDF0E8584711A /* Pods-SeamlessPay_Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeamlessPay_Swift.release.xcconfig"; path = "Target Support Files/Pods-SeamlessPay_Swift/Pods-SeamlessPay_Swift.release.xcconfig"; sourceTree = "<group>"; };
+		0F5D842B8E7A855D1723B6E2 /* Pods_SeamlessPayCore_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SeamlessPayCore_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C94042F23D3451700BC4697 /* SeamlessPayDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeamlessPayDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C94043123D3451700BC4697 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		1C94043223D3451700BC4697 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		1C94043423D3451700BC4697 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
+		1C94043523D3451700BC4697 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
+		1C94043723D3451700BC4697 /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
+		1C94043823D3451700BC4697 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
+		1C94043A23D3451700BC4697 /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		1C94043B23D3451700BC4697 /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		1C94043E23D3451700BC4697 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1C94044023D3451C00BC4697 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1C94044323D3451C00BC4697 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		1C94044523D3451C00BC4697 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1C94044623D3451C00BC4697 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1C94044F23D349AF00BC4697 /* SeamlessPay_ObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeamlessPay_ObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C94045123D349AF00BC4697 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		1C94045223D349AF00BC4697 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		1C94045423D349AF00BC4697 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
+		1C94045523D349AF00BC4697 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
+		1C94045723D349AF00BC4697 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		1C94045823D349AF00BC4697 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		1C94045B23D349AF00BC4697 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1C94045D23D349B200BC4697 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1C94046023D349B200BC4697 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		1C94046223D349B200BC4697 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1C94046323D349B200BC4697 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1C94046C23D34E3600BC4697 /* SeamlessPay_Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeamlessPay_Swift.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C94046E23D34E3600BC4697 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		1C94047023D34E3600BC4697 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		1C94047223D34E3600BC4697 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1C94047523D34E3600BC4697 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1C94047723D34E4000BC4697 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1C94047A23D34E4000BC4697 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		1C94047C23D34E4000BC4697 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		29A381D468A3DFC7F3CEBD82 /* Pods-SeamlessPayDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeamlessPayDemo.release.xcconfig"; path = "Target Support Files/Pods-SeamlessPayDemo/Pods-SeamlessPayDemo.release.xcconfig"; sourceTree = "<group>"; };
+		38D2D2BF4EC8A6F4DE2A3CE3 /* SeamlessPayCore.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SeamlessPayCore.podspec; path = ../SeamlessPayCore.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		3919A7B8697BFD672311C1AD /* Pods-SeamlessPay_Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeamlessPay_Swift.debug.xcconfig"; path = "Target Support Files/Pods-SeamlessPay_Swift/Pods-SeamlessPay_Swift.debug.xcconfig"; sourceTree = "<group>"; };
+		3CB54422CA32411E6D73169B /* Pods-SeamlessPayCore_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeamlessPayCore_Example.debug.xcconfig"; path = "Target Support Files/Pods-SeamlessPayCore_Example/Pods-SeamlessPayCore_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		41F8D4F95877D5D9B34D72CA /* Pods-SeamlessPayCore_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeamlessPayCore_Example.release.xcconfig"; path = "Target Support Files/Pods-SeamlessPayCore_Example/Pods-SeamlessPayCore_Example.release.xcconfig"; sourceTree = "<group>"; };
+		5BF87BFF70EC4A1A7874CAFF /* Pods_SeamlessPayCore_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SeamlessPayCore_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		6003F5AF195388D20070C39A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		62CFCC7418BF0D9423E1E8E5 /* Pods-SeamlessPayDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeamlessPayDemo.debug.xcconfig"; path = "Target Support Files/Pods-SeamlessPayDemo/Pods-SeamlessPayDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		6484F826A672FAAF56ACB478 /* Pods_SeamlessPayDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SeamlessPayDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6DB40602EE58DDA3741CFF59 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		73B86563D7DC6B51F48D8A72 /* Pods-SeamlessPay_ObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeamlessPay_ObjC.debug.xcconfig"; path = "Target Support Files/Pods-SeamlessPay_ObjC/Pods-SeamlessPay_ObjC.debug.xcconfig"; sourceTree = "<group>"; };
+		79CC6C296D3B41B7E8E61EB5 /* Pods_SeamlessPay_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SeamlessPay_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		85B0D8CE9AFD38620C67EF60 /* Pods-SeamlessPayCore_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeamlessPayCore_Tests.release.xcconfig"; path = "Target Support Files/Pods-SeamlessPayCore_Tests/Pods-SeamlessPayCore_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		CB62E38E00A6C28A19508203 /* Pods-SeamlessPayCore_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeamlessPayCore_Tests.debug.xcconfig"; path = "Target Support Files/Pods-SeamlessPayCore_Tests/Pods-SeamlessPayCore_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		D1D820BF6988185B1C9092F6 /* Pods-SeamlessPay_ObjC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeamlessPay_ObjC.release.xcconfig"; path = "Target Support Files/Pods-SeamlessPay_ObjC/Pods-SeamlessPay_ObjC.release.xcconfig"; sourceTree = "<group>"; };
+		FD7E6869259C2983C4ADD57D /* Pods_SeamlessPay_ObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SeamlessPay_ObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1C94042C23D3451700BC4697 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				29408695B99007EA7344049D /* Pods_SeamlessPayDemo.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1C94044C23D349AF00BC4697 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A5612ED54796973FE426168 /* Pods_SeamlessPay_ObjC.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1C94046923D34E3600BC4697 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				02CB96B5EB0F6B0B5AF0ED4A /* Pods_SeamlessPay_Swift.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1C94043023D3451700BC4697 /* SeamlessPayDemo */ = {
+			isa = PBXGroup;
+			children = (
+				1C94043123D3451700BC4697 /* AppDelegate.h */,
+				1C94043223D3451700BC4697 /* AppDelegate.m */,
+				1C94043423D3451700BC4697 /* SceneDelegate.h */,
+				1C94043523D3451700BC4697 /* SceneDelegate.m */,
+				1C94043723D3451700BC4697 /* MasterViewController.h */,
+				1C94043823D3451700BC4697 /* MasterViewController.m */,
+				1C94043A23D3451700BC4697 /* DetailViewController.h */,
+				1C94043B23D3451700BC4697 /* DetailViewController.m */,
+				1C94043D23D3451700BC4697 /* Main.storyboard */,
+				1C94044023D3451C00BC4697 /* Assets.xcassets */,
+				1C94044223D3451C00BC4697 /* LaunchScreen.storyboard */,
+				1C94044523D3451C00BC4697 /* Info.plist */,
+				1C94044623D3451C00BC4697 /* main.m */,
+			);
+			path = SeamlessPayDemo;
+			sourceTree = "<group>";
+		};
+		1C94045023D349AF00BC4697 /* SeamlessPay_ObjC */ = {
+			isa = PBXGroup;
+			children = (
+				1C94045123D349AF00BC4697 /* AppDelegate.h */,
+				1C94045223D349AF00BC4697 /* AppDelegate.m */,
+				1C94045423D349AF00BC4697 /* SceneDelegate.h */,
+				1C94045523D349AF00BC4697 /* SceneDelegate.m */,
+				1C94045723D349AF00BC4697 /* ViewController.h */,
+				1C94045823D349AF00BC4697 /* ViewController.m */,
+				1C94045A23D349AF00BC4697 /* Main.storyboard */,
+				1C94045D23D349B200BC4697 /* Assets.xcassets */,
+				1C94045F23D349B200BC4697 /* LaunchScreen.storyboard */,
+				1C94046223D349B200BC4697 /* Info.plist */,
+				1C94046323D349B200BC4697 /* main.m */,
+			);
+			path = SeamlessPay_ObjC;
+			sourceTree = "<group>";
+		};
+		1C94046D23D34E3600BC4697 /* SeamlessPay_Swift */ = {
+			isa = PBXGroup;
+			children = (
+				1C94046E23D34E3600BC4697 /* AppDelegate.swift */,
+				1C94047023D34E3600BC4697 /* SceneDelegate.swift */,
+				1C94047223D34E3600BC4697 /* ViewController.swift */,
+				1C94047423D34E3600BC4697 /* Main.storyboard */,
+				1C94047723D34E4000BC4697 /* Assets.xcassets */,
+				1C94047923D34E4000BC4697 /* LaunchScreen.storyboard */,
+				1C94047C23D34E4000BC4697 /* Info.plist */,
+			);
+			path = SeamlessPay_Swift;
+			sourceTree = "<group>";
+		};
+		6003F581195388D10070C39A = {
+			isa = PBXGroup;
+			children = (
+				60FF7A9C1954A5C5007DD14C /* Podspec Metadata */,
+				1C94043023D3451700BC4697 /* SeamlessPayDemo */,
+				1C94045023D349AF00BC4697 /* SeamlessPay_ObjC */,
+				1C94046D23D34E3600BC4697 /* SeamlessPay_Swift */,
+				6003F58C195388D20070C39A /* Frameworks */,
+				6003F58B195388D20070C39A /* Products */,
+				A1D1C4B7B0CAE6AF55725748 /* Pods */,
+			);
+			sourceTree = "<group>";
+		};
+		6003F58B195388D20070C39A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1C94042F23D3451700BC4697 /* SeamlessPayDemo.app */,
+				1C94044F23D349AF00BC4697 /* SeamlessPay_ObjC.app */,
+				1C94046C23D34E3600BC4697 /* SeamlessPay_Swift.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6003F58C195388D20070C39A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6003F58D195388D20070C39A /* Foundation.framework */,
+				6003F58F195388D20070C39A /* CoreGraphics.framework */,
+				6003F591195388D20070C39A /* UIKit.framework */,
+				6003F5AF195388D20070C39A /* XCTest.framework */,
+				5BF87BFF70EC4A1A7874CAFF /* Pods_SeamlessPayCore_Example.framework */,
+				0F5D842B8E7A855D1723B6E2 /* Pods_SeamlessPayCore_Tests.framework */,
+				6484F826A672FAAF56ACB478 /* Pods_SeamlessPayDemo.framework */,
+				FD7E6869259C2983C4ADD57D /* Pods_SeamlessPay_ObjC.framework */,
+				79CC6C296D3B41B7E8E61EB5 /* Pods_SeamlessPay_Swift.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		60FF7A9C1954A5C5007DD14C /* Podspec Metadata */ = {
+			isa = PBXGroup;
+			children = (
+				38D2D2BF4EC8A6F4DE2A3CE3 /* SeamlessPayCore.podspec */,
+				01B8C9E4F5FF6D9C7CB35985 /* README.md */,
+				6DB40602EE58DDA3741CFF59 /* LICENSE */,
+			);
+			name = "Podspec Metadata";
+			sourceTree = "<group>";
+		};
+		A1D1C4B7B0CAE6AF55725748 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3CB54422CA32411E6D73169B /* Pods-SeamlessPayCore_Example.debug.xcconfig */,
+				41F8D4F95877D5D9B34D72CA /* Pods-SeamlessPayCore_Example.release.xcconfig */,
+				CB62E38E00A6C28A19508203 /* Pods-SeamlessPayCore_Tests.debug.xcconfig */,
+				85B0D8CE9AFD38620C67EF60 /* Pods-SeamlessPayCore_Tests.release.xcconfig */,
+				62CFCC7418BF0D9423E1E8E5 /* Pods-SeamlessPayDemo.debug.xcconfig */,
+				29A381D468A3DFC7F3CEBD82 /* Pods-SeamlessPayDemo.release.xcconfig */,
+				73B86563D7DC6B51F48D8A72 /* Pods-SeamlessPay_ObjC.debug.xcconfig */,
+				D1D820BF6988185B1C9092F6 /* Pods-SeamlessPay_ObjC.release.xcconfig */,
+				3919A7B8697BFD672311C1AD /* Pods-SeamlessPay_Swift.debug.xcconfig */,
+				077E59229D7CDF0E8584711A /* Pods-SeamlessPay_Swift.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1C94042E23D3451700BC4697 /* SeamlessPayDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1C94044823D3451C00BC4697 /* Build configuration list for PBXNativeTarget "SeamlessPayDemo" */;
+			buildPhases = (
+				C284ADE72E668170A9068B04 /* [CP] Check Pods Manifest.lock */,
+				1C94042B23D3451700BC4697 /* Sources */,
+				1C94042C23D3451700BC4697 /* Frameworks */,
+				1C94042D23D3451700BC4697 /* Resources */,
+				1101CC8CAF6BB7A25E9D5D3A /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SeamlessPayDemo;
+			productName = SeamlessPayDemo;
+			productReference = 1C94042F23D3451700BC4697 /* SeamlessPayDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1C94044E23D349AF00BC4697 /* SeamlessPay_ObjC */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1C94046723D349B200BC4697 /* Build configuration list for PBXNativeTarget "SeamlessPay_ObjC" */;
+			buildPhases = (
+				8E19AD5C092E2445D668910E /* [CP] Check Pods Manifest.lock */,
+				1C94044B23D349AF00BC4697 /* Sources */,
+				1C94044C23D349AF00BC4697 /* Frameworks */,
+				1C94044D23D349AF00BC4697 /* Resources */,
+				3631B39EC7E52060D4525762 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SeamlessPay_ObjC;
+			productName = SeamlessPay_ObjC;
+			productReference = 1C94044F23D349AF00BC4697 /* SeamlessPay_ObjC.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1C94046B23D34E3600BC4697 /* SeamlessPay_Swift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1C94047F23D34E4000BC4697 /* Build configuration list for PBXNativeTarget "SeamlessPay_Swift" */;
+			buildPhases = (
+				EC0195DE60040D0E0E7C99FC /* [CP] Check Pods Manifest.lock */,
+				1C94046823D34E3600BC4697 /* Sources */,
+				1C94046923D34E3600BC4697 /* Frameworks */,
+				1C94046A23D34E3600BC4697 /* Resources */,
+				C56CD975064497ED28827AFD /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SeamlessPay_Swift;
+			productName = SeamlessPay_Swift;
+			productReference = 1C94046C23D34E3600BC4697 /* SeamlessPay_Swift.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6003F582195388D10070C39A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = SP;
+				LastSwiftUpdateCheck = 1120;
+				LastUpgradeCheck = 1120;
+				ORGANIZATIONNAME = "reeppoo.ping@gmail.com";
+				TargetAttributes = {
+					1C94042E23D3451700BC4697 = {
+						CreatedOnToolsVersion = 11.2.1;
+						DevelopmentTeam = VVHY4NW744;
+						ProvisioningStyle = Automatic;
+					};
+					1C94044E23D349AF00BC4697 = {
+						CreatedOnToolsVersion = 11.2.1;
+						DevelopmentTeam = VVHY4NW744;
+						ProvisioningStyle = Automatic;
+					};
+					1C94046B23D34E3600BC4697 = {
+						CreatedOnToolsVersion = 11.2.1;
+						DevelopmentTeam = VVHY4NW744;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 6003F585195388D10070C39A /* Build configuration list for PBXProject "SeamlessPayCore" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				English,
+				en,
+				Base,
+			);
+			mainGroup = 6003F581195388D10070C39A;
+			productRefGroup = 6003F58B195388D20070C39A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1C94042E23D3451700BC4697 /* SeamlessPayDemo */,
+				1C94044E23D349AF00BC4697 /* SeamlessPay_ObjC */,
+				1C94046B23D34E3600BC4697 /* SeamlessPay_Swift */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1C94042D23D3451700BC4697 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1C94044423D3451C00BC4697 /* LaunchScreen.storyboard in Resources */,
+				1C94044123D3451C00BC4697 /* Assets.xcassets in Resources */,
+				1C94043F23D3451700BC4697 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1C94044D23D349AF00BC4697 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1C94046123D349B200BC4697 /* LaunchScreen.storyboard in Resources */,
+				1C94045E23D349B200BC4697 /* Assets.xcassets in Resources */,
+				1C94045C23D349AF00BC4697 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1C94046A23D34E3600BC4697 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1C94047B23D34E4000BC4697 /* LaunchScreen.storyboard in Resources */,
+				1C94047823D34E4000BC4697 /* Assets.xcassets in Resources */,
+				1C94047623D34E3600BC4697 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1101CC8CAF6BB7A25E9D5D3A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SeamlessPayDemo/Pods-SeamlessPayDemo-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SeamlessPayCore/SeamlessPayCore.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SeamlessPayCore.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SeamlessPayDemo/Pods-SeamlessPayDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3631B39EC7E52060D4525762 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SeamlessPay_ObjC/Pods-SeamlessPay_ObjC-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SeamlessPayCore/SeamlessPayCore.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SeamlessPayCore.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SeamlessPay_ObjC/Pods-SeamlessPay_ObjC-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8E19AD5C092E2445D668910E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SeamlessPay_ObjC-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C284ADE72E668170A9068B04 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SeamlessPayDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C56CD975064497ED28827AFD /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SeamlessPay_Swift/Pods-SeamlessPay_Swift-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SeamlessPayCore/SeamlessPayCore.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SeamlessPayCore.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SeamlessPay_Swift/Pods-SeamlessPay_Swift-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EC0195DE60040D0E0E7C99FC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SeamlessPay_Swift-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1C94042B23D3451700BC4697 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1C94044723D3451C00BC4697 /* main.m in Sources */,
+				1C94043323D3451700BC4697 /* AppDelegate.m in Sources */,
+				1C94043923D3451700BC4697 /* MasterViewController.m in Sources */,
+				1C94043623D3451700BC4697 /* SceneDelegate.m in Sources */,
+				1C94043C23D3451700BC4697 /* DetailViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1C94044B23D349AF00BC4697 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1C94045923D349AF00BC4697 /* ViewController.m in Sources */,
+				1C94045323D349AF00BC4697 /* AppDelegate.m in Sources */,
+				1C94046423D349B200BC4697 /* main.m in Sources */,
+				1C94045623D349AF00BC4697 /* SceneDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1C94046823D34E3600BC4697 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1C94047323D34E3600BC4697 /* ViewController.swift in Sources */,
+				1C94046F23D34E3600BC4697 /* AppDelegate.swift in Sources */,
+				1C94047123D34E3600BC4697 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		1C94043D23D3451700BC4697 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1C94043E23D3451700BC4697 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		1C94044223D3451C00BC4697 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1C94044323D3451C00BC4697 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		1C94045A23D349AF00BC4697 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1C94045B23D349AF00BC4697 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		1C94045F23D349B200BC4697 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1C94046023D349B200BC4697 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		1C94047423D34E3600BC4697 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1C94047523D34E3600BC4697 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		1C94047923D34E4000BC4697 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1C94047A23D34E4000BC4697 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1C94044923D3451C00BC4697 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 62CFCC7418BF0D9423E1E8E5 /* Pods-SeamlessPayDemo.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = VVHY4NW744;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = SeamlessPayDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.seamlesspay.core.SeamlessPayDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1C94044A23D3451C00BC4697 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 29A381D468A3DFC7F3CEBD82 /* Pods-SeamlessPayDemo.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = VVHY4NW744;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = SeamlessPayDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.seamlesspay.core.SeamlessPayDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		1C94046523D349B200BC4697 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 73B86563D7DC6B51F48D8A72 /* Pods-SeamlessPay_ObjC.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = VVHY4NW744;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = SeamlessPay_ObjC/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.seamlesspay.core.SeamlessPay-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1C94046623D349B200BC4697 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D1D820BF6988185B1C9092F6 /* Pods-SeamlessPay_ObjC.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = VVHY4NW744;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = SeamlessPay_ObjC/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.seamlesspay.core.SeamlessPay-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		1C94047D23D34E4000BC4697 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3919A7B8697BFD672311C1AD /* Pods-SeamlessPay_Swift.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = VVHY4NW744;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = SeamlessPay_Swift/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.seamlesspay.core.SeamlessPay-Swift";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1C94047E23D34E4000BC4697 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 077E59229D7CDF0E8584711A /* Pods-SeamlessPay_Swift.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = VVHY4NW744;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = SeamlessPay_Swift/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.seamlesspay.core.SeamlessPay-Swift";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		6003F5BD195388D20070C39A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6003F5BE195388D20070C39A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1C94044823D3451C00BC4697 /* Build configuration list for PBXNativeTarget "SeamlessPayDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1C94044923D3451C00BC4697 /* Debug */,
+				1C94044A23D3451C00BC4697 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1C94046723D349B200BC4697 /* Build configuration list for PBXNativeTarget "SeamlessPay_ObjC" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1C94046523D349B200BC4697 /* Debug */,
+				1C94046623D349B200BC4697 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1C94047F23D34E4000BC4697 /* Build configuration list for PBXNativeTarget "SeamlessPay_Swift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1C94047D23D34E4000BC4697 /* Debug */,
+				1C94047E23D34E4000BC4697 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6003F585195388D10070C39A /* Build configuration list for PBXProject "SeamlessPayCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6003F5BD195388D20070C39A /* Debug */,
+				6003F5BE195388D20070C39A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6003F582195388D10070C39A /* Project object */;
+}
