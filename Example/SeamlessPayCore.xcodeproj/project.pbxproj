@@ -307,7 +307,7 @@
 				CLASSPREFIX = SP;
 				LastSwiftUpdateCheck = 1120;
 				LastUpgradeCheck = 1120;
-				ORGANIZATIONNAME = "reeppoo.ping@gmail.com";
+				ORGANIZATIONNAME = "info@seamlesspay.com";
 				TargetAttributes = {
 					1C94042E23D3451700BC4697 = {
 						CreatedOnToolsVersion = 11.2.1;

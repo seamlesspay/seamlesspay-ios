@@ -2,8 +2,7 @@
 //  ViewController.h
 //  SeamlessPay_ObjC
 //
-//  Created by Oleksiy Shortov on 1/18/20.
-//  Copyright © 2020 reeppoo.ping@gmail.com. All rights reserved.
+//  Copyright © 2020 Seamless Payments, Inc. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
