@@ -24,7 +24,7 @@ TODO: The SeamlessPay iOS SDK makes it quick and easy to build an excellent paym
   s.homepage         = 'https://github.com/seamlesspay/seamlesspay-ios'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'den-awsdev2' => 'den-awsdev2@datasub.com' }
+  s.author           = { 'Seamless Payments' => 'info@seamlesspay.com' }
   s.source           = { :git => 'https://github.com/seamlesspay/seamlesspay-ios.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 

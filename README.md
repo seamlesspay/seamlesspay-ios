@@ -33,7 +33,7 @@ pod 'SeamlessPayCore'
 
 ## Author
 
-den-awsdev2@datasub.com
+Seamless Payments: info@seamlesspay.com
 
 ## License
 
