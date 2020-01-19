@@ -1,11 +1,12 @@
-//
-//  SPCustomer.h
-//  SeamlessPayCore
-//
+/**
+ * Copyright (c) Seamless Payments, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-
-#import <Foundation/Foundation.h>
 #import "SPPaymentMethod.h"
+#import <Foundation/Foundation.h>
 
 @interface SPCustomer : NSObject
 /**
@@ -66,15 +67,11 @@
  */
 @property(nonatomic, readonly, copy) NSString *website;
 
-
-
 /**
  * Initializes instance of SPCustomer .
  */
-
-+ (instancetype)customerWithResponseData:(NSData * )data;
-- (instancetype)initWithResponseData:(NSData * )data;
-
-- (NSDictionary*)dictionary;
++ (instancetype)customerWithResponseData:(NSData *)data;
+- (instancetype)initWithResponseData:(NSData *)data;
+- (NSDictionary *)dictionary;
 
 @end

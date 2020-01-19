@@ -1,6 +1,9 @@
-//
-//  SPPaymentMethodCardParams.h
-//
+/**
+ * Copyright (c) Seamless Payments, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
 #import <Foundation/Foundation.h>
 
@@ -24,32 +27,32 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The card number, as a string without any separators. Ex. @"4242424242424242"
  */
-@property (nonatomic, copy, nullable) NSString *number;
+@property(nonatomic, copy, nullable) NSString *number;
 
 /**
  Number representing the card's expiration month. Ex. @1
  */
-@property (nonatomic, nullable) NSNumber *expMonth;
+@property(nonatomic, nullable) NSNumber *expMonth;
 
 /**
  Two- or four-digit number representing the card's expiration year.
  */
-@property (nonatomic, nullable) NSNumber *expYear;
+@property(nonatomic, nullable) NSNumber *expYear;
 
 /**
  Token
  */
-@property (nonatomic, copy, nullable) NSString *token;
+@property(nonatomic, copy, nullable) NSString *token;
 
 /**
  Card security code. It is highly recommended to always include this value.
  */
-@property (nonatomic, copy, nullable) NSString *cvc;
+@property(nonatomic, copy, nullable) NSString *cvc;
 
 /**
 The last 4 digits of the card.
 */
-@property (nonatomic, readonly, nullable) NSString *last4;
+@property(nonatomic, readonly, nullable) NSString *last4;
 
 @end
 
