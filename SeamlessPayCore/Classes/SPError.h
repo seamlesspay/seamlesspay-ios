@@ -1,8 +1,9 @@
-//
-//  SPError.h
-//  SeamlessPayCore
-//
-//
+/**
+ * Copyright (c) Seamless Payments, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
 #import <Foundation/Foundation.h>
 
@@ -44,22 +45,20 @@
 // 33	Frozen card, contact customer service
 // 34	Invalid Amount (Does not match the pre-valued card dollar amount)
 // 35	Unknown Error, please contact customer support
-// 36	Rejected – Invalid transaction promotion-wide or invalid for originating merchant and store
+// 36	Rejected – Invalid transaction promotion-wide or invalid for originating
+// merchant and store
 // 37	Rejected – Invalid merchant and store combination for promotion
-// 38	Rejected – Exceeded maximum number of promotion cards allowed for a single POS transaction
-// 42	Transaction declined – transaction amount less than the required minimum
-// 99	Failure retrieving data (Enhance Balance Inquiry Only)
-// 100	Card Number required
-// 101	Merchant not found
-// 102	Gift Card Processor not configured
-// 103	Gift card not found
-// 104	Type required
+// 38	Rejected – Exceeded maximum number of promotion cards allowed for a
+// single POS transaction 42	Transaction declined – transaction amount less
+// than the required minimum 99	Failure retrieving data (Enhance Balance Inquiry
+// Only) 100	Card Number required 101	Merchant not found 102	Gift
+// Card Processor not configured 103	Gift card not found 104	Type required
 // 105	Amount required
 // 106	Gift Card Processor not supported
 // 107	Transaction cancelled
 // 108	Transaction not found
 // 109	Additional payment required to complete transaction
 
-+ (instancetype)errorWithResponse:(NSData*)data;
++ (instancetype)errorWithResponse:(NSData *)data;
 
 @end

@@ -2,8 +2,7 @@
 //  SPCharge.h
 //  SeamlessPayCore
 //
-//  Created by Stanislav Butkovskiy on 1/07/20.
-//  Copyright © 2020 Datasub. All rights reserved.
+//  Copyright © 2020 Seamless Payment, Inc. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

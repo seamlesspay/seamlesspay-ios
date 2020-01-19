@@ -1,16 +1,19 @@
-//
-//  SPImages.h
-//
+/**
+ * Copyright (c) Seamless Payments, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
+#import "SPCardBrand.h"
+#import "SPFPXBankBrand.h"
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "SPFPXBankBrand.h"
-#import "SPCardBrand.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- This class lets you access card icons 
+ This class lets you access card icons
  */
 @interface SPImageLibrary : NSObject
 
@@ -80,7 +83,7 @@ This returns the appropriate icon for the specified bank brand.
 + (UIImage *)largeFpxLogo;
 
 /**
- This returns the appropriate icon for the specified card brand as a 
+ This returns the appropriate icon for the specified card brand as a
  single color template that can be tinted
  */
 + (UIImage *)templatedBrandImageForCardBrand:(SPCardBrand)brand;
@@ -91,7 +94,8 @@ This returns the appropriate icon for the specified bank brand.
 + (UIImage *)cvcImageForCardBrand:(SPCardBrand)brand;
 
 /**
- This returns a small icon indicating a card number error for the given card brand.
+ This returns a small icon indicating a card number error for the given card
+ brand.
  */
 + (UIImage *)errorImageForCardBrand:(SPCardBrand)brand;
 

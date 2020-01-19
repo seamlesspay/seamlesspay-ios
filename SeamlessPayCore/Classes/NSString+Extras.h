@@ -1,6 +1,6 @@
 //
 //  NSString+Extras.h
-//  
+//
 //
 
 #import <Foundation/Foundation.h>

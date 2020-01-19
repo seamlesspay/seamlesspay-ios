@@ -19,7 +19,6 @@
 @property (nonatomic, readwrite, nullable) UIColor *errorColor;
 /// color to use for `placeholderText`, displayed when `text` is empty
 @property (nonatomic, readwrite, nullable) UIColor *placeholderColor;
-
 /// flag to indicate whether the contents are valid or not.
 @property (nonatomic, readwrite, assign) BOOL validText;
 
