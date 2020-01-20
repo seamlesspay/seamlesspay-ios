@@ -2,7 +2,7 @@
 //  SPCharge.h
 //  SeamlessPayCore
 //
-//  Copyright © 2020 Seamless Payment, Inc. All rights reserved.
+//  Copyright © 2020 Seamless Payments, Inc. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
