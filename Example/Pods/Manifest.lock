@@ -1,5 +1,5 @@
 PODS:
-  - SeamlessPayCore (1.0.5)
+  - SeamlessPayCore (1.0.6)
 
 DEPENDENCIES:
   - SeamlessPayCore (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  SeamlessPayCore: a62c1e054a8eeac16e9ef12d151741531e6c3aa0
+  SeamlessPayCore: 29053cb5784564b90b56c6083cdc9f248cde0b3f
 
 PODFILE CHECKSUM: 15037a58281042354aaa3b5e8a5912c87eedc6c5
 
