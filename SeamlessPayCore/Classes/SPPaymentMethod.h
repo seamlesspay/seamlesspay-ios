@@ -49,6 +49,21 @@
 @property(nonatomic, readonly, copy) NSString *routingNumber;
 
 /**
+ *  AVS Result Enum: "SM" "ZD" "SD" "ZM" "NS" "SE" "GN"
+ */
+@property(nonatomic, readonly, copy) NSString *avsResult;
+
+/**
+ *  CVV Result Enum: "M" "N" "P" "S" "U" "X"
+ */
+@property(nonatomic, readonly, copy) NSString *cvvResult;
+
+/**
+ *  Verification Result:  Enum: "verification_successful" "verification_failed"
+ */
+@property(nonatomic, readonly, copy) NSString *verificationResult;
+
+/**
  * Gift card PIN.
  */
 @property(nonatomic, readonly, copy) NSString *pinNumber;

@@ -1,0 +1,6 @@
+framework module SeamlessPayCore {
+  umbrella header "SeamlessPayCore-umbrella.h"
+
+  export *
+  module * { export * }
+}

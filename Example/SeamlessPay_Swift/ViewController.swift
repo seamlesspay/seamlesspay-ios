@@ -61,7 +61,9 @@ class ViewController: UIViewController {
             email: nil,
             phone: nil,
             name: nil,
-            nickname: nil, success: { (paymentMethod: SPPaymentMethod?) in
+            nickname: nil,
+            verification:false,
+            success: { (paymentMethod: SPPaymentMethod?) in
 
                 let token = paymentMethod?.token
 

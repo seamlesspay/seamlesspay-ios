@@ -112,7 +112,9 @@
         @"name=\"name\" size=\"36\"><br>Nick name:<input type=\"text\" "
         @"name=\"nickname\" size=\"36\"><br>Phone number (10 "
         @"characters):<input type=\"number\" "
-        @"name=\"phoneNumber\"><br><br><center><input type=\"submit\" "
+        @"name=\"phoneNumber\"><br>Verification :<select "
+        @"name=\"capture\"><option>NO</option><option>YES</option></"
+        @"select><br><br><center><input type=\"submit\" "
         @"name=\"panvault\" "
         @"value=\"Create\"></center></form><center><!--[RESULTS]--></center></"
         @"body></html>";
@@ -739,6 +741,7 @@
       phone:nil
       name:@"IOS test"
       nickname:nil
+      verification:NO
       success:^(SPPaymentMethod *paymentMethod) {
         if (paymentMethod) {
 
@@ -882,6 +885,8 @@
   } else if ([self.detailItem isEqualToString:@"Add Credit/Debit Card"] ||
              [self.detailItem isEqualToString:@"Add Gift Card"] ||
              [self.detailItem isEqualToString:@"Add ACH"]) {
+      
+      BOOL verification = [self.detailItem isEqualToString:@"Add Credit/Debit Card"] ? [qa[36] isEqualToString:@"YES"] : NO;
 
     [[SPAPIClient getSharedInstance] createPaymentMethodWithType:qa[2]
         account:qa[4]
@@ -900,6 +905,7 @@
         phone:qa[34]
         name:qa[30]
         nickname:qa[32]
+        verification : verification
         success:^(SPPaymentMethod *paymentMethod) {
           // NSLog(@"%@", paymentMethod);
 
@@ -1196,6 +1202,7 @@
         phone:nil
         name:qa[4]
         nickname:nil
+        verification : NO
         success:^(SPPaymentMethod *paymentMethod) {
           if (paymentMethod) {
 
@@ -1300,6 +1307,7 @@
         phone:qa[24]
         name:qa[6]
         nickname:nil
+        verification : NO
         success:^(SPPaymentMethod *paymentMethod) {
           if (paymentMethod) {
 
@@ -1402,6 +1410,7 @@
         phone:nil
         name:qa[2]
         nickname:nil
+        verification : NO
         success:^(SPPaymentMethod *paymentMethod) {
           if (paymentMethod) {
 
