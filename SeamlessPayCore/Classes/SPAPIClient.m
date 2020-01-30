@@ -281,6 +281,7 @@ static SPAPIClient *sharedInstance = nil;
                               phone:(NSString *)phone
                                name:(NSString *)name
                            nickname:(NSString *)nickname
+                       verification:(BOOL)verification
                             success:(void (^)(SPPaymentMethod *paymentMethod))
                                         success
                             failure:(void (^)(SPError *))failure {
@@ -297,7 +298,8 @@ static SPAPIClient *sharedInstance = nil;
     @"phoneNumber" : phone ?: @"",
     @"name" : name ?: @"",
     @"nickname" : nickname ?: @"",
-    @"email" : email ?: @""
+    @"email" : email ?: @"",
+    @"verification" : @(verification),
   } mutableCopy];
 
   if ([txnType isEqualToString:@"GIFT_CARD"]) {

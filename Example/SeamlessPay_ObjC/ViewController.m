@@ -112,6 +112,7 @@
       phone:nil
       name:@"IOS test"
       nickname:nil
+      verification : NO
       success:^(SPPaymentMethod *paymentMethod) {
         [[SPAPIClient getSharedInstance]
             createChargeWithToken:paymentMethod.token

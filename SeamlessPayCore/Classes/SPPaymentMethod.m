@@ -48,6 +48,9 @@
       _bankAccountType = [obj[@"bankAccountType"] copy];
       _pinNumber = [obj[@"pinNumber"] copy];
       _company = [obj[@"company"] copy];
+      _avsResult = [dict[@"avsResult"] copy];
+      _cvvResult = [dict[@"cvvResult"] copy];
+      _verificationResult = [dict[@"verificationResult"] copy];
     }
   }
   return self;
@@ -73,6 +76,9 @@
     _bankAccountType = [dict[@"bankAccountType"] copy];
     _pinNumber = [dict[@"pinNumber"] copy];
     _company = [dict[@"company"] copy];
+    _avsResult = [dict[@"avsResult"] copy];
+    _cvvResult = [dict[@"cvvResult"] copy];
+    _verificationResult = [dict[@"verificationResult"] copy];
   }
   return self;
 }
@@ -95,7 +101,10 @@
     @"nickname" : _nickname ?: @"",
     @"routingNumber" : _routingNumber ?: @"",
     @"bankAccountType" : _bankAccountType ?: @"",
-    @"pinNumber" : _pinNumber ?: @""
+    @"pinNumber" : _pinNumber ?: @"",
+    @"avsResult" : _avsResult ?: @"",
+    @"cvvResult" : _cvvResult ?: @"",
+    @"verificationResult" : _verificationResult ?: @""
   };
 }
 
