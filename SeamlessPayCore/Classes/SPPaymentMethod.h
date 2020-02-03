@@ -67,6 +67,15 @@
  * Gift card PIN.
  */
 @property(nonatomic, readonly, copy) NSString *pinNumber;
+
+
+/**
+ *  The various card brands to which a payment card can belong.
+ */
+@property(nonatomic, readonly, copy) NSString *cardBrand;
+
+
+
 @property(nonatomic, readonly, copy) NSString *billingAddress;
 @property(nonatomic, readonly, copy) NSString *billingAddress2;
 @property(nonatomic, readonly, copy) NSString *billingCity;

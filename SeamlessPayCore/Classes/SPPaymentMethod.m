@@ -51,6 +51,7 @@
       _avsResult = [dict[@"avsResult"] copy];
       _cvvResult = [dict[@"cvvResult"] copy];
       _verificationResult = [dict[@"verificationResult"] copy];
+      _cardBrand = [dict[@"cardBrand"] copy];
     }
   }
   return self;
@@ -79,6 +80,7 @@
     _avsResult = [dict[@"avsResult"] copy];
     _cvvResult = [dict[@"cvvResult"] copy];
     _verificationResult = [dict[@"verificationResult"] copy];
+    _cardBrand = [dict[@"cardBrand"] copy];
   }
   return self;
 }
@@ -104,7 +106,8 @@
     @"pinNumber" : _pinNumber ?: @"",
     @"avsResult" : _avsResult ?: @"",
     @"cvvResult" : _cvvResult ?: @"",
-    @"verificationResult" : _verificationResult ?: @""
+    @"verificationResult" : _verificationResult ?: @"",
+    @"cardBrand" : _cardBrand ?: @""
   };
 }
 

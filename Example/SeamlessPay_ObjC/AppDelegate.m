@@ -20,8 +20,8 @@
   // Override point for customization after application launch.
 
   [[SPAPIClient getSharedInstance] setSecretKey:nil
-                                 publishableKey:@"pk_XXXXXXXXXXXXXXXXXXXXXXXXXX"
-                                        sandbox:YES];
+                                 publishableKey:@"pk_01DY2DK10GJNCFRA1RWV663EG4"//@"pk_XXXXXXXXXXXXXXXXXXXXXXXXXX"
+                                        sandbox:TRUE];
 
   return YES;
 }
