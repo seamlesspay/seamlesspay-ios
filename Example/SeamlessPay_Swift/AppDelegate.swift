@@ -15,8 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
 
         SPAPIClient.getSharedInstance()?.setSecretKey(nil,
-                                                      publishableKey: "pk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
-                                                      sandbox: true)
+                                         publishableKey: "pk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
+                                         sandbox: true)
 
         return true
     }
