@@ -24,7 +24,10 @@
   // Do any additional setup after loading the view.
 
   SPPaymentCardTextField *cardTextField = [[SPPaymentCardTextField alloc] init];
+  cardTextField.postalCodeEntryEnabled = TRUE;
+  cardTextField.countryCode = @"US";
   self.cardTextField = cardTextField;
+
 
   UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
   button.layer.cornerRadius = 5;
@@ -42,7 +45,7 @@
   UIStackView *stackView = [[UIStackView alloc]
       initWithArrangedSubviews:@[ infoLbel, cardTextField, button ]];
   stackView.axis = UILayoutConstraintAxisVertical;
-  stackView.translatesAutoresizingMaskIntoConstraints = NO;
+  stackView.translatesAutoresizingMaskIntoConstraints = FALSE;
   stackView.spacing = 20;
   [self.view addSubview:stackView];
 
@@ -78,8 +81,7 @@
                                      style:UIAlertActionStyleCancel
                                    handler:^(UIAlertAction *action) {
                                      [self.cardTextField clear];
-                                     self.cardTextField.postalCodeEntryEnabled =
-                                         YES;
+                                     self.cardTextField.postalCodeEntryEnabled = TRUE;
                                      self.cardTextField.countryCode = @"US";
                                    }]];
     } else {
@@ -112,16 +114,16 @@
       phone:nil
       name:@"IOS test"
       nickname:nil
-      verification : NO
+      verification : TRUE
       success:^(SPPaymentMethod *paymentMethod) {
         [[SPAPIClient getSharedInstance]
             createChargeWithToken:paymentMethod.token
             cvv:self.cardTextField.cvc
-            capture:YES
+            capture: TRUE
             currency:nil
             amount:@"1"
             taxAmount:nil
-            taxExempt:NO
+            taxExempt: FALSE
             tip:nil
             surchargeFeeAmount:nil
             scheduleIndicator:nil
@@ -147,14 +149,14 @@
 
               [self displayAlertWithTitle:@"Success"
                                   message:success
-                              restartDemo:YES];
+                              restartDemo:TRUE];
             }
             failure:^(SPError *error) {
               [self.activityIndicator stopAnimating];
               NSString *err = [error localizedDescription];
               [self displayAlertWithTitle:@"Error creating Charge"
                                   message:err
-                              restartDemo:NO];
+                              restartDemo:FALSE];
             }];
       }
       failure:^(SPError *error) {
@@ -162,7 +164,7 @@
         NSString *err = [error localizedDescription];
         [self displayAlertWithTitle:@"Error creating Charge"
                             message:err
-                        restartDemo:NO];
+                        restartDemo:FALSE];
       }];
 }
 

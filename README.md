@@ -46,7 +46,7 @@ AppDelegate.m
       [[SPAPIClient getSharedInstance]
         setSecretKey:@"sk_XXXXXXXXXXXXXXXXXXXXXXXXXX" // can be nil
         publicKey:@"pk_XXXXXXXXXXXXXXXXXXXXXXXXXX"
-        sandbox:YES];
+        sandbox: TRUE];
       // do any other necessary launch configuration
       return YES;
   }
@@ -107,7 +107,7 @@ CheckoutViewController.m
     self.payButton = button;
     UIStackView *stackView = [[UIStackView alloc] initWithArrangedSubviews:@[cardTextField, button]];
     stackView.axis = UILayoutConstraintAxisVertical;
-    stackView.translatesAutoresizingMaskIntoConstraints = NO;
+    stackView.translatesAutoresizingMaskIntoConstraints = FALSE;
     stackView.spacing = 20;
     [self.view addSubview:stackView];
     [NSLayoutConstraint activateConstraints:@[
@@ -178,9 +178,10 @@ class ViewController: UIViewController {
 }
 ```
 
-## Create Payment Method
+## Create Payment Method and Charge
 
 When the user taps the pay button, convert the card information collected by STPPaymentCardTextField into a PaymentMethod token. Tokenization ensures that no sensitive card data ever needs to touch your server, so that your integration remains PCI compliant.
+After the client passes the token, pass its identifier as the source to create a charge with one SPAPIClient method -createChargeWithToken:
 
 Objective-C:
 
@@ -205,16 +206,16 @@ Objective-C:
       phone:nil
       name:@"IOS test"
       nickname:nil
-      verification : NO
+      verification : TRUE
       success:^(SPPaymentMethod *paymentMethod) {
         [[SPAPIClient getSharedInstance]
             createChargeWithToken:paymentMethod.token
             cvv:self.cardTextField.cvc
-            capture:YES
+            capture: TRUE
             currency:nil
             amount:@"1"
             taxAmount:nil
-            taxExempt:NO
+            taxExempt: FALSE
             tip:nil
             surchargeFeeAmount:nil
             scheduleIndicator:nil
@@ -282,7 +283,7 @@ Swift:
             phone: nil,
             name: nil,
             nickname: nil,
-            verification:false,
+            verification: true,
             success: { (paymentMethod: SPPaymentMethod?) in
 
                 let token = paymentMethod?.token
