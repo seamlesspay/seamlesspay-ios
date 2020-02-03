@@ -19,9 +19,9 @@
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   // Override point for customization after application launch.
 
-  [[SPAPIClient getSharedInstance] setSecretKey:nil
-                                 publishableKey:@"pk_XXXXXXXXXXXXXXXXXXXXXXXXXX"
-                                        sandbox:TRUE];
+  [[SPAPIClient getSharedInstance] setSecretKey: nil
+                                 publishableKey: @"pk_XXXXXXXXXXXXXXXXXXXXXXXXXX"
+                                        sandbox: TRUE];
 
   return YES;
 }
