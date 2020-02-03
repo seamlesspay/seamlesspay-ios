@@ -52,7 +52,7 @@
       _authCode = [dict[@"authCode"] copy];
       _batch = [dict[@"batch"] copy];
       _adjustments = [dict[@"adjustments"] copy];
-      _businessCard = dict[@"businessCard"];
+        _businessCard = dict[@"businessCard"] ? YES : NO;
     }
   }
   return self;
@@ -88,7 +88,7 @@
     _authCode = [dict[@"authCode"] copy];
     _batch = [dict[@"batch"] copy];
     _adjustments = [dict[@"adjustments"] copy];
-    _businessCard = dict[@"businessCard"];
+    _businessCard = dict[@"businessCard"] ? YES : NO;
   }
   return self;
 }
