@@ -48,6 +48,7 @@ class ViewController: UIViewController {
             withType: "CREDIT_CARD",
             account: cardTextField.cardNumber,
             expDate: cardTextField.formattedExpirationDate,
+            cvv:self.cardTextField.cvc,
             accountType: nil,
             routing: nil,
             pin: nil,

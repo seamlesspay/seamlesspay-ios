@@ -727,6 +727,7 @@
   [[SPAPIClient getSharedInstance] createPaymentMethodWithType:@"CREDIT_CARD"
       account:cardNumber
       expDate:exp
+      cvv:cvc
       accountType:nil
       routing:nil
       pin:nil
@@ -891,6 +892,7 @@
     [[SPAPIClient getSharedInstance] createPaymentMethodWithType:qa[2]
         account:qa[4]
         expDate:qa[6]
+        cvv:nil
         accountType:qa[10]
         routing:qa[8]
         pin:qa[12]
@@ -1188,6 +1190,7 @@
     [[SPAPIClient getSharedInstance] createPaymentMethodWithType:@"CREDIT_CARD"
         account:qa[8]
         expDate:qa[10]
+        cvv:qa[12]
         accountType:nil
         routing:nil
         pin:nil
@@ -1293,6 +1296,7 @@
     [[SPAPIClient getSharedInstance] createPaymentMethodWithType:@"ACH"
         account:qa[10]
         expDate:nil
+        cvv:nil
         accountType:qa[2]
         routing:qa[8]
         pin:nil
@@ -1396,6 +1400,7 @@
     [[SPAPIClient getSharedInstance] createPaymentMethodWithType:@"GIFT_CARD"
         account:qa[4]
         expDate:nil
+        cvv:nil
         accountType:nil
         routing:nil
         pin:qa[8]

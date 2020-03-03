@@ -100,6 +100,7 @@
   [[SPAPIClient getSharedInstance] createPaymentMethodWithType:@"CREDIT_CARD"
       account:self.cardTextField.cardNumber
       expDate:self.cardTextField.formattedExpirationDate
+      cvv:self.cardTextField.cvc
       accountType:nil
       routing:nil
       pin:nil

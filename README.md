@@ -10,7 +10,7 @@ Our framework provides elements that can be used out-of-the-box to collect your 
 
 #### Example UI
 
-![image](/files/card-field.gif)
+![image](https://github.com/seamlesspay/seamlesspay-ios/blob/dev/files/card-field.gif)
 
 *Requirements: The SeamlessPay iOS SDK requires Xcode 10.1 or later and is compatible with apps targeting iOS 11 or above.*
 
@@ -192,6 +192,7 @@ Objective-C:
   [[SPAPIClient getSharedInstance] createPaymentMethodWithType:@"CREDIT_CARD"
       account:self.cardTextField.cardNumber
       expDate:self.cardTextField.formattedExpirationDate
+      cvv:self.cardTextField.cvc
       accountType:nil
       routing:nil
       pin:nil
@@ -269,6 +270,7 @@ Swift:
             withType: "CREDIT_CARD",
             account: cardTextField.cardNumber,
             expDate: cardTextField.formattedExpirationDate,
+            cvv: self.cardTextField.cvc,
             accountType: nil,
             routing: nil,
             pin: nil,

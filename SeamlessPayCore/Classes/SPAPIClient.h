@@ -71,6 +71,7 @@
 - (void)createPaymentMethodWithType:(NSString *)txnType
                             account:(NSString *)account
                             expDate:(NSString *)expDate
+                                cvv:(NSString *)cvv
                         accountType:(NSString *)accountType
                             routing:(NSString *)routing
                                 pin:(NSString *)pin

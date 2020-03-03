@@ -267,6 +267,7 @@ static SPAPIClient *sharedInstance = nil;
 - (void)createPaymentMethodWithType:(NSString *)txnType
                             account:(NSString *)account
                             expDate:(NSString *)expDate
+                                cvv:(NSString *)cvv
                         accountType:(NSString *)accountType
                             routing:(NSString *)routing
                                 pin:(NSString *)pin
@@ -309,6 +310,11 @@ static SPAPIClient *sharedInstance = nil;
   if ([txnType isEqualToString:@"CREDIT_CARD"] ||
       [txnType isEqualToString:@"PLDEBIT_CARD"]) {
     [params addEntriesFromDictionary:@{@"expDate" : expDate ?: @""}];
+    
+  }
+    
+  if (verification) {
+    [params addEntriesFromDictionary:@{@"cvv" : cvv ?: @""}];
   }
 
   if ([txnType isEqualToString:@"ACH"]) {
