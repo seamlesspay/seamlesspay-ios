@@ -632,7 +632,7 @@
     self.payButton = button;
 
     UILabel *infoLbel = [[UILabel alloc] init];
-    infoLbel.text = @"Payable: $1.0";
+    infoLbel.text = @"Amount: $1.0";
 
     UIStackView *stackView = [[UIStackView alloc]
         initWithArrangedSubviews:@[ infoLbel, cardTextField, button ]];

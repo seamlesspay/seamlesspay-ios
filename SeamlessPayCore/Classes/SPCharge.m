@@ -38,6 +38,7 @@
       _order = [dict[@"order"] copy];
       _currency = [dict[@"currency"] copy];
       _cardBrand = [dict[@"cardBrand"] copy];
+      _expDate = [dict[@"expDate"] copy];
       _cardType = [dict[@"cardType"] copy];
       _lastFour = [dict[@"lastFour"] copy];
       _token = [dict[@"token"] copy];
@@ -52,7 +53,7 @@
       _authCode = [dict[@"authCode"] copy];
       _batch = [dict[@"batch"] copy];
       _adjustments = [dict[@"adjustments"] copy];
-        _businessCard = dict[@"businessCard"] ? YES : NO;
+      _businessCard = dict[@"businessCard"] ? YES : NO;
     }
   }
   return self;
@@ -74,6 +75,7 @@
     _order = [dict[@"order"] copy];
     _currency = [dict[@"currency"] copy];
     _cardBrand = [dict[@"cardBrand"] copy];
+    _expDate = [dict[@"expDate"] copy];
     _cardType = [dict[@"cardType"] copy];
     _lastFour = [dict[@"lastFour"] copy];
     _token = [dict[@"token"] copy];
