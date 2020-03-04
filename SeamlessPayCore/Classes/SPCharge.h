@@ -43,6 +43,10 @@
  */
 @property(nonatomic, readonly, copy) NSString *cardBrand;
 /**
+ * Card Expiration Date.
+ */
+@property(nonatomic, readonly, copy) NSString *expDate;
+/**
  * Determines the card type (credit, debit, prepaid) and usage (pin, signature etc.).
  */
 @property(nonatomic, readonly, copy) NSString *cardType;
