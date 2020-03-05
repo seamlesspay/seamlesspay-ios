@@ -231,7 +231,7 @@ Objective-C:
             credentialIndicator:nil
             transactionInitiation:nil
             idempotencyKey:nil
-            needSendReceipt:nil
+            needSendReceipt:false
             success:^(SPCharge *charge) {
          
               // Success Charge:
