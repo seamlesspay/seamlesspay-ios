@@ -14,4 +14,6 @@ target 'SeamlessPay_Swift' do
   pod 'SeamlessPayCore', :path => '../'
 end
 
-
+target 'SeamlessPayCoreTests' do
+  pod 'SeamlessPayCore', :path => '../'
+end
