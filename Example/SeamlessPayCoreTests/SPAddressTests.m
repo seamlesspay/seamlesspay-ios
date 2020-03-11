@@ -7,7 +7,7 @@
 #import <PassKit/PassKit.h>
 #import <Contacts/Contacts.h>
 
-@import SeamlessPayCore;
+#import "../../SeamlessPayCore/Classes/SPAddress.h"
 
 @interface SPAddressTests : XCTestCase
 

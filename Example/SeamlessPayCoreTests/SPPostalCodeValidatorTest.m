@@ -6,7 +6,7 @@
 
 #import <XCTest/XCTest.h>
 
-@import SeamlessPayCore;
+#import "../../SeamlessPayCore/Classes/SPPostalCodeValidator.h"
 
 @interface SPPostalCodeValidatorTest : XCTestCase
 

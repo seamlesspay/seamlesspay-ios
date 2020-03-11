@@ -6,7 +6,8 @@
 
 #import <XCTest/XCTest.h>
 
-@import SeamlessPayCore;
+#import "../../SeamlessPayCore/Classes/SPColorUtils.h"
+
 
 @interface SPColorUtilsTest : XCTestCase
 

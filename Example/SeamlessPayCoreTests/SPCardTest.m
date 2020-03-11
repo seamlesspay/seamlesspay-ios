@@ -6,7 +6,8 @@
 
 #import <XCTest/XCTest.h>
 
-@import SeamlessPayCore;
+#import "../../SeamlessPayCore/Classes/SPCardBrand.h"
+#import "../../SeamlessPayCore/Classes/SPCard.h"
 
 @interface SPCard ()
 

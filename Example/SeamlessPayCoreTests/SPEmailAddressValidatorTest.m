@@ -8,7 +8,8 @@
 
 #import <XCTest/XCTest.h>
 
-@import SeamlessPayCore;
+#import "../../SeamlessPayCore/Classes/SPEmailAddressValidator.h"
+
 
 @interface SPEmailAddressValidatorTest : XCTestCase
 

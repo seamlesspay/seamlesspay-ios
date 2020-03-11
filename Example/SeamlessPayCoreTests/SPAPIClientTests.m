@@ -4,9 +4,9 @@
 //
 //
 
-@import SeamlessPayCore;
-
 #import <XCTest/XCTest.h>
+
+#import "../../SeamlessPayCore/Classes/SPAPIClient.h"
 
 @interface SPAPIClientTests : XCTestCase
 @end
