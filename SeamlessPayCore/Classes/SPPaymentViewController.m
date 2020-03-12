@@ -5,20 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-@import SeamlessPayCore;
 
-#import "ViewController.h"
+#import "SPPaymentViewController.h"
 
-@interface ViewController () <UITextFieldDelegate>
 
-@property(nonatomic, strong) UIActivityIndicatorView *activityIndicator;
-@property(nonatomic, weak) SPPaymentCardTextField *cardTextField;
-@property(nonatomic, weak) UITextField *amountTextField;
-@property(nonatomic, weak) UIButton *payButton;
-
+@interface SPPaymentViewController () <UITextFieldDelegate>
 @end
 
-@implementation ViewController
+@implementation SPPaymentViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -78,27 +72,13 @@
 }
 
 - (void)displayAlertWithTitle:(NSString *)title
-                      message:(NSString *)message
-                  restartDemo:(BOOL)restartDemo {
+                      message:(NSString *)message 
+                      {
   dispatch_async(dispatch_get_main_queue(), ^{
     UIAlertController *alert = [UIAlertController
         alertControllerWithTitle:title
                          message:message
                   preferredStyle:UIAlertControllerStyleAlert];
-    if (restartDemo) {
-      [alert addAction:[UIAlertAction
-                           actionWithTitle:@"Restart demo"
-                                     style:UIAlertActionStyleCancel
-                                   handler:^(UIAlertAction *action) {
-                                     [self.cardTextField clear];
-                                     self.cardTextField.postalCodeEntryEnabled = TRUE;
-                                     self.cardTextField.countryCode = @"US";
-                                   }]];
-    } else {
-      [alert addAction:[UIAlertAction actionWithTitle:@"OK"
-                                                style:UIAlertActionStyleCancel
-                                              handler:nil]];
-    }
     [self presentViewController:alert animated:YES completion:nil];
   });
 }
@@ -123,7 +103,7 @@
       company:nil
       email:nil
       phone:nil
-      name:@"IOS test"
+      name:nil
       nickname:nil
       verification : TRUE
       success:^(SPPaymentMethod *paymentMethod) {
@@ -138,7 +118,7 @@
             tip:nil
             surchargeFeeAmount:nil
             scheduleIndicator:nil
-            description:@""
+            description:nil
             order:nil
             orderId:nil
             poNumber:nil
@@ -159,23 +139,20 @@
                                    charge.statusDescription, charge.chargeId];
 
               [self displayAlertWithTitle:@"Success"
-                                  message:success
-                              restartDemo:TRUE];
+                                  message:success];
             }
             failure:^(SPError *error) {
               [self.activityIndicator stopAnimating];
               NSString *err = [error localizedDescription];
               [self displayAlertWithTitle:@"Error creating Charge"
-                                  message:err
-                              restartDemo:FALSE];
+                                  message:err];
             }];
       }
       failure:^(SPError *error) {
         [self.activityIndicator stopAnimating];
         NSString *err = [error localizedDescription];
         [self displayAlertWithTitle:@"Error creating Charge"
-                            message:err
-                        restartDemo:FALSE];
+                            message:err];
       }];
 }
 

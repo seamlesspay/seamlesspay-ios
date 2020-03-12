@@ -45,6 +45,7 @@
 #import "SPPaymentMethodBillingDetails.h"
 #import "SPPaymentMethodCard.h"
 #import "SPPaymentMethodCardParams.h"
+#import "SPPaymentViewController.h"
 #import "SPPhoneNumberValidator.h"
 #import "SPPostalCodeValidator.h"
 #import "SPTheme.h"
