@@ -1,13 +1,10 @@
 version: 2.1
 
 jobs:
-  build-and-test:
-
+  build_and_test:
     macos:
       xcode: 11.3.0
-
     working_directory: ~/seamlesspay-ios
-
     steps:
       - checkout
       - run:
