@@ -23,6 +23,7 @@
 		1695C23003EA43B7997318F811850014 /* SPFPXBankBrand.m in Sources */ = {isa = PBXBuildFile; fileRef = BD1DA4591F6B6541C6FC55E653923033 /* SPFPXBankBrand.m */; };
 		171AEDF57514603CBD50ABF2560E3A49 /* sp_bank_fpx_alliance_bank@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 32E223B74E3E7CA6D0482A5C8DD224C6 /* sp_bank_fpx_alliance_bank@3x.png */; };
 		191917A5B2631571AD6D1C6DD240B70E /* SPPaymentCardTextFieldViewModel.h in Headers */ = {isa = PBXBuildFile; fileRef = A5530F62851AD0CDE59C73DC6A732ED1 /* SPPaymentCardTextFieldViewModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		19810ED922F8317E7AF50D73F5699F1E /* Pods-SPPaymentViewController-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = CAC70E4A23A8242DB3CC94539E7E6B96 /* Pods-SPPaymentViewController-dummy.m */; };
 		1ABECA2CDAFED69E47ACFB39809A75E7 /* SPEmailAddressValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F1EE9F7324B8437C67B0B7F5D8D74EA /* SPEmailAddressValidator.m */; };
 		1AE6AE2036EC4014A39D770BBC61924D /* sp_bank_fpx_bsn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 54320A15E4A7DAD0B0CD0E2C670A7ECD /* sp_bank_fpx_bsn@2x.png */; };
 		1DFCCF345F79FC4149E90AFD7A0C690D /* sp_bank_fpx_affin_bank@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CDE7B60B3CA652DDBE8FADF1C897C78 /* sp_bank_fpx_affin_bank@3x.png */; };
@@ -52,7 +53,7 @@
 		334834485400D5448A3B20B40556F218 /* sp_bank_fpx_bank_rakyat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F64640F8E2A307207C9889DFCB3E2C5 /* sp_bank_fpx_bank_rakyat@2x.png */; };
 		33983A19636CDAB213D16CF361AF65CE /* sp_card_mastercard_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 424277DA6D925B4811DC79D4726B710B /* sp_card_mastercard_template.png */; };
 		33B62FB5044691B62778C9BFC71B27E0 /* sp_card_amex_template@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4058A3278551C7B14C330308AE28561E /* sp_card_amex_template@3x.png */; };
-		3402FD7D3EA48B70FEF3E268EECBAA09 /* Pods-SeamlessPayDemo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 66355204F97CC3B18AA83018078CFF1D /* Pods-SeamlessPayDemo-dummy.m */; };
+		3402FD7D3EA48B70FEF3E268EECBAA09 /* Pods-SeamlessPayDemo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 52E74507291E97D794691A8EF23D643B /* Pods-SeamlessPayDemo-dummy.m */; };
 		358FB9E4663BB06B262D76B27C58D126 /* sp_bank_fpx_maybank2e@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DECFCBBBF1FFDFB5015439D7FB8B6B2F /* sp_bank_fpx_maybank2e@2x.png */; };
 		36A66559EDA665040299071262B6D33B /* sp_bank_fpx_maybank2u@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EDD1A1E4A9CDAC268116C3D19E9421D /* sp_bank_fpx_maybank2u@3x.png */; };
 		372CAA9D8A5D368FA2A875EA24213F48 /* SPPaymentMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B058648417CFB63B92979AD711711A7 /* SPPaymentMethod.m */; };
@@ -65,7 +66,7 @@
 		43129C24CBBBD47E99F3A7CB75DD268D /* sp_bank_fpx_hsbc.png in Resources */ = {isa = PBXBuildFile; fileRef = 332DAA3ABAD66AF57945C38B804C5845 /* sp_bank_fpx_hsbc.png */; };
 		4682DFB58CFC3F9F5CAF5D058AC82AD7 /* sp_card_amex.png in Resources */ = {isa = PBXBuildFile; fileRef = 8DF9A4C25CC026AFC970E9E52F8BFAEB /* sp_card_amex.png */; };
 		48B842F6DE2395FC10AA62A309973FA2 /* sp_bank_fpx_bank_islam@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16E7D3221BE0E6F0F4F8054E5DB6FEA4 /* sp_bank_fpx_bank_islam@2x.png */; };
-		4A7D7CC008F976FEEE0264C2780EDEE0 /* Pods-SeamlessPay_Swift-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 759186C907DAF19A74CD7BEE05BD3FA5 /* Pods-SeamlessPay_Swift-dummy.m */; };
+		4A7D7CC008F976FEEE0264C2780EDEE0 /* Pods-SeamlessPay_Swift-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D5CC9EB59F34652051131A009EB73D6E /* Pods-SeamlessPay_Swift-dummy.m */; };
 		4A8BA3BF39DCD5AC61CBD539BE90D6E4 /* sp_card_amex@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B21467B67B1218D8B25691D100A990CF /* sp_card_amex@2x.png */; };
 		4AF91E3EC017DC8AE8928560C910628E /* sp_bank_fpx_maybank2u.png in Resources */ = {isa = PBXBuildFile; fileRef = 21F8D97E58E45FD4450E9FF0454ADA8B /* sp_bank_fpx_maybank2u.png */; };
 		4B079325B35537153FEA019DE9B8C6EC /* sp_fpx_big_logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D16B11806C99B54F8DB120EA1104CCE4 /* sp_fpx_big_logo@3x.png */; };
@@ -83,7 +84,7 @@
 		552D25A73695679996ADAC95E24D3067 /* SPCustomer.m in Sources */ = {isa = PBXBuildFile; fileRef = 16EF9B310B2B0E86C5AF78F38CE35614 /* SPCustomer.m */; };
 		57DA593C76F4059C1AD9BAA756054507 /* sp_fpx_logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D4C38C2757947D46F77BC1BAB08F942E /* sp_fpx_logo@3x.png */; };
 		58ACE40BB961B672A0DCB452E5C9B1FF /* sp_card_visa_template@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28DE705EA1CC9B3DD5EA527BCA13C0A8 /* sp_card_visa_template@2x.png */; };
-		592BFAB2DE4207F64D08B0A7C3722128 /* Pods-SeamlessPay_Swift-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 741FBB8AE54333FB88BBDE8BCB1EEB00 /* Pods-SeamlessPay_Swift-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		592BFAB2DE4207F64D08B0A7C3722128 /* Pods-SeamlessPay_Swift-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 55EE243799EEF276CEF4DCB2CE652219 /* Pods-SeamlessPay_Swift-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		593FCBADC936C0244BA109C08AE33B61 /* sp_bank_fpx_bank_rakyat@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FCF905C726E4E311D94F3896F23B3DB5 /* sp_bank_fpx_bank_rakyat@3x.png */; };
 		59C99CDEE38F9ADB45A23AB00BABF7ED /* SPFPXBankBrand.h in Headers */ = {isa = PBXBuildFile; fileRef = F73B1A2A4D63026B59E118149DC30239 /* SPFPXBankBrand.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5AD31B2F52DB28183C3ABA83617D1CE5 /* SPTheme.h in Headers */ = {isa = PBXBuildFile; fileRef = A48A476979A31158F20B03AA3B03A385 /* SPTheme.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -106,7 +107,7 @@
 		7610CD1385EB1CC7333313A9E07C4841 /* sp_bank_fpx_maybank2u@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5645F3263938823A77ECE7C6E9164D1B /* sp_bank_fpx_maybank2u@2x.png */; };
 		762BE9CB0F2D09FB407F308952B75B7D /* NSString+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FC2554129074F9744752F189C9359A /* NSString+Extras.m */; };
 		773E358E2CFD089BFEBA2AEEC55D4F6D /* sp_icon_checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E55B32BF061513ECCCB7FCC3389E563 /* sp_icon_checkmark@2x.png */; };
-		7747A5604ED28FC9A85E79673292B7AE /* Pods-SeamlessPay_ObjC-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBB9F6042FD01179715DE94C5AF6739 /* Pods-SeamlessPay_ObjC-dummy.m */; };
+		7747A5604ED28FC9A85E79673292B7AE /* Pods-SeamlessPay_ObjC-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 51570AA5F1DD6609793331AA1A6F2ACA /* Pods-SeamlessPay_ObjC-dummy.m */; };
 		7787D235371F6056BD173312A71621CF /* sp_card_unknown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 26FD49EB2BB4CF2D360F93B1DB9B244F /* sp_card_unknown@2x.png */; };
 		77D4DC23C7EAF18F16D04490E5D053A9 /* SPCard+Extras.h in Headers */ = {isa = PBXBuildFile; fileRef = 752F3BAC654127BC493461F164A9AF22 /* SPCard+Extras.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		786535E2063C06527900F9DD9D51236D /* SPPaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 456AE10F736214A376A635EBD7B20BE0 /* SPPaymentViewController.m */; };
@@ -114,12 +115,12 @@
 		79F8409BB01B53DA224D4A3528219B44 /* sp_card_discover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 97E69DE01B9997FC23C0EFE985284526 /* sp_card_discover@2x.png */; };
 		7C4914A8F6787B1D6E4FD4E30E1D48FA /* sp_card_error_amex@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F1E7E2681F8869482C195AF2D0E9FE3 /* sp_card_error_amex@2x.png */; };
 		7C7439EE22E4FC2ACBFCDA04C9DEF696 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
-		7D08256712113043D2B4D72E61AE5ECF /* Pods-SeamlessPay_ObjC-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = C16A7E8937009745D3F91381DADD56E4 /* Pods-SeamlessPay_ObjC-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7D08256712113043D2B4D72E61AE5ECF /* Pods-SeamlessPay_ObjC-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = A62033422C7E4EE2AA9B4EA6D9798EF9 /* Pods-SeamlessPay_ObjC-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7D4138671F494B64908EAF7304D64CAA /* sp_card_amex_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 575D318EEDED6AC609244E95CBB40086 /* sp_card_amex_template.png */; };
 		7E089FCCA586472A451E5C54DFE08667 /* sp_icon_add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E4A15B7AFDEC0BF2D3769408A90DFA4 /* sp_icon_add@2x.png */; };
 		7F79EFA86075C9A169A315E7A66DE752 /* SPCharge.h in Headers */ = {isa = PBXBuildFile; fileRef = 98B900B4DC4F6364C51F687A63576220 /* SPCharge.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7F7CB7792F8F046E12C887F607EBCD6A /* sp_bank_fpx_uob.png in Resources */ = {isa = PBXBuildFile; fileRef = C8C6B242CDE87AE6869C52D849541230 /* sp_bank_fpx_uob.png */; };
-		809BAF4F68E107CE6E818B2E0C502DC9 /* Pods-SeamlessPayCoreTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 317EF8ECE20E6E5C41E0F98C73A26085 /* Pods-SeamlessPayCoreTests-dummy.m */; };
+		809BAF4F68E107CE6E818B2E0C502DC9 /* Pods-SeamlessPayCoreTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B419D7CE2F9E34C54F7C9D2CA10D4F74 /* Pods-SeamlessPayCoreTests-dummy.m */; };
 		82BC5F5250F3EC7EA1AF46718CA75418 /* sp_bank_fpx_maybank2e@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EE495456C512A415D4A49347102F6BD /* sp_bank_fpx_maybank2e@3x.png */; };
 		853C1C8E5C7BF81624C2B476168847F3 /* sp_card_diners@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 547E411D7E1C5685F95ED9F155898BB8 /* sp_card_diners@2x.png */; };
 		86B14422C1929705D3D514A39ADB1FA7 /* SPCardParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 76AD1B987B05D6D349C2421F348CE964 /* SPCardParams.m */; };
@@ -209,9 +210,11 @@
 		D39F239F5D798BF0FFA0BEEB705C5286 /* sp_card_mastercard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 328F28BA66F63EDCAE3C0A696F064587 /* sp_card_mastercard@2x.png */; };
 		D450DE7DD450A9BFB76C569B13F53919 /* sp_bank_fpx_cimb.png in Resources */ = {isa = PBXBuildFile; fileRef = E0393B17653A3C3AE662B4EBB8275E31 /* sp_bank_fpx_cimb.png */; };
 		D4954D3CABF941F4B2C4BA48C2BC4235 /* SPPaymentMethodCardParams.h in Headers */ = {isa = PBXBuildFile; fileRef = 53B70F67A42F44183B43FE4FCA77DE94 /* SPPaymentMethodCardParams.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D512C90169C711AC1FB54FA0C4DD0F5E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
 		D6024FF03735875D60887AA32D195CBD /* sp_card_visa@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E55CAB73C0E420970A4EE0BB4163C4CF /* sp_card_visa@3x.png */; };
 		D67CF764EBC6A082FAD67E48AA47FD48 /* SPPaymentMethodCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 9569C61FAEFBEF3B6508BD6985F6489F /* SPPaymentMethodCard.m */; };
 		D71F80A2AEDBAB401C64E04E89A60380 /* sp_card_mastercard_template@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C09C8363E916D9E17757F64A51EE449 /* sp_card_mastercard_template@3x.png */; };
+		D9E9AA658D01F7AF29DBA050E64B6A71 /* Pods-SPPaymentViewController-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B37DE4EF802E0DC373282AD183B68E8A /* Pods-SPPaymentViewController-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA50E842BD8C8A5F48413811D2F1DF7B /* sp_shipping_form@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DF3D0F8585169CF2523B7009DF03A48 /* sp_shipping_form@3x.png */; };
 		DF776C21D971139C697CEF7B27CAAE7A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
 		E0CA99745D5B7C1542D5DE94D809A0E2 /* SPFormTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 6679196C84D8E81D5F227219EEBAB9BF /* SPFormTextField.m */; };
@@ -226,7 +229,7 @@
 		EB3BCBB3E9D39EADEF308E75426A4124 /* sp_icon_add@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF5CA82F52719CC224F53E04D304E71B /* sp_icon_add@3x.png */; };
 		EBAA45AEBED8BF117EA34475A5925E5D /* sp_card_unionpay_en@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 28D216B8CDD01E40EFE1D45D136D77C3 /* sp_card_unionpay_en@2x.png */; };
 		ED2482328959D1E2702356D48D877FAB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
-		ED4F25E4E2606B41B469E6A4304E2D0C /* Pods-SeamlessPayDemo-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 703D55925DB8F25419B73E75EC01FEC2 /* Pods-SeamlessPayDemo-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ED4F25E4E2606B41B469E6A4304E2D0C /* Pods-SeamlessPayDemo-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = FFE2CDAB90BBB346862B148354D9C34E /* Pods-SeamlessPayDemo-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EE6BEDCAA5493660B8179429059E6EFB /* sp_card_diners_template.png in Resources */ = {isa = PBXBuildFile; fileRef = F17E8463AA0278631AF889E513B1BD2A /* sp_card_diners_template.png */; };
 		F0F13BA38D33101F940E7D454239B4BB /* sp_bank_fpx_uob@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 38C426C6C4E7E2C60955904C1CF407EA /* sp_bank_fpx_uob@3x.png */; };
 		F15B1EBD61B40E74A5CDFCE8984E7135 /* SPAddress.h in Headers */ = {isa = PBXBuildFile; fileRef = D7EA985EDD74258E0350960FCED5217A /* SPAddress.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -237,7 +240,7 @@
 		F9773E2F08225B867644BA9CA5596BE7 /* sp_card_error@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 865EB500D73C2E9656FB30C605000D6F /* sp_card_error@3x.png */; };
 		F9D7BCB8E611DD9A8EC79E5585547B6E /* SPError.m in Sources */ = {isa = PBXBuildFile; fileRef = 21AE7D012C2648C43BF1C32522001C11 /* SPError.m */; };
 		FA0F477D236D787F105EB08EE8E0CDF4 /* sp_card_cvc_amex@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C7A6525A8D30668CDB62920FA79AF33 /* sp_card_cvc_amex@3x.png */; };
-		FC4CDF8A5AB5BE452C521C4A4F5C6991 /* Pods-SeamlessPayCoreTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 24F09F45D748C9B83DBBBCC3F7B4649A /* Pods-SeamlessPayCoreTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FC4CDF8A5AB5BE452C521C4A4F5C6991 /* Pods-SeamlessPayCoreTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 19DB01413BD995537C25D7C7A79D3731 /* Pods-SeamlessPayCoreTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCAA325017FB8301CB7864181622BC93 /* sp_fpx_big_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 66643451EC6BD2C6B72790582D64917A /* sp_fpx_big_logo.png */; };
 		FD43FD9130A768E5A4DFD411D0356A94 /* sp_card_discover_template.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D3E8BA2CA89795E1903AB30BE06A0FF /* sp_card_discover_template.png */; };
 		FD59480600CB7EAA23CC8D13F641111B /* sp_card_unionpay_template_zh@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 810E921E339BCDF69BE24ADEBC736891 /* sp_card_unionpay_template_zh@2x.png */; };
@@ -269,6 +272,13 @@
 			remoteGlobalIDString = 09827BD47A752C59DDC1834EF7E8381C;
 			remoteInfo = SeamlessPayCore;
 		};
+		C80E6B318E51CFB1DCA8B48E5A2F9A6A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 09827BD47A752C59DDC1834EF7E8381C;
+			remoteInfo = SeamlessPayCore;
+		};
 		E77B802636664BF2896CEF84C15D5D3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
@@ -280,11 +290,11 @@
 
 /* Begin PBXFileReference section */
 		00592D35E83BB2C4A476075E122D99D3 /* sp_bank_fpx_ocbc@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_ocbc@3x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_ocbc@3x.png"; sourceTree = "<group>"; };
+		00680434E59EF5B808535685C19A58AF /* Pods_SPPaymentViewController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_SPPaymentViewController.framework; path = "Pods-SPPaymentViewController.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		01C36F362973EE9EBF081DD6EBCF4489 /* sp_card_diners@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_diners@3x.png"; path = "SeamlessPayCore/Assets/sp_card_diners@3x.png"; sourceTree = "<group>"; };
 		021210EC2EF5AC243FF9FC482A7C29A9 /* SPValidatedTextField.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SPValidatedTextField.m; path = SeamlessPayCore/Classes/SPValidatedTextField.m; sourceTree = "<group>"; };
 		02143D2759D2A6001546999712A685CF /* sp_card_discover_template@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_discover_template@3x.png"; path = "SeamlessPayCore/Assets/sp_card_discover_template@3x.png"; sourceTree = "<group>"; };
 		027464D1C749E3B48EA7A4DB3E6944A0 /* sp_card_amex_template@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_amex_template@2x.png"; path = "SeamlessPayCore/Assets/sp_card_amex_template@2x.png"; sourceTree = "<group>"; };
-		04D468BBE6096A365CC6ABA4741B8F69 /* Pods-SeamlessPayCoreTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-SeamlessPayCoreTests.modulemap"; sourceTree = "<group>"; };
 		05C9B48584C754658CE4CDD3C7D19992 /* sp_card_jcb_template@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_jcb_template@3x.png"; path = "SeamlessPayCore/Assets/sp_card_jcb_template@3x.png"; sourceTree = "<group>"; };
 		065FCA6B8E68B470D9EC7867C45C95EC /* sp_fpx_logo.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_fpx_logo.png; path = SeamlessPayCore/Assets/sp_fpx_logo.png; sourceTree = "<group>"; };
 		077C305870B4ACF3EF6800A000396379 /* Pods_SeamlessPayCoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_SeamlessPayCoreTests.framework; path = "Pods-SeamlessPayCoreTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -297,7 +307,6 @@
 		0CDE7B60B3CA652DDBE8FADF1C897C78 /* sp_bank_fpx_affin_bank@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_affin_bank@3x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_affin_bank@3x.png"; sourceTree = "<group>"; };
 		0D47E870AC3F33AA4776142B5E96E2FB /* SPPaymentMethodBillingDetails.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPPaymentMethodBillingDetails.h; path = SeamlessPayCore/Classes/SPPaymentMethodBillingDetails.h; sourceTree = "<group>"; };
 		0E4A15B7AFDEC0BF2D3769408A90DFA4 /* sp_icon_add@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_icon_add@2x.png"; path = "SeamlessPayCore/Assets/sp_icon_add@2x.png"; sourceTree = "<group>"; };
-		0F18DFC345D10FB215C7E2EE93C4416A /* Pods-SeamlessPayDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SeamlessPayDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		0F63EF267948E7AB26ECF4529A851C5A /* SPBINRange.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SPBINRange.m; path = SeamlessPayCore/Classes/SPBINRange.m; sourceTree = "<group>"; };
 		0F64640F8E2A307207C9889DFCB3E2C5 /* sp_bank_fpx_bank_rakyat@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_bank_rakyat@2x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_bank_rakyat@2x.png"; sourceTree = "<group>"; };
 		0F847D7D3AB4D16BF814250D3D50A946 /* sp_card_applepay@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_applepay@2x.png"; path = "SeamlessPayCore/Assets/sp_card_applepay@2x.png"; sourceTree = "<group>"; };
@@ -308,16 +317,20 @@
 		14F6CC8D7F8E88E777963AF856511BC2 /* SPTheme.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SPTheme.m; path = SeamlessPayCore/Classes/SPTheme.m; sourceTree = "<group>"; };
 		16E7D3221BE0E6F0F4F8054E5DB6FEA4 /* sp_bank_fpx_bank_islam@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_bank_islam@2x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_bank_islam@2x.png"; sourceTree = "<group>"; };
 		16EF9B310B2B0E86C5AF78F38CE35614 /* SPCustomer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SPCustomer.m; path = SeamlessPayCore/Classes/SPCustomer.m; sourceTree = "<group>"; };
+		1710AB275707A8DD667324711555F9DF /* Pods-SeamlessPayDemo.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-SeamlessPayDemo.modulemap"; sourceTree = "<group>"; };
+		19DB01413BD995537C25D7C7A79D3731 /* Pods-SeamlessPayCoreTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SeamlessPayCoreTests-umbrella.h"; sourceTree = "<group>"; };
 		1AC5EC3CC679061879C5689B0F191CAF /* sp_bank_fpx_bsn.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_bank_fpx_bsn.png; path = SeamlessPayCore/Assets/sp_bank_fpx_bsn.png; sourceTree = "<group>"; };
 		1ACEAF910000FFBC40B383B923FA894E /* sp_bank_fpx_uob@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_uob@2x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_uob@2x.png"; sourceTree = "<group>"; };
 		1C18CEC823DCB049ECB41E4FD6DC2C78 /* SPValidatedTextField.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPValidatedTextField.h; path = SeamlessPayCore/Classes/SPValidatedTextField.h; sourceTree = "<group>"; };
 		1CD01A5E4CFAB8229895B0A2F483D938 /* sp_card_cvc_amex.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_card_cvc_amex.png; path = SeamlessPayCore/Assets/sp_card_cvc_amex.png; sourceTree = "<group>"; };
 		1E55B32BF061513ECCCB7FCC3389E563 /* sp_icon_checkmark@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_icon_checkmark@2x.png"; path = "SeamlessPayCore/Assets/sp_icon_checkmark@2x.png"; sourceTree = "<group>"; };
+		1EDE09A527A2C4987C30B28FE9ACA052 /* Pods-SeamlessPay_ObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SeamlessPay_ObjC.debug.xcconfig"; sourceTree = "<group>"; };
 		21637010485D30A189BD877C619BB345 /* sp_bank_fpx_bank_muamalat@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_bank_muamalat@2x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_bank_muamalat@2x.png"; sourceTree = "<group>"; };
 		21AE7D012C2648C43BF1C32522001C11 /* SPError.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SPError.m; path = SeamlessPayCore/Classes/SPError.m; sourceTree = "<group>"; };
 		21F8D97E58E45FD4450E9FF0454ADA8B /* sp_bank_fpx_maybank2u.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_bank_fpx_maybank2u.png; path = SeamlessPayCore/Assets/sp_bank_fpx_maybank2u.png; sourceTree = "<group>"; };
-		24F09F45D748C9B83DBBBCC3F7B4649A /* Pods-SeamlessPayCoreTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SeamlessPayCoreTests-umbrella.h"; sourceTree = "<group>"; };
+		226A94D7FE5FC24A131DFBB9EC2BB411 /* Pods-SeamlessPay_ObjC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SeamlessPay_ObjC.release.xcconfig"; sourceTree = "<group>"; };
 		255B014908D8B0CB9106AAA634C305C7 /* sp_fpx_big_logo@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_fpx_big_logo@2x.png"; path = "SeamlessPayCore/Assets/sp_fpx_big_logo@2x.png"; sourceTree = "<group>"; };
+		25E71D0BE937927C355085C6A5E83865 /* Pods-SeamlessPay_Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SeamlessPay_Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		26463322119EB82B62BD056A7830C7A5 /* sp_bank_fpx_bank_rakyat.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_bank_fpx_bank_rakyat.png; path = SeamlessPayCore/Assets/sp_bank_fpx_bank_rakyat.png; sourceTree = "<group>"; };
 		26FD49EB2BB4CF2D360F93B1DB9B244F /* sp_card_unknown@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_unknown@2x.png"; path = "SeamlessPayCore/Assets/sp_card_unknown@2x.png"; sourceTree = "<group>"; };
 		27D2CA9895300151ED1DF45036761A2D /* sp_card_applepay.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_card_applepay.png; path = SeamlessPayCore/Assets/sp_card_applepay.png; sourceTree = "<group>"; };
@@ -336,95 +349,98 @@
 		2E82FF720C0A30AD2F560A48D7AA8718 /* SPColorUtils.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SPColorUtils.m; path = SeamlessPayCore/Classes/SPColorUtils.m; sourceTree = "<group>"; };
 		2EEA7654A27176B6B594B4C89D439913 /* sp_card_mastercard.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_card_mastercard.png; path = SeamlessPayCore/Assets/sp_card_mastercard.png; sourceTree = "<group>"; };
 		305AAA940A579BA5832EAE97F92B8E92 /* NSString+Extras.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSString+Extras.h"; path = "SeamlessPayCore/Classes/NSString+Extras.h"; sourceTree = "<group>"; };
+		30FDF063A394A8C785F9C16BFBD79930 /* Pods-SeamlessPayCoreTests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SeamlessPayCoreTests-Info.plist"; sourceTree = "<group>"; };
 		30FF8EFC46D5712B2B908C4B041D6601 /* SPCardValidator.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SPCardValidator.m; path = SeamlessPayCore/Classes/SPCardValidator.m; sourceTree = "<group>"; };
-		317EF8ECE20E6E5C41E0F98C73A26085 /* Pods-SeamlessPayCoreTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SeamlessPayCoreTests-dummy.m"; sourceTree = "<group>"; };
 		3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		328F28BA66F63EDCAE3C0A696F064587 /* sp_card_mastercard@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_mastercard@2x.png"; path = "SeamlessPayCore/Assets/sp_card_mastercard@2x.png"; sourceTree = "<group>"; };
 		32E223B74E3E7CA6D0482A5C8DD224C6 /* sp_bank_fpx_alliance_bank@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_alliance_bank@3x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_alliance_bank@3x.png"; sourceTree = "<group>"; };
 		332DAA3ABAD66AF57945C38B804C5845 /* sp_bank_fpx_hsbc.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_bank_fpx_hsbc.png; path = SeamlessPayCore/Assets/sp_bank_fpx_hsbc.png; sourceTree = "<group>"; };
-		33DDEC2AF2888020301A818FA5094ACD /* Pods-SeamlessPay_Swift-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SeamlessPay_Swift-acknowledgements.markdown"; sourceTree = "<group>"; };
+		341C3B6ABA0BF640B021F391B6F40934 /* Pods-SPPaymentViewController.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SPPaymentViewController.debug.xcconfig"; sourceTree = "<group>"; };
 		34E1BC3961FAB9BF37C4550200C155D6 /* NSDictionary+Extras.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+Extras.h"; path = "SeamlessPayCore/Classes/NSDictionary+Extras.h"; sourceTree = "<group>"; };
 		35220A64B84C600507B7E42EBBF7AAB5 /* sp_bank_fpx_affin_bank.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_bank_fpx_affin_bank.png; path = SeamlessPayCore/Assets/sp_bank_fpx_affin_bank.png; sourceTree = "<group>"; };
 		356284D41372E6FACA0C65CEC95C29D4 /* sp_bank_fpx_ambank@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_ambank@2x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_ambank@2x.png"; sourceTree = "<group>"; };
 		35B04273A2482DC5E0C270791FA56B45 /* sp_card_visa.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_card_visa.png; path = SeamlessPayCore/Assets/sp_card_visa.png; sourceTree = "<group>"; };
+		35F04B0018303BCA6B6FC5E382666ECB /* Pods-SeamlessPay_ObjC-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SeamlessPay_ObjC-acknowledgements.markdown"; sourceTree = "<group>"; };
 		3703D289656B0B9F5D3EA2ED9DCCEDC1 /* NSDictionary+Extras.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+Extras.m"; path = "SeamlessPayCore/Classes/NSDictionary+Extras.m"; sourceTree = "<group>"; };
 		37AC05496C68A86267D8035812252425 /* NSCharacterSet+Extras.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSCharacterSet+Extras.h"; path = "SeamlessPayCore/Classes/NSCharacterSet+Extras.h"; sourceTree = "<group>"; };
 		37E03CB317F89CD94BFE92A37CFF57F3 /* SPFormEncodable.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPFormEncodable.h; path = SeamlessPayCore/Classes/SPFormEncodable.h; sourceTree = "<group>"; };
+		3891125C0E7D44F0FE82B359D1642F5C /* Pods-SPPaymentViewController.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SPPaymentViewController.release.xcconfig"; sourceTree = "<group>"; };
 		38B5648BA5A0B6B1E3E3C1BACBD44CB2 /* sp_bank_fpx_ocbc@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_ocbc@2x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_ocbc@2x.png"; sourceTree = "<group>"; };
 		38C426C6C4E7E2C60955904C1CF407EA /* sp_bank_fpx_uob@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_uob@3x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_uob@3x.png"; sourceTree = "<group>"; };
 		38F1415A30F94A9753EE6AC960BD06ED /* SeamlessPayCore-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SeamlessPayCore-prefix.pch"; sourceTree = "<group>"; };
 		3B058648417CFB63B92979AD711711A7 /* SPPaymentMethod.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SPPaymentMethod.m; path = SeamlessPayCore/Classes/SPPaymentMethod.m; sourceTree = "<group>"; };
-		3B885FBD59C371AB031224F7F135F760 /* Pods-SeamlessPay_Swift-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SeamlessPay_Swift-acknowledgements.plist"; sourceTree = "<group>"; };
-		3BBFB87C63E760278AD9507400C9BF23 /* Pods-SeamlessPayCoreTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SeamlessPayCoreTests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		3BEE37F628E21B4D67C07DE838F7B981 /* SPFormEncoder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SPFormEncoder.m; path = SeamlessPayCore/Classes/SPFormEncoder.m; sourceTree = "<group>"; };
 		3CDE62C9CC5DD43CAABA133B0C87F17D /* sp_card_unionpay_zh@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_unionpay_zh@2x.png"; path = "SeamlessPayCore/Assets/sp_card_unionpay_zh@2x.png"; sourceTree = "<group>"; };
 		3DE9D0B9E48F0A41C1867C2925BB8520 /* sp_card_error_amex@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_error_amex@3x.png"; path = "SeamlessPayCore/Assets/sp_card_error_amex@3x.png"; sourceTree = "<group>"; };
+		3EF62677A0A81D2FDB44DAB54A347650 /* Pods-SPPaymentViewController.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-SPPaymentViewController.modulemap"; sourceTree = "<group>"; };
 		3FA700B41D11F4DE74367BF28C937633 /* sp_card_form_back.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_card_form_back.png; path = SeamlessPayCore/Assets/sp_card_form_back.png; sourceTree = "<group>"; };
 		3FC049D3A3096234AA5883DF429D5A35 /* SPCardBrand.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SPCardBrand.m; path = SeamlessPayCore/Classes/SPCardBrand.m; sourceTree = "<group>"; };
 		4058A3278551C7B14C330308AE28561E /* sp_card_amex_template@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_amex_template@3x.png"; path = "SeamlessPayCore/Assets/sp_card_amex_template@3x.png"; sourceTree = "<group>"; };
 		424277DA6D925B4811DC79D4726B710B /* sp_card_mastercard_template.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_card_mastercard_template.png; path = SeamlessPayCore/Assets/sp_card_mastercard_template.png; sourceTree = "<group>"; };
 		4319B48A08AA035AA1857DDCF6B56938 /* SPError.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPError.h; path = SeamlessPayCore/Classes/SPError.h; sourceTree = "<group>"; };
 		43B2DF8C625E6B6D8BEE346368B5A376 /* SeamlessPayCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SeamlessPayCore.debug.xcconfig; sourceTree = "<group>"; };
+		43E059B71E513DB71B6419F74E77C2F5 /* Pods-SPPaymentViewController-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SPPaymentViewController-frameworks.sh"; sourceTree = "<group>"; };
 		456AE10F736214A376A635EBD7B20BE0 /* SPPaymentViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SPPaymentViewController.m; path = SeamlessPayCore/Classes/SPPaymentViewController.m; sourceTree = "<group>"; };
-		4645E5600B9C7284A02BF615DEC5EF2E /* Pods-SeamlessPayDemo-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SeamlessPayDemo-Info.plist"; sourceTree = "<group>"; };
 		46D0F41896DAAE08F895EFDCBEBC3C30 /* sp_bank_fpx_rhb@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_rhb@2x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_rhb@2x.png"; sourceTree = "<group>"; };
 		470B095D202A9A4B9916260CE9A494FC /* SPCardParams.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPCardParams.h; path = SeamlessPayCore/Classes/SPCardParams.h; sourceTree = "<group>"; };
 		4737C118A38BAB7D3C9A86BBE56039CD /* sp_card_form_amex_cvc@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_form_amex_cvc@2x.png"; path = "SeamlessPayCore/Assets/sp_card_form_amex_cvc@2x.png"; sourceTree = "<group>"; };
-		482459D3808898B44759DBD062DF92B7 /* Pods-SeamlessPay_Swift-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SeamlessPay_Swift-frameworks.sh"; sourceTree = "<group>"; };
+		474CAC9A1040683575C5BE3AD3094BB1 /* Pods-SeamlessPay_Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SeamlessPay_Swift.release.xcconfig"; sourceTree = "<group>"; };
 		483F213B80FEA4C905712333D1D6A438 /* sp_bank_fpx_cimb@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_cimb@2x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_cimb@2x.png"; sourceTree = "<group>"; };
 		4AB4245AB87E70D4D683CF22DBAB25E4 /* sp_bank_fpx_standard_chartered@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_standard_chartered@3x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_standard_chartered@3x.png"; sourceTree = "<group>"; };
 		4CB4B37C64520DD5B4085703797462DA /* sp_bank_fpx_ocbc.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_bank_fpx_ocbc.png; path = SeamlessPayCore/Assets/sp_bank_fpx_ocbc.png; sourceTree = "<group>"; };
 		4CFE719E5EBFD11417DB6F827735FA6B /* SPPaymentMethodCard.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPPaymentMethodCard.h; path = SeamlessPayCore/Classes/SPPaymentMethodCard.h; sourceTree = "<group>"; };
 		4DF3D0F8585169CF2523B7009DF03A48 /* sp_shipping_form@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_shipping_form@3x.png"; path = "SeamlessPayCore/Assets/sp_shipping_form@3x.png"; sourceTree = "<group>"; };
 		4F6B4FF2EAFD885FC0033986B4991EDF /* SPCharge.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SPCharge.m; path = SeamlessPayCore/Classes/SPCharge.m; sourceTree = "<group>"; };
-		507FE30A69F1BE82BB582402F28FE0D3 /* Pods-SeamlessPayDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SeamlessPayDemo.release.xcconfig"; sourceTree = "<group>"; };
+		51570AA5F1DD6609793331AA1A6F2ACA /* Pods-SeamlessPay_ObjC-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SeamlessPay_ObjC-dummy.m"; sourceTree = "<group>"; };
 		5198322D977BA5A308CEB54456E9234B /* sp_shipping_form@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_shipping_form@2x.png"; path = "SeamlessPayCore/Assets/sp_shipping_form@2x.png"; sourceTree = "<group>"; };
 		528272BEBBCA4342D3B526716F871AFB /* sp_card_mastercard@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_mastercard@3x.png"; path = "SeamlessPayCore/Assets/sp_card_mastercard@3x.png"; sourceTree = "<group>"; };
+		52E74507291E97D794691A8EF23D643B /* Pods-SeamlessPayDemo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SeamlessPayDemo-dummy.m"; sourceTree = "<group>"; };
 		52FBBF89AD6D1BA71A5A03706DA86786 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
 		530BAA98597315FF60F4B436ABCAB415 /* sp_card_jcb_template.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_card_jcb_template.png; path = SeamlessPayCore/Assets/sp_card_jcb_template.png; sourceTree = "<group>"; };
 		530CD520D6AAA4566A993B24AC24EB64 /* sp_card_visa_template@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_visa_template@3x.png"; path = "SeamlessPayCore/Assets/sp_card_visa_template@3x.png"; sourceTree = "<group>"; };
 		53B70F67A42F44183B43FE4FCA77DE94 /* SPPaymentMethodCardParams.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPPaymentMethodCardParams.h; path = SeamlessPayCore/Classes/SPPaymentMethodCardParams.h; sourceTree = "<group>"; };
+		53E2E7AD5F0F1B19C6ED02ED2E32B18B /* Pods-SeamlessPayCoreTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SeamlessPayCoreTests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		5408AF4201D87B223C75126D35806725 /* sp_card_applepay@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_applepay@3x.png"; path = "SeamlessPayCore/Assets/sp_card_applepay@3x.png"; sourceTree = "<group>"; };
 		54320A15E4A7DAD0B0CD0E2C670A7ECD /* sp_bank_fpx_bsn@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_bsn@2x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_bsn@2x.png"; sourceTree = "<group>"; };
 		547E411D7E1C5685F95ED9F155898BB8 /* sp_card_diners@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_diners@2x.png"; path = "SeamlessPayCore/Assets/sp_card_diners@2x.png"; sourceTree = "<group>"; };
 		54DB43B2EAD687E47B1783AA9FEE6C3E /* sp_card_form_front@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_form_front@2x.png"; path = "SeamlessPayCore/Assets/sp_card_form_front@2x.png"; sourceTree = "<group>"; };
+		55EE243799EEF276CEF4DCB2CE652219 /* Pods-SeamlessPay_Swift-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SeamlessPay_Swift-umbrella.h"; sourceTree = "<group>"; };
 		5645F3263938823A77ECE7C6E9164D1B /* sp_bank_fpx_maybank2u@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_maybank2u@2x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_maybank2u@2x.png"; sourceTree = "<group>"; };
 		575D318EEDED6AC609244E95CBB40086 /* sp_card_amex_template.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_card_amex_template.png; path = SeamlessPayCore/Assets/sp_card_amex_template.png; sourceTree = "<group>"; };
+		5AB0EDF6998D09D345CE88FA83C2EF91 /* Pods-SeamlessPay_Swift-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SeamlessPay_Swift-frameworks.sh"; sourceTree = "<group>"; };
 		5AD91081F9B874BA080ADB318B48C192 /* sp_bank_fpx_hsbc@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_hsbc@2x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_hsbc@2x.png"; sourceTree = "<group>"; };
-		5B3AF5C00E8366AB2975EFF1F8CCE93D /* Pods-SeamlessPay_Swift-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SeamlessPay_Swift-Info.plist"; sourceTree = "<group>"; };
+		5B145871C234CBD3FEADE27D2FCEE3DD /* Pods-SPPaymentViewController-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SPPaymentViewController-Info.plist"; sourceTree = "<group>"; };
 		5C7A6525A8D30668CDB62920FA79AF33 /* sp_card_cvc_amex@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_cvc_amex@3x.png"; path = "SeamlessPayCore/Assets/sp_card_cvc_amex@3x.png"; sourceTree = "<group>"; };
 		5E18FACAE2932AE0FCC0FE7D1B6F0586 /* SPImageLibrary.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPImageLibrary.h; path = SeamlessPayCore/Classes/SPImageLibrary.h; sourceTree = "<group>"; };
 		5EDD1A1E4A9CDAC268116C3D19E9421D /* sp_bank_fpx_maybank2u@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_maybank2u@3x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_maybank2u@3x.png"; sourceTree = "<group>"; };
 		5F1E7E2681F8869482C195AF2D0E9FE3 /* sp_card_error_amex@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_error_amex@2x.png"; path = "SeamlessPayCore/Assets/sp_card_error_amex@2x.png"; sourceTree = "<group>"; };
-		5FA939766CC8D0336E8CA7A3CC826DED /* Pods-SeamlessPay_ObjC-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SeamlessPay_ObjC-Info.plist"; sourceTree = "<group>"; };
 		60DBD7779E166AD2993AA41F5687E901 /* SPPhoneNumberValidator.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPPhoneNumberValidator.h; path = SeamlessPayCore/Classes/SPPhoneNumberValidator.h; sourceTree = "<group>"; };
 		615C0963BC76FD039AD2A9C75949A013 /* sp_bank_fpx_hsbc@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_hsbc@3x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_hsbc@3x.png"; sourceTree = "<group>"; };
-		632999B6E629939FA1943A3C40F511C4 /* Pods-SeamlessPay_ObjC-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SeamlessPay_ObjC-acknowledgements.markdown"; sourceTree = "<group>"; };
-		63CF1E5FD0B5EB3E3071594DAE33C22A /* Pods-SeamlessPayCoreTests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SeamlessPayCoreTests-Info.plist"; sourceTree = "<group>"; };
 		64BFA61F18ECD32D30E12AF0B7FAEB05 /* SPPaymentCardTextField.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPPaymentCardTextField.h; path = SeamlessPayCore/Classes/SPPaymentCardTextField.h; sourceTree = "<group>"; };
-		66355204F97CC3B18AA83018078CFF1D /* Pods-SeamlessPayDemo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SeamlessPayDemo-dummy.m"; sourceTree = "<group>"; };
 		665653F09D49DDA2CA5293F8E494C8D1 /* sp_card_mastercard_template@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_mastercard_template@2x.png"; path = "SeamlessPayCore/Assets/sp_card_mastercard_template@2x.png"; sourceTree = "<group>"; };
 		66643451EC6BD2C6B72790582D64917A /* sp_fpx_big_logo.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_fpx_big_logo.png; path = SeamlessPayCore/Assets/sp_fpx_big_logo.png; sourceTree = "<group>"; };
 		6679196C84D8E81D5F227219EEBAB9BF /* SPFormTextField.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SPFormTextField.m; path = SeamlessPayCore/Classes/SPFormTextField.m; sourceTree = "<group>"; };
+		66A88406615923CBEA5D48D945D04FAA /* Pods-SPPaymentViewController-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SPPaymentViewController-acknowledgements.markdown"; sourceTree = "<group>"; };
 		688FE1B7DFE159A2264BC7F99B293B3C /* sp_card_amex@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_amex@3x.png"; path = "SeamlessPayCore/Assets/sp_card_amex@3x.png"; sourceTree = "<group>"; };
 		689CFC2A5FF0ADFB403C24578D620DCF /* SPCardValidator+Extras.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SPCardValidator+Extras.h"; path = "SeamlessPayCore/Classes/SPCardValidator+Extras.h"; sourceTree = "<group>"; };
 		69D7A13153474B128C54F40DA439D663 /* sp_card_unionpay_template_zh@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_unionpay_template_zh@3x.png"; path = "SeamlessPayCore/Assets/sp_card_unionpay_template_zh@3x.png"; sourceTree = "<group>"; };
 		6B515C7947F30DA44D0485FD592D18E1 /* SPCard.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPCard.h; path = SeamlessPayCore/Classes/SPCard.h; sourceTree = "<group>"; };
+		6C05DD112838AFA9E2C3E7848D2C785F /* Pods-SeamlessPay_Swift-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SeamlessPay_Swift-acknowledgements.markdown"; sourceTree = "<group>"; };
 		6CE2F66C036A0E002E63D2070DC36979 /* SPAPIClient.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPAPIClient.h; path = SeamlessPayCore/Classes/SPAPIClient.h; sourceTree = "<group>"; };
-		703D55925DB8F25419B73E75EC01FEC2 /* Pods-SeamlessPayDemo-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SeamlessPayDemo-umbrella.h"; sourceTree = "<group>"; };
-		716FC1F1775528C42FCAB3F08DD64AA8 /* Pods-SeamlessPay_Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SeamlessPay_Swift.debug.xcconfig"; sourceTree = "<group>"; };
-		741FBB8AE54333FB88BBDE8BCB1EEB00 /* Pods-SeamlessPay_Swift-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SeamlessPay_Swift-umbrella.h"; sourceTree = "<group>"; };
+		6DC554688A72183D540FC647E5C704A4 /* Pods-SeamlessPayDemo-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SeamlessPayDemo-acknowledgements.plist"; sourceTree = "<group>"; };
+		74A6166570A951CCFBEE9B2103320721 /* Pods-SeamlessPayDemo-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SeamlessPayDemo-frameworks.sh"; sourceTree = "<group>"; };
 		750546E5652B8222A4B26CF0C3DBEF6E /* SPFormTextField.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPFormTextField.h; path = SeamlessPayCore/Classes/SPFormTextField.h; sourceTree = "<group>"; };
 		752F3BAC654127BC493461F164A9AF22 /* SPCard+Extras.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SPCard+Extras.h"; path = "SeamlessPayCore/Classes/SPCard+Extras.h"; sourceTree = "<group>"; };
-		759186C907DAF19A74CD7BEE05BD3FA5 /* Pods-SeamlessPay_Swift-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SeamlessPay_Swift-dummy.m"; sourceTree = "<group>"; };
 		75A8690198AE4291D25C29938A10D5EF /* sp_card_form_amex_cvc.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_card_form_amex_cvc.png; path = SeamlessPayCore/Assets/sp_card_form_amex_cvc.png; sourceTree = "<group>"; };
 		761BAA911A7732400F23232FC148C684 /* SPPaymentMethodCardParams.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SPPaymentMethodCardParams.m; path = SeamlessPayCore/Classes/SPPaymentMethodCardParams.m; sourceTree = "<group>"; };
+		763E782B71F199D28BCE419CE44B440D /* Pods-SeamlessPay_ObjC-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SeamlessPay_ObjC-frameworks.sh"; sourceTree = "<group>"; };
 		76AD1B987B05D6D349C2421F348CE964 /* SPCardParams.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SPCardParams.m; path = SeamlessPayCore/Classes/SPCardParams.m; sourceTree = "<group>"; };
+		779733D9B84CF0B388E32AB314FA346D /* Pods-SeamlessPay_ObjC-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SeamlessPay_ObjC-Info.plist"; sourceTree = "<group>"; };
+		78AE5B395C0AC2F241BEBF910BC4860F /* Pods-SeamlessPayCoreTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SeamlessPayCoreTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7949CC7B6A55ABD6DCC21B07B39EF913 /* SPBINRange.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPBINRange.h; path = SeamlessPayCore/Classes/SPBINRange.h; sourceTree = "<group>"; };
 		7A282F50DB3A9C962853DFC99F59C167 /* sp_card_unionpay_template_zh.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_card_unionpay_template_zh.png; path = SeamlessPayCore/Assets/sp_card_unionpay_template_zh.png; sourceTree = "<group>"; };
-		7B34BD55BE08A41C05B47ED30571792C /* Pods-SeamlessPayDemo-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SeamlessPayDemo-frameworks.sh"; sourceTree = "<group>"; };
 		7B558D9F0297B765B05582871F63BC5D /* sp_card_visa@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_visa@2x.png"; path = "SeamlessPayCore/Assets/sp_card_visa@2x.png"; sourceTree = "<group>"; };
-		7D67B45FBCD63B3EFDD3FD2A7F7BCC19 /* Pods-SeamlessPayCoreTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SeamlessPayCoreTests.debug.xcconfig"; sourceTree = "<group>"; };
+		7CB456FFB04CBE312078E3AADE805869 /* Pods-SeamlessPay_Swift.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-SeamlessPay_Swift.modulemap"; sourceTree = "<group>"; };
 		804A67F6A3E181D46D536354AA914C53 /* sp_test_upload_image.jpeg */ = {isa = PBXFileReference; includeInIndex = 1; name = sp_test_upload_image.jpeg; path = SeamlessPayCore/Assets/sp_test_upload_image.jpeg; sourceTree = "<group>"; };
 		810E921E339BCDF69BE24ADEBC736891 /* sp_card_unionpay_template_zh@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_unionpay_template_zh@2x.png"; path = "SeamlessPayCore/Assets/sp_card_unionpay_template_zh@2x.png"; sourceTree = "<group>"; };
 		82DCBDAF9D157EF61E9BD8592C01F846 /* sp_bank_fpx_maybank2e.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_bank_fpx_maybank2e.png; path = SeamlessPayCore/Assets/sp_bank_fpx_maybank2e.png; sourceTree = "<group>"; };
@@ -434,13 +450,13 @@
 		87444B427C342AC3AE11189143094428 /* sp_card_jcb@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_jcb@3x.png"; path = "SeamlessPayCore/Assets/sp_card_jcb@3x.png"; sourceTree = "<group>"; };
 		87678BB71A4F230F5711C929C8576F83 /* SeamlessPayCore.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SeamlessPayCore.modulemap; sourceTree = "<group>"; };
 		8865CD941396067ED0102E3AF83C4029 /* sp_bank_fpx_public_bank.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_bank_fpx_public_bank.png; path = SeamlessPayCore/Assets/sp_bank_fpx_public_bank.png; sourceTree = "<group>"; };
+		89B61DA9F4F8214B0B0C74CDC5DA14BC /* Pods-SeamlessPayDemo-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SeamlessPayDemo-acknowledgements.markdown"; sourceTree = "<group>"; };
 		8B907E17DFAD078BA76C2C9EDFD10C59 /* SPCardValidationState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPCardValidationState.h; path = SeamlessPayCore/Classes/SPCardValidationState.h; sourceTree = "<group>"; };
 		8DF9A4C25CC026AFC970E9E52F8BFAEB /* sp_card_amex.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_card_amex.png; path = SeamlessPayCore/Assets/sp_card_amex.png; sourceTree = "<group>"; };
 		8EE495456C512A415D4A49347102F6BD /* sp_bank_fpx_maybank2e@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_maybank2e@3x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_maybank2e@3x.png"; sourceTree = "<group>"; };
 		8F1EE9F7324B8437C67B0B7F5D8D74EA /* SPEmailAddressValidator.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SPEmailAddressValidator.m; path = SeamlessPayCore/Classes/SPEmailAddressValidator.m; sourceTree = "<group>"; };
 		90E69927CC5430C56BEBE03A3D45568B /* sp_card_unionpay_zh.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_card_unionpay_zh.png; path = SeamlessPayCore/Assets/sp_card_unionpay_zh.png; sourceTree = "<group>"; };
 		910BE07B567B017F70F9D3F59598E1B8 /* sp_card_jcb_template@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_jcb_template@2x.png"; path = "SeamlessPayCore/Assets/sp_card_jcb_template@2x.png"; sourceTree = "<group>"; };
-		917121DDFEAE5B58D29CF7BEA130FE9C /* Pods-SeamlessPayDemo-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SeamlessPayDemo-acknowledgements.plist"; sourceTree = "<group>"; };
 		926FC581904B9925F3F2FEF82FFA84CF /* sp_fpx_logo@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_fpx_logo@2x.png"; path = "SeamlessPayCore/Assets/sp_fpx_logo@2x.png"; sourceTree = "<group>"; };
 		9391E2FDC70892D89D34EC5FADC460FB /* sp_card_unionpay_template_en.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_card_unionpay_template_en.png; path = SeamlessPayCore/Assets/sp_card_unionpay_template_en.png; sourceTree = "<group>"; };
 		94E74A51169AAC221D6F44A4E66A240C /* NSCharacterSet+Extras.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSCharacterSet+Extras.m"; path = "SeamlessPayCore/Classes/NSCharacterSet+Extras.m"; sourceTree = "<group>"; };
@@ -463,22 +479,24 @@
 		A12BC117572995DF53F85362092DD9D8 /* sp_bank_fpx_affin_bank@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_affin_bank@2x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_affin_bank@2x.png"; sourceTree = "<group>"; };
 		A153E2395C2D89264C2B29B307EBB6D6 /* sp_bank_fpx_kfh.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_bank_fpx_kfh.png; path = SeamlessPayCore/Assets/sp_bank_fpx_kfh.png; sourceTree = "<group>"; };
 		A31C853A9E9EDFBD6E8D36AD5CC0B727 /* sp_bank_fpx_alliance_bank@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_alliance_bank@2x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_alliance_bank@2x.png"; sourceTree = "<group>"; };
+		A3D31FF3BAF91944AF8ABB0B4537EEAE /* Pods-SeamlessPayDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SeamlessPayDemo.release.xcconfig"; sourceTree = "<group>"; };
 		A48A476979A31158F20B03AA3B03A385 /* SPTheme.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPTheme.h; path = SeamlessPayCore/Classes/SPTheme.h; sourceTree = "<group>"; };
 		A5530F62851AD0CDE59C73DC6A732ED1 /* SPPaymentCardTextFieldViewModel.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPPaymentCardTextFieldViewModel.h; path = SeamlessPayCore/Classes/SPPaymentCardTextFieldViewModel.h; sourceTree = "<group>"; };
-		A64A697195A718A161BE5C4B7F47B77B /* Pods-SeamlessPay_ObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SeamlessPay_ObjC.debug.xcconfig"; sourceTree = "<group>"; };
+		A62033422C7E4EE2AA9B4EA6D9798EF9 /* Pods-SeamlessPay_ObjC-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SeamlessPay_ObjC-umbrella.h"; sourceTree = "<group>"; };
+		A6735980F4EDC1E5C05C415975E51067 /* Pods-SeamlessPayCoreTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SeamlessPayCoreTests.release.xcconfig"; sourceTree = "<group>"; };
 		A69DDF092F4E4B148B4BB379AF225F06 /* sp_bank_fpx_public_bank@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_public_bank@3x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_public_bank@3x.png"; sourceTree = "<group>"; };
 		A7EF7819BF476E547F24F3AD99F1B423 /* sp_icon_add.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_icon_add.png; path = SeamlessPayCore/Assets/sp_icon_add.png; sourceTree = "<group>"; };
-		AA09D71AA5F2DFE198242837C7935B1F /* Pods-SeamlessPay_ObjC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SeamlessPay_ObjC.release.xcconfig"; sourceTree = "<group>"; };
+		A85437238940872A53F64C833722DA5A /* Pods-SeamlessPayCoreTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-SeamlessPayCoreTests.modulemap"; sourceTree = "<group>"; };
 		ACE4E9EA69A8ABD6406526F54ED3B459 /* sp_bank_fpx_standard_chartered.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_bank_fpx_standard_chartered.png; path = SeamlessPayCore/Assets/sp_bank_fpx_standard_chartered.png; sourceTree = "<group>"; };
 		AD0FBFC7F3B02FBE5F5BBE1841D70263 /* sp_bank_fpx_kfh@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_kfh@2x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_kfh@2x.png"; sourceTree = "<group>"; };
 		ADB312A296914D2A457450C5E4D0C92C /* sp_bank_fpx_hong_leong_bank.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_bank_fpx_hong_leong_bank.png; path = SeamlessPayCore/Assets/sp_bank_fpx_hong_leong_bank.png; sourceTree = "<group>"; };
 		AE86D768BF8481200AE37F859A908838 /* NSArray+Extras.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Extras.m"; path = "SeamlessPayCore/Classes/NSArray+Extras.m"; sourceTree = "<group>"; };
 		AF44AE0F0C0AA4239BD0394CD87F807F /* sp_bank_fpx_ambank@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_ambank@3x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_ambank@3x.png"; sourceTree = "<group>"; };
-		B12F988FF03F0FC14BB45370149B82ED /* Pods-SeamlessPay_Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SeamlessPay_Swift.release.xcconfig"; sourceTree = "<group>"; };
 		B1A2AE4F7E801D3BC3F57A11F6867719 /* sp_bank_fpx_rhb@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_rhb@3x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_rhb@3x.png"; sourceTree = "<group>"; };
 		B206602108F83A0FF6099108A75DBA00 /* SPPaymentMethodBillingDetails.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SPPaymentMethodBillingDetails.m; path = SeamlessPayCore/Classes/SPPaymentMethodBillingDetails.m; sourceTree = "<group>"; };
 		B21467B67B1218D8B25691D100A990CF /* sp_card_amex@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_amex@2x.png"; path = "SeamlessPayCore/Assets/sp_card_amex@2x.png"; sourceTree = "<group>"; };
-		B49D8D4239D0FE82187EBA07269DCF5D /* Pods-SeamlessPay_ObjC-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SeamlessPay_ObjC-acknowledgements.plist"; sourceTree = "<group>"; };
+		B37DE4EF802E0DC373282AD183B68E8A /* Pods-SPPaymentViewController-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SPPaymentViewController-umbrella.h"; sourceTree = "<group>"; };
+		B419D7CE2F9E34C54F7C9D2CA10D4F74 /* Pods-SeamlessPayCoreTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SeamlessPayCoreTests-dummy.m"; sourceTree = "<group>"; };
 		B4B33E59C62968E40959DC74E55EC338 /* sp_bank_fpx_hong_leong_bank@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_hong_leong_bank@2x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_hong_leong_bank@2x.png"; sourceTree = "<group>"; };
 		B4DEA3214E37C72FD753A9EF428796E3 /* sp_card_visa_template.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_card_visa_template.png; path = SeamlessPayCore/Assets/sp_card_visa_template.png; sourceTree = "<group>"; };
 		B50B90B5DC6084C6E2CC87E5BD1F1032 /* SeamlessPayCore-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "SeamlessPayCore-Info.plist"; sourceTree = "<group>"; };
@@ -488,36 +506,37 @@
 		B7E9C8707CA7698EE6EE3C69FAD14E52 /* SPDelegateProxy.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPDelegateProxy.h; path = SeamlessPayCore/Classes/SPDelegateProxy.h; sourceTree = "<group>"; };
 		B85CCA58BCE26DC23390B50ED70D6D85 /* sp_card_unionpay_template_en@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_unionpay_template_en@2x.png"; path = "SeamlessPayCore/Assets/sp_card_unionpay_template_en@2x.png"; sourceTree = "<group>"; };
 		B9911BE1742A60F12A850B4C064D4182 /* sp_card_unionpay_en@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_unionpay_en@3x.png"; path = "SeamlessPayCore/Assets/sp_card_unionpay_en@3x.png"; sourceTree = "<group>"; };
-		B9AD71E31F8CB00ADD875E0E117B43AA /* Pods-SeamlessPay_ObjC.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-SeamlessPay_ObjC.modulemap"; sourceTree = "<group>"; };
 		B9BFE161CC78E659F25527800D30E726 /* sp_card_discover_template@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_discover_template@2x.png"; path = "SeamlessPayCore/Assets/sp_card_discover_template@2x.png"; sourceTree = "<group>"; };
 		BA9C60FC3576A36DFC752DF87D0E6E5A /* sp_card_jcb@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_jcb@2x.png"; path = "SeamlessPayCore/Assets/sp_card_jcb@2x.png"; sourceTree = "<group>"; };
 		BB00BE3A480261EB377D54D0667CAA33 /* sp_bank_fpx_alliance_bank.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_bank_fpx_alliance_bank.png; path = SeamlessPayCore/Assets/sp_bank_fpx_alliance_bank.png; sourceTree = "<group>"; };
 		BB538F33340F2D84D618227ED1BB81A8 /* sp_bank_fpx_ambank.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_bank_fpx_ambank.png; path = SeamlessPayCore/Assets/sp_bank_fpx_ambank.png; sourceTree = "<group>"; };
-		BBFFEB8CE35083421ACA8D725D6D32C1 /* Pods-SeamlessPayCoreTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SeamlessPayCoreTests.release.xcconfig"; sourceTree = "<group>"; };
+		BCC97C0F07511DA530FE7759C4071723 /* Pods-SeamlessPay_Swift-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SeamlessPay_Swift-Info.plist"; sourceTree = "<group>"; };
 		BD1DA4591F6B6541C6FC55E653923033 /* SPFPXBankBrand.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SPFPXBankBrand.m; path = SeamlessPayCore/Classes/SPFPXBankBrand.m; sourceTree = "<group>"; };
 		BEEF6569B565AEDFC956F041CEB4D1D8 /* sp_bank_fpx_rhb.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_bank_fpx_rhb.png; path = SeamlessPayCore/Assets/sp_bank_fpx_rhb.png; sourceTree = "<group>"; };
 		BEFCAFAE35E8D773DE0035D6EE19EC49 /* sp_card_discover.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_card_discover.png; path = SeamlessPayCore/Assets/sp_card_discover.png; sourceTree = "<group>"; };
 		BF2973650A5D99D8BE305C50F37A1322 /* sp_icon_bank@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_icon_bank@2x.png"; path = "SeamlessPayCore/Assets/sp_icon_bank@2x.png"; sourceTree = "<group>"; };
-		C083AFC6BCF93DBE394CC2FC9E968027 /* Pods-SeamlessPayDemo-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-SeamlessPayDemo-acknowledgements.markdown"; sourceTree = "<group>"; };
-		C0CB5AD20EF16E709FCCE5532D9BB0F4 /* Pods-SeamlessPayCoreTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SeamlessPayCoreTests-acknowledgements.plist"; sourceTree = "<group>"; };
-		C0EE8890D59898DBC99B75B5DB5B2F9A /* Pods-SeamlessPayDemo.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-SeamlessPayDemo.modulemap"; sourceTree = "<group>"; };
-		C16A7E8937009745D3F91381DADD56E4 /* Pods-SeamlessPay_ObjC-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SeamlessPay_ObjC-umbrella.h"; sourceTree = "<group>"; };
+		C0EDC19C3A6E0F3A13F8F87468F14D26 /* Pods-SeamlessPayDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SeamlessPayDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		C28CB7D011E7F4F5936475DDDDDDC3CB /* Pods-SPPaymentViewController-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SPPaymentViewController-acknowledgements.plist"; sourceTree = "<group>"; };
 		C2997CCAF92508F1983A49A9EDDEC7C3 /* sp_bank_fpx_cimb@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_cimb@3x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_cimb@3x.png"; sourceTree = "<group>"; };
 		C514362BBAE2599A935A14301B317CAA /* SPAddress.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SPAddress.m; path = SeamlessPayCore/Classes/SPAddress.m; sourceTree = "<group>"; };
+		C51471B951D66706F3646156AE7C78CC /* Pods-SeamlessPay_Swift-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SeamlessPay_Swift-acknowledgements.plist"; sourceTree = "<group>"; };
 		C5DD143CB412BF872973BC22407B457F /* sp_bank_fpx_bank_islam@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_bank_islam@3x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_bank_islam@3x.png"; sourceTree = "<group>"; };
 		C76CB3242D9F2FD69E44B7B7B47B2BE0 /* sp_bank_fpx_bank_muamalat@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_bank_muamalat@3x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_bank_muamalat@3x.png"; sourceTree = "<group>"; };
 		C7B1FC9119E7CFEFFBAD9800822E5812 /* sp_bank_fpx_public_bank@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_public_bank@2x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_public_bank@2x.png"; sourceTree = "<group>"; };
 		C8C6B242CDE87AE6869C52D849541230 /* sp_bank_fpx_uob.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_bank_fpx_uob.png; path = SeamlessPayCore/Assets/sp_bank_fpx_uob.png; sourceTree = "<group>"; };
 		C9FBD3732FD141B65EBC0C72DDA7E680 /* SPPaymentMethodAddress.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SPPaymentMethodAddress.m; path = SeamlessPayCore/Classes/SPPaymentMethodAddress.m; sourceTree = "<group>"; };
+		CAC70E4A23A8242DB3CC94539E7E6B96 /* Pods-SPPaymentViewController-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SPPaymentViewController-dummy.m"; sourceTree = "<group>"; };
 		CB64748FD2A2C9A167C1D319351EAA8A /* SPDelegateProxy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SPDelegateProxy.m; path = SeamlessPayCore/Classes/SPDelegateProxy.m; sourceTree = "<group>"; };
 		CBF389721557CB6B225B0B421624CA84 /* SPCustomer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPCustomer.h; path = SeamlessPayCore/Classes/SPCustomer.h; sourceTree = "<group>"; };
-		CCBB9F6042FD01179715DE94C5AF6739 /* Pods-SeamlessPay_ObjC-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SeamlessPay_ObjC-dummy.m"; sourceTree = "<group>"; };
+		CD377DF02DF45EE433A1A86FAE40F5E4 /* Pods-SeamlessPayCoreTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SeamlessPayCoreTests-acknowledgements.plist"; sourceTree = "<group>"; };
 		D0B54602C0B7DEC1D8C9E5B99E349445 /* sp_bank_fpx_kfh@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_kfh@3x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_kfh@3x.png"; sourceTree = "<group>"; };
 		D0BA0BB86885F524513F3FF236C0A248 /* sp_card_diners_template@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_diners_template@2x.png"; path = "SeamlessPayCore/Assets/sp_card_diners_template@2x.png"; sourceTree = "<group>"; };
+		D153BF81AB338D7A23904FA499E44E54 /* Pods-SeamlessPay_ObjC.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-SeamlessPay_ObjC.modulemap"; sourceTree = "<group>"; };
 		D16B11806C99B54F8DB120EA1104CCE4 /* sp_fpx_big_logo@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_fpx_big_logo@3x.png"; path = "SeamlessPayCore/Assets/sp_fpx_big_logo@3x.png"; sourceTree = "<group>"; };
 		D276048C1E5E6C96B1A2672E95130419 /* sp_card_form_back@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_form_back@3x.png"; path = "SeamlessPayCore/Assets/sp_card_form_back@3x.png"; sourceTree = "<group>"; };
 		D446DB1D10C792AEF5315ECD85CFF01F /* Pods_SeamlessPay_ObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_SeamlessPay_ObjC.framework; path = "Pods-SeamlessPay_ObjC.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4C38C2757947D46F77BC1BAB08F942E /* sp_fpx_logo@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_fpx_logo@3x.png"; path = "SeamlessPayCore/Assets/sp_fpx_logo@3x.png"; sourceTree = "<group>"; };
+		D5CC9EB59F34652051131A009EB73D6E /* Pods-SeamlessPay_Swift-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SeamlessPay_Swift-dummy.m"; sourceTree = "<group>"; };
 		D656A4F7E9B920C461C7EE498C22527A /* SPCardValidator.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPCardValidator.h; path = SeamlessPayCore/Classes/SPCardValidator.h; sourceTree = "<group>"; };
 		D7EA985EDD74258E0350960FCED5217A /* SPAddress.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPAddress.h; path = SeamlessPayCore/Classes/SPAddress.h; sourceTree = "<group>"; };
 		D92BDC0FE4E7DED67A39B2A0C64CB5B9 /* sp_card_error.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_card_error.png; path = SeamlessPayCore/Assets/sp_card_error.png; sourceTree = "<group>"; };
@@ -528,15 +547,14 @@
 		DECFCBBBF1FFDFB5015439D7FB8B6B2F /* sp_bank_fpx_maybank2e@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_maybank2e@2x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_maybank2e@2x.png"; sourceTree = "<group>"; };
 		DFF37D7A198AF792F8E70B2AE405CC48 /* sp_card_jcb.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_card_jcb.png; path = SeamlessPayCore/Assets/sp_card_jcb.png; sourceTree = "<group>"; };
 		E0393B17653A3C3AE662B4EBB8275E31 /* sp_bank_fpx_cimb.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_bank_fpx_cimb.png; path = SeamlessPayCore/Assets/sp_bank_fpx_cimb.png; sourceTree = "<group>"; };
-		E1CAED7B15D04351EEB6E571FB19BE19 /* Pods-SeamlessPayCoreTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SeamlessPayCoreTests-frameworks.sh"; sourceTree = "<group>"; };
-		E2321204B29A2C755053ED8412AAD431 /* Pods-SeamlessPay_ObjC-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SeamlessPay_ObjC-frameworks.sh"; sourceTree = "<group>"; };
-		E2A247FD5F0CE92367DAE6F230654A9A /* Pods-SeamlessPay_Swift.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-SeamlessPay_Swift.modulemap"; sourceTree = "<group>"; };
+		E2C76912CB42E621D5AE00C66D77DA91 /* Pods-SeamlessPay_ObjC-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SeamlessPay_ObjC-acknowledgements.plist"; sourceTree = "<group>"; };
 		E38C5B2970FA8973CFEC75C600DF4F59 /* sp_icon_checkmark.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_icon_checkmark.png; path = SeamlessPayCore/Assets/sp_icon_checkmark.png; sourceTree = "<group>"; };
 		E3EC77F5E4F49BF51599B284BD01A254 /* SeamlessPayCore-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SeamlessPayCore-umbrella.h"; sourceTree = "<group>"; };
 		E4BE94F730E457D90F47ECC3196552F1 /* sp_card_cvc.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_card_cvc.png; path = SeamlessPayCore/Assets/sp_card_cvc.png; sourceTree = "<group>"; };
 		E55CAB73C0E420970A4EE0BB4163C4CF /* sp_card_visa@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_visa@3x.png"; path = "SeamlessPayCore/Assets/sp_card_visa@3x.png"; sourceTree = "<group>"; };
 		E7B1E333542BC3215C80DF3E03A99501 /* sp_card_discover@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_discover@3x.png"; path = "SeamlessPayCore/Assets/sp_card_discover@3x.png"; sourceTree = "<group>"; };
 		E948F0E99B18E95A0B03550C7A6510FC /* Pods_SeamlessPayDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_SeamlessPayDemo.framework; path = "Pods-SeamlessPayDemo.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E99BF7D2188F4FC9140B645EA7829C85 /* Pods-SeamlessPayDemo-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SeamlessPayDemo-Info.plist"; sourceTree = "<group>"; };
 		ECE152A356D35DE4D5AE4A1F7BB1D493 /* sp_card_error_amex.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_card_error_amex.png; path = SeamlessPayCore/Assets/sp_card_error_amex.png; sourceTree = "<group>"; };
 		EE8C8CD0C665F783F4A3D0CB956C3A57 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
 		EEBD202A192AA6FA4BB6109E320BECCC /* sp_icon_bank.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_icon_bank.png; path = SeamlessPayCore/Assets/sp_icon_bank.png; sourceTree = "<group>"; };
@@ -554,7 +572,9 @@
 		F73D8AB162B25AC86612CE1C7F534029 /* sp_bank_fpx_bank_muamalat.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = sp_bank_fpx_bank_muamalat.png; path = SeamlessPayCore/Assets/sp_bank_fpx_bank_muamalat.png; sourceTree = "<group>"; };
 		F991558CA0294CB754427AF28AB1F8F7 /* sp_bank_fpx_hong_leong_bank@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_hong_leong_bank@3x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_hong_leong_bank@3x.png"; sourceTree = "<group>"; };
 		FCF905C726E4E311D94F3896F23B3DB5 /* sp_bank_fpx_bank_rakyat@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_bank_fpx_bank_rakyat@3x.png"; path = "SeamlessPayCore/Assets/sp_bank_fpx_bank_rakyat@3x.png"; sourceTree = "<group>"; };
+		FD721857D8B0241F60EC3141826469A5 /* Pods-SeamlessPayCoreTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SeamlessPayCoreTests-frameworks.sh"; sourceTree = "<group>"; };
 		FE6B16399FD2EA35B81D4E04F0253F17 /* sp_card_form_front@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "sp_card_form_front@3x.png"; path = "SeamlessPayCore/Assets/sp_card_form_front@3x.png"; sourceTree = "<group>"; };
+		FFE2CDAB90BBB346862B148354D9C34E /* Pods-SeamlessPayDemo-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-SeamlessPayDemo-umbrella.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -579,6 +599,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				DF776C21D971139C697CEF7B27CAAE7A /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		518C136C3275596D78728DC6969A9D31 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D512C90169C711AC1FB54FA0C4DD0F5E /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -624,55 +652,16 @@
 			name = "Development Pods";
 			sourceTree = "<group>";
 		};
-		287BC0722162823B246AAF0167E19FCC /* Pods-SeamlessPay_Swift */ = {
+		1D20E3A1E009025D923F880065DD879A /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				E2A247FD5F0CE92367DAE6F230654A9A /* Pods-SeamlessPay_Swift.modulemap */,
-				33DDEC2AF2888020301A818FA5094ACD /* Pods-SeamlessPay_Swift-acknowledgements.markdown */,
-				3B885FBD59C371AB031224F7F135F760 /* Pods-SeamlessPay_Swift-acknowledgements.plist */,
-				759186C907DAF19A74CD7BEE05BD3FA5 /* Pods-SeamlessPay_Swift-dummy.m */,
-				482459D3808898B44759DBD062DF92B7 /* Pods-SeamlessPay_Swift-frameworks.sh */,
-				5B3AF5C00E8366AB2975EFF1F8CCE93D /* Pods-SeamlessPay_Swift-Info.plist */,
-				741FBB8AE54333FB88BBDE8BCB1EEB00 /* Pods-SeamlessPay_Swift-umbrella.h */,
-				716FC1F1775528C42FCAB3F08DD64AA8 /* Pods-SeamlessPay_Swift.debug.xcconfig */,
-				B12F988FF03F0FC14BB45370149B82ED /* Pods-SeamlessPay_Swift.release.xcconfig */,
+				ADD00FA2E4CC7426C74AAC4EACA26BA5 /* Pods-SeamlessPay_ObjC */,
+				C894B02486631197CFEE8E18C9908392 /* Pods-SeamlessPay_Swift */,
+				E7CE09AFB9105F82BFDBAC436A966B95 /* Pods-SeamlessPayCoreTests */,
+				E9B7E85E1FC22C9A9BF8355916B8424C /* Pods-SeamlessPayDemo */,
+				BAC712CAA226AD0B5B82DBAD956A35FD /* Pods-SPPaymentViewController */,
 			);
-			name = "Pods-SeamlessPay_Swift";
-			path = "Target Support Files/Pods-SeamlessPay_Swift";
-			sourceTree = "<group>";
-		};
-		38A42D7CD74F59914668AC3E32950B7B /* Pods-SeamlessPayDemo */ = {
-			isa = PBXGroup;
-			children = (
-				C0EE8890D59898DBC99B75B5DB5B2F9A /* Pods-SeamlessPayDemo.modulemap */,
-				C083AFC6BCF93DBE394CC2FC9E968027 /* Pods-SeamlessPayDemo-acknowledgements.markdown */,
-				917121DDFEAE5B58D29CF7BEA130FE9C /* Pods-SeamlessPayDemo-acknowledgements.plist */,
-				66355204F97CC3B18AA83018078CFF1D /* Pods-SeamlessPayDemo-dummy.m */,
-				7B34BD55BE08A41C05B47ED30571792C /* Pods-SeamlessPayDemo-frameworks.sh */,
-				4645E5600B9C7284A02BF615DEC5EF2E /* Pods-SeamlessPayDemo-Info.plist */,
-				703D55925DB8F25419B73E75EC01FEC2 /* Pods-SeamlessPayDemo-umbrella.h */,
-				0F18DFC345D10FB215C7E2EE93C4416A /* Pods-SeamlessPayDemo.debug.xcconfig */,
-				507FE30A69F1BE82BB582402F28FE0D3 /* Pods-SeamlessPayDemo.release.xcconfig */,
-			);
-			name = "Pods-SeamlessPayDemo";
-			path = "Target Support Files/Pods-SeamlessPayDemo";
-			sourceTree = "<group>";
-		};
-		44F53460764DE191A0113EC729FAD330 /* Pods-SeamlessPayCoreTests */ = {
-			isa = PBXGroup;
-			children = (
-				04D468BBE6096A365CC6ABA4741B8F69 /* Pods-SeamlessPayCoreTests.modulemap */,
-				3BBFB87C63E760278AD9507400C9BF23 /* Pods-SeamlessPayCoreTests-acknowledgements.markdown */,
-				C0CB5AD20EF16E709FCCE5532D9BB0F4 /* Pods-SeamlessPayCoreTests-acknowledgements.plist */,
-				317EF8ECE20E6E5C41E0F98C73A26085 /* Pods-SeamlessPayCoreTests-dummy.m */,
-				E1CAED7B15D04351EEB6E571FB19BE19 /* Pods-SeamlessPayCoreTests-frameworks.sh */,
-				63CF1E5FD0B5EB3E3071594DAE33C22A /* Pods-SeamlessPayCoreTests-Info.plist */,
-				24F09F45D748C9B83DBBBCC3F7B4649A /* Pods-SeamlessPayCoreTests-umbrella.h */,
-				7D67B45FBCD63B3EFDD3FD2A7F7BCC19 /* Pods-SeamlessPayCoreTests.debug.xcconfig */,
-				BBFFEB8CE35083421ACA8D725D6D32C1 /* Pods-SeamlessPayCoreTests.release.xcconfig */,
-			);
-			name = "Pods-SeamlessPayCoreTests";
-			path = "Target Support Files/Pods-SeamlessPayCoreTests";
+			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
 		7A3B5AA39DF870BECE900B5C47FD51E3 /* Pod */ = {
@@ -840,33 +829,17 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		8080806E5D2B3F825A3B65266B83DD36 /* Products */ = {
+		966DAA462249430148E3A9228545350C /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				D446DB1D10C792AEF5315ECD85CFF01F /* Pods_SeamlessPay_ObjC.framework */,
 				29132DC447D93EE85EBFEF24CB432A4B /* Pods_SeamlessPay_Swift.framework */,
 				077C305870B4ACF3EF6800A000396379 /* Pods_SeamlessPayCoreTests.framework */,
 				E948F0E99B18E95A0B03550C7A6510FC /* Pods_SeamlessPayDemo.framework */,
+				00680434E59EF5B808535685C19A58AF /* Pods_SPPaymentViewController.framework */,
 				2C4B0C8DBCF57CFA6B63C80DF680A896 /* SeamlessPayCore.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		8155DE3B91463CAFF63CE643B2BFCFE5 /* Pods-SeamlessPay_ObjC */ = {
-			isa = PBXGroup;
-			children = (
-				B9AD71E31F8CB00ADD875E0E117B43AA /* Pods-SeamlessPay_ObjC.modulemap */,
-				632999B6E629939FA1943A3C40F511C4 /* Pods-SeamlessPay_ObjC-acknowledgements.markdown */,
-				B49D8D4239D0FE82187EBA07269DCF5D /* Pods-SeamlessPay_ObjC-acknowledgements.plist */,
-				CCBB9F6042FD01179715DE94C5AF6739 /* Pods-SeamlessPay_ObjC-dummy.m */,
-				E2321204B29A2C755053ED8412AAD431 /* Pods-SeamlessPay_ObjC-frameworks.sh */,
-				5FA939766CC8D0336E8CA7A3CC826DED /* Pods-SeamlessPay_ObjC-Info.plist */,
-				C16A7E8937009745D3F91381DADD56E4 /* Pods-SeamlessPay_ObjC-umbrella.h */,
-				A64A697195A718A161BE5C4B7F47B77B /* Pods-SeamlessPay_ObjC.debug.xcconfig */,
-				AA09D71AA5F2DFE198242837C7935B1F /* Pods-SeamlessPay_ObjC.release.xcconfig */,
-			);
-			name = "Pods-SeamlessPay_ObjC";
-			path = "Target Support Files/Pods-SeamlessPay_ObjC";
 			sourceTree = "<group>";
 		};
 		9A557A2AB0A9B00A2A90E5E438DC9C42 /* SeamlessPayCore */ = {
@@ -955,6 +928,40 @@
 			path = ../..;
 			sourceTree = "<group>";
 		};
+		ADD00FA2E4CC7426C74AAC4EACA26BA5 /* Pods-SeamlessPay_ObjC */ = {
+			isa = PBXGroup;
+			children = (
+				D153BF81AB338D7A23904FA499E44E54 /* Pods-SeamlessPay_ObjC.modulemap */,
+				35F04B0018303BCA6B6FC5E382666ECB /* Pods-SeamlessPay_ObjC-acknowledgements.markdown */,
+				E2C76912CB42E621D5AE00C66D77DA91 /* Pods-SeamlessPay_ObjC-acknowledgements.plist */,
+				51570AA5F1DD6609793331AA1A6F2ACA /* Pods-SeamlessPay_ObjC-dummy.m */,
+				763E782B71F199D28BCE419CE44B440D /* Pods-SeamlessPay_ObjC-frameworks.sh */,
+				779733D9B84CF0B388E32AB314FA346D /* Pods-SeamlessPay_ObjC-Info.plist */,
+				A62033422C7E4EE2AA9B4EA6D9798EF9 /* Pods-SeamlessPay_ObjC-umbrella.h */,
+				1EDE09A527A2C4987C30B28FE9ACA052 /* Pods-SeamlessPay_ObjC.debug.xcconfig */,
+				226A94D7FE5FC24A131DFBB9EC2BB411 /* Pods-SeamlessPay_ObjC.release.xcconfig */,
+			);
+			name = "Pods-SeamlessPay_ObjC";
+			path = "Target Support Files/Pods-SeamlessPay_ObjC";
+			sourceTree = "<group>";
+		};
+		BAC712CAA226AD0B5B82DBAD956A35FD /* Pods-SPPaymentViewController */ = {
+			isa = PBXGroup;
+			children = (
+				3EF62677A0A81D2FDB44DAB54A347650 /* Pods-SPPaymentViewController.modulemap */,
+				66A88406615923CBEA5D48D945D04FAA /* Pods-SPPaymentViewController-acknowledgements.markdown */,
+				C28CB7D011E7F4F5936475DDDDDDC3CB /* Pods-SPPaymentViewController-acknowledgements.plist */,
+				CAC70E4A23A8242DB3CC94539E7E6B96 /* Pods-SPPaymentViewController-dummy.m */,
+				43E059B71E513DB71B6419F74E77C2F5 /* Pods-SPPaymentViewController-frameworks.sh */,
+				5B145871C234CBD3FEADE27D2FCEE3DD /* Pods-SPPaymentViewController-Info.plist */,
+				B37DE4EF802E0DC373282AD183B68E8A /* Pods-SPPaymentViewController-umbrella.h */,
+				341C3B6ABA0BF640B021F391B6F40934 /* Pods-SPPaymentViewController.debug.xcconfig */,
+				3891125C0E7D44F0FE82B359D1642F5C /* Pods-SPPaymentViewController.release.xcconfig */,
+			);
+			name = "Pods-SPPaymentViewController";
+			path = "Target Support Files/Pods-SPPaymentViewController";
+			sourceTree = "<group>";
+		};
 		C0834CEBB1379A84116EF29F93051C60 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -963,14 +970,31 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
+		C894B02486631197CFEE8E18C9908392 /* Pods-SeamlessPay_Swift */ = {
+			isa = PBXGroup;
+			children = (
+				7CB456FFB04CBE312078E3AADE805869 /* Pods-SeamlessPay_Swift.modulemap */,
+				6C05DD112838AFA9E2C3E7848D2C785F /* Pods-SeamlessPay_Swift-acknowledgements.markdown */,
+				C51471B951D66706F3646156AE7C78CC /* Pods-SeamlessPay_Swift-acknowledgements.plist */,
+				D5CC9EB59F34652051131A009EB73D6E /* Pods-SeamlessPay_Swift-dummy.m */,
+				5AB0EDF6998D09D345CE88FA83C2EF91 /* Pods-SeamlessPay_Swift-frameworks.sh */,
+				BCC97C0F07511DA530FE7759C4071723 /* Pods-SeamlessPay_Swift-Info.plist */,
+				55EE243799EEF276CEF4DCB2CE652219 /* Pods-SeamlessPay_Swift-umbrella.h */,
+				25E71D0BE937927C355085C6A5E83865 /* Pods-SeamlessPay_Swift.debug.xcconfig */,
+				474CAC9A1040683575C5BE3AD3094BB1 /* Pods-SeamlessPay_Swift.release.xcconfig */,
+			);
+			name = "Pods-SeamlessPay_Swift";
+			path = "Target Support Files/Pods-SeamlessPay_Swift";
+			sourceTree = "<group>";
+		};
 		CF1408CF629C7361332E53B88F7BD30C = {
 			isa = PBXGroup;
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
 				09D390E71FFC2EECE0959CC4691A3B5B /* Development Pods */,
 				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
-				8080806E5D2B3F825A3B65266B83DD36 /* Products */,
-				E237C61F5F450920902A88B6A8E98730 /* Targets Support Files */,
+				966DAA462249430148E3A9228545350C /* Products */,
+				1D20E3A1E009025D923F880065DD879A /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
@@ -982,15 +1006,38 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		E237C61F5F450920902A88B6A8E98730 /* Targets Support Files */ = {
+		E7CE09AFB9105F82BFDBAC436A966B95 /* Pods-SeamlessPayCoreTests */ = {
 			isa = PBXGroup;
 			children = (
-				8155DE3B91463CAFF63CE643B2BFCFE5 /* Pods-SeamlessPay_ObjC */,
-				287BC0722162823B246AAF0167E19FCC /* Pods-SeamlessPay_Swift */,
-				44F53460764DE191A0113EC729FAD330 /* Pods-SeamlessPayCoreTests */,
-				38A42D7CD74F59914668AC3E32950B7B /* Pods-SeamlessPayDemo */,
+				A85437238940872A53F64C833722DA5A /* Pods-SeamlessPayCoreTests.modulemap */,
+				53E2E7AD5F0F1B19C6ED02ED2E32B18B /* Pods-SeamlessPayCoreTests-acknowledgements.markdown */,
+				CD377DF02DF45EE433A1A86FAE40F5E4 /* Pods-SeamlessPayCoreTests-acknowledgements.plist */,
+				B419D7CE2F9E34C54F7C9D2CA10D4F74 /* Pods-SeamlessPayCoreTests-dummy.m */,
+				FD721857D8B0241F60EC3141826469A5 /* Pods-SeamlessPayCoreTests-frameworks.sh */,
+				30FDF063A394A8C785F9C16BFBD79930 /* Pods-SeamlessPayCoreTests-Info.plist */,
+				19DB01413BD995537C25D7C7A79D3731 /* Pods-SeamlessPayCoreTests-umbrella.h */,
+				78AE5B395C0AC2F241BEBF910BC4860F /* Pods-SeamlessPayCoreTests.debug.xcconfig */,
+				A6735980F4EDC1E5C05C415975E51067 /* Pods-SeamlessPayCoreTests.release.xcconfig */,
 			);
-			name = "Targets Support Files";
+			name = "Pods-SeamlessPayCoreTests";
+			path = "Target Support Files/Pods-SeamlessPayCoreTests";
+			sourceTree = "<group>";
+		};
+		E9B7E85E1FC22C9A9BF8355916B8424C /* Pods-SeamlessPayDemo */ = {
+			isa = PBXGroup;
+			children = (
+				1710AB275707A8DD667324711555F9DF /* Pods-SeamlessPayDemo.modulemap */,
+				89B61DA9F4F8214B0B0C74CDC5DA14BC /* Pods-SeamlessPayDemo-acknowledgements.markdown */,
+				6DC554688A72183D540FC647E5C704A4 /* Pods-SeamlessPayDemo-acknowledgements.plist */,
+				52E74507291E97D794691A8EF23D643B /* Pods-SeamlessPayDemo-dummy.m */,
+				74A6166570A951CCFBEE9B2103320721 /* Pods-SeamlessPayDemo-frameworks.sh */,
+				E99BF7D2188F4FC9140B645EA7829C85 /* Pods-SeamlessPayDemo-Info.plist */,
+				FFE2CDAB90BBB346862B148354D9C34E /* Pods-SeamlessPayDemo-umbrella.h */,
+				C0EDC19C3A6E0F3A13F8F87468F14D26 /* Pods-SeamlessPayDemo.debug.xcconfig */,
+				A3D31FF3BAF91944AF8ABB0B4537EEAE /* Pods-SeamlessPayDemo.release.xcconfig */,
+			);
+			name = "Pods-SeamlessPayDemo";
+			path = "Target Support Files/Pods-SeamlessPayDemo";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1049,6 +1096,14 @@
 				71AB67BE875315EC5F07572D6DA0A04E /* SPPostalCodeValidator.h in Headers */,
 				5AD31B2F52DB28183C3ABA83617D1CE5 /* SPTheme.h in Headers */,
 				9EE8756E8414F1618558905128E0ADC5 /* SPValidatedTextField.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0640C2D954A94E38C87A8C52E0CC1BF /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D9E9AA658D01F7AF29DBA050E64B6A71 /* Pods-SPPaymentViewController-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1154,6 +1209,25 @@
 			productReference = 077C305870B4ACF3EF6800A000396379 /* Pods_SeamlessPayCoreTests.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		946E1B3D79B03B95B58BFA8D87832179 /* Pods-SPPaymentViewController */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B3C10F249CF012146760DAAABBA586AB /* Build configuration list for PBXNativeTarget "Pods-SPPaymentViewController" */;
+			buildPhases = (
+				D0640C2D954A94E38C87A8C52E0CC1BF /* Headers */,
+				8A10C8A6E3552D828B26C5E6F39DE224 /* Sources */,
+				518C136C3275596D78728DC6969A9D31 /* Frameworks */,
+				A7DDA619B99B1BEB435B6628CD514D09 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C20A20B883EF844DFB1A353A2E2D0D02 /* PBXTargetDependency */,
+			);
+			name = "Pods-SPPaymentViewController";
+			productName = "Pods-SPPaymentViewController";
+			productReference = 00680434E59EF5B808535685C19A58AF /* Pods_SPPaymentViewController.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		CFCDD5729FA72AD3B23E61AAD4C6F4FE /* Pods-SeamlessPay_Swift */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 21716B2F3EFB6505DCBACD872762E89B /* Build configuration list for PBXNativeTarget "Pods-SeamlessPay_Swift" */;
@@ -1191,7 +1265,7 @@
 				Base,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			productRefGroup = 8080806E5D2B3F825A3B65266B83DD36 /* Products */;
+			productRefGroup = 966DAA462249430148E3A9228545350C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -1199,6 +1273,7 @@
 				CFCDD5729FA72AD3B23E61AAD4C6F4FE /* Pods-SeamlessPay_Swift */,
 				8B1D80274A4CCD3873EC5CC30DBB6B3F /* Pods-SeamlessPayCoreTests */,
 				153A584AE4DF71E7F546013759503DA2 /* Pods-SeamlessPayDemo */,
+				946E1B3D79B03B95B58BFA8D87832179 /* Pods-SPPaymentViewController */,
 				09827BD47A752C59DDC1834EF7E8381C /* SeamlessPayCore */,
 			);
 		};
@@ -1367,6 +1442,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A7DDA619B99B1BEB435B6628CD514D09 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BB298041E1BA867A86D07B3309A699A3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1450,6 +1532,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8A10C8A6E3552D828B26C5E6F39DE224 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				19810ED922F8317E7AF50D73F5699F1E /* Pods-SPPaymentViewController-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9B3B4EB317DDB444A7D99BBA3DA93AE3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1487,6 +1577,12 @@
 			target = 09827BD47A752C59DDC1834EF7E8381C /* SeamlessPayCore */;
 			targetProxy = A4777FFE38CFAFCF8C3AD51AEE275BA2 /* PBXContainerItemProxy */;
 		};
+		C20A20B883EF844DFB1A353A2E2D0D02 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SeamlessPayCore;
+			target = 09827BD47A752C59DDC1834EF7E8381C /* SeamlessPayCore */;
+			targetProxy = C80E6B318E51CFB1DCA8B48E5A2F9A6A /* PBXContainerItemProxy */;
+		};
 		ECC1166088245A56031FB577A51D7ACB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SeamlessPayCore;
@@ -1496,9 +1592,77 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		07ADE9A684E0A2C9AE6F9D29026AF773 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 43B2DF8C625E6B6D8BEE346368B5A376 /* SeamlessPayCore.debug.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/SeamlessPayCore/SeamlessPayCore-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SeamlessPayCore/SeamlessPayCore-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/SeamlessPayCore/SeamlessPayCore.modulemap";
+				PRODUCT_MODULE_NAME = SeamlessPayCore;
+				PRODUCT_NAME = SeamlessPayCore;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		148933339F43D19B7753F27CDF7CF360 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 341C3B6ABA0BF640B021F391B6F40934 /* Pods-SPPaymentViewController.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-SPPaymentViewController/Pods-SPPaymentViewController-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-SPPaymentViewController/Pods-SPPaymentViewController.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
 		1A826FB5717808AC1A949E07B57B3F4C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B12F988FF03F0FC14BB45370149B82ED /* Pods-SeamlessPay_Swift.release.xcconfig */;
+			baseConfigurationReference = 474CAC9A1040683575C5BE3AD3094BB1 /* Pods-SeamlessPay_Swift.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
@@ -1532,42 +1696,9 @@
 			};
 			name = Release;
 		};
-		1FE755FF9ADEE22BE948EE5FF04E2A16 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 43B2DF8C625E6B6D8BEE346368B5A376 /* SeamlessPayCore.debug.xcconfig */;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/SeamlessPayCore/SeamlessPayCore-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/SeamlessPayCore/SeamlessPayCore-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/SeamlessPayCore/SeamlessPayCore.modulemap";
-				PRODUCT_MODULE_NAME = SeamlessPayCore;
-				PRODUCT_NAME = SeamlessPayCore;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
 		23629F5759780B8342880BF7D8A828EA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 716FC1F1775528C42FCAB3F08DD64AA8 /* Pods-SeamlessPay_Swift.debug.xcconfig */;
+			baseConfigurationReference = 25E71D0BE937927C355085C6A5E83865 /* Pods-SeamlessPay_Swift.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
@@ -1660,9 +1791,43 @@
 			};
 			name = Release;
 		};
+		3D391589BB7E5F244613C742B764B707 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9AE8226171C0E3C93CC9ECBF8906D1AF /* SeamlessPayCore.release.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/SeamlessPayCore/SeamlessPayCore-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SeamlessPayCore/SeamlessPayCore-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/SeamlessPayCore/SeamlessPayCore.modulemap";
+				PRODUCT_MODULE_NAME = SeamlessPayCore;
+				PRODUCT_NAME = SeamlessPayCore;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		4A61DBDFA1D5DC493A20A6E5B87B085C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AA09D71AA5F2DFE198242837C7935B1F /* Pods-SeamlessPay_ObjC.release.xcconfig */;
+			baseConfigurationReference = 226A94D7FE5FC24A131DFBB9EC2BB411 /* Pods-SeamlessPay_ObjC.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
@@ -1696,10 +1861,11 @@
 			};
 			name = Release;
 		};
-		95486CAD036DF331F77FFF5029F55C62 /* Release */ = {
+		81252080B6344DC9D7C46C995D607F3F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9AE8226171C0E3C93CC9ECBF8906D1AF /* SeamlessPayCore.release.xcconfig */;
+			baseConfigurationReference = 3891125C0E7D44F0FE82B359D1642F5C /* Pods-SPPaymentViewController.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
@@ -1711,18 +1877,19 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/SeamlessPayCore/SeamlessPayCore-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/SeamlessPayCore/SeamlessPayCore-Info.plist";
+				INFOPLIST_FILE = "Target Support Files/Pods-SPPaymentViewController/Pods-SPPaymentViewController-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/SeamlessPayCore/SeamlessPayCore.modulemap";
-				PRODUCT_MODULE_NAME = SeamlessPayCore;
-				PRODUCT_NAME = SeamlessPayCore;
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-SPPaymentViewController/Pods-SPPaymentViewController.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1732,7 +1899,7 @@
 		};
 		9C329524CC9D1AA8A32B6F7C4A52529A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 507FE30A69F1BE82BB582402F28FE0D3 /* Pods-SeamlessPayDemo.release.xcconfig */;
+			baseConfigurationReference = A3D31FF3BAF91944AF8ABB0B4537EEAE /* Pods-SeamlessPayDemo.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
@@ -1768,7 +1935,7 @@
 		};
 		B12F6E13D9157DBCFEFBFF16B1E3724C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BBFFEB8CE35083421ACA8D725D6D32C1 /* Pods-SeamlessPayCoreTests.release.xcconfig */;
+			baseConfigurationReference = A6735980F4EDC1E5C05C415975E51067 /* Pods-SeamlessPayCoreTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
@@ -1804,7 +1971,7 @@
 		};
 		D8809763FCCE72FB9C8B6E169DE61977 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A64A697195A718A161BE5C4B7F47B77B /* Pods-SeamlessPay_ObjC.debug.xcconfig */;
+			baseConfigurationReference = 1EDE09A527A2C4987C30B28FE9ACA052 /* Pods-SeamlessPay_ObjC.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
@@ -1839,7 +2006,7 @@
 		};
 		D9F382A61909AEDB2A6717E6BFBBFC88 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7D67B45FBCD63B3EFDD3FD2A7F7BCC19 /* Pods-SeamlessPayCoreTests.debug.xcconfig */;
+			baseConfigurationReference = 78AE5B395C0AC2F241BEBF910BC4860F /* Pods-SeamlessPayCoreTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
@@ -1938,7 +2105,7 @@
 		};
 		FAC107ECA7EF291468AE7939FC9BC731 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0F18DFC345D10FB215C7E2EE93C4416A /* Pods-SeamlessPayDemo.debug.xcconfig */;
+			baseConfigurationReference = C0EDC19C3A6E0F3A13F8F87468F14D26 /* Pods-SeamlessPayDemo.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
@@ -1995,8 +2162,8 @@
 		45C0D16D3A93188ED73AB29D5564E361 /* Build configuration list for PBXNativeTarget "SeamlessPayCore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1FE755FF9ADEE22BE948EE5FF04E2A16 /* Debug */,
-				95486CAD036DF331F77FFF5029F55C62 /* Release */,
+				07ADE9A684E0A2C9AE6F9D29026AF773 /* Debug */,
+				3D391589BB7E5F244613C742B764B707 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2024,6 +2191,15 @@
 			buildConfigurations = (
 				D8809763FCCE72FB9C8B6E169DE61977 /* Debug */,
 				4A61DBDFA1D5DC493A20A6E5B87B085C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B3C10F249CF012146760DAAABBA586AB /* Build configuration list for PBXNativeTarget "Pods-SPPaymentViewController" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				148933339F43D19B7753F27CDF7CF360 /* Debug */,
+				81252080B6344DC9D7C46C995D607F3F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

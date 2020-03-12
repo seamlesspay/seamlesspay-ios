@@ -11,8 +11,7 @@
 
 + (instancetype)errorWithResponse:(NSData *)data {
   NSError *error = nil;
-  id errobj =
-      [NSJSONSerialization JSONObjectWithData:data
+  id errobj = [NSJSONSerialization JSONObjectWithData:data
                                       options:NSJSONReadingAllowFragments
                                         error:&error];
   if (error == nil && [errobj isKindOfClass:[NSDictionary class]]) {
