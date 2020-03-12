@@ -12,8 +12,8 @@ jobs:
           command: |
             cd Example/
             pwd
-            sed -i xcscheme 's/TEST_SECRET_KEY/${TEST_SECRET_KEY}/g' ./SeamlessPayCore.xcodeproj/xcshareddata/xcschemes/CISeamlessPayCoreTests.xcscheme
-            sed -i xcscheme 's/TEST_PUBLIC_KEY/${TEST_PUBLIC_KEY}/g' ./SeamlessPayCore.xcodeproj/xcshareddata/xcschemes/CISeamlessPayCoreTests.xcscheme
+            sed -i xcscheme "s/TEST_SECRET_KEY/${TEST_SECRET_KEY}/g" ./SeamlessPayCore.xcodeproj/xcshareddata/xcschemes/CISeamlessPayCoreTests.xcscheme
+            sed -i xcscheme "s/TEST_PUBLIC_KEY/${TEST_PUBLIC_KEY}/g" ./SeamlessPayCore.xcodeproj/xcshareddata/xcschemes/CISeamlessPayCoreTests.xcscheme
             cat ./SeamlessPayCore.xcodeproj/xcshareddata/xcschemes/CISeamlessPayCoreTests.xcscheme
       - run:
           name: Build app for testing 
