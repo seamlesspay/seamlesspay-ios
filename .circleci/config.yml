@@ -9,14 +9,18 @@ jobs:
       - checkout
       - run: 
           name: Prepare schema
-          command: | 
+          command: |
             cd Example/
             pwd
             sed -i xcscheme 's/TEST_SECRET_KEY/${TEST_SECRET_KEY}/g' ./SeamlessPayCore.xcodeproj/xcshareddata/xcschemes/CISeamlessPayCoreTests.xcscheme
-      - run: sed -i xcscheme 's/TEST_PUBLIC_KEY/${TEST_PUBLIC_KEY}/g' ./SeamlessPayCore.xcodeproj/xcshareddata/xcschemes/CISeamlessPayCoreTests.xcscheme
+            sed -i xcscheme 's/TEST_PUBLIC_KEY/${TEST_PUBLIC_KEY}/g' ./SeamlessPayCore.xcodeproj/xcshareddata/xcschemes/CISeamlessPayCoreTests.xcscheme
       - run:
           name: Build app for testing 
-          command: xcodebuild build-for-testing -workspace SeamlessPayCore.xcworkspace -scheme CISeamlessPayCoreTests -destination 'platform=iOS Simulator,name=iPhone 8,OS=13.3'
+          command: |
+            cd Example/ 
+            xcodebuild build-for-testing -workspace SeamlessPayCore.xcworkspace -scheme CISeamlessPayCoreTests -destination 'platform=iOS Simulator,name=iPhone 8,OS=13.3'
       - run: 
           name: Run tests
-          command: xcodebuild test -workspace SeamlessPayCore.xcworkspace -scheme CISeamlessPayCoreTests -destination 'platform=iOS Simulator,name=iPhone 8,OS=13.3'  
+          command: |
+            cd Example/ 
+            xcodebuild test -workspace SeamlessPayCore.xcworkspace -scheme CISeamlessPayCoreTests -destination 'platform=iOS Simulator,name=iPhone 8,OS=13.3'  
