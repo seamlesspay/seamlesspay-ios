@@ -9,6 +9,15 @@
 /* Begin PBXBuildFile section */
 		02CB96B5EB0F6B0B5AF0ED4A /* Pods_SeamlessPay_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79CC6C296D3B41B7E8E61EB5 /* Pods_SeamlessPay_Swift.framework */; };
 		1A5612ED54796973FE426168 /* Pods_SeamlessPay_ObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD7E6869259C2983C4ADD57D /* Pods_SeamlessPay_ObjC.framework */; };
+		1C10BC442416A42300548808 /* SPAPIClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C10BC432416A42300548808 /* SPAPIClientTests.m */; };
+		1C10BC462416A78700548808 /* SPCardValidatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C10BC452416A78700548808 /* SPCardValidatorTest.m */; };
+		1C10BC482416AB7200548808 /* SPAddressTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C10BC472416AB7200548808 /* SPAddressTests.m */; };
+		1C10BC4A2416AF0400548808 /* SPCardTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C10BC492416AF0400548808 /* SPCardTest.m */; };
+		1C10BC4C2416B16F00548808 /* SPPaymentCardTextFieldTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C10BC4B2416B16F00548808 /* SPPaymentCardTextFieldTest.m */; };
+		1C10BC4E2416BA3500548808 /* SPPostalCodeValidatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C10BC4D2416BA3500548808 /* SPPostalCodeValidatorTest.m */; };
+		1C10BC502416BAE300548808 /* SPColorUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C10BC4F2416BAE300548808 /* SPColorUtilsTest.m */; };
+		1C10BC522416BB6000548808 /* SPEmailAddressValidatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C10BC512416BB6000548808 /* SPEmailAddressValidatorTest.m */; };
+		1C10BC542416BC3100548808 /* SPImageLibraryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C10BC532416BC3100548808 /* SPImageLibraryTest.m */; };
 		1C94043323D3451700BC4697 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C94043223D3451700BC4697 /* AppDelegate.m */; };
 		1C94043623D3451700BC4697 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C94043523D3451700BC4697 /* SceneDelegate.m */; };
 		1C94043923D3451700BC4697 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C94043823D3451700BC4697 /* MasterViewController.m */; };
@@ -31,12 +40,24 @@
 		1C94047823D34E4000BC4697 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C94047723D34E4000BC4697 /* Assets.xcassets */; };
 		1C94047B23D34E4000BC4697 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C94047923D34E4000BC4697 /* LaunchScreen.storyboard */; };
 		29408695B99007EA7344049D /* Pods_SeamlessPayDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6484F826A672FAAF56ACB478 /* Pods_SeamlessPayDemo.framework */; };
+		85F598CC0457380380EC2C98 /* Pods_SeamlessPayCoreTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE66C7171856FA0CFD88ADD4 /* Pods_SeamlessPayCoreTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		01B8C9E4F5FF6D9C7CB35985 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		077E59229D7CDF0E8584711A /* Pods-SeamlessPay_Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeamlessPay_Swift.release.xcconfig"; path = "Target Support Files/Pods-SeamlessPay_Swift/Pods-SeamlessPay_Swift.release.xcconfig"; sourceTree = "<group>"; };
 		0F5D842B8E7A855D1723B6E2 /* Pods_SeamlessPayCore_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SeamlessPayCore_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C10BC3B2416A3C000548808 /* SeamlessPayCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SeamlessPayCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C10BC3F2416A3C000548808 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1C10BC432416A42300548808 /* SPAPIClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SPAPIClientTests.m; sourceTree = "<group>"; };
+		1C10BC452416A78700548808 /* SPCardValidatorTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SPCardValidatorTest.m; sourceTree = "<group>"; };
+		1C10BC472416AB7200548808 /* SPAddressTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SPAddressTests.m; sourceTree = "<group>"; };
+		1C10BC492416AF0400548808 /* SPCardTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SPCardTest.m; sourceTree = "<group>"; };
+		1C10BC4B2416B16F00548808 /* SPPaymentCardTextFieldTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SPPaymentCardTextFieldTest.m; sourceTree = "<group>"; };
+		1C10BC4D2416BA3500548808 /* SPPostalCodeValidatorTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SPPostalCodeValidatorTest.m; sourceTree = "<group>"; };
+		1C10BC4F2416BAE300548808 /* SPColorUtilsTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SPColorUtilsTest.m; sourceTree = "<group>"; };
+		1C10BC512416BB6000548808 /* SPEmailAddressValidatorTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SPEmailAddressValidatorTest.m; sourceTree = "<group>"; };
+		1C10BC532416BC3100548808 /* SPImageLibraryTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SPImageLibraryTest.m; sourceTree = "<group>"; };
 		1C94042F23D3451700BC4697 /* SeamlessPayDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeamlessPayDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C94043123D3451700BC4697 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1C94043223D3451700BC4697 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -85,14 +106,25 @@
 		6484F826A672FAAF56ACB478 /* Pods_SeamlessPayDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SeamlessPayDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DB40602EE58DDA3741CFF59 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		73B86563D7DC6B51F48D8A72 /* Pods-SeamlessPay_ObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeamlessPay_ObjC.debug.xcconfig"; path = "Target Support Files/Pods-SeamlessPay_ObjC/Pods-SeamlessPay_ObjC.debug.xcconfig"; sourceTree = "<group>"; };
+		77F1427C9BC80166250C494A /* Pods-SeamlessPayCoreTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeamlessPayCoreTests.debug.xcconfig"; path = "Target Support Files/Pods-SeamlessPayCoreTests/Pods-SeamlessPayCoreTests.debug.xcconfig"; sourceTree = "<group>"; };
 		79CC6C296D3B41B7E8E61EB5 /* Pods_SeamlessPay_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SeamlessPay_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		85B0D8CE9AFD38620C67EF60 /* Pods-SeamlessPayCore_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeamlessPayCore_Tests.release.xcconfig"; path = "Target Support Files/Pods-SeamlessPayCore_Tests/Pods-SeamlessPayCore_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		AE433B75EDB96E9D4D16A310 /* Pods-SeamlessPayCoreTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeamlessPayCoreTests.release.xcconfig"; path = "Target Support Files/Pods-SeamlessPayCoreTests/Pods-SeamlessPayCoreTests.release.xcconfig"; sourceTree = "<group>"; };
+		BE66C7171856FA0CFD88ADD4 /* Pods_SeamlessPayCoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SeamlessPayCoreTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB62E38E00A6C28A19508203 /* Pods-SeamlessPayCore_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeamlessPayCore_Tests.debug.xcconfig"; path = "Target Support Files/Pods-SeamlessPayCore_Tests/Pods-SeamlessPayCore_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		D1D820BF6988185B1C9092F6 /* Pods-SeamlessPay_ObjC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeamlessPay_ObjC.release.xcconfig"; path = "Target Support Files/Pods-SeamlessPay_ObjC/Pods-SeamlessPay_ObjC.release.xcconfig"; sourceTree = "<group>"; };
 		FD7E6869259C2983C4ADD57D /* Pods_SeamlessPay_ObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SeamlessPay_ObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1C10BC382416A3C000548808 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				85F598CC0457380380EC2C98 /* Pods_SeamlessPayCoreTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1C94042C23D3451700BC4697 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -120,6 +152,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1C10BC3C2416A3C000548808 /* SeamlessPayCoreTests */ = {
+			isa = PBXGroup;
+			children = (
+				1C10BC3F2416A3C000548808 /* Info.plist */,
+				1C10BC432416A42300548808 /* SPAPIClientTests.m */,
+				1C10BC452416A78700548808 /* SPCardValidatorTest.m */,
+				1C10BC472416AB7200548808 /* SPAddressTests.m */,
+				1C10BC492416AF0400548808 /* SPCardTest.m */,
+				1C10BC4B2416B16F00548808 /* SPPaymentCardTextFieldTest.m */,
+				1C10BC4D2416BA3500548808 /* SPPostalCodeValidatorTest.m */,
+				1C10BC4F2416BAE300548808 /* SPColorUtilsTest.m */,
+				1C10BC512416BB6000548808 /* SPEmailAddressValidatorTest.m */,
+				1C10BC532416BC3100548808 /* SPImageLibraryTest.m */,
+			);
+			path = SeamlessPayCoreTests;
+			sourceTree = "<group>";
+		};
 		1C94043023D3451700BC4697 /* SeamlessPayDemo */ = {
 			isa = PBXGroup;
 			children = (
@@ -179,6 +228,7 @@
 				1C94043023D3451700BC4697 /* SeamlessPayDemo */,
 				1C94045023D349AF00BC4697 /* SeamlessPay_ObjC */,
 				1C94046D23D34E3600BC4697 /* SeamlessPay_Swift */,
+				1C10BC3C2416A3C000548808 /* SeamlessPayCoreTests */,
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
 				A1D1C4B7B0CAE6AF55725748 /* Pods */,
@@ -191,6 +241,7 @@
 				1C94042F23D3451700BC4697 /* SeamlessPayDemo.app */,
 				1C94044F23D349AF00BC4697 /* SeamlessPay_ObjC.app */,
 				1C94046C23D34E3600BC4697 /* SeamlessPay_Swift.app */,
+				1C10BC3B2416A3C000548808 /* SeamlessPayCoreTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -207,6 +258,7 @@
 				6484F826A672FAAF56ACB478 /* Pods_SeamlessPayDemo.framework */,
 				FD7E6869259C2983C4ADD57D /* Pods_SeamlessPay_ObjC.framework */,
 				79CC6C296D3B41B7E8E61EB5 /* Pods_SeamlessPay_Swift.framework */,
+				BE66C7171856FA0CFD88ADD4 /* Pods_SeamlessPayCoreTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -234,6 +286,8 @@
 				D1D820BF6988185B1C9092F6 /* Pods-SeamlessPay_ObjC.release.xcconfig */,
 				3919A7B8697BFD672311C1AD /* Pods-SeamlessPay_Swift.debug.xcconfig */,
 				077E59229D7CDF0E8584711A /* Pods-SeamlessPay_Swift.release.xcconfig */,
+				77F1427C9BC80166250C494A /* Pods-SeamlessPayCoreTests.debug.xcconfig */,
+				AE433B75EDB96E9D4D16A310 /* Pods-SeamlessPayCoreTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -241,6 +295,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		1C10BC3A2416A3C000548808 /* SeamlessPayCoreTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1C10BC422416A3C000548808 /* Build configuration list for PBXNativeTarget "SeamlessPayCoreTests" */;
+			buildPhases = (
+				D128FC06C6F1FA944268D421 /* [CP] Check Pods Manifest.lock */,
+				1C10BC372416A3C000548808 /* Sources */,
+				1C10BC382416A3C000548808 /* Frameworks */,
+				1C10BC392416A3C000548808 /* Resources */,
+				2C34A9C66B247AD69B776A33 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SeamlessPayCoreTests;
+			productName = SeamlessPayCoreTests;
+			productReference = 1C10BC3B2416A3C000548808 /* SeamlessPayCoreTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		1C94042E23D3451700BC4697 /* SeamlessPayDemo */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1C94044823D3451C00BC4697 /* Build configuration list for PBXNativeTarget "SeamlessPayDemo" */;
@@ -309,6 +382,11 @@
 				LastUpgradeCheck = 1120;
 				ORGANIZATIONNAME = "info@seamlesspay.com";
 				TargetAttributes = {
+					1C10BC3A2416A3C000548808 = {
+						CreatedOnToolsVersion = 11.3.1;
+						DevelopmentTeam = VVHY4NW744;
+						ProvisioningStyle = Automatic;
+					};
 					1C94042E23D3451700BC4697 = {
 						CreatedOnToolsVersion = 11.2.1;
 						DevelopmentTeam = VVHY4NW744;
@@ -342,11 +420,19 @@
 				1C94042E23D3451700BC4697 /* SeamlessPayDemo */,
 				1C94044E23D349AF00BC4697 /* SeamlessPay_ObjC */,
 				1C94046B23D34E3600BC4697 /* SeamlessPay_Swift */,
+				1C10BC3A2416A3C000548808 /* SeamlessPayCoreTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1C10BC392416A3C000548808 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1C94042D23D3451700BC4697 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -396,6 +482,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SeamlessPayDemo/Pods-SeamlessPayDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2C34A9C66B247AD69B776A33 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SeamlessPayCoreTests/Pods-SeamlessPayCoreTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SeamlessPayCore/SeamlessPayCore.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SeamlessPayCore.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SeamlessPayCoreTests/Pods-SeamlessPayCoreTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		3631B39EC7E52060D4525762 /* [CP] Embed Pods Frameworks */ = {
@@ -478,6 +582,28 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SeamlessPay_Swift/Pods-SeamlessPay_Swift-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		D128FC06C6F1FA944268D421 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SeamlessPayCoreTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		EC0195DE60040D0E0E7C99FC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -503,6 +629,22 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1C10BC372416A3C000548808 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1C10BC502416BAE300548808 /* SPColorUtilsTest.m in Sources */,
+				1C10BC4A2416AF0400548808 /* SPCardTest.m in Sources */,
+				1C10BC482416AB7200548808 /* SPAddressTests.m in Sources */,
+				1C10BC4C2416B16F00548808 /* SPPaymentCardTextFieldTest.m in Sources */,
+				1C10BC462416A78700548808 /* SPCardValidatorTest.m in Sources */,
+				1C10BC442416A42300548808 /* SPAPIClientTests.m in Sources */,
+				1C10BC4E2416BA3500548808 /* SPPostalCodeValidatorTest.m in Sources */,
+				1C10BC542416BC3100548808 /* SPImageLibraryTest.m in Sources */,
+				1C10BC522416BB6000548808 /* SPEmailAddressValidatorTest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1C94042B23D3451700BC4697 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -590,6 +732,57 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		1C10BC402416A3C000548808 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 77F1427C9BC80166250C494A /* Pods-SeamlessPayCoreTests.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = VVHY4NW744;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = SeamlessPayCoreTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.seamlesspay.core.SeamlessPayCoreTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1C10BC412416A3C000548808 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AE433B75EDB96E9D4D16A310 /* Pods-SeamlessPayCoreTests.release.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = VVHY4NW744;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = SeamlessPayCoreTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.seamlesspay.core.SeamlessPayCoreTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		1C94044923D3451C00BC4697 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 62CFCC7418BF0D9423E1E8E5 /* Pods-SeamlessPayDemo.debug.xcconfig */;
@@ -937,6 +1130,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1C10BC422416A3C000548808 /* Build configuration list for PBXNativeTarget "SeamlessPayCoreTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1C10BC402416A3C000548808 /* Debug */,
+				1C10BC412416A3C000548808 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		1C94044823D3451C00BC4697 /* Build configuration list for PBXNativeTarget "SeamlessPayDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

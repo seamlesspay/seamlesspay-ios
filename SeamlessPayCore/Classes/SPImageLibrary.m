@@ -6,7 +6,6 @@
  */
 
 #import "SPImageLibrary.h"
-
 #import "SPImageLibrary+Extras.h"
 
 // Dummy class for locating the framework bundle

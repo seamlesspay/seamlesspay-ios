@@ -9,10 +9,11 @@
 
 #import "ViewController.h"
 
-@interface ViewController ()
+@interface ViewController () <UITextFieldDelegate>
 
 @property(nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 @property(nonatomic, weak) SPPaymentCardTextField *cardTextField;
+@property(nonatomic, weak) UITextField *amountTextField;
 @property(nonatomic, weak) UIButton *payButton;
 
 @end
@@ -20,51 +21,60 @@
 @implementation ViewController
 
 - (void)viewDidLoad {
-  [super viewDidLoad];
-  // Do any additional setup after loading the view.
-
-  SPPaymentCardTextField *cardTextField = [[SPPaymentCardTextField alloc] init];
-  cardTextField.postalCodeEntryEnabled = TRUE;
-  cardTextField.countryCode = @"US";
-  self.cardTextField = cardTextField;
-
-
-  UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-  button.layer.cornerRadius = 5;
-  button.backgroundColor = [UIColor systemBlueColor];
-  button.titleLabel.font = [UIFont systemFontOfSize:22];
-  [button setTitle:@"Pay" forState:UIControlStateNormal];
-  [button addTarget:self
-                action:@selector(pay)
-      forControlEvents:UIControlEventTouchUpInside];
-  self.payButton = button;
-
-  UILabel *infoLbel = [[UILabel alloc] init];
-  infoLbel.text = @"Amount: $1.0";
-
-  UIStackView *stackView = [[UIStackView alloc]
-      initWithArrangedSubviews:@[ infoLbel, cardTextField, button ]];
-  stackView.axis = UILayoutConstraintAxisVertical;
-  stackView.translatesAutoresizingMaskIntoConstraints = FALSE;
-  stackView.spacing = 20;
-  [self.view addSubview:stackView];
-
-  [NSLayoutConstraint activateConstraints:@[
-    [stackView.leftAnchor
-        constraintEqualToSystemSpacingAfterAnchor:self.view.leftAnchor
-                                       multiplier:2],
-    [self.view.rightAnchor
-        constraintEqualToSystemSpacingAfterAnchor:stackView.rightAnchor
-                                       multiplier:2],
-    [stackView.topAnchor
-        constraintEqualToSystemSpacingBelowAnchor:self.view.topAnchor
-                                       multiplier:20],
-  ]];
-
-  self.activityIndicator = [[UIActivityIndicatorView alloc]
-      initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleLarge];
-  self.activityIndicator.center = self.view.center;
-  [self.view addSubview:self.activityIndicator];
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
+    SPPaymentCardTextField *cardTextField = [[SPPaymentCardTextField alloc] init];
+    cardTextField.postalCodeEntryEnabled = TRUE;
+    cardTextField.countryCode = @"US";
+    self.cardTextField = cardTextField;
+    
+    UITextField *amountTextField = [[UITextField alloc] initWithFrame:CGRectMake(70, 0, 150, 22)];
+    amountTextField.text = @"$0.00";
+    amountTextField.keyboardType = UIKeyboardTypeNumberPad;
+    amountTextField.delegate = self;
+    self.amountTextField = amountTextField;
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.layer.cornerRadius = 5;
+    button.backgroundColor = [UIColor systemBlueColor];
+    button.titleLabel.font = [UIFont systemFontOfSize:22];
+    [button setTitle:@"Pay" forState:UIControlStateNormal];
+    [button addTarget:self
+               action:@selector(pay)
+     forControlEvents:UIControlEventTouchUpInside];
+    self.payButton = button;
+    
+    UILabel *infoLbel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 250, 30)];
+    infoLbel.userInteractionEnabled = TRUE;
+    infoLbel.textColor = [UIColor darkGrayColor];
+    infoLbel.text = @"Amount:";
+    
+    [infoLbel addSubview:amountTextField];
+    
+    UIStackView *stackView = [[UIStackView alloc]
+                              initWithArrangedSubviews:@[ infoLbel, cardTextField, button ]];
+    stackView.axis = UILayoutConstraintAxisVertical;
+    stackView.translatesAutoresizingMaskIntoConstraints = FALSE;
+    stackView.spacing = 20;
+    [self.view addSubview:stackView];
+    
+    [NSLayoutConstraint activateConstraints:@[
+        [stackView.leftAnchor
+         constraintEqualToSystemSpacingAfterAnchor:self.view.leftAnchor
+         multiplier:2],
+        [self.view.rightAnchor
+         constraintEqualToSystemSpacingAfterAnchor:stackView.rightAnchor
+         multiplier:2],
+        [stackView.topAnchor
+         constraintEqualToSystemSpacingBelowAnchor:self.view.topAnchor
+         multiplier:20],
+    ]];
+    
+    self.activityIndicator = [[UIActivityIndicatorView alloc]
+                              initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleLarge];
+    self.activityIndicator.center = self.view.center;
+    [self.view addSubview:self.activityIndicator];
 }
 
 - (void)displayAlertWithTitle:(NSString *)title
@@ -122,7 +132,7 @@
             cvv:self.cardTextField.cvc
             capture: TRUE
             currency:nil
-            amount:@"1"
+            amount:[[self.amountTextField.text substringFromIndex:1] stringByReplacingOccurrencesOfString:@"," withString:@""]
             taxAmount:nil
             taxExempt: FALSE
             tip:nil
@@ -167,6 +177,41 @@
                             message:err
                         restartDemo:FALSE];
       }];
+}
+
+
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    
+    NSString *cleanCentString = [[textField.text componentsSeparatedByCharactersInSet: [[NSCharacterSet decimalDigitCharacterSet] invertedSet]] componentsJoinedByString:@""];
+    NSInteger centValue = [cleanCentString intValue];
+    NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+    NSNumber *myNumber = [f numberFromString:cleanCentString];
+    NSNumber *result;
+    
+    if ([textField.text length] < 16) {
+        if (string.length > 0) {
+            centValue = centValue * 10 + [string intValue];
+            double intermediate = [myNumber doubleValue] * 10 +  [[f numberFromString:string] doubleValue];
+            result = [[NSNumber alloc] initWithDouble:intermediate];
+        } else {
+            centValue = centValue / 10;
+            double intermediate = [myNumber doubleValue]/10;
+            result = [[NSNumber alloc] initWithDouble:intermediate];
+        }
+        
+        myNumber = result;
+        NSNumber *formatedValue;
+        formatedValue = [[NSNumber alloc] initWithDouble:[myNumber doubleValue] / 100.0f];
+        NSNumberFormatter *_currencyFormatter = [[NSNumberFormatter alloc] init];
+        _currencyFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US"];
+        [_currencyFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+        textField.text = [_currencyFormatter stringFromNumber:formatedValue];
+
+        return FALSE;
+    } else {
+        return FALSE;
+    }
+    return TRUE;
 }
 
 @end

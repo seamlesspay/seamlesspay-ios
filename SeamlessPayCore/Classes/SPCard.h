@@ -74,7 +74,8 @@ typedef NS_ENUM(NSInteger, SPCardFundingType) {
 
 + (NSString *)stringFromBrand:(SPCardBrand)brand;
 + (SPCardBrand)brandFromString:(NSString *)string;
-+ (SPCardFundingType)fundingFromString:(NSString *)string DEPRECATED_ATTRIBUTE;
++ (SPCardFundingType)fundingFromString:(NSString *)string;
++ (nullable NSString *)stringFromFunding:(SPCardFundingType)funding;
 
 @end
 

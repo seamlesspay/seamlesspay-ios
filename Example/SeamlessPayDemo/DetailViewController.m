@@ -9,9 +9,10 @@
 
 #import "DetailViewController.h"
 
-@interface DetailViewController ()
+@interface DetailViewController () <UITextFieldDelegate>
 
 @property(nonatomic, weak) SPPaymentCardTextField *cardTextField;
+@property(nonatomic, weak) UITextField *amountTextField;
 @property(nonatomic, weak) UIButton *payButton;
 @property(nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 
@@ -620,6 +621,12 @@
     cardTextField.postalCodeEntryEnabled = YES;
     cardTextField.countryCode = @"US";
     self.cardTextField = cardTextField;
+      
+      UITextField *amountTextField = [[UITextField alloc] initWithFrame:CGRectMake(70, 0, 150, 22)];
+      amountTextField.text = @"$0.00";
+      amountTextField.keyboardType = UIKeyboardTypeNumberPad;
+      amountTextField.delegate = self;
+      self.amountTextField = amountTextField;
 
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.layer.cornerRadius = 5;
@@ -631,8 +638,12 @@
         forControlEvents:UIControlEventTouchUpInside];
     self.payButton = button;
 
-    UILabel *infoLbel = [[UILabel alloc] init];
-    infoLbel.text = @"Amount: $1.0";
+    UILabel *infoLbel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 250, 30)];
+    infoLbel.userInteractionEnabled = TRUE;
+    infoLbel.textColor = [UIColor darkGrayColor];
+    infoLbel.text = @"Amount:";
+    
+    [infoLbel addSubview:amountTextField];
 
     UIStackView *stackView = [[UIStackView alloc]
         initWithArrangedSubviews:@[ infoLbel, cardTextField, button ]];
@@ -698,6 +709,7 @@
                                      self.cardTextField.postalCodeEntryEnabled =
                                          YES;
                                      self.cardTextField.countryCode = @"US";
+                                     self.amountTextField.text = @"0.00";
                                    }]];
     } else {
       [alert addAction:[UIAlertAction actionWithTitle:@"OK"
@@ -755,7 +767,7 @@
               cvv:cvc
               capture:YES
               currency:nil
-              amount:@"1"
+              amount:[[self.amountTextField.text substringFromIndex:1] stringByReplacingOccurrencesOfString:@"," withString:@""]
               taxAmount:nil
               taxExempt:NO
               tip:nil
@@ -812,6 +824,40 @@
       }];
 }
 
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    
+    NSString *cleanCentString = [[textField.text componentsSeparatedByCharactersInSet: [[NSCharacterSet decimalDigitCharacterSet] invertedSet]] componentsJoinedByString:@""];
+    NSInteger centValue = [cleanCentString intValue];
+    NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+    NSNumber *myNumber = [f numberFromString:cleanCentString];
+    NSNumber *result;
+    
+    if ([textField.text length] < 16) {
+        if (string.length > 0) {
+            centValue = centValue * 10 + [string intValue];
+            double intermediate = [myNumber doubleValue] * 10 +  [[f numberFromString:string] doubleValue];
+            result = [[NSNumber alloc] initWithDouble:intermediate];
+        } else {
+            centValue = centValue / 10;
+            double intermediate = [myNumber doubleValue]/10;
+            result = [[NSNumber alloc] initWithDouble:intermediate];
+        }
+        
+        myNumber = result;
+        NSNumber *formatedValue;
+        formatedValue = [[NSNumber alloc] initWithDouble:[myNumber doubleValue] / 100.0f];
+        NSNumberFormatter *_currencyFormatter = [[NSNumberFormatter alloc] init];
+        _currencyFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US"];
+        [_currencyFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+        textField.text = [_currencyFormatter stringFromNumber:formatedValue];
+
+        return FALSE;
+    } else {
+        return FALSE;
+    }
+    return TRUE;
+}
+
 - (void)webView:(WKWebView *)webView
     decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
                     decisionHandler:
@@ -850,7 +896,7 @@
     [[NSUserDefaults standardUserDefaults] setObject:env forKey:@"env"];
 
     [[SPAPIClient getSharedInstance]
-          setSecretKey:secretkey
+     setSecretKey:secretkey.length == 0 ? nil : secretkey
         publishableKey:publishableKey
                sandbox:[env isEqualToString:@"sandbox"]];
 
@@ -877,8 +923,11 @@
               stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
                                         withString:[error
                                                        localizedDescription]];
-          html = [NSString
-              stringWithFormat:html, publishableKey ?: @"", secretkey ?: @""];
+          html = [NSString stringWithFormat:html, publishableKey ?: @"",
+          secretkey ?: @"",
+          [env isEqualToString:@"sandbox"]
+              ? @""
+              : @" selected"];
           [self.webView loadHTMLString:html baseURL:nil];
         }];
 
