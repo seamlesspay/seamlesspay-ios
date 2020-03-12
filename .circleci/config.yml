@@ -9,7 +9,7 @@ jobs:
       - checkout
       - run:
           name: cd Example
-          command: cd Example/
+          command: cd ./Example/
       - run: pwd  
       - run: ls  
       - run: 
