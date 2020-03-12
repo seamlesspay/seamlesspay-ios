@@ -3,7 +3,6 @@ jobs:
   build-and-test:
     macos:
       xcode: 11.3.0
-      working_directory: ~/seamlesspay-ios
     steps:
       - checkout
       - run:
