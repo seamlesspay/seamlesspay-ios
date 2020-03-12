@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  build_and_test:
+  build:
     macos:
       xcode: 11.3.0
     working_directory: ~/seamlesspay-ios
