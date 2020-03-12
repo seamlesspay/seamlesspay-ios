@@ -9,7 +9,7 @@ jobs:
       - checkout
       - run:
           name: cd Example
-          comand: cd Example/
+          command: cd Example/
       - run: 
           name: Prepare schema
           command: sed -i xcscheme 's/TEST_SECRET_KEY/${TEST_SECRET_KEY}/g' ./SeamlessPayCore.xcodeproj/xcshareddata/xcschemes/CISeamlessPayCoreTests.xcscheme
