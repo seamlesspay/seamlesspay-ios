@@ -15,13 +15,20 @@
                                       options:NSJSONReadingAllowFragments
                                         error:&error];
   if (error == nil && [errobj isKindOfClass:[NSDictionary class]]) {
+      
+      
 
-    return [SPError errorWithDomain:@"api.seamlesspay.com"
+    SPError *sperror =  [SPError errorWithDomain:@"api.seamlesspay.com"
                                code:[errobj[@"code"] integerValue]
                            userInfo:@{
                              NSLocalizedDescriptionKey :
                                  [SPError descriptionWithResponse:errobj]
                            }];
+      sperror.errorMessage = errobj[@"message"];
+      sperror.statusCode = errobj[@"data"] && errobj[@"data"][@"statusCode"] ? errobj[@"data"][@"statusCode"] : nil;
+      sperror.statusDescription = errobj[@"data"] && errobj[@"data"][@"statusDescription"] ? errobj[@"data"][@"statusDescription"] : nil;
+      sperror.errors = errobj[@"errors"];
+      return sperror;
   }
 
   return nil;

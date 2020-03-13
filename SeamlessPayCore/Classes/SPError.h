@@ -59,6 +59,12 @@
 // 108	Transaction not found
 // 109	Additional payment required to complete transaction
 
+@property(nonatomic, strong) NSString *errorMessage;
+@property(nonatomic, strong) NSString *statusCode;
+@property(nonatomic, strong) NSString *statusDescription;
+@property(nonatomic, strong) NSString *errors;
+
 + (instancetype)errorWithResponse:(NSData *)data;
+
 
 @end

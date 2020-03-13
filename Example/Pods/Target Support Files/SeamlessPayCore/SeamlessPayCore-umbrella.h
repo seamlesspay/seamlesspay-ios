@@ -10,6 +10,7 @@
 #endif
 #endif
 
+#import "SPLoadingView.h"
 #import "NSArray+Extras.h"
 #import "NSCharacterSet+Extras.h"
 #import "NSDictionary+Extras.h"

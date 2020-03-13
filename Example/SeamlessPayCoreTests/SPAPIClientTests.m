@@ -92,7 +92,7 @@
         [documentExpectation fulfill];
     }];
     
-    [self waitForExpectationsWithTimeout:10.0 handler:nil];
+    [self waitForExpectationsWithTimeout:15.0 handler:nil];
 }
 
 - (void)testCreatePaymentMethodWithType {
