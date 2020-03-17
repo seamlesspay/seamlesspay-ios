@@ -40,6 +40,7 @@
     
     SPPaymentViewController *pk = [[SPPaymentViewController alloc] initWithNibName:nil bundle:nil];
     pk.paymentDescription = @"Order payment description";
+    pk.logoImage = [UIImage imageNamed:@"Icon-72.png"];
     pk.paymentAmount = @"10.2";
     pk.delegate = self;
     self.paymentViewController = pk;

@@ -25,6 +25,7 @@
 		1C10BC6C241A786200548808 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C10BC6B241A786200548808 /* Assets.xcassets */; };
 		1C10BC6F241A786200548808 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C10BC6D241A786200548808 /* LaunchScreen.storyboard */; };
 		1C10BC72241A786200548808 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C10BC71241A786200548808 /* main.m */; };
+		1C592F7D2421418300706A8F /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C592F7C2421418300706A8F /* Icon-72.png */; };
 		1C94043323D3451700BC4697 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C94043223D3451700BC4697 /* AppDelegate.m */; };
 		1C94043623D3451700BC4697 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C94043523D3451700BC4697 /* SceneDelegate.m */; };
 		1C94043923D3451700BC4697 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C94043823D3451700BC4697 /* MasterViewController.m */; };
@@ -79,6 +80,7 @@
 		1C10BC6E241A786200548808 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1C10BC70241A786200548808 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C10BC71241A786200548808 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1C592F7C2421418300706A8F /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		1C94042F23D3451700BC4697 /* SeamlessPayDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeamlessPayDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C94043123D3451700BC4697 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1C94043223D3451700BC4697 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 		1C10BC5E241A784800548808 /* SPPaymentViewController */ = {
 			isa = PBXGroup;
 			children = (
+				1C592F7C2421418300706A8F /* Icon-72.png */,
 				1C10BC5F241A784800548808 /* AppDelegate.h */,
 				1C10BC60241A784800548808 /* AppDelegate.m */,
 				1C10BC62241A784800548808 /* SceneDelegate.h */,
@@ -517,6 +520,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C10BC6F241A786200548808 /* LaunchScreen.storyboard in Resources */,
+				1C592F7D2421418300706A8F /* Icon-72.png in Resources */,
 				1C10BC6C241A786200548808 /* Assets.xcassets in Resources */,
 				1C10BC6A241A784800548808 /* Main.storyboard in Resources */,
 			);

@@ -56,9 +56,12 @@
     descriptionLabel.numberOfLines = 2;
     [descriptionLabel sizeToFit];
     self.descriptionLabel = descriptionLabel;
+    
+    UIImageView *logoImageView = [[UIImageView alloc] initWithImage:self.logoImage];
+    logoImageView.contentMode = UIViewContentModeCenter;
 
     UIStackView *stackView = [[UIStackView alloc]
-                              initWithArrangedSubviews:@[ amountLabel, descriptionLabel, cardTextField, button ]];
+                              initWithArrangedSubviews:@[logoImageView, amountLabel, descriptionLabel, cardTextField, button ]];
     stackView.axis = UILayoutConstraintAxisVertical;
     stackView.translatesAutoresizingMaskIntoConstraints = FALSE;
     stackView.spacing = 20;
@@ -73,7 +76,7 @@
          multiplier:2],
         [stackView.topAnchor
          constraintEqualToSystemSpacingBelowAnchor:self.view.topAnchor
-         multiplier:20],
+         multiplier:2],
     ]];
     
     self.activityIndicator = [[SPLoadingView alloc] initWithFrame:CGRectMake(0, 0, 35, 35)];;

@@ -30,6 +30,7 @@
 
 @property(nonatomic, strong) SPLoadingView *activityIndicator;
 @property(nonatomic, weak) SPPaymentCardTextField *cardTextField;
+@property(nonatomic, strong) UIImage *logoImage;
 @property(nonatomic, weak) UITextField *amountTextField;
 @property(nonatomic, weak) UIButton *payButton;
 @property(nonatomic, weak) UILabel *amountLabel;

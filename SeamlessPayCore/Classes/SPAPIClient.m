@@ -21,6 +21,7 @@ static SPAPIClient *sharedInstance = nil;
   NSString *_APIHostURL;
   NSString *_PanVaulHostURL;
 }
+@property (nonatomic) NSDate *appOpenTime;
 @end
 
 @implementation SPAPIClient
@@ -45,6 +46,8 @@ static SPAPIClient *sharedInstance = nil;
 
   _secretKey = [secretKey ?: publishableKey copy];
   _publishableKey = [publishableKey copy];
+    
+  self.appOpenTime = [NSDate date];
 }
 
 - (void)createCustomerWithName:(NSString *)name
@@ -620,17 +623,28 @@ static SPAPIClient *sharedInstance = nil;
     NSString *code = NSLocale.currentLocale.languageCode;
     NSString *language = [NSLocale.currentLocale localizedStringForLanguageCode:code];
     
+    NSTimeInterval seconds = [[NSDate date] timeIntervalSinceDate:self.appOpenTime];
+    NSInteger millis = (NSInteger)round(seconds*1000);
+    NSNumber *timeOnPage = @(MAX(millis, 0));
+    
+    NSTimeZone *timeZone = [NSTimeZone localTimeZone];
+    double hoursFromGMT = (double)timeZone.secondsFromGMT/(60*60);
+    NSString *timeZoneOffset =  [NSString stringWithFormat:@"%.0f", hoursFromGMT];
+    
     NSDictionary *dict = @{
-        @"fingerprint" : UIDevice.currentDevice.identifierForVendor.description,
+        @"fingerprint" : [UIDevice.currentDevice.identifierForVendor  UUIDString],
         @"components" : @[
                 @{@"key" : @"user_agent", @"value": [@"ios sdk v" stringByAppendingString: [@(k_APIVersionNumber) description]]},
                 @{@"key" : @"language", @"value" : language},
+                @{@"key" : @"locale_id", @"value" : [[NSLocale currentLocale] localeIdentifier]},
                 @{@"key" : @"name", @"value" : UIDevice.currentDevice.name},
                 @{@"key" : @"system_name", @"value" : UIDevice.currentDevice.systemName},
                 @{@"key" : @"system_version", @"value" : UIDevice.currentDevice.systemVersion},
                 @{@"key" : @"model", @"value" :  UIDevice.currentDevice.model},
                 @{@"key" : @"localized_model", @"value" : UIDevice.currentDevice.localizedModel},
                 @{@"key" : @"user_interface_idiom", @"value" : @(UIDevice.currentDevice.userInterfaceIdiom)},
+                @{@"key" : @"time_on_page", @"value" : timeOnPage},
+                @{@"key" : @"time_zone_offset", @"value" : timeZoneOffset},
                 @{@"key" : @"resolution", @"value": @[
                           @([[UIScreen mainScreen] bounds].size.width),
                           @([[UIScreen mainScreen] bounds].size.height)
