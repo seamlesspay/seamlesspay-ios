@@ -24,10 +24,16 @@
                              NSLocalizedDescriptionKey :
                                  [SPError descriptionWithResponse:errobj]
                            }];
-      sperror.errorMessage = errobj[@"message"];
+      
+      NSString *error = [errobj[@"errors"] isKindOfClass: [NSArray class]] && [errobj[@"errors"] count] > 1 ?
+      [errobj[@"message"] stringByAppendingFormat:@":\n%@", [errobj[@"errors"] componentsJoinedByString:@"\n"]]  :
+      errobj[@"message"];
+ 
       sperror.statusCode = errobj[@"data"] && errobj[@"data"][@"statusCode"] ? errobj[@"data"][@"statusCode"] : nil;
       sperror.statusDescription = errobj[@"data"] && errobj[@"data"][@"statusDescription"] ? errobj[@"data"][@"statusDescription"] : nil;
       sperror.errors = errobj[@"errors"];
+      sperror.errorMessage = error;
+ 
       return sperror;
   }
 

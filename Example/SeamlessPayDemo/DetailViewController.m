@@ -754,7 +754,7 @@
       phone:nil
       name:@"IOS test"
       nickname:nil
-      verification:NO
+      verification:YES
       success:^(SPPaymentMethod *paymentMethod) {
         if (paymentMethod) {
 
@@ -784,7 +784,7 @@
               credentialIndicator:nil
               transactionInitiation:nil
               idempotencyKey:nil
-              needSendReceipt:nil
+              needSendReceipt:NO
               success:^(SPCharge *charge) {
                 CFTimeInterval elapsedTime = CACurrentMediaTime() - startTime;
 
@@ -805,21 +805,19 @@
                 }
               }
               failure:^(SPError *error) {
-                // NSLog(@"%@", error);
+                NSLog(@"%@", error.errors);
                 [self.activityIndicator stopAnimating];
-                NSString *err = [error localizedDescription];
                 [self displayAlertWithTitle:@"Error creating Charge"
-                                    message:err
+                                    message:error.errorMessage
                                 restartDemo:NO];
               }];
         }
       }
       failure:^(SPError *error) {
-        // NSLog(@"%@", error);
+         NSLog(@"%@", error.errors);
         [self.activityIndicator stopAnimating];
-        NSString *err = [error localizedDescription];
-        [self displayAlertWithTitle:@"Error creating Charge"
-                            message:err
+        [self displayAlertWithTitle:@"Error creating token"
+                            message:error.errorMessage
                         restartDemo:NO];
       }];
 }

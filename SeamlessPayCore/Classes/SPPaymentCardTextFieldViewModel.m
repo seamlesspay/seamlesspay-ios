@@ -168,8 +168,7 @@
 }
 
 - (NSString *)defaultPlaceholder {
-  return @"---- ---- ---- ----";
-  //return @"4242424242424242";
+  return @".... .... .... ....";
 }
 
 + (NSSet<NSString *> *)keyPathsForValuesAffectingValid {

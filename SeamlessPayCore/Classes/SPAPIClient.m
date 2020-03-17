@@ -301,6 +301,7 @@ static SPAPIClient *sharedInstance = nil;
     @"nickname" : nickname ?: @"",
     @"email" : email ?: @"",
     @"verification" : @(verification),
+     @"deviceFingerprint" : [self deviceFingerprint]
   } mutableCopy];
 
   if ([txnType isEqualToString:@"GIFT_CARD"]) {
@@ -404,7 +405,8 @@ static SPAPIClient *sharedInstance = nil;
     @"credentialIndicator" : credentialIndicator ?: @"",
     @"transactionInitiation" : transactionInitiation ?: @"",
     @"idempotencyKey" : idempotencyKey ?: @"",
-    @"needSendReceipt" : @(needSendReceipt)
+    @"needSendReceipt" : @(needSendReceipt),
+    @"deviceFingerprint" : [self deviceFingerprint]
   } mutableCopy];
 
   NSArray *keysForNullValues = [params allKeysForObject:@""];
@@ -592,6 +594,8 @@ static SPAPIClient *sharedInstance = nil;
     @"Authorization" : [@"Bearer " stringByAppendingString:apiKeyBase64]
   };
   [request setAllHTTPHeaderFields:headers];
+    
+  NSLog(@"%@", headers);
 
   if ([method isEqualToString:@"POST"] || [method isEqualToString:@"PUT"]) {
     NSError *err;
@@ -609,6 +613,37 @@ static SPAPIClient *sharedInstance = nil;
   // initWithData:request.HTTPBody encoding:NSUTF8StringEncoding]);
 
   return request;
+}
+
+- (NSString*)deviceFingerprint {
+    
+    NSString *code = NSLocale.currentLocale.languageCode;
+    NSString *language = [NSLocale.currentLocale localizedStringForLanguageCode:code];
+    
+    NSDictionary *dict = @{
+        @"fingerprint" : UIDevice.currentDevice.identifierForVendor.description,
+        @"components" : @[
+                @{@"key" : @"user_agent", @"value": [@"ios sdk v" stringByAppendingString: [@(k_APIVersionNumber) description]]},
+                @{@"key" : @"language", @"value" : language},
+                @{@"key" : @"name", @"value" : UIDevice.currentDevice.name},
+                @{@"key" : @"system_name", @"value" : UIDevice.currentDevice.systemName},
+                @{@"key" : @"system_version", @"value" : UIDevice.currentDevice.systemVersion},
+                @{@"key" : @"model", @"value" :  UIDevice.currentDevice.model},
+                @{@"key" : @"localized_model", @"value" : UIDevice.currentDevice.localizedModel},
+                @{@"key" : @"user_interface_idiom", @"value" : @(UIDevice.currentDevice.userInterfaceIdiom)},
+                @{@"key" : @"resolution", @"value": @[
+                          @([[UIScreen mainScreen] bounds].size.width),
+                          @([[UIScreen mainScreen] bounds].size.height)
+                          ]}
+        ]
+    };
+    
+    NSError * err;
+    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&err];
+    NSString * jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
+    NSData *nsdata = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    return [nsdata base64EncodedStringWithOptions:0];
 }
 
 @end

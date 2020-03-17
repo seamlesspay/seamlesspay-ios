@@ -10,7 +10,6 @@
 #endif
 #endif
 
-#import "SPLoadingView.h"
 #import "NSArray+Extras.h"
 #import "NSCharacterSet+Extras.h"
 #import "NSDictionary+Extras.h"
@@ -37,6 +36,7 @@
 #import "SPFPXBankBrand.h"
 #import "SPImageLibrary+Extras.h"
 #import "SPImageLibrary.h"
+#import "SPLoadingView.h"
 #import "SPPaymentCardTextField+Extras.h"
 #import "SPPaymentCardTextField.h"
 #import "SPPaymentCardTextFieldCell.h"
