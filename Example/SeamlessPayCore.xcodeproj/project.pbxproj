@@ -25,6 +25,13 @@
 		1C10BC6C241A786200548808 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C10BC6B241A786200548808 /* Assets.xcassets */; };
 		1C10BC6F241A786200548808 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C10BC6D241A786200548808 /* LaunchScreen.storyboard */; };
 		1C10BC72241A786200548808 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C10BC71241A786200548808 /* main.m */; };
+		1C14B99E2423B333005E4D45 /* NSArray_ExtrasTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C14B99D2423B333005E4D45 /* NSArray_ExtrasTest.m */; };
+		1C14B9A02423BA5A005E4D45 /* NSDictionary_ExtrasTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C14B99F2423BA5A005E4D45 /* NSDictionary_ExtrasTest.m */; };
+		1C14B9A22423BB68005E4D45 /* NSString_ExtrasTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C14B9A12423BB68005E4D45 /* NSString_ExtrasTest.m */; };
+		1C14B9A42423BE19005E4D45 /* NSCharacterSet_ExtrasTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C14B9A32423BE19005E4D45 /* NSCharacterSet_ExtrasTest.m */; };
+		1C14B9A62423C3A1005E4D45 /* SPBinRangeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C14B9A52423C3A1005E4D45 /* SPBinRangeTest.m */; };
+		1C14B9A82423C4EA005E4D45 /* SPFPXBankBrandTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C14B9A72423C4EA005E4D45 /* SPFPXBankBrandTest.m */; };
+		1C14B9AA2423C613005E4D45 /* SPPaymentViewControllerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C14B9A92423C613005E4D45 /* SPPaymentViewControllerTest.m */; };
 		1C592F7D2421418300706A8F /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C592F7C2421418300706A8F /* Icon-72.png */; };
 		1C94043323D3451700BC4697 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C94043223D3451700BC4697 /* AppDelegate.m */; };
 		1C94043623D3451700BC4697 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C94043523D3451700BC4697 /* SceneDelegate.m */; };
@@ -80,6 +87,13 @@
 		1C10BC6E241A786200548808 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1C10BC70241A786200548808 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C10BC71241A786200548808 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1C14B99D2423B333005E4D45 /* NSArray_ExtrasTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSArray_ExtrasTest.m; sourceTree = "<group>"; };
+		1C14B99F2423BA5A005E4D45 /* NSDictionary_ExtrasTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSDictionary_ExtrasTest.m; sourceTree = "<group>"; };
+		1C14B9A12423BB68005E4D45 /* NSString_ExtrasTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSString_ExtrasTest.m; sourceTree = "<group>"; };
+		1C14B9A32423BE19005E4D45 /* NSCharacterSet_ExtrasTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSCharacterSet_ExtrasTest.m; sourceTree = "<group>"; };
+		1C14B9A52423C3A1005E4D45 /* SPBinRangeTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SPBinRangeTest.m; sourceTree = "<group>"; };
+		1C14B9A72423C4EA005E4D45 /* SPFPXBankBrandTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SPFPXBankBrandTest.m; sourceTree = "<group>"; };
+		1C14B9A92423C613005E4D45 /* SPPaymentViewControllerTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SPPaymentViewControllerTest.m; sourceTree = "<group>"; };
 		1C592F7C2421418300706A8F /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		1C94042F23D3451700BC4697 /* SeamlessPayDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeamlessPayDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C94043123D3451700BC4697 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -198,6 +212,13 @@
 				1C10BC4F2416BAE300548808 /* SPColorUtilsTest.m */,
 				1C10BC512416BB6000548808 /* SPEmailAddressValidatorTest.m */,
 				1C10BC532416BC3100548808 /* SPImageLibraryTest.m */,
+				1C14B99D2423B333005E4D45 /* NSArray_ExtrasTest.m */,
+				1C14B99F2423BA5A005E4D45 /* NSDictionary_ExtrasTest.m */,
+				1C14B9A12423BB68005E4D45 /* NSString_ExtrasTest.m */,
+				1C14B9A32423BE19005E4D45 /* NSCharacterSet_ExtrasTest.m */,
+				1C14B9A52423C3A1005E4D45 /* SPBinRangeTest.m */,
+				1C14B9A72423C4EA005E4D45 /* SPFPXBankBrandTest.m */,
+				1C14B9A92423C613005E4D45 /* SPPaymentViewControllerTest.m */,
 			);
 			path = SeamlessPayCoreTests;
 			sourceTree = "<group>";
@@ -772,9 +793,16 @@
 				1C10BC4C2416B16F00548808 /* SPPaymentCardTextFieldTest.m in Sources */,
 				1C10BC462416A78700548808 /* SPCardValidatorTest.m in Sources */,
 				1C10BC442416A42300548808 /* SPAPIClientTests.m in Sources */,
+				1C14B9A22423BB68005E4D45 /* NSString_ExtrasTest.m in Sources */,
+				1C14B9A82423C4EA005E4D45 /* SPFPXBankBrandTest.m in Sources */,
+				1C14B9AA2423C613005E4D45 /* SPPaymentViewControllerTest.m in Sources */,
+				1C14B99E2423B333005E4D45 /* NSArray_ExtrasTest.m in Sources */,
 				1C10BC4E2416BA3500548808 /* SPPostalCodeValidatorTest.m in Sources */,
 				1C10BC542416BC3100548808 /* SPImageLibraryTest.m in Sources */,
 				1C10BC522416BB6000548808 /* SPEmailAddressValidatorTest.m in Sources */,
+				1C14B9A02423BA5A005E4D45 /* NSDictionary_ExtrasTest.m in Sources */,
+				1C14B9A62423C3A1005E4D45 /* SPBinRangeTest.m in Sources */,
+				1C14B9A42423BE19005E4D45 /* NSCharacterSet_ExtrasTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

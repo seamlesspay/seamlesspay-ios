@@ -73,16 +73,16 @@
     UIFont *iOS8SystemFont = [UIFont fontWithName:@"HelveticaNeue" size:18];
     textField.font = iOS8SystemFont;
     XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.height, 44, 0.1);
-    XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.width, 167, 0.1);
+    XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.width, 135, 0.1);
 
     UIFont *iOS9SystemFont = [UIFont systemFontOfSize:18];;
     textField.font = iOS9SystemFont;
     XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.height, 44, 0.1);
-    XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.width, 182, 0.1);
+    XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.width, 132, 0.1);
 
     textField.font = [UIFont fontWithName:@"Avenir" size:44];
     XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.height, 62, 0.1);
-    XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.width, 311, 0.1);
+    XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.width, 272, 0.1);
 }
 
 - (void)testSetCard_numberUnknown {
