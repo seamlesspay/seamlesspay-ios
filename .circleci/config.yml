@@ -28,7 +28,7 @@ jobs:
       - run: 
           name: Export Code Coverage
           command: |
-          cd Example/
-          mkdir Codecov
-          cd Codecov/
-          bash <(curl -s https://codecov.io/bash) -J 'SeamlessPayCoreTests.xctest' -t ${CODECOV_TOKEN}
+            cd Example/
+            mkdir Codecov
+            cd Codecov/
+            bash <(curl -s https://codecov.io/bash) -J 'SeamlessPayCoreTests.xctest' -t ${CODECOV_TOKEN}
