@@ -19,9 +19,16 @@ jobs:
           name: Build app for testing 
           command: |
             cd Example/ 
-            xcodebuild build-for-testing -workspace SeamlessPayCore.xcworkspace -scheme CISeamlessPayCoreTests -destination 'platform=iOS Simulator,name=iPhone 8,OS=13.3'
+            xcodebuild build-for-testing -workspace SeamlessPayCore.xcworkspace -scheme CISeamlessPayCoreTests -destination 'platform=iOS Simulator,name=iPhone 8,OS=13.3' -enableCodeCoverage YES CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
       - run: 
           name: Run tests
           command: |
             cd Example/ 
-            xcodebuild test -workspace SeamlessPayCore.xcworkspace -scheme CISeamlessPayCoreTests -destination 'platform=iOS Simulator,name=iPhone 8,OS=13.3'  
+            xcodebuild test -workspace SeamlessPayCore.xcworkspace -scheme CISeamlessPayCoreTests -destination 'platform=iOS Simulator,name=iPhone 8,OS=13.3' -enableCodeCoverage YES CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO 
+      - run: 
+          name: Export Code Coverage
+          command: |
+          cd Example/
+          mkdir Codecov
+          cd Codecov/
+          bash <(curl -s https://codecov.io/bash) -J 'SeamlessPayCoreTests.xctest' -t ${CODECOV_TOKEN}

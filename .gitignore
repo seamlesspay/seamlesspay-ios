@@ -3,6 +3,8 @@
 
 build
 
+codecov
+
 *.xcuserdatad
 
 SeamlessPayCoreTests.xcscheme
