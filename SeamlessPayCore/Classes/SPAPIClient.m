@@ -389,7 +389,7 @@ static SPAPIClient *sharedInstance = nil;
                       success:(void (^)(SPCharge *charge))success
                       failure:(void (^)(SPError *))failure {
   NSMutableDictionary *params = [@{
-    @"token" : token,
+      @"token" : token ?: @"",
     @"cvv" : cvv ?: @"",
     @"capture" : @(capture),
     @"currency" : currency ?: @"",

@@ -1786,6 +1786,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MARKETING_VERSION = 1.0.11;
 				MODULEMAP_FILE = "Target Support Files/SeamlessPayCore/SeamlessPayCore.modulemap";
 				PRODUCT_MODULE_NAME = SeamlessPayCore;
 				PRODUCT_NAME = SeamlessPayCore;
@@ -2098,6 +2099,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MARKETING_VERSION = 1.0.11;
 				MODULEMAP_FILE = "Target Support Files/SeamlessPayCore/SeamlessPayCore.modulemap";
 				PRODUCT_MODULE_NAME = SeamlessPayCore;
 				PRODUCT_NAME = SeamlessPayCore;
