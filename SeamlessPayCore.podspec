@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SeamlessPayCore'
-  s.version          = '1.0.11'
+  s.version          = '1.0.12'
   s.summary          = 'There are three demo apps included with the framework.'
 
 # This description is used to generate tags and improve search results.
