@@ -12,7 +12,7 @@ static const NSString *k_APIHostURLLive = @"https://api.seamlesspay.com";
 static const NSString *k_APIHostURLSandbox = @"https://sandbox.seamlesspay.com";
 static const NSString *k_PanVaultHostURLLive = @"https://pan-vault.seamlesspay.com";
 static const NSString *k_PanVaultHostURLSandbox = @"https://sandbox-pan-vault.seamlesspay.com";
-static const NSUInteger k_APIVersionNumber = 1;
+static const NSString *k_APIVersionNumber = @"v2019";
 static const NSTimeInterval k_TimeoutInterval = 15.0;
 
 static SPAPIClient *sharedInstance = nil;
@@ -591,7 +591,7 @@ static SPAPIClient *sharedInstance = nil;
   [request setHTTPMethod:method];
 
   NSDictionary *headers = @{
-    @"API-Version" : [@(k_APIVersionNumber) description],
+    @"API-Version" : [k_APIVersionNumber description],
     @"Content-Type" : @"application/json",
     @"Accept" : @"application/json",
     @"Authorization" : [@"Bearer " stringByAppendingString:apiKeyBase64]
@@ -634,7 +634,7 @@ static SPAPIClient *sharedInstance = nil;
     NSDictionary *dict = @{
         @"fingerprint" : [UIDevice.currentDevice.identifierForVendor  UUIDString],
         @"components" : @[
-                @{@"key" : @"user_agent", @"value": [@"ios sdk v" stringByAppendingString: [@(k_APIVersionNumber) description]]},
+                @{@"key" : @"user_agent", @"value": [@"SeamlessPay.ios.sdk." stringByAppendingString: [k_APIVersionNumber description]]},
                 @{@"key" : @"language", @"value" : language},
                 @{@"key" : @"locale_id", @"value" : [[NSLocale currentLocale] localeIdentifier]},
                 @{@"key" : @"name", @"value" : UIDevice.currentDevice.name},

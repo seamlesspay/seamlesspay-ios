@@ -623,7 +623,7 @@
     self.cardTextField = cardTextField;
       
       UITextField *amountTextField = [[UITextField alloc] initWithFrame:CGRectMake(70, 0, 150, 22)];
-      amountTextField.text = @"$0.00";
+      amountTextField.text = @"$1.00";
       amountTextField.keyboardType = UIKeyboardTypeNumberPad;
       amountTextField.delegate = self;
       self.amountTextField = amountTextField;
