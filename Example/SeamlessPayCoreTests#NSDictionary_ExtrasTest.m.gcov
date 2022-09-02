@@ -1,0 +1,258 @@
+        -:    0:Source:SeamlessPayCoreTests/NSDictionary_ExtrasTest.m
+        -:    0:Graph:/Users/sb/Library/Developer/Xcode/DerivedData/SeamlessPayCore-hhzsuewgtnajsudfmilhnmvjpivn/Build/Intermediates.noindex/SeamlessPayCore.build/Debug-iphonesimulator/SeamlessPayCoreTests.build/Objects-normal/x86_64/NSDictionary_ExtrasTest.gcno
+        -:    0:Data:/Users/sb/Library/Developer/Xcode/DerivedData/SeamlessPayCore-hhzsuewgtnajsudfmilhnmvjpivn/Build/Intermediates.noindex/SeamlessPayCore.build/Debug-iphonesimulator/SeamlessPayCoreTests.build/Objects-normal/x86_64/NSDictionary_ExtrasTest.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1://
+        -:    2://  NSDictionary_ExtrasTest.m
+        -:    3://  SeamlessPayCoreTests
+        -:    4://
+        -:    5://
+        -:    6:
+        -:    7:#import <XCTest/XCTest.h>
+        -:    8:#import "../../SeamlessPayCore/Classes/NSDictionary+Extras.h"
+        -:    9:
+        -:   10:@interface NSDictionary_ExtrasTest : XCTestCase
+        -:   11:
+        -:   12:@end
+        -:   13:
+        -:   14:@implementation NSDictionary_ExtrasTest
+        -:   15:
+    #####:   16:- (void)setUp {
+        -:   17:    // Put setup code here. This method is called before the invocation of each test method in the class.
+    #####:   18:}
+        -:   19:
+    #####:   20:- (void)tearDown {
+        -:   21:    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    #####:   22:}
+        -:   23:
+        -:   24:#pragma mark - dictionaryByRemovingNullsValidatingRequiredFields
+        -:   25:
+    #####:   26:- (void)test_dictionaryByRemovingNulls_removesNullsDeeply {
+    #####:   27:    NSDictionary *dictionary = @{
+        -:   28:                                 @"id": @"card_123",
+    #####:   29:                                 @"tokenization_method": [NSNull null], // null in root
+    #####:   30:                                 @"metadata": @{
+        -:   31:                                         @"user": @"user_123",
+    #####:   32:                                         @"country": [NSNull null], // null in dictionary
+    #####:   33:                                         @"nicknames": @[
+        -:   34:                                                 @"john",
+        -:   35:                                                 @"johnny",
+    #####:   36:                                                 [NSNull null], // null in array in dictionary
+        -:   37:                                                 ],
+    #####:   38:                                         @"profiles": @{
+        -:   39:                                                 @"facebook": @"fb_123",
+    #####:   40:                                                 @"twitter": [NSNull null], // null in dictionary in dictionary
+        -:   41:                                                 }
+        -:   42:                                         },
+    #####:   43:                                 @"fees": @[
+    #####:   44:                                         [NSNull null], // null in array
+    #####:   45:                                         @{
+        -:   46:                                             @"id": @"fee_123",
+    #####:   47:                                             @"frequency": [NSNull null], // null in dictionary in array
+        -:   48:                                             },
+    #####:   49:                                         @[
+        -:   50:                                             @"payment",
+    #####:   51:                                             [NSNull null], // null in array in array
+        -:   52:                                             ],
+        -:   53:                                         ],
+        -:   54:                                 };
+        -:   55:
+    #####:   56:    NSDictionary *expected = @{
+        -:   57:                               @"id": @"card_123",
+    #####:   58:                               @"metadata": @{
+        -:   59:                                       @"user": @"user_123",
+    #####:   60:                                       @"nicknames": @[
+        -:   61:                                               @"john",
+        -:   62:                                               @"johnny",
+        -:   63:                                               ],
+    #####:   64:                                       @"profiles": @{
+        -:   65:                                               @"facebook": @"fb_123",
+        -:   66:                                               },
+        -:   67:                                       },
+    #####:   68:                               @"fees": @[
+    #####:   69:                                       @{
+        -:   70:                                           @"id": @"fee_123",
+        -:   71:                                           },
+    #####:   72:                                       @[
+        -:   73:                                           @"payment",
+        -:   74:                                           ],
+        -:   75:                                       ],
+        -:   76:                               };
+        -:   77:
+    #####:   78:    NSDictionary *result = [dictionary sp_dictionaryByRemovingNulls];
+        -:   79:
+    #####:   80:    XCTAssertEqualObjects(result, expected);
+    #####:   81:}
+        -:   82:
+    #####:   83:- (void)test_dictionaryByRemovingNullsValidatingRequiredFields_keepsEmptyLeaves {
+    #####:   84:    NSDictionary *dictionary = @{@"id": [NSNull null]};
+    #####:   85:    NSDictionary *result = [dictionary sp_dictionaryByRemovingNulls];
+        -:   86:
+    #####:   87:    XCTAssertEqualObjects(result, @{});
+    #####:   88:}
+        -:   89:
+    #####:   90:- (void)test_dictionaryByRemovingNullsValidatingRequiredFields_returnsImmutableCopy {
+    #####:   91:    NSDictionary *dictionary = @{@"id": @"card_123"};
+    #####:   92:    NSDictionary *result = [dictionary sp_dictionaryByRemovingNulls];
+        -:   93:
+    #####:   94:    XCTAssert(result);
+    #####:   95:    XCTAssertNotEqual(result, dictionary);
+    #####:   96:    XCTAssertFalse([result isKindOfClass:[NSMutableDictionary class]]);
+    #####:   97:}
+        -:   98:
+        -:   99:#pragma mark - dictionaryByRemovingNonStrings
+        -:  100:
+    #####:  101:- (void)test_dictionaryByRemovingNonStrings_basicCases {
+    #####:  102:    NSDictionary *dictionary;
+    #####:  103:    NSDictionary *expected;
+    #####:  104:    NSDictionary *result;
+        -:  105:
+        -:  106:    // Empty dictionary
+    #####:  107:    dictionary = @{};
+    #####:  108:    expected = @{};
+    #####:  109:    result = [dictionary sp_dictionaryByRemovingNonStrings];
+    #####:  110:    XCTAssertEqualObjects(result, expected);
+        -:  111:
+        -:  112:    // Regular case
+    #####:  113:    dictionary = @{
+        -:  114:                   @"user": @"user_123",
+        -:  115:                   @"nicknames": @"John, Johnny",
+        -:  116:                   };
+    #####:  117:    expected = @{
+        -:  118:                 @"user": @"user_123",
+        -:  119:                 @"nicknames": @"John, Johnny",
+        -:  120:                 };
+    #####:  121:    result = [dictionary sp_dictionaryByRemovingNonStrings];
+    #####:  122:    XCTAssertEqualObjects(result, expected);
+        -:  123:
+        -:  124:    // Strips non-NSString keys and values
+    #####:  125:    dictionary = @{
+        -:  126:                   @"user": @"user_123",
+        -:  127:                   @"nicknames": @"John, Johnny",
+        -:  128:                   @"profiles": @"San Francisco, CA",
+    #####:  129:                   @"age": @(21),
+    #####:  130:                   @"fees": @{
+        -:  131:                           @"plan": @"monthly",
+        -:  132:                           },
+    #####:  133:                   @"visits": @[
+        -:  134:                           @"january",
+        -:  135:                           @"february",
+        -:  136:                           ],
+        -:  137:                   };
+    #####:  138:    expected = @{
+        -:  139:                 @"user": @"user_123",
+        -:  140:                 @"nicknames": @"John, Johnny",
+        -:  141:                 };
+    #####:  142:    result = [dictionary sp_dictionaryByRemovingNonStrings];
+    #####:  143:    XCTAssertEqualObjects(result, expected);
+    #####:  144:}
+        -:  145:
+    #####:  146:- (void)test_dictionaryByRemovingNonStrings_returnsImmutableCopy {
+    #####:  147:    NSDictionary *dictionary = @{@"user": @"user_123"};
+    #####:  148:    NSDictionary *result = [dictionary sp_dictionaryByRemovingNonStrings];
+        -:  149:
+    #####:  150:    XCTAssert(result);
+    #####:  151:    XCTAssertNotEqual(result, dictionary);
+    #####:  152:    XCTAssertFalse([result isKindOfClass:[NSMutableDictionary class]]);
+    #####:  153:}
+        -:  154:
+        -:  155:#pragma mark - Getters
+        -:  156:
+    #####:  157:- (void)testArrayForKey {
+    #####:  158:    NSDictionary *dict = @{
+    #####:  159:                           @"a": @[@"foo"],
+        -:  160:                           };
+        -:  161:
+    #####:  162:    XCTAssertEqualObjects([dict sp_arrayForKey:@"a"], @[@"foo"]);
+    #####:  163:    XCTAssertNil([dict sp_arrayForKey:@"b"]);
+    #####:  164:}
+        -:  165:
+    #####:  166:- (void)testBoolForKey {
+    #####:  167:    NSDictionary *dict = @{
+    #####:  168:                           @"a": @1,
+    #####:  169:                           @"b": @0,
+        -:  170:                           @"c": @"true",
+        -:  171:                           @"d": @"false",
+        -:  172:                           @"e": @"1",
+        -:  173:                           @"f": @"foo",
+        -:  174:                           };
+        -:  175:
+    #####:  176:    XCTAssertTrue([dict sp_boolForKey:@"a" or:NO]);
+    #####:  177:    XCTAssertFalse([dict sp_boolForKey:@"b" or:YES]);
+    #####:  178:    XCTAssertTrue([dict sp_boolForKey:@"c" or:NO]);
+    #####:  179:    XCTAssertFalse([dict sp_boolForKey:@"d" or:YES]);
+    #####:  180:    XCTAssertTrue([dict sp_boolForKey:@"e" or:NO]);
+    #####:  181:    XCTAssertFalse([dict sp_boolForKey:@"f" or:NO]);
+    #####:  182:}
+        -:  183:
+    #####:  184:- (void)testIntForKey {
+    #####:  185:    NSDictionary *dict = @{
+    #####:  186:                           @"a": @1,
+    #####:  187:                           @"b": @-1,
+        -:  188:                           @"c": @"1",
+        -:  189:                           @"d": @"-1",
+        -:  190:                           @"e": @"10.0",
+        -:  191:                           @"f": @"10.5",
+    #####:  192:                           @"g": @(10.0),
+    #####:  193:                           @"h": @(10.5),
+        -:  194:                           @"i": @"foo",
+        -:  195:                           };
+        -:  196:
+    #####:  197:    XCTAssertEqual([dict sp_intForKey:@"a" or:0], 1);
+    #####:  198:    XCTAssertEqual([dict sp_intForKey:@"b" or:0], -1);
+    #####:  199:    XCTAssertEqual([dict sp_intForKey:@"c" or:0], 1);
+    #####:  200:    XCTAssertEqual([dict sp_intForKey:@"d" or:0], -1);
+    #####:  201:    XCTAssertEqual([dict sp_intForKey:@"e" or:0], 10);
+    #####:  202:    XCTAssertEqual([dict sp_intForKey:@"f" or:0], 10);
+    #####:  203:    XCTAssertEqual([dict sp_intForKey:@"g" or:0], 10);
+    #####:  204:    XCTAssertEqual([dict sp_intForKey:@"h" or:0], 10);
+    #####:  205:    XCTAssertEqual([dict sp_intForKey:@"i" or:0], 0);
+    #####:  206:}
+        -:  207:
+    #####:  208:- (void)testDateForKey {
+    #####:  209:    NSDictionary *dict = @{
+    #####:  210:                           @"a": @0,
+        -:  211:                           @"b": @"0",
+        -:  212:                           };
+    #####:  213:    NSDate *expectedDate = [NSDate dateWithTimeIntervalSince1970:0];
+        -:  214:
+    #####:  215:    XCTAssertEqualObjects([dict sp_dateForKey:@"a"], expectedDate);
+    #####:  216:    XCTAssertEqualObjects([dict sp_dateForKey:@"b"], expectedDate);
+    #####:  217:    XCTAssertNil([dict sp_dateForKey:@"c"]);
+    #####:  218:}
+        -:  219:
+    #####:  220:- (void)testDictionaryForKey {
+    #####:  221:    NSDictionary *dict = @{
+    #####:  222:                           @"a": @{@"foo": @"bar"},
+        -:  223:                           };
+        -:  224:
+    #####:  225:    XCTAssertEqualObjects([dict sp_dictionaryForKey:@"a"], @{@"foo": @"bar"});
+    #####:  226:    XCTAssertNil([dict sp_dictionaryForKey:@"b"]);
+    #####:  227:}
+        -:  228:
+    #####:  229:- (void)testNumberForKey {
+    #####:  230:    NSDictionary *dict = @{
+    #####:  231:                           @"a": @1,
+        -:  232:                           };
+        -:  233:
+    #####:  234:    XCTAssertEqualObjects([dict sp_numberForKey:@"a"], @1);
+    #####:  235:    XCTAssertNil([dict sp_numberForKey:@"b"]);
+    #####:  236:}
+        -:  237:
+    #####:  238:- (void)testStringForKey {
+    #####:  239:    NSDictionary *dict = @{@"a": @"foo"};
+    #####:  240:    XCTAssertEqualObjects([dict sp_stringForKey:@"a"], @"foo");
+    #####:  241:    XCTAssertNil([dict sp_stringForKey:@"b"]);
+    #####:  242:}
+        -:  243:
+    #####:  244:- (void)testURLForKey {
+    #####:  245:    NSDictionary *dict = @{
+        -:  246:                           @"a": @"https://example.com",
+        -:  247:                           @"b": @"not a url"
+        -:  248:                           };
+    #####:  249:    XCTAssertEqualObjects([dict sp_urlForKey:@"a"], [NSURL URLWithString:@"https://example.com"]);
+    #####:  250:    XCTAssertNil([dict sp_urlForKey:@"b"]);
+    #####:  251:    XCTAssertNil([dict sp_urlForKey:@"c"]);
+    #####:  252:}
+        -:  253:@end

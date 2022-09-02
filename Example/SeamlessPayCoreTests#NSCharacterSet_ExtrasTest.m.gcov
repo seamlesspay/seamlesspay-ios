@@ -1,0 +1,64 @@
+        -:    0:Source:SeamlessPayCoreTests/NSCharacterSet_ExtrasTest.m
+        -:    0:Graph:/Users/sb/Library/Developer/Xcode/DerivedData/SeamlessPayCore-hhzsuewgtnajsudfmilhnmvjpivn/Build/Intermediates.noindex/SeamlessPayCore.build/Debug-iphonesimulator/SeamlessPayCoreTests.build/Objects-normal/x86_64/NSCharacterSet_ExtrasTest.gcno
+        -:    0:Data:/Users/sb/Library/Developer/Xcode/DerivedData/SeamlessPayCore-hhzsuewgtnajsudfmilhnmvjpivn/Build/Intermediates.noindex/SeamlessPayCore.build/Debug-iphonesimulator/SeamlessPayCoreTests.build/Objects-normal/x86_64/NSCharacterSet_ExtrasTest.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1://
+        -:    2://  NSCharacterSet_ExtrasTest.m
+        -:    3://  SeamlessPayCoreTests
+        -:    4://
+        -:    5:
+        -:    6:#import <XCTest/XCTest.h>
+        -:    7:#import "../../SeamlessPayCore/Classes/NSCharacterSet+Extras.h"
+        -:    8:
+    #####:    9:static NSUInteger countOfCharactersFromSetInString(NSString * _Nonnull string, NSCharacterSet * _Nonnull cs) {
+    #####:   10:    NSRange range = [string rangeOfCharacterFromSet:cs];
+    #####:   11:    NSUInteger count = 0;
+    #####:   12:    if (range.location != NSNotFound) {
+    #####:   13:        NSUInteger lastPosition = NSMaxRange(range);
+    #####:   14:        count += range.length;
+    #####:   15:        while (lastPosition < string.length) {
+    #####:   16:            range = [string rangeOfCharacterFromSet:cs options:(NSStringCompareOptions)kNilOptions range:NSMakeRange(lastPosition, string.length - lastPosition)];
+    #####:   17:            if (range.location == NSNotFound) {
+    #####:   18:                break;
+        -:   19:            } else {
+    #####:   20:                count += range.length;
+    #####:   21:                lastPosition = NSMaxRange(range);
+        -:   22:            }
+        -:   23:        }
+    #####:   24:    }
+        -:   25:
+    #####:   26:    return count;
+    #####:   27:}
+        -:   28:
+        -:   29:@interface NSCharacterSet_ExtrasTest : XCTestCase
+        -:   30:
+        -:   31:@end
+        -:   32:
+        -:   33:@implementation NSCharacterSet_ExtrasTest
+        -:   34:
+    #####:   35:- (void)setUp {
+        -:   36:    // Put setup code here. This method is called before the invocation of each test method in the class.
+    #####:   37:}
+        -:   38:
+    #####:   39:- (void)tearDown {
+        -:   40:    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    #####:   41:}
+        -:   42:
+    #####:   43:- (void)testAsciiDigitCharacterSet {
+    #####:   44:    NSUInteger numberOfDigits = countOfCharactersFromSetInString(@"12a4", [NSCharacterSet sp_asciiDigitCharacterSet]);
+    #####:   45:    XCTAssert(numberOfDigits);
+    #####:   46:    XCTAssertEqual(numberOfDigits, 3);
+    #####:   47:    numberOfDigits = countOfCharactersFromSetInString(@"1234", [NSCharacterSet sp_asciiDigitCharacterSet]);
+    #####:   48:    XCTAssertEqual(numberOfDigits, 4);
+    #####:   49:    numberOfDigits = countOfCharactersFromSetInString(@"abcd", [NSCharacterSet sp_asciiDigitCharacterSet]);
+    #####:   50:    XCTAssertEqual(numberOfDigits, 0);
+    #####:   51:}
+        -:   52:
+    #####:   53:- (void)testInvertedAsciiDigitCharacterSet{
+    #####:   54:    XCTAssert([@"1234" rangeOfCharacterFromSet:[NSCharacterSet sp_invertedAsciiDigitCharacterSet]].location == NSNotFound);
+    #####:   55:    XCTAssertFalse([@"abcd" rangeOfCharacterFromSet:[NSCharacterSet sp_invertedAsciiDigitCharacterSet]].location == NSNotFound);
+    #####:   56:}
+        -:   57:
+        -:   58:
+        -:   59:@end

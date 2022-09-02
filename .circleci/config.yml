@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     macos:
-      xcode: 11.3.0
+      xcode: 13.2.1
     working_directory: ~/seamlesspay-ios
     steps:
       - checkout
@@ -14,15 +14,17 @@ jobs:
             pwd
             sed -i xcscheme "s/TEST_SECRET_KEY/${TEST_SECRET_KEY}/g" ./SeamlessPayCore.xcodeproj/xcshareddata/xcschemes/CISeamlessPayCoreTests.xcscheme
             sed -i xcscheme "s/TEST_PUBLIC_KEY/${TEST_PUBLIC_KEY}/g" ./SeamlessPayCore.xcodeproj/xcshareddata/xcschemes/CISeamlessPayCoreTests.xcscheme
+            sed -i xcscheme "s/API_ENDPOINT/${API_ENDPOINT}/g" ./SeamlessPayCore.xcodeproj/xcshareddata/xcschemes/CISeamlessPayCoreTests.xcscheme
+            sed -i xcscheme "s/PAN_VAULT_ENDPOINT/${PAN_VAULT_ENDPOINT}/g" ./SeamlessPayCore.xcodeproj/xcshareddata/xcschemes/CISeamlessPayCoreTests.xcscheme
             cat ./SeamlessPayCore.xcodeproj/xcshareddata/xcschemes/CISeamlessPayCoreTests.xcscheme
       - run:
           name: Build app for testing 
           command: |
             cd Example/ 
-            xcodebuild build-for-testing -workspace SeamlessPayCore.xcworkspace -scheme CISeamlessPayCoreTests -destination 'platform=iOS Simulator,name=iPhone 8,OS=13.3' -enableCodeCoverage YES CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+            xcodebuild build-for-testing -workspace SeamlessPayCore.xcworkspace -scheme CISeamlessPayCoreTests -destination 'platform=iOS Simulator,name=iPhone 11,OS=15.2' -enableCodeCoverage YES CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
       - run: 
           name: Run tests
           command: |
             cd Example/ 
-            xcodebuild test -workspace SeamlessPayCore.xcworkspace -scheme CISeamlessPayCoreTests -destination 'platform=iOS Simulator,name=iPhone 8,OS=13.3' -enableCodeCoverage YES CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO 
+            xcodebuild test -workspace SeamlessPayCore.xcworkspace -scheme CISeamlessPayCoreTests -destination 'platform=iOS Simulator,name=iPhone 11,OS=15.2' -enableCodeCoverage YES CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO 
             bash <(curl -s https://codecov.io/bash) -J 'SeamlessPayCoreTests.xctest' -t ${CODECOV_TOKEN}

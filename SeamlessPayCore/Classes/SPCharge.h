@@ -13,104 +13,118 @@
 /**
  * The ID of base charge.
  */
-@property(nonatomic, readonly, copy) NSString *chargeId;
+@property(nonatomic, readonly, copy) NSString * _Nullable chargeId;//
 /**
  * Value: "charge"  Transaction method
  */
-@property(nonatomic, readonly, copy) NSString *method;
+@property(nonatomic, readonly, copy) NSString * _Nullable method;//
 /**
  * Amount to add to stored value account.
  */
-@property(nonatomic, readonly, copy) NSString *amount;
+@property(nonatomic, readonly, copy) NSString * _Nullable amount;//
 /**
- *
+ * String with 2 decimal places e.g “25.00”.
  */
-@property(nonatomic, readonly, copy) NSString *tip;
+@property(nonatomic, readonly, copy) NSString * _Nullable tip;//
 /**
- * Surcharge fee amount.
+ * Surcharge fee amount. String with 2 decimal places e.g “25.00”.
  */
-@property(nonatomic, readonly, copy) NSString *surchargeFeeAmount;
+@property(nonatomic, readonly, copy) NSString * _Nullable surchargeFeeAmount;//
 /**
  * Order dictionary
  */
-@property(nonatomic, readonly, copy) NSDictionary *order;
+@property(nonatomic, readonly, copy) NSDictionary * _Nullable order;//
 /**
  * Currency:  USD - United States dollar.  CAD - Canadian dollar.
  */
-@property(nonatomic, readonly, copy) NSString *currency;
-/**
- * Detail Card Product - Visa, MasterCard, American Express, Discover.
- */
-@property(nonatomic, readonly, copy) NSString *cardBrand;
+@property(nonatomic, readonly, copy) NSString * _Nullable currency;//
 /**
  * Card Expiration Date.
  */
-@property(nonatomic, readonly, copy) NSString *expDate;
-/**
- * Determines the card type (credit, debit, prepaid) and usage (pin, signature etc.).
- */
-@property(nonatomic, readonly, copy) NSString *cardType;
+@property(nonatomic, readonly, copy) NSString * _Nullable expDate;//
 /**
  * Last four of account number.
  */
-@property(nonatomic, readonly, copy) NSString *lastFour;
+@property(nonatomic, readonly, copy) NSString * _Nullable lastFour;//
 /**
  * The payment method (token) from pan-vault
  */
-@property(nonatomic, readonly, copy) NSString *token;
+@property(nonatomic, readonly, copy) NSString * _Nullable token;//
 /**
- * Transaction date
+ * Transaction date string <date-time>
  */
-@property(nonatomic, readonly, copy) NSString *txnDate;
+@property(nonatomic, readonly, copy) NSString * _Nullable transactionDate;//
 /**
- * Transaction status "AUTHORIZED" "CAPTURED" "DECLINED" "ERROR"
+ * Enum: "authorized" "captured" "declined" "error"  Transaction status
  */
-@property(nonatomic, readonly, copy) NSString *status;
+@property(nonatomic, readonly, copy) NSString * _Nullable status;//
 /**
  * Transaction status code (See all available transaction status codes https://docs.seamlesspay.com/#section/Transaction-Statuses  ).
  */
-@property(nonatomic, readonly, copy) NSString *statusCode;
+@property(nonatomic, readonly, copy) NSString * _Nullable statusCode;//
 /**
  * Transaction status description.
  */
-@property(nonatomic, readonly, copy) NSString *statusDescription;
-/**
- * AVS Result: "SM" "ZD" "SD" "ZM" "NS" "SE" "GN"
- */
-@property(nonatomic, readonly, copy) NSString *avsResult;
-/**
- * AVS Message: "street match" "street decline" "zip match" "zip decline" "AVS not supported" "system error - retry" "global non-AVS participant"
- */
-@property(nonatomic, readonly, copy) NSString *avsMessage;
-/**
- * CVV Result: "M" "N" "P" "S" "U" "X"
- */
-@property(nonatomic, readonly, copy) NSString *cvvResult;
+@property(nonatomic, readonly, copy) NSString * _Nullable statusDescription;//
 /**
  * IP address
  */
-@property(nonatomic, readonly, copy) NSString *ipAddress;
+@property(nonatomic, readonly, copy) NSString * _Nullable ipAddress;//
 /**
  * Auth Code
  */
-@property(nonatomic, readonly, copy) NSString *authCode;
+@property(nonatomic, readonly, copy) NSString * _Nullable authCode;//
+/**
+ * Enum: "Credit" "Debit" "Prepaid"  Determines the card type (credit, debit, prepaid) and usage (pin, signature etc.).
+ */
+@property(nonatomic, readonly, copy) NSString * _Nullable accountType;//
+/**
+ * Payment type
+ */
+@property(nonatomic, readonly, copy) NSString * _Nullable paymentType;//
+/**
+ * Enum: "Visa" "MasterCard" "American Express" "Discover"  Detail Card Product - Visa, MasterCard, American Express, Discover.
+ */
+@property(nonatomic, readonly, copy) NSString * _Nullable paymentNetwork;//
 /**
  * Batch ID
  */
-@property(nonatomic, readonly, copy) NSString *batch;
+@property(nonatomic, readonly, copy) NSString * _Nullable batch;//
 /**
- *  Aadjustments
+ *  verification
 */
-@property(nonatomic, readonly, copy) NSArray *adjustments;
+@property(nonatomic, readonly, copy) NSDictionary * _Nullable verification;//
 /**
  *  Business Card
 */
-@property(nonatomic, readonly) BOOL businessCard;
+@property(nonatomic, readonly) BOOL businessCard;//
+/**
+ *  Business Card
+*/
+@property(nonatomic, readonly) BOOL fullyRefunded;//
+/**
+ *  Array of Dictionary  List of refunds associated with the charge.
+*/
+@property(nonatomic, readonly, copy) NSArray * _Nullable refunds;
+/**
+ *  Array of Dictionary (ChargeAdjustment)  The charge adjustments.
+*/
+@property(nonatomic, readonly, copy) NSArray * _Nullable adjustments;
+/**
+ *   The customer's created.
+ *   string <date-time>
+ */
+@property(nonatomic, readonly, copy) NSString * _Nullable createdAt;//
+/**
+ *   The customer's updated.
+ *   string <date-time>
+ */
+@property(nonatomic, readonly, copy) NSString * _Nullable updatedAt;//
 
 /**
  * Initializes instance of SPCharge with keys.
  */
-- (instancetype)initWithResponseData:(NSData *)data;
-+ (instancetype)chargeWithResponseData:(NSData *)data;
-- (instancetype)initWithDictionary:(NSDictionary*)dictionary;
+- (instancetype _Nonnull )initWithResponseData:(nonnull NSData *)data;
++ (instancetype _Nonnull )chargeWithResponseData:(nonnull NSData *)data;
+//- (instancetype _Nonnull )initWithDictionary:(nonnull NSDictionary*)dictionary;
 @end

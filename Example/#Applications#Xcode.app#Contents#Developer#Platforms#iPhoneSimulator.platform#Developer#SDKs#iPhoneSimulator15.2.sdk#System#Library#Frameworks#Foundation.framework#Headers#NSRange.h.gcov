@@ -1,0 +1,55 @@
+        -:    0:Source:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator15.2.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSRange.h
+        -:    0:Graph:/Users/sb/Library/Developer/Xcode/DerivedData/SeamlessPayCore-hhzsuewgtnajsudfmilhnmvjpivn/Build/Intermediates.noindex/SeamlessPayCore.build/Debug-iphonesimulator/SeamlessPayCoreTests.build/Objects-normal/x86_64/NSCharacterSet_ExtrasTest.gcno
+        -:    0:Data:/Users/sb/Library/Developer/Xcode/DerivedData/SeamlessPayCore-hhzsuewgtnajsudfmilhnmvjpivn/Build/Intermediates.noindex/SeamlessPayCore.build/Debug-iphonesimulator/SeamlessPayCoreTests.build/Objects-normal/x86_64/NSCharacterSet_ExtrasTest.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/*	NSRange.h
+        -:    2:	Copyright (c) 1994-2019, Apple Inc. All rights reserved.
+        -:    3:*/
+        -:    4:
+        -:    5:#import <Foundation/NSValue.h>
+        -:    6:#import <Foundation/NSObjCRuntime.h>
+        -:    7:
+        -:    8:@class NSString;
+        -:    9:
+        -:   10:NS_ASSUME_NONNULL_BEGIN
+        -:   11:
+        -:   12:typedef struct _NSRange {
+        -:   13:    NSUInteger location;
+        -:   14:    NSUInteger length;
+        -:   15:} NSRange;
+        -:   16:
+        -:   17:typedef NSRange *NSRangePointer;
+        -:   18:
+    #####:   19:NS_INLINE NSRange NSMakeRange(NSUInteger loc, NSUInteger len) {
+        -:   20:    NSRange r;
+    #####:   21:    r.location = loc;
+    #####:   22:    r.length = len;
+    #####:   23:    return r;
+        -:   24:}
+        -:   25:
+    #####:   26:NS_INLINE NSUInteger NSMaxRange(NSRange range) {
+    #####:   27:    return (range.location + range.length);
+        -:   28:}
+        -:   29:
+        -:   30:NS_INLINE BOOL NSLocationInRange(NSUInteger loc, NSRange range) {
+        -:   31:    return (!(loc < range.location) && (loc - range.location) < range.length) ? YES : NO;
+        -:   32:}
+        -:   33:
+        -:   34:NS_INLINE BOOL NSEqualRanges(NSRange range1, NSRange range2) {
+        -:   35:    return (range1.location == range2.location && range1.length == range2.length);
+        -:   36:}
+        -:   37:
+        -:   38:FOUNDATION_EXPORT NSRange NSUnionRange(NSRange range1, NSRange range2);
+        -:   39:FOUNDATION_EXPORT NSRange NSIntersectionRange(NSRange range1, NSRange range2);
+        -:   40:FOUNDATION_EXPORT NSString *NSStringFromRange(NSRange range);
+        -:   41:FOUNDATION_EXPORT NSRange NSRangeFromString(NSString *aString);
+        -:   42:
+        -:   43:@interface NSValue (NSValueRangeExtensions)
+        -:   44:
+        -:   45:+ (NSValue *)valueWithRange:(NSRange)range;
+        -:   46:@property (readonly) NSRange rangeValue;
+        -:   47:
+        -:   48:@end
+        -:   49:
+        -:   50:NS_ASSUME_NONNULL_END

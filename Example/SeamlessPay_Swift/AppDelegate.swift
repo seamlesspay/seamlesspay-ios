@@ -13,10 +13,14 @@ import SeamlessPayCore
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
 
-        SPAPIClient.getSharedInstance()?.setSecretKey(nil,
+        SPAPIClient.getSharedInstance().setSecretKey( "sk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
                                          publishableKey: "pk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
-                                         sandbox: true)
+                                         apiEndpoint: "https://sandbox.seamlesspay.com",
+                                         panVaultEndpoint: "https://sandbox-pan-vault.seamlesspay.com")
+        
+        
 
         return true
     }

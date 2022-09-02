@@ -1,0 +1,169 @@
+        -:    0:Source:SeamlessPayCoreTests/SPBinRangeTest.m
+        -:    0:Graph:/Users/sb/Library/Developer/Xcode/DerivedData/SeamlessPayCore-hhzsuewgtnajsudfmilhnmvjpivn/Build/Intermediates.noindex/SeamlessPayCore.build/Debug-iphonesimulator/SeamlessPayCoreTests.build/Objects-normal/x86_64/SPBinRangeTest.gcno
+        -:    0:Data:/Users/sb/Library/Developer/Xcode/DerivedData/SeamlessPayCore-hhzsuewgtnajsudfmilhnmvjpivn/Build/Intermediates.noindex/SeamlessPayCore.build/Debug-iphonesimulator/SeamlessPayCoreTests.build/Objects-normal/x86_64/SPBinRangeTest.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1://
+        -:    2://  SPBinRangeTest.m
+        -:    3://  SeamlessPayCoreTests
+        -:    4://
+        -:    5://
+        -:    6:
+        -:    7:#import <XCTest/XCTest.h>
+        -:    8:
+        -:    9:#import "../../SeamlessPayCore/Classes/SPBINRange.h"
+        -:   10:#import "../../SeamlessPayCore/Classes/SPCardBrand.h"
+        -:   11:
+        -:   12:@interface SPBINRange(Testing)
+        -:   13:
+        -:   14:@property (nonatomic) NSUInteger length;
+        -:   15:@property (nonatomic) NSString *qRangeLow;
+        -:   16:@property (nonatomic) NSString *qRangeHigh;
+        -:   17:@property (nonatomic) SPCardBrand brand;
+        -:   18:
+        -:   19:- (BOOL)matchesNumber:(NSString *)number;
+        -:   20:
+        -:   21:@end
+        -:   22:
+        -:   23:@interface SPBinRangeTest : XCTestCase
+        -:   24:
+        -:   25:@end
+        -:   26:
+        -:   27:@implementation SPBinRangeTest
+        -:   28:
+        5:   29:- (void)setUp {
+        -:   30:    // Put setup code here. This method is called before the invocation of each test method in the class.
+        5:   31:}
+        -:   32:
+        5:   33:- (void)tearDown {
+        -:   34:    // Put teardown code here. This method is called after the invocation of each test method in the class.
+        5:   35:}
+        -:   36:
+        1:   37:- (void)testAllRanges {
+       34:   38:    for (SPBINRange *binRange in [SPBINRange allRanges]) {
+       34:   39:        XCTAssertEqual(binRange.qRangeLow.length, binRange.qRangeHigh.length);
+       34:   40:    }
+        1:   41:}
+        -:   42:
+        1:   43:- (void)testMatchesNumber {
+        1:   44:    SPBINRange *binRange = [SPBINRange new];
+        1:   45:    binRange.qRangeLow = @"134";
+        1:   46:    binRange.qRangeHigh = @"167";
+        -:   47:    
+        1:   48:    XCTAssertFalse([binRange matchesNumber:@"0"]);
+        1:   49:    XCTAssertTrue([binRange matchesNumber:@"1"]);
+        1:   50:    XCTAssertFalse([binRange matchesNumber:@"2"]);
+        -:   51:
+        1:   52:    XCTAssertFalse([binRange matchesNumber:@"00"]);
+        1:   53:    XCTAssertTrue([binRange matchesNumber:@"13"]);
+        1:   54:    XCTAssertTrue([binRange matchesNumber:@"14"]);
+        1:   55:    XCTAssertTrue([binRange matchesNumber:@"16"]);
+        1:   56:    XCTAssertFalse([binRange matchesNumber:@"20"]);
+        -:   57:
+        1:   58:    XCTAssertFalse([binRange matchesNumber:@"133"]);
+        1:   59:    XCTAssertTrue([binRange matchesNumber:@"134"]);
+        1:   60:    XCTAssertTrue([binRange matchesNumber:@"135"]);
+        1:   61:    XCTAssertTrue([binRange matchesNumber:@"167"]);
+        1:   62:    XCTAssertFalse([binRange matchesNumber:@"168"]);
+        -:   63:    
+        1:   64:    XCTAssertFalse([binRange matchesNumber:@"1244"]);
+        1:   65:    XCTAssertTrue([binRange matchesNumber:@"1340"]);
+        1:   66:    XCTAssertTrue([binRange matchesNumber:@"1344"]);
+        1:   67:    XCTAssertTrue([binRange matchesNumber:@"1444"]);
+        1:   68:    XCTAssertTrue([binRange matchesNumber:@"1670"]);
+        1:   69:    XCTAssertTrue([binRange matchesNumber:@"1679"]);
+        1:   70:    XCTAssertFalse([binRange matchesNumber:@"1680"]);
+        -:   71:
+        1:   72:    binRange.qRangeLow = @"004";
+        1:   73:    binRange.qRangeHigh = @"017";
+        -:   74:
+        1:   75:    XCTAssertTrue([binRange matchesNumber:@"0"]);
+        1:   76:    XCTAssertFalse([binRange matchesNumber:@"1"]);
+        -:   77:
+        1:   78:    XCTAssertTrue([binRange matchesNumber:@"00"]);
+        1:   79:    XCTAssertTrue([binRange matchesNumber:@"01"]);
+        1:   80:    XCTAssertFalse([binRange matchesNumber:@"10"]);
+        1:   81:    XCTAssertFalse([binRange matchesNumber:@"20"]);
+        -:   82:
+        1:   83:    XCTAssertFalse([binRange matchesNumber:@"000"]);
+        1:   84:    XCTAssertFalse([binRange matchesNumber:@"002"]);
+        1:   85:    XCTAssertTrue([binRange matchesNumber:@"004"]);
+        1:   86:    XCTAssertTrue([binRange matchesNumber:@"009"]);
+        1:   87:    XCTAssertTrue([binRange matchesNumber:@"014"]);
+        1:   88:    XCTAssertTrue([binRange matchesNumber:@"017"]);
+        1:   89:    XCTAssertFalse([binRange matchesNumber:@"019"]);
+        1:   90:    XCTAssertFalse([binRange matchesNumber:@"020"]);
+        1:   91:    XCTAssertFalse([binRange matchesNumber:@"100"]);
+        -:   92:
+        1:   93:    XCTAssertFalse([binRange matchesNumber:@"0000"]);
+        1:   94:    XCTAssertFalse([binRange matchesNumber:@"0021"]);
+        1:   95:    XCTAssertTrue([binRange matchesNumber:@"0044"]);
+        1:   96:    XCTAssertTrue([binRange matchesNumber:@"0098"]);
+        1:   97:    XCTAssertTrue([binRange matchesNumber:@"0143"]);
+        1:   98:    XCTAssertTrue([binRange matchesNumber:@"0173"]);
+        1:   99:    XCTAssertFalse([binRange matchesNumber:@"0195"]);
+        1:  100:    XCTAssertFalse([binRange matchesNumber:@"0202"]);
+        1:  101:    XCTAssertFalse([binRange matchesNumber:@"1004"]);
+        -:  102:
+        1:  103:    binRange.qRangeLow = @"";
+        1:  104:    binRange.qRangeHigh = @"";
+        1:  105:    XCTAssertTrue([binRange matchesNumber:@""]);
+        1:  106:    XCTAssertTrue([binRange matchesNumber:@"1"]);
+        1:  107:}
+        -:  108:
+        1:  109:- (void)testBinRangesForNumber {
+        1:  110:    NSArray<SPBINRange *> *binRanges;
+        -:  111:    
+        1:  112:    binRanges = [SPBINRange binRangesForNumber:@"4136000000008"];
+        1:  113:    XCTAssertEqual(binRanges.count, 3U);
+        -:  114:    
+        1:  115:    binRanges = [SPBINRange binRangesForNumber:@"4242424242424242"];
+        1:  116:    XCTAssertEqual(binRanges.count, 2U);
+        -:  117:    
+        1:  118:    binRanges = [SPBINRange binRangesForNumber:@"5555555555554444"];
+        1:  119:    XCTAssertEqual(binRanges.count, 2U);
+        -:  120:    
+        1:  121:    binRanges = [SPBINRange binRangesForNumber:@""];
+        1:  122:    XCTAssertEqual(binRanges.count, [SPBINRange allRanges].count);
+        -:  123:    
+        1:  124:    binRanges = [SPBINRange binRangesForNumber:@"123"];
+        1:  125:    XCTAssertEqual(binRanges.count, 1U);
+        1:  126:}
+        -:  127:
+        1:  128:- (void)testBinRangesForBrand {
+        8:  129:    NSArray *allBrands = @[@(SPCardBrandVisa),
+        1:  130:                           @(SPCardBrandAmex),
+        1:  131:                           @(SPCardBrandMasterCard),
+        1:  132:                           @(SPCardBrandDiscover),
+        1:  133:                           @(SPCardBrandJCB),
+        1:  134:                           @(SPCardBrandDinersClub),
+        1:  135:                           @(SPCardBrandUnionPay),
+        1:  136:                           @(SPCardBrandUnknown)];
+        8:  137:    for (NSNumber *brand in allBrands) {
+        8:  138:        NSArray<SPBINRange *> *binRanges = [SPBINRange binRangesForBrand:brand.integerValue];
+       34:  139:        for (SPBINRange *binRange in binRanges) {
+       34:  140:            XCTAssertEqual(binRange.brand, brand.integerValue);
+       34:  141:        }
+        8:  142:    }
+        1:  143:}
+        -:  144:
+        1:  145:- (void)testMostSpecificBinRangeForNumber {
+        1:  146:    SPBINRange *binRange;
+        -:  147:    
+        1:  148:    binRange = [SPBINRange mostSpecificBINRangeForNumber:@""];
+        1:  149:    XCTAssertNotEqual(binRange.brand, SPCardBrandUnknown);
+        -:  150:    
+        1:  151:    binRange = [SPBINRange mostSpecificBINRangeForNumber:@"4242424242422"];
+        1:  152:    XCTAssertEqual(binRange.brand, SPCardBrandVisa);
+        1:  153:    XCTAssertEqual(binRange.length, 16U);
+        -:  154:    
+        1:  155:    binRange = [SPBINRange mostSpecificBINRangeForNumber:@"4136000000008"];
+        1:  156:    XCTAssertEqual(binRange.brand, SPCardBrandVisa);
+        1:  157:    XCTAssertEqual(binRange.length, 13U);
+        -:  158:    
+        1:  159:    binRange = [SPBINRange mostSpecificBINRangeForNumber:@"4242424242424242"];
+        1:  160:    XCTAssertEqual(binRange.brand, SPCardBrandVisa);
+        1:  161:    XCTAssertEqual(binRange.length, 16U);
+        1:  162:}
+        -:  163:
+        -:  164:@end

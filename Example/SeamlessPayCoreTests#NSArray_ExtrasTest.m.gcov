@@ -1,0 +1,119 @@
+        -:    0:Source:SeamlessPayCoreTests/NSArray_ExtrasTest.m
+        -:    0:Graph:/Users/sb/Library/Developer/Xcode/DerivedData/SeamlessPayCore-hhzsuewgtnajsudfmilhnmvjpivn/Build/Intermediates.noindex/SeamlessPayCore.build/Debug-iphonesimulator/SeamlessPayCoreTests.build/Objects-normal/x86_64/NSArray_ExtrasTest.gcno
+        -:    0:Data:/Users/sb/Library/Developer/Xcode/DerivedData/SeamlessPayCore-hhzsuewgtnajsudfmilhnmvjpivn/Build/Intermediates.noindex/SeamlessPayCore.build/Debug-iphonesimulator/SeamlessPayCoreTests.build/Objects-normal/x86_64/NSArray_ExtrasTest.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1://
+        -:    2://  NSArray_ExtrasTest.m
+        -:    3://  SeamlessPayCoreTests
+        -:    4://
+        -:    5://
+        -:    6:
+        -:    7:#import <XCTest/XCTest.h>
+        -:    8:
+        -:    9:#import "../../SeamlessPayCore/Classes/NSArray+Extras.h"
+        -:   10:
+        -:   11:
+        -:   12:@interface NSArray_ExtrasTest : XCTestCase
+        -:   13:
+        -:   14:@end
+        -:   15:
+        -:   16:@implementation NSArray_ExtrasTest
+        -:   17:
+    #####:   18:- (void)setUp {
+        -:   19:    // Put setup code here. This method is called before the invocation of each test method in the class.
+    #####:   20:}
+        -:   21:
+    #####:   22:- (void)tearDown {
+        -:   23:    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    #####:   24:}
+        -:   25:
+    #####:   26:- (void)test_boundSafeObjectAtIndex_emptyArray {
+    #####:   27:    NSArray *test = @[];
+    #####:   28:    XCTAssertNil([test sp_boundSafeObjectAtIndex:5]);
+    #####:   29:}
+        -:   30:
+    #####:   31:- (void)test_boundSafeObjectAtIndex_tooHighIndex {
+    #####:   32:    NSArray *test = @[@1, @2, @3];
+    #####:   33:    XCTAssertNil([test sp_boundSafeObjectAtIndex:5]);
+    #####:   34:}
+        -:   35:
+    #####:   36:- (void)test_boundSafeObjectAtIndex_withinBoundsIndex {
+    #####:   37:    NSArray *test = @[@1, @2, @3];
+    #####:   38:    XCTAssertEqual([test sp_boundSafeObjectAtIndex:1], @2);
+    #####:   39:}
+        -:   40:
+    #####:   41:- (void)test_arrayByRemovingNulls_removesNullsDeeply {
+    #####:   42:    NSArray *array = @[
+        -:   43:                       @"id",
+    #####:   44:                       [NSNull null], // null in root
+    #####:   45:                       @{
+        -:   46:                           @"user": @"user_123",
+    #####:   47:                           @"country": [NSNull null], // null in dictionary
+    #####:   48:                           @"nicknames": @[
+        -:   49:                                   @"john",
+        -:   50:                                   @"johnny",
+    #####:   51:                                   [NSNull null], // null in array in dictionary
+        -:   52:                                   ],
+    #####:   53:                           @"profiles": @{
+        -:   54:                                   @"facebook": @"fb_123",
+    #####:   55:                                   @"twitter": [NSNull null], // null in dictionary in dictionary
+        -:   56:                                   }
+        -:   57:                           },
+    #####:   58:                       @[
+    #####:   59:                           [NSNull null], // null in array
+    #####:   60:                           @{
+        -:   61:                               @"id": @"fee_123",
+    #####:   62:                               @"frequency": [NSNull null], // null in dictionary in array
+        -:   63:                               },
+    #####:   64:                           @[
+        -:   65:                               @"payment",
+    #####:   66:                               [NSNull null], // null in array in array
+        -:   67:                               ],
+        -:   68:                           ],
+        -:   69:                       ];
+        -:   70:
+    #####:   71:    NSArray *expected = @[
+        -:   72:                       @"id",
+    #####:   73:                       @{
+        -:   74:                           @"user": @"user_123",
+    #####:   75:                           @"nicknames": @[
+        -:   76:                                   @"john",
+        -:   77:                                   @"johnny",
+        -:   78:                                   ],
+    #####:   79:                           @"profiles": @{
+        -:   80:                                   @"facebook": @"fb_123",
+        -:   81:                                   }
+        -:   82:                           },
+    #####:   83:                       @[
+    #####:   84:                           @{
+        -:   85:                               @"id": @"fee_123",
+        -:   86:                               },
+    #####:   87:                           @[
+        -:   88:                               @"payment",
+        -:   89:                               ],
+        -:   90:                           ],
+        -:   91:                       ];
+        -:   92:
+    #####:   93:    NSArray *result = [array sp_arrayByRemovingNulls];
+        -:   94:
+    #####:   95:    XCTAssertEqualObjects(result, expected);
+    #####:   96:}
+        -:   97:
+    #####:   98:- (void)test_arrayByRemovingNulls_keepsEmptyLeaves {
+    #####:   99:    NSArray *array = @[[NSNull null]];
+    #####:  100:    NSArray *result = [array sp_arrayByRemovingNulls];
+        -:  101:
+    #####:  102:    XCTAssertEqualObjects(result, @[]);
+    #####:  103:}
+        -:  104:
+    #####:  105:- (void)test_arrayByRemovingNulls_returnsImmutableCopy {
+    #####:  106:    NSArray *array = @[@"id", @"type"];
+    #####:  107:    NSArray *result = [array sp_arrayByRemovingNulls];
+        -:  108:
+    #####:  109:    XCTAssert(result);
+    #####:  110:    XCTAssertNotEqual(result, array);
+    #####:  111:    XCTAssertFalse([result isKindOfClass:[NSMutableArray class]]);
+    #####:  112:}
+        -:  113:
+        -:  114:@end

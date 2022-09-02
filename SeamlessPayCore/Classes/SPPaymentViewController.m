@@ -90,55 +90,68 @@
    self.paymentAmount = [[self.amountTextField.text substringFromIndex:1] stringByReplacingOccurrencesOfString:@"," withString:@""];
 
   [self.activityIndicator startAnimation];
+    
+ 
+    
+    [[SPAPIClient getSharedInstance]
+     createPaymentMethodWithPaymentType:self.paymentType ?: @"credit_card"
+     account:self.cardTextField.cardNumber
+     expDate:self.cardTextField.formattedExpirationDate
+     cvv:self.cardTextField.cvc
+     accountType:nil
+     routing:nil
+     pin:nil
+     billingAddress:self.billingAddress
+     billingCompanyName:self.company
+     accountEmail:self.email
+     phoneNumber:self.phoneNumber
+     name:self.name
+     customer:nil
 
-  [[SPAPIClient getSharedInstance] createPaymentMethodWithType:@"CREDIT_CARD"
-      account:self.cardTextField.cardNumber
-      expDate:self.cardTextField.formattedExpirationDate
-      cvv:self.cardTextField.cvc
-      accountType:nil
-      routing:nil
-      pin:nil
-      address:self.billingAddress
-      address2:self.billingAddress2
-      city:self.billingCity
-      country:self.billingCountry
-      state:self.billingState
-      zip:self.cardTextField.postalCode?:self.billingZip
-      company:self.company
-      email:self.email
-      phone:self.phoneNumber
-      name:self.name
-      nickname:self.nickname
-      verification : self.isVerification
+//  [[SPAPIClient getSharedInstance] createPaymentMethodWithType:@"CREDIT_CARD"
+//      account:self.cardTextField.cardNumber
+//      expDate:self.cardTextField.formattedExpirationDate
+//      cvv:self.cardTextField.cvc
+//      accountType:nil
+//      routing:nil
+//      pin:nil
+//      address:self.billingAddress
+//      address2:self.billingAddress2
+//      city:self.billingCity
+//      country:self.billingCountry
+//      state:self.billingState
+//      zip:self.cardTextField.postalCode?:self.billingZip
+//      company:self.company
+//      email:self.email
+//      phone:self.phoneNumber
+//      name:self.name
+//      nickname:self.nickname
+//      verification : self.isVerification
       success:^(SPPaymentMethod *paymentMethod) {
       
         if ([self.delegate respondsToSelector:@selector(paymentViewController:paymentMethodSuccess:)]) {
            [self.delegate paymentViewController:self paymentMethodSuccess:paymentMethod];
         }
       
-        [[SPAPIClient getSharedInstance]
-            createChargeWithToken:paymentMethod.token
-            cvv:self.cardTextField.cvc
-            capture: TRUE
-            currency:nil
-            amount:self.paymentAmount
-            taxAmount:nil
-            taxExempt: FALSE
-            tip:nil
-            surchargeFeeAmount:nil
-            scheduleIndicator:nil
-            description:self.paymentDescription
-            order:nil
-            orderId:self.orderId
-            poNumber:nil
-            metadata:self.paymentMetadata
-            descriptor:nil
-            txnEnv:nil
-            achType:nil
-            credentialIndicator:nil
-            transactionInitiation:nil
-            idempotencyKey: self.idempotencyKey
-            needSendReceipt:self.isNeedSendReceipt
+      [[SPAPIClient getSharedInstance] createChargeWithToken:paymentMethod.token
+                                                         cvv:self.cardTextField.cvc
+                                                     capture:YES
+                                                    currency:nil
+                                                      amount:self.paymentAmount
+                                                   taxAmount:nil
+                                                   taxExempt:NO
+                                                         tip:nil
+                                          surchargeFeeAmount:nil
+                                                 description:self.paymentDescription
+                                                       order:nil
+                                                     orderId:self.orderId
+                                                    poNumber:nil
+                                                    metadata:self.paymentMetadata
+                                                  descriptor:nil
+                                                   entryType:nil
+                                              idempotencyKey:self.idempotencyKey
+                                    digitalWalletProgramType:nil
+
             success:^(SPCharge *charge) {
               [self.activityIndicator stopAnimation];
               if ([self.delegate respondsToSelector:@selector(paymentViewController:chargeSuccess:)]) {

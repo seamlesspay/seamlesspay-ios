@@ -6,6 +6,8 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SPAddress.h"
+
 /**
  *  A token returned from submitting payment details to the SeamlessPay API. You
  *  should not have to instantiate one of these directly.
@@ -18,15 +20,17 @@
 @property(nonatomic, readonly, copy) NSString *token;
 
 /**
- *  TName as it appears on card..
+ *  Name as it appears on card..
  */
 @property(nonatomic, readonly, copy) NSString *name;
 
+@property(nonatomic, readonly, copy) NSString *nickname;
+
 /**
  *  PAN Vault support five types of payments "Credit Card", "PINLess Debit
- *  Card", "ACH", "Gift Card" enum: CREDIT_CARD, PLDEBIT_CARD, ACH, GIFT_CARD
+ *  Card", "ACH", "Gift Card" enum: credit_card, pldebit_card, ach, gift_card
  */
-@property(nonatomic, readonly, copy) NSString *txnType;
+@property(nonatomic, readonly, copy) NSString *paymentType;
 
 /**
  *  Last four of account number.
@@ -49,42 +53,33 @@
 @property(nonatomic, readonly, copy) NSString *routingNumber;
 
 /**
- *  AVS Result Enum: "SM" "ZD" "SD" "ZM" "NS" "SE" "GN"
- */
-@property(nonatomic, readonly, copy) NSString *avsResult;
+ Verification (Dictionary):
+ 
+ addressLine1 =>  (string) "pass" "fail" "unchecked" "unsupported" "retry"
+ AVS Verification Code (See all AVS verification codes)
 
-/**
- *  CVV Result Enum: "M" "N" "P" "S" "U" "X"
- */
-@property(nonatomic, readonly, copy) NSString *cvvResult;
+ addressPostalCode => ( string)  "pass" "fail" "unchecked" "unsupported" "retry"
+ AVS Verification Code (See all AVS verification codes)
 
-/**
- *  Verification Result:  Enum: "verification_successful" "verification_failed"
+ cvv => (string) "pass" "fail" "unchecked" "unsupported" "retry"
+ CVV Verification Code (See all CVV verification codes)
  */
-@property(nonatomic, readonly, copy) NSString *verificationResult;
+
+@property(nonatomic, readonly, copy) NSDictionary *verification;
 
 /**
  * Gift card PIN.
  */
 @property(nonatomic, readonly, copy) NSString *pinNumber;
-
-
 /**
  *  The various card brands to which a payment card can belong.
  */
-@property(nonatomic, readonly, copy) NSString *cardBrand;
-
-
-
-@property(nonatomic, readonly, copy) NSString *billingAddress;
-@property(nonatomic, readonly, copy) NSString *billingAddress2;
-@property(nonatomic, readonly, copy) NSString *billingCity;
-@property(nonatomic, readonly, copy) NSString *billingState;
-@property(nonatomic, readonly, copy) NSString *billingZip;
+@property(nonatomic, readonly, copy) NSString *paymentNetwork;
+@property(nonatomic, readonly, copy) SPAddress *billingAddress;
 @property(nonatomic, readonly, copy) NSString *phoneNumber;
 @property(nonatomic, readonly, copy) NSString *email;
 @property(nonatomic, readonly, copy) NSString *company;
-@property(nonatomic, readonly, copy) NSString *nickname;
+@property(nonatomic, readonly, copy) NSString *customerId;
 
 + (instancetype)tokenWithResponseData:(NSData *)data;
 - (instancetype)initWithResponseData:(NSData *)data;

@@ -80,103 +80,104 @@
 - (void)displayAlertWithTitle:(NSString *)title
                       message:(NSString *)message
                   restartDemo:(BOOL)restartDemo {
-  dispatch_async(dispatch_get_main_queue(), ^{
-    UIAlertController *alert = [UIAlertController
-        alertControllerWithTitle:title
-                         message:message
-                  preferredStyle:UIAlertControllerStyleAlert];
-    if (restartDemo) {
-      [alert addAction:[UIAlertAction
-                           actionWithTitle:@"Restart demo"
-                                     style:UIAlertActionStyleCancel
-                                   handler:^(UIAlertAction *action) {
-                                     [self.cardTextField clear];
-                                     self.cardTextField.postalCodeEntryEnabled = TRUE;
-                                     self.cardTextField.countryCode = @"US";
-                                   }]];
-    } else {
-      [alert addAction:[UIAlertAction actionWithTitle:@"OK"
-                                                style:UIAlertActionStyleCancel
-                                              handler:nil]];
-    }
-    [self presentViewController:alert animated:YES completion:nil];
-  });
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertController *alert = [UIAlertController
+                                    alertControllerWithTitle:title
+                                    message:message
+                                    preferredStyle:UIAlertControllerStyleAlert];
+        if (restartDemo) {
+            [alert addAction:[UIAlertAction
+                              actionWithTitle:@"Restart demo"
+                              style:UIAlertActionStyleCancel
+                              handler:^(UIAlertAction *action) {
+                [self.cardTextField clear];
+                self.cardTextField.postalCodeEntryEnabled = TRUE;
+                self.cardTextField.countryCode = @"US";
+            }]];
+        } else {
+            [alert addAction:[UIAlertAction actionWithTitle:@"OK"
+                                                      style:UIAlertActionStyleCancel
+                                                    handler:nil]];
+        }
+        [self presentViewController:alert animated:YES completion:nil];
+    });
 }
 
 - (void)pay {
-
-  [self.activityIndicator startAnimating];
-
-  [[SPAPIClient getSharedInstance] createPaymentMethodWithType:@"CREDIT_CARD"
-      account:self.cardTextField.cardNumber
-      expDate:self.cardTextField.formattedExpirationDate
-      cvv:self.cardTextField.cvc
-      accountType:nil
-      routing:nil
-      pin:nil
-      address:nil
-      address2:nil
-      city:nil
-      country:nil
-      state:nil
-      zip:self.cardTextField.postalCode
-      company:nil
-      email:nil
-      phone:nil
-      name:@"IOS test"
-      nickname:nil
-      verification : TRUE
-      success:^(SPPaymentMethod *paymentMethod) {
+    
+    [self.activityIndicator startAnimating];
+    
+    SPAddress * billingAddress = [[SPAddress alloc]
+                                  initWithline1:nil
+                                  line2:nil
+                                  city:nil
+                                  country:nil
+                                  state:nil
+                                  postalCode:self.cardTextField.postalCode];
+    
+    [[SPAPIClient getSharedInstance]
+     createPaymentMethodWithPaymentType:@"credit_card"
+     account:self.cardTextField.cardNumber
+     expDate:self.cardTextField.formattedExpirationDate
+     cvv:self.cardTextField.cvc
+     accountType:nil
+     routing:nil
+     pin:nil
+     billingAddress:billingAddress
+     billingCompanyName:nil
+     accountEmail:nil
+     phoneNumber:nil
+     name:@"Name IOS test"
+     customer:nil
+     success:^(SPPaymentMethod *paymentMethod) {
+        
         [[SPAPIClient getSharedInstance]
-            createChargeWithToken:paymentMethod.token
-            cvv:self.cardTextField.cvc
-            capture: TRUE
-            currency:nil
-            amount:[[self.amountTextField.text substringFromIndex:1] stringByReplacingOccurrencesOfString:@"," withString:@""]
-            taxAmount:nil
-            taxExempt: FALSE
-            tip:nil
-            surchargeFeeAmount:nil
-            scheduleIndicator:nil
-            description:@""
-            order:nil
-            orderId:nil
-            poNumber:nil
-            metadata:nil
-            descriptor:nil
-            txnEnv:nil
-            achType:nil
-            credentialIndicator:nil
-            transactionInitiation:nil
-            idempotencyKey:nil
-            needSendReceipt:FALSE
-            success:^(SPCharge *charge) {
-              [self.activityIndicator stopAnimating];
-              NSString *success = [NSString
-                  stringWithFormat:@"Amount: $%@\nStatus: %@\nStatus message: "
-                                   @"%@\ntxnID #: %@",
-                                   charge.amount, charge.status,
-                                   charge.statusDescription, charge.chargeId];
-
-              [self displayAlertWithTitle:@"Success"
-                                  message:success
-                              restartDemo:TRUE];
-            }
-            failure:^(SPError *error) {
-              [self.activityIndicator stopAnimating];
-              NSString *err = [error localizedDescription];
-              [self displayAlertWithTitle:@"Error creating Charge"
-                                  message:err
-                              restartDemo:FALSE];
-            }];
-      }
-      failure:^(SPError *error) {
+         createChargeWithToken:paymentMethod.token
+         cvv:self.cardTextField.cvc
+         capture:YES
+         currency:nil
+         amount:[[self.amountTextField.text substringFromIndex:1] stringByReplacingOccurrencesOfString:@"," withString:@""]
+         taxAmount:nil
+         taxExempt:NO
+         tip:nil
+         surchargeFeeAmount:nil
+         description:@""
+         order:nil
+         orderId:nil
+         poNumber:nil
+         metadata:nil
+         descriptor:nil
+         entryType:nil
+         idempotencyKey:nil
+         digitalWalletProgramType:nil
+         
+         success:^(SPCharge *charge) {
+            [self.activityIndicator stopAnimating];
+            NSString *success = [NSString
+                                 stringWithFormat:@"Amount: $%@\nStatus: %@\nStatus message: "
+                                 @"%@\ntxnID #: %@",
+                                 charge.amount, charge.status,
+                                 charge.statusDescription, charge.chargeId];
+            
+            [self displayAlertWithTitle:@"Success"
+                                message:success
+                            restartDemo:TRUE];
+        }
+         failure:^(SPError *error) {
+            [self.activityIndicator stopAnimating];
+            NSString *err = [error errorMessage];
+            [self displayAlertWithTitle:@"Error creating Charge"
+                                message:err
+                            restartDemo:FALSE];
+        }];
+    }
+     failure:^(SPError *error) {
         [self.activityIndicator stopAnimating];
-        NSString *err = [error localizedDescription];
+        NSString *err = [error errorMessage];
         [self displayAlertWithTitle:@"Error creating Charge"
                             message:err
                         restartDemo:FALSE];
-      }];
+    }];
 }
 
 
@@ -206,7 +207,7 @@
         _currencyFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US"];
         [_currencyFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
         textField.text = [_currencyFormatter stringFromNumber:formatedValue];
-
+        
         return FALSE;
     } else {
         return FALSE;

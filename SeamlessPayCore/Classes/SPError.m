@@ -11,6 +11,9 @@
 
 + (instancetype)errorWithResponse:(NSData *)data {
   NSError *error = nil;
+  
+  if (data) {
+    
   id errobj = [NSJSONSerialization JSONObjectWithData:data
                                       options:NSJSONReadingAllowFragments
                                         error:&error];
@@ -36,8 +39,9 @@
  
       return sperror;
   }
+    }
 
-  return nil;
+      return [SPError new];
 }
 
 + (NSString *)descriptionWithResponse:(NSDictionary *)dict {

@@ -8,133 +8,140 @@
 #import "SPCharge.h"
 #import "SPCustomer.h"
 #import "SPError.h"
+#import "SPAddress.h"
 #import "SPPaymentMethod.h"
 #import <Foundation/Foundation.h>
+#import <PassKit/PassKit.h>
 
 @interface SPAPIClient : NSObject
 
-@property(nonatomic, readonly, copy) NSString *secretKey;
-@property(nonatomic, readonly, copy) NSString *publishableKey;
+@property(nonatomic, readonly, copy) NSString * _Nullable secretKey;
+@property(nonatomic, readonly, copy) NSString * _Nonnull publishableKey;
+@property(nonatomic, readonly, copy) NSString * _Nullable subMerchantAccountID;
 
-+ (instancetype)getSharedInstance NS_SWIFT_NAME(getSharedInstance());
++ (instancetype _Nonnull )getSharedInstance NS_SWIFT_NAME(getSharedInstance());
 
-- (void)setSecretKey:(NSString *)secretKey
-      publishableKey:(NSString *)publishableKey
-             sandbox:(BOOL)sandbox;
+- (void)setSecretKey:(NSString *_Nonnull)secretKey
+      publishableKey:(NSString *_Nonnull)publishableKey
+         apiEndpoint:(NSString *_Nonnull)APIEndpoint
+    panVaultEndpoint:(NSString *_Nonnull)PANVaultEndpoint;
 
+- (void)setSubMerchantAccountID:(NSString *_Nullable)subMerchantAccountID;
+     
 /**
  * List Charges
  */
-- (void)listChargesWithParams:(NSDictionary *)params
-                      success:(void (^)(NSDictionary *dict))success
-                      failure:(void (^)(SPError *))failure;
+- (void)listChargesWithParams:(NSDictionary *_Nonnull)params
+                      success:(void (^_Nonnull)(NSDictionary * _Nullable dict))success
+                      failure:(void (^_Nonnull)(SPError *_Nonnull))failure;
 
 /**
  * Create a Charge
  */
-- (void)createChargeWithToken:(NSString *)token
-                          cvv:(NSString *)cvv
+- (void)createChargeWithToken:(NSString *_Nonnull)token
+                          cvv:(NSString *_Nullable)cvv
                       capture:(BOOL)capture
-                     currency:(NSString *)currency
-                       amount:(NSString *)amount
-                    taxAmount:(NSString *)taxAmount
+                     currency:(NSString *_Nullable)currency
+                       amount:(NSString *_Nullable)amount
+                    taxAmount:(NSString *_Nullable)taxAmount
                     taxExempt:(BOOL)taxExempt
-                          tip:(NSString *)tip
-           surchargeFeeAmount:(NSString *)surchargeFeeAmount
-            scheduleIndicator:(NSString *)scheduleIndicator
-                  description:(NSString *)description
-                        order:(NSDictionary *)order
-                      orderId:(NSString *)orderId
-                     poNumber:(NSString *)poNumber
-                     metadata:(NSDictionary *)metadata
-                   descriptor:(NSString *)descriptor
-                       txnEnv:(NSString *)txnEnv
-                      achType:(NSString *)achType
-          credentialIndicator:(NSString *)credentialIndicator
-        transactionInitiation:(NSString *)transactionInitiation
-               idempotencyKey:(NSString *)idempotencyKey
-              needSendReceipt:(BOOL)needSendReceipt
-                      success:(void (^)(SPCharge *charge))success
-                      failure:(void (^)(SPError *))failure;
+                          tip:(NSString *_Nullable)tip
+           surchargeFeeAmount:(NSString *_Nullable)surchargeFeeAmount
+                  description:(NSString *_Nullable)description
+                        order:(NSDictionary *_Nullable)order
+                      orderId:(NSString *_Nullable)orderId
+                     poNumber:(NSString *_Nullable)poNumber
+                     metadata:(NSString *_Nullable)metadata
+                   descriptor:(NSString *_Nullable)descriptor
+                    entryType:(NSString *_Nullable)entryType
+               idempotencyKey:(NSString *_Nullable)idempotencyKey
+     digitalWalletProgramType:(NSString *_Nullable)digitalWalletProgramType
+                      success:(void (^_Nonnull)(SPCharge *_Nonnull charge))success
+                      failure:(void (^_Nonnull)(SPError *_Nonnull))failure;
 
 /**
  *  Retrieve a Charge
  */
-- (void)retrieveChargeWithId:(NSString *)chargeId
-                     success:(void (^)(SPCharge *charge))success
-                     failure:(void (^)(SPError *))failure;
+- (void)retrieveChargeWithId:(NSString *_Nonnull)chargeId
+                     success:(void (^_Nonnull)(SPCharge *_Nullable charge))success
+                     failure:(void (^_Nonnull)(SPError *_Nonnull))failure;
 
 /**
  *  Create the token of given payment data. Get token method require type of
  *  given object
  */
-- (void)createPaymentMethodWithType:(NSString *)txnType
-                            account:(NSString *)account
-                            expDate:(NSString *)expDate
-                                cvv:(NSString *)cvv
-                        accountType:(NSString *)accountType
-                            routing:(NSString *)routing
-                                pin:(NSString *)pin
-                            address:(NSString *)address
-                           address2:(NSString *)address2
-                               city:(NSString *)city
-                            country:(NSString *)country
-                              state:(NSString *)state
-                                zip:(NSString *)zip
-                            company:(NSString *)company
-                              email:(NSString *)email
-                              phone:(NSString *)phone
-                               name:(NSString *)name
-                           nickname:(NSString *)nickname
-                       verification:(BOOL)verification
-                            success:(void (^)(SPPaymentMethod *paymentMethod))
+
+- (void)createPaymentMethodWithPaymentType:(NSString *_Nullable)paymentType
+                            account:(NSString *_Nullable)account
+                            expDate:(NSString *_Nullable)expDate
+                                cvv:(NSString *_Nullable)cvv
+                        accountType:(NSString *_Nullable)accountType
+                            routing:(NSString *_Nullable)routing
+                                pin:(NSString *_Nullable)pin
+                    billingAddress:(SPAddress *_Nullable)billingAddress
+                billingCompanyName:(NSString *_Nullable)billingCompany
+                      accountEmail:(NSString *_Nullable)accountEmail
+                       phoneNumber:(NSString *_Nullable)phoneNumber
+                               name:(NSString *_Nullable)name
+                           customer:(SPCustomer *_Nullable)customer
+                            success:(void (^_Nonnull)(SPPaymentMethod *_Nonnull paymentMethod))
                                         success
-                            failure:(void (^)(SPError *))failure;
+                           failure:(void (^_Nonnull)(SPError *_Nonnull))failure;
+
 
 /**
  *  Create a Customer
  */
-- (void)createCustomerWithName:(NSString *)name
-                         email:(NSString *)email
-                       address:(NSString *)address
-                      address2:(NSString *)address2
-                          city:(NSString *)city
-                       country:(NSString *)country
-                         state:(NSString *)state
-                           zip:(NSString *)zip
-                       company:(NSString *)company
-                         phone:(NSString *)phone
-                       website:(NSString *)website
-                paymentMethods:(NSArray *)paymentMethods
-                      metadata:(NSDictionary *)metadata
-                       success:(void (^)(SPCustomer *customer))success
-                       failure:(void (^)(SPError *))failure;
+- (void)createCustomerWithName:(NSString *_Nonnull)name
+                         email:(NSString *_Nonnull)email
+                       address:(SPAddress *_Nullable)address
+                   companyName:(NSString *_Nullable)companyName
+                         notes:(NSString *_Nullable)notes
+                         phone:(NSString *_Nullable)phone
+                       website:(NSString *_Nullable)website
+                paymentMethods:(NSArray *_Nullable)paymentMethods
+                      metadata:(NSString *_Nullable)metadata
+                       success:(void (^_Nonnull)(SPCustomer *_Nonnull customer))success
+                       failure:(void (^_Nonnull)(SPError *_Nonnull))failure;
 
 /**
  *  Update a Customer
  */
-- (void)updateCustomerWithId:(NSString *)custId
-                        name:(NSString *)name
-                       email:(NSString *)email
-                     address:(NSString *)address
-                    address2:(NSString *)address2
-                        city:(NSString *)city
-                     country:(NSString *)country
-                       state:(NSString *)state
-                         zip:(NSString *)zip
-                     company:(NSString *)company
-                       phone:(NSString *)phone
-                     website:(NSString *)website
-              paymentMethods:(NSArray *)paymentMethods
-                    metadata:(NSDictionary *)metadata
-                     success:(void (^)(SPCustomer *customer))success
-                     failure:(void (^)(SPError *))failure;
+- (void)updateCustomerWithId:(NSString *_Nonnull)customerId
+                        name:(NSString *_Nonnull)name
+                       email:(NSString *_Nonnull)email
+                     address:(SPAddress *_Nullable)address
+                 companyName:(NSString *_Nullable)companyName
+                       notes:(NSString *_Nullable)notes
+                       phone:(NSString *_Nullable)phone
+                     website:(NSString *_Nullable)website
+              paymentMethods:(NSArray *_Nullable)paymentMethods
+                    metadata:(NSString *_Nullable)metadata
+                     success:(void (^_Nonnull)(SPCustomer *_Nonnull customer))success
+                     failure:(void (^_Nonnull)(SPError *_Nonnull))failure;
 
 /**
  *  Retrieve a Customer
  */
-- (void)retrieveCustomerWithId:(NSString *)custId
-                       success:(void (^)(SPCustomer *customer))success
-                       failure:(void (^)(SPError *))failure;
+- (void)retrieveCustomerWithId:(NSString *_Nonnull)customerId
+                       success:(void (^_Nonnull)(SPCustomer *_Nullable customer))success
+                       failure:(void (^_Nonnull)(SPError *_Nonnull))failure;
+
+
+/**
+ *  Securely convert your user's Apple Pay payment information into a SeamlessPay token, which you can then safely store on your server and use to charge the user.
+ *  Converts a PKPayment object into a SeamlessPay token using the SeamlessPay API.
+ *
+ *  @param payment     The user's encrypted payment information as returned from a PKPaymentAuthorizationViewController. Cannot be nil.
+ *  @param success  The callback to run with the returned SeamlessPay token (and any errors that may have occurred).
+ */
+- (void)createTokenWithPayment:(nonnull PKPayment *)payment
+            merchantIdentifier:(nonnull NSString *)merchantIdentifier
+                       success:(void(^_Nonnull)(SPPaymentMethod * _Nullable paymentMethod))success
+                       failure:(void(^_Nonnull)(SPError *_Nonnull))failure;
+
+
+
+
 
 @end

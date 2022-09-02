@@ -16,6 +16,7 @@
 #import "NSString+Extras.h"
 #import "SPAddress.h"
 #import "SPAPIClient.h"
+#import "SPApplePay.h"
 #import "SPBINRange.h"
 #import "SPCard+Extras.h"
 #import "SPCard.h"

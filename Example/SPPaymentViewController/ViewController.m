@@ -38,10 +38,30 @@
 
 - (void) show {
     
+    SPAddress * billingAddress = [[SPAddress alloc] initWithline1:nil
+                                                            line2:nil
+                                                             city:nil
+                                                          country:@"US"
+                                                            state:nil
+                                                       postalCode:@"12345"];
+    
+    SPCustomer * customer = [[SPCustomer alloc] initWithName:@"Test name"
+                                                       email:nil
+                                                       phone:nil
+                                                 companyName:nil
+                                                       notes:nil
+                                                     website:nil
+                                                    metadata:nil
+                                                     address:nil
+                                              paymentMethods:nil];
+
+    
     SPPaymentViewController *pk = [[SPPaymentViewController alloc] initWithNibName:nil bundle:nil];
     pk.paymentDescription = @"Order payment description";
     pk.logoImage = [UIImage imageNamed:@"Icon-72.png"];
     pk.paymentAmount = @"10.2";
+    pk.billingAddress = billingAddress;
+    pk.customer = customer;
     pk.delegate = self;
     self.paymentViewController = pk;
     [self presentViewController:self.paymentViewController animated:YES completion:nil];

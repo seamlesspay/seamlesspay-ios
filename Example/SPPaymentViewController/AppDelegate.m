@@ -17,9 +17,11 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    [[SPAPIClient getSharedInstance] setSecretKey: nil
-                                   publishableKey: @"pk_XXXXXXXXXXXXXXXXXXXXXXXXXX"
-                                          sandbox: TRUE];
+    [[SPAPIClient getSharedInstance]
+     setSecretKey:@"sk_XXXXXXXXXXXXXXXXXXXXXXXXXX"
+     publishableKey:@"pk_XXXXXXXXXXXXXXXXXXXXXXXXXX"
+     apiEndpoint:@"https://sandbox.seamlesspay.com"
+     panVaultEndpoint:@"https://sandbox-pan-vault.seamlesspay.com"];
     
     return YES;
 }

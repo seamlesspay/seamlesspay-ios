@@ -1,0 +1,35 @@
+        -:    0:Source:SeamlessPayCoreTests/SPPaymentViewControllerTest.m
+        -:    0:Graph:/Users/sb/Library/Developer/Xcode/DerivedData/SeamlessPayCore-hhzsuewgtnajsudfmilhnmvjpivn/Build/Intermediates.noindex/SeamlessPayCore.build/Debug-iphonesimulator/SeamlessPayCoreTests.build/Objects-normal/x86_64/SPPaymentViewControllerTest.gcno
+        -:    0:Data:/Users/sb/Library/Developer/Xcode/DerivedData/SeamlessPayCore-hhzsuewgtnajsudfmilhnmvjpivn/Build/Intermediates.noindex/SeamlessPayCore.build/Debug-iphonesimulator/SeamlessPayCoreTests.build/Objects-normal/x86_64/SPPaymentViewControllerTest.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1://
+        -:    2://  SPPaymentViewControllerTest.m
+        -:    3://  SeamlessPayCoreTests
+        -:    4://
+        -:    5://
+        -:    6:
+        -:    7:#import <XCTest/XCTest.h>
+        -:    8:
+        -:    9:#import "../../SeamlessPayCore/Classes/SPPaymentViewController.h"
+        -:   10:
+        -:   11:@interface SPPaymentViewControllerTest : XCTestCase
+        -:   12:
+        -:   13:@end
+        -:   14:
+        -:   15:@implementation SPPaymentViewControllerTest
+        -:   16:
+        1:   17:- (void)setUp {
+        -:   18:    // Put setup code here. This method is called before the invocation of each test method in the class.
+        1:   19:}
+        -:   20:
+        1:   21:- (void)tearDown {
+        -:   22:    // Put teardown code here. This method is called after the invocation of each test method in the class.
+        1:   23:}
+        -:   24:
+        1:   25:- (void)testInit {
+        1:   26:    SPPaymentViewController *pk = [[SPPaymentViewController alloc] initWithNibName:nil bundle:nil];
+        1:   27:    XCTAssert(pk);
+        1:   28:}
+        -:   29:
+        -:   30:@end

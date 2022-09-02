@@ -1,0 +1,156 @@
+        -:    0:Source:SeamlessPayCoreTests/SPColorUtilsTest.m
+        -:    0:Graph:/Users/sb/Library/Developer/Xcode/DerivedData/SeamlessPayCore-hhzsuewgtnajsudfmilhnmvjpivn/Build/Intermediates.noindex/SeamlessPayCore.build/Debug-iphonesimulator/SeamlessPayCoreTests.build/Objects-normal/x86_64/SPColorUtilsTest.gcno
+        -:    0:Data:/Users/sb/Library/Developer/Xcode/DerivedData/SeamlessPayCore-hhzsuewgtnajsudfmilhnmvjpivn/Build/Intermediates.noindex/SeamlessPayCore.build/Debug-iphonesimulator/SeamlessPayCoreTests.build/Objects-normal/x86_64/SPColorUtilsTest.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1://
+        -:    2://  SPColorUtilsTest.m
+        -:    3://  SeamlessPayCoreTests
+        -:    4://
+        -:    5:
+        -:    6:
+        -:    7:#import <XCTest/XCTest.h>
+        -:    8:
+        -:    9:#import "../../SeamlessPayCore/Classes/SPColorUtils.h"
+        -:   10:
+        -:   11:
+        -:   12:@interface SPColorUtilsTest : XCTestCase
+        -:   13:
+        -:   14:@end
+        -:   15:
+        -:   16:@implementation SPColorUtilsTest
+        -:   17:
+        3:   18:- (void)setUp {
+        -:   19:    // Put setup code here. This method is called before the invocation of each test method in the class.
+        3:   20:}
+        -:   21:
+        3:   22:- (void)tearDown {
+        -:   23:    // Put teardown code here. This method is called after the invocation of each test method in the class.
+        3:   24:}
+        -:   25:
+        1:   26:- (void)testGrayscaleColorsIsBright {
+        1:   27:    CGColorSpaceRef space = CGColorSpaceCreateDeviceGray();
+        1:   28:    CGFloat components[2] = {0.0, 1.0};
+        -:   29:
+        -:   30:    // Using 0.3 as the cutoff from bright/non-bright because that's what
+        -:   31:    // the current implementation does.
+        -:   32:
+        7:   33:    for (CGFloat white = 0.0; white < 0.3; white += (CGFloat)0.05) {
+        6:   34:        components[0] = white;
+        6:   35:        CGColorRef cgcolor = CGColorCreate(space, components);
+        6:   36:        UIColor *color = [UIColor colorWithCGColor:cgcolor];
+        -:   37:
+        6:   38:        XCTAssertFalse([SPColorUtils colorIsBright:color], @"colorWithWhite: %f", white);
+        6:   39:        CGColorRelease(cgcolor);
+        6:   40:    }
+        -:   41:
+       18:   42:    for (CGFloat white = (CGFloat)0.3001; white < 2; white += (CGFloat)0.1) {
+       17:   43:        components[0] = white;
+       17:   44:        CGColorRef cgcolor = CGColorCreate(space, components);
+       17:   45:        UIColor *color = [UIColor colorWithCGColor:cgcolor];
+        -:   46:
+       17:   47:        XCTAssertTrue([SPColorUtils colorIsBright:color], @"colorWithWhite: %f", white);
+       17:   48:        CGColorRelease(cgcolor);
+       17:   49:    }
+        1:   50:    CGColorSpaceRelease(space);
+        1:   51:}
+        -:   52:
+        1:   53:- (void)testBuiltinColorsIsBright {
+        -:   54:    // This is primarily to document what colors are considered bright/dark
+       11:   55:    NSArray<UIColor *> *brightColors = @[
+        1:   56:                                         [UIColor brownColor],
+        1:   57:                                         [UIColor cyanColor],
+        1:   58:                                         [UIColor darkGrayColor],
+        1:   59:                                         [UIColor grayColor],
+        1:   60:                                         [UIColor greenColor],
+        1:   61:                                         [UIColor lightGrayColor],
+        1:   62:                                         [UIColor magentaColor],
+        1:   63:                                         [UIColor orangeColor],
+        1:   64:                                         [UIColor whiteColor],
+        1:   65:                                         [UIColor yellowColor],
+        -:   66:                                         ];
+        6:   67:    NSArray<UIColor *> *darkColors = @[
+        1:   68:                                       [UIColor blackColor],
+        1:   69:                                       [UIColor blueColor],
+        1:   70:                                       [UIColor clearColor],
+        1:   71:                                       [UIColor purpleColor],
+        1:   72:                                       [UIColor redColor],
+        -:   73:                                       ];
+        -:   74:
+       10:   75:    for (UIColor *color in brightColors) {
+       10:   76:        XCTAssertTrue([SPColorUtils colorIsBright:color], @"%@", color);
+       10:   77:    }
+        -:   78:
+        5:   79:    for (UIColor *color in darkColors) {
+        5:   80:        XCTAssertFalse([SPColorUtils colorIsBright:color], @"%@", color);
+        5:   81:    }
+        1:   82:}
+        -:   83:
+        1:   84:- (void)testAllColorSpaces {
+        -:   85:    // block to create & check brightness of color in a given color space
+       22:   86:    void (^testColorSpace)(const CFStringRef, BOOL) = ^(const CFStringRef colorSpaceName, BOOL expectedToBeBright) {
+        -:   87:        // this a bright color in almost all color spaces
+       21:   88:        CGFloat components[] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+        -:   89:
+       21:   90:        UIColor *color = nil;
+       21:   91:        CGColorSpaceRef colorSpace = CGColorSpaceCreateWithName(colorSpaceName);
+        -:   92:
+       21:   93:        if (colorSpace) {
+       21:   94:            CGColorRef cgcolor = CGColorCreate(colorSpace, components);
+        -:   95:
+       21:   96:            if (cgcolor) {
+       21:   97:                color = [UIColor colorWithCGColor:cgcolor];
+       21:   98:            }
+       21:   99:            CGColorRelease(cgcolor);
+       21:  100:        }
+       21:  101:        CGColorSpaceRelease(colorSpace);
+        -:  102:
+       21:  103:        if (color) {
+       21:  104:            if (expectedToBeBright) {
+       19:  105:                XCTAssertTrue([SPColorUtils colorIsBright:color], @"%@", color);
+       19:  106:            } else {
+        2:  107:                XCTAssertFalse([SPColorUtils colorIsBright:color], @"%@", color);
+        -:  108:            }
+       21:  109:        } else {
+    #####:  110:            XCTFail(@"Could not create color for %@", colorSpaceName);
+        -:  111:        }
+       21:  112:    };
+        -:  113:
+       19:  114:    CFStringRef colorSpaceNames[] = {
+        1:  115:        kCGColorSpaceSRGB,
+        1:  116:        kCGColorSpaceDCIP3,
+        1:  117:        kCGColorSpaceROMMRGB,
+        1:  118:        kCGColorSpaceITUR_709,
+        1:  119:        kCGColorSpaceDisplayP3,
+        1:  120:        kCGColorSpaceITUR_2020,
+        1:  121:        kCGColorSpaceGenericRGB,
+        1:  122:        kCGColorSpaceGenericXYZ,
+        1:  123:        kCGColorSpaceLinearSRGB,
+        1:  124:        kCGColorSpaceGenericCMYK,
+        1:  125:        kCGColorSpaceGenericGray,
+        1:  126:        kCGColorSpaceACESCGLinear,
+        1:  127:        kCGColorSpaceAdobeRGB1998,
+        1:  128:        kCGColorSpaceExtendedGray,
+        1:  129:        kCGColorSpaceExtendedSRGB,
+        1:  130:        kCGColorSpaceGenericRGBLinear,
+        1:  131:        kCGColorSpaceExtendedLinearSRGB,
+        1:  132:        kCGColorSpaceGenericGrayGamma2_2,
+        -:  133:    };
+        -:  134:
+        1:  135:    int colorSpaceCount = sizeof(colorSpaceNames) / sizeof(colorSpaceNames[0]);
+       19:  136:    for (int i = 0; i < colorSpaceCount; ++i) {
+        -:  137:        // CMYK is the only one where all 1's results in a dark color
+       18:  138:        testColorSpace(colorSpaceNames[i], colorSpaceNames[i] != kCGColorSpaceGenericCMYK);
+       18:  139:    }
+        -:  140:
+        1:  141:    testColorSpace(kCGColorSpaceLinearGray, YES);
+        1:  142:    testColorSpace(kCGColorSpaceExtendedLinearGray, YES);
+        -:  143:
+        1:  144:    if (@available(iOS 11.0, *)) {
+        -:  145:        // in LAB all 1's is dark
+        1:  146:        testColorSpace(kCGColorSpaceGenericLab, NO);
+        1:  147:    }
+        1:  148:}
+        -:  149:
+        -:  150:
+        -:  151:@end

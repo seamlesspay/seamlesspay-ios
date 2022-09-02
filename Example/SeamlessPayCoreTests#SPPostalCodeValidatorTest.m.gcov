@@ -1,0 +1,102 @@
+        -:    0:Source:SeamlessPayCoreTests/SPPostalCodeValidatorTest.m
+        -:    0:Graph:/Users/sb/Library/Developer/Xcode/DerivedData/SeamlessPayCore-hhzsuewgtnajsudfmilhnmvjpivn/Build/Intermediates.noindex/SeamlessPayCore.build/Debug-iphonesimulator/SeamlessPayCoreTests.build/Objects-normal/x86_64/SPPostalCodeValidatorTest.gcno
+        -:    0:Data:/Users/sb/Library/Developer/Xcode/DerivedData/SeamlessPayCore-hhzsuewgtnajsudfmilhnmvjpivn/Build/Intermediates.noindex/SeamlessPayCore.build/Debug-iphonesimulator/SeamlessPayCoreTests.build/Objects-normal/x86_64/SPPostalCodeValidatorTest.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1://
+        -:    2://  SPPostalCodeValidatorTest.m
+        -:    3://  SeamlessPayCoreTests
+        -:    4://
+        -:    5:
+        -:    6:
+        -:    7:#import <XCTest/XCTest.h>
+        -:    8:
+        -:    9:#import "../../SeamlessPayCore/Classes/SPPostalCodeValidator.h"
+        -:   10:
+        -:   11:@interface SPPostalCodeValidatorTest : XCTestCase
+        -:   12:
+        -:   13:@end
+        -:   14:
+        -:   15:@implementation SPPostalCodeValidatorTest
+        -:   16:
+        5:   17:- (void)setUp {
+        -:   18:    // Put setup code here. This method is called before the invocation of each test method in the class.
+        5:   19:}
+        -:   20:
+        5:   21:- (void)tearDown {
+        -:   22:    // Put teardown code here. This method is called after the invocation of each test method in the class.
+        5:   23:}
+        -:   24:
+        1:   25:- (void)testValidUSPostalCodes {
+        1:   26:    NSArray *codes = @[
+        -:   27:                       @"10002",
+        -:   28:                       @"10002-1234",
+        -:   29:                       @"100021234",
+        -:   30:                       @"21218",
+        -:   31:                       ];
+        4:   32:    for (NSString *code in codes) {
+        4:   33:        XCTAssertEqual([SPPostalCodeValidator validationStateForPostalCode:code
+        -:   34:                                                                countryCode:@"US"],
+        -:   35:                       SPCardValidationStateValid,
+        -:   36:                       @"Valid US postal code test failed for code: %@", code);
+        4:   37:    }
+        1:   38:}
+        -:   39:
+        1:   40:- (void)testInvalidUSPostalCodes {
+        1:   41:    NSArray *codes = @[
+        -:   42:                       @"100A03",
+        -:   43:                       @"12345-12345",
+        -:   44:                       @"1234512345",
+        -:   45:                       @"$$$$$",
+        -:   46:                       @"foo",
+        -:   47:                       ];
+        5:   48:    for (NSString *code in codes) {
+        5:   49:        XCTAssertEqual([SPPostalCodeValidator validationStateForPostalCode:code
+        -:   50:                                                                countryCode:@"US"],
+        -:   51:                       SPCardValidationStateInvalid,
+        -:   52:                       @"Invalid US postal code test failed for code: %@", code);
+        5:   53:    }
+        1:   54:}
+        -:   55:
+        1:   56:- (void)testIncompleteUSPostalCodes {
+        1:   57:    NSArray *codes = @[
+        -:   58:                       @"",
+        -:   59:                       @"123",
+        -:   60:                       @"12345-",
+        -:   61:                       @"12345-12",
+        -:   62:                       ];
+        4:   63:    for (NSString *code in codes) {
+        4:   64:        XCTAssertEqual([SPPostalCodeValidator validationStateForPostalCode:code
+        -:   65:                                                                countryCode:@"US"],
+        -:   66:                       SPCardValidationStateIncomplete,
+        -:   67:                       @"Incomplete US postal code test failed for code: %@", code);
+        4:   68:    }
+        1:   69:}
+        -:   70:
+        1:   71:- (void)testValidGenericPostalCodes {
+        1:   72:    NSArray *codes = @[
+        -:   73:                       @"ABC10002",
+        -:   74:                       @"10002-ABCD",
+        -:   75:                       @"ABCDE",
+        -:   76:                       ];
+        3:   77:    for (NSString *code in codes) {
+        3:   78:        XCTAssertEqual([SPPostalCodeValidator validationStateForPostalCode:code
+        -:   79:                                                                countryCode:@"UK"],
+        -:   80:                       SPCardValidationStateValid,
+        -:   81:                       @"Valid generic postal code test failed for code: %@", code);
+        3:   82:    }
+        1:   83:}
+        -:   84:
+        1:   85:- (void)testIncompleteGenericPostalCodes {
+        1:   86:    NSArray *codes = @[
+        -:   87:                       @"",
+        -:   88:                       ];
+        1:   89:    for (NSString *code in codes) {
+        1:   90:        XCTAssertEqual([SPPostalCodeValidator validationStateForPostalCode:code
+        -:   91:                                                                countryCode:@"UK"],
+        -:   92:                       SPCardValidationStateIncomplete,
+        -:   93:                       @"Incomplete generic postal code test failed for code: %@", code);
+        1:   94:    }
+        1:   95:}
+        -:   96:
+        -:   97:@end

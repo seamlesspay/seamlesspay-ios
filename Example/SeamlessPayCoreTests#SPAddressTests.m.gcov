@@ -1,0 +1,454 @@
+        -:    0:Source:SeamlessPayCoreTests/SPAddressTests.m
+        -:    0:Graph:/Users/sb/Library/Developer/Xcode/DerivedData/SeamlessPayCore-hhzsuewgtnajsudfmilhnmvjpivn/Build/Intermediates.noindex/SeamlessPayCore.build/Debug-iphonesimulator/SeamlessPayCoreTests.build/Objects-normal/x86_64/SPAddressTests.gcno
+        -:    0:Data:/Users/sb/Library/Developer/Xcode/DerivedData/SeamlessPayCore-hhzsuewgtnajsudfmilhnmvjpivn/Build/Intermediates.noindex/SeamlessPayCore.build/Debug-iphonesimulator/SeamlessPayCoreTests.build/Objects-normal/x86_64/SPAddressTests.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1://
+        -:    2://  SPAddressTests.m
+        -:    3://  SeamlessPayCoreTests
+        -:    4://
+        -:    5:
+        -:    6:#import <XCTest/XCTest.h>
+        -:    7:#import <PassKit/PassKit.h>
+        -:    8:#import <Contacts/Contacts.h>
+        -:    9:
+        -:   10:#import "../../SeamlessPayCore/Classes/SPAddress.h"
+        -:   11:
+        -:   12:@interface SPAddressTests : XCTestCase
+        -:   13:
+        -:   14:@end
+        -:   15:
+        -:   16:@implementation SPAddressTests
+        -:   17:
+       13:   18:- (void)setUp {
+        -:   19:    // Put setup code here. This method is called before the invocation of each test method in the class.
+       13:   20:}
+        -:   21:
+       13:   22:- (void)tearDown {
+        -:   23:    // Put teardown code here. This method is called after the invocation of each test method in the class.
+       13:   24:}
+        -:   25:
+        1:   26:- (void)testInitWithPKContact_complete {
+        1:   27:    PKContact *contact = [PKContact new];
+        -:   28:    {
+        1:   29:        NSPersonNameComponents *name = [NSPersonNameComponents new];
+        1:   30:        name.givenName = @"John";
+        1:   31:        name.familyName = @"Doe";
+        1:   32:        contact.name = name;
+        -:   33:
+        1:   34:        contact.emailAddress = @"foo@example.com";
+        1:   35:        contact.phoneNumber = [CNPhoneNumber phoneNumberWithStringValue:@"888-555-1212"];
+        -:   36:
+        1:   37:        CNMutablePostalAddress *address = [CNMutablePostalAddress new];
+        1:   38:        address.street = @"55 John St";
+        1:   39:        address.city = @"New York";
+        1:   40:        address.state = @"NY";
+        1:   41:        address.postalCode = @"10002";
+        1:   42:        address.ISOCountryCode = @"US";
+        1:   43:        address.country = @"United States";
+        1:   44:        contact.postalAddress = address.copy;
+        1:   45:    }
+        -:   46:
+        1:   47:    SPAddress *address = [[SPAddress alloc] initWithPKContact:contact];
+        1:   48:    XCTAssertEqualObjects(@"John Doe", address.name);
+        1:   49:    XCTAssertEqualObjects(@"8885551212", address.phone);
+        1:   50:    XCTAssertEqualObjects(@"foo@example.com", address.email);
+        1:   51:    XCTAssertEqualObjects(@"55 John St", address.line1);
+        1:   52:    XCTAssertEqualObjects(@"New York", address.city);
+        1:   53:    XCTAssertEqualObjects(@"NY", address.state);
+        1:   54:    XCTAssertEqualObjects(@"10002", address.postalCode);
+        1:   55:    XCTAssertEqualObjects(@"US", address.country);
+        1:   56:}
+        -:   57:
+        1:   58:- (void)testInitWithPKContact_partial {
+        1:   59:    PKContact *contact = [PKContact new];
+        -:   60:    {
+        1:   61:        NSPersonNameComponents *name = [NSPersonNameComponents new];
+        1:   62:        name.givenName = @"John";
+        1:   63:        contact.name = name;
+        -:   64:
+        1:   65:        CNMutablePostalAddress *address = [CNMutablePostalAddress new];
+        1:   66:        address.state = @"VA";
+        1:   67:        contact.postalAddress = address.copy;
+        1:   68:    }
+        -:   69:
+        1:   70:    SPAddress *address = [[SPAddress alloc] initWithPKContact:contact];
+        1:   71:    XCTAssertEqualObjects(@"John", address.name);
+        1:   72:    XCTAssertNil(address.phone);
+        1:   73:    XCTAssertNil(address.email);
+        1:   74:    XCTAssertNil(address.line1);
+        1:   75:    XCTAssertNil(address.city);
+        1:   76:    XCTAssertEqualObjects(@"VA", address.state);
+        1:   77:    XCTAssertNil(address.postalCode);
+        1:   78:    XCTAssertNil(address.country);
+        1:   79:}
+        -:   80:
+        1:   81:- (void)testInitWithCNContact_complete {
+        1:   82:    if ([CNContact class] == nil) {
+        -:   83:        // Method not supported by iOS version
+    #####:   84:        return;
+        -:   85:    }
+        -:   86:
+        1:   87:    CNMutableContact *contact = [CNMutableContact new];
+        -:   88:    {
+        1:   89:        contact.givenName = @"John";
+        1:   90:        contact.familyName = @"Doe";
+        -:   91:
+        3:   92:        contact.emailAddresses = @[
+        1:   93:                                   [CNLabeledValue labeledValueWithLabel:CNLabelHome
+        -:   94:                                                                   value:@"foo@example.com"],
+        1:   95:                                   [CNLabeledValue labeledValueWithLabel:CNLabelWork
+        -:   96:                                                                   value:@"bar@example.com"],
+        -:   97:
+        -:   98:
+        -:   99:                                   ];
+        -:  100:
+        3:  101:        contact.phoneNumbers = @[
+        2:  102:                                 [CNLabeledValue labeledValueWithLabel:CNLabelHome
+        1:  103:                                                                 value:[CNPhoneNumber phoneNumberWithStringValue:@"888-555-1212"]],
+        2:  104:                                 [CNLabeledValue labeledValueWithLabel:CNLabelWork
+        1:  105:                                                                 value:[CNPhoneNumber phoneNumberWithStringValue:@"555-555-5555"]],
+        -:  106:
+        -:  107:
+        -:  108:                                 ];
+        -:  109:
+        1:  110:        CNMutablePostalAddress *address = [CNMutablePostalAddress new];
+        1:  111:        address.street = @"55 John St";
+        1:  112:        address.city = @"New York";
+        1:  113:        address.state = @"NY";
+        1:  114:        address.postalCode = @"10002";
+        1:  115:        address.ISOCountryCode = @"US";
+        1:  116:        address.country = @"United States";
+        2:  117:        contact.postalAddresses = @[
+        2:  118:                                    [CNLabeledValue labeledValueWithLabel:CNLabelHome
+        1:  119:                                                                    value:address],
+        -:  120:                                    ];
+        1:  121:    }
+        -:  122:
+        1:  123:    SPAddress *address = [[SPAddress alloc] initWithCNContact:contact];
+        1:  124:    XCTAssertEqualObjects(@"John Doe", address.name);
+        1:  125:    XCTAssertEqualObjects(@"8885551212", address.phone);
+        1:  126:    XCTAssertEqualObjects(@"foo@example.com", address.email);
+        1:  127:    XCTAssertEqualObjects(@"55 John St", address.line1);
+        1:  128:    XCTAssertEqualObjects(@"New York", address.city);
+        1:  129:    XCTAssertEqualObjects(@"NY", address.state);
+        1:  130:    XCTAssertEqualObjects(@"10002", address.postalCode);
+        1:  131:    XCTAssertEqualObjects(@"US", address.country);
+        1:  132:}
+        -:  133:
+        1:  134:- (void)testInitWithCNContact_partial {
+        1:  135:    if ([CNContact class] == nil) {
+        -:  136:        // Method not supported by iOS version
+    #####:  137:        return;
+        -:  138:    }
+        -:  139:
+        1:  140:    CNMutableContact *contact = [CNMutableContact new];
+        -:  141:    {
+        1:  142:        contact.givenName = @"John";
+        -:  143:
+        1:  144:        CNMutablePostalAddress *address = [CNMutablePostalAddress new];
+        1:  145:        address.state = @"VA";
+        2:  146:        contact.postalAddresses = @[
+        2:  147:                                    [CNLabeledValue labeledValueWithLabel:CNLabelHome
+        1:  148:                                                                    value:address],
+        -:  149:                                    ];
+        1:  150:    }
+        -:  151:
+        1:  152:    SPAddress *address = [[SPAddress alloc] initWithCNContact:contact];
+        1:  153:    XCTAssertEqualObjects(@"John", address.name);
+        1:  154:    XCTAssertNil(address.phone);
+        1:  155:    XCTAssertNil(address.email);
+        1:  156:    XCTAssertNil(address.line1);
+        1:  157:    XCTAssertNil(address.city);
+        1:  158:    XCTAssertEqualObjects(@"VA", address.state);
+        1:  159:    XCTAssertNil(address.postalCode);
+        1:  160:    XCTAssertNil(address.country);
+        1:  161:}
+        -:  162:
+        1:  163:- (void)testPKContactValue {
+        1:  164:    SPAddress *address = [SPAddress new];
+        1:  165:    address.name = @"John Smith Doe";
+        1:  166:    address.phone = @"8885551212";
+        1:  167:    address.email = @"foo@example.com";
+        1:  168:    address.line1 = @"55 John St";
+        1:  169:    address.city = @"New York";
+        1:  170:    address.state = @"NY";
+        1:  171:    address.postalCode = @"10002";
+        1:  172:    address.country = @"US";
+        -:  173:
+        1:  174:    PKContact *contact = [address PKContactValue];
+        1:  175:    XCTAssertEqualObjects(contact.name.givenName, @"John");
+        1:  176:    XCTAssertEqualObjects(contact.name.familyName, @"Smith Doe");
+        1:  177:    XCTAssertEqualObjects(contact.phoneNumber.stringValue, @"8885551212");
+        1:  178:    XCTAssertEqualObjects(contact.emailAddress, @"foo@example.com");
+        1:  179:    CNPostalAddress *postalAddress = contact.postalAddress;
+        1:  180:    XCTAssertEqualObjects(postalAddress.street, @"55 John St");
+        1:  181:    XCTAssertEqualObjects(postalAddress.city, @"New York");
+        1:  182:    XCTAssertEqualObjects(postalAddress.state, @"NY");
+        1:  183:    XCTAssertEqualObjects(postalAddress.postalCode, @"10002");
+        1:  184:    XCTAssertEqualObjects(postalAddress.country, @"US");
+        1:  185:}
+        -:  186:
+        1:  187:- (void)testContainsRequiredFieldsNone {
+        1:  188:    SPAddress *address = [SPAddress new];
+        1:  189:    XCTAssertTrue([address containsRequiredFields:SPBillingAddressFieldsNone]);
+        1:  190:    address.line1 = @"55 John St";
+        1:  191:    address.city = @"New York";
+        1:  192:    address.state = @"NY";
+        1:  193:    address.postalCode = @"10002";
+        1:  194:    address.country = @"US";
+        1:  195:    address.phone = @"8885551212";
+        1:  196:    address.email = @"foo@example.com";
+        1:  197:    address.name = @"John Doe";
+        1:  198:    XCTAssertTrue([address containsRequiredFields:SPBillingAddressFieldsNone]);
+        1:  199:    address.country = @"UK";
+        1:  200:    XCTAssertTrue([address containsRequiredFields:SPBillingAddressFieldsNone]);
+        1:  201:}
+        -:  202:
+        -:  203:
+        1:  204:- (void)testContainsRequiredFieldsFull {
+        1:  205:    SPAddress *address = [SPAddress new];
+        -:  206:    
+        -:  207:    /**
+        -:  208:     Required fields for full are:
+        -:  209:     line1, city, country, state (US only) and a valid postal code (based on country)
+        -:  210:     */
+        -:  211:    
+        1:  212:    XCTAssertFalse([address containsRequiredFields:SPBillingAddressFieldsFull]);
+        1:  213:    address.country = @"US";
+        1:  214:    address.line1 = @"55 John St";
+        -:  215:    
+        -:  216:    // Fail on partial
+        1:  217:    XCTAssertFalse([address containsRequiredFields:SPBillingAddressFieldsFull]);
+        -:  218:    
+        1:  219:    address.city = @"New York";
+        -:  220:    
+        -:  221:    // For US fail if missing state or zip
+        1:  222:    XCTAssertFalse([address containsRequiredFields:SPBillingAddressFieldsFull]);
+        1:  223:    address.state = @"NY";
+        1:  224:    XCTAssertFalse([address containsRequiredFields:SPBillingAddressFieldsFull]);
+        1:  225:    address.postalCode = @"ABCDE";
+        1:  226:    XCTAssertFalse([address containsRequiredFields:SPBillingAddressFieldsFull]);
+        -:  227:    //postal must be numeric for US
+        1:  228:    address.postalCode = @"10002";
+        1:  229:    XCTAssertTrue([address containsRequiredFields:SPBillingAddressFieldsFull]);
+        1:  230:    address.phone = @"8885551212";
+        1:  231:    address.email = @"foo@example.com";
+        1:  232:    address.name = @"John Doe";
+        -:  233:    // Name/phone/email should have no effect
+        1:  234:    XCTAssertTrue([address containsRequiredFields:SPBillingAddressFieldsFull]);
+        -:  235:    
+        -:  236:    // Non US countries don't require state
+        1:  237:    address.country = @"UK";
+        1:  238:    XCTAssertTrue([address containsRequiredFields:SPBillingAddressFieldsFull]);
+        1:  239:    address.state = nil;
+        1:  240:    XCTAssertTrue([address containsRequiredFields:SPBillingAddressFieldsFull]);
+        -:  241:    // alphanumeric postal ok in some countries
+        1:  242:    address.postalCode = @"ABCDE";
+        1:  243:    XCTAssertTrue([address containsRequiredFields:SPBillingAddressFieldsFull]);
+        -:  244:    // UK requires ZIP
+        1:  245:    address.postalCode = nil;
+        1:  246:    XCTAssertFalse([address containsRequiredFields:SPBillingAddressFieldsFull]);
+        -:  247:    
+        -:  248:    
+        1:  249:    address.country = @"IE"; // Doesn't require postal or state, but allows them
+        1:  250:    XCTAssertTrue([address containsRequiredFields:SPBillingAddressFieldsFull]);
+        1:  251:    address.postalCode = @"ABCDE";
+        1:  252:    XCTAssertTrue([address containsRequiredFields:SPBillingAddressFieldsFull]);
+        1:  253:    address.state = @"Test";
+        1:  254:    XCTAssertTrue([address containsRequiredFields:SPBillingAddressFieldsFull]);
+        1:  255:}
+        -:  256:
+        1:  257:- (void)testContainsRequiredFieldsName {
+        1:  258:    SPAddress *address = [SPAddress new];
+        -:  259:
+        1:  260:    XCTAssertFalse([address containsRequiredFields:SPBillingAddressFieldsName]);
+        1:  261:    address.name = @"Jane Doe";
+        1:  262:    XCTAssertTrue([address containsRequiredFields:SPBillingAddressFieldsName]);
+        1:  263:}
+        -:  264:
+        1:  265:- (void)testContainsContentForBillingAddressFields {
+        1:  266:    SPAddress *address = [SPAddress new];
+        -:  267:
+        -:  268:    // Empty address should return false for everything
+        1:  269:    XCTAssertFalse([address containsContentForBillingAddressFields:SPBillingAddressFieldsNone]);
+        1:  270:    XCTAssertFalse([address containsContentForBillingAddressFields:SPBillingAddressFieldsFull]);
+        1:  271:    XCTAssertFalse([address containsContentForBillingAddressFields:SPBillingAddressFieldsName]);
+        -:  272:
+        -:  273:    // 1+ characters in postalCode will return true for .PostalCode && .Full
+        1:  274:    address.postalCode = @"0";
+        1:  275:    XCTAssertFalse([address containsContentForBillingAddressFields:SPBillingAddressFieldsNone]);
+        1:  276:    XCTAssertTrue([address containsContentForBillingAddressFields:SPBillingAddressFieldsFull]);
+        -:  277:    // empty string returns false
+        1:  278:    address.postalCode = @"";
+        1:  279:    XCTAssertFalse([address containsContentForBillingAddressFields:SPBillingAddressFieldsNone]);
+        1:  280:    XCTAssertFalse([address containsContentForBillingAddressFields:SPBillingAddressFieldsFull]);
+        1:  281:    address.postalCode = nil;
+        -:  282:
+        -:  283:    // 1+ characters in name will return true for .Name
+        1:  284:    address.name = @"Jane Doe";
+        1:  285:    XCTAssertTrue([address containsContentForBillingAddressFields:SPBillingAddressFieldsName]);
+        -:  286:    // empty string returns false
+        1:  287:    address.name = @"";
+        1:  288:    XCTAssertFalse([address containsContentForBillingAddressFields:SPBillingAddressFieldsName]);
+        1:  289:    address.name = nil;
+        -:  290:
+        -:  291:    // Test every other property that contributes to the full address, ensuring it returns True for .Full only
+        -:  292:    // This is *not* refactoring-safe, but I think it's better than a bunch of duplicated code
+        5:  293:    for (NSString *propertyName in @[@"line1", @"line2", @"city", @"state", @"country"]) {
+       15:  294:        for (NSString *testValue in @[@"a", @"0", @"Foo Bar"]) {
+       15:  295:            [address setValue:testValue forKey:propertyName];
+       15:  296:            XCTAssertFalse([address containsContentForBillingAddressFields:SPBillingAddressFieldsNone]);
+       15:  297:            XCTAssertTrue([address containsContentForBillingAddressFields:SPBillingAddressFieldsFull]);
+       15:  298:            XCTAssertFalse([address containsContentForBillingAddressFields:SPBillingAddressFieldsName]);
+       15:  299:            [address setValue:nil forKey:propertyName];
+       15:  300:        }
+        -:  301:
+        -:  302:        // Make sure that empty string is treated like nil, and returns false for these properties
+        5:  303:        [address setValue:@"" forKey:propertyName];
+        5:  304:        XCTAssertFalse([address containsContentForBillingAddressFields:SPBillingAddressFieldsNone]);
+        5:  305:        XCTAssertFalse([address containsContentForBillingAddressFields:SPBillingAddressFieldsFull]);
+        5:  306:        XCTAssertFalse([address containsContentForBillingAddressFields:SPBillingAddressFieldsName]);
+        5:  307:        [address setValue:nil forKey:propertyName];
+        5:  308:    }
+        -:  309:
+        -:  310:    // ensure it still returns false for everything since it has been cleared
+        1:  311:    XCTAssertFalse([address containsContentForBillingAddressFields:SPBillingAddressFieldsNone]);
+        1:  312:    XCTAssertFalse([address containsContentForBillingAddressFields:SPBillingAddressFieldsFull]);
+        1:  313:    XCTAssertFalse([address containsContentForBillingAddressFields:SPBillingAddressFieldsName]);
+        1:  314:}
+        -:  315:
+        1:  316:- (void)testContainsRequiredShippingAddressFields {
+        1:  317:    SPAddress *address = [SPAddress new];
+        1:  318:    XCTAssertTrue([address containsRequiredShippingAddressFields:nil]);
+        4:  319:    NSSet<SPContactField> *allFields = [NSSet setWithArray:@[SPContactFieldPostalAddress,
+        1:  320:                                                              SPContactFieldEmailAddress,
+        1:  321:                                                              SPContactFieldPhoneNumber,
+        1:  322:                                                              SPContactFieldName]];
+        1:  323:    XCTAssertFalse([address containsRequiredShippingAddressFields:allFields]);
+        -:  324:
+        1:  325:    address.name = @"John Smith";
+        1:  326:    XCTAssertTrue(([address containsRequiredShippingAddressFields:[NSSet setWithArray:@[SPContactFieldName]]]));
+        1:  327:    XCTAssertFalse(([address containsRequiredShippingAddressFields:[NSSet setWithArray:@[SPContactFieldEmailAddress]]]));
+        -:  328:
+        1:  329:    address.email = @"john@example.com";
+        1:  330:    XCTAssertTrue(([address containsRequiredShippingAddressFields:[NSSet setWithArray:@[SPContactFieldName, SPContactFieldEmailAddress]]]));
+        1:  331:    XCTAssertFalse(([address containsRequiredShippingAddressFields:allFields]));
+        -:  332:
+        1:  333:    address.phone = @"5555555555";
+        1:  334:    XCTAssertTrue(([address containsRequiredShippingAddressFields:[NSSet setWithArray:@[SPContactFieldName, SPContactFieldEmailAddress, SPContactFieldPhoneNumber]]]));
+        1:  335:    XCTAssertFalse(([address containsRequiredShippingAddressFields:allFields]));
+        1:  336:    address.country = @"GB";
+        1:  337:    XCTAssertTrue(([address containsRequiredShippingAddressFields:[NSSet setWithArray:@[SPContactFieldName, SPContactFieldEmailAddress, SPContactFieldPhoneNumber]]]));
+        -:  338:
+        1:  339:    address.country = @"US";
+        1:  340:    address.phone = @"5555555555";
+        1:  341:    address.line1 = @"55 John St";
+        1:  342:    address.city = @"New York";
+        1:  343:    address.state = @"NY";
+        1:  344:    address.postalCode = @"12345";
+        1:  345:    XCTAssertTrue([address containsRequiredShippingAddressFields:allFields]);
+        1:  346:}
+        -:  347:
+        1:  348:- (void)testContainsContentForShippingAddressFields {
+        1:  349:    SPAddress *address = [SPAddress new];
+        -:  350:
+        -:  351:    // Empty address should return false for everything
+        1:  352:    XCTAssertFalse(([address containsContentForShippingAddressFields:nil]));
+        1:  353:    XCTAssertFalse(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldName]]]));
+        1:  354:    XCTAssertFalse(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldPhoneNumber]]]));
+        1:  355:    XCTAssertFalse(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldEmailAddress]]]));
+        1:  356:    XCTAssertFalse(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldPostalAddress]]]));
+        -:  357:
+        -:  358:    // Name
+        1:  359:    address.name = @"Smith";
+        1:  360:    XCTAssertFalse(([address containsContentForShippingAddressFields:nil]));
+        1:  361:    XCTAssertTrue(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldName]]]));
+        1:  362:    XCTAssertFalse(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldPhoneNumber]]]));
+        1:  363:    XCTAssertFalse(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldEmailAddress]]]));
+        1:  364:    XCTAssertFalse(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldPostalAddress]]]));
+        1:  365:    address.name = @"";
+        -:  366:
+        -:  367:    // Phone
+        1:  368:    address.phone = @"1";
+        1:  369:    XCTAssertFalse(([address containsContentForShippingAddressFields:nil]));
+        1:  370:    XCTAssertFalse(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldName]]]));
+        1:  371:    XCTAssertTrue(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldPhoneNumber]]]));
+        1:  372:    XCTAssertFalse(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldEmailAddress]]]));
+        1:  373:    XCTAssertFalse(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldPostalAddress]]]));
+        1:  374:    address.phone = @"";
+        -:  375:
+        -:  376:    // Email
+        1:  377:    address.email = @"f";
+        1:  378:    XCTAssertFalse(([address containsContentForShippingAddressFields:nil]));
+        1:  379:    XCTAssertFalse(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldName]]]));
+        1:  380:    XCTAssertFalse(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldPhoneNumber]]]));
+        1:  381:    XCTAssertTrue(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldEmailAddress]]]));
+        1:  382:    XCTAssertFalse(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldPostalAddress]]]));
+        1:  383:    address.email = @"";
+        -:  384:
+        -:  385:    // Test every property that contributes to the full address
+        -:  386:    // This is *not* refactoring-safe, but I think it's better than a bunch more duplicated code
+        6:  387:    for (NSString *propertyName in @[@"line1", @"line2", @"city", @"state", @"postalCode", @"country"]) {
+       18:  388:        for (NSString *testValue in @[@"a", @"0", @"Foo Bar"]) {
+       18:  389:            [address setValue:testValue forKey:propertyName];
+       18:  390:            XCTAssertFalse(([address containsContentForShippingAddressFields:nil]));
+       18:  391:            XCTAssertFalse(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldName]]]));
+       18:  392:            XCTAssertFalse(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldPhoneNumber]]]));
+       18:  393:            XCTAssertFalse(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldEmailAddress]]]));
+       18:  394:            XCTAssertTrue(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldPostalAddress]]]));
+       18:  395:            [address setValue:@"" forKey:propertyName];
+       18:  396:        }
+        6:  397:    }
+        -:  398:
+        -:  399:    // ensure it still returns false for everything with empty strings
+        1:  400:    XCTAssertFalse(([address containsContentForShippingAddressFields:nil]));
+        1:  401:    XCTAssertFalse(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldName]]]));
+        1:  402:    XCTAssertFalse(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldPhoneNumber]]]));
+        1:  403:    XCTAssertFalse(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldEmailAddress]]]));
+        1:  404:    XCTAssertFalse(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldPostalAddress]]]));
+        -:  405:
+        -:  406:    // Try a hybrid address, and make sure some bitwise combinations work
+        1:  407:    address.name = @"a";
+        1:  408:    address.phone = @"1";
+        1:  409:    address.line1 = @"_";
+        1:  410:    XCTAssertFalse(([address containsContentForShippingAddressFields:nil]));
+        1:  411:    XCTAssertTrue(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldName]]]));
+        1:  412:    XCTAssertTrue(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldPhoneNumber]]]));
+        1:  413:    XCTAssertFalse(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldEmailAddress]]]));
+        1:  414:    XCTAssertTrue(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldPostalAddress]]]));
+        -:  415:
+        1:  416:    XCTAssertTrue(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldName, SPContactFieldEmailAddress]]]));
+        1:  417:    XCTAssertTrue(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldPhoneNumber, SPContactFieldEmailAddress]]]));
+        1:  418:    XCTAssertTrue(([address containsContentForShippingAddressFields:[NSSet setWithArray:@[SPContactFieldPostalAddress,
+        -:  419:                                                                                          SPContactFieldEmailAddress,
+        -:  420:                                                                                          SPContactFieldPhoneNumber,
+        -:  421:                                                                                          SPContactFieldName]]]));
+        -:  422:
+        1:  423:}
+        -:  424:
+        -:  425:#pragma mark STPFormEncodable Tests
+        -:  426:
+        1:  427:- (void)testRootObjectName {
+        1:  428:    XCTAssertNil([SPAddress rootObjectName]);
+        1:  429:}
+        -:  430:
+        1:  431:- (void)testPropertyNamesToFormFieldNamesMapping {
+        1:  432:    SPAddress *address = [SPAddress new];
+        -:  433:
+        1:  434:    NSDictionary *mapping = [SPAddress propertyNamesToFormFieldNamesMapping];
+        -:  435:
+        6:  436:    for (NSString *propertyName in [mapping allKeys]) {
+        6:  437:        XCTAssertFalse([propertyName containsString:@":"]);
+        6:  438:        XCTAssert([address respondsToSelector:NSSelectorFromString(propertyName)]);
+        6:  439:    }
+        -:  440:
+        6:  441:    for (NSString *formFieldName in [mapping allValues]) {
+        6:  442:        XCTAssert([formFieldName isKindOfClass:[NSString class]]);
+        6:  443:        XCTAssert([formFieldName length] > 0);
+        6:  444:    }
+        -:  445:
+        1:  446:    XCTAssertEqual([[mapping allValues] count], [[NSSet setWithArray:[mapping allValues]] count]);
+        1:  447:}
+        -:  448:
+        -:  449:@end

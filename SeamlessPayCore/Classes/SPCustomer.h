@@ -5,73 +5,80 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-#import "SPPaymentMethod.h"
+
 #import <Foundation/Foundation.h>
+#import "SPAddress.h"
+#import "SPPaymentMethod.h"
 
 @interface SPCustomer : NSObject
 /**
  * Unique identifier for the object.
  */
-@property(nonatomic, readonly, copy) NSString *custId;
+@property(nonatomic, readonly, copy) NSString * _Nullable customerId;
 /**
  * The customer's name.
  */
-@property(nonatomic, readonly, copy) NSString *name;
+@property(nonatomic, readonly, copy) NSString * _Nonnull  name;
 /**
  * Customer email.
  */
-@property(nonatomic, readonly, copy) NSString *email;
+@property(nonatomic, readonly, copy) NSString * _Nullable email;
 /**
  * The customer's first address
  */
-@property(nonatomic, readonly, copy) NSString *address;
-/**
- * The customer's second address.
- */
-@property(nonatomic, readonly, copy) NSString *address2;
-/**
- *  The customer's city.
- */
-@property(nonatomic, readonly, copy) NSString *city;
-/**
- *   The customer's state.
- */
-@property(nonatomic, readonly, copy) NSString *state;
-/**
- *  The customer's zip code.
- */
-@property(nonatomic, readonly, copy) NSString *zip;
-/**
- *  The customer's country.
- */
-@property(nonatomic, readonly, copy) NSString *country;
+@property(nonatomic, readonly, copy) SPAddress * _Nullable address;
 /**
  *  The customer's company name.
  */
-@property(nonatomic, readonly, copy) NSString *companyName;
+@property(nonatomic, readonly, copy) NSString * _Nullable companyName;
+/**
+ *  The customer's notes.
+ */
+@property(nonatomic, readonly, copy) NSString * _Nullable notes;
 /**
  *  Custom json object
  */
-@property(nonatomic, readonly, copy) NSString *metadata;
+@property(nonatomic, readonly, copy) NSString * _Nullable metadata;
 /**
  *   The customer's phone number.
  */
-@property(nonatomic, readonly, copy) NSString *phone;
+@property(nonatomic, readonly, copy) NSString * _Nullable phone;
 /**
  *  The customer's payment methods.
  *   NSArray of objects (SPPaymentMethod)
  */
-@property(nonatomic, readonly, copy) NSArray *paymentMethods;
+@property(nonatomic, readonly, copy) NSArray * _Nullable paymentMethods;
 /**
  *   The customer's website.
  */
-@property(nonatomic, readonly, copy) NSString *website;
+@property(nonatomic, readonly, copy) NSString * _Nullable website;
+/**
+ *   The customer's created.
+ *   string <date-time>
+ */
+@property(nonatomic, readonly, copy) NSString * _Nullable createdAt;
+/**
+ *   The customer's updated.
+ *   string <date-time>
+ */
+@property(nonatomic, readonly, copy) NSString * _Nullable updatedAt;
+
 
 /**
  * Initializes instance of SPCustomer .
  */
-+ (instancetype)customerWithResponseData:(NSData *)data;
-- (instancetype)initWithResponseData:(NSData *)data;
-- (NSDictionary *)dictionary;
++ (instancetype _Nonnull )customerWithResponseData:(nonnull NSData *)data;
+- (instancetype _Nonnull )initWithResponseData:(nonnull NSData *)data;
+- (instancetype _Nonnull )initWithName:(nonnull NSString *)name
+                                 email:(nullable NSString *)email
+                                 phone:(nullable NSString *)phone
+                           companyName:(nullable NSString *)companyName
+                                 notes:(nullable NSString *)notes
+                               website:(nullable NSString *)website
+                              metadata:(nullable NSString *)metadata
+                               address:(nullable SPAddress *)address
+                        paymentMethods:(nullable NSArray *)paymentMethods;
+
+- (NSDictionary *_Nullable) dictionary;
 
 @end

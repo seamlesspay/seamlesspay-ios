@@ -1,0 +1,117 @@
+        -:    0:Source:SeamlessPayCoreTests/SPPaymentCardTextFieldTest.m
+        -:    0:Graph:/Users/sb/Library/Developer/Xcode/DerivedData/SeamlessPayCore-hhzsuewgtnajsudfmilhnmvjpivn/Build/Intermediates.noindex/SeamlessPayCore.build/Debug-iphonesimulator/SeamlessPayCoreTests.build/Objects-normal/x86_64/SPPaymentCardTextFieldTest.gcno
+        -:    0:Data:/Users/sb/Library/Developer/Xcode/DerivedData/SeamlessPayCore-hhzsuewgtnajsudfmilhnmvjpivn/Build/Intermediates.noindex/SeamlessPayCore.build/Debug-iphonesimulator/SeamlessPayCoreTests.build/Objects-normal/x86_64/SPPaymentCardTextFieldTest.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1://
+        -:    2://  SPPaymentCardTextFieldTest.m
+        -:    3://  SeamlessPayCoreTests
+        -:    4://
+        -:    5:
+        -:    6:
+        -:    7:#import <XCTest/XCTest.h>
+        -:    8:
+        -:    9:#import "../../SeamlessPayCore/Classes/SPPaymentCardTextField.h"
+        -:   10:#import "../../SeamlessPayCore/Classes/SPFormTextField.h"
+        -:   11:#import "../../SeamlessPayCore/Classes/SPPaymentCardTextFieldViewModel.h"
+        -:   12:
+        -:   13:
+        -:   14:@interface SPPaymentCardTextField (Testing)
+        -:   15:@property (nonatomic, readwrite, weak) UIImageView *brandImageView;
+        -:   16:@property (nonatomic, readwrite, weak) SPFormTextField *numberField;
+        -:   17:@property (nonatomic, readwrite, weak) SPFormTextField *expirationField;
+        -:   18:@property (nonatomic, readwrite, weak) SPFormTextField *cvcField;
+        -:   19:@property (nonatomic, readwrite, weak) SPFormTextField *postalCodeField;
+        -:   20:@property (nonatomic, readonly, weak) SPFormTextField *currentFirstResponderField;
+        -:   21:@property (nonatomic, readwrite, strong) SPPaymentCardTextFieldViewModel *viewModel;
+        -:   22:@property (nonatomic, copy) NSNumber *focusedTextFieldForLayout;
+        -:   23:+ (UIImage *)cvcImageForCardBrand:(SPCardBrand)cardBrand;
+        -:   24:+ (UIImage *)brandImageForCardBrand:(SPCardBrand)cardBrand;
+        -:   25:@end
+        -:   26:
+        -:   27:/**
+        -:   28: Class that implements SPPaymentCardTextFieldDelegate and uses a block for each delegate method.
+        -:   29: */
+        -:   30:@interface PaymentCardTextFieldBlockDelegate: NSObject <SPPaymentCardTextFieldDelegate>
+        -:   31:@property (nonatomic, strong, nullable) void (^didChange)(SPPaymentCardTextField *);
+        -:   32:@property (nonatomic, strong, nullable) void (^willEndEditingForReturn)(SPPaymentCardTextField *);
+        -:   33:@property (nonatomic, strong, nullable) void (^didEndEditing)(SPPaymentCardTextField *);
+        -:   34:// add more properties for other delegate methods as this test needs them
+        -:   35:@end
+        -:   36:@implementation PaymentCardTextFieldBlockDelegate
+    #####:   37:- (void)paymentCardTextFieldDidChange:(SPPaymentCardTextField *)textField {
+    #####:   38:    if (self.didChange) {
+    #####:   39:        self.didChange(textField);
+    #####:   40:    }
+    #####:   41:}
+    #####:   42:- (void)paymentCardTextFieldWillEndEditingForReturn:(SPPaymentCardTextField *)textField {
+    #####:   43:    if (self.willEndEditingForReturn) {
+    #####:   44:        self.willEndEditingForReturn(textField);
+    #####:   45:    }
+    #####:   46:}
+    #####:   47:- (void)paymentCardTextFieldDidEndEditing:(SPPaymentCardTextField *)textField {
+    #####:   48:    if (self.didEndEditing) {
+    #####:   49:        self.didEndEditing(textField);
+    #####:   50:    }
+    #####:   51:}
+        -:   52:@end
+        -:   53:
+        -:   54:
+        -:   55:
+        -:   56:@interface SPPaymentCardTextFieldTest : XCTestCase
+        -:   57:
+        -:   58:@end
+        -:   59:
+        -:   60:@implementation SPPaymentCardTextFieldTest
+        -:   61:
+        3:   62:- (void)setUp {
+        -:   63:    // Put setup code here. This method is called before the invocation of each test method in the class.
+        3:   64:}
+        -:   65:
+        3:   66:- (void)tearDown {
+        -:   67:    // Put teardown code here. This method is called after the invocation of each test method in the class.
+        3:   68:}
+        -:   69:
+       13:   70:- (void)testIntrinsicContentSize {
+       13:   71:    SPPaymentCardTextField *textField = [SPPaymentCardTextField new];
+        -:   72:    
+       13:   73:    UIFont *iOS8SystemFont = [UIFont fontWithName:@"HelveticaNeue" size:18];
+       13:   74:    textField.font = iOS8SystemFont;
+       13:   75:    XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.height, 44, 0.1);
+       11:   76:    XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.width, 135, 0.1);
+        -:   77:
+        9:   78:    UIFont *iOS9SystemFont = [UIFont systemFontOfSize:18];;
+        9:   79:    textField.font = iOS9SystemFont;
+        9:   80:    XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.height, 44, 0.1);
+        7:   81:    XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.width, 132, 0.1);
+        -:   82:
+        5:   83:    textField.font = [UIFont fontWithName:@"Avenir" size:44];
+        5:   84:    XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.height, 62, 0.1);
+        3:   85:    XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.width, 272, 0.1);
+       85:   86:}
+        -:   87:
+        1:   88:- (void)testSetCard_numberUnknown {
+        1:   89:    SPPaymentCardTextField *sut = [SPPaymentCardTextField new];
+        1:   90:    NSString *number = @"1";
+        1:   91:    sut.numberField.text = number;
+        1:   92:    XCTAssertEqualObjects(sut.numberField.text, number);
+        1:   93:    XCTAssertEqual(sut.expirationField.text.length, (NSUInteger)0);
+        1:   94:    XCTAssertEqual(sut.cvcField.text.length, (NSUInteger)0);
+        1:   95:    XCTAssertNil(sut.currentFirstResponderField);
+        1:   96:}
+        -:   97:
+        1:   98:- (void)testSettingTextUpdatesViewModelText {
+        1:   99:    SPPaymentCardTextField *sut = [SPPaymentCardTextField new];
+        1:  100:    sut.numberField.text = @"4242424242424242";
+        1:  101:    XCTAssertEqualObjects(sut.viewModel.cardNumber, sut.numberField.text);
+        -:  102:
+        1:  103:    sut.cvcField.text = @"123";
+        1:  104:    XCTAssertEqualObjects(sut.viewModel.cvc, sut.cvcField.text);
+        -:  105:
+        1:  106:    sut.expirationField.text = @"10/99";
+        1:  107:    XCTAssertEqualObjects(sut.viewModel.rawExpiration, sut.expirationField.text);
+        1:  108:    XCTAssertEqualObjects(sut.viewModel.expirationMonth, @"10");
+        1:  109:    XCTAssertEqualObjects(sut.viewModel.expirationYear, @"99");
+        1:  110:}
+        -:  111:
+        -:  112:@end

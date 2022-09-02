@@ -1,0 +1,71 @@
+        -:    0:Source:SeamlessPayCoreTests/NSString_ExtrasTest.m
+        -:    0:Graph:/Users/sb/Library/Developer/Xcode/DerivedData/SeamlessPayCore-hhzsuewgtnajsudfmilhnmvjpivn/Build/Intermediates.noindex/SeamlessPayCore.build/Debug-iphonesimulator/SeamlessPayCoreTests.build/Objects-normal/x86_64/NSString_ExtrasTest.gcno
+        -:    0:Data:/Users/sb/Library/Developer/Xcode/DerivedData/SeamlessPayCore-hhzsuewgtnajsudfmilhnmvjpivn/Build/Intermediates.noindex/SeamlessPayCore.build/Debug-iphonesimulator/SeamlessPayCoreTests.build/Objects-normal/x86_64/NSString_ExtrasTest.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1://
+        -:    2://  NSString_ExtrasTest.m
+        -:    3://  SeamlessPayCoreTests
+        -:    4://
+        -:    5:
+        -:    6:#import <XCTest/XCTest.h>
+        -:    7:#import "../../SeamlessPayCore/Classes/NSString+Extras.h"
+        -:    8:
+        -:    9:@interface NSString_ExtrasTest : XCTestCase
+        -:   10:
+        -:   11:@end
+        -:   12:
+        -:   13:@implementation NSString_ExtrasTest
+        -:   14:
+    #####:   15:- (void)setUp {
+        -:   16:    // Put setup code here. This method is called before the invocation of each test method in the class.
+    #####:   17:}
+        -:   18:
+    #####:   19:- (void)tearDown {
+        -:   20:    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    #####:   21:}
+        -:   22:
+    #####:   23:- (void)testSafeSubstringToIndex {
+    #####:   24:    XCTAssertEqualObjects([@"foo" sp_safeSubstringToIndex:0], @"");
+    #####:   25:    XCTAssertEqualObjects([@"foo" sp_safeSubstringToIndex:500], @"foo");
+    #####:   26:    XCTAssertEqualObjects([@"foo" sp_safeSubstringToIndex:1], @"f");
+    #####:   27:    XCTAssertEqualObjects([@"" sp_safeSubstringToIndex:0], @"");
+    #####:   28:    XCTAssertEqualObjects([@"" sp_safeSubstringToIndex:1], @"");
+    #####:   29:}
+        -:   30:
+    #####:   31:- (void)testSafeSubstringFromIndex {
+    #####:   32:    XCTAssertEqualObjects([@"foo" sp_safeSubstringFromIndex:0], @"foo");
+    #####:   33:    XCTAssertEqualObjects([@"foo" sp_safeSubstringFromIndex:1], @"oo");
+    #####:   34:    XCTAssertEqualObjects([@"foo" sp_safeSubstringFromIndex:3], @"");
+    #####:   35:    XCTAssertEqualObjects([@"" sp_safeSubstringFromIndex:0], @"");
+    #####:   36:    XCTAssertEqualObjects([@"" sp_safeSubstringFromIndex:1], @"");
+    #####:   37:}
+        -:   38:
+    #####:   39:- (void)testReversedString {
+    #####:   40:    XCTAssertEqualObjects([@"foo" sp_reversedString], @"oof");
+    #####:   41:    XCTAssertEqualObjects([@"12345" sp_reversedString], @"54321");
+    #####:   42:    XCTAssertEqualObjects([@"" sp_reversedString], @"");
+    #####:   43:}
+        -:   44:
+    #####:   45:- (void)testStringByRemovingSuffix {
+    #####:   46:    XCTAssertEqualObjects([@"foobar" sp_stringByRemovingSuffix:@"bar"], @"foo");
+    #####:   47:    XCTAssertEqualObjects([@"foobar" sp_stringByRemovingSuffix:@"baz"], @"foobar");
+    #####:   48:    XCTAssertEqualObjects([@"foobar" sp_stringByRemovingSuffix:nil], @"foobar");
+    #####:   49:    XCTAssertEqualObjects([@"foobar" sp_stringByRemovingSuffix:@"foobar"], @"");
+    #####:   50:    XCTAssertEqualObjects([@"foobar" sp_stringByRemovingSuffix:@""], @"foobar");
+    #####:   51:    XCTAssertEqualObjects([@"foobar" sp_stringByRemovingSuffix:@"oba"], @"foobar");
+        -:   52:
+    #####:   53:    XCTAssertEqualObjects([@"foobar☺¿" sp_stringByRemovingSuffix:@"bar☺¿"], @"foo");
+    #####:   54:    XCTAssertEqualObjects([@"foobar☺¿" sp_stringByRemovingSuffix:@"bar¿"], @"foobar☺¿");
+        -:   55:
+    #####:   56:    XCTAssertEqualObjects([@"foobar\u202C" sp_stringByRemovingSuffix:@"bar"], @"foobar\u202C");
+    #####:   57:    XCTAssertEqualObjects([@"foobar\u202C" sp_stringByRemovingSuffix:@"bar\u202C"], @"foo");
+        -:   58:
+        -:   59:    // e + \u0041 => é
+    #####:   60:    XCTAssertEqualObjects([@"foobare\u0301" sp_stringByRemovingSuffix:@"bare"], @"foobare\u0301");
+    #####:   61:    XCTAssertEqualObjects([@"foobare\u0301" sp_stringByRemovingSuffix:@"bare\u0301"], @"foo");
+    #####:   62:    XCTAssertEqualObjects([@"foobare" sp_stringByRemovingSuffix:@"bare\u0301"], @"foobare");
+        -:   63:
+    #####:   64:}
+        -:   65:
+        -:   66:@end

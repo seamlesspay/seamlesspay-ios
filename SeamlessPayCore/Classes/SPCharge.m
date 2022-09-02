@@ -28,71 +28,69 @@
       NSArray *keysForNullValues = [dict allKeysForObject:[NSNull null]];
       [dict removeObjectsForKeys:keysForNullValues];
 
-      NSLog(@"%@", obj);
+      //NSLog(@"%@", obj);
 
-      _chargeId = [dict[@"id"] copy];
-      _method = [dict[@"method"] copy];
-      _amount = [dict[@"amount"] copy];
-      _tip = [dict[@"tip"] copy];
-      _surchargeFeeAmount = [dict[@"surchargeFeeAmount"] copy];
-      _order = [dict[@"order"] copy];
-      _currency = [dict[@"currency"] copy];
-      _cardBrand = [dict[@"cardBrand"] copy];
-      _expDate = [dict[@"expDate"] copy];
-      _cardType = [dict[@"cardType"] copy];
-      _lastFour = [dict[@"lastFour"] copy];
-      _token = [dict[@"token"] copy];
-      _txnDate = [dict[@"txnDate"] copy];
-      _status = [dict[@"status"] copy];
-      _statusCode = [dict[@"statusCode"] copy];
-      _statusDescription = [dict[@"statusDescription"] copy];
-      _avsResult = [dict[@"avsResult"] copy];
-      _avsMessage = [dict[@"avsMessage"] copy];
-      _cvvResult = [dict[@"cvvResult"] copy];
-      _ipAddress = [dict[@"ipAddress"] copy];
-      _authCode = [dict[@"authCode"] copy];
-      _batch = [dict[@"batch"] copy];
-      _adjustments = [dict[@"adjustments"] copy];
-      _businessCard = dict[@"businessCard"] ? YES : NO;
+      _chargeId = dict[@"id"];//
+      _method = dict[@"method"];//
+      _amount = dict[@"amount"];//
+      _tip = dict[@"tip"];//
+      _surchargeFeeAmount = dict[@"surchargeFeeAmount"];//
+      _order = dict[@"order"];//
+      _currency = dict[@"currency"];//
+      _expDate = dict[@"expDate"];//
+      _lastFour = dict[@"lastFour"];//
+      _token = dict[@"token"];//
+      _status = dict[@"status"];
+      _statusCode = dict[@"statusCode"];//
+      _statusDescription = dict[@"statusDescription"];//
+      _ipAddress = dict[@"ipAddress"];//
+      _authCode = dict[@"authCode"];//
+      _batch = dict[@"batch"];//
+      _paymentNetwork = dict[@"paymentNetwork"];//
+      _businessCard = dict[@"businessCard"] ? YES : NO;//
+      _fullyRefunded = dict[@"fullyRefunded"] ? YES : NO;//
+      _adjustments = dict[@"adjustments"];//
+      _paymentType = dict[@"paymentType"];//
+      _accountType = dict[@"accountType"];//
+      _refunds = dict[@"refunds"];//
+      _transactionDate = dict[@"transactionDate"];//
+      _verification = dict[@"verification"];//
+      _createdAt = dict[@"createdAt"];//
+      _updatedAt = dict[@"updatedAt"];//
     }
   }
   return self;
 }
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
-  self = [super init];
-  if (self) {
-
-    NSMutableDictionary *dict = [dictionary mutableCopy];
-    NSArray *keysForNullValues = [dict allKeysForObject:[NSNull null]];
-    [dict removeObjectsForKeys:keysForNullValues];
-
-    _chargeId = [dict[@"id"] copy];
-    _method = [dict[@"method"] copy];
-    _amount = [dict[@"amount"] copy];
-    _tip = [dict[@"tip"] copy];
-    _surchargeFeeAmount = [dict[@"surchargeFeeAmount"] copy];
-    _order = [dict[@"order"] copy];
-    _currency = [dict[@"currency"] copy];
-    _cardBrand = [dict[@"cardBrand"] copy];
-    _expDate = [dict[@"expDate"] copy];
-    _cardType = [dict[@"cardType"] copy];
-    _lastFour = [dict[@"lastFour"] copy];
-    _token = [dict[@"token"] copy];
-    _txnDate = [dict[@"txnDate"] copy];
-    _status = [dict[@"status"] copy];
-    _statusCode = [dict[@"statusCode"] copy];
-    _statusDescription = [dict[@"statusDescription"] copy];
-    _avsResult = [dict[@"avsResult"] copy];
-    _avsMessage = [dict[@"avsMessage"] copy];
-    _cvvResult = [dict[@"cvvResult"] copy];
-    _ipAddress = [dict[@"ipAddress"] copy];
-    _authCode = [dict[@"authCode"] copy];
-    _batch = [dict[@"batch"] copy];
-    _adjustments = [dict[@"adjustments"] copy];
-    _businessCard = dict[@"businessCard"] ? YES : NO;
-  }
-  return self;
-}
+//- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+//  self = [super init];
+//  if (self) {
+//
+//    NSMutableDictionary *dict = [dictionary mutableCopy];
+//    NSArray *keysForNullValues = [dict allKeysForObject:[NSNull null]];
+//    [dict removeObjectsForKeys:keysForNullValues];
+//
+//    _chargeId = dict[@"id"];
+//    _method = dict[@"method"];
+//    _amount = dict[@"amount"];
+//    _tip = dict[@"tip"];
+//    _surchargeFeeAmount = dict[@"surchargeFeeAmount"];
+//    _order = dict[@"order"];
+//    _currency = dict[@"currency"];
+//    _expDate = dict[@"expDate"];
+//    _lastFour = dict[@"lastFour"];
+//    _token = dict[@"token"];
+//    _status = dict[@"status"];
+//    _statusCode = dict[@"statusCode"];
+//    _statusDescription = dict[@"statusDescription"];
+//    _ipAddress = dict[@"ipAddress"];
+//    _authCode = dict[@"authCode"];
+//    _batch = dict[@"batch"];
+//    _businessCard = dict[@"businessCard"] ? YES : NO;
+//    _createdAt = dict[@"createdAt"];
+//    _updatedAt = dict[@"updatedAt"];
+//  }
+//  return self;
+//}
 
 @end

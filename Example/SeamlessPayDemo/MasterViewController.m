@@ -42,6 +42,7 @@
   [self.objects addObject:@"Virtual Terminal (ACH)"];
   [self.objects addObject:@"Virtual Terminal (GIFT CARD)"];
   [self.objects addObject:@"UI Payment Card Text Field"];
+  [self.objects addObject:@"Apple Pay"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -100,6 +101,10 @@
 
   if ([object.description isEqualToString:@"UI Payment Card Text Field"]) {
     cell.textLabel.textColor = [UIColor blueColor];
+  }
+    
+  if ([object.description isEqualToString:@"Apple Pay"]) {
+    cell.textLabel.textColor = [UIColor redColor];
   }
 
   return cell;

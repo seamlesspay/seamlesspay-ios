@@ -42,20 +42,16 @@
 @property(nonatomic, strong) NSString *orderId;
 @property(nonatomic, strong) NSString *paymentDescription;
 @property(nonatomic, strong) NSString *paymentAmount;
+@property(nonatomic, strong) NSString *paymentType;
 
-@property(nonatomic, strong) NSString *billingAddress;
-@property(nonatomic, strong) NSString *billingAddress2;
-@property(nonatomic, strong) NSString *billingCity;
-@property(nonatomic, strong) NSString *billingState;
-@property(nonatomic, strong) NSString *billingZip;
-@property(nonatomic, strong) NSString *billingCountry;
+@property(nonatomic, strong) SPAddress *billingAddress;
+@property(nonatomic, strong) SPCustomer *customer;
 @property(nonatomic, strong) NSString *phoneNumber;
 @property(nonatomic, strong) NSString *email;
 @property(nonatomic, strong) NSString *company;
-@property(nonatomic, strong) NSString *nickname;
 @property(nonatomic, strong) NSString *name;
-@property(nonatomic, strong) NSDictionary *paymentMetadata;
-@property(nonatomic) BOOL isNeedSendReceipt;
+@property(nonatomic, strong) NSString *paymentMetadata;
+
 
 @property(nonatomic, assign) id<SPPaymentViewControllerDelegate> delegate;
 

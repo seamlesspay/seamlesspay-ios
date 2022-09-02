@@ -29,21 +29,27 @@
       NSArray *keysForNullValues = [obj allKeysForObject:[NSNull null]];
       [obj removeObjectsForKeys:keysForNullValues];
 
-      NSLog(@"%@", obj);
+      NSLog(@"SPCustomer initWithResponseData: %@", obj);
+        
+      SPAddress *address = [[SPAddress alloc] initWithline1:obj[@"address"][@"line1"] ?: nil
+                                                        line2:obj[@"address"][@"line2"] ?: nil
+                                                         city:obj[@"address"][@"city"] ?: nil
+                                                      country:obj[@"address"][@"country"] ?: nil
+                                                        state:obj[@"address"][@"state"] ?: nil
+                                                   postalCode:obj[@"address"][@"postalCode"] ?: nil];
 
-      _custId = [obj[@"id"] copy];
-      _name = [obj[@"name"] copy];
-      _email = [obj[@"email"] copy];
-      _address = [obj[@"address"] copy];
-      _address2 = [obj[@"address2"] copy];
-      _city = [obj[@"city"] copy];
-      _companyName = [obj[@"companyName"] copy];
-      _country = [obj[@"country"] copy];
-      _state = [obj[@"state"] copy];
-      _phone = [obj[@"phone"] copy];
-      _zip = [obj[@"zip"] copy];
-      _website = [obj[@"website"] copy];
-      _metadata = [obj[@"metadata"] copy];
+      _customerId = obj[@"id"] ?: nil;
+      _name = obj[@"name"] ?: nil;
+      _email = obj[@"email"] ?: nil;
+      _address = address;
+      _companyName = obj[@"companyName"] ?: nil;
+      _notes = obj[@"description"] ?: nil;
+      _website = obj[@"website"] ?: nil;
+      _metadata = obj[@"metadata"] ?: nil;
+      _phone = obj[@"phone"] ?: nil;
+      _createdAt = obj[@"createdAt"] ?: nil;
+      _updatedAt = obj[@"updatedAt"] ?: nil;
+        
 
       if (error == nil &&
           [obj[@"paymentMethods"] isKindOfClass:[NSArray class]]) {
@@ -60,29 +66,65 @@
   return self;
 }
 
-- (NSDictionary *)dictionary {
-  NSMutableArray *arr = [NSMutableArray new];
-  if (_paymentMethods) {
-    for (SPPaymentMethod *pm in _paymentMethods) {
-      [arr addObject:[pm dictionary]];
-    }
+- (instancetype)initWithName:(NSString *)name
+                     email:(NSString *)email
+                     phone:(NSString *)phone
+                 companyName:(NSString *)companyName
+                       notes:(NSString *)notes
+                     website:(NSString *)website
+                    metadata:(NSString *)metadata
+                     address:(SPAddress *)address
+              paymentMethods:(NSArray *)paymentMethods {
+    
+  self = [super init];
+  if (self) {
+      
+      _name = name;
+      _email = email;
+      _phone = phone;
+      _companyName = companyName;
+      _notes = notes;
+      _website = website;
+      _metadata = metadata;
+      _address = address;
+      _paymentMethods = paymentMethods;
   }
-
-  return @{
-    @"id" : _custId ?: @"",
-    @"name" : _name ?: @"",
-    @"email" : _email ?: @"",
-    @"address" : _address ?: @"",
-    @"address2" : _address2 ?: @"",
-    @"city" : _city ?: @"",
-    @"state" : _state ?: @"",
-    @"zip" : _zip ?: @"",
-    @"country" : _country ?: @"",
-    @"phone" : _phone ?: @"",
-    @"companyName" : _companyName ?: @"",
-    @"website" : _website ?: @"",
-    @"metadata" : _metadata ?: @"",
-    @"paymentMethods" : arr
-  };
+  return self;
 }
+
+
+- (NSDictionary *)dictionary {
+    
+    NSMutableArray *arr = nil;
+    if (_paymentMethods) {
+        arr = [NSMutableArray new];
+        for (SPPaymentMethod *pm in _paymentMethods) {
+            [arr addObject:[pm dictionary]];
+        }
+    }
+    
+    NSMutableDictionary *params = [@{
+        
+        @"customerId" : _customerId ?: @"",
+        @"name" : _name,
+        @"email" : _email ?: @"",
+        @"address" : _address && [_address dictionary] ? [_address dictionary] : @"",
+        @"phone" : _phone ?: @"",
+        @"companyName" : _companyName ?: @"",
+        @"notes" : _notes ?: @"",
+        @"website" : _website ?: @"",
+        @"metadata" : _metadata ?: @"",
+        @"createdAt" : _createdAt ?: @"",
+        @"updatedAt" : _updatedAt ?: @"",
+        @"paymentMethods" : arr?: @""
+        
+    } mutableCopy];
+    
+    NSArray *keysForNullValues = [params allKeysForObject:@""];
+    keysForNullValues = [keysForNullValues arrayByAddingObjectsFromArray: [params allKeysForObject:[NSNull null]]];
+    [params removeObjectsForKeys:keysForNullValues];
+    
+    return [params count] !=0 ? params : nil;
+}
+
 @end
