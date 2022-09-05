@@ -8,6 +8,7 @@
 import UIKit
 
 import SeamlessPayCore
+import PassKit
 
 class ViewController: UIViewController {
     lazy var cardTextField: SPPaymentCardTextField = {
@@ -41,7 +42,7 @@ class ViewController: UIViewController {
             stackView.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 20),
         ])
     }
-    
+        
     @objc
     func pay() {
         
