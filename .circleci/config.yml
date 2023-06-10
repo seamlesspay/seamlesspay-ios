@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     macos:
-      xcode: 13.2.1
+      xcode: 14.2.0
     working_directory: ~/seamlesspay-ios
     steps:
       - checkout
@@ -21,10 +21,27 @@ jobs:
           name: Build app for testing 
           command: |
             cd Example/ 
-            xcodebuild build-for-testing -workspace SeamlessPayCore.xcworkspace -scheme CISeamlessPayCoreTests -destination 'platform=iOS Simulator,name=iPhone 11,OS=15.2' -enableCodeCoverage YES CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+            xcodebuild \
+              -workspace SeamlessPayCore.xcworkspace \
+              -scheme CISeamlessPayCoreTests \
+              -sdk iphonesimulator \
+              -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.2' \
+              -enableCodeCoverage YES \
+              CODE_SIGN_IDENTITY="" \
+              CODE_SIGNING_REQUIRED=NO \
+              build-for-testing
       - run: 
           name: Run tests
           command: |
             cd Example/ 
-            xcodebuild test -workspace SeamlessPayCore.xcworkspace -scheme CISeamlessPayCoreTests -destination 'platform=iOS Simulator,name=iPhone 11,OS=15.2' -enableCodeCoverage YES CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO 
-            bash <(curl -s https://codecov.io/bash) -J 'SeamlessPayCoreTests.xctest' -t ${CODECOV_TOKEN}
+            xcodebuild \
+              -workspace SeamlessPayCore.xcworkspace \
+              -scheme CISeamlessPayCoreTests \
+              -sdk iphonesimulator \
+              -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.2' \
+              -enableCodeCoverage YES \
+              CODE_SIGN_IDENTITY="" \
+              CODE_SIGNING_REQUIRED=NO \
+              test
+# bash <(curl -s https://codecov.io/bash) -J 'SeamlessPayCoreTests.xctest' -t ${CODECOV_TOKEN}
+            
