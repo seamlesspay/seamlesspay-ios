@@ -30,8 +30,8 @@ pod 'SeamlessPayCore'
 
 When your app starts, configure the SDK with your SeamlessPay publishable (you can get it on the API Keys page), so that it can make requests to the SeamlessPay API.
 
-Using only Publishable Key for a single page apps without their own backend. In this case you will be able to do /v1/charge only.
-Using a Secret Key allows you using all transaction's methods (e.g. /v1/charge, /v1/refund, /v1/void).
+Using only Publishable Key for a single page apps without their own backend. In this case you will be able to do /charge only.
+Using a Secret Key allows you using all transaction's methods (e.g. /charge, /refund, /void).
 
 Objective-C:
 
@@ -46,8 +46,7 @@ AppDelegate.m
           [[SPAPIClient getSharedInstance]
              setSecretKey:@"sk_XXXXXXXXXXXXXXXXXXXXXXXXXX"
              publishableKey:@"pk_XXXXXXXXXXXXXXXXXXXXXXXXXX"
-             apiEndpoint:@"https://sandbox.seamlesspay.com"
-             panVaultEndpoint:@"https://sandbox-pan-vault.seamlesspay.com"];
+             environment: SPEnvironmentSandbox];
       // do any other necessary launch configuration
       return YES;
   }
@@ -67,8 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
                 SPAPIClient.getSharedInstance().setSecretKey( "sk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
                                          publishableKey: "pk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
-                                         apiEndpoint: "https://sandbox.seamlesspay.com",
-                                         panVaultEndpoint: "https://sandbox-pan-vault.seamlesspay.com")
+                                         environment: .sandbox)
 
         return true
     }
@@ -200,7 +198,7 @@ Objective-C:
                                   postalCode:self.cardTextField.postalCode];
     
     [[SPAPIClient getSharedInstance]
-     createPaymentMethodWithPaymentType:@"credit_card"
+     tokenizeWithPaymentType:SPPaymentTypeCreditCard
      account:self.cardTextField.cardNumber
      expDate:self.cardTextField.formattedExpirationDate
      cvv:self.cardTextField.cvc
@@ -211,7 +209,7 @@ Objective-C:
      billingCompanyName:nil
      accountEmail:nil
      phoneNumber:nil
-     name:@"Name IOS test"
+     name:@"Michael Smith"
      customer:nil
      success:^(SPPaymentMethod *paymentMethod) {
         
@@ -246,11 +244,11 @@ Objective-C:
           
         }
          failure:^(SPError *error) {
-             NSLog(@"%@", [error errorMessage]);;
+             NSLog(@"%@", [error localizedDescription]);;
         }];
     }
      failure:^(SPError *error) {
-        NSLog(@"%@", [error errorMessage]);
+        NSLog(@"%@", [error localizedDescription]);
     }];
 }
 ```
@@ -269,8 +267,8 @@ Swift:
             postalCode: cardTextField.postalCode)
         
         
-        SPAPIClient.getSharedInstance().createPaymentMethod(
-            withPaymentType: "credit_card",
+        SPAPIClient.getSharedInstance().tokenize(
+            with: .creditCard,
             account: cardTextField.cardNumber,
             expDate: cardTextField.formattedExpirationDate,
             cvv: self.cardTextField.cvc,
@@ -281,7 +279,8 @@ Swift:
             billingCompanyName: nil,
             accountEmail: nil,
             phoneNumber: nil,
-            name: "Name IOS test", customer: nil,
+            name: "Michael Smith", 
+            customer: nil,
             success: { (paymentMethod: SPPaymentMethod?) in
                 
                 let token = paymentMethod?.token
@@ -312,7 +311,7 @@ Swift:
                     }, failure: { (error: SPError?) in
                         
                         // Handle the error
-                        print(error?.errorMessage ?? "")
+                        print(error?.localizedDescription ?? "")
                         return
                     }
                 )
@@ -320,7 +319,7 @@ Swift:
             }, failure: { (error: SPError?) in
                 
                 // Handle the error
-                print(error?.errorMessage ?? "")
+                print(error?.localizedDescription ?? "")
                 return
             }
         )
@@ -328,261 +327,6 @@ Swift:
     }
 ```
 
-## Apple Pay and Charge
-
-
-Objective-C:
-
-```objective-c
-CheckoutViewController.m
-
-#import "CheckoutViewController.h"
-@import SeamlessPayCore;
-
-@interface CheckoutViewController ()
-@end
-
-@implementation CheckoutViewController
-- (void)viewDidLoad {
-    [super viewDidLoad];
-        
-        PKPaymentButton *button = [SPApplePay paymentButtonWithStyle:PKPaymentButtonStyleWhiteOutline paymentsUsingNetworks:nil];
-        
-        [button addTarget:self
-                   action:button.tag == PKPaymentButtonTypeSetUp ? @selector(applepaysetup) : @selector(applepay)
-         forControlEvents:UIControlEventTouchUpInside];
-        self.payButton = button;
-        
-        UILabel *infoLbel = [[UILabel alloc] init];
-        infoLbel.text = @"Payable: $1.0";
-        
-        UIStackView *stackView = [[UIStackView alloc]
-                                  initWithArrangedSubviews:@[ infoLbel, button ]];
-        stackView.axis = UILayoutConstraintAxisVertical;
-        stackView.translatesAutoresizingMaskIntoConstraints = NO;
-        stackView.spacing = 20;
-        [self.view addSubview:stackView];
-        
-        [NSLayoutConstraint activateConstraints:@[
-            [stackView.leftAnchor
-             constraintEqualToSystemSpacingAfterAnchor:self.view.leftAnchor
-             multiplier:2],
-            [self.view.rightAnchor
-             constraintEqualToSystemSpacingAfterAnchor:stackView.rightAnchor
-             multiplier:2],
-            [stackView.topAnchor
-             constraintEqualToSystemSpacingBelowAnchor:self.view.topAnchor
-             multiplier:20],
-        ]];
-}
-
-- (void)applepaysetup {
-    NSURL* url = [NSURL URLWithString:@"App-Prefs:root=PASSBOOK"];
-    if([[UIApplication sharedApplication] canOpenURL:url]){
-        [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:^(BOOL success) {
-            
-        }];
-    }
-}
-
-- (void)applepay {
-    
-    PKPaymentSummaryItem *item = [PKPaymentSummaryItem
-                                  summaryItemWithLabel:@"Test Item description"
-                                  amount:[NSDecimalNumber decimalNumberWithString:@"1"]];
-    
-    PKPaymentRequest *paymentRequest = [SPApplePay paymentRequestWithMerchantIdentifier:@"merchant.com.seamlesspay.sdk"
-                                                                    paymentSummaryItems:@[item]
-                                                                  paymentsUsingNetworks:nil];
-    
-    PKPaymentAuthorizationViewController *paymentAuthorizationVC = [[PKPaymentAuthorizationViewController alloc] initWithPaymentRequest:paymentRequest];
-    
-    paymentAuthorizationVC.delegate = self;
-    [self presentViewController:paymentAuthorizationVC
-                       animated:YES
-                     completion:nil];
-}
-
-- (void)paymentAuthorizationViewControllerDidFinish:(PKPaymentAuthorizationViewController *)controller {
-    [controller dismissViewControllerAnimated:YES completion:^{
-        NSLog(@"Payment Authorization Controller Finish");
-        
-    }];
-}
-
-- (void)paymentAuthorizationViewController:(PKPaymentAuthorizationViewController *)controller
-                       didAuthorizePayment:(PKPayment *)payment
-                                   handler:(void (^)(PKPaymentAuthorizationResult *result))completion {
-    
-    [[SPAPIClient getSharedInstance] createTokenWithPayment:payment
-                                         merchantIdentifier:@"merchant.com.seamlesspay.sdk"
-                                                    success:^(SPPaymentMethod *paymentMethod) {
-        if (paymentMethod) {
-            
-            [[SPAPIClient getSharedInstance] createChargeWithToken:paymentMethod.token
-                                                               cvv:nil
-                                                           capture:YES
-                                                          currency:nil
-                                                            amount:@"1"
-                                                         taxAmount:nil
-                                                         taxExempt:NO
-                                                               tip:nil
-                                                surchargeFeeAmount:nil
-                                                       description:@"Apple Pay Charge"
-                                                             order:nil
-                                                           orderId:nil
-                                                          poNumber:nil
-                                                          metadata:nil
-                                                        descriptor:nil
-                                                         entryType:nil
-                                                    idempotencyKey:nil
-                                          digitalWalletProgramType:@"APPLE_PAY"
-             
-                                                           success:^(SPCharge *charge) {
-                        
-                if (charge) {
-
-                    NSString *success =
-                    [NSString stringWithFormat:
-                     @"Amount: $%@\nStatus: %@\nStatus message: "
-                     @"%@\ntxnID #: %@\n",
-                     charge.amount, charge.status,
-                     charge.statusDescription, charge.chargeId];
-                     
-                     NSLog(@"%@", success);
-
-                }
-            }
-                                                           failure:^(SPError *error) {
-                         NSLog(@"%@", [error errorMessage]);
-            }];
-            
-            
-            completion(
-                       [[PKPaymentAuthorizationResult alloc] initWithStatus:(PKPaymentAuthorizationStatusSuccess)
-                                                                     errors:nil]
-                       );
-        }
-    }
-     
-                                                    failure:^(SPError *error) {
-        completion(
-                   [[PKPaymentAuthorizationResult alloc] initWithStatus:(PKPaymentAuthorizationStatusFailure)
-                                                                 errors:@[error]]
-                   );
-    }];
-}
-
-
-```
-
-Swift:
-
-```swift
-import UIKit
-
-import SeamlessPayCore
-
-class ViewController: UIViewController {
-
-    lazy var payButton: PKPaymentButton = {
-        let button = SPApplePay.paymentButton(with: PKPaymentButtonStyleWhiteOutline, paymentsUsingNetworks: nil)
-        button.addTarget(self, action:button.tag == PKPaymentButtonTypeSetUp ? #selector(applepaysetup) : #selector(applepay), for: .touchUpInside)
-        return button
-    }()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-
-        view.backgroundColor = .white
-        let stackView = UIStackView(arrangedSubviews: [payButton])
-        stackView.axis = .vertical
-        stackView.spacing = 20
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(stackView)
-        NSLayoutConstraint.activate([
-            stackView.leftAnchor.constraint(equalToSystemSpacingAfter: view.leftAnchor, multiplier: 2),
-            view.rightAnchor.constraint(equalToSystemSpacingAfter: stackView.rightAnchor, multiplier: 2),
-            stackView.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 20),
-        ])
-    }
-    
-    @objc
-    func applepaysetup() {
-        if let url = URL(string: "App-Prefs:root=PASSBOOK") {
-            UIApplication.shared.open(url, completionHandler: .none)
-        }
-    }
-
-    @objc
-    func applepay() {
-        
-         let item = PKPaymentSummaryItem(label: "Test Item description", amount: NSDecimalNumber(string: "1"), type: .final)
-         let paymentRequest = SPApplePay.paymentRequest(withMerchantIdentifier: "merchant.MerchantIdentifier", paymentSummaryItems: [item], paymentsUsingNetworks: nil)
-         
-         let paymentAuthorizationVC = PKPaymentAuthorizationViewController(paymentRequest: paymentRequest)
-            paymentAuthorizationVC.delegate = self
-        self.present(paymentAuthorizationVC, animated: true, completion: nil)
-    }
-    
-    func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
-        controller.dismiss(animated: true, completion: nil)
-        print("paymentAuthorizationViewControllerDidFinish called")
-    }
-    
-    func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, completion: (@escaping (PKPaymentAuthorizationStatus) -> Void)) {
-        print("paymentAuthorizationViewController delegates called")
-        
-           SPAPIClient.getSharedInstance().createToken(with: payment, merchantIdentifier: "merchant.MerchantIdentifier") {
-           
-             (paymentMethod: SPPaymentMethod?) in
-                
-                let token = paymentMethod?.token
-                
-                SPAPIClient.getSharedInstance().createCharge(
-                    withToken: token!,
-                    cvv: nil,
-                    capture: true, currency: nil,
-                    amount: "1",
-                    taxAmount: nil,
-                    taxExempt: false,
-                    tip: nil,
-                    surchargeFeeAmount: nil,
-                    description: @"Apple Pay Charge",
-                    order: nil,
-                    orderId: nil,
-                    poNumber: nil,
-                    metadata: nil,
-                    descriptor: nil,
-                    entryType: nil,
-                    idempotencyKey: nil,
-                    digitalWalletProgramType: "APPLE_PAY",
-                    success: { (charge: SPCharge?) in
-                        
-                        // Success Charge:
-                        print(charge?.chargeId ?? "charge is nil")
-                        
-                    }, failure: { (error: SPError?) in
-                        
-                        // Handle the error
-                        print(error?.errorMessage ?? "")
-                        return
-                    }
-                )
-                
-            }, failure: { (error: SPError?) in
-                
-                // Handle the error
-                print(error?.errorMessage ?? "")
-                return
-            }
-        )
-    }
-}
-
-
-```
 
 Start with [**'Demo APP'**](https://github.com/seamlesspay/seamlesspay-ios/tree/dev/Example) for sample on basic setup and usage.
 

@@ -21,19 +21,20 @@
   // Override point for customization after application launch.
   NSString *secretkey = [[NSUserDefaults standardUserDefaults] objectForKey:@"secretkey"];
   NSString *publishableKey = [[NSUserDefaults standardUserDefaults] objectForKey:@"publishableKey"];
+  SPEnvironment env = [[NSUserDefaults standardUserDefaults] integerForKey:@"env"];
 
   if (!publishableKey) {
-      publishableKey = @"pk_XXXXXXXXXXXXXXXXXXXXXXXXXX";
-      secretkey = @"sk_XXXXXXXXXXXXXXXXXXXXXXXXXX";
+    publishableKey = @"pk_XXXXXXXXXXXXXXXXXXXXXXXXXX";
+    secretkey = @"sk_XXXXXXXXXXXXXXXXXXXXXXXXXX";
+    env = SPEnvironmentSandbox;
     [[NSUserDefaults standardUserDefaults] setObject:publishableKey forKey:@"publishableKey"];
     [[NSUserDefaults standardUserDefaults] setObject:secretkey forKey:@"secretkey"];
+    [[NSUserDefaults standardUserDefaults] setInteger:env forKey:@"env"];
   }
 
-    [[SPAPIClient getSharedInstance]
-     setSecretKey:secretkey
-     publishableKey:publishableKey
-     apiEndpoint:@"https://sandbox.seamlesspay.com"
-     panVaultEndpoint:@"https://sandbox-pan-vault.seamlesspay.com"];
+  [[SPAPIClient getSharedInstance] setSecretKey:secretkey
+                                 publishableKey:publishableKey
+                                    environment:env];
 
   return YES;
 }

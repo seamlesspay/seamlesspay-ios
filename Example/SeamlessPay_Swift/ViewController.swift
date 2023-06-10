@@ -55,8 +55,8 @@ class ViewController: UIViewController {
             postalCode: cardTextField.postalCode)
         
         
-        SPAPIClient.getSharedInstance().createPaymentMethod(
-            withPaymentType: "credit_card",
+        SPAPIClient.getSharedInstance().tokenize(
+            with: .creditCard,
             account: cardTextField.cardNumber,
             expDate: cardTextField.formattedExpirationDate,
             cvv: self.cardTextField.cvc,
@@ -67,7 +67,8 @@ class ViewController: UIViewController {
             billingCompanyName: nil,
             accountEmail: nil,
             phoneNumber: nil,
-            name: "Name IOS test", customer: nil,
+            name: "Michael Smith",
+            customer: nil,
             success: { (paymentMethod: SPPaymentMethod?) in
                 
                 let token = paymentMethod?.token
@@ -98,7 +99,7 @@ class ViewController: UIViewController {
                     }, failure: { (error: SPError?) in
                         
                         // Handle the error
-                        print(error?.errorMessage ?? "")
+                        print(error?.localizedDescription ?? "")
                         return
                     }
                 )
@@ -106,7 +107,7 @@ class ViewController: UIViewController {
             }, failure: { (error: SPError?) in
                 
                 // Handle the error
-                print(error?.errorMessage ?? "")
+                print(error?.localizedDescription ?? "")
                 return
             }
         )

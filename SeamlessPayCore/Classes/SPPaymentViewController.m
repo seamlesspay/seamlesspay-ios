@@ -91,10 +91,9 @@
 
   [self.activityIndicator startAnimation];
     
- 
-    
+
     [[SPAPIClient getSharedInstance]
-     createPaymentMethodWithPaymentType:self.paymentType ?: @"credit_card"
+     tokenizeWithPaymentType:self.paymentType ?: SPPaymentTypeCreditCard
      account:self.cardTextField.cardNumber
      expDate:self.cardTextField.formattedExpirationDate
      cvv:self.cardTextField.cvc
@@ -107,27 +106,7 @@
      phoneNumber:self.phoneNumber
      name:self.name
      customer:nil
-
-//  [[SPAPIClient getSharedInstance] createPaymentMethodWithType:@"CREDIT_CARD"
-//      account:self.cardTextField.cardNumber
-//      expDate:self.cardTextField.formattedExpirationDate
-//      cvv:self.cardTextField.cvc
-//      accountType:nil
-//      routing:nil
-//      pin:nil
-//      address:self.billingAddress
-//      address2:self.billingAddress2
-//      city:self.billingCity
-//      country:self.billingCountry
-//      state:self.billingState
-//      zip:self.cardTextField.postalCode?:self.billingZip
-//      company:self.company
-//      email:self.email
-//      phone:self.phoneNumber
-//      name:self.name
-//      nickname:self.nickname
-//      verification : self.isVerification
-      success:^(SPPaymentMethod *paymentMethod) {
+     success:^(SPPaymentMethod *paymentMethod) {
       
         if ([self.delegate respondsToSelector:@selector(paymentViewController:paymentMethodSuccess:)]) {
            [self.delegate paymentViewController:self paymentMethodSuccess:paymentMethod];

@@ -15,10 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
 
-        SPAPIClient.getSharedInstance().setSecretKey( "sk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
-                                         publishableKey: "pk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
-                                         apiEndpoint: "https://sandbox.seamlesspay.com",
-                                         panVaultEndpoint: "https://sandbox-pan-vault.seamlesspay.com")
+        SPAPIClient.getSharedInstance().setSecretKey(nil,
+                                                     publishableKey: "pk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
+                                                     environment: .sandbox)
         
         
 

@@ -200,7 +200,7 @@ NSString *SPQueryStringFromParameters(NSDictionary *parameters) {
   // For each dictionary key-value pair, form-encode the pair (potentially
   // recursively). Thus {foo: {bar: "baz"}} becomes the tuple, ("foo[bar]",
   // "baz"). Each one of these tuples will become a key/value pair in the final
-  // query string (e.g. POST /v1/charges?foo[bar]=baz).
+  // query string (e.g. POST /charges?foo[bar]=baz).
   NSMutableArray *mutablePairs = [NSMutableArray array];
   for (id key in
        [escaped.allKeys sortedArrayUsingDescriptors:@[ sortDescriptor ]]) {

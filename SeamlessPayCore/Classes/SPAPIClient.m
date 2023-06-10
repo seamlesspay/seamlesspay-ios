@@ -7,28 +7,20 @@
 
 #import "SPAPIClient.h"
 
-static const NSString *k_APIHostURL;
-static const NSString *k_APIHostURLLive = @"https://api.seamlesspay.io";
-static const NSString *k_APIHostURLSandbox = @"https://api.seamlesspay.io";
-//static const NSString *k_PanVaultHostURLLive = @"https://pan-vault.seamlesspay.com";
-//static const NSString *k_PanVaultHostURLSandbox = @"https://sandbox-pan-vault.seamlesspay.com";
-
-static const NSString *k_PanVaultHostURLLive = @"https://pan-vault.l1.seamlesspay.io";
-static const NSString *k_PanVaultHostURLSandbox = @"https://pan-vault.l1.seamlesspay.io";
-
-
-static const NSString *k_APIVersionNumber = @"v2019";
+NSString * const k_APIVersion = @"v2020";
 static const NSTimeInterval k_TimeoutInterval = 15.0;
 
 static SPAPIClient *sharedInstance = nil;
 
+// MARK: - Interface
 @interface SPAPIClient () {
   NSString *_APIHostURL;
-  NSString *_PanVaulHostURL;
+  NSString *_PanVaultHostURL;
 }
 @property (nonatomic) NSDate *appOpenTime;
 @end
 
+// MARK: - Implementation
 @implementation SPAPIClient
 
 + (instancetype)getSharedInstance {
@@ -39,32 +31,13 @@ static SPAPIClient *sharedInstance = nil;
 }
 
 - (void)setSecretKey:(NSString *)secretKey
-           publishableKey:(NSString *)publishableKey
-             sandbox:(BOOL)sandbox {
-  if (sandbox) {
-    _APIHostURL = [k_APIHostURLSandbox copy];
-    _PanVaulHostURL = [k_PanVaultHostURLSandbox copy];
-  } else {
-    _APIHostURL = [k_APIHostURLLive copy];
-    _PanVaulHostURL = [k_PanVaultHostURLLive copy];
-  }
-
+      publishableKey:(NSString *)publishableKey
+         environment:(SPEnvironment)environment {
+  _APIHostURL = [self hostURLForEnvironment:environment];
+  _PanVaultHostURL = [self panVaultURLForEnvironment:environment];
   _secretKey = [secretKey ?: publishableKey copy];
   _publishableKey = [publishableKey copy];
-    
-  self.appOpenTime = [NSDate date];
-}
 
-- (void)setSecretKey:(NSString *)secretKey
-      publishableKey:(NSString *)publishableKey
-         apiEndpoint:(NSString *)APIEndpoint
-    panVaultEndpoint:(NSString *)PANVaultEndpoint {
-
-    _secretKey = [secretKey copy];
-    _publishableKey = [publishableKey copy];
-    _APIHostURL = [APIEndpoint copy];
-    _PanVaulHostURL = [PANVaultEndpoint copy];
-    
   self.appOpenTime = [NSDate date];
 }
 
@@ -117,16 +90,16 @@ static SPAPIClient *sharedInstance = nil;
                                             path:path
                                         hostName:_APIHostURL
                                           apiKey:_secretKey
-                                      apiVersion:@"v2020" ]
+                                      apiVersion:k_APIVersion]
      completionHandler:^(NSData *_Nullable data,
                          NSURLResponse *_Nullable response,
                          NSError *_Nullable error) {
         if (error || [self isResponse:response]) {
             
             if (failure) {
-                SPError *sperr = [SPError errorWithResponse:data];
+                SPError *sperr = [self errorWithData:data error:error];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    failure(sperr ?: (SPError *)error);
+                    failure(sperr);
                 });
             }
             
@@ -212,7 +185,7 @@ static SPAPIClient *sharedInstance = nil;
                                    customerId]
                          hostName:_APIHostURL
                            apiKey:_secretKey
-                           apiVersion:@"v2020"]
+                           apiVersion:k_APIVersion]
 
         completionHandler:^(NSData *_Nullable data,
                             NSURLResponse *_Nullable response,
@@ -220,9 +193,9 @@ static SPAPIClient *sharedInstance = nil;
           if (error || [self isResponse:response]) {
 
             if (failure) {
-              SPError *sperr = [SPError errorWithResponse:data];
+              SPError *sperr = [self errorWithData:data error:error];
               dispatch_async(dispatch_get_main_queue(), ^{
-                failure(sperr ?: (SPError *)error);
+                failure(sperr);
               });
             }
 
@@ -248,141 +221,25 @@ static SPAPIClient *sharedInstance = nil;
   [task resume];
 }
 
-- (void)createTokenWithPayment:(nonnull PKPayment *)payment
-            merchantIdentifier:(NSString *)merchantIdentifier
-                       success:(void(^)(SPPaymentMethod * paymentMethod))success
-                       failure:(void(^)(SPError *))failure {
+- (void)tokenizeWithPaymentType:(SPPaymentType)paymentType
+                        account:(NSString *)account
+                        expDate:(NSString *)expDate
+                            cvv:(NSString *)cvv
+                    accountType:(NSString *)accountType
+                        routing:(NSString *)routing
+                            pin:(NSString *)pin
+                 billingAddress:(SPAddress *)billingAddress
+             billingCompanyName:(NSString *)billingCompany
+                   accountEmail:(NSString *)accountEmail
+                    phoneNumber:(NSString *)phoneNumber
+                           name:(NSString *)name
+                       customer:(SPCustomer *)customer
+                        success:(void (^)(SPPaymentMethod *paymentMethod))success
+                        failure:(void (^)(SPError *))failure {
     
-    
-    NSCAssert(payment != nil, @"Cannot create a token with a nil payment.");
-    
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    
-    NSMutableDictionary *paymentData = [NSMutableDictionary dictionary];
- 
-    
-    params[@"appleToken"] = paymentData;
-    params[@"merchantIdentifier"] = merchantIdentifier;
-    paymentData[@"paymentData"] = [NSJSONSerialization JSONObjectWithData:payment.token.paymentData
-                                                            options:NSJSONReadingMutableContainers
-                                                              error:nil];
-    paymentData[@"transactionIdentifier"] = payment.token.transactionIdentifier;
-    
-    NSString *type;
-    switch (payment.token.paymentMethod.type) {
-        case PKPaymentMethodTypeDebit:
-            type = @"debit";
-            params[@"paymentType"] = @"pldebit_card";
-            break;
-        case PKPaymentMethodTypeCredit:
-            type = @"credit";
-            params[@"paymentType"] = @"credit_card";
-            break;
-            
-        default:
-            type = @"unknown";
-            params[@"paymentType"] = @"unknown";
-            break;
-    }
- 
-    
-    paymentData[@"paymentMethod"] = @{
-        @"displayName" : payment.token.paymentMethod.displayName,
-        @"network": payment.token.paymentMethod.network,
-        @"type" : type};
-       
-    if (payment.billingContact) {
-        
-        params[@"name"] = [NSString stringWithFormat:@"%@ %@", payment.billingContact.name.givenName?:@"", payment.billingContact.name.familyName?:@""];
-        
-        if (payment.billingContact.phoneNumber) {
-            params[@"phoneNumber"] = [NSString stringWithFormat:@"%@", payment.billingContact.phoneNumber.stringValue];
-        } else if (payment.shippingContact && payment.shippingContact.phoneNumber) {
-            params[@"phoneNumber"] = [NSString stringWithFormat:@"%@", payment.shippingContact.phoneNumber.stringValue];
-        }
-        
-        if (payment.billingContact.emailAddress) {
-            params[@"email"] = [NSString stringWithFormat:@"%@", payment.billingContact.emailAddress];
-        } else if (payment.shippingContact && payment.shippingContact.emailAddress) {
-            params[@"email"] = [NSString stringWithFormat:@"%@", payment.shippingContact.emailAddress];
-        }
- 
-        
-        NSMutableDictionary *billingAddress = [NSMutableDictionary dictionary];
-        billingAddress[@"line1"] = [NSString stringWithFormat:@"%@", payment.billingContact.postalAddress.street];
-        billingAddress[@"line2"] = @"";
-        billingAddress[@"city"] = [NSString stringWithFormat:@"%@", payment.billingContact.postalAddress.city];
-        billingAddress[@"country"] = [NSString stringWithFormat:@"%@", payment.billingContact.postalAddress.ISOCountryCode];
-        
-        if ([billingAddress[@"country"] isEqual:@"US"]) {
-            NSString * scode = [self _USStateCodeWithName:payment.billingContact.postalAddress.state];
-            if (scode != nil) {
-                billingAddress[@"state"] = [NSString stringWithFormat:@"%@", scode];
-            }
-        } else {
-            billingAddress[@"state"] = [NSString stringWithFormat:@"%@", payment.billingContact.postalAddress.state];
-        }
-        
-        billingAddress[@"postalCode"] = [NSString stringWithFormat:@"%@", payment.billingContact.postalAddress.postalCode];
-        params[@"billingAddress"] = billingAddress;
-        
-    }
-   
-    NSArray *keysForNullValues = [params allKeysForObject:@""];
-    [params removeObjectsForKeys:keysForNullValues];
-    
-    NSURLSessionDataTask *task = [[NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]]
-                                  dataTaskWithRequest:[self requestWithMethod: @"POST"
-                                                                       params: params
-                                                                         path: @"tokens"
-                                                                     hostName:_PanVaulHostURL
-                                                                       apiKey:_publishableKey
-                                                                    apiVersion:@"v2020"]
-                                  completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        
-        if (error || [self isResponse:response]) {
-            
-            if (failure) {
-                SPError *sperr = [SPError errorWithResponse:data];
-                NSLog(@"%@", sperr);
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    failure (sperr ? : (SPError*)error);
-                });
-            }
-            
-        } else {
-            
-            if (success) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    success([SPPaymentMethod tokenWithResponseData:data]);
-                });
-            }
-        }
-    }];
-    
-    [task resume];
-}
-
-- (void)createPaymentMethodWithPaymentType:(NSString *)paymentType
-                            account:(NSString *)account
-                            expDate:(NSString *)expDate
-                                cvv:(NSString *)cvv
-                        accountType:(NSString *)accountType
-                            routing:(NSString *)routing
-                                pin:(NSString *)pin
-                    billingAddress:(SPAddress *)billingAddress
-                billingCompanyName:(NSString *)billingCompany
-                      accountEmail:(NSString *)accountEmail
-                       phoneNumber:(NSString *)phoneNumber
-                               name:(NSString *)name
-                           customer:(SPCustomer *)customer
-                            success:(void (^)(SPPaymentMethod *paymentMethod))
-                                        success
-                            failure:(void (^)(SPError *))failure {
-    
-       
+  NSString *paymentTypeString = [self valueForPaymentType:paymentType];
   NSMutableDictionary *params = [@{
-    @"paymentType" : paymentType ?: @"",
+    @"paymentType" : paymentTypeString ?: @"",
     @"accountNumber" : account ?: @"",
     @"billingAddress" : [billingAddress dictionary] ? [billingAddress dictionary] : @"",
     @"company" : billingCompany ?: @"",
@@ -393,22 +250,20 @@ static SPAPIClient *sharedInstance = nil;
     @"deviceFingerprint" : [self deviceFingerprint]
   } mutableCopy];
 
-  if ([paymentType isEqualToString:@"gift_card"]) {
+  if (paymentType == SPPaymentTypeGiftCard) {
     [params addEntriesFromDictionary:@{@"pinNumber" : pin ?: @""}];
   }
 
-  if ([paymentType isEqualToString:@"credit_card"] ||
-      [paymentType isEqualToString:@"pldebit_card"]) {
+  if (paymentType == SPPaymentTypeCreditCard || paymentType == SPPaymentTypePlDebitCard) {
     [params addEntriesFromDictionary:@{@"expDate" : expDate ?: @""}];
     
   }
     
-    if ([paymentType isEqualToString:@"credit_card"]) {
+    if (paymentType == SPPaymentTypeCreditCard) {
       [params addEntriesFromDictionary:@{@"cvv" : cvv ?: @""}];
       
     }
-    
-  if ([paymentType isEqualToString:@"ach"]) {
+  if (paymentType == SPPaymentTypeAch) {
     [params addEntriesFromDictionary:@{
       @"bankAccountType" : accountType ?: @"",
       @"routingNumber" : routing ?: @""
@@ -424,18 +279,18 @@ static SPAPIClient *sharedInstance = nil;
           dataTaskWithRequest:[self requestWithMethod:@"POST"
                                                params:params
                                                  path:@"tokens"
-                                             hostName:_PanVaulHostURL
+                                             hostName:_PanVaultHostURL
                                                apiKey:_publishableKey
-                                           apiVersion:@"v2020"]
+                                           apiVersion:k_APIVersion]
             completionHandler:^(NSData *_Nullable data,
                                 NSURLResponse *_Nullable response,
                                 NSError *_Nullable error) {
               if (error || [self isResponse:response]) {
 
                 if (failure) {
-                  SPError *sperr = [SPError errorWithResponse:data];
+                  SPError *sperr = [self errorWithData:data error:error];
                   dispatch_async(dispatch_get_main_queue(), ^{
-                    failure(sperr ?: (SPError *)error);
+                    failure(sperr);
                   });
                 }
 
@@ -506,16 +361,16 @@ static SPAPIClient *sharedInstance = nil;
                                                  path:@"charges"
                                              hostName:_APIHostURL
                                                apiKey:_secretKey
-                                           apiVersion:@"v2020"]
+                                           apiVersion:k_APIVersion]
             completionHandler:^(NSData *_Nullable data,
                                 NSURLResponse *_Nullable response,
                                 NSError *_Nullable error) {
               if (error || [self isResponse:response]) {
 
                 if (failure) {
-                  SPError *sperr = [SPError errorWithResponse:data];
+                  SPError *sperr = [self errorWithData:data error:error];
                   dispatch_async(dispatch_get_main_queue(), ^{
-                    failure(sperr ?: (SPError *)error);
+                    failure(sperr);
                   });
                 }
 
@@ -545,7 +400,7 @@ static SPAPIClient *sharedInstance = nil;
                                                              chargeId]
                          hostName:_APIHostURL
                            apiKey:_secretKey
-                       apiVersion:@"v2020"]
+                       apiVersion:k_APIVersion]
 
         completionHandler:^(NSData *_Nullable data,
                             NSURLResponse *_Nullable response,
@@ -553,9 +408,9 @@ static SPAPIClient *sharedInstance = nil;
           if (error || [self isResponse:response]) {
 
             if (failure) {
-              SPError *sperr = [SPError errorWithResponse:data];
+              SPError *sperr = [self errorWithData:data error:error];
               dispatch_async(dispatch_get_main_queue(), ^{
-                failure(sperr ?: (SPError *)error);
+                failure(sperr);
               });
             }
 
@@ -592,7 +447,7 @@ static SPAPIClient *sharedInstance = nil;
                                              path:@"charges"
                                          hostName:_APIHostURL
                                            apiKey:_secretKey
-                                       apiVersion:@"v2020"]
+                                       apiVersion:k_APIVersion]
 
         completionHandler:^(NSData *_Nullable data,
                             NSURLResponse *_Nullable response,
@@ -600,9 +455,9 @@ static SPAPIClient *sharedInstance = nil;
           if (error || [self isResponse:response]) {
 
             if (failure) {
-              SPError *sperr = [SPError errorWithResponse:data];
+              SPError *sperr = [self errorWithData:data error:error];
               dispatch_async(dispatch_get_main_queue(), ^{
-                failure(sperr ?: (SPError *)error);
+                failure(sperr);
               });
             }
 
@@ -632,6 +487,68 @@ static SPAPIClient *sharedInstance = nil;
 #pragma mark - <<<Private Methods>>>
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+- (NSString *)valueForPaymentType:(SPPaymentType)paymentType {
+  switch (paymentType) {
+    case SPPaymentTypeAch:
+      return @"ach";
+    case SPPaymentTypeCreditCard:
+      return @"credit_card";
+    case SPPaymentTypeGiftCard:
+      return @"gift_card";
+    case SPPaymentTypePlDebitCard:
+      return @"pldebit_card";
+  }
+
+  NSAssert(NO, @"Unexpected SPSPPaymentTypes");
+  return @"";
+}
+
+- (NSString *)panVaultURLForEnvironment:(SPEnvironment)environment {
+  switch (environment) {
+    case SPEnvironmentProduction:
+      return @"https://pan-vault.seamlesspay.com";
+    case SPEnvironmentSandbox:
+      return @"https://sandbox-pan-vault.seamlesspay.com";
+    case SPEnvironmentStaging:
+      return @"https://pan-vault.seamlesspay.dev";
+    case SPEnvironmentQAT:
+      return @"https://pan-vault.seamlesspay.io";
+  }
+
+  NSAssert(NO, @"Unexpected SPEnvironment");
+  return @"";
+}
+
+- (NSString *)hostURLForEnvironment:(SPEnvironment)environment {
+  switch (environment) {
+    case SPEnvironmentProduction:
+      return @"https://api.seamlesspay.com";
+    case SPEnvironmentSandbox:
+      return @"https://api.seamlesspay.dev";
+    case SPEnvironmentStaging:
+      return @"https://api.seamlesspay.dev";
+    case SPEnvironmentQAT:
+      return @"https://api.seamlesspay.io";
+  }
+
+  NSAssert(NO, @"Unexpected SPEnvironment");
+  return @"";
+}
+
+- (SPError *)errorWithData:(NSData *_Nullable)data
+                     error:(NSError *_Nullable)error {
+  SPError *spError = [SPError errorWithResponse: data];
+  if (spError) {
+    return spError;
+  }
+  spError = [SPError errorWithNSError: error];
+  if (spError) {
+    return spError;
+  }
+
+  return [SPError unknownError];
+}
+
 - (BOOL)isResponse:(NSURLResponse *)response {
   return [(NSHTTPURLResponse *)response statusCode] != 200 &&
          [(NSHTTPURLResponse *)response statusCode] != 201 &&
@@ -649,7 +566,7 @@ static SPAPIClient *sharedInstance = nil;
                               path:(NSString *)path
                           hostName:(NSString *)hostName
                             apiKey:(NSString *)apiKey
-                        apiVersion:(NSString *) [k_APIVersionNumber description]];
+                        apiVersion:(NSString *) k_APIVersion];
 }
 
 - (NSURLRequest *)requestWithMethod:(NSString *)method
@@ -726,7 +643,7 @@ static SPAPIClient *sharedInstance = nil;
     NSDictionary *dict = @{
         @"fingerprint" : [UIDevice.currentDevice.identifierForVendor  UUIDString],
         @"components" : @[
-                @{@"key" : @"user_agent", @"value": [@"ios sdk v" stringByAppendingString: [k_APIVersionNumber description]]},
+                @{@"key" : @"user_agent", @"value": [@"ios sdk v" stringByAppendingString: k_APIVersion]},
                 @{@"key" : @"language", @"value" : language},
                 @{@"key" : @"locale_id", @"value" : [[NSLocale currentLocale] localeIdentifier]},
                 @{@"key" : @"name", @"value" : UIDevice.currentDevice.name},

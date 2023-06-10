@@ -116,7 +116,7 @@
                                   postalCode:self.cardTextField.postalCode];
     
     [[SPAPIClient getSharedInstance]
-     createPaymentMethodWithPaymentType:@"credit_card"
+     tokenizeWithPaymentType:SPPaymentTypeCreditCard
      account:self.cardTextField.cardNumber
      expDate:self.cardTextField.formattedExpirationDate
      cvv:self.cardTextField.cvc
@@ -127,7 +127,7 @@
      billingCompanyName:nil
      accountEmail:nil
      phoneNumber:nil
-     name:@"Name IOS test"
+     name:@"Michael Smith"
      customer:nil
      success:^(SPPaymentMethod *paymentMethod) {
         
@@ -165,7 +165,7 @@
         }
          failure:^(SPError *error) {
             [self.activityIndicator stopAnimating];
-            NSString *err = [error errorMessage];
+            NSString *err = [error localizedDescription];
             [self displayAlertWithTitle:@"Error creating Charge"
                                 message:err
                             restartDemo:FALSE];
@@ -173,7 +173,7 @@
     }
      failure:^(SPError *error) {
         [self.activityIndicator stopAnimating];
-        NSString *err = [error errorMessage];
+        NSString *err = [error localizedDescription];
         [self displayAlertWithTitle:@"Error creating Charge"
                             message:err
                         restartDemo:FALSE];

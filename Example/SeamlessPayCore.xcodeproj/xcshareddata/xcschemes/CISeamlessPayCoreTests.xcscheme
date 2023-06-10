@@ -36,16 +36,6 @@
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
-            key = "API_ENDPOINT"
-            value = "API_ENDPOINT"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "PAN_VAULT_ENDPOINT"
-            value = "PAN_VAULT_ENDPOINT"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
             key = "PUBLIC_API_KEY"
             value = "TEST_PUBLIC_KEY"
             isEnabled = "YES">

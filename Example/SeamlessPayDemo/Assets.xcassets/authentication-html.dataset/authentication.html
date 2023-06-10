@@ -1,0 +1,52 @@
+<html>
+
+<head>
+    <style type="text/css">
+        html {
+            padding: 5px;
+            font-family: Verdana;
+            font-size: 13pt;
+        }
+
+        body {
+            background-color: #f8f8f8;
+        }
+
+        input,
+        select {
+            background-color: white;
+            -webkit-appearance: none;
+            border-radius: 2px;
+            font-size: 12pt;
+            padding: 4px;
+        }
+
+        input[type="submit"] {
+            background-color: #40a9ff;
+            color: white;
+            padding: 10px 25px;
+            border: none;
+        }
+    </style>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1.0, user-scalable=no" />
+</head>
+
+<body>In order to authenticate your account, you must first generate an API Key. Once you've created an account,
+    generating an API key is simple:<br><br>Login to your Seamless Payments account Dashboard<br>Select 'API Keys' in
+    left side bar<br>Click on 'Reveal Secret Key' button<br><br>Your secret API key should never be shared publicly or
+    accessible, such as committed code on GitHub, client-side code, etc.<br><br><br>
+    <form>Publishable Key:<br>
+        <center><input type="text" name="publishableKey" size="36" value=%@></center>
+        <br>Secret Key:<br>
+        <center><input type="text" name="secretkey" size="36" value=%@><br><br><select name="env">
+                <option %@>sandbox</option>
+                <option %@>production</option>
+                <option %@>staging</option>
+                <option %@>qat</option>
+            </select></center><br><br>
+        <center><input type="submit" name="authentication" value="Save API Keys"></center>
+    </form>
+    <center><!--[RESULTS]--></center>
+</body>
+
+</html>

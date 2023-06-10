@@ -13,6 +13,23 @@
 #import <Foundation/Foundation.h>
 #import <PassKit/PassKit.h>
 
+/**
+ List of available environments
+ */
+typedef NS_ENUM(NSUInteger, SPEnvironment) {
+  SPEnvironmentSandbox,
+  SPEnvironmentProduction,
+  SPEnvironmentStaging,
+  SPEnvironmentQAT,
+};
+
+typedef NS_ENUM(NSUInteger, SPPaymentType) {
+  SPPaymentTypeAch,
+  SPPaymentTypeCreditCard,
+  SPPaymentTypeGiftCard,
+  SPPaymentTypePlDebitCard,
+};
+
 @interface SPAPIClient : NSObject
 
 @property(nonatomic, readonly, copy) NSString * _Nullable secretKey;
@@ -21,10 +38,9 @@
 
 + (instancetype _Nonnull )getSharedInstance NS_SWIFT_NAME(getSharedInstance());
 
-- (void)setSecretKey:(NSString *_Nonnull)secretKey
+- (void)setSecretKey:(NSString *_Nullable)secretKey
       publishableKey:(NSString *_Nonnull)publishableKey
-         apiEndpoint:(NSString *_Nonnull)APIEndpoint
-    panVaultEndpoint:(NSString *_Nonnull)PANVaultEndpoint;
+         environment:(SPEnvironment)environment;
 
 - (void)setSubMerchantAccountID:(NSString *_Nullable)subMerchantAccountID;
      
@@ -71,22 +87,21 @@
  *  given object
  */
 
-- (void)createPaymentMethodWithPaymentType:(NSString *_Nullable)paymentType
-                            account:(NSString *_Nullable)account
-                            expDate:(NSString *_Nullable)expDate
-                                cvv:(NSString *_Nullable)cvv
-                        accountType:(NSString *_Nullable)accountType
-                            routing:(NSString *_Nullable)routing
-                                pin:(NSString *_Nullable)pin
-                    billingAddress:(SPAddress *_Nullable)billingAddress
-                billingCompanyName:(NSString *_Nullable)billingCompany
-                      accountEmail:(NSString *_Nullable)accountEmail
-                       phoneNumber:(NSString *_Nullable)phoneNumber
-                               name:(NSString *_Nullable)name
-                           customer:(SPCustomer *_Nullable)customer
-                            success:(void (^_Nonnull)(SPPaymentMethod *_Nonnull paymentMethod))
-                                        success
-                           failure:(void (^_Nonnull)(SPError *_Nonnull))failure;
+- (void)tokenizeWithPaymentType:(SPPaymentType)paymentType
+                        account:(NSString *_Nullable)account
+                        expDate:(NSString *_Nullable)expDate
+                            cvv:(NSString *_Nullable)cvv
+                    accountType:(NSString *_Nullable)accountType
+                        routing:(NSString *_Nullable)routing
+                            pin:(NSString *_Nullable)pin
+                 billingAddress:(SPAddress *_Nullable)billingAddress
+             billingCompanyName:(NSString *_Nullable)billingCompany
+                   accountEmail:(NSString *_Nullable)accountEmail
+                    phoneNumber:(NSString *_Nullable)phoneNumber
+                           name:(NSString *_Nullable)name
+                       customer:(SPCustomer *_Nullable)customer
+                        success:(void (^_Nonnull)(SPPaymentMethod *_Nonnull paymentMethod))success
+                        failure:(void (^_Nonnull)(SPError *_Nonnull))failure;
 
 
 /**
@@ -126,22 +141,5 @@
 - (void)retrieveCustomerWithId:(NSString *_Nonnull)customerId
                        success:(void (^_Nonnull)(SPCustomer *_Nullable customer))success
                        failure:(void (^_Nonnull)(SPError *_Nonnull))failure;
-
-
-/**
- *  Securely convert your user's Apple Pay payment information into a SeamlessPay token, which you can then safely store on your server and use to charge the user.
- *  Converts a PKPayment object into a SeamlessPay token using the SeamlessPay API.
- *
- *  @param payment     The user's encrypted payment information as returned from a PKPaymentAuthorizationViewController. Cannot be nil.
- *  @param success  The callback to run with the returned SeamlessPay token (and any errors that may have occurred).
- */
-- (void)createTokenWithPayment:(nonnull PKPayment *)payment
-            merchantIdentifier:(nonnull NSString *)merchantIdentifier
-                       success:(void(^_Nonnull)(SPPaymentMethod * _Nullable paymentMethod))success
-                       failure:(void(^_Nonnull)(SPError *_Nonnull))failure;
-
-
-
-
 
 @end
