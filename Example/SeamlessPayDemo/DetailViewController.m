@@ -9,7 +9,7 @@
 
 #import "DetailViewController.h"
 
-@interface DetailViewController () <UITextFieldDelegate,PKPaymentAuthorizationViewControllerDelegate>
+@interface DetailViewController () <UITextFieldDelegate>
 
 @property(nonatomic, weak) SPPaymentCardTextField *cardTextField;
 @property(nonatomic, weak) UITextField *amountTextField;
@@ -645,37 +645,6 @@
              multiplier:20],
         ]];
         
-    } else if ([self.title isEqualToString:@"Apple Pay"]) {
-        
-        
-        PKPaymentButton *button = [SPApplePay paymentButtonWithStyle:PKPaymentButtonStyleWhiteOutline paymentsUsingNetworks:nil];
-        
-        [button addTarget:self
-                   action:button.tag == PKPaymentButtonTypeSetUp ? @selector(applepaysetup) : @selector(applepay)
-         forControlEvents:UIControlEventTouchUpInside];
-        self.payButton = button;
-        
-        UILabel *infoLbel = [[UILabel alloc] init];
-        infoLbel.text = @"Payable: $1.0";
-        
-        UIStackView *stackView = [[UIStackView alloc]
-                                  initWithArrangedSubviews:@[ infoLbel, button ]];
-        stackView.axis = UILayoutConstraintAxisVertical;
-        stackView.translatesAutoresizingMaskIntoConstraints = NO;
-        stackView.spacing = 20;
-        [self.view addSubview:stackView];
-        
-        [NSLayoutConstraint activateConstraints:@[
-            [stackView.leftAnchor
-             constraintEqualToSystemSpacingAfterAnchor:self.view.leftAnchor
-             multiplier:2],
-            [self.view.rightAnchor
-             constraintEqualToSystemSpacingAfterAnchor:stackView.rightAnchor
-             multiplier:2],
-            [stackView.topAnchor
-             constraintEqualToSystemSpacingBelowAnchor:self.view.topAnchor
-             multiplier:20],
-        ]];
     }
 }
 
@@ -731,121 +700,6 @@
         }
         [self presentViewController:alert animated:YES completion:nil];
     });
-}
-
-- (void)applepaysetup {
-    NSURL* url = [NSURL URLWithString:@"App-Prefs:root=PASSBOOK"];
-    if([[UIApplication sharedApplication] canOpenURL:url]){
-        [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:^(BOOL success) {
-            
-        }];
-    }
-}
-
-- (void)applepay {
-    
-    PKPaymentSummaryItem *item = [PKPaymentSummaryItem
-                                  summaryItemWithLabel:@"Test Item description"
-                                  amount:[NSDecimalNumber decimalNumberWithString:@"1"]];
-    
-    PKPaymentRequest *paymentRequest = [SPApplePay paymentRequestWithMerchantIdentifier:@"merchant.com.seamlesspay.sdk"
-                                                                    paymentSummaryItems:@[item]
-                                                                  paymentsUsingNetworks:nil];
-    
-    PKPaymentAuthorizationViewController *paymentAuthorizationVC = [[PKPaymentAuthorizationViewController alloc] initWithPaymentRequest:paymentRequest];
-    
-    paymentAuthorizationVC.delegate = self;
-    [self presentViewController:paymentAuthorizationVC
-                       animated:YES
-                     completion:nil];
-}
-
-- (void)paymentAuthorizationViewControllerDidFinish:(PKPaymentAuthorizationViewController *)controller {
-    // NSLog(@"\n<---- %@ ---->", @"Payment Authorization Controller Finish");
-    [controller dismissViewControllerAnimated:YES completion:^{
-        [self displayAlertWithTitle:@"Payment Authorization Controller Finish"
-                            message:@""
-                        restartDemo:NO];    }];
-}
-
-- (void)paymentAuthorizationViewController:(PKPaymentAuthorizationViewController *)controller
-                       didAuthorizePayment:(PKPayment *)payment
-                                   handler:(void (^)(PKPaymentAuthorizationResult *result))completion {
-    
-    //   NSLog(@"\n<---- %@ ---->", @"Payment Authorization");
-    
-    [[SPAPIClient getSharedInstance] createTokenWithPayment:payment
-                                         merchantIdentifier:@"merchant.com.seamlesspay.sdk"
-                                                    success:^(SPPaymentMethod *paymentMethod) {
-        if (paymentMethod) {
-            
-            //          NSLog(@"\n%@", @"END TOKEN--->");
-            //          NSLog(@"\n%@", [paymentMethod dictionary]);
-            //          NSLog(@"\n%@", @"SART CHARGE--->");
-            
-            CFTimeInterval startTime = CACurrentMediaTime();
-            
-            [[SPAPIClient getSharedInstance] createChargeWithToken:paymentMethod.token
-                                                               cvv:nil
-                                                           capture:YES
-                                                          currency:nil
-                                                            amount:@"1"
-                                                         taxAmount:nil
-                                                         taxExempt:NO
-                                                               tip:nil
-                                                surchargeFeeAmount:nil
-                                                       description:@"Apple Pay Charge"
-                                                             order:nil
-                                                           orderId:nil
-                                                          poNumber:nil
-                                                          metadata:nil
-                                                        descriptor:nil
-                                                         entryType:nil
-                                                    idempotencyKey:nil
-                                          digitalWalletProgramType:@"APPLE_PAY"
-             
-                                                           success:^(SPCharge *charge) {
-                CFTimeInterval elapsedTime = CACurrentMediaTime() - startTime;
-                
-                if (charge) {
-                    // NSLog(@"%@", @"END CHARGE--->");
-                    [self.activityIndicator stopAnimating];
-                    NSString *success =
-                    [NSString stringWithFormat:
-                     @"Amount: $%@\nStatus: %@\nStatus message: "
-                     @"%@\ntxnID #: %@\nTimeInterval: %f s",
-                     charge.amount, charge.status,
-                     charge.statusDescription, charge.chargeId,
-                     elapsedTime];
-                    
-                    [self displayAlertWithTitle:@"Success"
-                                        message:success
-                                    restartDemo:YES];
-                }
-            }
-                                                           failure:^(SPError *error) {
-                // NSLog(@"%@", error.errors);
-                [self.activityIndicator stopAnimating];
-                [self displayAlertWithTitle:@"Error creating Charge"
-                                    message:error.errorMessage
-                                restartDemo:NO];
-            }];
-            
-            
-            completion(
-                       [[PKPaymentAuthorizationResult alloc] initWithStatus:(PKPaymentAuthorizationStatusSuccess)
-                                                                     errors:nil]
-                       );
-        }
-    }
-     
-                                                    failure:^(SPError *error) {
-        //  NSLog(@"\n%@", error.errors);
-        completion(
-                   [[PKPaymentAuthorizationResult alloc] initWithStatus:(PKPaymentAuthorizationStatusFailure)
-                                                                 errors:@[error]]
-                   );
-    }];
 }
 
 - (void)pay {

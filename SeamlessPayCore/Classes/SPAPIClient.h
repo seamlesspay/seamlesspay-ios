@@ -127,21 +127,4 @@
                        success:(void (^_Nonnull)(SPCustomer *_Nullable customer))success
                        failure:(void (^_Nonnull)(SPError *_Nonnull))failure;
 
-
-/**
- *  Securely convert your user's Apple Pay payment information into a SeamlessPay token, which you can then safely store on your server and use to charge the user.
- *  Converts a PKPayment object into a SeamlessPay token using the SeamlessPay API.
- *
- *  @param payment     The user's encrypted payment information as returned from a PKPaymentAuthorizationViewController. Cannot be nil.
- *  @param success  The callback to run with the returned SeamlessPay token (and any errors that may have occurred).
- */
-- (void)createTokenWithPayment:(nonnull PKPayment *)payment
-            merchantIdentifier:(nonnull NSString *)merchantIdentifier
-                       success:(void(^_Nonnull)(SPPaymentMethod * _Nullable paymentMethod))success
-                       failure:(void(^_Nonnull)(SPError *_Nonnull))failure;
-
-
-
-
-
 @end
