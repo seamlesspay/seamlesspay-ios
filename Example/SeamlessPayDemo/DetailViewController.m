@@ -21,16 +21,16 @@
 @implementation DetailViewController
 
 - (void)configureView {
-    // Update the user interface for the detail item.
-    
-    if ([self.title isEqualToString:@"Authentication"]) {
-        
-        NSString *secretkey =
+  // Update the user interface for the detail item.
+
+  if ([self.title isEqualToString:@"Authentication"]) {
+
+    NSString *secretkey =
         [[NSUserDefaults standardUserDefaults] objectForKey:@"secretkey"];
-        NSString *publishableKey =
+    NSString *publishableKey =
         [[NSUserDefaults standardUserDefaults] objectForKey:@"publishableKey"];
-        
-        _contentHTML =
+
+    _contentHTML =
         @"<html><head><style "
         @"type=\"text/"
         @"css\">html{padding:5px;font-family:Verdana;font-size:13pt;}body{"
@@ -56,24 +56,24 @@
         @"type=\"submit\" name=\"authentication\" value=\"Save API "
         @"Keys\"></center></form><center><!--[RESULTS]--></center></body></"
         @"html>";
-        
-        NSString *html = [NSString
-                          stringWithFormat:_contentHTML, publishableKey ?: @"", secretkey ?: @""];
-        
-        WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
-        
-        _webView = [[WKWebView alloc] initWithFrame:self.view.frame
-                                      configuration:theConfiguration];
-        _webView.navigationDelegate = self;
-        _webView.autoresizingMask =
+
+    NSString *html = [NSString
+        stringWithFormat:_contentHTML, publishableKey ?: @"", secretkey ?: @""];
+
+    WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
+
+    _webView = [[WKWebView alloc] initWithFrame:self.view.frame
+                                  configuration:theConfiguration];
+    _webView.navigationDelegate = self;
+    _webView.autoresizingMask =
         (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-        
-        [self.view addSubview:_webView];
-        [self.webView loadHTMLString:html baseURL:nil];
-        
-    } else if ([self.title isEqualToString:@"Add Credit/Debit Card"]) {
-        
-        _contentHTML =
+
+    [self.view addSubview:_webView];
+    [self.webView loadHTMLString:html baseURL:nil];
+
+  } else if ([self.title isEqualToString:@"Add Credit/Debit Card"]) {
+
+    _contentHTML =
         @"<html><head><style "
         @"type=\"text/"
         @"css\">html{padding:5px;font-family:Verdana;font-size:13pt;}body{"
@@ -115,21 +115,21 @@
         @"name=\"panvault\" "
         @"value=\"Create\"></center></form><center><!--[RESULTS]--></center></"
         @"body></html>";
-        
-        WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
-        
-        _webView = [[WKWebView alloc] initWithFrame:self.view.frame
-                                      configuration:theConfiguration];
-        _webView.navigationDelegate = self;
-        _webView.autoresizingMask =
+
+    WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
+
+    _webView = [[WKWebView alloc] initWithFrame:self.view.frame
+                                  configuration:theConfiguration];
+    _webView.navigationDelegate = self;
+    _webView.autoresizingMask =
         (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-        
-        [self.view addSubview:_webView];
-        [self.webView loadHTMLString:_contentHTML baseURL:nil];
-        
-    } else if ([self.title isEqualToString:@"Add Gift Card"]) {
-        
-        _contentHTML =
+
+    [self.view addSubview:_webView];
+    [self.webView loadHTMLString:_contentHTML baseURL:nil];
+
+  } else if ([self.title isEqualToString:@"Add Gift Card"]) {
+
+    _contentHTML =
         @"<html><head><style "
         @"type=\"text/"
         @"css\">html{padding:5px;font-family:Verdana;font-size:13pt;}body{"
@@ -168,21 +168,21 @@
         @"name=\"panvault\" "
         @"value=\"Create\"></center></form><center><!--[RESULTS]--></center></"
         @"body></html>";
-        
-        WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
-        
-        _webView = [[WKWebView alloc] initWithFrame:self.view.frame
-                                      configuration:theConfiguration];
-        _webView.navigationDelegate = self;
-        _webView.autoresizingMask =
+
+    WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
+
+    _webView = [[WKWebView alloc] initWithFrame:self.view.frame
+                                  configuration:theConfiguration];
+    _webView.navigationDelegate = self;
+    _webView.autoresizingMask =
         (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-        
-        [self.view addSubview:_webView];
-        [self.webView loadHTMLString:_contentHTML baseURL:nil];
-        
-    } else if ([self.title isEqualToString:@"Add ACH"]) {
-        
-        _contentHTML =
+
+    [self.view addSubview:_webView];
+    [self.webView loadHTMLString:_contentHTML baseURL:nil];
+
+  } else if ([self.title isEqualToString:@"Add ACH"]) {
+
+    _contentHTML =
         @"<html><head><style "
         @"type=\"text/"
         @"css\">html{padding:5px;font-family:Verdana;font-size:13pt;}body{"
@@ -223,21 +223,21 @@
         @"name=\"panvault\" "
         @"value=\"Create\"></center></form><center><!--[RESULTS]--></center></"
         @"body></html>";
-        
-        WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
-        
-        _webView = [[WKWebView alloc] initWithFrame:self.view.frame
-                                      configuration:theConfiguration];
-        _webView.navigationDelegate = self;
-        _webView.autoresizingMask =
+
+    WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
+
+    _webView = [[WKWebView alloc] initWithFrame:self.view.frame
+                                  configuration:theConfiguration];
+    _webView.navigationDelegate = self;
+    _webView.autoresizingMask =
         (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-        
-        [self.view addSubview:_webView];
-        [self.webView loadHTMLString:_contentHTML baseURL:nil];
-        
-    } else if ([self.title isEqualToString:@"Create Customer"]) {
-        
-        _contentHTML =
+
+    [self.view addSubview:_webView];
+    [self.webView loadHTMLString:_contentHTML baseURL:nil];
+
+  } else if ([self.title isEqualToString:@"Create Customer"]) {
+
+    _contentHTML =
         @"<html><head><style "
         @"type=\"text/"
         @"css\">html{padding:5px;font-family:Verdana;font-size:13pt;}body{"
@@ -265,23 +265,23 @@
         @"name=\"createcustomer\" "
         @"value=\"Create\"></center></form><center><!--[RESULTS]--></center></"
         @"body></html>";
-        
-        WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
-        _webView = [[WKWebView alloc] initWithFrame:self.view.frame
-                                      configuration:theConfiguration];
-        _webView.navigationDelegate = self;
-        _webView.autoresizingMask =
+
+    WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
+    _webView = [[WKWebView alloc] initWithFrame:self.view.frame
+                                  configuration:theConfiguration];
+    _webView.navigationDelegate = self;
+    _webView.autoresizingMask =
         (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-        [self.view addSubview:_webView];
-        
-        [self.webView loadHTMLString:_contentHTML baseURL:nil];
-        
-    } else if ([self.title isEqualToString:@"Retrieve a Customer"]) {
-        
-        NSDictionary *dict =
+    [self.view addSubview:_webView];
+
+    [self.webView loadHTMLString:_contentHTML baseURL:nil];
+
+  } else if ([self.title isEqualToString:@"Retrieve a Customer"]) {
+
+    NSDictionary *dict =
         [[NSUserDefaults standardUserDefaults] objectForKey:@"customer"];
-        
-        _contentHTML =
+
+    _contentHTML =
         @"<html><head><style "
         @"type=\"text/"
         @"css\">html{padding:5px;font-family:Verdana;font-size:13pt;}body{"
@@ -297,30 +297,30 @@
         @"name=\"retrievecustomer\" "
         @"value=\"Get\"></center></form><center><!--[RESULTS]--></center></"
         @"body></html>";
-        
-        NSString *html =
+
+    NSString *html =
         [NSString stringWithFormat:_contentHTML, dict ? dict[@"customerId"] : @""];
-        
-        WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
-        _webView = [[WKWebView alloc] initWithFrame:self.view.frame
-                                      configuration:theConfiguration];
-        _webView.navigationDelegate = self;
-        _webView.autoresizingMask =
+
+    WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
+    _webView = [[WKWebView alloc] initWithFrame:self.view.frame
+                                  configuration:theConfiguration];
+    _webView.navigationDelegate = self;
+    _webView.autoresizingMask =
         (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-        [self.view addSubview:_webView];
-        
-        [self.webView loadHTMLString:html baseURL:nil];
-        
-    } else if ([self.title isEqualToString:@"Update Customer"]) {
-        
-        NSDictionary *dict =
+    [self.view addSubview:_webView];
+
+    [self.webView loadHTMLString:html baseURL:nil];
+
+  } else if ([self.title isEqualToString:@"Update Customer"]) {
+
+    NSDictionary *dict =
         [[NSUserDefaults standardUserDefaults] objectForKey:@"customer"];
-        
-        if (!dict) {
-            dict = [NSDictionary new];
-        }
-        
-        _contentHTML =
+
+    if (!dict) {
+      dict = [NSDictionary new];
+    }
+
+    _contentHTML =
         @"<html><head><style "
         @"type=\"text/"
         @"css\">html{padding:5px;font-family:Verdana;font-size:13pt;}body{"
@@ -350,38 +350,38 @@
         @"name=\"updatecustomer\" "
         @"value=\"Update\"></center></form><center><!--[RESULTS]--></center></"
         @"body></html>";
-        
-        NSString *html = [NSString
-                          stringWithFormat:_contentHTML,
-                          dict[@"name"] ?: @"",
-                          dict[@"email"] ?: @"",
-                          dict[@"address"][@"line1"] ?: @"",
-                          dict[@"address"][@"line2"] ?: @"",
-                          dict[@"address"][@"city"] ?: @"",
-                          dict[@"address"][@"country"] ?: @"",
-                          dict[@"address"][@"state"] ?: @"",
-                          dict[@"address"][@"postalCode"] ?: @"",
-                          dict[@"companyName"] ?: @"",
-                          dict[@"phone"] ?: @"",
-                          dict[@"website"] ?: @"",
-                          dict[@"customerId"] ?: @""];
-        
-        WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
-        _webView = [[WKWebView alloc] initWithFrame:self.view.frame
-                                      configuration:theConfiguration];
-        _webView.navigationDelegate = self;
-        _webView.autoresizingMask =
+
+    NSString *html = [NSString
+        stringWithFormat:_contentHTML,
+                        dict[@"name"] ?: @"",
+                        dict[@"email"] ?: @"",
+                        dict[@"address"][@"line1"] ?: @"",
+                        dict[@"address"][@"line2"] ?: @"",
+                        dict[@"address"][@"city"] ?: @"",
+                        dict[@"address"][@"country"] ?: @"",
+                        dict[@"address"][@"state"] ?: @"",
+                        dict[@"address"][@"postalCode"] ?: @"",
+                        dict[@"companyName"] ?: @"",
+                        dict[@"phone"] ?: @"",
+                        dict[@"website"] ?: @"",
+                        dict[@"customerId"] ?: @""];
+
+    WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
+    _webView = [[WKWebView alloc] initWithFrame:self.view.frame
+                                  configuration:theConfiguration];
+    _webView.navigationDelegate = self;
+    _webView.autoresizingMask =
         (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-        [self.view addSubview:_webView];
-        
-        [self.webView loadHTMLString:html baseURL:nil];
-        
-    } else if ([self.title isEqualToString:@"Create a Charge"]) {
-        
-        NSDictionary *savedPaymentMethod =
+    [self.view addSubview:_webView];
+
+    [self.webView loadHTMLString:html baseURL:nil];
+
+  } else if ([self.title isEqualToString:@"Create a Charge"]) {
+
+    NSDictionary *savedPaymentMethod =
         [[NSUserDefaults standardUserDefaults] objectForKey:@"paymentMethod"];
-        
-        _contentHTML =
+
+    _contentHTML =
         @"<html><head><style "
         @"type=\"text/"
         @"css\">html{padding:5px;font-family:Verdana;font-size:13pt;}body{"
@@ -409,28 +409,28 @@
         @"select><br><center><input type=\"submit\" name=\"createcharge\" "
         @"value=\"Create\"></center></form><center><!--[RESULTS]--></center></"
         @"body></html>";
-        
-        NSString *html = [NSString
-                          stringWithFormat:_contentHTML, savedPaymentMethod
-                          ? savedPaymentMethod[@"token"]
-                          : @""];
-        
-        WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
-        _webView = [[WKWebView alloc] initWithFrame:self.view.frame
-                                      configuration:theConfiguration];
-        _webView.navigationDelegate = self;
-        _webView.autoresizingMask =
+
+    NSString *html = [NSString
+        stringWithFormat:_contentHTML, savedPaymentMethod
+                                           ? savedPaymentMethod[@"token"]
+                                           : @""];
+
+    WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
+    _webView = [[WKWebView alloc] initWithFrame:self.view.frame
+                                  configuration:theConfiguration];
+    _webView.navigationDelegate = self;
+    _webView.autoresizingMask =
         (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-        [self.view addSubview:_webView];
-        
-        [self.webView loadHTMLString:html baseURL:nil];
-        
-    } else if ([self.title isEqualToString:@"Retrieve a Charge"]) {
-        
-        NSString *chargeId =
+    [self.view addSubview:_webView];
+
+    [self.webView loadHTMLString:html baseURL:nil];
+
+  } else if ([self.title isEqualToString:@"Retrieve a Charge"]) {
+
+    NSString *chargeId =
         [[NSUserDefaults standardUserDefaults] objectForKey:@"chargeId"];
-        
-        _contentHTML =
+
+    _contentHTML =
         @"<html><head><style "
         @"type=\"text/"
         @"css\">html{padding:5px;font-family:Verdana;font-size:13pt;}body{"
@@ -446,22 +446,22 @@
         @"name=\"retrievecharge\" "
         @"value=\"Get\"></center></form><center><!--[RESULTS]--></center></"
         @"body></html>";
-        
-        NSString *html = [NSString stringWithFormat:_contentHTML, chargeId ?: @""];
-        
-        WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
-        _webView = [[WKWebView alloc] initWithFrame:self.view.frame
-                                      configuration:theConfiguration];
-        _webView.navigationDelegate = self;
-        _webView.autoresizingMask =
+
+    NSString *html = [NSString stringWithFormat:_contentHTML, chargeId ?: @""];
+
+    WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
+    _webView = [[WKWebView alloc] initWithFrame:self.view.frame
+                                  configuration:theConfiguration];
+    _webView.navigationDelegate = self;
+    _webView.autoresizingMask =
         (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-        [self.view addSubview:_webView];
-        
-        [self.webView loadHTMLString:html baseURL:nil];
-        
-    } else if ([self.title isEqualToString:@"Virtual Terminal (CHARGE)"]) {
-        
-        _contentHTML =
+    [self.view addSubview:_webView];
+
+    [self.webView loadHTMLString:html baseURL:nil];
+
+  } else if ([self.title isEqualToString:@"Virtual Terminal (CHARGE)"]) {
+
+    _contentHTML =
         @"<html><head><style "
         @"type=\"text/"
         @"css\">html{padding:5px;font-family:Verdana;font-size:13pt;}body{"
@@ -496,20 +496,20 @@
         @"type=\"email\" name=\"email\"></td></tr></table><br><br><center><input type=\"submit\" "
         @"name=\"vtcharge\" "
         @"value=\"Process\"></center></form><!--[RESULTS]--></body></html>";
-        
-        WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
-        _webView = [[WKWebView alloc] initWithFrame:self.view.frame
-                                      configuration:theConfiguration];
-        _webView.navigationDelegate = self;
-        _webView.autoresizingMask =
+
+    WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
+    _webView = [[WKWebView alloc] initWithFrame:self.view.frame
+                                  configuration:theConfiguration];
+    _webView.navigationDelegate = self;
+    _webView.autoresizingMask =
         (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-        [self.view addSubview:_webView];
-        
-        [self.webView loadHTMLString:_contentHTML baseURL:nil];
-        
-    } else if ([self.title isEqualToString:@"Virtual Terminal (ACH)"]) {
-        
-        _contentHTML =
+    [self.view addSubview:_webView];
+
+    [self.webView loadHTMLString:_contentHTML baseURL:nil];
+
+  } else if ([self.title isEqualToString:@"Virtual Terminal (ACH)"]) {
+
+    _contentHTML =
         @"<html><head><style "
         @"type=\"text/"
         @"css\">html{padding:5px;font-family:Verdana;font-size:13pt;}body{"
@@ -548,19 +548,19 @@
         @"type=\"email\" name=\"email\"></td></tr></table><br><br><center><input type=\"submit\" "
         @"name=\"vtcharge\" "
         @"value=\"Process\"></center></form><!--[RESULTS]--></body></html>";
-        
-        WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
-        _webView = [[WKWebView alloc] initWithFrame:self.view.frame
-                                      configuration:theConfiguration];
-        _webView.navigationDelegate = self;
-        _webView.autoresizingMask =
+
+    WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
+    _webView = [[WKWebView alloc] initWithFrame:self.view.frame
+                                  configuration:theConfiguration];
+    _webView.navigationDelegate = self;
+    _webView.autoresizingMask =
         (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-        [self.view addSubview:_webView];
-        
-        [self.webView loadHTMLString:_contentHTML baseURL:nil];
-    } else if ([self.title isEqualToString:@"Virtual Terminal (GIFT CARD)"]) {
-        
-        _contentHTML =
+    [self.view addSubview:_webView];
+
+    [self.webView loadHTMLString:_contentHTML baseURL:nil];
+  } else if ([self.title isEqualToString:@"Virtual Terminal (GIFT CARD)"]) {
+
+    _contentHTML =
         @"<html><head><style "
         @"type=\"text/"
         @"css\">html{padding:5px;font-family:Verdana;font-size:13pt;}body{"
@@ -584,122 +584,122 @@
         @"name=\"email\"></td></tr></table><br><br><center><input type=\"submit\" "
         @"name=\"vtcharge\" "
         @"value=\"Process\"></center></form><!--[RESULTS]--></body></html>";
-        
-        WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
-        _webView = [[WKWebView alloc] initWithFrame:self.view.frame
-                                      configuration:theConfiguration];
-        _webView.navigationDelegate = self;
-        _webView.autoresizingMask =
+
+    WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
+    _webView = [[WKWebView alloc] initWithFrame:self.view.frame
+                                  configuration:theConfiguration];
+    _webView.navigationDelegate = self;
+    _webView.autoresizingMask =
         (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-        [self.view addSubview:_webView];
-        
-        [self.webView loadHTMLString:_contentHTML baseURL:nil];
-        
-    } else if ([self.title isEqualToString:@"UI Payment Card Text Field"]) {
-        
-        SPPaymentCardTextField *cardTextField =
+    [self.view addSubview:_webView];
+
+    [self.webView loadHTMLString:_contentHTML baseURL:nil];
+
+  } else if ([self.title isEqualToString:@"UI Payment Card Text Field"]) {
+
+    SPPaymentCardTextField *cardTextField =
         [[SPPaymentCardTextField alloc] init];
-        cardTextField.postalCodeEntryEnabled = YES;
-        cardTextField.countryCode = @"US";
-        self.cardTextField = cardTextField;
-        
-        UITextField *amountTextField = [[UITextField alloc] initWithFrame:CGRectMake(70, 0, 150, 22)];
-        amountTextField.text = @"$1.00";
-        amountTextField.keyboardType = UIKeyboardTypeNumberPad;
-        amountTextField.delegate = self;
-        self.amountTextField = amountTextField;
-        
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.layer.cornerRadius = 5;
-        button.backgroundColor = [UIColor systemBlueColor];
-        button.titleLabel.font = [UIFont systemFontOfSize:22];
-        [button setTitle:@"Pay" forState:UIControlStateNormal];
-        [button addTarget:self
-                   action:@selector(pay)
-         forControlEvents:UIControlEventTouchUpInside];
-        self.payButton = button;
-        
-        UILabel *infoLbel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 250, 30)];
-        infoLbel.userInteractionEnabled = TRUE;
-        infoLbel.textColor = [UIColor darkGrayColor];
-        infoLbel.text = @"Amount:";
-        
-        [infoLbel addSubview:amountTextField];
-        
-        UIStackView *stackView = [[UIStackView alloc]
-                                  initWithArrangedSubviews:@[ infoLbel, cardTextField, button ]];
-        stackView.axis = UILayoutConstraintAxisVertical;
-        stackView.translatesAutoresizingMaskIntoConstraints = NO;
-        stackView.spacing = 20;
-        [self.view addSubview:stackView];
-        
-        [NSLayoutConstraint activateConstraints:@[
-            [stackView.leftAnchor
-             constraintEqualToSystemSpacingAfterAnchor:self.view.leftAnchor
-             multiplier:2],
-            [self.view.rightAnchor
-             constraintEqualToSystemSpacingAfterAnchor:stackView.rightAnchor
-             multiplier:2],
-            [stackView.topAnchor
-             constraintEqualToSystemSpacingBelowAnchor:self.view.topAnchor
-             multiplier:20],
-        ]];
-        
-    }
+    cardTextField.postalCodeEntryEnabled = YES;
+    cardTextField.countryCode = @"US";
+    self.cardTextField = cardTextField;
+
+    UITextField *amountTextField = [[UITextField alloc] initWithFrame:CGRectMake(70, 0, 150, 22)];
+    amountTextField.text = @"$1.00";
+    amountTextField.keyboardType = UIKeyboardTypeNumberPad;
+    amountTextField.delegate = self;
+    self.amountTextField = amountTextField;
+
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.layer.cornerRadius = 5;
+    button.backgroundColor = [UIColor systemBlueColor];
+    button.titleLabel.font = [UIFont systemFontOfSize:22];
+    [button setTitle:@"Pay" forState:UIControlStateNormal];
+    [button addTarget:self
+               action:@selector(pay)
+     forControlEvents:UIControlEventTouchUpInside];
+    self.payButton = button;
+
+    UILabel *infoLbel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 250, 30)];
+    infoLbel.userInteractionEnabled = TRUE;
+    infoLbel.textColor = [UIColor darkGrayColor];
+    infoLbel.text = @"Amount:";
+
+    [infoLbel addSubview:amountTextField];
+
+    UIStackView *stackView = [[UIStackView alloc]
+                              initWithArrangedSubviews:@[ infoLbel, cardTextField, button ]];
+    stackView.axis = UILayoutConstraintAxisVertical;
+    stackView.translatesAutoresizingMaskIntoConstraints = NO;
+    stackView.spacing = 20;
+    [self.view addSubview:stackView];
+
+    [NSLayoutConstraint activateConstraints:@[
+      [stackView.leftAnchor
+       constraintEqualToSystemSpacingAfterAnchor:self.view.leftAnchor
+       multiplier:2],
+      [self.view.rightAnchor
+       constraintEqualToSystemSpacingAfterAnchor:stackView.rightAnchor
+       multiplier:2],
+      [stackView.topAnchor
+       constraintEqualToSystemSpacingBelowAnchor:self.view.topAnchor
+       multiplier:20],
+    ]];
+
+  }
 }
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
-    if (self.detailItem) {
-        self.title = [self.detailItem description];
-        [self configureView];
-    }
-    
-    self.activityIndicator = [[UIActivityIndicatorView alloc]
-                              initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleLarge];
-    self.activityIndicator.center = self.view.center;
-    [self.view addSubview:self.activityIndicator];
+  [super viewDidLoad];
+  // Do any additional setup after loading the view.
+
+  if (self.detailItem) {
+    self.title = [self.detailItem description];
+    [self configureView];
+  }
+
+  self.activityIndicator = [[UIActivityIndicatorView alloc]
+                            initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleLarge];
+  self.activityIndicator.center = self.view.center;
+  [self.view addSubview:self.activityIndicator];
 }
 
 #pragma mark - Managing the detail item
 
 - (void)setDetailItem:(NSString *)newDetailItem {
-    if (_detailItem != newDetailItem) {
-        _detailItem = newDetailItem;
-        
-        // Update the view.
-        [self configureView];
-    }
+  if (_detailItem != newDetailItem) {
+    _detailItem = newDetailItem;
+
+    // Update the view.
+    [self configureView];
+  }
 }
 
 - (void)displayAlertWithTitle:(NSString *)title
                       message:(NSString *)message
                   restartDemo:(BOOL)restartDemo {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UIAlertController *alert = [UIAlertController
-                                    alertControllerWithTitle:title
-                                    message:message
-                                    preferredStyle:UIAlertControllerStyleAlert];
-        if (restartDemo) {
-            [alert addAction:[UIAlertAction
-                              actionWithTitle:@"Restart demo"
-                              style:UIAlertActionStyleCancel
-                              handler:^(UIAlertAction *action) {
-                [self.cardTextField clear];
-                self.cardTextField.postalCodeEntryEnabled =
-                YES;
-                self.cardTextField.countryCode = @"US";
-                self.amountTextField.text = @"0.00";
-            }]];
-        } else {
-            [alert addAction:[UIAlertAction actionWithTitle:@"OK"
-                                                      style:UIAlertActionStyleCancel
-                                                    handler:nil]];
-        }
-        [self presentViewController:alert animated:YES completion:nil];
-    });
+  dispatch_async(dispatch_get_main_queue(), ^{
+    UIAlertController *alert = [UIAlertController
+                                alertControllerWithTitle:title
+                                message:message
+                                preferredStyle:UIAlertControllerStyleAlert];
+    if (restartDemo) {
+      [alert addAction:[UIAlertAction
+                        actionWithTitle:@"Restart demo"
+                        style:UIAlertActionStyleCancel
+                        handler:^(UIAlertAction *action) {
+        [self.cardTextField clear];
+        self.cardTextField.postalCodeEntryEnabled =
+        YES;
+        self.cardTextField.countryCode = @"US";
+        self.amountTextField.text = @"0.00";
+      }]];
+    } else {
+      [alert addAction:[UIAlertAction actionWithTitle:@"OK"
+                                                style:UIAlertActionStyleCancel
+                                              handler:nil]];
+    }
+    [self presentViewController:alert animated:YES completion:nil];
+  });
 }
 
 - (void)pay {
