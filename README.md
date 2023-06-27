@@ -46,8 +46,7 @@ AppDelegate.m
           [[SPAPIClient getSharedInstance]
              setSecretKey:@"sk_XXXXXXXXXXXXXXXXXXXXXXXXXX"
              publishableKey:@"pk_XXXXXXXXXXXXXXXXXXXXXXXXXX"
-             apiEndpoint:@"https://sandbox.seamlesspay.com"
-             panVaultEndpoint:@"https://sandbox-pan-vault.seamlesspay.com"];
+             sandbox: TRUE];
       // do any other necessary launch configuration
       return YES;
   }
@@ -67,8 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
                 SPAPIClient.getSharedInstance().setSecretKey( "sk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
                                          publishableKey: "pk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
-                                         apiEndpoint: "https://sandbox.seamlesspay.com",
-                                         panVaultEndpoint: "https://sandbox-pan-vault.seamlesspay.com")
+                                         sandbox: true)
 
         return true
     }
@@ -246,11 +244,11 @@ Objective-C:
           
         }
          failure:^(SPError *error) {
-             NSLog(@"%@", [error errorMessage]);;
+             NSLog(@"%@", [error localizedDescription]);;
         }];
     }
      failure:^(SPError *error) {
-        NSLog(@"%@", [error errorMessage]);
+        NSLog(@"%@", [error localizedDescription]);
     }];
 }
 ```
@@ -312,7 +310,7 @@ Swift:
                     }, failure: { (error: SPError?) in
                         
                         // Handle the error
-                        print(error?.errorMessage ?? "")
+                        print(error?.localizedDescription ?? "")
                         return
                     }
                 )
@@ -320,7 +318,7 @@ Swift:
             }, failure: { (error: SPError?) in
                 
                 // Handle the error
-                print(error?.errorMessage ?? "")
+                print(error?.localizedDescription ?? "")
                 return
             }
         )

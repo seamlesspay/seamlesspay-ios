@@ -29,6 +29,7 @@
         [[NSUserDefaults standardUserDefaults] objectForKey:@"secretkey"];
     NSString *publishableKey =
         [[NSUserDefaults standardUserDefaults] objectForKey:@"publishableKey"];
+    NSString *env = [[NSUserDefaults standardUserDefaults] objectForKey:@"env"];
 
     _contentHTML =
         @"<html><head><style "
@@ -51,14 +52,16 @@
         @"type=\"text\" name=\"publishableKey\" size=\"36\" "
         @"value=\"%@\"></center><br>Secret Key:<br><center><input "
         @"type=\"text\" name=\"secretkey\" size=\"36\" "
-        @"value=\"%@\"><br>"
-        @"<br><center><input "
+        @"value=\"%@\"><br><br><select "
+        @"name=\"env\"><option>sandbox</option><option "
+        @"%@>live</option></select></center><br><br><center><input "
         @"type=\"submit\" name=\"authentication\" value=\"Save API "
         @"Keys\"></center></form><center><!--[RESULTS]--></center></body></"
         @"html>";
 
     NSString *html = [NSString
-        stringWithFormat:_contentHTML, publishableKey ?: @"", secretkey ?: @""];
+        stringWithFormat:_contentHTML, publishableKey ?: @"", secretkey ?: @"",
+                      [env isEqualToString:@"sandbox"] ? @"" : @" selected"];
 
     WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
 
@@ -784,19 +787,17 @@
                 }
             }
                                                            failure:^(SPError *error) {
-                // NSLog(@"%@", error.errors);
                 [self.activityIndicator stopAnimating];
                 [self displayAlertWithTitle:@"Error creating Charge"
-                                    message:error.errorMessage
+                                    message:error.localizedDescription
                                 restartDemo:NO];
             }];
         }
     }
                                                                 failure:^(SPError *error) {
-        // NSLog(@"%@", error.errors);
         [self.activityIndicator stopAnimating];
         [self displayAlertWithTitle:@"Error creating token"
-                            message:error.errorMessage
+                            message:error.localizedDescription
                         restartDemo:NO];
     }];
 }
@@ -861,7 +862,7 @@ decisionHandler:
 
     NSString *publishableKey = qa[2];
     NSString *secretkey = qa[4];
-
+    NSString *env = qa[6];
 
     [[NSUserDefaults standardUserDefaults] setObject:publishableKey
                                               forKey:@"publishableKey"];
@@ -869,17 +870,12 @@ decisionHandler:
                                               forKey:@"secretkey"];
 
 
-    [[SPAPIClient getSharedInstance]
-     setSecretKey:secretkey
-     publishableKey:publishableKey
-     apiEndpoint:@"https://api.seamlesspay.io"
-     panVaultEndpoint:@"https://pan-vault.l1.seamlesspay.io"];
-
+    [[SPAPIClient getSharedInstance] setSecretKey:secretkey
+                                   publishableKey:publishableKey
+                                          sandbox:[env isEqualToString:@"sandbox"]];
 
     [[SPAPIClient getSharedInstance] listChargesWithParams:@{}
                                                    success:^(NSDictionary *dict) {
-      // NSLog(@"%@", dict);
-
       if (dict) {
         NSString *html = [self.contentHTML
                           stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
@@ -891,11 +887,13 @@ decisionHandler:
       }
     }
                                                    failure:^(SPError *error) {
-      // NSLog(@"%@", error);
+
+      if (error != nil) {
+        NSLog(@"%@", error);
+      }
       NSString *html = [self.contentHTML
                         stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                        withString:[error
-                                    errorMessage]];
+                        withString:[error localizedDescription]];
       html = [NSString stringWithFormat:html, publishableKey ?: @"",
               secretkey ?: @"", @""];
       [self.webView loadHTMLString:html baseURL:nil];
@@ -963,7 +961,7 @@ decisionHandler:
       // NSLog(@"%@", error);
       NSString *html = [self.contentHTML
                         stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                        withString:[error errorMessage]];
+                        withString:[error localizedDescription]];
 
       [self.webView loadHTMLString:html baseURL:nil];
     }];
@@ -1016,7 +1014,7 @@ decisionHandler:
       // NSLog(@"%@", error);
       NSString *html = [self.contentHTML
                         stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                        withString:[error errorMessage]];
+                        withString:[error localizedDescription]];
 
       [self.webView loadHTMLString:html baseURL:nil];
     }];
@@ -1046,8 +1044,7 @@ decisionHandler:
       // NSLog(@"%@", error);
       NSString *html = [self.contentHTML
                         stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                        withString:[error
-                                    errorMessage]];
+                        withString:[error localizedDescription]];
 
       [self.webView loadHTMLString:html baseURL:nil];
     }];
@@ -1106,7 +1103,7 @@ decisionHandler:
       // NSLog(@"%@", error);
       NSString *html = [self.contentHTML
                         stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                        withString:[error errorMessage]];
+                        withString:[error localizedDescription]];
 
       [self.webView loadHTMLString:html baseURL:nil];
     }];
@@ -1157,7 +1154,7 @@ decisionHandler:
       // NSLog(@"%@", error);
       NSString *html = [self.contentHTML
                         stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                        withString:[error  errorMessage]];
+                        withString:[error  localizedDescription]];
       html = [NSString stringWithFormat:html, qa[2]];
       [self.webView loadHTMLString:html baseURL:nil];
     }];
@@ -1187,7 +1184,7 @@ decisionHandler:
       // NSLog(@"%@", error);
       NSString *html = [self.contentHTML
                         stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                        withString:[error  errorMessage]];
+                        withString:[error  localizedDescription]];
       html = [NSString stringWithFormat:html, qa[2]];
       [self.webView loadHTMLString:html baseURL:nil];
     }];
@@ -1276,8 +1273,7 @@ decisionHandler:
           // NSLog(@"%@", error);
           NSString *html = [self.contentHTML
                             stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                            withString:
-                              [error errorMessage]];
+                            withString: [error localizedDescription]];
           html = [NSString stringWithFormat:html, qa[2]];
           [self.webView loadHTMLString:html baseURL:nil];
 
@@ -1377,7 +1373,7 @@ decisionHandler:
           // NSLog(@"%@", error);
           NSString *html = [self.contentHTML
                             stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                            withString:[error errorMessage]];
+                            withString:[error localizedDescription]];
           html = [NSString stringWithFormat:html, qa[2]];
           [self.webView loadHTMLString:html baseURL:nil];
 
@@ -1469,7 +1465,7 @@ decisionHandler:
           // NSLog(@"%@", error);
           NSString *html = [self.contentHTML
                             stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                            withString:[error errorMessage]];
+                            withString:[error localizedDescription]];
           html = [NSString stringWithFormat:html, qa[2]];
           [self.webView loadHTMLString:html baseURL:nil];
 

@@ -98,7 +98,7 @@ class ViewController: UIViewController {
                     }, failure: { (error: SPError?) in
                         
                         // Handle the error
-                        print(error?.errorMessage ?? "")
+                        print(error?.localizedDescription ?? "")
                         return
                     }
                 )
@@ -106,7 +106,7 @@ class ViewController: UIViewController {
             }, failure: { (error: SPError?) in
                 
                 // Handle the error
-                print(error?.errorMessage ?? "")
+                print(error?.localizedDescription ?? "")
                 return
             }
         )

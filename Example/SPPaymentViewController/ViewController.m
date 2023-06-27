@@ -79,10 +79,10 @@
                         message:success];
 }
 - (void)paymentViewController:(SPPaymentViewController*)paymentViewController paymentMethodError:(SPError*)error {
-    [self displayAlertWithTitle:@"Error" message:error.errorMessage];
+    [self displayAlertWithTitle:@"Error" message:error.localizedDescription];
 }
 - (void)paymentViewController:(SPPaymentViewController*)paymentViewController chargeError:(SPError*)error {
-    [self displayAlertWithTitle:@"Error" message:error.errorMessage];
+    [self displayAlertWithTitle:@"Error" message:error.localizedDescription];
 }
 
 - (void)displayAlertWithTitle:(NSString *)title

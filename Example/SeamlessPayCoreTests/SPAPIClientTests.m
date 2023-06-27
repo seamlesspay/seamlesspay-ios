@@ -18,14 +18,10 @@
     
     NSString *SECRET_API_KEY = [[NSProcessInfo processInfo] environment][@"SECRET_API_KEY"];
     NSString *PUBLIC_API_KEY = [[NSProcessInfo processInfo] environment][@"PUBLIC_API_KEY"];
-    NSString *API_ENDPOINT = [[NSProcessInfo processInfo] environment][@"API_ENDPOINT"];
-    NSString *PAN_VAULT_ENDPOINT = [[NSProcessInfo processInfo] environment][@"PAN_VAULT_ENDPOINT"];
-        
-    [[SPAPIClient getSharedInstance]
-     setSecretKey:SECRET_API_KEY
-     publishableKey:PUBLIC_API_KEY
-     apiEndpoint:API_ENDPOINT
-     panVaultEndpoint:PAN_VAULT_ENDPOINT];
+
+    [[SPAPIClient getSharedInstance] setSecretKey: SECRET_API_KEY
+                                   publishableKey: PUBLIC_API_KEY
+                                          sandbox: YES];
 }
 
 - (void)tearDown {
@@ -47,7 +43,7 @@
         [documentExpectation fulfill];
     }
      failure:^(SPError *error) {
-        NSLog(@"%@", error.errors);
+        NSLog(@"%@", error.localizedDescription);
         XCTAssert(YES);
         [documentExpectation fulfill];
     }];
@@ -88,7 +84,7 @@
         [documentExpectation fulfill];
     }
      failure:^(SPError *error) {
-        NSLog(@"%@", [error errorMessage]);
+        NSLog(@"%@", [error localizedDescription]);
         [documentExpectation fulfill];
     }];
     
@@ -143,7 +139,7 @@
     }
      failure:^(SPError *error) {
         
-        NSLog(@"%@", [error errorMessage]);
+        NSLog(@"%@", [error localizedDescription]);
         [documentExpectation fulfill];
     }];
     

@@ -21,10 +21,9 @@
 
 + (instancetype _Nonnull )getSharedInstance NS_SWIFT_NAME(getSharedInstance());
 
-- (void)setSecretKey:(NSString *_Nonnull)secretKey
+- (void)setSecretKey:(NSString *_Nullable)secretKey
       publishableKey:(NSString *_Nonnull)publishableKey
-         apiEndpoint:(NSString *_Nonnull)APIEndpoint
-    panVaultEndpoint:(NSString *_Nonnull)PANVaultEndpoint;
+             sandbox:(BOOL)sandbox;
 
 - (void)setSubMerchantAccountID:(NSString *_Nullable)subMerchantAccountID;
      

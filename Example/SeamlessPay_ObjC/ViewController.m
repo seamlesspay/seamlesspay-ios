@@ -165,7 +165,7 @@
         }
          failure:^(SPError *error) {
             [self.activityIndicator stopAnimating];
-            NSString *err = [error errorMessage];
+            NSString *err = [error localizedDescription];
             [self displayAlertWithTitle:@"Error creating Charge"
                                 message:err
                             restartDemo:FALSE];
@@ -173,7 +173,7 @@
     }
      failure:^(SPError *error) {
         [self.activityIndicator stopAnimating];
-        NSString *err = [error errorMessage];
+        NSString *err = [error localizedDescription];
         [self displayAlertWithTitle:@"Error creating Charge"
                             message:err
                         restartDemo:FALSE];

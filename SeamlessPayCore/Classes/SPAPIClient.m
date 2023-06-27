@@ -7,15 +7,15 @@
 
 #import "SPAPIClient.h"
 
-static const NSString *k_APIHostURL;
-static const NSString *k_APIHostURLLive = @"https://api.seamlesspay.io";
-static const NSString *k_APIHostURLSandbox = @"https://api.seamlesspay.io";
-//static const NSString *k_PanVaultHostURLLive = @"https://pan-vault.seamlesspay.com";
-//static const NSString *k_PanVaultHostURLSandbox = @"https://sandbox-pan-vault.seamlesspay.com";
+static const NSString *k_APIHostURLLive = @"https://api.seamlesspay.com";
+static const NSString *k_APIHostURLSandbox = @"https://api.sbx.seamlesspay.com";
+static const NSString *k_APIHostURLStaging = @"https://api.seamlesspay.dev";
+static const NSString *k_APIHostURLQAT = @"https://api.seamlesspay.io";
 
-static const NSString *k_PanVaultHostURLLive = @"https://pan-vault.l1.seamlesspay.io";
-static const NSString *k_PanVaultHostURLSandbox = @"https://pan-vault.l1.seamlesspay.io";
-
+static const NSString *k_PanVaultHostURLLive = @"https://pan-vault.seamlesspay.com";
+static const NSString *k_PanVaultHostURLSandbox = @"https://pan-vault.sbx.seamlesspay.com";
+static const NSString *k_PanVaultHostURLStaging = @"https://pan-vault.seamlesspay.dev";
+static const NSString *k_PanVaultHostURLQAT = @"https://pan-vault.seamlesspay.io";
 
 static const NSString *k_APIVersionNumber = @"v2019";
 static const NSTimeInterval k_TimeoutInterval = 15.0;
@@ -51,19 +51,6 @@ static SPAPIClient *sharedInstance = nil;
 
   _secretKey = [secretKey ?: publishableKey copy];
   _publishableKey = [publishableKey copy];
-    
-  self.appOpenTime = [NSDate date];
-}
-
-- (void)setSecretKey:(NSString *)secretKey
-      publishableKey:(NSString *)publishableKey
-         apiEndpoint:(NSString *)APIEndpoint
-    panVaultEndpoint:(NSString *)PANVaultEndpoint {
-
-    _secretKey = [secretKey copy];
-    _publishableKey = [publishableKey copy];
-    _APIHostURL = [APIEndpoint copy];
-    _PanVaulHostURL = [PANVaultEndpoint copy];
     
   self.appOpenTime = [NSDate date];
 }
@@ -124,9 +111,9 @@ static SPAPIClient *sharedInstance = nil;
         if (error || [self isResponse:response]) {
             
             if (failure) {
-                SPError *sperr = [SPError errorWithResponse:data];
+                SPError *sperr = [self errorWithData:data error:error];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    failure(sperr ?: (SPError *)error);
+                    failure(sperr);
                 });
             }
             
@@ -220,9 +207,9 @@ static SPAPIClient *sharedInstance = nil;
           if (error || [self isResponse:response]) {
 
             if (failure) {
-              SPError *sperr = [SPError errorWithResponse:data];
+              SPError *sperr = [self errorWithData:data error:error];
               dispatch_async(dispatch_get_main_queue(), ^{
-                failure(sperr ?: (SPError *)error);
+                failure(sperr);
               });
             }
 
@@ -318,9 +305,9 @@ static SPAPIClient *sharedInstance = nil;
               if (error || [self isResponse:response]) {
 
                 if (failure) {
-                  SPError *sperr = [SPError errorWithResponse:data];
+                  SPError *sperr = [self errorWithData:data error:error];
                   dispatch_async(dispatch_get_main_queue(), ^{
-                    failure(sperr ?: (SPError *)error);
+                    failure(sperr);
                   });
                 }
 
@@ -398,9 +385,9 @@ static SPAPIClient *sharedInstance = nil;
               if (error || [self isResponse:response]) {
 
                 if (failure) {
-                  SPError *sperr = [SPError errorWithResponse:data];
+                  SPError *sperr = [self errorWithData:data error:error];
                   dispatch_async(dispatch_get_main_queue(), ^{
-                    failure(sperr ?: (SPError *)error);
+                    failure(sperr);
                   });
                 }
 
@@ -438,9 +425,9 @@ static SPAPIClient *sharedInstance = nil;
           if (error || [self isResponse:response]) {
 
             if (failure) {
-              SPError *sperr = [SPError errorWithResponse:data];
+              SPError *sperr = [self errorWithData:data error:error];
               dispatch_async(dispatch_get_main_queue(), ^{
-                failure(sperr ?: (SPError *)error);
+                failure(sperr);
               });
             }
 
@@ -485,9 +472,9 @@ static SPAPIClient *sharedInstance = nil;
           if (error || [self isResponse:response]) {
 
             if (failure) {
-              SPError *sperr = [SPError errorWithResponse:data];
+              SPError *sperr = [self errorWithData:data error:error];
               dispatch_async(dispatch_get_main_queue(), ^{
-                failure(sperr ?: (SPError *)error);
+                failure(sperr);
               });
             }
 
@@ -516,6 +503,20 @@ static SPAPIClient *sharedInstance = nil;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - <<<Private Methods>>>
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+- (SPError *)errorWithData:(NSData *_Nullable)data
+                     error:(NSError *_Nullable)error {
+  SPError *spError = [SPError errorWithResponse: data];
+  if (spError) {
+    return spError;
+  }
+  spError = [SPError errorWithNSError: error];
+  if (spError) {
+    return spError;
+  }
+
+  return [SPError unknownError];
+}
 
 - (BOOL)isResponse:(NSURLResponse *)response {
   return [(NSHTTPURLResponse *)response statusCode] != 200 &&
