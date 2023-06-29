@@ -25,43 +25,20 @@
 
   if ([self.title isEqualToString:@"Authentication"]) {
 
-    NSString *secretkey =
+    NSString *secretKey =
         [[NSUserDefaults standardUserDefaults] objectForKey:@"secretkey"];
     NSString *publishableKey =
         [[NSUserDefaults standardUserDefaults] objectForKey:@"publishableKey"];
-    NSString *env = [[NSUserDefaults standardUserDefaults] objectForKey:@"env"];
+    SPEnvironment env = [[NSUserDefaults standardUserDefaults] integerForKey:@"env"];
 
-    _contentHTML =
-        @"<html><head><style "
-        @"type=\"text/"
-        @"css\">html{padding:5px;font-family:Verdana;font-size:13pt;}body{"
-        @"background-color:#f8f8f8;}input,select{background-color:white;-"
-        @"webkit-appearance: "
-        @"none;border-radius:2px;font-size:12pt;padding:4px;}input[type="
-        @"\"submit\"]{background-color:#40a9ff;color:white;padding:10px "
-        @"25px;border:none;}</style><meta name=\"viewport\" "
-        @"content=\"initial-scale=1, maximum-scale=1.0, "
-        @"user-scalable=no\"/></head><body>In order to authenticate your "
-        @"account, you must first generate an API Key. Once you've created an "
-        @"account, generating an API key is simple:<br><br>Login to your "
-        @"Seamless Payments account Dashboard<br>Select 'API Keys' in left "
-        @"side bar<br>Click on 'Reveal Secret Key' button<br><br>Your secret "
-        @"API key should never be shared publicly or accessible, such as "
-        @"committed code on GitHub, client-side code, "
-        @"etc.<br><br><br><form>Publishable Key:<br><center><input "
-        @"type=\"text\" name=\"publishableKey\" size=\"36\" "
-        @"value=\"%@\"></center><br>Secret Key:<br><center><input "
-        @"type=\"text\" name=\"secretkey\" size=\"36\" "
-        @"value=\"%@\"><br><br><select "
-        @"name=\"env\"><option>sandbox</option><option "
-        @"%@>live</option></select></center><br><br><center><input "
-        @"type=\"submit\" name=\"authentication\" value=\"Save API "
-        @"Keys\"></center></form><center><!--[RESULTS]--></center></body></"
-        @"html>";
+    NSDataAsset *dataAsset = [[NSDataAsset alloc] initWithName:@"authentication-html"];
 
-    NSString *html = [NSString
-        stringWithFormat:_contentHTML, publishableKey ?: @"", secretkey ?: @"",
-                      [env isEqualToString:@"sandbox"] ? @"" : @" selected"];
+    _contentHTML = [[NSString alloc] initWithData:dataAsset.data encoding:NSUTF8StringEncoding];
+
+    NSString *html = [self authContentHTMLWithParams:nil
+                                           secretKey:secretKey
+                                      publishableKey:publishableKey
+                                         environment:env];
 
     WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
 
@@ -861,42 +838,41 @@ decisionHandler:
   if ([self.detailItem isEqualToString:@"Authentication"]) {
 
     NSString *publishableKey = qa[2];
-    NSString *secretkey = qa[4];
-    NSString *env = qa[6];
+    NSString *secretKey = qa[4];
+    NSString *envSting = qa[6];
+    SPEnvironment env = [self environmentFromString: envSting];
 
     [[NSUserDefaults standardUserDefaults] setObject:publishableKey
                                               forKey:@"publishableKey"];
-    [[NSUserDefaults standardUserDefaults] setObject:secretkey
+    [[NSUserDefaults standardUserDefaults] setObject:secretKey
                                               forKey:@"secretkey"];
+    [[NSUserDefaults standardUserDefaults] setInteger:env
+                                               forKey:@"env"];
 
 
-    [[SPAPIClient getSharedInstance] setSecretKey:secretkey
+    [[SPAPIClient getSharedInstance] setSecretKey:secretKey
                                    publishableKey:publishableKey
-                                          sandbox:[env isEqualToString:@"sandbox"]];
+                                      environment:env];
+
+    void (^updateWebView)(NSString *) = ^(NSString *message) {
+      NSString *html = [self authContentHTMLWithParams:message
+                                             secretKey:secretKey
+                                        publishableKey:publishableKey
+                                           environment:env];
+      [self.webView loadHTMLString:html baseURL:nil];
+    };
 
     [[SPAPIClient getSharedInstance] listChargesWithParams:@{}
                                                    success:^(NSDictionary *dict) {
       if (dict) {
-        NSString *html = [self.contentHTML
-                          stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                          withString:
-                            @"Authentication success!"];
-        html = [NSString stringWithFormat:html, publishableKey ?: @"",
-                secretkey ?: @"", @"" ];
-        [self.webView loadHTMLString:html baseURL:nil];
+        updateWebView(@"Authentication success!");
       }
     }
                                                    failure:^(SPError *error) {
-
       if (error != nil) {
         NSLog(@"%@", error);
       }
-      NSString *html = [self.contentHTML
-                        stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                        withString:[error localizedDescription]];
-      html = [NSString stringWithFormat:html, publishableKey ?: @"",
-              secretkey ?: @"", @""];
-      [self.webView loadHTMLString:html baseURL:nil];
+      updateWebView(error.localizedDescription);
     }];
 
     return NO;
@@ -1489,6 +1465,47 @@ decisionHandler:
   }
 
   return YES;
+}
+
+// MARK: - EnvironmentParsing
+- (SPEnvironment)environmentFromString:(NSString *)string {
+  if ([string isEqualToString:@"production"]) {
+    return SPEnvironmentProduction;
+  } else if ([string isEqualToString:@"sandbox"]) {
+    return SPEnvironmentSandbox;
+  } else if ([string isEqualToString:@"staging"]) {
+    return SPEnvironmentStaging;
+  } else if ([string isEqualToString:@"qat"]) {
+    return SPEnvironmentQAT;
+  } else {
+    // Handle unrecognized string or return a default value
+    return SPEnvironmentSandbox;
+  }
+}
+
+- (NSString *)authContentHTMLWithParams:(NSString *)resultMessage
+                              secretKey:(NSString *)secretKey
+                         publishableKey:(NSString *)publishableKey
+                            environment:(SPEnvironment)environment {
+  NSAssert(([self.title isEqualToString:@"Authentication"] && self.contentHTML),
+           @"Wrong place to call this function");
+
+  NSString *html = [self.contentHTML copy];
+  if (resultMessage) {
+    html = [html
+            stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
+            withString:
+              resultMessage];
+  }
+  html = [NSString stringWithFormat:
+          html,
+          publishableKey,
+          secretKey,
+          environment == SPEnvironmentSandbox ? @"selected" : @"",
+          environment == SPEnvironmentProduction ? @"selected" : @"",
+          environment == SPEnvironmentStaging ? @"selected" : @"",
+          environment == SPEnvironmentQAT ? @"selected" : @""];
+  return html;
 }
 
 @end

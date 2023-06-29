@@ -13,6 +13,16 @@
 #import <Foundation/Foundation.h>
 #import <PassKit/PassKit.h>
 
+/**
+ List of available environments
+ */
+typedef NS_ENUM(NSUInteger, SPEnvironment) {
+  SPEnvironmentSandbox,
+  SPEnvironmentProduction,
+  SPEnvironmentStaging,
+  SPEnvironmentQAT,
+};
+
 @interface SPAPIClient : NSObject
 
 @property(nonatomic, readonly, copy) NSString * _Nullable secretKey;
@@ -23,7 +33,7 @@
 
 - (void)setSecretKey:(NSString *_Nullable)secretKey
       publishableKey:(NSString *_Nonnull)publishableKey
-             sandbox:(BOOL)sandbox;
+         environment:(SPEnvironment)environment;
 
 - (void)setSubMerchantAccountID:(NSString *_Nullable)subMerchantAccountID;
      

@@ -21,7 +21,7 @@
 
     [[SPAPIClient getSharedInstance] setSecretKey: SECRET_API_KEY
                                    publishableKey: PUBLIC_API_KEY
-                                          sandbox: YES];
+                                      environment: SPEnvironmentSandbox];
 }
 
 - (void)tearDown {

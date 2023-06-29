@@ -19,7 +19,7 @@
     
     [[SPAPIClient getSharedInstance] setSecretKey: nil
                                    publishableKey: @"pk_XXXXXXXXXXXXXXXXXXXXXXXXXX"
-                                          sandbox: TRUE];
+                                      environment: SPEnvironmentSandbox];
     
     return YES;
 }

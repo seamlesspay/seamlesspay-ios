@@ -7,28 +7,35 @@
 
 #import "SPAPIClient.h"
 
-static const NSString *k_APIHostURLLive = @"https://api.seamlesspay.com";
-static const NSString *k_APIHostURLSandbox = @"https://api.sbx.seamlesspay.com";
-static const NSString *k_APIHostURLStaging = @"https://api.seamlesspay.dev";
-static const NSString *k_APIHostURLQAT = @"https://api.seamlesspay.io";
+// MARK: - Constants
+NSString * const SPEnvironmentHostURLs[] = {
+  [SPEnvironmentProduction] = @"https://api.seamlesspay.com",
+  [SPEnvironmentSandbox] = @"https://api.seamlesspay.dev",
+  [SPEnvironmentStaging] = @"https://api.seamlesspay.dev",
+  [SPEnvironmentQAT] = @"https://api.seamlesspay.io"
+};
 
-static const NSString *k_PanVaultHostURLLive = @"https://pan-vault.seamlesspay.com";
-static const NSString *k_PanVaultHostURLSandbox = @"https://pan-vault.sbx.seamlesspay.com";
-static const NSString *k_PanVaultHostURLStaging = @"https://pan-vault.seamlesspay.dev";
-static const NSString *k_PanVaultHostURLQAT = @"https://pan-vault.seamlesspay.io";
+NSString * const SPEnvironmentPanVaultHostURLs[] = {
+  [SPEnvironmentProduction] = @"https://pan-vault.seamlesspay.com",
+  [SPEnvironmentSandbox] = @"https://sandbox-pan-vault.seamlesspay.com",
+  [SPEnvironmentStaging] = @"https://pan-vault.seamlesspay.dev",
+  [SPEnvironmentQAT] = @"https://pan-vault.seamlesspay.io"
+};
 
-static const NSString *k_APIVersionNumber = @"v2019";
+NSString * const k_APIVersion = @"v2020";
 static const NSTimeInterval k_TimeoutInterval = 15.0;
 
 static SPAPIClient *sharedInstance = nil;
 
+// MARK: - Interface
 @interface SPAPIClient () {
   NSString *_APIHostURL;
-  NSString *_PanVaulHostURL;
+  NSString *_PanVaultHostURL;
 }
 @property (nonatomic) NSDate *appOpenTime;
 @end
 
+// MARK: - Implementation
 @implementation SPAPIClient
 
 + (instancetype)getSharedInstance {
@@ -39,19 +46,13 @@ static SPAPIClient *sharedInstance = nil;
 }
 
 - (void)setSecretKey:(NSString *)secretKey
-           publishableKey:(NSString *)publishableKey
-             sandbox:(BOOL)sandbox {
-  if (sandbox) {
-    _APIHostURL = [k_APIHostURLSandbox copy];
-    _PanVaulHostURL = [k_PanVaultHostURLSandbox copy];
-  } else {
-    _APIHostURL = [k_APIHostURLLive copy];
-    _PanVaulHostURL = [k_PanVaultHostURLLive copy];
-  }
-
+      publishableKey:(NSString *)publishableKey
+         environment:(SPEnvironment)environment {
+  _APIHostURL = [SPEnvironmentHostURLs[environment] copy];
+  _PanVaultHostURL = [SPEnvironmentPanVaultHostURLs[environment] copy];
   _secretKey = [secretKey ?: publishableKey copy];
   _publishableKey = [publishableKey copy];
-    
+
   self.appOpenTime = [NSDate date];
 }
 
@@ -104,7 +105,7 @@ static SPAPIClient *sharedInstance = nil;
                                             path:path
                                         hostName:_APIHostURL
                                           apiKey:_secretKey
-                                      apiVersion:@"v2020" ]
+                                      apiVersion:k_APIVersion]
      completionHandler:^(NSData *_Nullable data,
                          NSURLResponse *_Nullable response,
                          NSError *_Nullable error) {
@@ -199,7 +200,7 @@ static SPAPIClient *sharedInstance = nil;
                                    customerId]
                          hostName:_APIHostURL
                            apiKey:_secretKey
-                           apiVersion:@"v2020"]
+                           apiVersion:k_APIVersion]
 
         completionHandler:^(NSData *_Nullable data,
                             NSURLResponse *_Nullable response,
@@ -296,9 +297,9 @@ static SPAPIClient *sharedInstance = nil;
           dataTaskWithRequest:[self requestWithMethod:@"POST"
                                                params:params
                                                  path:@"tokens"
-                                             hostName:_PanVaulHostURL
+                                             hostName:_PanVaultHostURL
                                                apiKey:_publishableKey
-                                           apiVersion:@"v2020"]
+                                           apiVersion:k_APIVersion]
             completionHandler:^(NSData *_Nullable data,
                                 NSURLResponse *_Nullable response,
                                 NSError *_Nullable error) {
@@ -378,7 +379,7 @@ static SPAPIClient *sharedInstance = nil;
                                                  path:@"charges"
                                              hostName:_APIHostURL
                                                apiKey:_secretKey
-                                           apiVersion:@"v2020"]
+                                           apiVersion:k_APIVersion]
             completionHandler:^(NSData *_Nullable data,
                                 NSURLResponse *_Nullable response,
                                 NSError *_Nullable error) {
@@ -417,7 +418,7 @@ static SPAPIClient *sharedInstance = nil;
                                                              chargeId]
                          hostName:_APIHostURL
                            apiKey:_secretKey
-                       apiVersion:@"v2020"]
+                       apiVersion:k_APIVersion]
 
         completionHandler:^(NSData *_Nullable data,
                             NSURLResponse *_Nullable response,
@@ -464,7 +465,7 @@ static SPAPIClient *sharedInstance = nil;
                                              path:@"charges"
                                          hostName:_APIHostURL
                                            apiKey:_secretKey
-                                       apiVersion:@"v2020"]
+                                       apiVersion:k_APIVersion]
 
         completionHandler:^(NSData *_Nullable data,
                             NSURLResponse *_Nullable response,
@@ -535,7 +536,7 @@ static SPAPIClient *sharedInstance = nil;
                               path:(NSString *)path
                           hostName:(NSString *)hostName
                             apiKey:(NSString *)apiKey
-                        apiVersion:(NSString *) [k_APIVersionNumber description]];
+                        apiVersion:(NSString *) k_APIVersion];
 }
 
 - (NSURLRequest *)requestWithMethod:(NSString *)method
@@ -612,7 +613,7 @@ static SPAPIClient *sharedInstance = nil;
     NSDictionary *dict = @{
         @"fingerprint" : [UIDevice.currentDevice.identifierForVendor  UUIDString],
         @"components" : @[
-                @{@"key" : @"user_agent", @"value": [@"ios sdk v" stringByAppendingString: [k_APIVersionNumber description]]},
+                @{@"key" : @"user_agent", @"value": [@"ios sdk v" stringByAppendingString: k_APIVersion]},
                 @{@"key" : @"language", @"value" : language},
                 @{@"key" : @"locale_id", @"value" : [[NSLocale currentLocale] localeIdentifier]},
                 @{@"key" : @"name", @"value" : UIDevice.currentDevice.name},

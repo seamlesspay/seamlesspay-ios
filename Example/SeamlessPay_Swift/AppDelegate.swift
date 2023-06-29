@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         SPAPIClient.getSharedInstance().setSecretKey(nil,
                                                      publishableKey: "pk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
-                                                     sandbox: true)
+                                                     environment: .sandbox)
         
         
 

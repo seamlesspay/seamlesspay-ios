@@ -46,7 +46,7 @@ AppDelegate.m
           [[SPAPIClient getSharedInstance]
              setSecretKey:@"sk_XXXXXXXXXXXXXXXXXXXXXXXXXX"
              publishableKey:@"pk_XXXXXXXXXXXXXXXXXXXXXXXXXX"
-             sandbox: TRUE];
+             environment: SPEnvironmentSandbox];
       // do any other necessary launch configuration
       return YES;
   }
@@ -66,7 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
                 SPAPIClient.getSharedInstance().setSecretKey( "sk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
                                          publishableKey: "pk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
-                                         sandbox: true)
+                                         environment: .sandbox)
 
         return true
     }
