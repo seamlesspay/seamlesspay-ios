@@ -127,7 +127,7 @@
      billingCompanyName:nil
      accountEmail:nil
      phoneNumber:nil
-     name:@"Name IOS test"
+     name:@"Michael Smith"
      customer:nil
      success:^(SPPaymentMethod *paymentMethod) {
         

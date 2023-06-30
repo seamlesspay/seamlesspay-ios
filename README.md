@@ -209,7 +209,7 @@ Objective-C:
      billingCompanyName:nil
      accountEmail:nil
      phoneNumber:nil
-     name:@"Name IOS test"
+     name:@"Michael Smith"
      customer:nil
      success:^(SPPaymentMethod *paymentMethod) {
         
@@ -279,7 +279,8 @@ Swift:
             billingCompanyName: nil,
             accountEmail: nil,
             phoneNumber: nil,
-            name: "Name IOS test", customer: nil,
+            name: "Michael Smith", 
+            customer: nil,
             success: { (paymentMethod: SPPaymentMethod?) in
                 
                 let token = paymentMethod?.token
