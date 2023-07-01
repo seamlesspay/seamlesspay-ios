@@ -688,11 +688,7 @@
     NSString *exp = _cardTextField.formattedExpirationDate;
     NSString *cvc = _cardTextField.cvc;
     NSString *zip = _cardTextField.postalCode;
-    
-    //  NSLog(@"%@ %@ %@ %@", cardNumber, exp, cvc, zip);
-    //
-    //  NSLog(@"%@", @"SART TOKEN--->");
-    
+
     [self.activityIndicator startAnimating];
     
     CFTimeInterval startTime = CACurrentMediaTime();
@@ -744,7 +740,6 @@
                 CFTimeInterval elapsedTime = CACurrentMediaTime() - startTime;
                 
                 if (charge) {
-                    // NSLog(@"%@", @"END CHARGE--->");
                     [self.activityIndicator stopAnimating];
                     NSString *success =
                     [NSString stringWithFormat:
@@ -927,7 +922,6 @@ decisionHandler:
       [self.webView loadHTMLString:html baseURL:nil];
 
     } failure:^(SPError * _Nonnull error) {
-      // NSLog(@"%@", error);
       NSString *html = [self.contentHTML
                         stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
                         withString:[error localizedDescription]];
@@ -963,9 +957,6 @@ decisionHandler:
                                              paymentMethods:paymentMethods
                                                    metadata:@"{\"customOption\":\"example\"}"
                                                     success:^(SPCustomer *customer) {
-
-      // NSLog(@"%@", customer);
-
       if (customer) {
 
         [[NSUserDefaults standardUserDefaults]
@@ -980,7 +971,6 @@ decisionHandler:
       }
     }
                                                     failure:^(SPError *error) {
-      // NSLog(@"%@", error);
       NSString *html = [self.contentHTML
                         stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
                         withString:[error localizedDescription]];
@@ -993,8 +983,6 @@ decisionHandler:
 
     [[SPAPIClient getSharedInstance] retrieveCustomerWithId:[qa objectAtIndex:2]
                                                     success:^(SPCustomer *customer) {
-      // NSLog(@"%@", customer);
-
       if (customer) {
 
         [[NSUserDefaults standardUserDefaults]
@@ -1010,7 +998,6 @@ decisionHandler:
       }
     }
                                                     failure:^(SPError *error) {
-      // NSLog(@"%@", error);
       NSString *html = [self.contentHTML
                         stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
                         withString:[error localizedDescription]];
@@ -1038,8 +1025,6 @@ decisionHandler:
                                            paymentMethods:nil
                                                  metadata:@"{\"customOption\":\"exampleupdate\"}"
                                                   success:^(SPCustomer *customer) {
-      // NSLog(@"%@", customer);
-
       if (customer) {
 
         NSDictionary *dict = [customer dictionary];
@@ -1069,7 +1054,6 @@ decisionHandler:
       }
     }
                                                   failure:^(SPError *error) {
-      // NSLog(@"%@", error);
       NSString *html = [self.contentHTML
                         stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
                         withString:[error localizedDescription]];
@@ -1120,7 +1104,6 @@ decisionHandler:
       }
     }
                                                    failure:^(SPError *error) {
-      // NSLog(@"%@", error);
       NSString *html = [self.contentHTML
                         stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
                         withString:[error  localizedDescription]];
@@ -1150,7 +1133,6 @@ decisionHandler:
       }
     }
                                                   failure:^(SPError *error) {
-      // NSLog(@"%@", error);
       NSString *html = [self.contentHTML
                         stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
                         withString:[error  localizedDescription]];
@@ -1160,8 +1142,6 @@ decisionHandler:
     return NO;
 
   } else if ([self.title isEqualToString:@"Virtual Terminal (CHARGE)"]) {
-
-    // NSLog(@"%@", @"SART TOKEN--->");
 
     [self.activityIndicator startAnimating];
 
@@ -1210,7 +1190,6 @@ decisionHandler:
 
                                                        success:^(SPCharge *charge) {
           if (charge) {
-            // NSLog(@"%@", @"END CHARGE--->");
             NSString *html = [self.contentHTML
                               stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
                               withString:
@@ -1234,7 +1213,6 @@ decisionHandler:
           }
         }
                                                        failure:^(SPError *error) {
-          // NSLog(@"%@", error);
           NSString *html = [self.contentHTML
                             stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
                             withString: [error localizedDescription]];
@@ -1246,7 +1224,6 @@ decisionHandler:
       }
     }
                                                                 failure:^(SPError *error) {
-      // NSLog(@"%@", error);
       NSString *html = [self.contentHTML
                         stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
                         withString:[error
@@ -1331,7 +1308,6 @@ decisionHandler:
           }
         }
                                                        failure:^(SPError *error) {
-          // NSLog(@"%@", error);
           NSString *html = [self.contentHTML
                             stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
                             withString:[error localizedDescription]];
@@ -1343,7 +1319,6 @@ decisionHandler:
       }
     }
                                                                 failure:^(SPError *error) {
-      // NSLog(@"%@", error);
       NSString *html = [self.contentHTML
                         stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
                         withString:[error
@@ -1420,7 +1395,6 @@ decisionHandler:
           }
         }
                                                        failure:^(SPError *error) {
-          // NSLog(@"%@", error);
           NSString *html = [self.contentHTML
                             stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
                             withString:[error localizedDescription]];
@@ -1432,7 +1406,6 @@ decisionHandler:
       }
     }
                                                                 failure:^(SPError *error) {
-      // NSLog(@"%@", error);
       NSString *html = [self.contentHTML
                         stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
                         withString:[error

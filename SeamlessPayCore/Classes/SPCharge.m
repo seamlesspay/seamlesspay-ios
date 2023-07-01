@@ -28,8 +28,6 @@
       NSArray *keysForNullValues = [dict allKeysForObject:[NSNull null]];
       [dict removeObjectsForKeys:keysForNullValues];
 
-      //NSLog(@"%@", obj);
-
       _chargeId = dict[@"id"];//
       _method = dict[@"method"];//
       _amount = dict[@"amount"];//
@@ -61,36 +59,5 @@
   }
   return self;
 }
-
-//- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
-//  self = [super init];
-//  if (self) {
-//
-//    NSMutableDictionary *dict = [dictionary mutableCopy];
-//    NSArray *keysForNullValues = [dict allKeysForObject:[NSNull null]];
-//    [dict removeObjectsForKeys:keysForNullValues];
-//
-//    _chargeId = dict[@"id"];
-//    _method = dict[@"method"];
-//    _amount = dict[@"amount"];
-//    _tip = dict[@"tip"];
-//    _surchargeFeeAmount = dict[@"surchargeFeeAmount"];
-//    _order = dict[@"order"];
-//    _currency = dict[@"currency"];
-//    _expDate = dict[@"expDate"];
-//    _lastFour = dict[@"lastFour"];
-//    _token = dict[@"token"];
-//    _status = dict[@"status"];
-//    _statusCode = dict[@"statusCode"];
-//    _statusDescription = dict[@"statusDescription"];
-//    _ipAddress = dict[@"ipAddress"];
-//    _authCode = dict[@"authCode"];
-//    _batch = dict[@"batch"];
-//    _businessCard = dict[@"businessCard"] ? YES : NO;
-//    _createdAt = dict[@"createdAt"];
-//    _updatedAt = dict[@"updatedAt"];
-//  }
-//  return self;
-//}
 
 @end

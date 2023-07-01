@@ -126,5 +126,4 @@
  */
 - (instancetype _Nonnull )initWithResponseData:(nonnull NSData *)data;
 + (instancetype _Nonnull )chargeWithResponseData:(nonnull NSData *)data;
-//- (instancetype _Nonnull )initWithDictionary:(nonnull NSDictionary*)dictionary;
 @end
