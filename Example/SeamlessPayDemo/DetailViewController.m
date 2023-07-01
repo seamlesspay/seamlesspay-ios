@@ -705,7 +705,7 @@
                                                             state:nil
                                                        postalCode:zip];
     
-    [[SPAPIClient getSharedInstance] createPaymentMethodWithPaymentType:@"credit_card"
+    [[SPAPIClient getSharedInstance] createPaymentMethodWithPaymentType:SPPaymentTypeCreditCard
                                                                 account:cardNumber
                                                                 expDate:exp
                                                                     cvv:cvc
@@ -897,8 +897,7 @@ decisionHandler:
                                                      address:nil
                                               paymentMethods:nil];
 
-
-    [[SPAPIClient getSharedInstance] createPaymentMethodWithPaymentType:qa[2]
+    [[SPAPIClient getSharedInstance] createPaymentMethodWithPaymentType:[self paymentTypeFromString:qa[2]]
                                                                 account:qa[4]
                                                                 expDate:qa[6]
                                                                     cvv:qa[8]
@@ -1180,7 +1179,7 @@ decisionHandler:
                                                        postalCode:qa[16]];
 
 
-    [[SPAPIClient getSharedInstance] createPaymentMethodWithPaymentType:@"credit_card"
+    [[SPAPIClient getSharedInstance] createPaymentMethodWithPaymentType:SPPaymentTypeCreditCard
                                                                 account:qa[8]
                                                                 expDate:qa[10]
                                                                     cvv:qa[12]
@@ -1282,7 +1281,7 @@ decisionHandler:
                                                        postalCode:qa[20]];
 
 
-    [[SPAPIClient getSharedInstance] createPaymentMethodWithPaymentType:@"ach"
+    [[SPAPIClient getSharedInstance] createPaymentMethodWithPaymentType:SPPaymentTypeAch
                                                                 account:qa[10]
                                                                 expDate:nil
                                                                     cvv:nil
@@ -1374,7 +1373,7 @@ decisionHandler:
 
     [self.activityIndicator startAnimating];
 
-    [[SPAPIClient getSharedInstance] createPaymentMethodWithPaymentType:@"gift_card"
+    [[SPAPIClient getSharedInstance] createPaymentMethodWithPaymentType:SPPaymentTypeGiftCard
                                                                 account:qa[4]
                                                                 expDate:nil
                                                                     cvv:nil
@@ -1480,6 +1479,21 @@ decisionHandler:
   } else {
     // Handle unrecognized string or return a default value
     return SPEnvironmentSandbox;
+  }
+}
+
+- (SPPaymentType)paymentTypeFromString:(NSString *)string {
+  if ([string isEqualToString:@"credit_card"]) {
+    return SPPaymentTypeCreditCard;
+  } else if ([string isEqualToString:@"pldebit_card"]) {
+    return SPPaymentTypePlDebitCard;
+  } else if ([string isEqualToString:@"gift_card"]) {
+    return SPPaymentTypeGiftCard;
+  } else if ([string isEqualToString:@"ach"]) {
+    return SPPaymentTypeAch;
+  } else {
+    // Handle unrecognized string or return a default value
+    return SPPaymentTypeCreditCard;
   }
 }
 

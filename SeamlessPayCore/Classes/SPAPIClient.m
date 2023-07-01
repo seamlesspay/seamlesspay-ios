@@ -22,6 +22,13 @@ NSString * const SPEnvironmentPanVaultHostURLs[] = {
   [SPEnvironmentQAT] = @"https://pan-vault.seamlesspay.io"
 };
 
+NSString * const SPSPPaymentTypes[] = {
+  [SPPaymentTypeAch] = @"ach",
+  [SPPaymentTypeCreditCard] = @"credit_card",
+  [SPPaymentTypeGiftCard] = @"gift_card",
+  [SPPaymentTypePlDebitCard] = @"pldebit_card",
+};
+
 NSString * const k_APIVersion = @"v2020";
 static const NSTimeInterval k_TimeoutInterval = 15.0;
 
@@ -236,7 +243,7 @@ static SPAPIClient *sharedInstance = nil;
   [task resume];
 }
 
-- (void)createPaymentMethodWithPaymentType:(NSString *)paymentType
+- (void)createPaymentMethodWithPaymentType:(SPPaymentType)paymentType
                             account:(NSString *)account
                             expDate:(NSString *)expDate
                                 cvv:(NSString *)cvv
@@ -253,9 +260,10 @@ static SPAPIClient *sharedInstance = nil;
                                         success
                             failure:(void (^)(SPError *))failure {
     
-       
+  NSString *paymentTypeString = [SPEnvironmentPanVaultHostURLs[paymentType] copy];
+  NSString *paymentTypeString2 = [SPEnvironmentPanVaultHostURLs[100] copy];
   NSMutableDictionary *params = [@{
-    @"paymentType" : paymentType ?: @"",
+    @"paymentType" : paymentTypeString ?: @"",
     @"accountNumber" : account ?: @"",
     @"billingAddress" : [billingAddress dictionary] ? [billingAddress dictionary] : @"",
     @"company" : billingCompany ?: @"",
@@ -266,22 +274,20 @@ static SPAPIClient *sharedInstance = nil;
     @"deviceFingerprint" : [self deviceFingerprint]
   } mutableCopy];
 
-  if ([paymentType isEqualToString:@"gift_card"]) {
+  if (paymentType == SPPaymentTypeGiftCard) {
     [params addEntriesFromDictionary:@{@"pinNumber" : pin ?: @""}];
   }
 
-  if ([paymentType isEqualToString:@"credit_card"] ||
-      [paymentType isEqualToString:@"pldebit_card"]) {
+  if (paymentType == SPPaymentTypeCreditCard || paymentType == SPPaymentTypePlDebitCard) {
     [params addEntriesFromDictionary:@{@"expDate" : expDate ?: @""}];
     
   }
     
-    if ([paymentType isEqualToString:@"credit_card"]) {
+    if (paymentType == SPPaymentTypeCreditCard) {
       [params addEntriesFromDictionary:@{@"cvv" : cvv ?: @""}];
       
     }
-    
-  if ([paymentType isEqualToString:@"ach"]) {
+  if (paymentType == SPPaymentTypeAch) {
     [params addEntriesFromDictionary:@{
       @"bankAccountType" : accountType ?: @"",
       @"routingNumber" : routing ?: @""

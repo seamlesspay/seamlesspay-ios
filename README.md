@@ -198,7 +198,7 @@ Objective-C:
                                   postalCode:self.cardTextField.postalCode];
     
     [[SPAPIClient getSharedInstance]
-     createPaymentMethodWithPaymentType:@"credit_card"
+     createPaymentMethodWithPaymentType:SPPaymentTypeCreditCard
      account:self.cardTextField.cardNumber
      expDate:self.cardTextField.formattedExpirationDate
      cvv:self.cardTextField.cvc

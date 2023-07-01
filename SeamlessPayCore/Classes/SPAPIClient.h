@@ -23,6 +23,13 @@ typedef NS_ENUM(NSUInteger, SPEnvironment) {
   SPEnvironmentQAT,
 };
 
+typedef NS_ENUM(NSUInteger, SPPaymentType) {
+  SPPaymentTypeAch,
+  SPPaymentTypeCreditCard,
+  SPPaymentTypeGiftCard,
+  SPPaymentTypePlDebitCard,
+};
+
 @interface SPAPIClient : NSObject
 
 @property(nonatomic, readonly, copy) NSString * _Nullable secretKey;
@@ -80,7 +87,7 @@ typedef NS_ENUM(NSUInteger, SPEnvironment) {
  *  given object
  */
 
-- (void)createPaymentMethodWithPaymentType:(NSString *_Nullable)paymentType
+- (void)createPaymentMethodWithPaymentType:(SPPaymentType)paymentType
                             account:(NSString *_Nullable)account
                             expDate:(NSString *_Nullable)expDate
                                 cvv:(NSString *_Nullable)cvv

@@ -42,7 +42,7 @@
 @property(nonatomic, strong) NSString *orderId;
 @property(nonatomic, strong) NSString *paymentDescription;
 @property(nonatomic, strong) NSString *paymentAmount;
-@property(nonatomic, strong) NSString *paymentType;
+@property(nonatomic) SPPaymentType paymentType;
 
 @property(nonatomic, strong) SPAddress *billingAddress;
 @property(nonatomic, strong) SPCustomer *customer;

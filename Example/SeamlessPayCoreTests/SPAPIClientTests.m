@@ -116,7 +116,7 @@
     
     
     [[SPAPIClient getSharedInstance]
-     createPaymentMethodWithPaymentType:@"credit_card"
+     createPaymentMethodWithPaymentType:SPPaymentTypeCreditCard
      account:@"4485245870307367"
      expDate:@"12/30"
      cvv:@"123"
