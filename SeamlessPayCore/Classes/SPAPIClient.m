@@ -7,28 +7,6 @@
 
 #import "SPAPIClient.h"
 
-// MARK: - Constants
-NSString * const SPEnvironmentHostURLs[] = {
-  [SPEnvironmentProduction] = @"https://api.seamlesspay.com",
-  [SPEnvironmentSandbox] = @"https://api.seamlesspay.dev",
-  [SPEnvironmentStaging] = @"https://api.seamlesspay.dev",
-  [SPEnvironmentQAT] = @"https://api.seamlesspay.io"
-};
-
-NSString * const SPEnvironmentPanVaultHostURLs[] = {
-  [SPEnvironmentProduction] = @"https://pan-vault.seamlesspay.com",
-  [SPEnvironmentSandbox] = @"https://sandbox-pan-vault.seamlesspay.com",
-  [SPEnvironmentStaging] = @"https://pan-vault.seamlesspay.dev",
-  [SPEnvironmentQAT] = @"https://pan-vault.seamlesspay.io"
-};
-
-NSString * const SPSPPaymentTypes[] = {
-  [SPPaymentTypeAch] = @"ach",
-  [SPPaymentTypeCreditCard] = @"credit_card",
-  [SPPaymentTypeGiftCard] = @"gift_card",
-  [SPPaymentTypePlDebitCard] = @"pldebit_card",
-};
-
 NSString * const k_APIVersion = @"v2020";
 static const NSTimeInterval k_TimeoutInterval = 15.0;
 
@@ -55,8 +33,8 @@ static SPAPIClient *sharedInstance = nil;
 - (void)setSecretKey:(NSString *)secretKey
       publishableKey:(NSString *)publishableKey
          environment:(SPEnvironment)environment {
-  _APIHostURL = [SPEnvironmentHostURLs[environment] copy];
-  _PanVaultHostURL = [SPEnvironmentPanVaultHostURLs[environment] copy];
+  _APIHostURL = [self hostURLForEnvironment:environment];
+  _PanVaultHostURL = [self panVaultURLForEnvironment:environment];
   _secretKey = [secretKey ?: publishableKey copy];
   _publishableKey = [publishableKey copy];
 
@@ -260,8 +238,7 @@ static SPAPIClient *sharedInstance = nil;
                                         success
                             failure:(void (^)(SPError *))failure {
     
-  NSString *paymentTypeString = [SPEnvironmentPanVaultHostURLs[paymentType] copy];
-  NSString *paymentTypeString2 = [SPEnvironmentPanVaultHostURLs[100] copy];
+  NSString *paymentTypeString = [self valueForPaymentType:paymentType];
   NSMutableDictionary *params = [@{
     @"paymentType" : paymentTypeString ?: @"",
     @"accountNumber" : account ?: @"",
@@ -510,6 +487,54 @@ static SPAPIClient *sharedInstance = nil;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - <<<Private Methods>>>
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+- (NSString *)valueForPaymentType:(SPPaymentType)paymentType {
+  switch (paymentType) {
+    case SPPaymentTypeAch:
+      return @"ach";
+    case SPPaymentTypeCreditCard:
+      return @"credit_card";
+    case SPPaymentTypeGiftCard:
+      return @"gift_card";
+    case SPPaymentTypePlDebitCard:
+      return @"pldebit_card";
+  }
+
+  NSAssert(NO, @"Unexpected SPSPPaymentTypes");
+  return @"";
+}
+
+- (NSString *)panVaultURLForEnvironment:(SPEnvironment)environment {
+  switch (environment) {
+    case SPEnvironmentProduction:
+      return @"https://pan-vault.seamlesspay.com";
+    case SPEnvironmentSandbox:
+      return @"https://sandbox-pan-vault.seamlesspay.com";
+    case SPEnvironmentStaging:
+      return @"https://pan-vault.seamlesspay.dev";
+    case SPEnvironmentQAT:
+      return @"https://pan-vault.seamlesspay.io";
+  }
+
+  NSAssert(NO, @"Unexpected SPEnvironment");
+  return @"";
+}
+
+- (NSString *)hostURLForEnvironment:(SPEnvironment)environment {
+  switch (environment) {
+    case SPEnvironmentProduction:
+      return @"https://api.seamlesspay.com";
+    case SPEnvironmentSandbox:
+      return @"https://api.seamlesspay.dev";
+    case SPEnvironmentStaging:
+      return @"https://api.seamlesspay.dev";
+    case SPEnvironmentQAT:
+      return @"https://api.seamlesspay.io";
+  }
+
+  NSAssert(NO, @"Unexpected SPEnvironment");
+  return @"";
+}
 
 - (SPError *)errorWithData:(NSData *_Nullable)data
                      error:(NSError *_Nullable)error {
