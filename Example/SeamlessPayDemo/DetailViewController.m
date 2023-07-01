@@ -705,25 +705,21 @@
                                                             state:nil
                                                        postalCode:zip];
     
-    [[SPAPIClient getSharedInstance] createPaymentMethodWithPaymentType:SPPaymentTypeCreditCard
-                                                                account:cardNumber
-                                                                expDate:exp
-                                                                    cvv:cvc
-                                                            accountType:nil
-                                                                routing:nil
-                                                                    pin:nil
-                                                         billingAddress:billingAddress
-                                                     billingCompanyName:nil
-                                                           accountEmail:nil
-                                                            phoneNumber:nil
-                                                                   name:@"Michael Smith"
-                                                               customer:nil
-                                                                success:^(SPPaymentMethod *paymentMethod) {
+    [[SPAPIClient getSharedInstance] tokenizeWithPaymentType:SPPaymentTypeCreditCard
+                                                     account:cardNumber
+                                                     expDate:exp
+                                                         cvv:cvc
+                                                 accountType:nil
+                                                     routing:nil
+                                                         pin:nil
+                                              billingAddress:billingAddress
+                                          billingCompanyName:nil
+                                                accountEmail:nil
+                                                 phoneNumber:nil
+                                                        name:@"Michael Smith"
+                                                    customer:nil
+                                                     success:^(SPPaymentMethod *paymentMethod) {
         if (paymentMethod) {
-            
-            //          NSLog(@"%@", @"END TOKEN--->");
-            //          NSLog(@"%@", [paymentMethod dictionary]);
-            //          NSLog(@"%@", @"SART CHARGE--->");
             
             [[SPAPIClient getSharedInstance] createChargeWithToken:paymentMethod.token
                                                                cvv:cvc
@@ -897,22 +893,20 @@ decisionHandler:
                                                      address:nil
                                               paymentMethods:nil];
 
-    [[SPAPIClient getSharedInstance] createPaymentMethodWithPaymentType:[self paymentTypeFromString:qa[2]]
-                                                                account:qa[4]
-                                                                expDate:qa[6]
-                                                                    cvv:qa[8]
-                                                            accountType:qa[10]
-                                                                routing:qa[8]
-                                                                    pin:qa[12]
-                                                         billingAddress:billingAddress
-                                                     billingCompanyName:qa[26]
-                                                           accountEmail:qa[28]
-                                                            phoneNumber:qa[34]
-                                                                   name:qa[30]
-                                                               customer:customer
-                                                                success:^(SPPaymentMethod * _Nonnull paymentMethod) {
-
-      // NSLog(@"SPPaymentMethod: %@", [paymentMethod dictionary] );
+    [[SPAPIClient getSharedInstance] tokenizeWithPaymentType:[self paymentTypeFromString:qa[2]]
+                                                     account:qa[4]
+                                                     expDate:qa[6]
+                                                         cvv:qa[8]
+                                                 accountType:qa[10]
+                                                     routing:qa[8]
+                                                         pin:qa[12]
+                                              billingAddress:billingAddress
+                                          billingCompanyName:qa[26]
+                                                accountEmail:qa[28]
+                                                 phoneNumber:qa[34]
+                                                        name:qa[30]
+                                                    customer:customer
+                                                     success:^(SPPaymentMethod * _Nonnull paymentMethod) {
 
       NSMutableDictionary *pmDict =
       [[paymentMethod dictionary] mutableCopy];
@@ -1179,26 +1173,21 @@ decisionHandler:
                                                        postalCode:qa[16]];
 
 
-    [[SPAPIClient getSharedInstance] createPaymentMethodWithPaymentType:SPPaymentTypeCreditCard
-                                                                account:qa[8]
-                                                                expDate:qa[10]
-                                                                    cvv:qa[12]
-                                                            accountType:nil
-                                                                routing:nil
-                                                                    pin:nil
-                                                         billingAddress:billingAddress
-                                                     billingCompanyName:nil
-                                                           accountEmail:qa[24]
-                                                            phoneNumber:nil
-                                                                   name:qa[4]
-                                                               customer:nil
-
-                                                                success:^(SPPaymentMethod *paymentMethod) {
+    [[SPAPIClient getSharedInstance] tokenizeWithPaymentType:SPPaymentTypeCreditCard
+                                                     account:qa[8]
+                                                     expDate:qa[10]
+                                                         cvv:qa[12]
+                                                 accountType:nil
+                                                     routing:nil
+                                                         pin:nil
+                                              billingAddress:billingAddress
+                                          billingCompanyName:nil
+                                                accountEmail:qa[24]
+                                                 phoneNumber:nil
+                                                        name:qa[4]
+                                                    customer:nil
+                                                     success:^(SPPaymentMethod *paymentMethod) {
       if (paymentMethod) {
-
-        // NSLog(@"%@", @"END TOKEN--->");
-        // NSLog(@"%@", [paymentMethod dictionary]);
-        // NSLog(@"%@", @"SART CHARGE--->");
 
         [[SPAPIClient getSharedInstance] createChargeWithToken:paymentMethod.token
                                                            cvv:qa[12]
@@ -1281,24 +1270,21 @@ decisionHandler:
                                                        postalCode:qa[20]];
 
 
-    [[SPAPIClient getSharedInstance] createPaymentMethodWithPaymentType:SPPaymentTypeAch
-                                                                account:qa[10]
-                                                                expDate:nil
-                                                                    cvv:nil
-                                                            accountType:qa[2]
-                                                                routing:qa[8]
-                                                                    pin:nil
-                                                         billingAddress:billingAddress
-                                                     billingCompanyName:qa[6]
-                                                           accountEmail:qa[28]
-                                                            phoneNumber:qa[24]
-                                                                   name:qa[4]
-                                                               customer:nil
-
-                                                                success:^(SPPaymentMethod *paymentMethod) {
+    [[SPAPIClient getSharedInstance] tokenizeWithPaymentType:SPPaymentTypeAch
+                                                     account:qa[10]
+                                                     expDate:nil
+                                                         cvv:nil
+                                                 accountType:qa[2]
+                                                     routing:qa[8]
+                                                         pin:nil
+                                              billingAddress:billingAddress
+                                          billingCompanyName:qa[6]
+                                                accountEmail:qa[28]
+                                                 phoneNumber:qa[24]
+                                                        name:qa[4]
+                                                    customer:nil
+                                                     success:^(SPPaymentMethod *paymentMethod) {
       if (paymentMethod) {
-
-        //  NSLog(@"%@", [paymentMethod dictionary]);
 
         [[SPAPIClient getSharedInstance] createChargeWithToken:paymentMethod.token
                                                            cvv:nil
@@ -1373,7 +1359,7 @@ decisionHandler:
 
     [self.activityIndicator startAnimating];
 
-    [[SPAPIClient getSharedInstance] createPaymentMethodWithPaymentType:SPPaymentTypeGiftCard
+    [[SPAPIClient getSharedInstance] tokenizeWithPaymentType:SPPaymentTypeGiftCard
                                                                 account:qa[4]
                                                                 expDate:nil
                                                                     cvv:nil
@@ -1386,11 +1372,8 @@ decisionHandler:
                                                             phoneNumber:nil
                                                                    name:qa[2]
                                                                customer:nil
-
                                                                 success:^(SPPaymentMethod *paymentMethod) {
       if (paymentMethod) {
-
-        //   NSLog(@"%@", [paymentMethod dictionary]);
 
         [[SPAPIClient getSharedInstance] createChargeWithToken:paymentMethod.token
                                                            cvv:nil

@@ -198,7 +198,7 @@ Objective-C:
                                   postalCode:self.cardTextField.postalCode];
     
     [[SPAPIClient getSharedInstance]
-     createPaymentMethodWithPaymentType:SPPaymentTypeCreditCard
+     tokenizeWithPaymentType:SPPaymentTypeCreditCard
      account:self.cardTextField.cardNumber
      expDate:self.cardTextField.formattedExpirationDate
      cvv:self.cardTextField.cvc
@@ -267,8 +267,8 @@ Swift:
             postalCode: cardTextField.postalCode)
         
         
-        SPAPIClient.getSharedInstance().createPaymentMethod(
-            withPaymentType: "credit_card",
+        SPAPIClient.getSharedInstance().tokenize(
+            with: .creditCard,
             account: cardTextField.cardNumber,
             expDate: cardTextField.formattedExpirationDate,
             cvv: self.cardTextField.cvc,

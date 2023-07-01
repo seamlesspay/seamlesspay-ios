@@ -116,7 +116,7 @@
                                   postalCode:self.cardTextField.postalCode];
     
     [[SPAPIClient getSharedInstance]
-     createPaymentMethodWithPaymentType:SPPaymentTypeCreditCard
+     tokenizeWithPaymentType:SPPaymentTypeCreditCard
      account:self.cardTextField.cardNumber
      expDate:self.cardTextField.formattedExpirationDate
      cvv:self.cardTextField.cvc

@@ -221,22 +221,21 @@ static SPAPIClient *sharedInstance = nil;
   [task resume];
 }
 
-- (void)createPaymentMethodWithPaymentType:(SPPaymentType)paymentType
-                            account:(NSString *)account
-                            expDate:(NSString *)expDate
-                                cvv:(NSString *)cvv
-                        accountType:(NSString *)accountType
-                            routing:(NSString *)routing
-                                pin:(NSString *)pin
-                    billingAddress:(SPAddress *)billingAddress
-                billingCompanyName:(NSString *)billingCompany
-                      accountEmail:(NSString *)accountEmail
-                       phoneNumber:(NSString *)phoneNumber
-                               name:(NSString *)name
-                           customer:(SPCustomer *)customer
-                            success:(void (^)(SPPaymentMethod *paymentMethod))
-                                        success
-                            failure:(void (^)(SPError *))failure {
+- (void)tokenizeWithPaymentType:(SPPaymentType)paymentType
+                        account:(NSString *)account
+                        expDate:(NSString *)expDate
+                            cvv:(NSString *)cvv
+                    accountType:(NSString *)accountType
+                        routing:(NSString *)routing
+                            pin:(NSString *)pin
+                 billingAddress:(SPAddress *)billingAddress
+             billingCompanyName:(NSString *)billingCompany
+                   accountEmail:(NSString *)accountEmail
+                    phoneNumber:(NSString *)phoneNumber
+                           name:(NSString *)name
+                       customer:(SPCustomer *)customer
+                        success:(void (^)(SPPaymentMethod *paymentMethod))success
+                        failure:(void (^)(SPError *))failure {
     
   NSString *paymentTypeString = [self valueForPaymentType:paymentType];
   NSMutableDictionary *params = [@{

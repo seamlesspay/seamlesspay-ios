@@ -55,8 +55,8 @@ class ViewController: UIViewController {
             postalCode: cardTextField.postalCode)
         
         
-        SPAPIClient.getSharedInstance().createPaymentMethod(
-            withPaymentType: "credit_card",
+        SPAPIClient.getSharedInstance().tokenize(
+            with: .creditCard,
             account: cardTextField.cardNumber,
             expDate: cardTextField.formattedExpirationDate,
             cvv: self.cardTextField.cvc,

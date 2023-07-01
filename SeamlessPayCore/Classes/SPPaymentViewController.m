@@ -93,7 +93,7 @@
     
 
     [[SPAPIClient getSharedInstance]
-     createPaymentMethodWithPaymentType:self.paymentType ?: SPPaymentTypeCreditCard
+     tokenizeWithPaymentType:self.paymentType ?: SPPaymentTypeCreditCard
      account:self.cardTextField.cardNumber
      expDate:self.cardTextField.formattedExpirationDate
      cvv:self.cardTextField.cvc

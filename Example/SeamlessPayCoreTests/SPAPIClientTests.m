@@ -91,9 +91,9 @@
     [self waitForExpectationsWithTimeout:15.0 handler:nil];
 }
 
-- (void)testCreatePaymentMethodWithType {
+- (void)testTokenizeWithPaymentType {
     
-    XCTestExpectation *documentExpectation = [self expectationWithDescription:@"testCreatePaymentMethodWithType"];
+    XCTestExpectation *documentExpectation = [self expectationWithDescription:@"testTokenizeWithPaymentType"];
     
     SPAddress * billingAddress = [[SPAddress alloc]
                                   initWithline1:nil
@@ -116,7 +116,7 @@
     
     
     [[SPAPIClient getSharedInstance]
-     createPaymentMethodWithPaymentType:SPPaymentTypeCreditCard
+     tokenizeWithPaymentType:SPPaymentTypeCreditCard
      account:@"4485245870307367"
      expDate:@"12/30"
      cvv:@"123"
