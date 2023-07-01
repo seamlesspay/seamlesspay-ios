@@ -30,8 +30,8 @@ pod 'SeamlessPayCore'
 
 When your app starts, configure the SDK with your SeamlessPay publishable (you can get it on the API Keys page), so that it can make requests to the SeamlessPay API.
 
-Using only Publishable Key for a single page apps without their own backend. In this case you will be able to do /v1/charge only.
-Using a Secret Key allows you using all transaction's methods (e.g. /v1/charge, /v1/refund, /v1/void).
+Using only Publishable Key for a single page apps without their own backend. In this case you will be able to do /charge only.
+Using a Secret Key allows you using all transaction's methods (e.g. /charge, /refund, /void).
 
 Objective-C:
 
