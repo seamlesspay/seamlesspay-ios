@@ -1,6 +1,6 @@
 use_frameworks!
 
-platform :ios, '13.2'
+platform :ios, '15.0'
 
 target 'SeamlessPayDemo' do
   pod 'SeamlessPayCore', :path => '../'
