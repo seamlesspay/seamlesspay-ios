@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0DF7DAD00DA5D43A3AD9EE82 /* Pods_SeamlessPayCoreTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA4D1DF434A17453C91B01C7 /* Pods_SeamlessPayCoreTests.framework */; };
 		1C10BC442416A42300548808 /* SPAPIClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C10BC432416A42300548808 /* SPAPIClientTests.m */; };
 		1C10BC462416A78700548808 /* SPCardValidatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C10BC452416A78700548808 /* SPCardValidatorTest.m */; };
 		1C10BC482416AB7200548808 /* SPAddressTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C10BC472416AB7200548808 /* SPAddressTests.m */; };
@@ -52,10 +53,16 @@
 		1C94047623D34E3600BC4697 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C94047423D34E3600BC4697 /* Main.storyboard */; };
 		1C94047823D34E4000BC4697 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C94047723D34E4000BC4697 /* Assets.xcassets */; };
 		1C94047B23D34E4000BC4697 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C94047923D34E4000BC4697 /* LaunchScreen.storyboard */; };
+		41D26BC0837FFCB50EE36E45 /* Pods_SeamlessPayDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB3EDE7F44770FE7152A76D7 /* Pods_SeamlessPayDemo.framework */; };
+		76CAB6228CB22AA1D5FFC27C /* Pods_SeamlessPay_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EFDD7487C69A4B30FD96B2A /* Pods_SeamlessPay_Swift.framework */; };
+		A0FF47BA2C6820DF9487019B /* Pods_SPPaymentViewController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4D29BAD46A59F8D6142F0E /* Pods_SPPaymentViewController.framework */; };
+		DE2D3AAFA6DA30295BD0D468 /* Pods_SeamlessPay_ObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F54D52789327CAB7D8EB42A2 /* Pods_SeamlessPay_ObjC.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		01B8C9E4F5FF6D9C7CB35985 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		0EFDD7487C69A4B30FD96B2A /* Pods_SeamlessPay_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SeamlessPay_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		155D35BC5678181528AC91ED /* Pods-SeamlessPay_ObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeamlessPay_ObjC.debug.xcconfig"; path = "Target Support Files/Pods-SeamlessPay_ObjC/Pods-SeamlessPay_ObjC.debug.xcconfig"; sourceTree = "<group>"; };
 		1C10BC3B2416A3C000548808 /* SeamlessPayCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SeamlessPayCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C10BC3F2416A3C000548808 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C10BC432416A42300548808 /* SPAPIClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SPAPIClientTests.m; sourceTree = "<group>"; };
@@ -122,11 +129,24 @@
 		1C94047A23D34E4000BC4697 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1C94047C23D34E4000BC4697 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		38D2D2BF4EC8A6F4DE2A3CE3 /* SeamlessPayCore.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SeamlessPayCore.podspec; path = ../SeamlessPayCore.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		3E4436190EE4E84CAE33214E /* Pods-SPPaymentViewController.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SPPaymentViewController.release.xcconfig"; path = "Target Support Files/Pods-SPPaymentViewController/Pods-SPPaymentViewController.release.xcconfig"; sourceTree = "<group>"; };
+		4C91534E9E259F0581B22ABF /* Pods-SeamlessPayCoreTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeamlessPayCoreTests.debug.xcconfig"; path = "Target Support Files/Pods-SeamlessPayCoreTests/Pods-SeamlessPayCoreTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6003F5AF195388D20070C39A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		6DB40602EE58DDA3741CFF59 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		79C03688B980264E2EFDAF23 /* Pods-SeamlessPayDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeamlessPayDemo.release.xcconfig"; path = "Target Support Files/Pods-SeamlessPayDemo/Pods-SeamlessPayDemo.release.xcconfig"; sourceTree = "<group>"; };
+		AAA3CAD02EBAC4B44C5D2051 /* Pods-SPPaymentViewController.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SPPaymentViewController.debug.xcconfig"; path = "Target Support Files/Pods-SPPaymentViewController/Pods-SPPaymentViewController.debug.xcconfig"; sourceTree = "<group>"; };
+		AAC019F52079A52650CBC85A /* Pods-SeamlessPayDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeamlessPayDemo.debug.xcconfig"; path = "Target Support Files/Pods-SeamlessPayDemo/Pods-SeamlessPayDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		AB3EDE7F44770FE7152A76D7 /* Pods_SeamlessPayDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SeamlessPayDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD57AB2F0CB3B85EFDB00756 /* Pods-SeamlessPayCoreTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeamlessPayCoreTests.release.xcconfig"; path = "Target Support Files/Pods-SeamlessPayCoreTests/Pods-SeamlessPayCoreTests.release.xcconfig"; sourceTree = "<group>"; };
+		BE3F8825A374FD57841EF07A /* Pods-SeamlessPay_ObjC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeamlessPay_ObjC.release.xcconfig"; path = "Target Support Files/Pods-SeamlessPay_ObjC/Pods-SeamlessPay_ObjC.release.xcconfig"; sourceTree = "<group>"; };
+		DB4D29BAD46A59F8D6142F0E /* Pods_SPPaymentViewController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SPPaymentViewController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DCD1499BE39C6DE5A5F0C35A /* Pods-SeamlessPay_Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeamlessPay_Swift.release.xcconfig"; path = "Target Support Files/Pods-SeamlessPay_Swift/Pods-SeamlessPay_Swift.release.xcconfig"; sourceTree = "<group>"; };
+		E2A9926F8573A7284D478B37 /* Pods-SeamlessPay_Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeamlessPay_Swift.debug.xcconfig"; path = "Target Support Files/Pods-SeamlessPay_Swift/Pods-SeamlessPay_Swift.debug.xcconfig"; sourceTree = "<group>"; };
+		EA4D1DF434A17453C91B01C7 /* Pods_SeamlessPayCoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SeamlessPayCoreTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F54D52789327CAB7D8EB42A2 /* Pods_SeamlessPay_ObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SeamlessPay_ObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +154,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0DF7DAD00DA5D43A3AD9EE82 /* Pods_SeamlessPayCoreTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,6 +162,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0FF47BA2C6820DF9487019B /* Pods_SPPaymentViewController.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,6 +170,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41D26BC0837FFCB50EE36E45 /* Pods_SeamlessPayDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,6 +178,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE2D3AAFA6DA30295BD0D468 /* Pods_SeamlessPay_ObjC.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,6 +186,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76CAB6228CB22AA1D5FFC27C /* Pods_SeamlessPay_Swift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,6 +322,11 @@
 				6003F58F195388D20070C39A /* CoreGraphics.framework */,
 				6003F591195388D20070C39A /* UIKit.framework */,
 				6003F5AF195388D20070C39A /* XCTest.framework */,
+				DB4D29BAD46A59F8D6142F0E /* Pods_SPPaymentViewController.framework */,
+				EA4D1DF434A17453C91B01C7 /* Pods_SeamlessPayCoreTests.framework */,
+				AB3EDE7F44770FE7152A76D7 /* Pods_SeamlessPayDemo.framework */,
+				F54D52789327CAB7D8EB42A2 /* Pods_SeamlessPay_ObjC.framework */,
+				0EFDD7487C69A4B30FD96B2A /* Pods_SeamlessPay_Swift.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -314,6 +344,16 @@
 		A1D1C4B7B0CAE6AF55725748 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
+				AAA3CAD02EBAC4B44C5D2051 /* Pods-SPPaymentViewController.debug.xcconfig */,
+				3E4436190EE4E84CAE33214E /* Pods-SPPaymentViewController.release.xcconfig */,
+				4C91534E9E259F0581B22ABF /* Pods-SeamlessPayCoreTests.debug.xcconfig */,
+				BD57AB2F0CB3B85EFDB00756 /* Pods-SeamlessPayCoreTests.release.xcconfig */,
+				AAC019F52079A52650CBC85A /* Pods-SeamlessPayDemo.debug.xcconfig */,
+				79C03688B980264E2EFDAF23 /* Pods-SeamlessPayDemo.release.xcconfig */,
+				155D35BC5678181528AC91ED /* Pods-SeamlessPay_ObjC.debug.xcconfig */,
+				BE3F8825A374FD57841EF07A /* Pods-SeamlessPay_ObjC.release.xcconfig */,
+				E2A9926F8573A7284D478B37 /* Pods-SeamlessPay_Swift.debug.xcconfig */,
+				DCD1499BE39C6DE5A5F0C35A /* Pods-SeamlessPay_Swift.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -325,9 +365,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1C10BC422416A3C000548808 /* Build configuration list for PBXNativeTarget "SeamlessPayCoreTests" */;
 			buildPhases = (
+				365D6D71DBC73C6C3E342DB0 /* [CP] Check Pods Manifest.lock */,
 				1C10BC372416A3C000548808 /* Sources */,
 				1C10BC382416A3C000548808 /* Frameworks */,
 				1C10BC392416A3C000548808 /* Resources */,
+				88CA1A30F351ACD772A473D6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -342,9 +384,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1C10BC75241A786200548808 /* Build configuration list for PBXNativeTarget "SPPaymentViewController" */;
 			buildPhases = (
+				F0B52C36B41F8FE7C35816F4 /* [CP] Check Pods Manifest.lock */,
 				1C10BC59241A784800548808 /* Sources */,
 				1C10BC5A241A784800548808 /* Frameworks */,
 				1C10BC5B241A784800548808 /* Resources */,
+				28CB8E3535760FCF1EB45330 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -359,9 +403,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1C94044823D3451C00BC4697 /* Build configuration list for PBXNativeTarget "SeamlessPayDemo" */;
 			buildPhases = (
+				06F0D0BA132B962702EB1B89 /* [CP] Check Pods Manifest.lock */,
 				1C94042B23D3451700BC4697 /* Sources */,
 				1C94042C23D3451700BC4697 /* Frameworks */,
 				1C94042D23D3451700BC4697 /* Resources */,
+				1389BBA4652BC3BADD6FAB20 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -376,9 +422,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1C94046723D349B200BC4697 /* Build configuration list for PBXNativeTarget "SeamlessPay_ObjC" */;
 			buildPhases = (
+				1AED84F0AA65DFFBA633E96A /* [CP] Check Pods Manifest.lock */,
 				1C94044B23D349AF00BC4697 /* Sources */,
 				1C94044C23D349AF00BC4697 /* Frameworks */,
 				1C94044D23D349AF00BC4697 /* Resources */,
+				BB4074E7DC9B068886650F1B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -393,9 +441,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1C94047F23D34E4000BC4697 /* Build configuration list for PBXNativeTarget "SeamlessPay_Swift" */;
 			buildPhases = (
+				00F7324D2F022D0570E1F0BE /* [CP] Check Pods Manifest.lock */,
 				1C94046823D34E3600BC4697 /* Sources */,
 				1C94046923D34E3600BC4697 /* Frameworks */,
 				1C94046A23D34E3600BC4697 /* Resources */,
+				78CAD61A2B893966F13E3FEB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -516,6 +566,209 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		00F7324D2F022D0570E1F0BE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SeamlessPay_Swift-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		06F0D0BA132B962702EB1B89 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SeamlessPayDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1389BBA4652BC3BADD6FAB20 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SeamlessPayDemo/Pods-SeamlessPayDemo-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SeamlessPayCore/SeamlessPayCore.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SeamlessPayCore.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SeamlessPayDemo/Pods-SeamlessPayDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1AED84F0AA65DFFBA633E96A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SeamlessPay_ObjC-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		28CB8E3535760FCF1EB45330 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SPPaymentViewController/Pods-SPPaymentViewController-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SeamlessPayCore/SeamlessPayCore.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SeamlessPayCore.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SPPaymentViewController/Pods-SPPaymentViewController-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		365D6D71DBC73C6C3E342DB0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SeamlessPayCoreTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		78CAD61A2B893966F13E3FEB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SeamlessPay_Swift/Pods-SeamlessPay_Swift-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SeamlessPayCore/SeamlessPayCore.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SeamlessPayCore.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SeamlessPay_Swift/Pods-SeamlessPay_Swift-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		88CA1A30F351ACD772A473D6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SeamlessPayCoreTests/Pods-SeamlessPayCoreTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SeamlessPayCore/SeamlessPayCore.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SeamlessPayCore.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SeamlessPayCoreTests/Pods-SeamlessPayCoreTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BB4074E7DC9B068886650F1B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SeamlessPay_ObjC/Pods-SeamlessPay_ObjC-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SeamlessPayCore/SeamlessPayCore.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SeamlessPayCore.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SeamlessPay_ObjC/Pods-SeamlessPay_ObjC-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F0B52C36B41F8FE7C35816F4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SPPaymentViewController-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1C10BC372416A3C000548808 /* Sources */ = {
@@ -657,6 +910,7 @@
 /* Begin XCBuildConfiguration section */
 		1C10BC402416A3C000548808 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4C91534E9E259F0581B22ABF /* Pods-SeamlessPayCoreTests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -683,6 +937,7 @@
 		};
 		1C10BC412416A3C000548808 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BD57AB2F0CB3B85EFDB00756 /* Pods-SeamlessPayCoreTests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -710,6 +965,7 @@
 		};
 		1C10BC73241A786200548808 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AAA3CAD02EBAC4B44C5D2051 /* Pods-SPPaymentViewController.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -735,6 +991,7 @@
 		};
 		1C10BC74241A786200548808 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3E4436190EE4E84CAE33214E /* Pods-SPPaymentViewController.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -761,6 +1018,7 @@
 		};
 		1C94044923D3451C00BC4697 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AAC019F52079A52650CBC85A /* Pods-SeamlessPayDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -799,6 +1057,7 @@
 		};
 		1C94044A23D3451C00BC4697 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 79C03688B980264E2EFDAF23 /* Pods-SeamlessPayDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -838,6 +1097,7 @@
 		};
 		1C94046523D349B200BC4697 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 155D35BC5678181528AC91ED /* Pods-SeamlessPay_ObjC.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -876,6 +1136,7 @@
 		};
 		1C94046623D349B200BC4697 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BE3F8825A374FD57841EF07A /* Pods-SeamlessPay_ObjC.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -915,6 +1176,7 @@
 		};
 		1C94047D23D34E4000BC4697 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E2A9926F8573A7284D478B37 /* Pods-SeamlessPay_Swift.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -956,6 +1218,7 @@
 		};
 		1C94047E23D34E4000BC4697 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DCD1499BE39C6DE5A5F0C35A /* Pods-SeamlessPay_Swift.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
