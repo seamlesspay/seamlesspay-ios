@@ -8,3 +8,6 @@ codecov
 *.xcuserdatad
 
 SeamlessPayCoreTests.xcscheme
+
+Example/Pods
+Example/Podfile.lock
