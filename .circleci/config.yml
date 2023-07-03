@@ -8,6 +8,11 @@ jobs:
     steps:
       - checkout
       - run: 
+          name: Install pods
+          command: |
+            cd Example/
+            pod install
+      - run: 
           name: Prepare schema
           command: |
             cd Example/
