@@ -524,7 +524,7 @@ static SPAPIClient *sharedInstance = nil;
     case SPEnvironmentProduction:
       return @"https://api.seamlesspay.com";
     case SPEnvironmentSandbox:
-      return @"https://api.seamlesspay.dev";
+      return @"https://sandbox.seamlesspay.com";
     case SPEnvironmentStaging:
       return @"https://api.seamlesspay.dev";
     case SPEnvironmentQAT:
