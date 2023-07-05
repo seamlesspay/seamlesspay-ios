@@ -1,6 +1,0 @@
-framework module Pods_SeamlessPayCoreTests {
-  umbrella header "Pods-SeamlessPayCoreTests-umbrella.h"
-
-  export *
-  module * { export * }
-}
