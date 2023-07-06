@@ -78,6 +78,24 @@ SPContactField const SPContactFieldName = @"SPContactFieldName";
   return self;
 }
 
+- (instancetype)initWithline1:(NSString *)line1
+                        line2:(NSString *)line2
+                         city:(NSString *)city
+                      country:(NSString *)country
+                        state:(NSString *)state
+                   postalCode:(NSString *)postalCode {
+  self = [super init];
+  if (self) {
+    _line1 = [line1 copy];
+    _line2 = [line2 copy];
+    _city = [city copy];
+    _state = [state copy];
+    _postalCode = [postalCode copy];
+    _country = [country copy];
+  }
+  return self;
+}
+
 - (instancetype)initWithCNContact:(CNContact *)contact {
   self = [super init];
   if (self) {
@@ -309,6 +327,23 @@ SPContactField const SPContactFieldName = @"SPContactFieldName";
   copyAddress.allResponseFields = self.allResponseFields;
 
   return copyAddress;
+}
+
+- (NSDictionary *)dictionary {
+    NSMutableDictionary *params = [ @{
+      @"line1" : _line1  ?: @"",
+      @"line2" : _line2 ?: @"",
+      @"city" : _city ?: @"",
+      @"country" : _country ?: @"",
+      @"state" : _state ?: @"",
+      @"postalCode" : _postalCode ?: @"",
+    } mutableCopy];
+    
+    NSArray *keysForNullValues = [params allKeysForObject:@""];
+    keysForNullValues = [keysForNullValues arrayByAddingObjectsFromArray: [params allKeysForObject:[NSNull null]]];
+    [params removeObjectsForKeys:keysForNullValues];
+    
+    return [params count] !=0 ? params : nil;
 }
 
 @end

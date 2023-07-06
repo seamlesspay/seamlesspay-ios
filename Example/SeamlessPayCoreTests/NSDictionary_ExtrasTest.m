@@ -125,12 +125,7 @@
     dictionary = @{
                    @"user": @"user_123",
                    @"nicknames": @"John, Johnny",
-                   @"profiles": [NSNull null],
-                   [NSNull null]: @"San Francisco, CA",
-                   [NSNull null]: [NSNull null],
                    @"age": @(21),
-                   @(21): @"age",
-                   @(21): @(21),
                    @"fees": @{
                            @"plan": @"monthly",
                            },

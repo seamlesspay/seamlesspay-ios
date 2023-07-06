@@ -30,8 +30,8 @@ pod 'SeamlessPayCore'
 
 When your app starts, configure the SDK with your SeamlessPay publishable (you can get it on the API Keys page), so that it can make requests to the SeamlessPay API.
 
-Using only Publishable Key for a single page apps without their own backend. In this case you will be able to do /v1/charge only.
-Using a Secret Key allows you using all transaction's methods (e.g. /v1/charge, /v1/refund, /v1/void).
+Using only Publishable Key for a single page apps without their own backend. In this case you will be able to do /charge only.
+Using a Secret Key allows you using all transaction's methods (e.g. /charge, /refund, /void).
 
 Objective-C:
 
@@ -43,10 +43,10 @@ AppDelegate.m
   
   @implementation AppDelegate
   - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-      [[SPAPIClient getSharedInstance]
-        setSecretKey:@"sk_XXXXXXXXXXXXXXXXXXXXXXXXXX" // can be nil
-        publicKey:@"pk_XXXXXXXXXXXXXXXXXXXXXXXXXX"
-        sandbox: TRUE];
+          [[SPAPIClient getSharedInstance]
+             setSecretKey:@"sk_XXXXXXXXXXXXXXXXXXXXXXXXXX"
+             publishableKey:@"pk_XXXXXXXXXXXXXXXXXXXXXXXXXX"
+             environment: SPEnvironmentSandbox];
       // do any other necessary launch configuration
       return YES;
   }
@@ -64,9 +64,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
-        SPAPIClient.getSharedInstance()?.setSecretKey(@"sk_XXXXXXXXXXXXXXXXXXXXXXXXXX", // can be nil
-                                                      publishableKey: "pk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
-                                                      sandbox: true)
+                SPAPIClient.getSharedInstance().setSecretKey( "sk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
+                                         publishableKey: "pk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
+                                         environment: .sandbox)
 
         return true
     }
@@ -122,9 +122,9 @@ CheckoutViewController.m
     NSString *cardNumber = _cardTextField.cardNumber;
     NSString *exp = _cardTextField.formattedExpirationDate;
     NSString *cvc = _cardTextField.cvc;
-    NSString *zip = _cardTextField.postalCode;
+    NSString *postalCode = _cardTextField.postalCode;
 
-    NSLog(@"%@ %@ %@ %@",cardNumber,exp,cvc,zip);
+    NSLog(@"%@ %@ %@ %@",cardNumber,exp,cvc,postalCode);
 }
 @end
 ```
@@ -189,75 +189,67 @@ Objective-C:
 
 - (void)pay {
 
-  [[SPAPIClient getSharedInstance] createPaymentMethodWithType:@"CREDIT_CARD"
-      account:self.cardTextField.cardNumber
-      expDate:self.cardTextField.formattedExpirationDate
-      cvv:self.cardTextField.cvc
-      accountType:nil
-      routing:nil
-      pin:nil
-      address:nil
-      address2:nil
-      city:nil
-      country:nil
-      state:nil
-      zip:self.cardTextField.postalCode
-      company:nil
-      email:nil
-      phone:nil
-      name:@"IOS test"
-      nickname:nil
-      verification : TRUE
-      success:^(SPPaymentMethod *paymentMethod) {
+     SPAddress * billingAddress = [[SPAddress alloc]
+                                  initWithline1:nil
+                                  line2:nil
+                                  city:nil
+                                  country:nil
+                                  state:nil
+                                  postalCode:self.cardTextField.postalCode];
+    
+    [[SPAPIClient getSharedInstance]
+     tokenizeWithPaymentType:SPPaymentTypeCreditCard
+     account:self.cardTextField.cardNumber
+     expDate:self.cardTextField.formattedExpirationDate
+     cvv:self.cardTextField.cvc
+     accountType:nil
+     routing:nil
+     pin:nil
+     billingAddress:billingAddress
+     billingCompanyName:nil
+     accountEmail:nil
+     phoneNumber:nil
+     name:@"Michael Smith"
+     customer:nil
+     success:^(SPPaymentMethod *paymentMethod) {
+        
         [[SPAPIClient getSharedInstance]
-            createChargeWithToken:paymentMethod.token
-            cvv:self.cardTextField.cvc
-            capture: TRUE
-            currency:nil
-            amount:@"1"
-            taxAmount:nil
-            taxExempt: FALSE
-            tip:nil
-            surchargeFeeAmount:nil
-            scheduleIndicator:nil
-            description:@""
-            order:nil
-            orderId:nil
-            poNumber:nil
-            metadata:nil
-            descriptor:nil
-            txnEnv:nil
-            achType:nil
-            credentialIndicator:nil
-            transactionInitiation:nil
-            idempotencyKey:nil
-            needSendReceipt:false
-            success:^(SPCharge *charge) {
+         createChargeWithToken:paymentMethod.token
+         cvv:self.cardTextField.cvc
+         capture:YES
+         currency:nil
+         amount:[[self.amountTextField.text substringFromIndex:1] stringByReplacingOccurrencesOfString:@"," withString:@""]
+         taxAmount:nil
+         taxExempt:NO
+         tip:nil
+         surchargeFeeAmount:nil
+         description:@""
+         order:nil
+         orderId:nil
+         poNumber:nil
+         metadata:nil
+         descriptor:nil
+         entryType:nil
+         idempotencyKey:nil
+         digitalWalletProgramType:nil
          
-              // Success Charge:
-
-              NSString *success = [NSString
-                  stringWithFormat:@"Amount: $%@\nStatus: %@\nStatus message: "
-                                   @"%@\ntxnID #: %@",
-                                   charge.amount, charge.status,
-                                   charge.statusDescription, charge.chargeId];
-
-            }
-            failure:^(SPError *error) {
-
-             // Handle the error	
-      
-              NSString *err = [error localizedDescription];
-              
-            }];
-      }
-      failure:^(SPError *error) {
-      
-      	// Handle the error
-
-        NSString *err = [error localizedDescription];
-
-      }];
+         success:^(SPCharge *charge) {
+ 
+            NSString *success = [NSString
+                                 stringWithFormat:@"Amount: $%@\nStatus: %@\nStatus message: "
+                                 @"%@\ntxnID #: %@",
+                                 charge.amount, charge.status,
+                                 charge.statusDescription, charge.chargeId];
+                    NSLog(@"%@", success);
+          
+        }
+         failure:^(SPError *error) {
+             NSLog(@"%@", [error localizedDescription]);;
+        }];
+    }
+     failure:^(SPError *error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }];
 }
 ```
 
@@ -266,75 +258,75 @@ Swift:
 ```swift
 @objc
     func pay() {
-        SPAPIClient.getSharedInstance()?.createPaymentMethod(
-            withType: "CREDIT_CARD",
+      let billingAddress = SPAddress.init(
+            line1: nil,
+            line2: nil,
+            city: nil,
+            country: nil,
+            state: nil,
+            postalCode: cardTextField.postalCode)
+        
+        
+        SPAPIClient.getSharedInstance().tokenize(
+            with: .creditCard,
             account: cardTextField.cardNumber,
             expDate: cardTextField.formattedExpirationDate,
             cvv: self.cardTextField.cvc,
             accountType: nil,
             routing: nil,
             pin: nil,
-            address: nil,
-            address2: nil,
-            city: nil,
-            country: nil,
-            state: nil,
-            zip: cardTextField.postalCode,
-            company: nil,
-            email: nil,
-            phone: nil,
-            name: nil,
-            nickname: nil,
-            verification: true,
+            billingAddress: billingAddress,
+            billingCompanyName: nil,
+            accountEmail: nil,
+            phoneNumber: nil,
+            name: "Michael Smith", 
+            customer: nil,
             success: { (paymentMethod: SPPaymentMethod?) in
-
+                
                 let token = paymentMethod?.token
-
-                SPAPIClient.getSharedInstance()?.createCharge(
+                
+                SPAPIClient.getSharedInstance().createCharge(
                     withToken: token!,
                     cvv: self.cardTextField.cvc,
-                    capture: true,
-                    currency: nil,
+                    capture: true, currency: nil,
                     amount: "1",
                     taxAmount: nil,
                     taxExempt: false,
                     tip: nil,
                     surchargeFeeAmount: nil,
-                    scheduleIndicator: nil,
                     description: nil,
                     order: nil,
                     orderId: nil,
                     poNumber: nil,
                     metadata: nil,
                     descriptor: nil,
-                    txnEnv: nil,
-                    achType: nil,
-                    credentialIndicator: nil,
-                    transactionInitiation: nil,
+                    entryType: nil,
                     idempotencyKey: nil,
-                    needSendReceipt: false,
+                    digitalWalletProgramType: nil,
                     success: { (charge: SPCharge?) in
-
+                        
                         // Success Charge:
                         print(charge?.chargeId ?? "charge is nil")
-
+                        
                     }, failure: { (error: SPError?) in
-
+                        
                         // Handle the error
                         print(error?.localizedDescription ?? "")
                         return
                     }
                 )
-
+                
             }, failure: { (error: SPError?) in
-
+                
                 // Handle the error
                 print(error?.localizedDescription ?? "")
                 return
             }
         )
     }
+    }
 ```
+
 
 Start with [**'Demo APP'**](https://github.com/seamlesspay/seamlesspay-ios/tree/dev/Example) for sample on basic setup and usage.
 

@@ -14,101 +14,111 @@
 }
 
 - (instancetype)initWithResponseData:(NSData *)data {
-  self = [super init];
-  if (self) {
-
-    NSError *error = nil;
-    id dict =
+    self = [super init];
+    if (self) {
+        
+        NSError *error = nil;
+        id dict =
         [NSJSONSerialization JSONObjectWithData:data
                                         options:NSJSONReadingAllowFragments
                                           error:&error];
-
-    if (error == nil && [dict isKindOfClass:[NSDictionary class]]) {
-
-      NSMutableDictionary *obj = [dict mutableCopy];
-      NSArray *keysForNullValues = [obj allKeysForObject:[NSNull null]];
-      [obj removeObjectsForKeys:keysForNullValues];
-
-      // NSLog(@"%@",obj);
-
-      _token = [obj[@"token"] copy];
-      _name = [obj[@"name"] copy];
-      _txnType = [obj[@"txnType"] copy];
-      _lastfour = [obj[@"lastfour"] copy];
-      _expDate = [obj[@"expDate"] copy];
-      _billingAddress = [obj[@"billingAddress"] copy];
-      _billingAddress2 = [obj[@"billingAddress2"] copy];
-      _billingCity = [obj[@"billingCity"] copy];
-      _billingState = [obj[@"billingState"] copy];
-      _billingZip = [obj[@"billingZip"] copy];
-      _phoneNumber = [obj[@"phoneNumber"] copy];
-      _email = [obj[@"email"] copy];
-      _nickname = [obj[@"nickname"] copy];
-      _routingNumber = [obj[@"routingNumber"] copy];
-      _bankAccountType = [obj[@"bankAccountType"] copy];
-      _pinNumber = [obj[@"pinNumber"] copy];
-      _company = [obj[@"company"] copy];
-      _avsResult = [dict[@"avsResult"] copy];
-      _cvvResult = [dict[@"cvvResult"] copy];
-      _verificationResult = [dict[@"verificationResult"] copy];
-      _cardBrand = [dict[@"cardBrand"] copy];
+        
+        if (error == nil && [dict isKindOfClass:[NSDictionary class]]) {
+            
+            NSMutableDictionary *obj = [dict mutableCopy];
+            NSArray *keysForNullValues = [obj allKeysForObject:[NSNull null]];
+            [obj removeObjectsForKeys:keysForNullValues];
+            
+            NSLog(@"SPPaymentMethod initWithResponseData: %@",obj);
+            
+            _token = obj[@"token"]  ?: nil;
+            _name = obj[@"name"]  ?: nil;
+            _nickname = obj[@"nickname"]  ?: nil;
+            _paymentType = obj[@"paymentType"]  ?: nil;
+            _lastfour = obj[@"lastfour"]  ?: nil;
+            _expDate = obj[@"expDate"]  ?: nil;
+            
+            if ([obj[@"customer"] isKindOfClass:[NSDictionary class]]) {
+                _customerId = obj[@"customer"][@"id"];
+            }
+            
+            if ([obj[@"billingAddress"] isKindOfClass:[NSDictionary class]]) {
+                _billingAddress = [[SPAddress alloc] initWithline1:obj[@"billingAddress"][@"line1"] ?: nil
+                                                             line2:obj[@"billingAddress"][@"line2"] ?: nil
+                                                              city:obj[@"billingAddress"][@"city"] ?: nil
+                                                           country:obj[@"billingAddress"][@"country"] ?: nil
+                                                             state:obj[@"billingAddress"][@"state"] ?: nil
+                                                        postalCode:obj[@"billingAddress"][@"postalCode"] ?: nil];
+            }
+            _phoneNumber = obj[@"phoneNumber"]  ?: nil;
+            _email = obj[@"email"]  ?: nil;
+            _routingNumber = obj[@"routingNumber"]  ?: nil;
+            _bankAccountType = obj[@"bankAccountType"]  ?: nil;
+            _pinNumber = obj[@"pinNumber"] ?: nil;
+            _company = obj[@"company"]  ?: nil;
+            _verification = dict[@"verification"]  ?: nil;
+            _paymentNetwork = dict[@"paymentNetwork"]  ?: nil;
+        }
     }
-  }
-  return self;
+    
+    return self;
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
-  self = [super init];
-  if (self) {
-    _token = [dict[@"token"] copy];
-    _name = [dict[@"name"] copy];
-    _txnType = [dict[@"txnType"] copy];
-    _lastfour = [dict[@"lastfour"] copy];
-    _expDate = [dict[@"expDate"] copy];
-    _billingAddress = [dict[@"billingAddress"] copy];
-    _billingAddress2 = [dict[@"billingAddress2"] copy];
-    _billingCity = [dict[@"billingCity"] copy];
-    _billingState = [dict[@"billingState"] copy];
-    _billingZip = [dict[@"billingZip"] copy];
-    _phoneNumber = [dict[@"phoneNumber"] copy];
-    _email = [dict[@"email"] copy];
-    _nickname = [dict[@"nickname"] copy];
-    _routingNumber = [dict[@"routingNumber"] copy];
-    _bankAccountType = [dict[@"bankAccountType"] copy];
-    _pinNumber = [dict[@"pinNumber"] copy];
-    _company = [dict[@"company"] copy];
-    _avsResult = [dict[@"avsResult"] copy];
-    _cvvResult = [dict[@"cvvResult"] copy];
-    _verificationResult = [dict[@"verificationResult"] copy];
-    _cardBrand = [dict[@"cardBrand"] copy];
-  }
-  return self;
+    self = [super init];
+    if (self) {
+        _token = dict[@"token"] ?: nil;
+        _name = dict[@"name"] ?: nil;
+        _nickname = dict[@"nickname"] ?: nil;
+        _paymentType = dict[@"paymentType"] ?: nil;
+        _lastfour = dict[@"lastfour"] ?: nil;
+        _expDate = dict[@"expDate"]  ?: nil;
+        _phoneNumber = dict[@"phoneNumber"]  ?: nil;
+        _email = dict[@"email"]  ?: nil;
+        _routingNumber = dict[@"routingNumber"]  ?: nil;
+        _bankAccountType = dict[@"bankAccountType"]  ?: nil;
+        _pinNumber = dict[@"pinNumber"]  ?: nil;
+        _company = dict[@"company"]  ?: nil;
+        _verification = dict[@"verification"]  ?: nil;
+        _customerId = dict[@"customerId"]  ?: nil;
+        
+        if ([dict[@"billingAddress"] isKindOfClass:[NSDictionary class]]) {
+            _billingAddress = [[SPAddress alloc] initWithline1:dict[@"billingAddress"][@"line1"] ?: nil
+                                                         line2:dict[@"billingAddress"][@"line2"] ?: nil
+                                                          city:dict[@"billingAddress"][@"city"] ?: nil
+                                                       country:dict[@"billingAddress"][@"country"] ?: nil
+                                                         state:dict[@"billingAddress"][@"state"] ?: nil
+                                                    postalCode:dict[@"billingAddress"][@"postalCode"] ?: nil];
+        }
+
+    }
+    return self;
 }
 
 - (NSDictionary *)dictionary {
-  return @{
-    @"token" : _token ?: @"",
-    @"name" : _name ?: @"",
-    @"txnType" : _txnType ?: @"",
-    @"lastfour" : _lastfour ?: @"",
-    @"expDate" : _expDate ?: @"",
-    @"billingAddress" : _billingAddress ?: @"",
-    @"billingAddress2" : _billingAddress2 ?: @"",
-    @"billingCity" : _billingCity ?: @"",
-    @"billingState" : _billingState ?: @"",
-    @"billingZip" : _billingZip ?: @"",
-    @"phoneNumber" : _phoneNumber ?: @"",
-    @"email" : _email ?: @"",
-    @"company" : _company ?: @"",
-    @"nickname" : _nickname ?: @"",
-    @"routingNumber" : _routingNumber ?: @"",
-    @"bankAccountType" : _bankAccountType ?: @"",
-    @"pinNumber" : _pinNumber ?: @"",
-    @"avsResult" : _avsResult ?: @"",
-    @"cvvResult" : _cvvResult ?: @"",
-    @"verificationResult" : _verificationResult ?: @"",
-    @"cardBrand" : _cardBrand ?: @""
-  };
+    
+    NSMutableDictionary *params = [ @{
+        @"token" : _token ?: @"",
+        @"name" : _name ?: @"",
+        @"paymentType" : _paymentType ?: @"",
+        @"lastfour" : _lastfour ?: @"",
+        @"expDate" : _expDate ?: @"",
+        @"phoneNumber" : _phoneNumber ?: @"",
+        @"email" : _email ?: @"",
+        @"routingNumber" : _routingNumber ?: @"",
+        @"bankAccountType" : _bankAccountType ?: @"",
+        @"pinNumber" : _pinNumber ?: @"",
+        @"company" : _company ?: @"",
+        @"verification" : _verification ?: @"",
+        @"customerId" : _customerId ?: @"",
+        @"billingAddress" : _billingAddress && [_billingAddress dictionary] ? [_billingAddress dictionary] : @""
+    } mutableCopy];
+    
+    NSArray *keysForNullValues = [params allKeysForObject:@""];
+    keysForNullValues = [keysForNullValues arrayByAddingObjectsFromArray: [params allKeysForObject:[NSNull null]]];
+    [params removeObjectsForKeys:keysForNullValues];
+    
+    return params;
 }
 
 @end

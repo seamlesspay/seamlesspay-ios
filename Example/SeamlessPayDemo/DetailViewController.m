@@ -25,43 +25,20 @@
 
   if ([self.title isEqualToString:@"Authentication"]) {
 
-    NSString *secretkey =
+    NSString *secretKey =
         [[NSUserDefaults standardUserDefaults] objectForKey:@"secretkey"];
     NSString *publishableKey =
         [[NSUserDefaults standardUserDefaults] objectForKey:@"publishableKey"];
-    NSString *env = [[NSUserDefaults standardUserDefaults] objectForKey:@"env"];
+    SPEnvironment env = [[NSUserDefaults standardUserDefaults] integerForKey:@"env"];
 
-    _contentHTML =
-        @"<html><head><style "
-        @"type=\"text/"
-        @"css\">html{padding:5px;font-family:Verdana;font-size:13pt;}body{"
-        @"background-color:#f8f8f8;}input,select{background-color:white;-"
-        @"webkit-appearance: "
-        @"none;border-radius:2px;font-size:12pt;padding:4px;}input[type="
-        @"\"submit\"]{background-color:#40a9ff;color:white;padding:10px "
-        @"25px;border:none;}</style><meta name=\"viewport\" "
-        @"content=\"initial-scale=1, maximum-scale=1.0, "
-        @"user-scalable=no\"/></head><body>In order to authenticate your "
-        @"account, you must first generate an API Key. Once you've created an "
-        @"account, generating an API key is simple:<br><br>Login to your "
-        @"Seamless Payments account Dashboard<br>Select 'API Keys' in left "
-        @"side bar<br>Click on 'Reveal Secret Key' button<br><br>Your secret "
-        @"API key should never be shared publicly or accessible, such as "
-        @"committed code on GitHub, client-side code, "
-        @"etc.<br><br><br><form>Publishable Key:<br><center><input "
-        @"type=\"text\" name=\"publishableKey\" size=\"36\" "
-        @"value=\"%@\"></center><br>Secret Key:<br><center><input "
-        @"type=\"text\" name=\"secretkey\" size=\"36\" "
-        @"value=\"%@\"><br><br><select "
-        @"name=\"env\"><option>sandbox</option><option "
-        @"%@>live</option></select></center><br><br><center><input "
-        @"type=\"submit\" name=\"authentication\" value=\"Save API "
-        @"Keys\"></center></form><center><!--[RESULTS]--></center></body></"
-        @"html>";
+    NSDataAsset *dataAsset = [[NSDataAsset alloc] initWithName:@"authentication-html"];
 
-    NSString *html = [NSString
-        stringWithFormat:_contentHTML, publishableKey ?: @"", secretkey ?: @"",
-                         [env isEqualToString:@"sandbox"] ? @"" : @" selected"];
+    _contentHTML = [[NSString alloc] initWithData:dataAsset.data encoding:NSUTF8StringEncoding];
+
+    NSString *html = [self authContentHTMLWithParams:nil
+                                           secretKey:secretKey
+                                      publishableKey:publishableKey
+                                         environment:env];
 
     WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
 
@@ -92,11 +69,11 @@
         @"monetary value stored on the card itself, not in an external account "
         @"maintained by a financial institution.<br><br><br><form>Select "
         @"type:&nbsp;<select "
-        @"name=\"txnType\"><option>CREDIT_CARD</option><option>PLDEBIT_CARD</"
+        @"name=\"txnType\"><option>credit_card</option><option>pldebit_card</"
         @"option></select><br>Account Number:<br><input type=\"number\" "
         @"name=\"accountNumber\" required><br>Expiration Date:<br><input "
         @"type=\"text\" name=\"expDate\" placeholder=\"MM/YY\" required><input "
-        @"type=\"hidden\" name=\"routingNumber\"><input type=\"hidden\" "
+        @"type=\"text\" name=\"cvv\" placeholder=\"cvv\"><input type=\"hidden\" "
         @"name=\"bankAccountType\"><input type=\"hidden\" "
         @"name=\"pinNumber\"><br>Billing first address:<br><input "
         @"type=\"text\" name=\"billingAddress\" size=\"36\"><br>Billing second "
@@ -110,12 +87,11 @@
         @"type=\"text\" name=\"company\" size=\"36\"><br>Account "
         @"email:<br><input type=\"email\" name=\"email\" size=\"36\" "
         @"pattern=\"[^ @]*@[^ @]*\"><br>Name:<input type=\"text\" "
-        @"name=\"name\" size=\"36\"><br>Nick name:<input type=\"text\" "
-        @"name=\"nickname\" size=\"36\"><br>Phone number (10 "
+        @"name=\"name\" size=\"36\"><br>Customer name:<input type=\"text\" "
+        @"name=\"customer_name\" size=\"36\"><br>Phone number (10 "
         @"characters):<input type=\"number\" "
-        @"name=\"phoneNumber\"><br>Verification :<select "
-        @"name=\"capture\"><option>NO</option><option>YES</option></"
-        @"select><br><br><center><input type=\"submit\" "
+        @"name=\"phoneNumber\">"
+        @"<br><br><center><input type=\"submit\" "
         @"name=\"panvault\" "
         @"value=\"Create\"></center></form><center><!--[RESULTS]--></center></"
         @"body></html>";
@@ -148,7 +124,7 @@
         @"rewards programs. A stored-value card is a payments card with a "
         @"monetary value stored on the card itself, not in an external account "
         @"maintained by a financial institution.<br><br><form><input "
-        @"type=\"hidden\" name=\"txnType\" value=\"GIFT_CARD\"><br>Account "
+        @"type=\"hidden\" name=\"txnType\" value=\"gift_card\"><br>Account "
         @"Number:<br><input type=\"number\" name=\"accountNumber\" "
         @"required><br><input type=\"hidden\" name=\"expDate\"><input "
         @"type=\"hidden\" name=\"routingNumber\"><input type=\"hidden\" "
@@ -201,7 +177,7 @@
         @"rewards programs. A stored-value card is a payments card with a "
         @"monetary value stored on the card itself, not in an external account "
         @"maintained by a financial institution.<br><br><form><input "
-        @"type=\"hidden\" name=\"txnType\" value=\"ACH\"><br>Account "
+        @"type=\"hidden\" name=\"txnType\" value=\"ach\"><br>Account "
         @"Number:<br><input type=\"number\" name=\"accountNumber\" "
         @"required><br><input type=\"hidden\" name=\"expDate\">Routing number "
         @"(9 characters):<br><input type=\"number\" name=\"routingNumber\" "
@@ -257,7 +233,7 @@
         @"@]*\"><br>Address:<br><input type=\"text\" name=\"address\" "
         @"size=\"36\"><br>Second address:<br><input type=\"text\" "
         @"name=\"address2\" size=\"36\"><br>City:<br><input type=\"text\" "
-        @"name=\"city\" size=\"36\"><br>Country:<br><input type=\"text\" "
+        @"name=\"city\" size=\"36\"><br>Country (2 characters):<br><input type=\"text\" "
         @"name=\"country\" size=\"36\"><br>State (2 characters):<br><input "
         @"type=\"text\" name=\"state\" size=\"36\"><br>Zip (5 "
         @"characters):<br><input type=\"text\" name=\"zip\" "
@@ -303,7 +279,7 @@
         @"body></html>";
 
     NSString *html =
-        [NSString stringWithFormat:_contentHTML, dict ? dict[@"id"] : @""];
+        [NSString stringWithFormat:_contentHTML, dict ? dict[@"customerId"] : @""];
 
     WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
     _webView = [[WKWebView alloc] initWithFrame:self.view.frame
@@ -314,10 +290,15 @@
     [self.view addSubview:_webView];
 
     [self.webView loadHTMLString:html baseURL:nil];
+
   } else if ([self.title isEqualToString:@"Update Customer"]) {
 
     NSDictionary *dict =
         [[NSUserDefaults standardUserDefaults] objectForKey:@"customer"];
+
+    if (!dict) {
+      dict = [NSDictionary new];
+    }
 
     _contentHTML =
         @"<html><head><style "
@@ -351,17 +332,19 @@
         @"body></html>";
 
     NSString *html = [NSString
-        stringWithFormat:_contentHTML, dict ? dict[@"name"] : @"",
-                         dict ? dict[@"email"] : @"",
-                         dict ? dict[@"address"] : @"",
-                         dict ? dict[@"address2"] : @"",
-                         dict ? dict[@"city"] : @"",
-                         dict ? dict[@"country"] : @"",
-                         dict ? dict[@"state"] : @"", dict ? dict[@"zip"] : @"",
-                         dict ? dict[@"companyName"] : @"",
-                         dict ? dict[@"phone"] : @"",
-                         dict ? dict[@"website"] : @"",
-                         dict ? dict[@"id"] : @""];
+        stringWithFormat:_contentHTML,
+                        dict[@"name"] ?: @"",
+                        dict[@"email"] ?: @"",
+                        dict[@"address"][@"line1"] ?: @"",
+                        dict[@"address"][@"line2"] ?: @"",
+                        dict[@"address"][@"city"] ?: @"",
+                        dict[@"address"][@"country"] ?: @"",
+                        dict[@"address"][@"state"] ?: @"",
+                        dict[@"address"][@"postalCode"] ?: @"",
+                        dict[@"companyName"] ?: @"",
+                        dict[@"phone"] ?: @"",
+                        dict[@"website"] ?: @"",
+                        dict[@"customerId"] ?: @""];
 
     WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
     _webView = [[WKWebView alloc] initWithFrame:self.view.frame
@@ -372,6 +355,7 @@
     [self.view addSubview:_webView];
 
     [self.webView loadHTMLString:html baseURL:nil];
+
   } else if ([self.title isEqualToString:@"Create a Charge"]) {
 
     NSDictionary *savedPaymentMethod =
@@ -402,23 +386,7 @@
         @"name=\"capture\"><option>NO</option><option>YES</option></"
         @"select>&nbsp;&nbsp;&nbsp;Tax exempt :<select "
         @"name=\"taxExempt\"><option>NO</option><option>YES</option></"
-        @"select><br>Transaction initiated by :<select "
-        @"name=\"transactionInitiation\"><option></option><option>Customer</"
-        @"option><option>Terminal</option><option>Merchant</option></"
-        @"select><br>Schedule Indicator :<select "
-        @"name=\"scheduleIndicator\"><option></option><option>Scheduled</"
-        @"option><option>Unscheduled</option></select><br>Credential Indicator "
-        @":<select "
-        @"name=\"credentialIndicator\"><option></option><option>Initial</"
-        @"option><option>Subsequent</option></select><br>Transaction ENV "
-        @":<select name=\"txnEnv\"><option></option><option "
-        @"value=\"M\">Telephone or mail (M)</option><option "
-        @"value=\"R\">Recurring (R)</option><option "
-        @"value=\"E\">Ecommerce/internet (E)</option><option value=\"C\">Card "
-        @"on file (C)</option></select><br>SEC Code :<select "
-        @"name=\"achType\"><option></option><option>WEB</option><option>TEL</"
-        @"option><option>CCD</option><option>PPD</option></"
-        @"select><br><br><center><input type=\"submit\" name=\"createcharge\" "
+        @"select><br><center><input type=\"submit\" name=\"createcharge\" "
         @"value=\"Create\"></center></form><center><!--[RESULTS]--></center></"
         @"body></html>";
 
@@ -436,6 +404,7 @@
     [self.view addSubview:_webView];
 
     [self.webView loadHTMLString:html baseURL:nil];
+
   } else if ([self.title isEqualToString:@"Retrieve a Charge"]) {
 
     NSString *chargeId =
@@ -469,6 +438,7 @@
     [self.view addSubview:_webView];
 
     [self.webView loadHTMLString:html baseURL:nil];
+
   } else if ([self.title isEqualToString:@"Virtual Terminal (CHARGE)"]) {
 
     _contentHTML =
@@ -503,10 +473,7 @@
         @"name=\"poNumber\"></td></tr><tr><td>Description:</td><td><input "
         @"type=\"text\" "
         @"name=\"description\"></td></tr><tr><td>Email:</td><td><input "
-        @"type=\"email\" name=\"email\"></td></tr><tr><td>Email customer "
-        @"receipt:</td><td><select "
-        @"name=\"needSendReceipt\"><option>NO</option><option>YES</option></"
-        @"select></td></tr></table><br><br><center><input type=\"submit\" "
+        @"type=\"email\" name=\"email\"></td></tr></table><br><br><center><input type=\"submit\" "
         @"name=\"vtcharge\" "
         @"value=\"Process\"></center></form><!--[RESULTS]--></body></html>";
 
@@ -519,6 +486,7 @@
     [self.view addSubview:_webView];
 
     [self.webView loadHTMLString:_contentHTML baseURL:nil];
+
   } else if ([self.title isEqualToString:@"Virtual Terminal (ACH)"]) {
 
     _contentHTML =
@@ -536,11 +504,9 @@
         @"user-scalable=no\"/></head><body><form><table><tr><td>Account "
         @"Type:</td><td><select "
         @"name=\"bankAccountType\"><option>Checking</option><option>Savings</"
-        @"option></select></td></tr><tr><td>SEC Code :</td><td><select "
-        @"name=\"achType\"><option>WEB</option><option>TEL</"
-        @"option><option>CCD</option><option>PPD</option></select></td></"
-        @"tr><tr><td>Name:</td><td><input type=\"text\" "
-        @"name=\"name\"></td></tr><tr><td>Routing number :</td><td><input "
+        @"option></select></td></tr><tr><td>Name:</td><td><input type=\"text\" "
+        @"name=\"name\"><tr><td>Company:</td><td><input type=\"text\" "
+        @"name=\"company\"></td></tr><tr><td>Routing number :</td><td><input "
         @"type=\"number\" name=\"routingNumber\" "
         @"required></td></tr><tr><td>Account Number:</td><td><input "
         @"type=\"number\" name=\"accountNumber\" "
@@ -559,10 +525,7 @@
         @"name=\"phone\"></td></tr><tr><td>Description:</td><td><input "
         @"type=\"text\" "
         @"name=\"description\"></td></tr><tr><td>Email:</td><td><input "
-        @"type=\"email\" name=\"email\"></td></tr><tr><td>Email customer "
-        @"receipt:</td><td><select "
-        @"name=\"needSendReceipt\"><option>NO</option><option>YES</option></"
-        @"select></td></tr></table><br><br><center><input type=\"submit\" "
+        @"type=\"email\" name=\"email\"></td></tr></table><br><br><center><input type=\"submit\" "
         @"name=\"vtcharge\" "
         @"value=\"Process\"></center></form><!--[RESULTS]--></body></html>";
 
@@ -598,10 +561,7 @@
         @":</td><td><select "
         @"name=\"currency\"><option>USD</option><option>CAD</option></select></"
         @"td></tr><tr><td>Email:</td><td><input type=\"email\" "
-        @"name=\"email\"></td></tr><tr><td>Email customer "
-        @"receipt:</td><td><select "
-        @"name=\"needSendReceipt\"><option>NO</option><option>YES</option></"
-        @"select></td></tr></table><br><br><center><input type=\"submit\" "
+        @"name=\"email\"></td></tr></table><br><br><center><input type=\"submit\" "
         @"name=\"vtcharge\" "
         @"value=\"Process\"></center></form><!--[RESULTS]--></body></html>";
 
@@ -614,6 +574,7 @@
     [self.view addSubview:_webView];
 
     [self.webView loadHTMLString:_contentHTML baseURL:nil];
+
   } else if ([self.title isEqualToString:@"UI Payment Card Text Field"]) {
 
     SPPaymentCardTextField *cardTextField =
@@ -621,12 +582,12 @@
     cardTextField.postalCodeEntryEnabled = YES;
     cardTextField.countryCode = @"US";
     self.cardTextField = cardTextField;
-      
-      UITextField *amountTextField = [[UITextField alloc] initWithFrame:CGRectMake(70, 0, 150, 22)];
-      amountTextField.text = @"$1.00";
-      amountTextField.keyboardType = UIKeyboardTypeNumberPad;
-      amountTextField.delegate = self;
-      self.amountTextField = amountTextField;
+
+    UITextField *amountTextField = [[UITextField alloc] initWithFrame:CGRectMake(70, 0, 150, 22)];
+    amountTextField.text = @"$1.00";
+    amountTextField.keyboardType = UIKeyboardTypeNumberPad;
+    amountTextField.delegate = self;
+    self.amountTextField = amountTextField;
 
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.layer.cornerRadius = 5;
@@ -634,19 +595,19 @@
     button.titleLabel.font = [UIFont systemFontOfSize:22];
     [button setTitle:@"Pay" forState:UIControlStateNormal];
     [button addTarget:self
-                  action:@selector(pay)
-        forControlEvents:UIControlEventTouchUpInside];
+               action:@selector(pay)
+     forControlEvents:UIControlEventTouchUpInside];
     self.payButton = button;
 
     UILabel *infoLbel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 250, 30)];
     infoLbel.userInteractionEnabled = TRUE;
     infoLbel.textColor = [UIColor darkGrayColor];
     infoLbel.text = @"Amount:";
-    
+
     [infoLbel addSubview:amountTextField];
 
     UIStackView *stackView = [[UIStackView alloc]
-        initWithArrangedSubviews:@[ infoLbel, cardTextField, button ]];
+                              initWithArrangedSubviews:@[ infoLbel, cardTextField, button ]];
     stackView.axis = UILayoutConstraintAxisVertical;
     stackView.translatesAutoresizingMaskIntoConstraints = NO;
     stackView.spacing = 20;
@@ -654,15 +615,16 @@
 
     [NSLayoutConstraint activateConstraints:@[
       [stackView.leftAnchor
-          constraintEqualToSystemSpacingAfterAnchor:self.view.leftAnchor
-                                         multiplier:2],
+       constraintEqualToSystemSpacingAfterAnchor:self.view.leftAnchor
+       multiplier:2],
       [self.view.rightAnchor
-          constraintEqualToSystemSpacingAfterAnchor:stackView.rightAnchor
-                                         multiplier:2],
+       constraintEqualToSystemSpacingAfterAnchor:stackView.rightAnchor
+       multiplier:2],
       [stackView.topAnchor
-          constraintEqualToSystemSpacingBelowAnchor:self.view.topAnchor
-                                         multiplier:20],
+       constraintEqualToSystemSpacingBelowAnchor:self.view.topAnchor
+       multiplier:20],
     ]];
+
   }
 }
 
@@ -676,7 +638,7 @@
   }
 
   self.activityIndicator = [[UIActivityIndicatorView alloc]
-      initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleLarge];
+                            initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleLarge];
   self.activityIndicator.center = self.view.center;
   [self.view addSubview:self.activityIndicator];
 }
@@ -697,20 +659,20 @@
                   restartDemo:(BOOL)restartDemo {
   dispatch_async(dispatch_get_main_queue(), ^{
     UIAlertController *alert = [UIAlertController
-        alertControllerWithTitle:title
-                         message:message
-                  preferredStyle:UIAlertControllerStyleAlert];
+                                alertControllerWithTitle:title
+                                message:message
+                                preferredStyle:UIAlertControllerStyleAlert];
     if (restartDemo) {
       [alert addAction:[UIAlertAction
-                           actionWithTitle:@"Restart demo"
-                                     style:UIAlertActionStyleCancel
-                                   handler:^(UIAlertAction *action) {
-                                     [self.cardTextField clear];
-                                     self.cardTextField.postalCodeEntryEnabled =
-                                         YES;
-                                     self.cardTextField.countryCode = @"US";
-                                     self.amountTextField.text = @"0.00";
-                                   }]];
+                        actionWithTitle:@"Restart demo"
+                        style:UIAlertActionStyleCancel
+                        handler:^(UIAlertAction *action) {
+        [self.cardTextField clear];
+        self.cardTextField.postalCodeEntryEnabled =
+        YES;
+        self.cardTextField.countryCode = @"US";
+        self.amountTextField.text = @"0.00";
+      }]];
     } else {
       [alert addAction:[UIAlertAction actionWithTitle:@"OK"
                                                 style:UIAlertActionStyleCancel
@@ -721,105 +683,91 @@
 }
 
 - (void)pay {
+    
+    NSString *cardNumber = _cardTextField.cardNumber;
+    NSString *exp = _cardTextField.formattedExpirationDate;
+    NSString *cvc = _cardTextField.cvc;
+    NSString *zip = _cardTextField.postalCode;
 
-  NSString *cardNumber = _cardTextField.cardNumber;
-  NSString *exp = _cardTextField.formattedExpirationDate;
-  NSString *cvc = _cardTextField.cvc;
-  NSString *zip = _cardTextField.postalCode;
-
-  NSLog(@"%@ %@ %@ %@", cardNumber, exp, cvc, zip);
-
-  NSLog(@"%@", @"SART TOKEN--->");
-
-  [self.activityIndicator startAnimating];
-
-  CFTimeInterval startTime = CACurrentMediaTime();
-  // perform some action
-
-  [[SPAPIClient getSharedInstance] createPaymentMethodWithType:@"CREDIT_CARD"
-      account:cardNumber
-      expDate:exp
-      cvv:cvc
-      accountType:nil
-      routing:nil
-      pin:nil
-      address:nil
-      address2:nil
-      city:nil
-      country:nil
-      state:nil
-      zip:zip
-      company:nil
-      email:nil
-      phone:nil
-      name:@"IOS test"
-      nickname:nil
-      verification:YES
-      success:^(SPPaymentMethod *paymentMethod) {
+    [self.activityIndicator startAnimating];
+    
+    CFTimeInterval startTime = CACurrentMediaTime();
+    // perform some action
+    
+    SPAddress * billingAddress = [[SPAddress alloc] initWithline1:nil
+                                                            line2:nil
+                                                             city:nil
+                                                          country:nil
+                                                            state:nil
+                                                       postalCode:zip];
+    
+    [[SPAPIClient getSharedInstance] tokenizeWithPaymentType:SPPaymentTypeCreditCard
+                                                     account:cardNumber
+                                                     expDate:exp
+                                                         cvv:cvc
+                                                 accountType:nil
+                                                     routing:nil
+                                                         pin:nil
+                                              billingAddress:billingAddress
+                                          billingCompanyName:nil
+                                                accountEmail:nil
+                                                 phoneNumber:nil
+                                                        name:@"Michael Smith"
+                                                    customer:nil
+                                                     success:^(SPPaymentMethod *paymentMethod) {
         if (paymentMethod) {
-
-          NSLog(@"%@", @"END TOKEN--->");
-          NSLog(@"%@", [paymentMethod dictionary]);
-          NSLog(@"%@", @"SART CHARGE--->");
-
-          [[SPAPIClient getSharedInstance]
-              createChargeWithToken:paymentMethod.token
-              cvv:cvc
-              capture:YES
-              currency:nil
-              amount:[[self.amountTextField.text substringFromIndex:1] stringByReplacingOccurrencesOfString:@"," withString:@""]
-              taxAmount:nil
-              taxExempt:NO
-              tip:nil
-              surchargeFeeAmount:nil
-              scheduleIndicator:nil
-              description:@""
-              order:nil
-              orderId:nil
-              poNumber:nil
-              metadata:nil
-              descriptor:nil
-              txnEnv:nil
-              achType:nil
-              credentialIndicator:nil
-              transactionInitiation:nil
-              idempotencyKey:nil
-              needSendReceipt:NO
-              success:^(SPCharge *charge) {
+            
+            [[SPAPIClient getSharedInstance] createChargeWithToken:paymentMethod.token
+                                                               cvv:cvc
+                                                           capture:YES
+                                                          currency:nil
+                                                            amount:[[self.amountTextField.text substringFromIndex:1] stringByReplacingOccurrencesOfString:@"," withString:@""]
+                                                         taxAmount:nil
+                                                         taxExempt:NO
+                                                               tip:nil
+                                                surchargeFeeAmount:nil
+                                                       description:@""
+                                                             order:nil
+                                                           orderId:nil
+                                                          poNumber:nil
+                                                          metadata:nil
+                                                        descriptor:nil
+                                                         entryType:nil
+                                                    idempotencyKey:nil
+                                          digitalWalletProgramType:nil
+             
+                                                           success:^(SPCharge *charge) {
                 CFTimeInterval elapsedTime = CACurrentMediaTime() - startTime;
-
+                
                 if (charge) {
-                  NSLog(@"%@", @"END CHARGE--->");
-                  [self.activityIndicator stopAnimating];
-                  NSString *success =
-                      [NSString stringWithFormat:
-                                    @"Amount: $%@\nStatus: %@\nStatus message: "
-                                    @"%@\ntxnID #: %@\nTimeInterval: %f s",
-                                    charge.amount, charge.status,
-                                    charge.statusDescription, charge.chargeId,
-                                    elapsedTime];
-
-                  [self displayAlertWithTitle:@"Success"
-                                      message:success
-                                  restartDemo:YES];
+                    [self.activityIndicator stopAnimating];
+                    NSString *success =
+                    [NSString stringWithFormat:
+                     @"Amount: $%@\nStatus: %@\nStatus message: "
+                     @"%@\ntxnID #: %@\nTimeInterval: %f s",
+                     charge.amount, charge.status,
+                     charge.statusDescription, charge.chargeId,
+                     elapsedTime];
+                    
+                    [self displayAlertWithTitle:@"Success"
+                                        message:success
+                                    restartDemo:YES];
                 }
-              }
-              failure:^(SPError *error) {
-                NSLog(@"%@", error.errors);
+            }
+                                                           failure:^(SPError *error) {
                 [self.activityIndicator stopAnimating];
                 [self displayAlertWithTitle:@"Error creating Charge"
-                                    message:error.errorMessage
+                                    message:error.localizedDescription
                                 restartDemo:NO];
-              }];
+            }];
         }
-      }
-      failure:^(SPError *error) {
-         NSLog(@"%@", error.errors);
+    }
+                                                                failure:^(SPError *error) {
         [self.activityIndicator stopAnimating];
         [self displayAlertWithTitle:@"Error creating token"
-                            message:error.errorMessage
+                            message:error.localizedDescription
                         restartDemo:NO];
-      }];
+    }];
 }
 
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
@@ -848,7 +796,7 @@
         _currencyFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US"];
         [_currencyFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
         textField.text = [_currencyFormatter stringFromNumber:formatedValue];
-
+        
         return FALSE;
     } else {
         return FALSE;
@@ -857,14 +805,13 @@
 }
 
 - (void)webView:(WKWebView *)webView
-    decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
-                    decisionHandler:
-                        (void (^)(WKNavigationActionPolicy))decisionHandler {
-  decisionHandler([self shouldStartDecidePolicy:[navigationAction request]]);
+decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
+decisionHandler:
+(void (^)(WKNavigationActionPolicy))decisionHandler {
+    decisionHandler([self shouldStartDecidePolicy:[navigationAction request]]);
 }
 
 - (BOOL)shouldStartDecidePolicy:(NSURLRequest *)request {
-  NSLog(@"%@", request.URL.absoluteString);
 
   NSString *str =
       [[[[request.URL.absoluteString stringByRemovingPercentEncoding]
@@ -876,677 +823,659 @@
                                     withString:@" "];
   NSArray *qa = [str componentsSeparatedByString:@"&"];
 
-  NSLog(@"%@", qa);
-
   if (qa.count == 1)
     return YES;
 
   if ([self.detailItem isEqualToString:@"Authentication"]) {
 
     NSString *publishableKey = qa[2];
-    NSString *secretkey = qa[4];
-    NSString *env = qa[6];
+    NSString *secretKey = qa[4];
+    NSString *envSting = qa[6];
+    SPEnvironment env = [self environmentFromString: envSting];
 
     [[NSUserDefaults standardUserDefaults] setObject:publishableKey
                                               forKey:@"publishableKey"];
-    [[NSUserDefaults standardUserDefaults] setObject:secretkey
+    [[NSUserDefaults standardUserDefaults] setObject:secretKey
                                               forKey:@"secretkey"];
-    [[NSUserDefaults standardUserDefaults] setObject:env forKey:@"env"];
+    [[NSUserDefaults standardUserDefaults] setInteger:env
+                                               forKey:@"env"];
 
-    [[SPAPIClient getSharedInstance]
-     setSecretKey:secretkey.length == 0 ? nil : secretkey
-        publishableKey:publishableKey
-               sandbox:[env isEqualToString:@"sandbox"]];
+
+    [[SPAPIClient getSharedInstance] setSecretKey:secretKey
+                                   publishableKey:publishableKey
+                                      environment:env];
+
+    void (^updateWebView)(NSString *) = ^(NSString *message) {
+      NSString *html = [self authContentHTMLWithParams:message
+                                             secretKey:secretKey
+                                        publishableKey:publishableKey
+                                           environment:env];
+      [self.webView loadHTMLString:html baseURL:nil];
+    };
 
     [[SPAPIClient getSharedInstance] listChargesWithParams:@{}
-        success:^(NSDictionary *dict) {
-          // NSLog(@"%@", dict);
-
-          if (dict) {
-            NSString *html = [self.contentHTML
-                stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                                          withString:
-                                              @"Authentication success!"];
-            html = [NSString stringWithFormat:html, publishableKey ?: @"",
-                                              secretkey ?: @"",
-                                              [env isEqualToString:@"sandbox"]
-                                                  ? @""
-                                                  : @" selected"];
-            [self.webView loadHTMLString:html baseURL:nil];
-          }
-        }
-        failure:^(SPError *error) {
-          // NSLog(@"%@", error);
-          NSString *html = [self.contentHTML
-              stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                                        withString:[error
-                                                       localizedDescription]];
-          html = [NSString stringWithFormat:html, publishableKey ?: @"",
-          secretkey ?: @"",
-          [env isEqualToString:@"sandbox"]
-              ? @""
-              : @" selected"];
-          [self.webView loadHTMLString:html baseURL:nil];
-        }];
+                                                   success:^(NSDictionary *dict) {
+      if (dict) {
+        updateWebView(@"Authentication success!");
+      }
+    }
+                                                   failure:^(SPError *error) {
+      if (error != nil) {
+        NSLog(@"%@", error);
+      }
+      updateWebView(error.localizedDescription);
+    }];
 
     return NO;
   } else if ([self.detailItem isEqualToString:@"Add Credit/Debit Card"] ||
              [self.detailItem isEqualToString:@"Add Gift Card"] ||
              [self.detailItem isEqualToString:@"Add ACH"]) {
-      
-      BOOL verification = [self.detailItem isEqualToString:@"Add Credit/Debit Card"] ? [qa[36] isEqualToString:@"YES"] : NO;
 
-    [[SPAPIClient getSharedInstance] createPaymentMethodWithType:qa[2]
-        account:qa[4]
-        expDate:qa[6]
-        cvv:nil
-        accountType:qa[10]
-        routing:qa[8]
-        pin:qa[12]
-        address:qa[14]
-        address2:qa[16]
-        city:qa[18]
-        country:qa[20]
-        state:qa[22]
-        zip:qa[24]
-        company:qa[26]
-        email:qa[28]
-        phone:qa[34]
-        name:qa[30]
-        nickname:qa[32]
-        verification : verification
-        success:^(SPPaymentMethod *paymentMethod) {
-          // NSLog(@"%@", paymentMethod);
+    SPAddress * billingAddress = [[SPAddress alloc] initWithline1:qa[14]
+                                                            line2:qa[16]
+                                                             city:qa[18]
+                                                          country:qa[20]
+                                                            state:qa[22]
+                                                       postalCode:qa[24]];
 
-          if (paymentMethod) {
+    SPCustomer * customer = [[SPCustomer alloc] initWithName:qa[32]
+                                                       email:nil
+                                                       phone:nil
+                                                 companyName:nil
+                                                       notes:nil
+                                                     website:nil
+                                                    metadata:nil
+                                                     address:nil
+                                              paymentMethods:nil];
 
-            NSMutableDictionary *pmDict =
-                [[paymentMethod dictionary] mutableCopy];
+    [[SPAPIClient getSharedInstance] tokenizeWithPaymentType:[self paymentTypeFromString:qa[2]]
+                                                     account:qa[4]
+                                                     expDate:qa[6]
+                                                         cvv:qa[8]
+                                                 accountType:qa[10]
+                                                     routing:qa[8]
+                                                         pin:qa[12]
+                                              billingAddress:billingAddress
+                                          billingCompanyName:qa[26]
+                                                accountEmail:qa[28]
+                                                 phoneNumber:qa[34]
+                                                        name:qa[30]
+                                                    customer:customer
+                                                     success:^(SPPaymentMethod * _Nonnull paymentMethod) {
 
-            if ([pmDict[@"token"] isEqualToString:@"tok_visa"]) {
-              [pmDict setObject:@"TKN_01CAQ9ZQRD4QSSMNT990P5RRX3"
-                         forKey:@"token"];
-            }
-            if ([pmDict[@"token"] isEqualToString:@"tok_visa_debit"]) {
-              [pmDict setObject:@"TKN_01CAQDPSAJ8H0BCAXVJFT87TQZ"
-                         forKey:@"token"];
-            }
-            if ([pmDict[@"token"] isEqualToString:@"tok_ach"]) {
-              [pmDict setObject:@"TKN_01CF5RM4X3RWJ3KCAWKY569KT9"
-                         forKey:@"token"];
-            }
-            if ([pmDict[@"token"] isEqualToString:@"tok_gift"]) {
-              [pmDict setObject:@"TKN_01CGTXH4ME0EFANXKY2KGYDDAQ"
-                         forKey:@"token"];
-            }
+      NSMutableDictionary *pmDict =
+      [[paymentMethod dictionary] mutableCopy];
 
-            [[NSUserDefaults standardUserDefaults] setObject:pmDict
-                                                      forKey:@"paymentMethod"];
+      [[NSUserDefaults standardUserDefaults] setObject:pmDict
+                                                forKey:@"paymentMethod"];
 
-            NSString *paymentMethodInfo = [NSString
-                stringWithFormat:
-                    @"Token info:<br>%@<br>%@<br>%@<br>%@<br>%@<br>",
-                    paymentMethod.token, paymentMethod.txnType,
-                    paymentMethod.lastfour ?: @"", paymentMethod.expDate ?: @"",
-                    paymentMethod.name ?: @""];
+      NSString *paymentMethodInfo = [NSString
+                                     stringWithFormat:
+                                       @"Token info:<br>%@<br>%@<br>%@<br>%@<br>",
+                                     paymentMethod.token, paymentMethod.paymentType,
+                                     paymentMethod.lastfour ?: @"", paymentMethod.expDate ?: @""];
 
-            NSString *html = [self.contentHTML
-                stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                                          withString:paymentMethodInfo];
+      NSString *html = [self.contentHTML
+                        stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
+                        withString:paymentMethodInfo];
 
-            [self.webView loadHTMLString:html baseURL:nil];
-          }
-        }
-        failure:^(SPError *error) {
-          // NSLog(@"%@", error);
-          NSString *html = [self.contentHTML
-              stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                                        withString:[error
-                                                       localizedDescription]];
+      [self.webView loadHTMLString:html baseURL:nil];
 
-          [self.webView loadHTMLString:html baseURL:nil];
-        }];
+    } failure:^(SPError * _Nonnull error) {
+      NSString *html = [self.contentHTML
+                        stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
+                        withString:[error localizedDescription]];
+
+      [self.webView loadHTMLString:html baseURL:nil];
+    }];
 
     return NO;
   } else if ([self.detailItem isEqualToString:@"Create Customer"]) {
 
     NSDictionary *savedPaymentMethod =
-        [[NSUserDefaults standardUserDefaults] objectForKey:@"paymentMethod"];
+    [[NSUserDefaults standardUserDefaults] objectForKey:@"paymentMethod"];
 
     NSArray *paymentMethods = savedPaymentMethod
-                                  ? @[ [[SPPaymentMethod alloc]
-                                        initWithDictionary:savedPaymentMethod] ]
-                                  : nil;
+    ? @[ [[SPPaymentMethod alloc]
+          initWithDictionary:savedPaymentMethod] ]
+    : nil;
+
+    SPAddress * address = [[SPAddress alloc] initWithline1:qa[6]
+                                                     line2:qa[8]
+                                                      city:qa[10]
+                                                   country:qa[12]
+                                                     state:qa[14]
+                                                postalCode:qa[16]];
 
     [[SPAPIClient getSharedInstance] createCustomerWithName:qa[2]
-        email:qa[4]
-        address:qa[6]
-        address2:qa[8]
-        city:qa[10]
-        country:qa[12]
-        state:qa[14]
-        zip:qa[16]
-        company:qa[18]
-        phone:qa[20]
-        website:qa[22]
-        paymentMethods:paymentMethods
-        metadata:@{@"customOption" : @"example"}
-        success:^(SPCustomer *customer) {
-          // NSLog(@"%@", customer);
+                                                      email:qa[4]
+                                                    address:address
+                                                companyName:qa[18]
+                                                      notes:nil
+                                                      phone:qa[20]
+                                                    website:qa[22]
+                                             paymentMethods:paymentMethods
+                                                   metadata:@"{\"customOption\":\"example\"}"
+                                                    success:^(SPCustomer *customer) {
+      if (customer) {
 
-          if (customer) {
+        [[NSUserDefaults standardUserDefaults]
+         setObject:[customer dictionary]
+         forKey:@"customer"];
 
-            [[NSUserDefaults standardUserDefaults]
-                setObject:[customer dictionary]
-                   forKey:@"customer"];
+        NSString *html = [self.contentHTML
+                          stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
+                          withString:customer.customerId];
 
-            NSString *html = [self.contentHTML
-                stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                                          withString:customer.custId];
+        [self.webView loadHTMLString:html baseURL:nil];
+      }
+    }
+                                                    failure:^(SPError *error) {
+      NSString *html = [self.contentHTML
+                        stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
+                        withString:[error localizedDescription]];
 
-            [self.webView loadHTMLString:html baseURL:nil];
-          }
-        }
-        failure:^(SPError *error) {
-          // NSLog(@"%@", error);
-          NSString *html = [self.contentHTML
-              stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                                        withString:[error
-                                                       localizedDescription]];
-
-          [self.webView loadHTMLString:html baseURL:nil];
-        }];
+      [self.webView loadHTMLString:html baseURL:nil];
+    }];
 
     return NO;
   } else if ([self.detailItem isEqualToString:@"Retrieve a Customer"]) {
 
     [[SPAPIClient getSharedInstance] retrieveCustomerWithId:[qa objectAtIndex:2]
-        success:^(SPCustomer *customer) {
-          // NSLog(@"%@", customer);
+                                                    success:^(SPCustomer *customer) {
+      if (customer) {
 
-          if (customer) {
+        [[NSUserDefaults standardUserDefaults]
+         setObject:[customer dictionary]
+         forKey:@"customer"];
 
-            [[NSUserDefaults standardUserDefaults]
-                setObject:[customer dictionary]
-                   forKey:@"customer"];
+        NSString *html = [self.contentHTML
+                          stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
+                          withString:[NSString stringWithFormat:@"Customer Name: %@", customer.name]];
+        html = [NSString stringWithFormat:html, customer.customerId];
 
-            NSString *html = [self.contentHTML
-                stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                                          withString:customer.name];
-            html = [NSString stringWithFormat:html, customer.custId];
+        [self.webView loadHTMLString:html baseURL:nil];
+      }
+    }
+                                                    failure:^(SPError *error) {
+      NSString *html = [self.contentHTML
+                        stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
+                        withString:[error localizedDescription]];
 
-            [self.webView loadHTMLString:html baseURL:nil];
-          }
-        }
-        failure:^(SPError *error) {
-          // NSLog(@"%@", error);
-          NSString *html = [self.contentHTML
-              stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                                        withString:[error
-                                                       localizedDescription]];
-
-          [self.webView loadHTMLString:html baseURL:nil];
-        }];
+      [self.webView loadHTMLString:html baseURL:nil];
+    }];
     return NO;
   } else if ([self.detailItem isEqualToString:@"Update Customer"]) {
 
+    SPAddress * address = [[SPAddress alloc] initWithline1:qa[6]
+                                                     line2:qa[8]
+                                                      city:qa[10]
+                                                   country:qa[12]
+                                                     state:qa[14]
+                                                postalCode:qa[16]];
+
     [[SPAPIClient getSharedInstance] updateCustomerWithId:qa[24]
-        name:qa[2]
-        email:qa[4]
-        address:qa[6]
-        address2:qa[8]
-        city:qa[10]
-        country:qa[12]
-        state:qa[14]
-        zip:qa[16]
-        company:qa[18]
-        phone:qa[20]
-        website:qa[22]
-        paymentMethods:nil
-        metadata:nil
-        success:^(SPCustomer *customer) {
-          // NSLog(@"%@", customer);
+                                                     name:qa[2]
+                                                    email:qa[4]
+                                                  address:address
+                                              companyName:qa[18]
+                                                    notes:nil
+                                                    phone:qa[20]
+                                                  website:qa[22]
+                                           paymentMethods:nil
+                                                 metadata:@"{\"customOption\":\"exampleupdate\"}"
+                                                  success:^(SPCustomer *customer) {
+      if (customer) {
 
-          if (customer) {
+        NSDictionary *dict = [customer dictionary];
 
-            NSDictionary *dict = [customer dictionary];
+        [[NSUserDefaults standardUserDefaults] setObject:dict
+                                                  forKey:@"customer"];
 
-            [[NSUserDefaults standardUserDefaults] setObject:dict
-                                                      forKey:@"customer"];
+        NSString *html = [self.contentHTML
+                          stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
+                          withString:@"Updated success!"];
 
-            NSString *html = [self.contentHTML
-                stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                                          withString:@"Updated success!"];
+        html = [NSString stringWithFormat:html,
+                customer.name ?: @"",
+                customer.email ?: @"",
+                customer.address.line1 ?: @"",
+                customer.address.line2 ?: @"",
+                customer.address.city ?: @"",
+                customer.address.country ?: @"",
+                customer.address.state ?: @"",
+                customer.address.postalCode ?: @"",
+                customer.companyName ?: @"",
+                customer.phone ?: @"",
+                customer.website ?: @"",
+                customer.customerId ?: @""];
 
-            html = [NSString stringWithFormat:html, dict ? dict[@"name"] : @"",
-                                              dict ? dict[@"email"] : @"",
-                                              dict ? dict[@"address"] : @"",
-                                              dict ? dict[@"address2"] : @"",
-                                              dict ? dict[@"city"] : @"",
-                                              dict ? dict[@"country"] : @"",
-                                              dict ? dict[@"state"] : @"",
-                                              dict ? dict[@"zip"] : @"",
-                                              dict ? dict[@"companyName"] : @"",
-                                              dict ? dict[@"phone"] : @"",
-                                              dict ? dict[@"website"] : @"",
-                                              dict ? dict[@"id"] : @""];
+        [self.webView loadHTMLString:html baseURL:nil];
+      }
+    }
+                                                  failure:^(SPError *error) {
+      NSString *html = [self.contentHTML
+                        stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
+                        withString:[error localizedDescription]];
 
-            [self.webView loadHTMLString:html baseURL:nil];
-          }
-        }
-        failure:^(SPError *error) {
-          // NSLog(@"%@", error);
-          NSString *html = [self.contentHTML
-              stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                                        withString:[error
-                                                       localizedDescription]];
-
-          [self.webView loadHTMLString:html baseURL:nil];
-        }];
+      [self.webView loadHTMLString:html baseURL:nil];
+    }];
 
     return NO;
+
   } else if ([self.detailItem isEqualToString:@"Create a Charge"]) {
 
     [[SPAPIClient getSharedInstance] createChargeWithToken:qa[2]
-        cvv:qa[4]
-        capture:[qa[20] isEqualToString:@"YES"]
-        currency:nil
-        amount:qa[6]
-        taxAmount:qa[8]
-        taxExempt:[qa[22] isEqualToString:@"YES"]
-        tip:qa[12]
-        surchargeFeeAmount:qa[10]
-        scheduleIndicator:qa[26]
-        description:qa[14]
-        order:nil
-        orderId:qa[16]
-        poNumber:nil
-        metadata:nil
-        descriptor:qa[18]
-        txnEnv:qa[30]
-        achType:nil
-        credentialIndicator:qa[28]
-        transactionInitiation:qa[24]
-        idempotencyKey:nil
-        needSendReceipt:NO
-        success:^(SPCharge *charge) {
-          if (charge) {
+                                                       cvv:qa[4]
+                                                   capture:[qa[20] isEqualToString:@"YES"]
+                                                  currency:nil
+                                                    amount:qa[6]
+                                                 taxAmount:qa[8]
+                                                 taxExempt:[qa[22] isEqualToString:@"YES"]
+                                                       tip:qa[12]
+                                        surchargeFeeAmount:qa[10]
+                                               description:qa[14]
+                                                     order:nil
+                                                   orderId:qa[16]
+                                                  poNumber:nil
+                                                  metadata:nil
+                                                descriptor:qa[18]
+                                                 entryType:nil
+                                            idempotencyKey:nil
+                                  digitalWalletProgramType:nil
 
-            [[NSUserDefaults standardUserDefaults] setObject:charge.chargeId
-                                                      forKey:@"chargeId"];
 
-            NSString *html = [self.contentHTML
-                stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                                          withString:
-                                              [NSString
-                                                  stringWithFormat:
-                                                      @"%@<br>%@",
-                                                      charge.chargeId,
-                                                      charge
-                                                          .statusDescription]];
-            html = [NSString stringWithFormat:html, qa[2]];
-            [self.webView loadHTMLString:html baseURL:nil];
-          }
-        }
-        failure:^(SPError *error) {
-          // NSLog(@"%@", error);
-          NSString *html = [self.contentHTML
-              stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                                        withString:[error
-                                                       localizedDescription]];
-          html = [NSString stringWithFormat:html, qa[2]];
-          [self.webView loadHTMLString:html baseURL:nil];
-        }];
+                                                   success:^(SPCharge *charge) {
+      if (charge) {
+
+        [[NSUserDefaults standardUserDefaults] setObject:charge.chargeId
+                                                  forKey:@"chargeId"];
+
+        NSString *html = [self.contentHTML
+                          stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
+                          withString:
+                            [NSString
+                             stringWithFormat:
+                               @"%@<br>%@",
+                             charge.chargeId,
+                             charge.statusDescription]];
+        html = [NSString stringWithFormat:html, qa[2]];
+        [self.webView loadHTMLString:html baseURL:nil];
+      }
+    }
+                                                   failure:^(SPError *error) {
+      NSString *html = [self.contentHTML
+                        stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
+                        withString:[error  localizedDescription]];
+      html = [NSString stringWithFormat:html, qa[2]];
+      [self.webView loadHTMLString:html baseURL:nil];
+    }];
 
     return NO;
+
   } else if ([self.title isEqualToString:@"Retrieve a Charge"]) {
 
     [[SPAPIClient getSharedInstance] retrieveChargeWithId:qa[2]
-        success:^(SPCharge *charge) {
-          if (charge) {
+                                                  success:^(SPCharge *charge) {
+      if (charge) {
 
-            NSString *html = [self.contentHTML
-                stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                                          withString:
-                                              [NSString stringWithFormat:
-                                                            @"Charge ID: "
-                                                            @"%@<br>Amount: %@",
-                                                            charge.chargeId,
-                                                            charge.amount]];
-            html = [NSString stringWithFormat:html, qa[2]];
+        NSString *html = [self.contentHTML
+                          stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
+                          withString:
+                            [NSString stringWithFormat:
+                             @"Charge ID: "
+                             @"%@<br>Amount: %@",
+                             charge.chargeId,
+                             charge.amount]];
+        html = [NSString stringWithFormat:html, qa[2]];
 
-            [self.webView loadHTMLString:html baseURL:nil];
-          }
-        }
-        failure:^(SPError *error) {
-          // NSLog(@"%@", error);
-          NSString *html = [self.contentHTML
-              stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                                        withString:[error
-                                                       localizedDescription]];
-          html = [NSString stringWithFormat:html, qa[2]];
-          [self.webView loadHTMLString:html baseURL:nil];
-        }];
+        [self.webView loadHTMLString:html baseURL:nil];
+      }
+    }
+                                                  failure:^(SPError *error) {
+      NSString *html = [self.contentHTML
+                        stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
+                        withString:[error  localizedDescription]];
+      html = [NSString stringWithFormat:html, qa[2]];
+      [self.webView loadHTMLString:html baseURL:nil];
+    }];
     return NO;
-  } else if ([self.title isEqualToString:@"Virtual Terminal (CHARGE)"]) {
 
-    NSLog(@"%@", @"SART TOKEN--->");
+  } else if ([self.title isEqualToString:@"Virtual Terminal (CHARGE)"]) {
 
     [self.activityIndicator startAnimating];
 
-    [[SPAPIClient getSharedInstance] createPaymentMethodWithType:@"CREDIT_CARD"
-        account:qa[8]
-        expDate:qa[10]
-        cvv:qa[12]
-        accountType:nil
-        routing:nil
-        pin:nil
-        address:qa[14]
-        address2:nil
-        city:nil
-        country:nil
-        state:nil
-        zip:qa[16]
-        company:nil
-        email:qa[24]
-        phone:nil
-        name:qa[4]
-        nickname:nil
-        verification : NO
-        success:^(SPPaymentMethod *paymentMethod) {
-          if (paymentMethod) {
+    SPAddress * billingAddress = [[SPAddress alloc] initWithline1:qa[14]
+                                                            line2:nil
+                                                             city:nil
+                                                          country:@"US"
+                                                            state:nil
+                                                       postalCode:qa[16]];
 
-            NSLog(@"%@", @"END TOKEN--->");
-            NSLog(@"%@", [paymentMethod dictionary]);
-            NSLog(@"%@", @"SART CHARGE--->");
 
-            [[SPAPIClient getSharedInstance]
-                createChargeWithToken:paymentMethod.token
-                cvv:qa[12]
-                capture:[qa[2] isEqualToString:@"YES"]
-                currency:nil
-                amount:qa[6]
-                taxAmount:qa[18]
-                taxExempt:NO
-                tip:nil
-                surchargeFeeAmount:nil
-                scheduleIndicator:nil
-                description:qa[22]
-                order:nil
-                orderId:nil
-                poNumber:qa[20]
-                metadata:nil
-                descriptor:nil
-                txnEnv:nil
-                achType:nil
-                credentialIndicator:nil
-                transactionInitiation:nil
-                idempotencyKey:nil
-                needSendReceipt:[qa[26] isEqualToString:@"YES"]
-                success:^(SPCharge *charge) {
-                  if (charge) {
-                    NSLog(@"%@", @"END CHARGE--->");
-                    NSString *html = [self.contentHTML
-                        stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                                                  withString:
-                                                      [NSString
-                                                          stringWithFormat:
-                                                              @"<div "
-                                                              @"id=\"info\">"
-                                                              @"Amount: "
-                                                              @"$%@<br>Status: "
-                                                              @"%@<br>Status "
-                                                              @"message: "
-                                                              @"%@<br>txnID #: "
-                                                              @"%@</div>",
-                                                              charge.amount,
-                                                              charge.status,
-                                                              charge
-                                                                  .statusDescription,
-                                                              charge.chargeId]];
-                    [self.webView loadHTMLString:html baseURL:nil];
+    [[SPAPIClient getSharedInstance] tokenizeWithPaymentType:SPPaymentTypeCreditCard
+                                                     account:qa[8]
+                                                     expDate:qa[10]
+                                                         cvv:qa[12]
+                                                 accountType:nil
+                                                     routing:nil
+                                                         pin:nil
+                                              billingAddress:billingAddress
+                                          billingCompanyName:nil
+                                                accountEmail:qa[24]
+                                                 phoneNumber:nil
+                                                        name:qa[4]
+                                                    customer:nil
+                                                     success:^(SPPaymentMethod *paymentMethod) {
+      if (paymentMethod) {
 
-                    [self.activityIndicator stopAnimating];
-                  }
-                }
-                failure:^(SPError *error) {
-                  // NSLog(@"%@", error);
-                  NSString *html = [self.contentHTML
-                      stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                                                withString:
-                                                    [error
-                                                        localizedDescription]];
-                  html = [NSString stringWithFormat:html, qa[2]];
-                  [self.webView loadHTMLString:html baseURL:nil];
+        [[SPAPIClient getSharedInstance] createChargeWithToken:paymentMethod.token
+                                                           cvv:qa[12]
+                                                       capture:[qa[2] isEqualToString:@"YES"]
+                                                      currency:nil
+                                                        amount:qa[6]
+                                                     taxAmount:qa[18]
+                                                     taxExempt:NO
+                                                           tip:nil
+                                            surchargeFeeAmount:nil
+                                                   description:qa[22]
+                                                         order:nil
+                                                       orderId:nil
+                                                      poNumber:qa[20]
+                                                      metadata:nil
+                                                    descriptor:nil
+                                                     entryType:nil
+                                                idempotencyKey:nil
+                                      digitalWalletProgramType:nil
 
-                  [self.activityIndicator stopAnimating];
-                }];
+                                                       success:^(SPCharge *charge) {
+          if (charge) {
+            NSString *html = [self.contentHTML
+                              stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
+                              withString:
+                                [NSString
+                                 stringWithFormat:
+                                   @"<div "
+                                 @"id=\"info\">"
+                                 @"Amount: "
+                                 @"$%@<br>Status: "
+                                 @"%@<br>Status "
+                                 @"message: "
+                                 @"%@<br>txnID #: "
+                                 @"%@</div>",
+                                 charge.amount,
+                                 charge.status,
+                                 charge.statusDescription,
+                                 charge.chargeId]];
+            [self.webView loadHTMLString:html baseURL:nil];
+
+            [self.activityIndicator stopAnimating];
           }
         }
-        failure:^(SPError *error) {
-          // NSLog(@"%@", error);
+                                                       failure:^(SPError *error) {
           NSString *html = [self.contentHTML
-              stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                                        withString:[error
-                                                       localizedDescription]];
-
+                            stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
+                            withString: [error localizedDescription]];
+          html = [NSString stringWithFormat:html, qa[2]];
           [self.webView loadHTMLString:html baseURL:nil];
 
           [self.activityIndicator stopAnimating];
         }];
+      }
+    }
+                                                                failure:^(SPError *error) {
+      NSString *html = [self.contentHTML
+                        stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
+                        withString:[error
+                                    localizedDescription]];
+
+      [self.webView loadHTMLString:html baseURL:nil];
+
+      [self.activityIndicator stopAnimating];
+    }];
 
     return NO;
   } else if ([self.title isEqualToString:@"Virtual Terminal (ACH)"]) {
 
     [self.activityIndicator startAnimating];
 
-    [[SPAPIClient getSharedInstance] createPaymentMethodWithType:@"ACH"
-        account:qa[10]
-        expDate:nil
-        cvv:nil
-        accountType:qa[2]
-        routing:qa[8]
-        pin:nil
-        address:qa[14]
-        address2:nil
-        city:qa[16]
-        country:qa[22]
-        state:qa[18]
-        zip:qa[20]
-        company:nil
-        email:qa[28]
-        phone:qa[24]
-        name:qa[6]
-        nickname:nil
-        verification : NO
-        success:^(SPPaymentMethod *paymentMethod) {
-          if (paymentMethod) {
+    SPAddress * billingAddress = [[SPAddress alloc] initWithline1:qa[14]
+                                                            line2:nil
+                                                             city:qa[16]
+                                                          country:qa[22]
+                                                            state:qa[18]
+                                                       postalCode:qa[20]];
 
-            NSLog(@"%@", [paymentMethod dictionary]);
 
-            [[SPAPIClient getSharedInstance]
-                createChargeWithToken:paymentMethod.token
-                cvv:nil
-                capture:NO
-                currency:nil
-                amount:qa[12]
-                taxAmount:nil
-                taxExempt:NO
-                tip:nil
-                surchargeFeeAmount:nil
-                scheduleIndicator:nil
-                description:qa[26]
-                order:nil
-                orderId:nil
-                poNumber:nil
-                metadata:nil
-                descriptor:nil
-                txnEnv:nil
-                achType:qa[4]
-                credentialIndicator:nil
-                transactionInitiation:nil
-                idempotencyKey:nil
-                needSendReceipt:[qa[30] isEqualToString:@"YES"]
-                success:^(SPCharge *charge) {
-                  if (charge) {
+    [[SPAPIClient getSharedInstance] tokenizeWithPaymentType:SPPaymentTypeAch
+                                                     account:qa[10]
+                                                     expDate:nil
+                                                         cvv:nil
+                                                 accountType:qa[2]
+                                                     routing:qa[8]
+                                                         pin:nil
+                                              billingAddress:billingAddress
+                                          billingCompanyName:qa[6]
+                                                accountEmail:qa[28]
+                                                 phoneNumber:qa[24]
+                                                        name:qa[4]
+                                                    customer:nil
+                                                     success:^(SPPaymentMethod *paymentMethod) {
+      if (paymentMethod) {
 
-                    NSString *html = [self.contentHTML
-                        stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                                                  withString:
-                                                      [NSString
-                                                          stringWithFormat:
-                                                              @"<div "
-                                                              @"id=\"info\">"
-                                                              @"Amount: "
-                                                              @"$%@<br>Status: "
-                                                              @"%@<br>Status "
-                                                              @"message: "
-                                                              @"%@<br>txnID #: "
-                                                              @"%@</div>",
-                                                              charge.amount,
-                                                              charge.status,
-                                                              charge
-                                                                  .statusDescription,
-                                                              charge.chargeId]];
-                    [self.webView loadHTMLString:html baseURL:nil];
+        [[SPAPIClient getSharedInstance] createChargeWithToken:paymentMethod.token
+                                                           cvv:nil
+                                                       capture:NO
+                                                      currency:nil
+                                                        amount:qa[12]
+                                                     taxAmount:nil
+                                                     taxExempt:NO
+                                                           tip:nil
+                                            surchargeFeeAmount:nil
+                                                   description:qa[26]
+                                                         order:nil
+                                                       orderId:nil
+                                                      poNumber:nil
+                                                      metadata:nil
+                                                    descriptor:nil
+                                                     entryType:nil
+                                                idempotencyKey:nil
+                                      digitalWalletProgramType:nil
 
-                    [self.activityIndicator stopAnimating];
-                  }
-                }
-                failure:^(SPError *error) {
-                  // NSLog(@"%@", error);
-                  NSString *html = [self.contentHTML
-                      stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                                                withString:
-                                                    [error
-                                                        localizedDescription]];
-                  html = [NSString stringWithFormat:html, qa[2]];
-                  [self.webView loadHTMLString:html baseURL:nil];
+                                                       success:^(SPCharge *charge) {
+          if (charge) {
 
-                  [self.activityIndicator stopAnimating];
-                }];
+            NSString *html = [self.contentHTML
+                              stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
+                              withString:
+                                [NSString
+                                 stringWithFormat:
+                                   @"<div "
+                                 @"id=\"info\">"
+                                 @"Amount: "
+                                 @"$%@<br>Status: "
+                                 @"%@<br>Status "
+                                 @"message: "
+                                 @"%@<br>txnID #: "
+                                 @"%@</div>",
+                                 charge.amount,
+                                 charge.status,
+                                 charge.statusDescription,
+                                 charge.chargeId]];
+            [self.webView loadHTMLString:html baseURL:nil];
+
+            [self.activityIndicator stopAnimating];
           }
         }
-        failure:^(SPError *error) {
-          // NSLog(@"%@", error);
+                                                       failure:^(SPError *error) {
           NSString *html = [self.contentHTML
-              stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                                        withString:[error
-                                                       localizedDescription]];
-
+                            stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
+                            withString:[error localizedDescription]];
+          html = [NSString stringWithFormat:html, qa[2]];
           [self.webView loadHTMLString:html baseURL:nil];
 
           [self.activityIndicator stopAnimating];
         }];
+      }
+    }
+                                                                failure:^(SPError *error) {
+      NSString *html = [self.contentHTML
+                        stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
+                        withString:[error
+                                    localizedDescription]];
+
+      [self.webView loadHTMLString:html baseURL:nil];
+
+      [self.activityIndicator stopAnimating];
+    }];
 
     return NO;
   } else if ([self.title isEqualToString:@"Virtual Terminal (GIFT CARD)"]) {
 
     [self.activityIndicator startAnimating];
 
-    [[SPAPIClient getSharedInstance] createPaymentMethodWithType:@"GIFT_CARD"
-        account:qa[4]
-        expDate:nil
-        cvv:nil
-        accountType:nil
-        routing:nil
-        pin:qa[8]
-        address:nil
-        address2:nil
-        city:nil
-        country:nil
-        state:nil
-        zip:nil
-        company:nil
-        email:qa[12]
-        phone:nil
-        name:qa[2]
-        nickname:nil
-        verification : NO
-        success:^(SPPaymentMethod *paymentMethod) {
-          if (paymentMethod) {
+    [[SPAPIClient getSharedInstance] tokenizeWithPaymentType:SPPaymentTypeGiftCard
+                                                                account:qa[4]
+                                                                expDate:nil
+                                                                    cvv:nil
+                                                            accountType:nil
+                                                                routing:nil
+                                                                    pin:qa[8]
+                                                         billingAddress:nil
+                                                     billingCompanyName:nil
+                                                           accountEmail:qa[12]
+                                                            phoneNumber:nil
+                                                                   name:qa[2]
+                                                               customer:nil
+                                                                success:^(SPPaymentMethod *paymentMethod) {
+      if (paymentMethod) {
 
-            NSLog(@"%@", [paymentMethod dictionary]);
+        [[SPAPIClient getSharedInstance] createChargeWithToken:paymentMethod.token
+                                                           cvv:nil
+                                                       capture:NO
+                                                      currency:qa[10]
+                                                        amount:qa[6]
+                                                     taxAmount:nil
+                                                     taxExempt:NO
+                                                           tip:nil
+                                            surchargeFeeAmount:nil
+                                                   description:nil
+                                                         order:nil
+                                                       orderId:nil
+                                                      poNumber:nil
+                                                      metadata:nil
+                                                    descriptor:nil
+                                                     entryType:nil
+                                                idempotencyKey:nil
+                                      digitalWalletProgramType:nil
 
-            [[SPAPIClient getSharedInstance]
-                createChargeWithToken:paymentMethod.token
-                cvv:nil
-                capture:NO
-                currency:qa[10]
-                amount:qa[6]
-                taxAmount:nil
-                taxExempt:NO
-                tip:nil
-                surchargeFeeAmount:nil
-                scheduleIndicator:nil
-                description:nil
-                order:nil
-                orderId:nil
-                poNumber:nil
-                metadata:nil
-                descriptor:nil
-                txnEnv:nil
-                achType:nil
-                credentialIndicator:nil
-                transactionInitiation:nil
-                idempotencyKey:nil
-                needSendReceipt:[qa[14] isEqualToString:@"YES"]
-                success:^(SPCharge *charge) {
-                  if (charge) {
+                                                       success:^(SPCharge *charge) {
+          if (charge) {
 
-                    NSString *html = [self.contentHTML
-                        stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                                                  withString:
-                                                      [NSString
-                                                          stringWithFormat:
-                                                              @"<div "
-                                                              @"id=\"info\">"
-                                                              @"Amount: "
-                                                              @"$%@<br>Status: "
-                                                              @"%@<br>Status "
-                                                              @"message: "
-                                                              @"%@<br>txnID #: "
-                                                              @"%@</div>",
-                                                              charge.amount,
-                                                              charge.status,
-                                                              charge
-                                                                  .statusDescription,
-                                                              charge.chargeId]];
-                    [self.webView loadHTMLString:html baseURL:nil];
+            NSString *html = [self.contentHTML
+                              stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
+                              withString:
+                                [NSString
+                                 stringWithFormat:
+                                   @"<div "
+                                 @"id=\"info\">"
+                                 @"Amount: "
+                                 @"$%@<br>Status: "
+                                 @"%@<br>Status "
+                                 @"message: "
+                                 @"%@<br>txnID #: "
+                                 @"%@</div>",
+                                 charge.amount,
+                                 charge.status,
+                                 charge.statusDescription,
+                                 charge.chargeId]];
+            [self.webView loadHTMLString:html baseURL:nil];
 
-                    [self.activityIndicator stopAnimating];
-                  }
-                }
-                failure:^(SPError *error) {
-                  // NSLog(@"%@", error);
-                  NSString *html = [self.contentHTML
-                      stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                                                withString:
-                                                    [error
-                                                        localizedDescription]];
-                  html = [NSString stringWithFormat:html, qa[2]];
-                  [self.webView loadHTMLString:html baseURL:nil];
-
-                  [self.activityIndicator stopAnimating];
-                }];
+            [self.activityIndicator stopAnimating];
           }
         }
-        failure:^(SPError *error) {
-          // NSLog(@"%@", error);
+                                                       failure:^(SPError *error) {
           NSString *html = [self.contentHTML
-              stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
-                                        withString:[error
-                                                       localizedDescription]];
-
+                            stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
+                            withString:[error localizedDescription]];
+          html = [NSString stringWithFormat:html, qa[2]];
           [self.webView loadHTMLString:html baseURL:nil];
 
           [self.activityIndicator stopAnimating];
         }];
+      }
+    }
+                                                                failure:^(SPError *error) {
+      NSString *html = [self.contentHTML
+                        stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
+                        withString:[error
+                                    localizedDescription]];
+
+      [self.webView loadHTMLString:html baseURL:nil];
+
+      [self.activityIndicator stopAnimating];
+    }];
 
     return NO;
   }
 
   return YES;
+}
+
+// MARK: - EnvironmentParsing
+- (SPEnvironment)environmentFromString:(NSString *)string {
+  if ([string isEqualToString:@"production"]) {
+    return SPEnvironmentProduction;
+  } else if ([string isEqualToString:@"sandbox"]) {
+    return SPEnvironmentSandbox;
+  } else if ([string isEqualToString:@"staging"]) {
+    return SPEnvironmentStaging;
+  } else if ([string isEqualToString:@"qat"]) {
+    return SPEnvironmentQAT;
+  } else {
+    // Handle unrecognized string or return a default value
+    return SPEnvironmentSandbox;
+  }
+}
+
+- (SPPaymentType)paymentTypeFromString:(NSString *)string {
+  if ([string isEqualToString:@"credit_card"]) {
+    return SPPaymentTypeCreditCard;
+  } else if ([string isEqualToString:@"pldebit_card"]) {
+    return SPPaymentTypePlDebitCard;
+  } else if ([string isEqualToString:@"gift_card"]) {
+    return SPPaymentTypeGiftCard;
+  } else if ([string isEqualToString:@"ach"]) {
+    return SPPaymentTypeAch;
+  } else {
+    // Handle unrecognized string or return a default value
+    return SPPaymentTypeCreditCard;
+  }
+}
+
+- (NSString *)authContentHTMLWithParams:(NSString *)resultMessage
+                              secretKey:(NSString *)secretKey
+                         publishableKey:(NSString *)publishableKey
+                            environment:(SPEnvironment)environment {
+  NSAssert(([self.title isEqualToString:@"Authentication"] && self.contentHTML),
+           @"Wrong place to call this function");
+
+  NSString *html = [self.contentHTML copy];
+  if (resultMessage) {
+    html = [html
+            stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
+            withString:
+              resultMessage];
+  }
+  html = [NSString stringWithFormat:
+          html,
+          publishableKey,
+          secretKey,
+          environment == SPEnvironmentSandbox ? @"selected" : @"",
+          environment == SPEnvironmentProduction ? @"selected" : @"",
+          environment == SPEnvironmentStaging ? @"selected" : @"",
+          environment == SPEnvironmentQAT ? @"selected" : @""];
+  return html;
 }
 
 @end

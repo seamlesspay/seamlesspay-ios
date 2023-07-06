@@ -11,33 +11,38 @@
 
 + (instancetype)errorWithResponse:(NSData *)data {
   NSError *error = nil;
-  id errobj = [NSJSONSerialization JSONObjectWithData:data
-                                      options:NSJSONReadingAllowFragments
-                                        error:&error];
-  if (error == nil && [errobj isKindOfClass:[NSDictionary class]]) {
-      
-      
+  
+  if (data) {
+    
+    id errobj = [NSJSONSerialization JSONObjectWithData:data
+                                                options:NSJSONReadingAllowFragments
+                                                  error:&error];
+    if (error == nil && [errobj isKindOfClass:[NSDictionary class]]) {
 
-    SPError *sperror =  [SPError errorWithDomain:@"api.seamlesspay.com"
-                               code:[errobj[@"code"] integerValue]
-                           userInfo:@{
-                             NSLocalizedDescriptionKey :
-                                 [SPError descriptionWithResponse:errobj]
-                           }];
-      
-      NSString *error = [errobj[@"errors"] isKindOfClass: [NSArray class]] && [errobj[@"errors"] count] > 1 ?
-      [errobj[@"message"] stringByAppendingFormat:@":\n%@", [errobj[@"errors"] componentsJoinedByString:@"\n"]]  :
-      errobj[@"message"];
- 
-      sperror.statusCode = errobj[@"data"] && errobj[@"data"][@"statusCode"] ? errobj[@"data"][@"statusCode"] : nil;
-      sperror.statusDescription = errobj[@"data"] && errobj[@"data"][@"statusDescription"] ? errobj[@"data"][@"statusDescription"] : nil;
-      sperror.errors = errobj[@"errors"];
-      sperror.errorMessage = error;
- 
+      SPError *sperror =  [SPError errorWithDomain:@"api.seamlesspay.com"
+                                              code:[errobj[@"code"] integerValue]
+                                          userInfo:@{
+        NSLocalizedDescriptionKey :
+          [SPError descriptionWithResponse:errobj]
+      }];
       return sperror;
+    }
   }
 
   return nil;
+}
+
++ (instancetype)errorWithNSError:(NSError *)error {
+  if (error) {
+    return [SPError errorWithDomain:error.domain code:error.code userInfo:error.userInfo];
+  }
+  return nil;
+}
+
++ (instancetype)unknownError {
+  return [SPError errorWithDomain:@"api.seamlesspay.com"
+                             code:29
+                         userInfo:@{NSLocalizedDescriptionKey: @"Unknown Error"}];
 }
 
 + (NSString *)descriptionWithResponse:(NSDictionary *)dict {
@@ -46,13 +51,13 @@
   [s appendFormat:@"Message=%@\n", dict[@"message"] ?: @""];
   [s appendFormat:@"ClassName=%@\n", dict[@"className"] ?: @""];
   [s appendFormat:@"StatusCode=%@\n",
-                  dict[@"data"] && dict[@"data"][@"statusCode"]
-                      ? dict[@"data"][@"statusCode"]
-                      : @""];
+   dict[@"data"] && dict[@"data"][@"statusCode"]
+   ? dict[@"data"][@"statusCode"]
+                 : @""];
   [s appendFormat:@"StatusDescription=%@\n",
-                  dict[@"data"] && dict[@"data"][@"statusDescription"]
-                      ? dict[@"data"][@"statusDescription"]
-                      : @""];
+   dict[@"data"] && dict[@"data"][@"statusDescription"]
+   ? dict[@"data"][@"statusDescription"]
+                 : @""];
   [s appendFormat:@"Errors=%@\n", dict[@"errors"] ?: @""];
   return s;
 }

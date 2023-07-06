@@ -126,6 +126,13 @@ extern SPContactField const SPContactFieldName;
 - (instancetype)initWithPKContact:(PKContact *)contact;
 - (PKContact *)PKContactValue;
 - (instancetype)initWithCNContact:(CNContact *)contact;
+- (instancetype)initWithline1:(nullable NSString *)line1
+                        line2:(nullable NSString *)line2
+                         city:(nullable NSString *)city
+                      country:(nullable NSString *)country
+                        state:(nullable NSString *)state
+                   postalCode:(nullable NSString *)postalCode;
+
 - (BOOL)containsRequiredFields:(SPBillingAddressFields)requiredFields;
 - (BOOL)containsContentForBillingAddressFields:
     (SPBillingAddressFields)desiredFields;
@@ -133,7 +140,7 @@ extern SPContactField const SPContactFieldName;
     (nullable NSSet<SPContactField> *)requiredFields;
 - (BOOL)containsContentForShippingAddressFields:
     (nullable NSSet<SPContactField> *)desiredFields;
-
+- (NSDictionary *_Nullable )dictionary;
 @end
 
 NS_ASSUME_NONNULL_END

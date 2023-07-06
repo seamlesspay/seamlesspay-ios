@@ -21,21 +21,20 @@
   // Override point for customization after application launch.
   NSString *secretkey = [[NSUserDefaults standardUserDefaults] objectForKey:@"secretkey"];
   NSString *publishableKey = [[NSUserDefaults standardUserDefaults] objectForKey:@"publishableKey"];
-  NSString *env = [[NSUserDefaults standardUserDefaults] objectForKey:@"env"];
+  SPEnvironment env = [[NSUserDefaults standardUserDefaults] integerForKey:@"env"];
 
   if (!publishableKey) {
     publishableKey = @"pk_XXXXXXXXXXXXXXXXXXXXXXXXXX";
     secretkey = @"sk_XXXXXXXXXXXXXXXXXXXXXXXXXX";
-    env = @"sandbox";
+    env = SPEnvironmentSandbox;
     [[NSUserDefaults standardUserDefaults] setObject:publishableKey forKey:@"publishableKey"];
     [[NSUserDefaults standardUserDefaults] setObject:secretkey forKey:@"secretkey"];
-    [[NSUserDefaults standardUserDefaults] setObject:env forKey:@"env"];
+    [[NSUserDefaults standardUserDefaults] setInteger:env forKey:@"env"];
   }
 
-  [[SPAPIClient getSharedInstance]
-        setSecretKey:secretkey
-      publishableKey:publishableKey
-             sandbox:[env isEqualToString:@"sandbox"]];
+  [[SPAPIClient getSharedInstance] setSecretKey:secretkey
+                                 publishableKey:publishableKey
+                                    environment:env];
 
   return YES;
 }

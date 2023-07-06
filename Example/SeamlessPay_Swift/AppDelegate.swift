@@ -13,10 +13,13 @@ import SeamlessPayCore
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
 
-        SPAPIClient.getSharedInstance()?.setSecretKey(nil,
-                                         publishableKey: "pk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
-                                         sandbox: true)
+        SPAPIClient.getSharedInstance().setSecretKey(nil,
+                                                     publishableKey: "pk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
+                                                     environment: .sandbox)
+        
+        
 
         return true
     }
