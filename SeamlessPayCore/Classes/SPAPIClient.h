@@ -71,7 +71,6 @@ typedef NS_ENUM(NSUInteger, SPPaymentType) {
                    descriptor:(NSString *_Nullable)descriptor
                     entryType:(NSString *_Nullable)entryType
                idempotencyKey:(NSString *_Nullable)idempotencyKey
-     digitalWalletProgramType:(NSString *_Nullable)digitalWalletProgramType
                       success:(void (^_Nonnull)(SPCharge *_Nonnull charge))success
                       failure:(void (^_Nonnull)(SPError *_Nonnull))failure;
 

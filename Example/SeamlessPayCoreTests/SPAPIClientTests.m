@@ -74,7 +74,6 @@
      descriptor:nil
      entryType:nil
      idempotencyKey:nil
-     digitalWalletProgramType:nil
      success:^(SPCharge *charge) {
         
         //XCTAssertTrue([charge.status isEqualToString:@"CAPTURED"]);

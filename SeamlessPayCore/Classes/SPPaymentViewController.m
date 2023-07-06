@@ -129,9 +129,7 @@
                                                   descriptor:nil
                                                    entryType:nil
                                               idempotencyKey:self.idempotencyKey
-                                    digitalWalletProgramType:nil
-
-            success:^(SPCharge *charge) {
+                                                     success:^(SPCharge *charge) {
               [self.activityIndicator stopAnimation];
               if ([self.delegate respondsToSelector:@selector(paymentViewController:chargeSuccess:)]) {
                  [self.delegate paymentViewController:self chargeSuccess:charge];

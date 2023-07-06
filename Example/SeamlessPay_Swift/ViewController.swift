@@ -90,7 +90,6 @@ class ViewController: UIViewController {
                     descriptor: nil,
                     entryType: nil,
                     idempotencyKey: nil,
-                    digitalWalletProgramType: nil,
                     success: { (charge: SPCharge?) in
                         
                         // Success Charge:

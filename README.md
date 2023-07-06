@@ -231,8 +231,6 @@ Objective-C:
          descriptor:nil
          entryType:nil
          idempotencyKey:nil
-         digitalWalletProgramType:nil
-         
          success:^(SPCharge *charge) {
  
             NSString *success = [NSString
@@ -302,7 +300,6 @@ Swift:
                     descriptor: nil,
                     entryType: nil,
                     idempotencyKey: nil,
-                    digitalWalletProgramType: nil,
                     success: { (charge: SPCharge?) in
                         
                         // Success Charge:
