@@ -52,7 +52,7 @@
       _accountType = dict[@"accountType"];//
       _refunds = dict[@"refunds"];//
       _transactionDate = dict[@"transactionDate"];//
-      _verification = dict[@"verification"];//
+      _verificationResults = dict[@"verificationResults"];//
       _createdAt = dict[@"createdAt"];//
       _updatedAt = dict[@"updatedAt"];//
     }

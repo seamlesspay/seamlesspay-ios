@@ -55,17 +55,17 @@
 /**
  Verification (Dictionary):
  
- addressLine1 =>  (string) "pass" "fail" "unchecked" "unsupported" "retry"
+ avsStreetAddress =>  (string) "pass" "fail" "unchecked" "unsupported" "retry"
  AVS Verification Code (See all AVS verification codes)
 
- addressPostalCode => ( string)  "pass" "fail" "unchecked" "unsupported" "retry"
+ avsPostalCode => ( string)  "pass" "fail" "unchecked" "unsupported" "retry"
  AVS Verification Code (See all AVS verification codes)
 
  cvv => (string) "pass" "fail" "unchecked" "unsupported" "retry"
  CVV Verification Code (See all CVV verification codes)
  */
 
-@property(nonatomic, readonly, copy) NSDictionary *verification;
+@property(nonatomic, readonly, copy) NSDictionary *verificationResults;
 
 /**
  * Gift card PIN.
