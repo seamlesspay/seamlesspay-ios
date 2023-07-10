@@ -149,8 +149,6 @@
          descriptor:nil
          entryType:nil
          idempotencyKey:nil
-         digitalWalletProgramType:nil
-         
          success:^(SPCharge *charge) {
             [self.activityIndicator stopAnimating];
             NSString *success = [NSString

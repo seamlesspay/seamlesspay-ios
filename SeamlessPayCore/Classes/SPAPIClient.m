@@ -324,7 +324,6 @@ static SPAPIClient *sharedInstance = nil;
                    descriptor:(NSString *)descriptor
                     entryType:(NSString *)entryType
                idempotencyKey:(NSString *)idempotencyKey
-     digitalWalletProgramType:(NSString *)digitalWalletProgramType
                       success:(void (^)(SPCharge *charge))success
                       failure:(void (^)(SPError *))failure {
     
@@ -343,7 +342,6 @@ static SPAPIClient *sharedInstance = nil;
     @"poNumber" : poNumber ?: @"",//
     @"descriptor" : descriptor ?: @"",//
     @"idempotencyKey" : idempotencyKey ?: @"",//
-    @"digitalWalletProgramType" : digitalWalletProgramType ?: @"",//
     @"entryType" : entryType ?: @"",//
     @"metadata" : metadata ?: @"",//
     @"order" : order ?: @"",//

@@ -734,8 +734,6 @@
                                                         descriptor:nil
                                                          entryType:nil
                                                     idempotencyKey:nil
-                                          digitalWalletProgramType:nil
-             
                                                            success:^(SPCharge *charge) {
                 CFTimeInterval elapsedTime = CACurrentMediaTime() - startTime;
                 
@@ -1082,9 +1080,6 @@ decisionHandler:
                                                 descriptor:qa[18]
                                                  entryType:nil
                                             idempotencyKey:nil
-                                  digitalWalletProgramType:nil
-
-
                                                    success:^(SPCharge *charge) {
       if (charge) {
 
@@ -1186,8 +1181,6 @@ decisionHandler:
                                                     descriptor:nil
                                                      entryType:nil
                                                 idempotencyKey:nil
-                                      digitalWalletProgramType:nil
-
                                                        success:^(SPCharge *charge) {
           if (charge) {
             NSString *html = [self.contentHTML
@@ -1280,8 +1273,6 @@ decisionHandler:
                                                     descriptor:nil
                                                      entryType:nil
                                                 idempotencyKey:nil
-                                      digitalWalletProgramType:nil
-
                                                        success:^(SPCharge *charge) {
           if (charge) {
 
@@ -1367,8 +1358,6 @@ decisionHandler:
                                                     descriptor:nil
                                                      entryType:nil
                                                 idempotencyKey:nil
-                                      digitalWalletProgramType:nil
-
                                                        success:^(SPCharge *charge) {
           if (charge) {
 
