@@ -597,7 +597,8 @@ static SPAPIClient *sharedInstance = nil;
     @"API-Version" : apiVersion,
     @"Content-Type" : @"application/json",
     @"Accept" : @"application/json",
-    @"Authorization" : [@"Bearer " stringByAppendingString:apiKeyBase64]
+    @"Authorization" : [@"Bearer " stringByAppendingString:apiKeyBase64],
+    @"User-Agent" : @"seamlesspay_ios"
   } mutableCopy];
     
     if (_subMerchantAccountID) {
