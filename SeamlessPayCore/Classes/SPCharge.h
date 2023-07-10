@@ -91,9 +91,9 @@
  */
 @property(nonatomic, readonly, copy) NSString * _Nullable batch;//
 /**
- *  verification
+ *  verificationResults
 */
-@property(nonatomic, readonly, copy) NSDictionary * _Nullable verification;//
+@property(nonatomic, readonly, copy) NSDictionary * _Nullable verificationResults;//
 /**
  *  Business Card
 */

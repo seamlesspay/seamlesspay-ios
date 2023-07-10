@@ -56,7 +56,7 @@
             _bankAccountType = obj[@"bankAccountType"]  ?: nil;
             _pinNumber = obj[@"pinNumber"] ?: nil;
             _company = obj[@"company"]  ?: nil;
-            _verification = dict[@"verification"]  ?: nil;
+            _verificationResults = dict[@"verificationResults"]  ?: nil;
             _paymentNetwork = dict[@"paymentNetwork"]  ?: nil;
         }
     }
@@ -79,7 +79,7 @@
         _bankAccountType = dict[@"bankAccountType"]  ?: nil;
         _pinNumber = dict[@"pinNumber"]  ?: nil;
         _company = dict[@"company"]  ?: nil;
-        _verification = dict[@"verification"]  ?: nil;
+        _verificationResults = dict[@"verificationResults"]  ?: nil;
         _customerId = dict[@"customerId"]  ?: nil;
         
         if ([dict[@"billingAddress"] isKindOfClass:[NSDictionary class]]) {
@@ -109,7 +109,7 @@
         @"bankAccountType" : _bankAccountType ?: @"",
         @"pinNumber" : _pinNumber ?: @"",
         @"company" : _company ?: @"",
-        @"verification" : _verification ?: @"",
+        @"verificationResults" : _verificationResults ?: @"",
         @"customerId" : _customerId ?: @"",
         @"billingAddress" : _billingAddress && [_billingAddress dictionary] ? [_billingAddress dictionary] : @""
     } mutableCopy];
