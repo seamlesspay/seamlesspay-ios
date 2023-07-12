@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+@import Sentry;
+
 #import "SPAPIClient.h"
 
 NSString * const k_APIVersion = @"v2020";
@@ -16,6 +18,7 @@ static SPAPIClient *sharedInstance = nil;
 @interface SPAPIClient () {
   NSString *_APIHostURL;
   NSString *_PanVaultHostURL;
+  SPEnvironment _environment;
 }
 @property (nonatomic) NSDate *appOpenTime;
 @end
@@ -37,6 +40,9 @@ static SPAPIClient *sharedInstance = nil;
   _PanVaultHostURL = [self panVaultURLForEnvironment:environment];
   _secretKey = [secretKey ?: publishableKey copy];
   _publishableKey = [publishableKey copy];
+  _environment = environment;
+
+  [self startSentryForEnvironment:environment];
 
   self.appOpenTime = [NSDate date];
 }
@@ -766,4 +772,27 @@ static SPAPIClient *sharedInstance = nil;
     return nil;
 }
 
+// MARK: Sentry
+- (void)startSentryForEnvironment:(SPEnvironment)environment {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [SentrySDK startWithConfigureOptions:^(SentryOptions *options) {
+      options.dsn = @"https://3936eb5f56b34be7baf5eef81e5652ba@o4504125304209408.ingest.sentry.io/4505325448921088";
+      options.enableTracing = YES;
+      options.tracesSampleRate = @1.0;
+
+      switch (environment) {
+        case SPEnvironmentProduction:
+        case SPEnvironmentSandbox:
+          options.debug = NO;
+          break;
+        case SPEnvironmentStaging:
+        case SPEnvironmentQAT:
+          options.debug = NO;
+          break;
+      }
+    }];
+  });
+}
+
 @end
+
