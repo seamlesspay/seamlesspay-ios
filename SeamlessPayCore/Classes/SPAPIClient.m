@@ -787,9 +787,15 @@ static SPAPIClient *sharedInstance = nil;
           break;
         case SPEnvironmentStaging:
         case SPEnvironmentQAT:
-          options.debug = NO;
+          options.debug = YES;
           break;
       }
+
+      SentryHttpStatusCodeRange *httpStatusCodeRange = [[SentryHttpStatusCodeRange alloc] initWithMin:400
+                                                                                                  max:599];
+      options.failedRequestStatusCodes = @[ httpStatusCodeRange ];
+      options.failedRequestTargets = @[ [self hostURLForEnvironment:environment],
+                                        [self panVaultURLForEnvironment:environment] ];
     }];
   });
 }
