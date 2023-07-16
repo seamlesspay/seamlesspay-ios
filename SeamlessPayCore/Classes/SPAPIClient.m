@@ -20,6 +20,7 @@ static SPAPIClient *sharedInstance = nil;
   NSString *_PanVaultHostURL;
   SPEnvironment _environment;
 }
+
 @property (nonatomic) NSDate *appOpenTime;
 @end
 
@@ -42,7 +43,9 @@ static SPAPIClient *sharedInstance = nil;
   _publishableKey = [publishableKey copy];
   _environment = environment;
 
+#ifndef DEBUG
   [self startSentryForEnvironment:environment];
+#endif
 
   self.appOpenTime = [NSDate date];
 }
