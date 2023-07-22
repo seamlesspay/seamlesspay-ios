@@ -8,6 +8,7 @@
 @import Sentry;
 
 #import "SPAPIClient.h"
+#import <SeamlessPayCore/SeamlessPayCore-Swift.h>
 
 NSString * const k_APIVersion = @"v2020";
 static const NSTimeInterval k_TimeoutInterval = 15.0;
@@ -19,6 +20,7 @@ static SPAPIClient *sharedInstance = nil;
   NSString *_APIHostURL;
   NSString *_PanVaultHostURL;
   SPEnvironment _environment;
+  SPSentryClient *_sentryClient;
 }
 
 @property (nonatomic) NSDate *appOpenTime;
@@ -34,6 +36,14 @@ static SPAPIClient *sharedInstance = nil;
   return sharedInstance;
 }
 
+- (instancetype)init {
+  self = [super init];
+  if (self) {
+    _sentryClient = [SPSentryClient make];
+  }
+  return self;
+}
+
 - (void)setSecretKey:(NSString *)secretKey
       publishableKey:(NSString *)publishableKey
          environment:(SPEnvironment)environment {
@@ -43,9 +53,7 @@ static SPAPIClient *sharedInstance = nil;
   _publishableKey = [publishableKey copy];
   _environment = environment;
 
-#ifndef DEBUG
   [self startSentryForEnvironment:environment];
-#endif
 
   self.appOpenTime = [NSDate date];
 }
@@ -104,9 +112,9 @@ static SPAPIClient *sharedInstance = nil;
                          NSURLResponse *_Nullable response,
                          NSError *_Nullable error) {
         if (error || [self isResponse:response]) {
-            
             if (failure) {
                 SPError *sperr = [self errorWithData:data error:error];
+
                 dispatch_async(dispatch_get_main_queue(), ^{
                     failure(sperr);
                 });
@@ -779,7 +787,7 @@ static SPAPIClient *sharedInstance = nil;
 - (void)startSentryForEnvironment:(SPEnvironment)environment {
   dispatch_async(dispatch_get_main_queue(), ^{
     [SentrySDK startWithConfigureOptions:^(SentryOptions *options) {
-      options.dsn = @"https://3936eb5f56b34be7baf5eef81e5652ba@o4504125304209408.ingest.sentry.io/4505325448921088";
+      options.dsn = @"https://3936eb5f56b34be7baf5eef81e5652ba@o4504125304209408.ingest.sentry.io/https://o4504125304209408.ingest.sentry.io/api/4505325448921088/envelope/";
       options.enableTracing = YES;
       options.tracesSampleRate = @1.0;
 
