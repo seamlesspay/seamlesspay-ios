@@ -36,7 +36,8 @@ import Foundation
     send(
       event: .init(
         request: request,
-        response: response
+        response: response,
+        sentryClientConfig: config
       )
     )
   }

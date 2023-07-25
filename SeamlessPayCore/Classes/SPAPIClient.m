@@ -39,9 +39,6 @@ static SPAPIClient *sharedInstance = nil;
 - (instancetype)init {
   self = [super init];
   if (self) {
-    SPSentryConfig *config = [[SPSentryConfig alloc] initWithUserId:@"userId"
-                                                        environment:[self valueForEnvironment:_environment]];
-    _sentryClient = [SPSentryClient makeWithConfiguration:config];
   }
   return self;
 }
@@ -55,6 +52,7 @@ static SPAPIClient *sharedInstance = nil;
   _publishableKey = [publishableKey copy];
   _environment = environment;
 
+  [self setSentryClient];
   [self startSentryForEnvironment:environment];
 
   self.appOpenTime = [NSDate date];
@@ -802,6 +800,12 @@ static SPAPIClient *sharedInstance = nil;
     }
     
     return nil;
+}
+
+- (void)setSentryClient {
+  SPSentryConfig *config = [[SPSentryConfig alloc] initWithUserId:[SeamlessPayInstallation installationID]
+                                                      environment:[self valueForEnvironment:_environment]];
+  _sentryClient = [SPSentryClient makeWithConfiguration:config];
 }
 
 // MARK: Sentry

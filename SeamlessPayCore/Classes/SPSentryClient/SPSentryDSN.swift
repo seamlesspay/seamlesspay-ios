@@ -34,11 +34,11 @@ struct SPSentryDSN {
 
   init?(string: String) {
     guard let url = URL(string: string),
-    let baseEndpoint = Self.makeBaseEndpoint(url: url) else {
+          let baseEndpoint = Self.makeBaseEndpoint(url: url) else {
       return nil
     }
     self.url = url
     self.baseEndpoint = baseEndpoint
-    self.storeEndpoint = baseEndpoint.appendingPathComponent("store/")
+    storeEndpoint = baseEndpoint.appendingPathComponent("store/")
   }
 }

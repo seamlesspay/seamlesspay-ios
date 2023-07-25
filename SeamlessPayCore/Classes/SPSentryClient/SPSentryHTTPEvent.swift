@@ -15,7 +15,7 @@ struct SPSentryHTTPEvent: Codable {
   let level, platform: String
   let contexts: Contexts
   let request: Request
-  let eventID, environment: String
+  let eventId, environment: String
   let user: User
 
   enum CodingKeys: String, CodingKey {
@@ -27,7 +27,7 @@ struct SPSentryHTTPEvent: Codable {
     case platform
     case contexts
     case request
-    case eventID = "event_id"
+    case eventId = "event_id"
     case environment, user
   }
 }
@@ -179,8 +179,8 @@ struct User: Codable {
 }
 
 extension SPSentryHTTPEvent {
-  init(request: URLRequest, response: URLResponse) {
-
+  init(request: URLRequest, response: URLResponse, sentryClientConfig: SPSentryConfig) {
+    let systemDataProvider = SPSentrySystemDataProvider.current
     let url = request.url
     let response = response as? HTTPURLResponse
 
@@ -189,8 +189,8 @@ extension SPSentryHTTPEvent {
         Value.httpExceptionValueWith(statusCode: response?.statusCode),
       ]
     )
-    eventID = Self.sentryEventID()
-    environment = "environment"
+    eventId = Self.sentryEventId()
+    environment = sentryClientConfig.environment
     platform = "cocoa"
     level = "error"
     timestamp = Date().timeIntervalSince1970
@@ -211,23 +211,23 @@ extension SPSentryHTTPEvent {
         statusCode: response?.statusCode
       ),
       app: nil,
-      os: nil, device: nil,
+      os: nil,
+      device: nil,
       culture: nil
     )
 
-    let bundle = Bundle.main
-    let bundleIdentifier = bundle.infoDictionaryStringValue(key: "CFBundleIdentifier")
-    let shortVersionString = bundle.infoDictionaryStringValue(key: "CFBundleShortVersionString")
-    let bundleVersion = bundle.infoDictionaryStringValue(key: "CFBundleVersion")
+    let bundleIdentifier = systemDataProvider.app.bundleIdentifier
+    let shortVersionString = systemDataProvider.app.appVersion
+    let bundleVersion = systemDataProvider.app.appBuildVersion
 
     release = "\(bundleIdentifier)@\(shortVersionString)+\(bundleVersion)"
     dist = bundleVersion
-    user = .init(id: "id-foo")
+    user = .init(id: sentryClientConfig.userId)
   }
 }
 
 extension SPSentryHTTPEvent {
-  static func sentryEventID() -> String {
+  static func sentryEventId() -> String {
     UUID()
       .uuidString
       .replacingOccurrences(of: "-", with: "")
@@ -376,9 +376,3 @@ extension SPSentryHTTPEvent {
 //    dist = bundleVersion
 //  }
 // }
-
-private extension Bundle {
-  func infoDictionaryStringValue(key: String) -> String {
-    return (infoDictionary?[key] as? String) ?? ""
-  }
-}
