@@ -24,24 +24,6 @@ import Foundation
     session = URLSession(configuration: .default)
   }
 
-  // MARK: Public
-  @objc public static func makeWith(configuration: SPSentryConfig) -> SPSentryClient? {
-    SPSentryClient(
-      dsn: "https://3936eb5f56b34be7baf5eef81e5652ba@sentry.io/4505325448921088",
-      config: configuration
-    )
-  }
-
-  @objc public func captureFailedRequest(request: URLRequest, response: URLResponse) {
-    send(
-      event: .init(
-        request: request,
-        response: response,
-        sentryClientConfig: config
-      )
-    )
-  }
-
   func send(event: SPSentryHTTPEvent) {
     guard let request = SentryNSURLRequest.makeStoreRequest(
       from: event,
@@ -77,5 +59,22 @@ import Foundation
   }
 }
 
-// MARK: Private
-private extension SPSentryClient {}
+// MARK: Public
+public extension SPSentryClient {
+  @objc static func makeWith(configuration: SPSentryConfig) -> SPSentryClient? {
+    SPSentryClient(
+      dsn: "https://3936eb5f56b34be7baf5eef81e5652ba@sentry.io/4505325448921088",
+      config: configuration
+    )
+  }
+
+  @objc func captureFailedRequest(request: URLRequest, response: URLResponse) {
+    send(
+      event: .init(
+        request: request,
+        response: response,
+        sentryClientConfig: config
+      )
+    )
+  }
+}

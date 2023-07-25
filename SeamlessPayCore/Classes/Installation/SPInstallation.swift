@@ -7,9 +7,7 @@
 
 import Foundation
 
-import Foundation
-
-@objc public class SeamlessPayInstallation: NSObject {
+@objc public class SPInstallation: NSObject {
   @objc public static var installationID: String {
     let cachesDirectory = NSSearchPathForDirectoriesInDomains(
       .cachesDirectory,

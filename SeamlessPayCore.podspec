@@ -16,6 +16,4 @@ The SeamlessPay iOS SDK makes it quick and easy to build an excellent payment ex
 
   s.source_files = 'SeamlessPayCore/Classes/**/*.{h,m,swift}'
   s.resources = 'SeamlessPayCore/Assets/*'
-
-  s.dependency 'Sentry', '8.8.0'
 end

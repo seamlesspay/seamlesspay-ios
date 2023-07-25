@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-@import Sentry;
-
 #import "SPAPIClient.h"
 #import <SeamlessPayCore/SeamlessPayCore-Swift.h>
 
@@ -20,10 +18,10 @@ static SPAPIClient *sharedInstance = nil;
   NSString *_APIHostURL;
   NSString *_PanVaultHostURL;
   SPEnvironment _environment;
-  SPSentryClient *_sentryClient;
 }
 
 @property (nonatomic) NSDate *appOpenTime;
+@property (nonatomic, retain) SPSentryClient *sentryClient;
 @end
 
 // MARK: - Implementation
@@ -53,7 +51,6 @@ static SPAPIClient *sharedInstance = nil;
   _environment = environment;
 
   [self setSentryClient];
-  [self startSentryForEnvironment:environment];
 
   self.appOpenTime = [NSDate date];
 }
@@ -471,7 +468,7 @@ static SPAPIClient *sharedInstance = nil;
                             NSError *_Nullable error) {
           if (error || [self isResponse:response]) {
 
-            [_sentryClient captureFailedRequestWithRequest:request response:response];
+            [self.sentryClient captureFailedRequestWithRequest:request response:response];
             if (failure) {
               SPError *sperr = [self errorWithData:data error:error];
               dispatch_async(dispatch_get_main_queue(), ^{
@@ -802,39 +799,11 @@ static SPAPIClient *sharedInstance = nil;
     return nil;
 }
 
+// MARK: Sentry client
 - (void)setSentryClient {
-  SPSentryConfig *config = [[SPSentryConfig alloc] initWithUserId:[SeamlessPayInstallation installationID]
+  SPSentryConfig *config = [[SPSentryConfig alloc] initWithUserId:[SPInstallation installationID]
                                                       environment:[self valueForEnvironment:_environment]];
-  _sentryClient = [SPSentryClient makeWithConfiguration:config];
-}
-
-// MARK: Sentry
-- (void)startSentryForEnvironment:(SPEnvironment)environment {
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [SentrySDK startWithConfigureOptions:^(SentryOptions *options) {
-      options.dsn =
-      @"https://3936eb5f56b34be7baf5eef81e5652ba@o4504125304209408.ingest.sentry.io/4505325448921088";
-      options.enableTracing = YES;
-      options.tracesSampleRate = @1.0;
-
-      switch (environment) {
-        case SPEnvironmentProduction:
-        case SPEnvironmentSandbox:
-          options.debug = NO;
-          break;
-        case SPEnvironmentStaging:
-        case SPEnvironmentQAT:
-          options.debug = YES;
-          break;
-      }
-
-      SentryHttpStatusCodeRange *httpStatusCodeRange = [[SentryHttpStatusCodeRange alloc] initWithMin:400
-                                                                                                  max:599];
-      options.failedRequestStatusCodes = @[ httpStatusCodeRange ];
-      options.failedRequestTargets = @[ [self hostURLForEnvironment:environment],
-                                        [self panVaultURLForEnvironment:environment] ];
-    }];
-  });
+  self.sentryClient = [SPSentryClient makeWithConfiguration:config];
 }
 
 @end
