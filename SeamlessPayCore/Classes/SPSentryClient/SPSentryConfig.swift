@@ -7,18 +7,12 @@
 
 import Foundation
 
+@objc public class SPSentryConfig: NSObject {
+  let userId: String
+  let environment: String
 
-
-struct SPSentryEnvelope {
-  struct Header {
-    let eventId: String
-  }
-
-  struct Item {
-
-  }
-
-  init(header: Header, items: [Item]) {
-    
+  @objc public init(userId: String, environment: String) {
+    self.userId = userId
+    self.environment = environment
   }
 }

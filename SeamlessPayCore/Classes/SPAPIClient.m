@@ -39,7 +39,9 @@ static SPAPIClient *sharedInstance = nil;
 - (instancetype)init {
   self = [super init];
   if (self) {
-    _sentryClient = [SPSentryClient make];
+    SPSentryConfig *config = [[SPSentryConfig alloc] initWithUserId:@"userId"
+                                                        environment:[self valueForEnvironment:_environment]];
+    _sentryClient = [SPSentryClient makeWithConfiguration:config];
   }
   return self;
 }
@@ -454,21 +456,24 @@ static SPAPIClient *sharedInstance = nil;
 - (void)listChargesWithParams:(NSDictionary *)params
                       success:(void (^)(NSDictionary *dict))success
                       failure:(void (^)(SPError *))failure {
-  NSURLSessionDataTask *task = [[NSURLSession
-      sessionWithConfiguration:[NSURLSessionConfiguration
-                                   defaultSessionConfiguration]]
-      dataTaskWithRequest:[self requestWithMethod:@"GET"
+
+  NSURLRequest *request = [self requestWithMethod:@"GET"
                                            params:params
                                              path:@"charges"
                                          hostName:_APIHostURL
                                            apiKey:_secretKey
-                                       apiVersion:k_APIVersion]
+                                       apiVersion:k_APIVersion];
+  NSURLSessionDataTask *task = [[NSURLSession
+      sessionWithConfiguration:[NSURLSessionConfiguration
+                                   defaultSessionConfiguration]]
+      dataTaskWithRequest:request
 
         completionHandler:^(NSData *_Nullable data,
                             NSURLResponse *_Nullable response,
                             NSError *_Nullable error) {
           if (error || [self isResponse:response]) {
 
+            [_sentryClient captureFailedRequestWithRequest:request response:response];
             if (failure) {
               SPError *sperr = [self errorWithData:data error:error];
               dispatch_async(dispatch_get_main_queue(), ^{
@@ -501,6 +506,22 @@ static SPAPIClient *sharedInstance = nil;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - <<<Private Methods>>>
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+- (NSString *)valueForEnvironment:(SPEnvironment)environment {
+  switch (environment) {
+    case SPEnvironmentProduction:
+      return @"production";
+    case SPEnvironmentSandbox:
+      return @"sandbox";
+    case SPEnvironmentStaging:
+      return @"staging";
+    case SPEnvironmentQAT:
+      return @"qat";
+  }
+
+  NSAssert(NO, @"Unexpected SPEnvironment");
+  return @"";
+}
 
 - (NSString *)valueForPaymentType:(SPPaymentType)paymentType {
   switch (paymentType) {
@@ -787,7 +808,8 @@ static SPAPIClient *sharedInstance = nil;
 - (void)startSentryForEnvironment:(SPEnvironment)environment {
   dispatch_async(dispatch_get_main_queue(), ^{
     [SentrySDK startWithConfigureOptions:^(SentryOptions *options) {
-      options.dsn = @"https://3936eb5f56b34be7baf5eef81e5652ba@o4504125304209408.ingest.sentry.io/https://o4504125304209408.ingest.sentry.io/api/4505325448921088/envelope/";
+      options.dsn =
+      @"https://3936eb5f56b34be7baf5eef81e5652ba@o4504125304209408.ingest.sentry.io/4505325448921088";
       options.enableTracing = YES;
       options.tracesSampleRate = @1.0;
 

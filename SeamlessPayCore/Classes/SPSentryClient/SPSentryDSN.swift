@@ -10,7 +10,7 @@ import Foundation
 struct SPSentryDSN {
   let url: URL
   let baseEndpoint: URL
-  let envelopeEndpoint: URL
+  let storeEndpoint: URL
 
   private static func makeBaseEndpoint(url: URL) -> URL? {
     let projectId = url.lastPathComponent
@@ -39,6 +39,6 @@ struct SPSentryDSN {
     }
     self.url = url
     self.baseEndpoint = baseEndpoint
-    self.envelopeEndpoint = baseEndpoint.appendingPathComponent("envelope/")
+    self.storeEndpoint = baseEndpoint.appendingPathComponent("store/")
   }
 }

@@ -10,39 +10,34 @@ import Foundation
 struct SentryNSURLRequest {
   private enum C {
     static let requestTimeout: TimeInterval = 15
-    static let sdkName = "sentry.cocoa"
-    static let sdkVersion = "8.8.0"
+    static let userAgent = "seamlesspay-ios-sentry-client"
+    static let userAgentVersion = "0.1"
+    static let sentryVersion = "7"
   }
 
-  static func makeEnvelopeRequest(dsn: SPSentryDSN, data: Data) -> URLRequest {
-    let apiURL = dsn.envelopeEndpoint
+  static func makeStoreRequest(
+    from event: SPSentryHTTPEvent,
+    dsn: SPSentryDSN
+  ) -> URLRequest? {
+    let encoder = JSONEncoder()
+    guard let data = try? encoder.encode(event) else {
+      return nil
+    }
+    let apiURL = dsn.storeEndpoint
 
     var request = URLRequest(
       url: apiURL,
       cachePolicy: .reloadIgnoringLocalCacheData,
       timeoutInterval: C.requestTimeout
     )
-    let authHeader = authHeader(url: dsn.url)
 
     request.httpMethod = "POST"
-    request.setValue(
-      authHeader,
-      forHTTPHeaderField: "X-Sentry-Auth"
-    )
-    request.setValue(
-      "application/x-sentry-envelope",
-      forHTTPHeaderField: "Content-Type"
-    )
-    request.setValue(
-      C.sdkName,
-      forHTTPHeaderField: "User-Agent"
-    )
-    request.setValue(
-      "gzip",
-      forHTTPHeaderField: "Content-Encoding"
-    )
-
-//      request.httpBody = data.sentry_gzipped(withCompressionLevel: -1, error: &error)
+    request.setValue(authHeader(url: dsn.url), forHTTPHeaderField: "X-Sentry-Auth")
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.setValue(dsn.url.host, forHTTPHeaderField: "Host")
+    request.setValue(C.userAgent, forHTTPHeaderField: "User-Agent")
+    request.setValue(String(data.count), forHTTPHeaderField: "Content-Length")
+    request.httpBody = data
 
     return request
   }
@@ -60,8 +55,8 @@ private extension SentryNSURLRequest {
 
     let start = "Sentry"
     let components: String = [
-      "sentry_version": C.sdkVersion,
-      "sentry_client": "\(C.sdkName)/\(C.sdkVersion)",
+      "sentry_version": C.sentryVersion,
+      "sentry_client": "\(C.userAgent)/\(C.userAgentVersion)",
       "sentry_key": sentryKey,
       "sentry_secret": url.password,
     ]
