@@ -11,8 +11,11 @@ import Foundation
   // MARK: Private variables
   private let dsn: SPSentryDSN
   private let config: SPSentryConfig
-
   private let session: URLSession
+  private let queue = DispatchQueue(
+    label: "com.seamlesspay.sentryclient.\(UUID().uuidString)",
+    qos: .background
+  )
 
   // MARK: Init
   init?(dsn: String, config: SPSentryConfig) {
@@ -48,12 +51,14 @@ public extension SPSentryClient {
   }
 
   @objc func captureFailedRequest(request: URLRequest, response: URLResponse) {
-    send(
-      event: .init(
-        request: request,
-        response: response,
-        sentryClientConfig: config
+    queue.async {
+      self.send(
+        event: .init(
+          request: request,
+          response: response,
+          sentryClientConfig: self.config
+        )
       )
-    )
+    }
   }
 }

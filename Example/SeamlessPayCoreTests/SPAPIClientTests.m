@@ -4,8 +4,6 @@
 //
 //
 
-@import Sentry;
-
 #import <XCTest/XCTest.h>
 
 #import "../../SeamlessPayCore/Classes/SPAPIClient.h"
@@ -136,23 +134,6 @@
   }];
 
   [self waitForExpectationsWithTimeout:10.0 handler:nil];
-}
-
-- (void)testSentrySDKDisabledInDebug {
-  XCTestExpectation *expectation = [self expectationWithDescription:@"testSentrySDKEnabled"];
-  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC),
-                 dispatch_get_main_queue(), ^{
-    [expectation fulfill];
-#ifdef DEBUG
-    BOOL isEnable = NO;
-#else
-    BOOL isEnable = YES;
-#endif
-
-    XCTAssertEqual([SentrySDK isEnabled], isEnable);
-  });
-
-  [self waitForExpectationsWithTimeout:1 handler:nil];
 }
 
 @end

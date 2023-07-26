@@ -21,7 +21,7 @@ static SPAPIClient *sharedInstance = nil;
 }
 
 @property (nonatomic) NSDate *appOpenTime;
-@property (nonatomic, retain) SPSentryClient *sentryClient;
+@property (nonatomic, strong) SPSentryClient *sentryClient;
 @end
 
 // MARK: - Implementation
@@ -101,15 +101,13 @@ static SPAPIClient *sharedInstance = nil;
                                          hostName:_APIHostURL
                                            apiKey:_secretKey];
 
-  [self makeRequest:request completionHandler:^(NSData * _Nullable data,
-                                                NSURLResponse * _Nullable response,
-                                                NSError * _Nullable error) {
+  [self execute:request completion:^(NSData * _Nullable data,
+                                     NSURLResponse * _Nullable response,
+                                     SPError * _Nullable error) {
     if (error || [self isResponse:response]) {
       if (failure) {
-        SPError *sperr = [self errorWithData:data error:error];
-
         dispatch_async(dispatch_get_main_queue(), ^{
-          failure(sperr);
+          failure(error);
         });
       }
 
@@ -189,15 +187,14 @@ static SPAPIClient *sharedInstance = nil;
                                          hostName:_APIHostURL
                                            apiKey:_secretKey];
 
-  [self makeRequest:request completionHandler:^(NSData * _Nullable data,
-                                                NSURLResponse * _Nullable response,
-                                                NSError * _Nullable error) {
+  [self execute:request completion:^(NSData * _Nullable data,
+                                     NSURLResponse * _Nullable response,
+                                     SPError * _Nullable error) {
     if (error || [self isResponse:response]) {
 
       if (failure) {
-        SPError *sperr = [self errorWithData:data error:error];
         dispatch_async(dispatch_get_main_queue(), ^{
-          failure(sperr);
+          failure(error);
         });
       }
 
@@ -279,15 +276,14 @@ static SPAPIClient *sharedInstance = nil;
                                          hostName:_PanVaultHostURL
                                            apiKey:_publishableKey];
 
-  [self makeRequest:request completionHandler:^(NSData * _Nullable data,
-                                                NSURLResponse * _Nullable response,
-                                                NSError * _Nullable error) {
+  [self execute:request completion:^(NSData * _Nullable data,
+                                     NSURLResponse * _Nullable response,
+                                     SPError * _Nullable error) {
     if (error || [self isResponse:response]) {
 
       if (failure) {
-        SPError *sperr = [self errorWithData:data error:error];
         dispatch_async(dispatch_get_main_queue(), ^{
-          failure(sperr);
+          failure(error);
         });
       }
 
@@ -321,7 +317,7 @@ static SPAPIClient *sharedInstance = nil;
                idempotencyKey:(NSString *)idempotencyKey
                       success:(void (^)(SPCharge *charge))success
                       failure:(void (^)(SPError *))failure {
-    
+
   NSMutableDictionary *params = [@{
     @"token" : token ?: @"",//
     @"cvv" : cvv ?: @"",//
@@ -342,7 +338,7 @@ static SPAPIClient *sharedInstance = nil;
     @"order" : order ?: @"",//
     @"deviceFingerprint" : [self deviceFingerprint]
   } mutableCopy];
-    
+
   NSArray *keysForNullValues = [params allKeysForObject:@""];
   [params removeObjectsForKeys:keysForNullValues];
 
@@ -352,15 +348,14 @@ static SPAPIClient *sharedInstance = nil;
                                          hostName:_APIHostURL
                                            apiKey:_secretKey];
 
-  [self makeRequest:request completionHandler:^(NSData * _Nullable data,
-                                                NSURLResponse * _Nullable response,
-                                                NSError * _Nullable error) {
+  [self execute:request completion:^(NSData * _Nullable data,
+                                     NSURLResponse * _Nullable response,
+                                     SPError * _Nullable error) {
     if (error || [self isResponse:response]) {
 
       if (failure) {
-        SPError *sperr = [self errorWithData:data error:error];
         dispatch_async(dispatch_get_main_queue(), ^{
-          failure(sperr);
+          failure(error);
         });
       }
 
@@ -384,15 +379,14 @@ static SPAPIClient *sharedInstance = nil;
                                          hostName:_APIHostURL
                                            apiKey:_secretKey];
 
-  [self makeRequest:request completionHandler:^(NSData * _Nullable data,
-                                                NSURLResponse * _Nullable response,
-                                                NSError * _Nullable error) {
+  [self execute:request completion:^(NSData * _Nullable data,
+                                     NSURLResponse * _Nullable response,
+                                     SPError * _Nullable error) {
     if (error || [self isResponse:response]) {
 
       if (failure) {
-        SPError *sperr = [self errorWithData:data error:error];
         dispatch_async(dispatch_get_main_queue(), ^{
-          failure(sperr);
+          failure(error);
         });
       }
 
@@ -425,16 +419,14 @@ static SPAPIClient *sharedInstance = nil;
                                              path:@"charges"
                                          hostName:_APIHostURL
                                            apiKey:_secretKey];
-  [self makeRequest:request completionHandler:^(NSData * _Nullable data,
-                                                NSURLResponse * _Nullable response,
-                                                NSError * _Nullable error) {
+  [self execute:request completion:^(NSData * _Nullable data,
+                                     NSURLResponse * _Nullable response,
+                                     SPError * _Nullable error) {
     if (error || [self isResponse:response]) {
 
-      [self.sentryClient captureFailedRequestWithRequest:request response:response];
       if (failure) {
-        SPError *sperr = [self errorWithData:data error:error];
         dispatch_async(dispatch_get_main_queue(), ^{
-          failure(sperr);
+          failure(error );
         });
       }
 
@@ -462,10 +454,10 @@ static SPAPIClient *sharedInstance = nil;
 #pragma mark - <<<Private Methods>>>
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-- (void)makeRequest:(NSURLRequest *)request
-  completionHandler:(void (NS_SWIFT_SENDABLE ^)(NSData * _Nullable data,
-                                                NSURLResponse * _Nullable response,
-                                                NSError * _Nullable error))completionHandler {
+- (void)execute:(NSURLRequest *)request
+     completion:(void (NS_SWIFT_SENDABLE ^)(NSData * _Nullable data,
+                                            NSURLResponse * _Nullable response,
+                                            SPError * _Nullable error))completionHandler {
 
   __weak typeof(self) weakSelf = self;
   NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -477,14 +469,16 @@ static SPAPIClient *sharedInstance = nil;
     __strong typeof(self) strongSelf = weakSelf;
     [strongSelf.sentryClient captureFailedRequestWithRequest:request
                                                     response:response];
-    completionHandler(data, response, error);
+
+    SPError *spErr = [self errorWithData:data error:error];
+    completionHandler(data, response, spErr);
   }];
   
   [task resume];
 }
 
-- (NSString *)valueForEnvironment:(SPEnvironment)environment {
-  switch (environment) {
+- (NSString *)valueForEnvironment {
+  switch (_environment) {
     case SPEnvironmentProduction:
       return @"production";
     case SPEnvironmentSandbox:
@@ -764,9 +758,11 @@ static SPAPIClient *sharedInstance = nil;
 
 // MARK: Sentry client
 - (void)setSentryClient {
+#ifndef DEBUG //Initialize sentry client only for release build
   SPSentryConfig *config = [[SPSentryConfig alloc] initWithUserId:[SPInstallation installationID]
-                                                      environment:[self valueForEnvironment:_environment]];
+                                                      environment:[self valueForEnvironment]];
   self.sentryClient = [SPSentryClient makeWithConfiguration:config];
+#endif
 }
 
 @end
