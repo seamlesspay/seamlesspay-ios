@@ -44,10 +44,6 @@ struct SentryNSURLRequest {
 }
 
 private extension SentryNSURLRequest {
-  static func newHeaderPart(key: String, value: Any) -> String {
-    return "\(key)=\(value)"
-  }
-
   static func authHeader(url: URL) -> String? {
     guard let sentryKey = url.user else {
       return nil

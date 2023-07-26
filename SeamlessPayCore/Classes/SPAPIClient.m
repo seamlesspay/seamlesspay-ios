@@ -34,13 +34,6 @@ static SPAPIClient *sharedInstance = nil;
   return sharedInstance;
 }
 
-- (instancetype)init {
-  self = [super init];
-  if (self) {
-  }
-  return self;
-}
-
 - (void)setSecretKey:(NSString *)secretKey
       publishableKey:(NSString *)publishableKey
          environment:(SPEnvironment)environment {
@@ -73,15 +66,16 @@ static SPAPIClient *sharedInstance = nil;
                   success:(void (^)(SPCustomer *customer))success
                   failure:(void (^)(SPError *))failure {
 
-  NSMutableDictionary *params = [@{@"name" : name ?: @"",
-                                   @"website" : website ?: @"",
-                                   @"address" : address && [address dictionary] ? [address dictionary] : @"",
-                                   @"companyName" : companyName ?: @"",
-                                   @"description" : notes ?: @"",
-                                   @"email" : email ?: @"",
-                                   @"phone" : phone ?: @"",
-                                   @"metadata" : metadata ?: @"metadata",
-                                 } mutableCopy];
+  NSMutableDictionary *params = [@{
+    @"name" : name ?: @"",
+    @"website" : website ?: @"",
+    @"address" : address && [address dictionary] ? [address dictionary] : @"",
+    @"companyName" : companyName ?: @"",
+    @"description" : notes ?: @"",
+    @"email" : email ?: @"",
+    @"phone" : phone ?: @"",
+    @"metadata" : metadata ?: @"metadata",
+  } mutableCopy];
 
   NSArray *keysForNullValues = [params allKeysForObject:@""];
   [params removeObjectsForKeys:keysForNullValues];
@@ -758,7 +752,7 @@ static SPAPIClient *sharedInstance = nil;
 
 // MARK: Sentry client
 - (void)setSentryClient {
-#ifndef DEBUG //Initialize sentry client only for release build
+#ifndef DEBUG //Initialize sentry client only for release builds
   SPSentryConfig *config = [[SPSentryConfig alloc] initWithUserId:[SPInstallation installationID]
                                                       environment:[self valueForEnvironment]];
   self.sentryClient = [SPSentryClient makeWithConfiguration:config];
