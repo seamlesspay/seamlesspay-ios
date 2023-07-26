@@ -29,31 +29,10 @@ import Foundation
       from: event,
       dsn: dsn
     ) else {
-      print("Can't create store request")
       return
     }
 
-    let task = session.dataTask(with: request) { data, response, error in
-      if let httpResponse = response as? HTTPURLResponse {
-        if httpResponse.statusCode == 200 {
-          let string = String(
-            describing: data.flatMap {
-              String(
-                data: $0,
-                encoding: .utf8
-              )
-            }
-          )
-          print(
-            "API response error sent successfully. Data is: \(string)"
-          )
-        } else {
-          print("Failed to send API response error. Status code: \(httpResponse.statusCode)")
-        }
-      } else if let error = error {
-        print("Error sending API response error: \(error)")
-      }
-    }
+    let task = session.dataTask(with: request) { _, _, _ in }
 
     task.resume()
   }
