@@ -226,7 +226,7 @@ extension SPSentryHTTPEvent {
   }
 }
 
-extension SPSentryHTTPEvent {
+private extension SPSentryHTTPEvent {
   static func sentryEventId() -> String {
     UUID()
       .uuidString

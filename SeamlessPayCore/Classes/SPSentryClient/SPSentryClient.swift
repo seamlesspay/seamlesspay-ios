@@ -17,17 +17,29 @@ import Foundation
     qos: .background
   )
 
+  private let outputQueue = DispatchQueue(
+    label: "com.seamlesspay.sentryclient.\(UUID().uuidString)",
+    qos: .background
+  )
+
   // MARK: Init
-  init?(dsn: String, config: SPSentryConfig) {
+  init?(
+    dsn: String,
+    config: SPSentryConfig,
+    session: URLSession = URLSession(configuration: .default)
+  ) {
     guard let dsn = SPSentryDSN(string: dsn) else {
       return nil
     }
     self.dsn = dsn
     self.config = config
-    session = URLSession(configuration: .default)
+    self.session = session
   }
 
-  func send(event: SPSentryHTTPEvent) {
+  func send(
+    event: SPSentryHTTPEvent,
+    completion: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void
+  ) {
     guard let request = SentryNSURLRequest.makeStoreRequest(
       from: event,
       dsn: dsn
@@ -35,9 +47,11 @@ import Foundation
       return
     }
 
-    let task = session.dataTask(with: request) { _, _, _ in }
-
-    task.resume()
+    session.dataTask(
+      with: request,
+      completionHandler: completion
+    )
+    .resume()
   }
 }
 
@@ -50,7 +64,11 @@ public extension SPSentryClient {
     )
   }
 
-  @objc func captureFailedRequest(request: URLRequest, response: URLResponse) {
+  @objc func captureFailedRequest(
+    request: URLRequest,
+    response: URLResponse,
+    completion: ((Data?, URLResponse?, Error?) -> Void)?
+  ) {
     queue.async {
       self.send(
         event: .init(
@@ -58,7 +76,11 @@ public extension SPSentryClient {
           response: response,
           sentryClientConfig: self.config
         )
-      )
+      ) { data, response, error in
+        self.outputQueue.async {
+          completion?(data, response, error)
+        }
+      }
     }
   }
 }

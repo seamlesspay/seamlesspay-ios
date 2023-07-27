@@ -462,7 +462,8 @@ static SPAPIClient *sharedInstance = nil;
                                                               NSError *_Nullable error) {
     __strong typeof(self) strongSelf = weakSelf;
     [strongSelf.sentryClient captureFailedRequestWithRequest:request
-                                                    response:response];
+                                                    response:response
+                                                  completion:nil];
 
     SPError *spErr = [self errorWithData:data error:error];
     completionHandler(data, response, spErr);
