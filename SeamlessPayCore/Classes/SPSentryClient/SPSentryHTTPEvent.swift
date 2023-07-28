@@ -35,9 +35,9 @@ struct SPSentryHTTPEvent: Codable {
 // MARK: - Contexts
 struct Contexts: Codable {
   let response: Response
-  let app: App?
-  let os: OS?
-  let device: Device?
+  let app: App
+  let os: OS
+  let device: Device
   let culture: Culture?
 }
 

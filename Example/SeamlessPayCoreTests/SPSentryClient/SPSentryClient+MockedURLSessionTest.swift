@@ -10,6 +10,7 @@ import XCTest
 
 final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
   private var client: SPSentryClient!
+
   override func setUp() {
     client = SPSentryClient(
       dsn: "https://test.secretkey@test.host/test.projectid",
@@ -40,7 +41,8 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
     // when
     client!.captureFailedRequest(
       request: URLRequest(url: URL(string: "http://any.com")!),
-      response: URLResponse()
+      response: URLResponse(),
+      responseData: "{}".data(using: .utf8)
     ) { data, response, error in
       if error != nil, data == nil {
         XCTFail("Expect to have a success")
@@ -62,7 +64,8 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
     // when
     client!.captureFailedRequest(
       request: URLRequest(url: URL(string: "http://any.com")!),
-      response: URLResponse()
+      response: URLResponse(),
+      responseData: "{}".data(using: .utf8)
     ) { data, response, error in
       if error == nil, data != nil {
         XCTFail("Expect to have a failure")

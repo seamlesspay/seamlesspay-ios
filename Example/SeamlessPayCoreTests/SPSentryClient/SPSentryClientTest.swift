@@ -12,35 +12,14 @@ final class SPSentryClientTest: XCTestCase {
   func testSPSentryURLRequest() {
     // given
     let event: SPSentryHTTPEvent = .init(
-      exception: .init(
-        values: []
-      ),
-      timestamp: Date().timeIntervalSince1970,
-      release: "release",
-      dist: "dist",
-      level: "level",
-      platform: "platform",
-      contexts: .init(
-        response: .init(
-          headers: [:],
-          statusCode: 101
-        ),
-        app: nil,
-        os: nil,
-        device: nil,
-        culture: nil
-      ),
       request: .init(
-        url: "url",
-        method: "method",
-        fragment: nil,
-        query: nil,
-        headers: [:]
+        url: URL(string: "http://any.com")!
       ),
-      eventId: "eventId",
-      environment: "environment",
-      user: .init(
-        id: "id"
+      response: .init(),
+      responseData: "{}".data(using: .utf8),
+      sentryClientConfig: SPSentryConfig(
+        userId: "uiser.id",
+        environment: "production"
       )
     )
 
