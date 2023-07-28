@@ -43,23 +43,15 @@ struct Contexts: Codable {
 
 // MARK: - App
 struct App: Codable {
-  let buildType, appVersion, appIdentifier: String
-  let appStartTime: Date
-  let appID, deviceAppHash, appBuild: String
-  let inForeground: Bool
-  let appMemory: Int
+  let appVersion: String
+  let appIdentifier: String
+  let appBuild: String
   let appName: String
 
   enum CodingKeys: String, CodingKey {
-    case buildType = "build_type"
     case appVersion = "app_version"
     case appIdentifier = "app_identifier"
-    case appStartTime = "app_start_time"
-    case appID = "app_id"
-    case deviceAppHash = "device_app_hash"
     case appBuild = "app_build"
-    case inForeground = "in_foreground"
-    case appMemory = "app_memory"
     case appName = "app_name"
   }
 }
@@ -80,48 +72,25 @@ struct Culture: Codable {
 
 // MARK: - Device
 struct Device: Codable {
-  let bootTime: Date
-  let processorCount: Int
-  let modelID: String
-  let freeMemory, storageSize: Int
-  let family: String
-  let screenHeightPixels: Int
+  let modelId: String
   let simulator: Bool
-  let freeStorage, screenWidthPixels: Int
-  let locale, arch: String
-  let memorySize: Int
   let model: String
-  let usableMemory: Int
 
   enum CodingKeys: String, CodingKey {
-    case bootTime = "boot_time"
-    case processorCount = "processor_count"
-    case modelID = "model_id"
-    case freeMemory = "free_memory"
-    case storageSize = "storage_size"
-    case family
-    case screenHeightPixels = "screen_height_pixels"
+    case modelId = "model_id"
     case simulator
-    case freeStorage = "free_storage"
-    case screenWidthPixels = "screen_width_pixels"
-    case locale, arch
-    case memorySize = "memory_size"
     case model
-    case usableMemory = "usable_memory"
   }
 }
 
 // MARK: - OS
 struct OS: Codable {
+  let name: String
   let version: String
-  let rooted: Bool
-  let kernelVersion, name, build: String
 
   enum CodingKeys: String, CodingKey {
+    case name
     case version
-    case rooted
-    case kernelVersion = "kernel_version"
-    case name, build
   }
 }
 
@@ -218,15 +187,28 @@ extension SPSentryHTTPEvent {
         statusCode: response?.statusCode,
         data: responseData.flatMap { String(data: $0, encoding: .utf8) }
       ),
-      app: nil,
-      os: nil,
-      device: nil,
+      app: .init(
+        appVersion: systemDataProvider.app.version,
+        appIdentifier: systemDataProvider.app.bundleIdentifier,
+        appBuild: systemDataProvider.app.buildVersion,
+        appName: systemDataProvider.app.name
+      ),
+      os: .init(
+        name: systemDataProvider.device.systemName,
+        version: systemDataProvider.device.systemVersion
+      ),
+      device: .init(
+        modelId: systemDataProvider.device.isSimulator ? "simulator" : systemDataProvider.device
+          .model,
+        simulator: systemDataProvider.device.isSimulator,
+        model: systemDataProvider.device.name
+      ),
       culture: nil
     )
 
     let bundleIdentifier = systemDataProvider.app.bundleIdentifier
-    let shortVersionString = systemDataProvider.app.appVersion
-    let bundleVersion = systemDataProvider.app.appBuildVersion
+    let shortVersionString = systemDataProvider.app.version
+    let bundleVersion = systemDataProvider.app.buildVersion
 
     release = "\(bundleIdentifier)@\(shortVersionString)+\(bundleVersion)"
     dist = bundleVersion
