@@ -465,6 +465,7 @@ static SPAPIClient *sharedInstance = nil;
       __strong typeof(self) strongSelf = weakSelf;
       [strongSelf.sentryClient captureFailedRequestWithRequest:request
                                                       response:response
+                                                  responseData:data
                                                     completion:nil];
 
       spErr = [self errorWithData:data error:error];

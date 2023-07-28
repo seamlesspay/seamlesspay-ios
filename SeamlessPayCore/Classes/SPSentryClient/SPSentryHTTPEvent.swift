@@ -129,10 +129,12 @@ struct OS: Codable {
 struct Response: Codable {
   let headers: [String: String]?
   let statusCode: Int?
+  let data: String?
 
   enum CodingKeys: String, CodingKey {
     case headers
     case statusCode = "status_code"
+    case data
   }
 }
 
@@ -179,7 +181,12 @@ struct User: Codable {
 }
 
 extension SPSentryHTTPEvent {
-  init(request: URLRequest, response: URLResponse, sentryClientConfig: SPSentryConfig) {
+  init(
+    request: URLRequest,
+    response: URLResponse,
+    responseData: Data?,
+    sentryClientConfig: SPSentryConfig
+  ) {
     let systemDataProvider = SPSentrySystemDataProvider.current
     let url = request.url
     let response = response as? HTTPURLResponse
@@ -208,7 +215,8 @@ extension SPSentryHTTPEvent {
     contexts = .init(
       response: .init(
         headers: headers,
-        statusCode: response?.statusCode
+        statusCode: response?.statusCode,
+        data: responseData.flatMap { String(data: $0, encoding: .utf8) }
       ),
       app: nil,
       os: nil,
