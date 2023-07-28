@@ -98,7 +98,7 @@ static SPAPIClient *sharedInstance = nil;
   [self execute:request completion:^(NSData * _Nullable data,
                                      NSURLResponse * _Nullable response,
                                      SPError * _Nullable error) {
-    if (error || [self isResponse:response]) {
+    if (error) {
       if (failure) {
         dispatch_async(dispatch_get_main_queue(), ^{
           failure(error);
@@ -184,7 +184,7 @@ static SPAPIClient *sharedInstance = nil;
   [self execute:request completion:^(NSData * _Nullable data,
                                      NSURLResponse * _Nullable response,
                                      SPError * _Nullable error) {
-    if (error || [self isResponse:response]) {
+    if (error) {
 
       if (failure) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -273,7 +273,7 @@ static SPAPIClient *sharedInstance = nil;
   [self execute:request completion:^(NSData * _Nullable data,
                                      NSURLResponse * _Nullable response,
                                      SPError * _Nullable error) {
-    if (error || [self isResponse:response]) {
+    if (error) {
 
       if (failure) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -345,7 +345,7 @@ static SPAPIClient *sharedInstance = nil;
   [self execute:request completion:^(NSData * _Nullable data,
                                      NSURLResponse * _Nullable response,
                                      SPError * _Nullable error) {
-    if (error || [self isResponse:response]) {
+    if (error) {
 
       if (failure) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -376,7 +376,7 @@ static SPAPIClient *sharedInstance = nil;
   [self execute:request completion:^(NSData * _Nullable data,
                                      NSURLResponse * _Nullable response,
                                      SPError * _Nullable error) {
-    if (error || [self isResponse:response]) {
+    if (error) {
 
       if (failure) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -416,7 +416,7 @@ static SPAPIClient *sharedInstance = nil;
   [self execute:request completion:^(NSData * _Nullable data,
                                      NSURLResponse * _Nullable response,
                                      SPError * _Nullable error) {
-    if (error || [self isResponse:response]) {
+    if (error) {
 
       if (failure) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -460,12 +460,16 @@ static SPAPIClient *sharedInstance = nil;
                                           completionHandler:^(NSData *_Nullable data,
                                                               NSURLResponse *_Nullable response,
                                                               NSError *_Nullable error) {
-    __strong typeof(self) strongSelf = weakSelf;
-    [strongSelf.sentryClient captureFailedRequestWithRequest:request
-                                                    response:response
-                                                  completion:nil];
+    SPError *spErr = nil;
+    if (error || [self isResponseNotSuccessful:response]) {
+      __strong typeof(self) strongSelf = weakSelf;
+      [strongSelf.sentryClient captureFailedRequestWithRequest:request
+                                                      response:response
+                                                    completion:nil];
 
-    SPError *spErr = [self errorWithData:data error:error];
+      spErr = [self errorWithData:data error:error];
+    }
+
     completionHandler(data, response, spErr);
   }];
   
@@ -550,7 +554,7 @@ static SPAPIClient *sharedInstance = nil;
   return [SPError unknownError];
 }
 
-- (BOOL)isResponse:(NSURLResponse *)response {
+- (BOOL)isResponseNotSuccessful:(NSURLResponse *)response {
   return [(NSHTTPURLResponse *)response statusCode] != 200 &&
          [(NSHTTPURLResponse *)response statusCode] != 201 &&
          [(NSHTTPURLResponse *)response statusCode] != 202;
