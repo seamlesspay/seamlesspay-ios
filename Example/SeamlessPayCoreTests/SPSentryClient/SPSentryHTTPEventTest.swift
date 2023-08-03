@@ -9,10 +9,8 @@ import XCTest
 @testable import SeamlessPayCore
 
 final class SPSentryHTTPEventTest: XCTestCase {
-
   func testSPSentryURLRequest() {
     // given
-
     let event: SPSentryHTTPEvent = .init(
       request: .init(
         url: URL(string: "http://any.com")!
@@ -24,7 +22,11 @@ final class SPSentryHTTPEventTest: XCTestCase {
         environment: "production"
       )
     )
-    
-    XCTAssertFalse(event.eventId.contains("-"))
+
+    // when
+    let eventId = event.eventId
+
+    // then
+    XCTAssertFalse(eventId.contains("-"))
   }
 }

@@ -106,7 +106,6 @@ static SPAPIClient *sharedInstance = nil;
       }
 
     } else {
-
       if (success) {
         dispatch_async(dispatch_get_main_queue(), ^{
           success([SPCustomer customerWithResponseData:data]);
@@ -185,7 +184,6 @@ static SPAPIClient *sharedInstance = nil;
                                      NSURLResponse * _Nullable response,
                                      SPError * _Nullable error) {
     if (error) {
-
       if (failure) {
         dispatch_async(dispatch_get_main_queue(), ^{
           failure(error);
@@ -193,7 +191,6 @@ static SPAPIClient *sharedInstance = nil;
       }
 
     } else {
-
       if (success) {
         dispatch_async(dispatch_get_main_queue(), ^{
           NSError *error = nil;
@@ -274,7 +271,6 @@ static SPAPIClient *sharedInstance = nil;
                                      NSURLResponse * _Nullable response,
                                      SPError * _Nullable error) {
     if (error) {
-
       if (failure) {
         dispatch_async(dispatch_get_main_queue(), ^{
           failure(error);
@@ -282,7 +278,6 @@ static SPAPIClient *sharedInstance = nil;
       }
 
     } else {
-
       if (success) {
         dispatch_async(dispatch_get_main_queue(), ^{
           success([SPPaymentMethod tokenWithResponseData:data]);
@@ -346,7 +341,6 @@ static SPAPIClient *sharedInstance = nil;
                                      NSURLResponse * _Nullable response,
                                      SPError * _Nullable error) {
     if (error) {
-
       if (failure) {
         dispatch_async(dispatch_get_main_queue(), ^{
           failure(error);
@@ -354,7 +348,6 @@ static SPAPIClient *sharedInstance = nil;
       }
 
     } else {
-
       if (success) {
         dispatch_async(dispatch_get_main_queue(), ^{
           success([SPCharge chargeWithResponseData:data]);
@@ -377,7 +370,6 @@ static SPAPIClient *sharedInstance = nil;
                                      NSURLResponse * _Nullable response,
                                      SPError * _Nullable error) {
     if (error) {
-
       if (failure) {
         dispatch_async(dispatch_get_main_queue(), ^{
           failure(error);
@@ -385,7 +377,6 @@ static SPAPIClient *sharedInstance = nil;
       }
 
     } else {
-
       if (success) {
         dispatch_async(dispatch_get_main_queue(), ^{
           NSError *error = nil;
@@ -417,7 +408,6 @@ static SPAPIClient *sharedInstance = nil;
                                      NSURLResponse * _Nullable response,
                                      SPError * _Nullable error) {
     if (error) {
-
       if (failure) {
         dispatch_async(dispatch_get_main_queue(), ^{
           failure(error );
@@ -425,7 +415,6 @@ static SPAPIClient *sharedInstance = nil;
       }
 
     } else {
-
       if (success) {
         dispatch_async(dispatch_get_main_queue(), ^{
           NSError *error = nil;

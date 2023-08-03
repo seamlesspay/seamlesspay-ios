@@ -44,6 +44,8 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
       response: URLResponse(),
       responseData: "{}".data(using: .utf8)
     ) { data, response, error in
+
+      // then
       if error != nil, data == nil {
         XCTFail("Expect to have a success")
         return
@@ -51,7 +53,6 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
       expectation.fulfill()
     }
 
-    // then
     wait(for: [expectation], timeout: 1)
   }
 
@@ -67,6 +68,8 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
       response: URLResponse(),
       responseData: "{}".data(using: .utf8)
     ) { data, response, error in
+
+      // then
       if error == nil, data != nil {
         XCTFail("Expect to have a failure")
         return
@@ -74,7 +77,6 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
       expectation.fulfill()
     }
 
-    // then
     wait(for: [expectation], timeout: 1)
   }
 }
