@@ -7,7 +7,6 @@
 
 @import SeamlessPayCore;
 
-
 #import "AppDelegate.h"
 
 @interface AppDelegate ()

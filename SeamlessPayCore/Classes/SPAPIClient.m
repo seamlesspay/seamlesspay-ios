@@ -6,6 +6,7 @@
  */
 
 #import "SPAPIClient.h"
+#import <SeamlessPayCore/SeamlessPayCore-Swift.h>
 
 NSString * const k_APIVersion = @"v2020";
 static const NSTimeInterval k_TimeoutInterval = 15.0;
@@ -16,8 +17,11 @@ static SPAPIClient *sharedInstance = nil;
 @interface SPAPIClient () {
   NSString *_APIHostURL;
   NSString *_PanVaultHostURL;
+  SPEnvironment _environment;
 }
+
 @property (nonatomic) NSDate *appOpenTime;
+@property (nonatomic, strong) SPSentryClient *sentryClient;
 @end
 
 // MARK: - Implementation
@@ -37,6 +41,9 @@ static SPAPIClient *sharedInstance = nil;
   _PanVaultHostURL = [self panVaultURLForEnvironment:environment];
   _secretKey = [secretKey ?: publishableKey copy];
   _publishableKey = [publishableKey copy];
+  _environment = environment;
+
+  [self setSentryClient];
 
   self.appOpenTime = [NSDate date];
 }
@@ -58,62 +65,54 @@ static SPAPIClient *sharedInstance = nil;
                      path:(NSString *)path
                   success:(void (^)(SPCustomer *customer))success
                   failure:(void (^)(SPError *))failure {
-    
-    NSMutableDictionary *params = [@{
-        @"name" : name ?: @"",
-        @"website" : website ?: @"",
-        @"address" : address && [address dictionary] ? [address dictionary] : @"",
-        @"companyName" : companyName ?: @"",
-        @"description" : notes ?: @"",
-        @"email" : email ?: @"",
-        @"phone" : phone ?: @"",
-        @"metadata" : metadata ?: @"metadata",
-    } mutableCopy];
-    
-    NSArray *keysForNullValues = [params allKeysForObject:@""];
-    [params removeObjectsForKeys:keysForNullValues];
-    
-    
-    if (paymentMethods) {
-        NSMutableArray *arr = [NSMutableArray new];
-        for (SPPaymentMethod *pm in paymentMethods) {
-            [arr addObject:@{@"token" : pm.token}];
-        }
-        [params addEntriesFromDictionary:@{@"paymentMethods" : arr}];
+
+  NSMutableDictionary *params = [@{
+    @"name" : name ?: @"",
+    @"website" : website ?: @"",
+    @"address" : address && [address dictionary] ? [address dictionary] : @"",
+    @"companyName" : companyName ?: @"",
+    @"description" : notes ?: @"",
+    @"email" : email ?: @"",
+    @"phone" : phone ?: @"",
+    @"metadata" : metadata ?: @"metadata",
+  } mutableCopy];
+
+  NSArray *keysForNullValues = [params allKeysForObject:@""];
+  [params removeObjectsForKeys:keysForNullValues];
+
+
+  if (paymentMethods) {
+    NSMutableArray *arr = [NSMutableArray new];
+    for (SPPaymentMethod *pm in paymentMethods) {
+      [arr addObject:@{@"token" : pm.token}];
     }
-    
-    NSURLSessionDataTask *task =
-    [[NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration
-                                             defaultSessionConfiguration]]
-     dataTaskWithRequest:[self requestWithMethod:method
-                                          params:params
-                                            path:path
-                                        hostName:_APIHostURL
-                                          apiKey:_secretKey
-                                      apiVersion:k_APIVersion]
-     completionHandler:^(NSData *_Nullable data,
-                         NSURLResponse *_Nullable response,
-                         NSError *_Nullable error) {
-        if (error || [self isResponse:response]) {
-            
-            if (failure) {
-                SPError *sperr = [self errorWithData:data error:error];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    failure(sperr);
-                });
-            }
-            
-        } else {
-            
-            if (success) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    success([SPCustomer customerWithResponseData:data]);
-                });
-            }
-        }
-    }];
-    
-    [task resume];
+    [params addEntriesFromDictionary:@{@"paymentMethods" : arr}];
+  }
+
+  NSURLRequest *request = [self requestWithMethod:method
+                                           params:params
+                                             path:path
+                                         hostName:_APIHostURL
+                                           apiKey:_secretKey];
+
+  [self execute:request completion:^(NSData * _Nullable data,
+                                     NSURLResponse * _Nullable response,
+                                     SPError * _Nullable error) {
+    if (error) {
+      if (failure) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+          failure(error);
+        });
+      }
+
+    } else {
+      if (success) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+          success([SPCustomer customerWithResponseData:data]);
+        });
+      }
+    }
+  }];
 }
 
 
@@ -175,50 +174,39 @@ static SPAPIClient *sharedInstance = nil;
 - (void)retrieveCustomerWithId:(NSString *)customerId
                        success:(void (^)(SPCustomer *customer))success
                        failure:(void (^)(SPError *))failure {
-  NSURLSessionDataTask *task = [[NSURLSession
-      sessionWithConfiguration:[NSURLSessionConfiguration
-                                   defaultSessionConfiguration]]
-      dataTaskWithRequest:
-          [self requestWithMethod:@"GET"
-                           params:@{}
-                             path:[NSString stringWithFormat:@"customers/%@",
-                                   customerId]
-                         hostName:_APIHostURL
-                           apiKey:_secretKey
-                           apiVersion:k_APIVersion]
+  NSURLRequest *request = [self requestWithMethod:@"GET"
+                                           params:@{}
+                                             path:[NSString stringWithFormat:@"customers/%@", customerId]
+                                         hostName:_APIHostURL
+                                           apiKey:_secretKey];
 
-        completionHandler:^(NSData *_Nullable data,
-                            NSURLResponse *_Nullable response,
-                            NSError *_Nullable error) {
-          if (error || [self isResponse:response]) {
+  [self execute:request completion:^(NSData * _Nullable data,
+                                     NSURLResponse * _Nullable response,
+                                     SPError * _Nullable error) {
+    if (error) {
+      if (failure) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+          failure(error);
+        });
+      }
 
-            if (failure) {
-              SPError *sperr = [self errorWithData:data error:error];
-              dispatch_async(dispatch_get_main_queue(), ^{
-                failure(sperr);
-              });
-            }
-
+    } else {
+      if (success) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+          NSError *error = nil;
+          id dict = [NSJSONSerialization
+                     JSONObjectWithData:data
+                     options:NSJSONReadingAllowFragments
+                     error:&error];
+          if (error == nil && [dict isKindOfClass:[NSDictionary class]]) {
+            success([SPCustomer customerWithResponseData:data]);
           } else {
-
-            if (success) {
-              dispatch_async(dispatch_get_main_queue(), ^{
-                NSError *error = nil;
-                id dict = [NSJSONSerialization
-                    JSONObjectWithData:data
-                               options:NSJSONReadingAllowFragments
-                                 error:&error];
-                if (error == nil && [dict isKindOfClass:[NSDictionary class]]) {
-                  success([SPCustomer customerWithResponseData:data]);
-                } else {
-                  success(nil);
-                }
-              });
-            }
+            success(nil);
           }
-        }];
-
-  [task resume];
+        });
+      }
+    }
+  }];
 }
 
 - (void)tokenizeWithPaymentType:(SPPaymentType)paymentType
@@ -236,7 +224,7 @@ static SPAPIClient *sharedInstance = nil;
                        customer:(SPCustomer *)customer
                         success:(void (^)(SPPaymentMethod *paymentMethod))success
                         failure:(void (^)(SPError *))failure {
-    
+
   NSString *paymentTypeString = [self valueForPaymentType:paymentType];
   NSMutableDictionary *params = [@{
     @"paymentType" : paymentTypeString ?: @"",
@@ -258,11 +246,11 @@ static SPAPIClient *sharedInstance = nil;
     [params addEntriesFromDictionary:@{@"expDate" : expDate ?: @""}];
     
   }
-    
-    if (paymentType == SPPaymentTypeCreditCard) {
-      [params addEntriesFromDictionary:@{@"cvv" : cvv ?: @""}];
-      
-    }
+
+  if (paymentType == SPPaymentTypeCreditCard) {
+    [params addEntriesFromDictionary:@{@"cvv" : cvv ?: @""}];
+
+  }
   if (paymentType == SPPaymentTypeAch) {
     [params addEntriesFromDictionary:@{
       @"bankAccountType" : accountType ?: @"",
@@ -273,38 +261,30 @@ static SPAPIClient *sharedInstance = nil;
   NSArray *keysForNullValues = [params allKeysForObject:@""];
   [params removeObjectsForKeys:keysForNullValues];
 
-  NSURLSessionDataTask *task =
-      [[NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration
-                                                  defaultSessionConfiguration]]
-          dataTaskWithRequest:[self requestWithMethod:@"POST"
-                                               params:params
-                                                 path:@"tokens"
-                                             hostName:_PanVaultHostURL
-                                               apiKey:_publishableKey
-                                           apiVersion:k_APIVersion]
-            completionHandler:^(NSData *_Nullable data,
-                                NSURLResponse *_Nullable response,
-                                NSError *_Nullable error) {
-              if (error || [self isResponse:response]) {
+  NSURLRequest *request = [self requestWithMethod:@"POST"
+                                           params:params
+                                             path:@"tokens"
+                                         hostName:_PanVaultHostURL
+                                           apiKey:_publishableKey];
 
-                if (failure) {
-                  SPError *sperr = [self errorWithData:data error:error];
-                  dispatch_async(dispatch_get_main_queue(), ^{
-                    failure(sperr);
-                  });
-                }
+  [self execute:request completion:^(NSData * _Nullable data,
+                                     NSURLResponse * _Nullable response,
+                                     SPError * _Nullable error) {
+    if (error) {
+      if (failure) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+          failure(error);
+        });
+      }
 
-              } else {
-
-                if (success) {
-                  dispatch_async(dispatch_get_main_queue(), ^{
-                    success([SPPaymentMethod tokenWithResponseData:data]);
-                  });
-                }
-              }
-            }];
-
-  [task resume];
+    } else {
+      if (success) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+          success([SPPaymentMethod tokenWithResponseData:data]);
+        });
+      }
+    }
+  }];
 }
 
 - (void)createChargeWithToken:(NSString *)token
@@ -326,7 +306,7 @@ static SPAPIClient *sharedInstance = nil;
                idempotencyKey:(NSString *)idempotencyKey
                       success:(void (^)(SPCharge *charge))success
                       failure:(void (^)(SPError *))failure {
-    
+
   NSMutableDictionary *params = [@{
     @"token" : token ?: @"",//
     @"cvv" : cvv ?: @"",//
@@ -347,143 +327,160 @@ static SPAPIClient *sharedInstance = nil;
     @"order" : order ?: @"",//
     @"deviceFingerprint" : [self deviceFingerprint]
   } mutableCopy];
-    
+
   NSArray *keysForNullValues = [params allKeysForObject:@""];
   [params removeObjectsForKeys:keysForNullValues];
 
-  NSURLSessionDataTask *task =
-      [[NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration
-                                                  defaultSessionConfiguration]]
-          dataTaskWithRequest:[self requestWithMethod:@"POST"
-                                               params:params
-                                                 path:@"charges"
-                                             hostName:_APIHostURL
-                                               apiKey:_secretKey
-                                           apiVersion:k_APIVersion]
-            completionHandler:^(NSData *_Nullable data,
-                                NSURLResponse *_Nullable response,
-                                NSError *_Nullable error) {
-              if (error || [self isResponse:response]) {
+  NSURLRequest *request = [self requestWithMethod:@"POST"
+                                           params:params
+                                             path:@"charges"
+                                         hostName:_APIHostURL
+                                           apiKey:_secretKey];
 
-                if (failure) {
-                  SPError *sperr = [self errorWithData:data error:error];
-                  dispatch_async(dispatch_get_main_queue(), ^{
-                    failure(sperr);
-                  });
-                }
+  [self execute:request completion:^(NSData * _Nullable data,
+                                     NSURLResponse * _Nullable response,
+                                     SPError * _Nullable error) {
+    if (error) {
+      if (failure) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+          failure(error);
+        });
+      }
 
-              } else {
-
-                if (success) {
-                  dispatch_async(dispatch_get_main_queue(), ^{
-                    success([SPCharge chargeWithResponseData:data]);
-                  });
-                }
-              }
-            }];
-
-  [task resume];
+    } else {
+      if (success) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+          success([SPCharge chargeWithResponseData:data]);
+        });
+      }
+    }
+  }];
 }
 
 - (void)retrieveChargeWithId:(NSString *)chargeId
                      success:(void (^)(SPCharge *charge))success
                      failure:(void (^)(SPError *))failure {
-  NSURLSessionDataTask *task = [[NSURLSession
-      sessionWithConfiguration:[NSURLSessionConfiguration
-                                   defaultSessionConfiguration]]
-      dataTaskWithRequest:
-          [self requestWithMethod:@"GET"
-                           params:@{}
-                             path:[NSString stringWithFormat:@"charges/%@",
-                                                             chargeId]
-                         hostName:_APIHostURL
-                           apiKey:_secretKey
-                       apiVersion:k_APIVersion]
+  NSURLRequest *request = [self requestWithMethod:@"GET"
+                                           params:@{}
+                                             path:[NSString stringWithFormat:@"charges/%@", chargeId]
+                                         hostName:_APIHostURL
+                                           apiKey:_secretKey];
 
-        completionHandler:^(NSData *_Nullable data,
-                            NSURLResponse *_Nullable response,
-                            NSError *_Nullable error) {
-          if (error || [self isResponse:response]) {
+  [self execute:request completion:^(NSData * _Nullable data,
+                                     NSURLResponse * _Nullable response,
+                                     SPError * _Nullable error) {
+    if (error) {
+      if (failure) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+          failure(error);
+        });
+      }
 
-            if (failure) {
-              SPError *sperr = [self errorWithData:data error:error];
-              dispatch_async(dispatch_get_main_queue(), ^{
-                failure(sperr);
-              });
-            }
-
+    } else {
+      if (success) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+          NSError *error = nil;
+          id dict = [NSJSONSerialization
+                     JSONObjectWithData:data
+                     options:NSJSONReadingAllowFragments
+                     error:&error];
+          if (error == nil && [dict isKindOfClass:[NSDictionary class]]) {
+            success([SPCharge chargeWithResponseData:data]);
           } else {
-
-            if (success) {
-              dispatch_async(dispatch_get_main_queue(), ^{
-                NSError *error = nil;
-                id dict = [NSJSONSerialization
-                    JSONObjectWithData:data
-                               options:NSJSONReadingAllowFragments
-                                 error:&error];
-                if (error == nil && [dict isKindOfClass:[NSDictionary class]]) {
-                  success([SPCharge chargeWithResponseData:data]);
-                } else {
-                  success(nil);
-                }
-              });
-            }
+            success(nil);
           }
-        }];
-
-  [task resume];
+        });
+      }
+    }
+  }];
 }
 
 - (void)listChargesWithParams:(NSDictionary *)params
                       success:(void (^)(NSDictionary *dict))success
                       failure:(void (^)(SPError *))failure {
-  NSURLSessionDataTask *task = [[NSURLSession
-      sessionWithConfiguration:[NSURLSessionConfiguration
-                                   defaultSessionConfiguration]]
-      dataTaskWithRequest:[self requestWithMethod:@"GET"
+
+  NSURLRequest *request = [self requestWithMethod:@"GET"
                                            params:params
                                              path:@"charges"
                                          hostName:_APIHostURL
-                                           apiKey:_secretKey
-                                       apiVersion:k_APIVersion]
+                                           apiKey:_secretKey];
+  [self execute:request completion:^(NSData * _Nullable data,
+                                     NSURLResponse * _Nullable response,
+                                     SPError * _Nullable error) {
+    if (error) {
+      if (failure) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+          failure(error );
+        });
+      }
 
-        completionHandler:^(NSData *_Nullable data,
-                            NSURLResponse *_Nullable response,
-                            NSError *_Nullable error) {
-          if (error || [self isResponse:response]) {
-
-            if (failure) {
-              SPError *sperr = [self errorWithData:data error:error];
-              dispatch_async(dispatch_get_main_queue(), ^{
-                failure(sperr);
-              });
-            }
-
+    } else {
+      if (success) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+          NSError *error = nil;
+          id dict = [NSJSONSerialization
+                     JSONObjectWithData:data
+                     options:NSJSONReadingAllowFragments
+                     error:&error];
+          if (error == nil && [dict isKindOfClass:[NSDictionary class]]) {
+            success((NSDictionary *)dict);
           } else {
-
-            if (success) {
-              dispatch_async(dispatch_get_main_queue(), ^{
-                NSError *error = nil;
-                id dict = [NSJSONSerialization
-                    JSONObjectWithData:data
-                               options:NSJSONReadingAllowFragments
-                                 error:&error];
-                if (error == nil && [dict isKindOfClass:[NSDictionary class]]) {
-                  success((NSDictionary *)dict);
-                } else {
-                  success(nil);
-                }
-              });
-            }
+            success(nil);
           }
-        }];
-
-  [task resume];
+        });
+      }
+    }
+  }];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - <<<Private Methods>>>
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+- (void)execute:(NSURLRequest *)request
+     completion:(void (NS_SWIFT_SENDABLE ^)(NSData * _Nullable data,
+                                            NSURLResponse * _Nullable response,
+                                            SPError * _Nullable error))completionHandler {
+
+  __weak typeof(self) weakSelf = self;
+  NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+  NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
+  NSURLSessionDataTask *task = [session dataTaskWithRequest:request
+                                          completionHandler:^(NSData *_Nullable data,
+                                                              NSURLResponse *_Nullable response,
+                                                              NSError *_Nullable error) {
+    SPError *spErr = nil;
+    if (error || [self isResponseNotSuccessful:response]) {
+      __strong typeof(self) strongSelf = weakSelf;
+      [strongSelf.sentryClient captureFailedRequestWithRequest:request
+                                                      response:response
+                                                  responseData:data
+                                                    completion:nil];
+
+      spErr = [self errorWithData:data error:error];
+    }
+
+    completionHandler(data, response, spErr);
+  }];
+  
+  [task resume];
+}
+
+- (NSString *)valueForEnvironment {
+  switch (_environment) {
+    case SPEnvironmentProduction:
+      return @"production";
+    case SPEnvironmentSandbox:
+      return @"sandbox";
+    case SPEnvironmentStaging:
+      return @"staging";
+    case SPEnvironmentQAT:
+      return @"qat";
+  }
+
+  NSAssert(NO, @"Unexpected SPEnvironment");
+  return @"";
+}
 
 - (NSString *)valueForPaymentType:(SPPaymentType)paymentType {
   switch (paymentType) {
@@ -547,7 +544,7 @@ static SPAPIClient *sharedInstance = nil;
   return [SPError unknownError];
 }
 
-- (BOOL)isResponse:(NSURLResponse *)response {
+- (BOOL)isResponseNotSuccessful:(NSURLResponse *)response {
   return [(NSHTTPURLResponse *)response statusCode] != 200 &&
          [(NSHTTPURLResponse *)response statusCode] != 201 &&
          [(NSHTTPURLResponse *)response statusCode] != 202;
@@ -558,53 +555,33 @@ static SPAPIClient *sharedInstance = nil;
                                path:(NSString *)path
                            hostName:(NSString *)hostName
                              apiKey:(NSString *)apiKey {
-    
-    return [self requestWithMethod:(NSString *)method
-                            params:(NSDictionary *)params
-                              path:(NSString *)path
-                          hostName:(NSString *)hostName
-                            apiKey:(NSString *)apiKey
-                        apiVersion:(NSString *) k_APIVersion];
-}
 
-- (NSURLRequest *)requestWithMethod:(NSString *)method
-                             params:(NSDictionary *)params
-                               path:(NSString *)path
-                           hostName:(NSString *)hostName
-                             apiKey:(NSString *)apiKey
-                         apiVersion:(NSString *)apiVersion {
-    
   NSMutableString *pathParams = [NSMutableString new];
-  if ([method isEqualToString:@"GET"] || [method isEqualToString:@"DELETE"]) {
-  }
 
-  NSMutableURLRequest *request = [[NSMutableURLRequest alloc]
-          initWithURL:[NSURL URLWithString:[NSString
-                                               stringWithFormat:@"%@/%@%@",
-                                                                hostName, path,
-                                                                pathParams]]
-          cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-      timeoutInterval:k_TimeoutInterval];
+  NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@%@", hostName, path, pathParams]];
+  NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url
+                                                              cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+                                                          timeoutInterval:k_TimeoutInterval];
 
-  NSData *nsdata = [apiKey dataUsingEncoding:NSUTF8StringEncoding];
-  NSString *apiKeyBase64 = [nsdata base64EncodedStringWithOptions:0];
+  NSData *nsData = [apiKey dataUsingEncoding:NSUTF8StringEncoding];
+  NSString *apiKeyBase64 = [nsData base64EncodedStringWithOptions:0];
 
   [request setHTTPMethod:method];
 
   NSMutableDictionary *headers = [@{
-    @"API-Version" : apiVersion,
+    @"API-Version" : k_APIVersion,
     @"Content-Type" : @"application/json",
     @"Accept" : @"application/json",
     @"Authorization" : [@"Bearer " stringByAppendingString:apiKeyBase64],
     @"User-Agent" : @"seamlesspay_ios"
   } mutableCopy];
-    
-    if (_subMerchantAccountID) {
-        headers[@"SeamlessPay-Account"] = _subMerchantAccountID;
-    }
-    
+
+  if (_subMerchantAccountID) {
+    headers[@"SeamlessPay-Account"] = _subMerchantAccountID;
+  }
+
   [request setAllHTTPHeaderFields:headers];
-    
+
   NSLog(@"Headers: %@", headers);
   NSLog(@"Body: %@", params);
 
@@ -613,15 +590,17 @@ static SPAPIClient *sharedInstance = nil;
     NSData *sendData = [NSJSONSerialization dataWithJSONObject:params
                                                        options:0
                                                          error:&err];
-    [request setValue:[NSString stringWithFormat:@"%lu",
-                                                 (unsigned long)sendData.length]
-        forHTTPHeaderField:@"Content-Length"];
+    [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)sendData.length]
+   forHTTPHeaderField:@"Content-Length"];
+
     [request setHTTPBody:sendData];
   }
 
-   NSLog(@"%@\n%@\n%@\n%@",request.URL, request.HTTPMethod,
-   request.allHTTPHeaderFields,  [[NSString alloc]
-   initWithData:request.HTTPBody encoding:NSUTF8StringEncoding]);
+  NSLog(@"%@\n%@\n%@\n%@",
+        request.URL,
+        request.HTTPMethod,
+        request.allHTTPHeaderFields,
+        [[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding]);
 
   return request;
 }
@@ -766,4 +745,14 @@ static SPAPIClient *sharedInstance = nil;
     return nil;
 }
 
+// MARK: Sentry client
+- (void)setSentryClient {
+//#ifndef DEBUG //Initialize sentry client only for release builds
+  SPSentryConfig *config = [[SPSentryConfig alloc] initWithUserId:[SPInstallation installationID]
+                                                      environment:[self valueForEnvironment]];
+  self.sentryClient = [SPSentryClient makeWithConfiguration:config];
+//#endif
+}
+
 @end
+
