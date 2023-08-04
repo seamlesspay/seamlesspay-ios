@@ -8,12 +8,14 @@
 import XCTest
 @testable import SeamlessPayCore
 
-final class SPSentryClientTest: XCTestCase {
-  func testSPSentryURLRequest() {
+final class SPSentryURLRequestFactoryTest: XCTestCase {
+  func testSPSentryURLRequestFactory() {
     // given
-    let event: SPSentryHTTPEvent = .init(
+    let event: SPSentryHTTPEvent = SPSentryHTTPEventFactory.event(
       request: .init(
-        url: URL(string: "http://any.com")!
+        url: URL(
+          string: "http://any.com"
+        )!
       ),
       response: .init(),
       responseData: "{}".data(using: .utf8),
@@ -23,15 +25,12 @@ final class SPSentryClientTest: XCTestCase {
       )
     )
 
-    let dsn: SPSentryDSN = .init(
-      string: "https://test.secretkey@test.host/test.projectid"
+    let dsn: SPSentryDSN = SPSentryDSNFactory.dsn(
+      urlString: "https://test.secretkey@test.host/test.projectid"
     )!
 
     // when
-    let request = SentryNSURLRequest.makeStoreRequest(
-      from: event,
-      dsn: dsn
-    )
+    let request = SPSentryURLRequestFactory.request(event: event, dsn: dsn)
 
     // then
     XCTAssertNotNil(request)

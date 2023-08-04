@@ -28,7 +28,7 @@ import Foundation
     config: SPSentryConfig,
     session: URLSession = URLSession(configuration: .default)
   ) {
-    guard let dsn = SPSentryDSN(string: dsn) else {
+    guard let dsn = SPSentryDSNFactory.dsn(urlString: dsn) else {
       return nil
     }
     self.dsn = dsn
@@ -40,10 +40,7 @@ import Foundation
     event: SPSentryHTTPEvent,
     completion: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void
   ) {
-    guard let request = SentryNSURLRequest.makeStoreRequest(
-      from: event,
-      dsn: dsn
-    ) else {
+    guard let request = SPSentryURLRequestFactory.request(event: event, dsn: dsn) else {
       return
     }
 
@@ -72,7 +69,7 @@ public extension SPSentryClient {
   ) {
     queue.async {
       self.send(
-        event: .init(
+        event: SPSentryHTTPEventFactory.event(
           request: request,
           response: response,
           responseData: responseData,

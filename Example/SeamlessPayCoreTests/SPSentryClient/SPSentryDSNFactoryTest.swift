@@ -8,13 +8,13 @@
 import XCTest
 @testable import SeamlessPayCore
 
-final class SPSentryDSNTest: XCTestCase {
+final class SPSentryDSNFactoryTest: XCTestCase {
   func testValidDSN() {
     // given
     let validURL = "https://test.secretkey@test.host/test.projectid"
 
     // when
-    let dsn = SPSentryDSN(string: validURL)
+    let dsn = SPSentryDSNFactory.dsn(urlString: validURL)
 
     // then
     XCTAssertNotNil(dsn)
@@ -28,7 +28,7 @@ final class SPSentryDSNTest: XCTestCase {
     let notValidURL = ""
 
     // when
-    let dsn = SPSentryDSN(string: notValidURL)
+    let dsn = SPSentryDSNFactory.dsn(urlString: notValidURL)
 
     // then
     XCTAssertNil(dsn)

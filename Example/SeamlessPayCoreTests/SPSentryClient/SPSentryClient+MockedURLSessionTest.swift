@@ -40,8 +40,12 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
 
     // when
     client!.captureFailedRequest(
-      request: URLRequest(url: URL(string: "http://any.com")!),
-      response: URLResponse(),
+      request: .init(
+        url: .init(
+          string: "http://any.com"
+        )!
+      ),
+      response: .init(),
       responseData: "{}".data(using: .utf8)
     ) { data, response, error in
 
@@ -64,8 +68,12 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
 
     // when
     client!.captureFailedRequest(
-      request: URLRequest(url: URL(string: "http://any.com")!),
-      response: URLResponse(),
+      request: .init(
+        url: .init(
+          string: "http://any.com"
+        )!
+      ),
+      response: .init(),
       responseData: "{}".data(using: .utf8)
     ) { data, response, error in
 
@@ -74,6 +82,42 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
         XCTFail("Expect to have a failure")
         return
       }
+      expectation.fulfill()
+    }
+
+    wait(for: [expectation], timeout: 1)
+  }
+
+  func testRequestWithSensitiveDataInEvent() {
+    let tokenKey = "token"
+
+    var request = URLRequest(
+      url: URL(
+        string: "http://any.com"
+      )!
+    )
+    let body: [String: Any] = [
+      tokenKey: "mock.token",
+    ]
+    request.httpBody = try! JSONSerialization.data(withJSONObject: body)
+
+    // given
+    SPSentryClientMockURLProtocol.responseWithSuccess()
+
+    let expectation = XCTestExpectation(description: "Request completed")
+
+    // when
+    client!.captureFailedRequest(
+      request: request,
+      response: URLResponse(),
+      responseData: "{}".data(using: .utf8)
+    ) { data, response, error in
+
+      // then
+      let failedRequestData = SPSentryClientMockURLProtocol.requestData!["request"]! as! [String: Any]
+      let failedRequestBody = failedRequestData["data"] as! [String: Any]
+      let tokenValue = failedRequestBody[tokenKey] as! String
+      XCTAssertEqual(tokenValue, "***")
       expectation.fulfill()
     }
 

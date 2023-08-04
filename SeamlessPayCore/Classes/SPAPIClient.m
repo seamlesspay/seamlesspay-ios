@@ -747,11 +747,11 @@ static SPAPIClient *sharedInstance = nil;
 
 // MARK: Sentry client
 - (void)setSentryClient {
-#ifndef DEBUG //Initialize sentry client only for release builds
+//#ifndef DEBUG //Initialize sentry client only for release builds
   SPSentryConfig *config = [[SPSentryConfig alloc] initWithUserId:[SPInstallation installationID]
                                                       environment:[self valueForEnvironment]];
   self.sentryClient = [SPSentryClient makeWithConfiguration:config];
-#endif
+//#endif
 }
 
 @end

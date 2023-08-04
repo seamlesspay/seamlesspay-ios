@@ -7,20 +7,10 @@
 
 import Foundation
 
-struct SentryNSURLRequest {
-  private enum C {
-    static let requestTimeout: TimeInterval = 15
-    static let userAgent = "seamlesspay-ios-sentry-client"
-    static let userAgentVersion = "0.1"
-    static let sentryVersion = "7"
-  }
-
-  static func makeStoreRequest(
-    from event: SPSentryHTTPEvent,
-    dsn: SPSentryDSN
-  ) -> URLRequest? {
-    let encoder = JSONEncoder()
-    guard let data = try? encoder.encode(event) else {
+// MARK: Interface
+enum SPSentryURLRequestFactory {
+  static func request(event: SPSentryHTTPEvent, dsn: SPSentryDSN) -> URLRequest? {
+    guard let data = try? JSONEncoder().encode(event) else {
       return nil
     }
     let apiURL = dsn.storeEndpoint
@@ -43,7 +33,19 @@ struct SentryNSURLRequest {
   }
 }
 
-private extension SentryNSURLRequest {
+// MARK: Constants
+private extension SPSentryURLRequestFactory {
+  // MARK: Constants
+  enum C {
+    static let requestTimeout: TimeInterval = 15
+    static let userAgent = "seamlesspay-ios-sentry-client"
+    static let userAgentVersion = "0.1"
+    static let sentryVersion = "7"
+  }
+}
+
+// MARK: Private
+private extension SPSentryURLRequestFactory {
   static func authHeader(url: URL) -> String? {
     guard let sentryKey = url.user else {
       return nil
