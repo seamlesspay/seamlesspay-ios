@@ -57,18 +57,14 @@ class ViewController: UIViewController {
         
         SPAPIClient.getSharedInstance().tokenize(
             with: .creditCard,
-            account: cardTextField.cardNumber,
+            accountNumber: cardTextField.cardNumber,
             expDate: cardTextField.formattedExpirationDate,
             cvv: self.cardTextField.cvc,
             accountType: nil,
             routing: nil,
             pin: nil,
             billingAddress: billingAddress,
-            billingCompanyName: nil,
-            accountEmail: nil,
-            phoneNumber: nil,
             name: "Michael Smith",
-            customer: nil,
             success: { (paymentMethod: SPPaymentMethod?) in
                 
                 let token = paymentMethod?.token

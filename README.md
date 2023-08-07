@@ -199,18 +199,14 @@ Objective-C:
     
     [[SPAPIClient getSharedInstance]
      tokenizeWithPaymentType:SPPaymentTypeCreditCard
-     account:self.cardTextField.cardNumber
+     accountNumber:self.cardTextField.cardNumber
      expDate:self.cardTextField.formattedExpirationDate
      cvv:self.cardTextField.cvc
      accountType:nil
      routing:nil
      pin:nil
      billingAddress:billingAddress
-     billingCompanyName:nil
-     accountEmail:nil
-     phoneNumber:nil
      name:@"Michael Smith"
-     customer:nil
      success:^(SPPaymentMethod *paymentMethod) {
         
         [[SPAPIClient getSharedInstance]
@@ -267,18 +263,14 @@ Swift:
         
         SPAPIClient.getSharedInstance().tokenize(
             with: .creditCard,
-            account: cardTextField.cardNumber,
+            accountNumber: cardTextField.cardNumber,
             expDate: cardTextField.formattedExpirationDate,
             cvv: self.cardTextField.cvc,
             accountType: nil,
             routing: nil,
             pin: nil,
             billingAddress: billingAddress,
-            billingCompanyName: nil,
-            accountEmail: nil,
-            phoneNumber: nil,
-            name: "Michael Smith", 
-            customer: nil,
+            name: "Michael Smith",
             success: { (paymentMethod: SPPaymentMethod?) in
                 
                 let token = paymentMethod?.token

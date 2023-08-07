@@ -87,18 +87,14 @@ typedef NS_ENUM(NSUInteger, SPPaymentType) {
  */
 
 - (void)tokenizeWithPaymentType:(SPPaymentType)paymentType
-                        account:(NSString *_Nullable)account
+                  accountNumber:(NSString *_Nullable)accountNumber
                         expDate:(NSString *_Nullable)expDate
                             cvv:(NSString *_Nullable)cvv
                     accountType:(NSString *_Nullable)accountType
                         routing:(NSString *_Nullable)routing
                             pin:(NSString *_Nullable)pin
                  billingAddress:(SPAddress *_Nullable)billingAddress
-             billingCompanyName:(NSString *_Nullable)billingCompany
-                   accountEmail:(NSString *_Nullable)accountEmail
-                    phoneNumber:(NSString *_Nullable)phoneNumber
                            name:(NSString *_Nullable)name
-                       customer:(SPCustomer *_Nullable)customer
                         success:(void (^_Nonnull)(SPPaymentMethod *_Nonnull paymentMethod))success
                         failure:(void (^_Nonnull)(SPError *_Nonnull))failure;
 
