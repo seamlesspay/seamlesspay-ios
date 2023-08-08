@@ -55,9 +55,14 @@
 		1C94047823D34E4000BC4697 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C94047723D34E4000BC4697 /* Assets.xcassets */; };
 		1C94047B23D34E4000BC4697 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C94047923D34E4000BC4697 /* LaunchScreen.storyboard */; };
 		29408695B99007EA7344049D /* Pods_SeamlessPayDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6484F826A672FAAF56ACB478 /* Pods_SeamlessPayDemo.framework */; };
+		6315C9CC2A8522DE00E5E098 /* SPChargeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6315C9CB2A8522DE00E5E098 /* SPChargeDetailView.swift */; };
+		6315C9CE2A8523FC00E5E098 /* SPErrorDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6315C9CD2A8523FC00E5E098 /* SPErrorDetailView.swift */; };
+		635DB9FF2A82A7760088E90A /* VerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635DB9FE2A82A7760088E90A /* VerificationView.swift */; };
+		635DBA022A82B2CA0088E90A /* SwiftUIViewHostingControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635DBA012A82B2CA0088E90A /* SwiftUIViewHostingControllerFactory.swift */; };
 		6369FCF62A72B988005A353F /* SPSentryHTTPEventFactoryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6369FCF52A72B988005A353F /* SPSentryHTTPEventFactoryTest.swift */; };
 		6369FCF82A72BDD5005A353F /* SPInstallationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6369FCF72A72BDD5005A353F /* SPInstallationTest.swift */; };
 		638E38712A72B2D3008CEE2D /* SPSentryURLRequestFactoryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638E38702A72B2D3008CEE2D /* SPSentryURLRequestFactoryTest.swift */; };
+		639E1CF92A86621500D803EA /* URLRequest+BodyStreamToJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639E1CF82A86621500D803EA /* URLRequest+BodyStreamToJSON.swift */; };
 		63CB82252A729BA800E30361 /* SPSentryDSNFactoryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CB82242A729BA800E30361 /* SPSentryDSNFactoryTest.swift */; };
 		63CB82272A729C3C00E30361 /* SPSentryClientMockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CB82262A729C3C00E30361 /* SPSentryClientMockURLProtocol.swift */; };
 		63CB82292A72A19100E30361 /* SPSentryClient+MockedURLSessionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CB82282A72A19100E30361 /* SPSentryClient+MockedURLSessionTest.swift */; };
@@ -145,9 +150,15 @@
 		6003F5AF195388D20070C39A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		60A19399BD9F318B0E1FE7B0 /* Pods-SPPaymentViewController.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SPPaymentViewController.release.xcconfig"; path = "Target Support Files/Pods-SPPaymentViewController/Pods-SPPaymentViewController.release.xcconfig"; sourceTree = "<group>"; };
 		62CFCC7418BF0D9423E1E8E5 /* Pods-SeamlessPayDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeamlessPayDemo.debug.xcconfig"; path = "Target Support Files/Pods-SeamlessPayDemo/Pods-SeamlessPayDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		6315C9CB2A8522DE00E5E098 /* SPChargeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPChargeDetailView.swift; sourceTree = "<group>"; };
+		6315C9CD2A8523FC00E5E098 /* SPErrorDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPErrorDetailView.swift; sourceTree = "<group>"; };
+		635DB9FD2A82A7750088E90A /* SeamlessPayDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SeamlessPayDemo-Bridging-Header.h"; sourceTree = "<group>"; };
+		635DB9FE2A82A7760088E90A /* VerificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationView.swift; sourceTree = "<group>"; };
+		635DBA012A82B2CA0088E90A /* SwiftUIViewHostingControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViewHostingControllerFactory.swift; sourceTree = "<group>"; };
 		6369FCF52A72B988005A353F /* SPSentryHTTPEventFactoryTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPSentryHTTPEventFactoryTest.swift; sourceTree = "<group>"; };
 		6369FCF72A72BDD5005A353F /* SPInstallationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPInstallationTest.swift; sourceTree = "<group>"; };
 		638E38702A72B2D3008CEE2D /* SPSentryURLRequestFactoryTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPSentryURLRequestFactoryTest.swift; sourceTree = "<group>"; };
+		639E1CF82A86621500D803EA /* URLRequest+BodyStreamToJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+BodyStreamToJSON.swift"; sourceTree = "<group>"; };
 		63CB82212A72956C00E30361 /* SeamlessPayCoreTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SeamlessPayCoreTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		63CB82242A729BA800E30361 /* SPSentryDSNFactoryTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPSentryDSNFactoryTest.swift; sourceTree = "<group>"; };
 		63CB82262A729C3C00E30361 /* SPSentryClientMockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPSentryClientMockURLProtocol.swift; sourceTree = "<group>"; };
@@ -211,6 +222,7 @@
 		1C10BC3C2416A3C000548808 /* SeamlessPayCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				639E1CF72A86620500D803EA /* Utils */,
 				1C10BC3F2416A3C000548808 /* Info.plist */,
 				63CB82212A72956C00E30361 /* SeamlessPayCoreTests-Bridging-Header.h */,
 				1C10BC432416A42300548808 /* SPAPIClientTests.m */,
@@ -257,6 +269,7 @@
 		1C94043023D3451700BC4697 /* SeamlessPayDemo */ = {
 			isa = PBXGroup;
 			children = (
+				6315C9CA2A8522CD00E5E098 /* Verification */,
 				1C94043123D3451700BC4697 /* AppDelegate.h */,
 				1C94043223D3451700BC4697 /* AppDelegate.m */,
 				1C94043423D3451700BC4697 /* SceneDelegate.h */,
@@ -270,6 +283,8 @@
 				1C94044223D3451C00BC4697 /* LaunchScreen.storyboard */,
 				1C94044523D3451C00BC4697 /* Info.plist */,
 				1C94044623D3451C00BC4697 /* main.m */,
+				635DB9FD2A82A7750088E90A /* SeamlessPayDemo-Bridging-Header.h */,
+				635DBA012A82B2CA0088E90A /* SwiftUIViewHostingControllerFactory.swift */,
 			);
 			path = SeamlessPayDemo;
 			sourceTree = "<group>";
@@ -359,6 +374,24 @@
 				6DB40602EE58DDA3741CFF59 /* LICENSE */,
 			);
 			name = "Podspec Metadata";
+			sourceTree = "<group>";
+		};
+		6315C9CA2A8522CD00E5E098 /* Verification */ = {
+			isa = PBXGroup;
+			children = (
+				635DB9FE2A82A7760088E90A /* VerificationView.swift */,
+				6315C9CB2A8522DE00E5E098 /* SPChargeDetailView.swift */,
+				6315C9CD2A8523FC00E5E098 /* SPErrorDetailView.swift */,
+			);
+			path = Verification;
+			sourceTree = "<group>";
+		};
+		639E1CF72A86620500D803EA /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				639E1CF82A86621500D803EA /* URLRequest+BodyStreamToJSON.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		63CB82202A72955200E30361 /* SPSentryClient */ = {
@@ -521,6 +554,7 @@
 					1C94042E23D3451700BC4697 = {
 						CreatedOnToolsVersion = 11.2.1;
 						DevelopmentTeam = VVHY4NW744;
+						LastSwiftMigration = 1430;
 						ProvisioningStyle = Automatic;
 					};
 					1C94044E23D349AF00BC4697 = {
@@ -827,6 +861,7 @@
 				1C10BC442416A42300548808 /* SPAPIClientTests.m in Sources */,
 				1C14B9A22423BB68005E4D45 /* NSString_ExtrasTest.m in Sources */,
 				63CB82272A729C3C00E30361 /* SPSentryClientMockURLProtocol.swift in Sources */,
+				639E1CF92A86621500D803EA /* URLRequest+BodyStreamToJSON.swift in Sources */,
 				1C14B9A82423C4EA005E4D45 /* SPFPXBankBrandTest.m in Sources */,
 				638E38712A72B2D3008CEE2D /* SPSentryURLRequestFactoryTest.swift in Sources */,
 				1C14B9AA2423C613005E4D45 /* SPPaymentViewControllerTest.m in Sources */,
@@ -856,9 +891,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6315C9CE2A8523FC00E5E098 /* SPErrorDetailView.swift in Sources */,
 				1C94044723D3451C00BC4697 /* main.m in Sources */,
+				6315C9CC2A8522DE00E5E098 /* SPChargeDetailView.swift in Sources */,
 				1C94043323D3451700BC4697 /* AppDelegate.m in Sources */,
 				1C94043923D3451700BC4697 /* MasterViewController.m in Sources */,
+				635DBA022A82B2CA0088E90A /* SwiftUIViewHostingControllerFactory.swift in Sources */,
+				635DB9FF2A82A7760088E90A /* VerificationView.swift in Sources */,
 				1C94043623D3451700BC4697 /* SceneDelegate.m in Sources */,
 				1C94043C23D3451700BC4697 /* DetailViewController.m in Sources */,
 			);
@@ -1080,6 +1119,7 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_COMMA = YES;
@@ -1107,6 +1147,9 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seamlesspay.core.SeamlessPayDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SeamlessPayDemo/SeamlessPayDemo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1119,6 +1162,7 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_COMMA = YES;
@@ -1147,6 +1191,8 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seamlesspay.core.SeamlessPayDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SeamlessPayDemo/SeamlessPayDemo-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
