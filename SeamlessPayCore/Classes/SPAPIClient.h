@@ -58,7 +58,7 @@ typedef NS_ENUM(NSUInteger, SPPaymentType) {
                           cvv:(NSString *_Nullable)cvv
                       capture:(BOOL)capture
                      currency:(NSString *_Nullable)currency
-                       amount:(NSString *_Nullable)amount
+                       amount:(NSString *_Nonnull)amount
                     taxAmount:(NSString *_Nullable)taxAmount
                     taxExempt:(BOOL)taxExempt
                           tip:(NSString *_Nullable)tip
@@ -136,5 +136,30 @@ typedef NS_ENUM(NSUInteger, SPPaymentType) {
 - (void)retrieveCustomerWithId:(NSString *_Nonnull)customerId
                        success:(void (^_Nonnull)(SPCustomer *_Nullable customer))success
                        failure:(void (^_Nonnull)(SPError *_Nonnull))failure;
+
+/**
+ *  Verify
+ */
+- (void)verifyWithToken:(NSString *_Nonnull)token
+                    cvv:(NSString *_Nullable)cvv
+               currency:(NSString *_Nullable)currency
+              taxAmount:(NSString *_Nullable)taxAmount
+              taxExempt:(BOOL)taxExempt
+                    tip:(NSString *_Nullable)tip
+     surchargeFeeAmount:(NSString *_Nullable)surchargeFeeAmount
+            description:(NSString *_Nullable)description
+                  order:(NSDictionary *_Nullable)order
+                orderId:(NSString *_Nullable)orderId
+               poNumber:(NSString *_Nullable)poNumber
+               metadata:(NSString *_Nullable)metadata
+             descriptor:(NSString *_Nullable)descriptor
+              entryType:(NSString *_Nullable)entryType
+         idempotencyKey:(NSString *_Nullable)idempotencyKey
+                success:(void (^_Nonnull)(SPCharge *_Nonnull charge))success
+                failure:(void (^_Nonnull)(SPError *_Nonnull))failure;
+
+- (void)verifyWithToken:(NSString *_Nonnull)token
+                success:(void (^_Nonnull)(SPCharge *_Nonnull charge))success
+                failure:(void (^_Nonnull)(SPError *_Nonnull))failure;
 
 @end

@@ -510,24 +510,24 @@
                                                      success:^(SPPaymentMethod *paymentMethod) {
         if (paymentMethod) {
             
-            [[SPAPIClient getSharedInstance] createChargeWithToken:paymentMethod.token
-                                                               cvv:cvc
-                                                           capture:YES
-                                                          currency:nil
-                                                            amount:[[self.amountTextField.text substringFromIndex:1] stringByReplacingOccurrencesOfString:@"," withString:@""]
-                                                         taxAmount:nil
-                                                         taxExempt:NO
-                                                               tip:nil
-                                                surchargeFeeAmount:nil
-                                                       description:@""
-                                                             order:nil
-                                                           orderId:nil
-                                                          poNumber:nil
-                                                          metadata:nil
-                                                        descriptor:nil
-                                                         entryType:nil
-                                                    idempotencyKey:nil
-                                                           success:^(SPCharge *charge) {
+          [[SPAPIClient getSharedInstance] createChargeWithToken:paymentMethod.token
+                                                             cvv:cvc
+                                                         capture:YES
+                                                        currency:nil
+                                                          amount:[[self.amountTextField.text substringFromIndex:1] stringByReplacingOccurrencesOfString:@"," withString:@""]
+                                                       taxAmount:nil
+                                                       taxExempt:NO
+                                                             tip:nil
+                                              surchargeFeeAmount:nil
+                                                     description:@""
+                                                           order:nil
+                                                         orderId:nil
+                                                        poNumber:nil
+                                                        metadata:nil
+                                                      descriptor:nil
+                                                       entryType:nil
+                                                  idempotencyKey:nil
+                                                         success:^(SPCharge *charge) {
                 CFTimeInterval elapsedTime = CACurrentMediaTime() - startTime;
                 
                 if (charge) {
@@ -545,7 +545,7 @@
                                     restartDemo:YES];
                 }
             }
-                                                           failure:^(SPError *error) {
+                                                         failure:^(SPError *error) {
                 [self.activityIndicator stopAnimating];
                 [self displayAlertWithTitle:@"Error creating Charge"
                                     message:error.localizedDescription

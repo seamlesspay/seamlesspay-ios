@@ -126,17 +126,17 @@
                                                    entryType:nil
                                               idempotencyKey:self.idempotencyKey
                                                      success:^(SPCharge *charge) {
-              [self.activityIndicator stopAnimation];
-              if ([self.delegate respondsToSelector:@selector(paymentViewController:chargeSuccess:)]) {
-                 [self.delegate paymentViewController:self chargeSuccess:charge];
-              }
-            }
-            failure:^(SPError *error) {
-              [self.activityIndicator stopAnimation];
-              if ([self.delegate respondsToSelector:@selector(paymentViewController:chargeError:)]) {
-                 [self.delegate paymentViewController:self chargeError:error];
-              }
-            }];
+        [self.activityIndicator stopAnimation];
+        if ([self.delegate respondsToSelector:@selector(paymentViewController:chargeSuccess:)]) {
+          [self.delegate paymentViewController:self chargeSuccess:charge];
+        }
+      }
+                                                     failure:^(SPError *error) {
+        [self.activityIndicator stopAnimation];
+        if ([self.delegate respondsToSelector:@selector(paymentViewController:chargeError:)]) {
+          [self.delegate paymentViewController:self chargeError:error];
+        }
+      }];
       }
       failure:^(SPError *error) {
       [self.activityIndicator stopAnimation];

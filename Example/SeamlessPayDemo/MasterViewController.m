@@ -7,75 +7,39 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
+#import "SeamlessPayDemo-Swift.h"
 
 @interface MasterViewController ()
 
-@property NSMutableArray *objects;
+@property NSArray *objects;
 @end
 
 @implementation MasterViewController
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  // Do any additional setup after loading the view.
-  // self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
-  //    UIBarButtonItem *addButton = [[UIBarButtonItem alloc]
-  //    initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self
-  //    action:@selector(insertNewObject:)];
-  //    self.navigationItem.rightBarButtonItem = addButton;
-
-  self.detailViewController = (DetailViewController *)
-      [[self.splitViewController.viewControllers lastObject] topViewController];
-
-  self.objects = [[NSMutableArray alloc] init];
-  [self.objects addObject:@"Authentication"];
-  [self.objects addObject:@"Add Credit/Debit Card"];
-  [self.objects addObject:@"Add Gift Card"];
-  [self.objects addObject:@"Add ACH"];
-  [self.objects addObject:@"Create Customer"];
-  [self.objects addObject:@"Retrieve a Customer"];
-  [self.objects addObject:@"Update Customer"];
-  [self.objects addObject:@"Create a Charge"];
-  [self.objects addObject:@"Retrieve a Charge"];
-  [self.objects addObject:@"Virtual Terminal (CHARGE)"];
-  [self.objects addObject:@"Virtual Terminal (ACH)"];
-  [self.objects addObject:@"Virtual Terminal (GIFT CARD)"];
-  [self.objects addObject:@"UI Payment Card Text Field"];
+  self.objects = @[
+    @"Authentication",
+    @"Add Credit/Debit Card",
+    @"Add Gift Card",
+    @"Add ACH",
+    @"Create Customer",
+    @"Retrieve a Customer",
+    @"Update Customer",
+    @"Create a Charge",
+    @"Retrieve a Charge",
+    @"Virtual Terminal (CHARGE)",
+    @"Virtual Terminal (ACH)",
+    @"Virtual Terminal (GIFT CARD)",
+    @"UI Payment Card Text Field",
+    @"Verification",
+  ];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
   self.clearsSelectionOnViewWillAppear = self.splitViewController.isCollapsed;
   [super viewWillAppear:animated];
-}
-
-//- (void)insertNewObject:(id)sender {
-//    if (!self.objects) {
-//        self.objects = [[NSMutableArray alloc] init];
-//    }
-//
-//    [self.objects insertObject:[NSDate date] atIndex:0];
-//
-//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-//    [self.tableView insertRowsAtIndexPaths:@[indexPath]
-//    withRowAnimation:UITableViewRowAnimationAutomatic];
-//}
-
-#pragma mark - Segues
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-  if ([[segue identifier] isEqualToString:@"showDetail"]) {
-    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-    NSString *object = self.objects[indexPath.row];
-    DetailViewController *controller =
-        (DetailViewController *)[[segue destinationViewController]
-            topViewController];
-    controller.detailItem = object;
-    controller.navigationItem.leftBarButtonItem =
-        self.splitViewController.displayModeButtonItem;
-    controller.navigationItem.leftItemsSupplementBackButton = YES;
-    self.detailViewController = controller;
-  }
 }
 
 #pragma mark - Table View
@@ -85,15 +49,15 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView
-    numberOfRowsInSection:(NSInteger)section {
+ numberOfRowsInSection:(NSInteger)section {
   return self.objects.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   UITableViewCell *cell =
-      [tableView dequeueReusableCellWithIdentifier:@"Cell"
-                                      forIndexPath:indexPath];
+  [tableView dequeueReusableCellWithIdentifier:@"Cell"
+                                  forIndexPath:indexPath];
 
   NSDate *object = self.objects[indexPath.row];
   cell.textLabel.text = [object description];
@@ -105,22 +69,48 @@
   return cell;
 }
 
-- (BOOL)tableView:(UITableView *)tableView
-    canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-  // Return NO if you do not want the specified item to be editable.
-  return YES;
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  [self showDetailViewControllerForRow:indexPath.row];
 }
 
-- (void)tableView:(UITableView *)tableView
-    commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
-     forRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (editingStyle == UITableViewCellEditingStyleDelete) {
-    [self.objects removeObjectAtIndex:indexPath.row];
-    [tableView deleteRowsAtIndexPaths:@[ indexPath ]
-                     withRowAnimation:UITableViewRowAnimationFade];
-  } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-    // Create a new instance of the appropriate class, insert it into the array,
-    // and add a new row to the table view.
+// MARK: Private
+- (void)showDetailViewControllerForRow:(NSInteger)row {
+  if (self.objects.count > row) {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    NSString *object = self.objects[row];
+
+    UIViewController *viewController;
+    if ([object isEqualToString:@"Verification"]) {
+      viewController = [SwiftUIViewHostingControllerFactory verificationViewHostingController];
+    } else {
+      DetailViewController *detailViewController = (DetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"DetailViewControllerStoryboardIdentifier"];
+      detailViewController.detailItem = object;
+      viewController = detailViewController;
+    }
+    [self addDetailViewController:viewController];
+  }
+}
+
+- (void)addDetailViewController:(UIViewController *)viewController {
+  if (viewController) {
+    UIUserInterfaceIdiom userInterfaceIdiom = [UIDevice currentDevice].userInterfaceIdiom;
+    if (userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
+      // Running on iPhone, push the view controller onto the navigation stack
+      UINavigationController *navigationController = self.navigationController;
+      if (navigationController) {
+        [navigationController pushViewController:viewController animated:YES];
+      }
+    } else if (userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+      // Running on iPad, add the view controller as the second view controller of a split view controller
+      UISplitViewController *splitViewController = (UISplitViewController *)self.splitViewController;
+      if (splitViewController) {
+        UIViewController *masterViewController = [splitViewController.viewControllers firstObject];
+        NSArray *viewControllers = @[masterViewController, viewController];
+        splitViewController.viewControllers = viewControllers;
+      }
+    }
+  } else {
+    NSLog(@"Failed to instantiate view controller from storyboard.");
   }
 }
 

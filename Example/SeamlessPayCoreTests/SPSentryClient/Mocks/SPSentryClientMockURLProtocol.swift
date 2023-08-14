@@ -14,11 +14,10 @@ final class SPSentryClientMockURLProtocol: URLProtocol {
   }
 
   static var responseType: ResponseType!
-
   static var requestData: [String: Any]?
 
-    // say we want to handle all types of request
-    override class func canInit(with request: URLRequest) -> Bool {
+  // say we want to handle all types of request
+  override class func canInit(with request: URLRequest) -> Bool {
     return true
   }
 
@@ -51,8 +50,8 @@ extension SPSentryClientMockURLProtocol {
   }
 
   static func responseWithFailure() {
-    Self.responseType = .error(MockError.none)
-    Self.requestData = nil
+    responseType = .error(MockError.none)
+    requestData = nil
   }
 
   static func responseWithSuccess() {
@@ -67,42 +66,7 @@ extension SPSentryClientMockURLProtocol {
 
     let data = Data("Any data".utf8)
 
-    Self.responseType = .success(data, response)
-    Self.requestData = nil
-  }
-}
-
-private extension URLRequest {
-  func bodySteamAsJSON() -> [String: Any]? {
-    guard let bodyStream = httpBodyStream else { return nil }
-
-    bodyStream.open()
-
-    // Will read 16 chars per iteration. Can use bigger buffer if needed
-    let bufferSize = 16
-
-    let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: bufferSize)
-
-    var dat = Data()
-
-    while bodyStream.hasBytesAvailable {
-      let readDat = bodyStream.read(buffer, maxLength: bufferSize)
-      dat.append(buffer, count: readDat)
-    }
-
-    buffer.deallocate()
-
-    bodyStream.close()
-
-    do {
-      return try JSONSerialization.jsonObject(
-        with: dat,
-        options: JSONSerialization.ReadingOptions.allowFragments
-      ) as? [String: Any]
-    } catch {
-      print(error.localizedDescription)
-
-      return nil
-    }
+    responseType = .success(data, response)
+    requestData = nil
   }
 }

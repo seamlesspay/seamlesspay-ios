@@ -299,55 +299,26 @@ static SPAPIClient *sharedInstance = nil;
                       success:(void (^)(SPCharge *charge))success
                       failure:(void (^)(SPError *))failure {
 
-  NSMutableDictionary *params = [@{
-    @"token" : token ?: @"",//
-    @"cvv" : cvv ?: @"",//
-    @"capture" : @(capture),//
-    @"currency" : currency ?: @"",//
-    @"amount" : amount ?: @"",//
-    @"taxAmount" : taxAmount ?: @"",//
-    @"taxExempt" : @(taxExempt),//
-    @"tip" : tip ?: @"",//
-    @"surchargeFeeAmount" : surchargeFeeAmount ?: @"",//
-    @"description" : description ?: @"",//
-    @"orderID" : orderId ?: @"",//
-    @"poNumber" : poNumber ?: @"",//
-    @"descriptor" : descriptor ?: @"",//
-    @"idempotencyKey" : idempotencyKey ?: @"",//
-    @"entryType" : entryType ?: @"",//
-    @"metadata" : metadata ?: @"",//
-    @"order" : order ?: @"",//
-    @"deviceFingerprint" : [self deviceFingerprint]
-  } mutableCopy];
-
-  NSArray *keysForNullValues = [params allKeysForObject:@""];
-  [params removeObjectsForKeys:keysForNullValues];
-
-  NSURLRequest *request = [self requestWithMethod:@"POST"
-                                           params:params
-                                             path:@"charges"
-                                         hostName:_APIHostURL
-                                           apiKey:_secretKey];
-
-  [self execute:request completion:^(NSData * _Nullable data,
-                                     NSURLResponse * _Nullable response,
-                                     SPError * _Nullable error) {
-    if (error) {
-      if (failure) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-          failure(error);
-        });
-      }
-
-    } else {
-      if (success) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-          success([SPCharge chargeWithResponseData:data]);
-        });
-      }
-    }
-  }];
-}
+  [self chargeWithToken:token
+                    cvv:cvv
+                capture:capture
+               currency:currency
+                 amount:amount
+              taxAmount:taxAmount
+              taxExempt:taxExempt
+                    tip:tip
+     surchargeFeeAmount:surchargeFeeAmount
+            description:description
+                  order:order
+                orderId:orderId
+               poNumber:poNumber
+               metadata:metadata
+             descriptor:description
+              entryType:entryType
+         idempotencyKey:idempotencyKey
+                success:success
+                failure:failure];
+  }
 
 - (void)retrieveChargeWithId:(NSString *)chargeId
                      success:(void (^)(SPCharge *charge))success
@@ -425,9 +396,139 @@ static SPAPIClient *sharedInstance = nil;
   }];
 }
 
+- (void)verifyWithToken:(NSString *)token
+                    cvv:(NSString *)cvv
+               currency:(NSString *)currency
+              taxAmount:(NSString *)taxAmount
+              taxExempt:(BOOL)taxExempt
+                    tip:(NSString *)tip
+     surchargeFeeAmount:(NSString *)surchargeFeeAmount
+            description:(NSString *)description
+                  order:(NSDictionary *)order
+                orderId:(NSString *)orderId
+               poNumber:(NSString *)poNumber
+               metadata:(NSString *)metadata
+             descriptor:(NSString *)descriptor
+              entryType:(NSString *)entryType
+         idempotencyKey:(NSString *)idempotencyKey
+                success:(void (^)(SPCharge *charge))success
+                failure:(void (^)(SPError *))failure {
+
+  [self chargeWithToken:token
+                    cvv:cvv
+                capture:NO
+               currency:currency
+                 amount:nil
+              taxAmount:taxAmount
+              taxExempt:taxExempt
+                    tip:tip
+     surchargeFeeAmount:surchargeFeeAmount
+            description:description
+                  order:order
+                orderId:orderId
+               poNumber:poNumber
+               metadata:metadata
+             descriptor:description
+              entryType:entryType
+         idempotencyKey:idempotencyKey
+                success:success failure:failure];
+}
+
+- (void)verifyWithToken:(NSString *)token
+                success:(void (^)(SPCharge *charge))success
+                failure:(void (^)(SPError *))failure {
+  [self verifyWithToken:token
+                    cvv:nil
+               currency:nil
+              taxAmount:nil
+              taxExempt:NO
+                    tip:nil
+     surchargeFeeAmount:nil
+            description:nil
+                  order:nil
+                orderId:nil
+               poNumber:nil
+               metadata:nil
+             descriptor:nil
+              entryType:nil
+         idempotencyKey:nil
+                success:success
+                failure:failure];
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - <<<Private Methods>>>
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+- (void)chargeWithToken:(NSString *)token
+                    cvv:(NSString *)cvv
+                capture:(BOOL)capture
+               currency:(NSString *)currency
+                 amount:(NSString *)amount
+              taxAmount:(NSString *)taxAmount
+              taxExempt:(BOOL)taxExempt
+                    tip:(NSString *)tip
+     surchargeFeeAmount:(NSString *)surchargeFeeAmount
+            description:(NSString *)description
+                  order:(NSDictionary *)order
+                orderId:(NSString *)orderId
+               poNumber:(NSString *)poNumber
+               metadata:(NSString *)metadata
+             descriptor:(NSString *)descriptor
+              entryType:(NSString *)entryType
+         idempotencyKey:(NSString *)idempotencyKey
+                success:(void (^)(SPCharge *charge))success
+                failure:(void (^)(SPError *))failure {
+
+  NSMutableDictionary *params = [@{
+    @"token" : token ?: @"",//
+    @"cvv" : cvv ?: @"",//
+    @"capture" : @(capture),//
+    @"currency" : currency ?: @"",//
+    @"amount" : amount ?: @"",//
+    @"taxAmount" : taxAmount ?: @"",//
+    @"taxExempt" : @(taxExempt),//
+    @"tip" : tip ?: @"",//
+    @"surchargeFeeAmount" : surchargeFeeAmount ?: @"",//
+    @"description" : description ?: @"",//
+    @"orderID" : orderId ?: @"",//
+    @"poNumber" : poNumber ?: @"",//
+    @"descriptor" : descriptor ?: @"",//
+    @"idempotencyKey" : idempotencyKey ?: @"",//
+    @"entryType" : entryType ?: @"",//
+    @"metadata" : metadata ?: @"",//
+    @"order" : order ?: @"",//
+    @"deviceFingerprint" : [self deviceFingerprint]
+  } mutableCopy];
+
+  NSArray *keysForNullValues = [params allKeysForObject:@""];
+  [params removeObjectsForKeys:keysForNullValues];
+
+  NSURLRequest *request = [self requestWithMethod:@"POST"
+                                           params:params
+                                             path:@"charges"
+                                         hostName:_APIHostURL
+                                           apiKey:_secretKey];
+
+  [self execute:request completion:^(NSData * _Nullable data,
+                                     NSURLResponse * _Nullable response,
+                                     SPError * _Nullable error) {
+    if (error) {
+      if (failure) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+          failure(error);
+        });
+      }
+
+    } else {
+      if (success) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+          success([SPCharge chargeWithResponseData:data]);
+        });
+      }
+    }
+  }];
+}
 
 - (void)execute:(NSURLRequest *)request
      completion:(void (NS_SWIFT_SENDABLE ^)(NSData * _Nullable data,
@@ -739,11 +840,11 @@ static SPAPIClient *sharedInstance = nil;
 
 // MARK: Sentry client
 - (void)setSentryClient {
-//#ifndef DEBUG //Initialize sentry client only for release builds
+#ifndef DEBUG //Initialize sentry client only for release builds
   SPSentryConfig *config = [[SPSentryConfig alloc] initWithUserId:[SPInstallation installationID]
                                                       environment:[self valueForEnvironment]];
   self.sentryClient = [SPSentryClient makeWithConfiguration:config];
-//#endif
+#endif
 }
 
 @end
