@@ -210,31 +210,23 @@ static SPAPIClient *sharedInstance = nil;
 }
 
 - (void)tokenizeWithPaymentType:(SPPaymentType)paymentType
-                        account:(NSString *)account
+                  accountNumber:(NSString *)accountNumber
                         expDate:(NSString *)expDate
                             cvv:(NSString *)cvv
                     accountType:(NSString *)accountType
                         routing:(NSString *)routing
                             pin:(NSString *)pin
                  billingAddress:(SPAddress *)billingAddress
-             billingCompanyName:(NSString *)billingCompany
-                   accountEmail:(NSString *)accountEmail
-                    phoneNumber:(NSString *)phoneNumber
                            name:(NSString *)name
-                       customer:(SPCustomer *)customer
                         success:(void (^)(SPPaymentMethod *paymentMethod))success
                         failure:(void (^)(SPError *))failure {
 
   NSString *paymentTypeString = [self valueForPaymentType:paymentType];
   NSMutableDictionary *params = [@{
     @"paymentType" : paymentTypeString ?: @"",
-    @"accountNumber" : account ?: @"",
+    @"accountNumber" : accountNumber ?: @"",
     @"billingAddress" : [billingAddress dictionary] ? [billingAddress dictionary] : @"",
-    @"company" : billingCompany ?: @"",
-    @"email" : accountEmail ?: @"",
     @"name" : name ?: @"",
-    @"phoneNumber" : phoneNumber ?: @"",
-    @"customer" : [customer dictionary] ? [customer dictionary] : @"",
     @"deviceFingerprint" : [self deviceFingerprint]
   } mutableCopy];
 

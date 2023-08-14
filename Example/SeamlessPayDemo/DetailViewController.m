@@ -53,48 +53,9 @@
 
   } else if ([self.title isEqualToString:@"Add Credit/Debit Card"]) {
 
-    _contentHTML =
-        @"<html><head><style "
-        @"type=\"text/"
-        @"css\">html{padding:5px;font-family:Verdana;font-size:13pt;}body{"
-        @"background-color:#f8f8f8;}input,select{background-color:white;-"
-        @"webkit-appearance: "
-        @"none;border-radius:2px;font-size:12pt;padding:4px;}input[type="
-        @"\"submit\"]{background-color:#40a9ff;color:white;padding:10px "
-        @"25px;border:none;}</style><meta name=\"viewport\" "
-        @"content=\"initial-scale=1, maximum-scale=1.0, "
-        @"user-scalable=no\"/></head><body>Our stored value API can be used to "
-        @"create a variety of integrated applications, such as gift card and "
-        @"rewards programs. A stored-value card is a payments card with a "
-        @"monetary value stored on the card itself, not in an external account "
-        @"maintained by a financial institution.<br><br><br><form>Select "
-        @"type:&nbsp;<select "
-        @"name=\"txnType\"><option>credit_card</option><option>pldebit_card</"
-        @"option></select><br>Account Number:<br><input type=\"number\" "
-        @"name=\"accountNumber\" required><br>Expiration Date:<br><input "
-        @"type=\"text\" name=\"expDate\" placeholder=\"MM/YY\" required><input "
-        @"type=\"text\" name=\"cvv\" placeholder=\"cvv\"><input type=\"hidden\" "
-        @"name=\"bankAccountType\"><input type=\"hidden\" "
-        @"name=\"pinNumber\"><br>Billing first address:<br><input "
-        @"type=\"text\" name=\"billingAddress\" size=\"36\"><br>Billing second "
-        @"address:<br><input type=\"text\" name=\"billingAddress2\" "
-        @"size=\"36\"><br>Billing city:<br><input type=\"text\" "
-        @"name=\"billingCity\" size=\"36\"><br>Billing Country:<br><input "
-        @"type=\"text\" name=\"billingCountry\" size=\"36\"><br>Billing State "
-        @"(2 characters):<br><input type=\"text\" name=\"billingState\" "
-        @"size=\"36\"><br>Billing Zip (5 characters):<br><input type=\"text\" "
-        @"name=\"billingZip\" size=\"36\"><br>Billing company name:<br><input "
-        @"type=\"text\" name=\"company\" size=\"36\"><br>Account "
-        @"email:<br><input type=\"email\" name=\"email\" size=\"36\" "
-        @"pattern=\"[^ @]*@[^ @]*\"><br>Name:<input type=\"text\" "
-        @"name=\"name\" size=\"36\"><br>Customer name:<input type=\"text\" "
-        @"name=\"customer_name\" size=\"36\"><br>Phone number (10 "
-        @"characters):<input type=\"number\" "
-        @"name=\"phoneNumber\">"
-        @"<br><br><center><input type=\"submit\" "
-        @"name=\"panvault\" "
-        @"value=\"Create\"></center></form><center><!--[RESULTS]--></center></"
-        @"body></html>";
+    NSDataAsset *dataAsset = [[NSDataAsset alloc] initWithName:@"add-credit-debit-card-html"];
+
+    _contentHTML = [[NSString alloc] initWithData:dataAsset.data encoding:NSUTF8StringEncoding];
 
     WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
 
@@ -108,46 +69,9 @@
     [self.webView loadHTMLString:_contentHTML baseURL:nil];
 
   } else if ([self.title isEqualToString:@"Add Gift Card"]) {
+    NSDataAsset *dataAsset = [[NSDataAsset alloc] initWithName:@"add-gift-card-html"];
 
-    _contentHTML =
-        @"<html><head><style "
-        @"type=\"text/"
-        @"css\">html{padding:5px;font-family:Verdana;font-size:13pt;}body{"
-        @"background-color:#f8f8f8;}input,select{background-color:white;-"
-        @"webkit-appearance: "
-        @"none;border-radius:2px;font-size:12pt;padding:4px;}input[type="
-        @"\"submit\"]{background-color:#40a9ff;color:white;padding:10px "
-        @"25px;border:none;}</style><meta name=\"viewport\" "
-        @"content=\"initial-scale=1, maximum-scale=1.0, "
-        @"user-scalable=no\"/></head><body>Our stored value API can be used to "
-        @"create a variety of integrated applications, such as gift card and "
-        @"rewards programs. A stored-value card is a payments card with a "
-        @"monetary value stored on the card itself, not in an external account "
-        @"maintained by a financial institution.<br><br><form><input "
-        @"type=\"hidden\" name=\"txnType\" value=\"gift_card\"><br>Account "
-        @"Number:<br><input type=\"number\" name=\"accountNumber\" "
-        @"required><br><input type=\"hidden\" name=\"expDate\"><input "
-        @"type=\"hidden\" name=\"routingNumber\"><input type=\"hidden\" "
-        @"name=\"bankAccountType\">PIN (6 characters):<br><input "
-        @"type=\"number\" name=\"pinNumber\"><br>Billing first "
-        @"address:<br><input type=\"text\" name=\"billingAddress\" "
-        @"size=\"36\"><br>Billing second address:<br><input type=\"text\" "
-        @"name=\"billingAddress2\" size=\"36\"><br>Billing city:<br><input "
-        @"type=\"text\" name=\"billingCity\" size=\"36\"><br>Billing "
-        @"Country:<br><input type=\"text\" name=\"billingCountry\" "
-        @"size=\"36\"><br>Billing State (2 characters):<br><input "
-        @"type=\"text\" name=\"billingState\" size=\"36\"><br>Billing Zip (5 "
-        @"characters):<br><input type=\"text\" name=\"billingZip\" "
-        @"size=\"36\"><br>Billing company name:<br><input type=\"text\" "
-        @"name=\"company\" size=\"36\"><br>Account email:<br><input "
-        @"type=\"email\" name=\"email\" size=\"36\" pattern=\"[^ @]*@[^ "
-        @"@]*\"><br>Name:<input type=\"text\" name=\"name\" "
-        @"size=\"36\"><br>Nick name:<input type=\"text\" name=\"nickname\" "
-        @"size=\"36\"><br>Phone number (10 characters):<input type=\"number\" "
-        @"name=\"phoneNumber\"><br><br><center><input type=\"submit\" "
-        @"name=\"panvault\" "
-        @"value=\"Create\"></center></form><center><!--[RESULTS]--></center></"
-        @"body></html>";
+    _contentHTML = [[NSString alloc] initWithData:dataAsset.data encoding:NSUTF8StringEncoding];
 
     WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
 
@@ -161,48 +85,9 @@
     [self.webView loadHTMLString:_contentHTML baseURL:nil];
 
   } else if ([self.title isEqualToString:@"Add ACH"]) {
+    NSDataAsset *dataAsset = [[NSDataAsset alloc] initWithName:@"add-ach-html"];
 
-    _contentHTML =
-        @"<html><head><style "
-        @"type=\"text/"
-        @"css\">html{padding:5px;font-family:Verdana;font-size:13pt;}body{"
-        @"background-color:#f8f8f8;}input,select{background-color:white;-"
-        @"webkit-appearance: "
-        @"none;border-radius:2px;font-size:12pt;padding:4px;}input[type="
-        @"\"submit\"]{background-color:#40a9ff;color:white;padding:10px "
-        @"25px;border:none;}</style><meta name=\"viewport\" "
-        @"content=\"initial-scale=1, maximum-scale=1.0, "
-        @"user-scalable=no\"/></head><body>Our stored value API can be used to "
-        @"create a variety of integrated applications, such as gift card and "
-        @"rewards programs. A stored-value card is a payments card with a "
-        @"monetary value stored on the card itself, not in an external account "
-        @"maintained by a financial institution.<br><br><form><input "
-        @"type=\"hidden\" name=\"txnType\" value=\"ach\"><br>Account "
-        @"Number:<br><input type=\"number\" name=\"accountNumber\" "
-        @"required><br><input type=\"hidden\" name=\"expDate\">Routing number "
-        @"(9 characters):<br><input type=\"number\" name=\"routingNumber\" "
-        @"required><br>Select bank account type:&nbsp;<select "
-        @"name=\"bankAccountType\"><option>Checking</option><option>Savings</"
-        @"option></select><input type=\"hidden\" "
-        @"name=\"pinNumber\"><br>Billing first address:<br><input "
-        @"type=\"text\" name=\"billingAddress\" size=\"36\"><br>Billing second "
-        @"address:<br><input type=\"text\" name=\"billingAddress2\" "
-        @"size=\"36\"><br>Billing city:<br><input type=\"text\" "
-        @"name=\"billingCity\" size=\"36\"><br>Billing Country:<br><input "
-        @"type=\"text\" name=\"billingCountry\" size=\"36\"><br>Billing State "
-        @"(2 characters):<br><input type=\"text\" name=\"billingState\" "
-        @"size=\"36\"><br>Billing Zip (5 characters):<br><input type=\"text\" "
-        @"name=\"billingZip\" size=\"36\"><br>Billing company name:<br><input "
-        @"type=\"text\" name=\"company\" size=\"36\"><br>Account "
-        @"email:<br><input type=\"email\" name=\"email\" size=\"36\" "
-        @"pattern=\"[^ @]*@[^ @]*\"><br>Name:<input type=\"text\" "
-        @"name=\"name\" size=\"36\"><br>Nick name:<input type=\"text\" "
-        @"name=\"nickname\" size=\"36\"><br>Phone number (10 "
-        @"characters):<input type=\"number\" "
-        @"name=\"phoneNumber\"><br><br><center><input type=\"submit\" "
-        @"name=\"panvault\" "
-        @"value=\"Create\"></center></form><center><!--[RESULTS]--></center></"
-        @"body></html>";
+    _contentHTML = [[NSString alloc] initWithData:dataAsset.data encoding:NSUTF8StringEncoding];
 
     WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
 
@@ -441,41 +326,9 @@
 
   } else if ([self.title isEqualToString:@"Virtual Terminal (CHARGE)"]) {
 
-    _contentHTML =
-        @"<html><head><style "
-        @"type=\"text/"
-        @"css\">html{padding:5px;font-family:Verdana;font-size:13pt;}body{"
-        @"background-color:#f8f8f8;}input,select{background-color:white;-"
-        @"webkit-appearance: "
-        @"none;border-radius:2px;font-size:12pt;padding:4px;border-color:#"
-        @"cccccc;}input[type=\"submit\"]{background-color:#40a9ff;color:white;"
-        @"padding:10px "
-        @"25px;border:none;}#info{padding:10px;margin:5px;background-color:#"
-        @"e8e8e8;font-size:10pt;}</style><meta name=\"viewport\" "
-        @"content=\"initial-scale=1, maximum-scale=1.0, "
-        @"user-scalable=no\"/></head><body><form><table><tr><td>Type:</"
-        @"td><td><select name=\"capture\"><option "
-        @"value=\"YES\">Charge</option><option value=\"NO\">Auth "
-        @"Only</option></select></td></tr><tr><td>Name:</td><td><input "
-        @"type=\"text\" name=\"name\"></td></tr><tr><td>Amount:</td><td><input "
-        @"type=\"number\" name=\"amount\" required></td></tr><tr><td>Card "
-        @"Number:</td><td><input type=\"number\" name=\"cardnumber\" "
-        @"required></td></tr><tr><td>Exp:</td><td><input type=\"text\" "
-        @"name=\"expDate\" placeholder=\"MM/YY\" "
-        @"required></td></tr><tr><td>cvv:</td><td><input type=\"number\" "
-        @"name=\"cvv\" placeholder=\"123\"></td></tr><tr><td>Billing "
-        @"Street:</td><td><input type=\"text\" "
-        @"name=\"billingAddress\"></td></tr><tr><td>Billing "
-        @"Zip:</td><td><input type=\"number\" name=\"billingZip\" "
-        @"placeholder=\"12345\"></td></tr><tr><td>Tax Amount:</td><td><input "
-        @"type=\"number\" name=\"taxAmount\"></td></tr><tr><td>PO "
-        @"#:</td><td><input type=\"text\" "
-        @"name=\"poNumber\"></td></tr><tr><td>Description:</td><td><input "
-        @"type=\"text\" "
-        @"name=\"description\"></td></tr><tr><td>Email:</td><td><input "
-        @"type=\"email\" name=\"email\"></td></tr></table><br><br><center><input type=\"submit\" "
-        @"name=\"vtcharge\" "
-        @"value=\"Process\"></center></form><!--[RESULTS]--></body></html>";
+    NSDataAsset *dataAsset = [[NSDataAsset alloc] initWithName:@"virtual-terminal-charge-html"];
+
+    _contentHTML = [[NSString alloc] initWithData:dataAsset.data encoding:NSUTF8StringEncoding];
 
     WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
     _webView = [[WKWebView alloc] initWithFrame:self.view.frame
@@ -489,45 +342,9 @@
 
   } else if ([self.title isEqualToString:@"Virtual Terminal (ACH)"]) {
 
-    _contentHTML =
-        @"<html><head><style "
-        @"type=\"text/"
-        @"css\">html{padding:5px;font-family:Verdana;font-size:13pt;}body{"
-        @"background-color:#f8f8f8;}input,select{background-color:white;-"
-        @"webkit-appearance: "
-        @"none;border-radius:2px;font-size:12pt;padding:4px;border-color:#"
-        @"cccccc;}input[type=\"submit\"]{background-color:#40a9ff;color:white;"
-        @"padding:10px "
-        @"25px;border:none;}#info{padding:10px;margin:5px;background-color:#"
-        @"e8e8e8;font-size:10pt;}</style><meta name=\"viewport\" "
-        @"content=\"initial-scale=1, maximum-scale=1.0, "
-        @"user-scalable=no\"/></head><body><form><table><tr><td>Account "
-        @"Type:</td><td><select "
-        @"name=\"bankAccountType\"><option>Checking</option><option>Savings</"
-        @"option></select></td></tr><tr><td>Name:</td><td><input type=\"text\" "
-        @"name=\"name\"><tr><td>Company:</td><td><input type=\"text\" "
-        @"name=\"company\"></td></tr><tr><td>Routing number :</td><td><input "
-        @"type=\"number\" name=\"routingNumber\" "
-        @"required></td></tr><tr><td>Account Number:</td><td><input "
-        @"type=\"number\" name=\"accountNumber\" "
-        @"required></td></tr><tr><td>Amount:</td><td><input type=\"number\" "
-        @"name=\"amount\" required></td></tr><tr><td>Billing "
-        @"Address:</td><td><input type=\"text\" "
-        @"name=\"billingAddress\"></td></tr><tr><td>Billing "
-        @"City:</td><td><input type=\"text\" "
-        @"name=\"billingCity\"></td></tr><tr><td>Billing State:</td><td><input "
-        @"type=\"text\" name=\"billingState\"></td></tr><tr><td>Billing "
-        @"Zip:</td><td><input type=\"number\" "
-        @"name=\"billingZip\"></td></tr><tr><td>Billing "
-        @"Country:</td><td><input type=\"text\" "
-        @"name=\"billingCountry\"></td></tr><tr><td>Phone "
-        @"Number:</td><td><input type=\"number\" "
-        @"name=\"phone\"></td></tr><tr><td>Description:</td><td><input "
-        @"type=\"text\" "
-        @"name=\"description\"></td></tr><tr><td>Email:</td><td><input "
-        @"type=\"email\" name=\"email\"></td></tr></table><br><br><center><input type=\"submit\" "
-        @"name=\"vtcharge\" "
-        @"value=\"Process\"></center></form><!--[RESULTS]--></body></html>";
+    NSDataAsset *dataAsset = [[NSDataAsset alloc] initWithName:@"virtual-terminal-ach-html"];
+
+    _contentHTML = [[NSString alloc] initWithData:dataAsset.data encoding:NSUTF8StringEncoding];
 
     WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
     _webView = [[WKWebView alloc] initWithFrame:self.view.frame
@@ -540,30 +357,10 @@
     [self.webView loadHTMLString:_contentHTML baseURL:nil];
   } else if ([self.title isEqualToString:@"Virtual Terminal (GIFT CARD)"]) {
 
-    _contentHTML =
-        @"<html><head><style "
-        @"type=\"text/"
-        @"css\">html{padding:5px;font-family:Verdana;font-size:13pt;}body{"
-        @"background-color:#f8f8f8;}input,select{background-color:white;-"
-        @"webkit-appearance: "
-        @"none;border-radius:2px;font-size:12pt;padding:4px;border-color:#"
-        @"cccccc;}input[type=\"submit\"]{background-color:#40a9ff;color:white;"
-        @"padding:10px "
-        @"25px;border:none;}#info{padding:10px;margin:5px;background-color:#"
-        @"e8e8e8;font-size:10pt;}</style><meta name=\"viewport\" "
-        @"content=\"initial-scale=1, maximum-scale=1.0, "
-        @"user-scalable=no\"/></head><body><form><table><tr><td>Name:</"
-        @"td><td><input type=\"text\" name=\"name\"></td></tr><tr><td>Card "
-        @"number :</td><td><input type=\"number\" name=\"accountNumber\" "
-        @"required></td></tr><tr><td>Amount:</td><td><input type=\"number\" "
-        @"name=\"amount\" required></td></tr><tr><td>PIN:</td><td><input "
-        @"type=\"number\" name=\"pin\"></td></tr><tr><td>Currency "
-        @":</td><td><select "
-        @"name=\"currency\"><option>USD</option><option>CAD</option></select></"
-        @"td></tr><tr><td>Email:</td><td><input type=\"email\" "
-        @"name=\"email\"></td></tr></table><br><br><center><input type=\"submit\" "
-        @"name=\"vtcharge\" "
-        @"value=\"Process\"></center></form><!--[RESULTS]--></body></html>";
+
+    NSDataAsset *dataAsset = [[NSDataAsset alloc] initWithName:@"virtual-terminal-gift-card-html"];
+
+    _contentHTML = [[NSString alloc] initWithData:dataAsset.data encoding:NSUTF8StringEncoding];
 
     WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
     _webView = [[WKWebView alloc] initWithFrame:self.view.frame
@@ -702,18 +499,14 @@
                                                        postalCode:zip];
     
     [[SPAPIClient getSharedInstance] tokenizeWithPaymentType:SPPaymentTypeCreditCard
-                                                     account:cardNumber
+                                               accountNumber:cardNumber
                                                      expDate:exp
                                                          cvv:cvc
                                                  accountType:nil
                                                      routing:nil
                                                          pin:nil
                                               billingAddress:billingAddress
-                                          billingCompanyName:nil
-                                                accountEmail:nil
-                                                 phoneNumber:nil
                                                         name:@"Michael Smith"
-                                                    customer:nil
                                                      success:^(SPPaymentMethod *paymentMethod) {
         if (paymentMethod) {
             
@@ -876,29 +669,15 @@ decisionHandler:
                                                             state:qa[22]
                                                        postalCode:qa[24]];
 
-    SPCustomer * customer = [[SPCustomer alloc] initWithName:qa[32]
-                                                       email:nil
-                                                       phone:nil
-                                                 companyName:nil
-                                                       notes:nil
-                                                     website:nil
-                                                    metadata:nil
-                                                     address:nil
-                                              paymentMethods:nil];
-
     [[SPAPIClient getSharedInstance] tokenizeWithPaymentType:[self paymentTypeFromString:qa[2]]
-                                                     account:qa[4]
+                                               accountNumber:qa[4]
                                                      expDate:qa[6]
                                                          cvv:qa[8]
                                                  accountType:qa[10]
                                                      routing:qa[8]
                                                          pin:qa[12]
                                               billingAddress:billingAddress
-                                          billingCompanyName:qa[26]
-                                                accountEmail:qa[28]
-                                                 phoneNumber:qa[34]
-                                                        name:qa[30]
-                                                    customer:customer
+                                                        name:qa[26]
                                                      success:^(SPPaymentMethod * _Nonnull paymentMethod) {
 
       NSMutableDictionary *pmDict =
@@ -1149,18 +928,14 @@ decisionHandler:
 
 
     [[SPAPIClient getSharedInstance] tokenizeWithPaymentType:SPPaymentTypeCreditCard
-                                                     account:qa[8]
+                                               accountNumber:qa[8]
                                                      expDate:qa[10]
                                                          cvv:qa[12]
                                                  accountType:nil
                                                      routing:nil
                                                          pin:nil
                                               billingAddress:billingAddress
-                                          billingCompanyName:nil
-                                                accountEmail:qa[24]
-                                                 phoneNumber:nil
                                                         name:qa[4]
-                                                    customer:nil
                                                      success:^(SPPaymentMethod *paymentMethod) {
       if (paymentMethod) {
 
@@ -1241,18 +1016,14 @@ decisionHandler:
 
 
     [[SPAPIClient getSharedInstance] tokenizeWithPaymentType:SPPaymentTypeAch
-                                                     account:qa[10]
+                                               accountNumber:qa[10]
                                                      expDate:nil
                                                          cvv:nil
                                                  accountType:qa[2]
                                                      routing:qa[8]
                                                          pin:nil
                                               billingAddress:billingAddress
-                                          billingCompanyName:qa[6]
-                                                accountEmail:qa[28]
-                                                 phoneNumber:qa[24]
                                                         name:qa[4]
-                                                    customer:nil
                                                      success:^(SPPaymentMethod *paymentMethod) {
       if (paymentMethod) {
 
@@ -1326,19 +1097,15 @@ decisionHandler:
     [self.activityIndicator startAnimating];
 
     [[SPAPIClient getSharedInstance] tokenizeWithPaymentType:SPPaymentTypeGiftCard
-                                                                account:qa[4]
-                                                                expDate:nil
-                                                                    cvv:nil
-                                                            accountType:nil
-                                                                routing:nil
-                                                                    pin:qa[8]
-                                                         billingAddress:nil
-                                                     billingCompanyName:nil
-                                                           accountEmail:qa[12]
-                                                            phoneNumber:nil
-                                                                   name:qa[2]
-                                                               customer:nil
-                                                                success:^(SPPaymentMethod *paymentMethod) {
+                                               accountNumber:qa[4]
+                                                     expDate:nil
+                                                         cvv:nil
+                                                 accountType:nil
+                                                     routing:nil
+                                                         pin:qa[8]
+                                              billingAddress:nil
+                                                        name:qa[2]
+                                                     success:^(SPPaymentMethod *paymentMethod) {
       if (paymentMethod) {
 
         [[SPAPIClient getSharedInstance] createChargeWithToken:paymentMethod.token
@@ -1394,7 +1161,7 @@ decisionHandler:
         }];
       }
     }
-                                                                failure:^(SPError *error) {
+                                                     failure:^(SPError *error) {
       NSString *html = [self.contentHTML
                         stringByReplacingOccurrencesOfString:@"<!--[RESULTS]-->"
                         withString:[error

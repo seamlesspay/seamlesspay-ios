@@ -95,30 +95,15 @@
                                                           state:nil
                                                      postalCode:@"12345"];
 
-  SPCustomer * customer = [[SPCustomer alloc] initWithName:@"Customer Name"
-                                                     email:nil
-                                                     phone:nil
-                                               companyName:nil
-                                                     notes:nil
-                                                   website:nil
-                                                  metadata:nil
-                                                   address:nil
-                                            paymentMethods:nil];
-
-
   [[SPAPIClient getSharedInstance] tokenizeWithPaymentType:SPPaymentTypeCreditCard
-                                                   account:@"4485245870307367"
+                                                   accountNumber:@"4485245870307367"
                                                    expDate:@"12/30"
                                                        cvv:@"123"
                                                accountType:nil
                                                    routing:nil
                                                        pin:nil
                                             billingAddress:billingAddress
-                                        billingCompanyName:nil
-                                              accountEmail:nil
-                                               phoneNumber:nil
                                                       name:@"test token"
-                                                  customer:customer
 
                                                    success:^(SPPaymentMethod *paymentMethod) {
 

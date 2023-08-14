@@ -94,18 +94,14 @@
 
     [[SPAPIClient getSharedInstance]
      tokenizeWithPaymentType:self.paymentType ?: SPPaymentTypeCreditCard
-     account:self.cardTextField.cardNumber
+     accountNumber:self.cardTextField.cardNumber
      expDate:self.cardTextField.formattedExpirationDate
      cvv:self.cardTextField.cvc
      accountType:nil
      routing:nil
      pin:nil
      billingAddress:self.billingAddress
-     billingCompanyName:self.company
-     accountEmail:self.email
-     phoneNumber:self.phoneNumber
      name:self.name
-     customer:nil
      success:^(SPPaymentMethod *paymentMethod) {
       
         if ([self.delegate respondsToSelector:@selector(paymentViewController:paymentMethodSuccess:)]) {

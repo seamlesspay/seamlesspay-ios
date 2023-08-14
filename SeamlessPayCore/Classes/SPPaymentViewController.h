@@ -46,9 +46,6 @@
 
 @property(nonatomic, strong) SPAddress *billingAddress;
 @property(nonatomic, strong) SPCustomer *customer;
-@property(nonatomic, strong) NSString *phoneNumber;
-@property(nonatomic, strong) NSString *email;
-@property(nonatomic, strong) NSString *company;
 @property(nonatomic, strong) NSString *name;
 @property(nonatomic, strong) NSString *paymentMetadata;
 

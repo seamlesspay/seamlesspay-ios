@@ -117,18 +117,14 @@
     
     [[SPAPIClient getSharedInstance]
      tokenizeWithPaymentType:SPPaymentTypeCreditCard
-     account:self.cardTextField.cardNumber
+     accountNumber:self.cardTextField.cardNumber
      expDate:self.cardTextField.formattedExpirationDate
      cvv:self.cardTextField.cvc
      accountType:nil
      routing:nil
      pin:nil
      billingAddress:billingAddress
-     billingCompanyName:nil
-     accountEmail:nil
-     phoneNumber:nil
      name:@"Michael Smith"
-     customer:nil
      success:^(SPPaymentMethod *paymentMethod) {
         
         [[SPAPIClient getSharedInstance]
