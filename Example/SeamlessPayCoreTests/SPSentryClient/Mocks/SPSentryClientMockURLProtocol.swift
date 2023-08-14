@@ -14,11 +14,10 @@ final class SPSentryClientMockURLProtocol: URLProtocol {
   }
 
   static var responseType: ResponseType!
-
   static var requestData: [String: Any]?
 
-    // say we want to handle all types of request
-    override class func canInit(with request: URLRequest) -> Bool {
+  // say we want to handle all types of request
+  override class func canInit(with request: URLRequest) -> Bool {
     return true
   }
 
@@ -51,8 +50,8 @@ extension SPSentryClientMockURLProtocol {
   }
 
   static func responseWithFailure() {
-    Self.responseType = .error(MockError.none)
-    Self.requestData = nil
+    responseType = .error(MockError.none)
+    requestData = nil
   }
 
   static func responseWithSuccess() {
@@ -67,7 +66,7 @@ extension SPSentryClientMockURLProtocol {
 
     let data = Data("Any data".utf8)
 
-    Self.responseType = .success(data, response)
-    Self.requestData = nil
+    responseType = .success(data, response)
+    requestData = nil
   }
 }

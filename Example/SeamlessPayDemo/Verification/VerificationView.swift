@@ -105,15 +105,19 @@ struct VerificationView: View {
     verificationState = .verifying
     tokenFieldIsFocused = false
 
-    SPAPIClient.getSharedInstance().verify(withToken: token) { charge in
-      DispatchQueue.main.async {
-        verificationState = .verified(Result.success(charge))
+    SPAPIClient.getSharedInstance().verify(
+      withToken: token,
+      success: { charge in
+        DispatchQueue.main.async {
+          verificationState = .verified(Result.success(charge))
+        }
+      },
+      failure: { error in
+        DispatchQueue.main.async {
+          verificationState = .verified(Result.failure(error))
+        }
       }
-    } failure: { error in
-      DispatchQueue.main.async {
-        verificationState = .verified(Result.failure(error))
-      }
-    }
+    )
   }
 }
 
