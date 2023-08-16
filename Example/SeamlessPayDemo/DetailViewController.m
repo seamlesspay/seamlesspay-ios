@@ -717,6 +717,7 @@ decisionHandler:
           initWithDictionary:savedPaymentMethod] ]
     : nil;
 
+    [[SPPAPIClient shared] setSecretKey:@"" publishableKey:@"" environment:SPPEnvironmentSandbox];
     SPAddress * address = [[SPAddress alloc] initWithline1:qa[6]
                                                      line2:qa[8]
                                                       city:qa[10]

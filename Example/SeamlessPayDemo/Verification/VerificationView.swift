@@ -105,6 +105,7 @@ struct VerificationView: View {
     verificationState = .verifying
     tokenFieldIsFocused = false
 
+    SeamlessPayCore.APIClient.shared.setSecretKey(nil, publishableKey: nil, environment: SeamlessPayCore.Environment.production)
     SPAPIClient.getSharedInstance().verify(
       withToken: token,
       success: { charge in
