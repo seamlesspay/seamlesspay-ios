@@ -546,10 +546,10 @@ static SPAPIClient *sharedInstance = nil;
     SPError *spErr = nil;
     if (error || [self isResponseNotSuccessful:response]) {
       __strong typeof(self) strongSelf = weakSelf;
-      [strongSelf.sentryClient captureFailedRequestWithRequest:request
-                                                      response:response
-                                                  responseData:data
-                                                    completion:nil];
+      [strongSelf.sentryClient captureFailedRequest:request
+                                           response:response
+                                       responseData:data
+                                         completion:nil];
 
       spErr = [self errorWithData:data error:error];
     }
@@ -841,11 +841,11 @@ static SPAPIClient *sharedInstance = nil;
 
 // MARK: Sentry client
 - (void)setSentryClient {
-#ifndef DEBUG //Initialize sentry client only for release builds
+//#ifndef DEBUG //Initialize sentry client only for release builds
   SPSentryConfig *config = [[SPSentryConfig alloc] initWithUserId:[SPInstallation installationID]
                                                       environment:[self valueForEnvironment]];
-  self.sentryClient = [SPSentryClient makeWithConfiguration:config];
-#endif
+  self.sentryClient = [SPSentryClient makeWith:config];
+//#endif
 }
 
 @end

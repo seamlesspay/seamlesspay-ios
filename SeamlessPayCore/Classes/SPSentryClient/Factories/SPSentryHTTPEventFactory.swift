@@ -11,7 +11,7 @@ import Foundation
 enum SPSentryHTTPEventFactory {
   static func event(
     request: URLRequest,
-    response: URLResponse,
+    response: URLResponse?,
     responseData: Data?,
     sentryClientConfig: SPSentryConfig,
     systemDataProvider: SPSentrySystemDataProvider = SPSentrySystemDataProvider.current

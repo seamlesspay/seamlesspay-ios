@@ -717,7 +717,6 @@ decisionHandler:
           initWithDictionary:savedPaymentMethod] ]
     : nil;
 
-    [[SPPAPIClient shared] setSecretKey:@"" publishableKey:@"" environment:SPPEnvironmentSandbox];
     SPAddress * address = [[SPAddress alloc] initWithline1:qa[6]
                                                      line2:qa[8]
                                                       city:qa[10]
@@ -927,6 +926,10 @@ decisionHandler:
                                                             state:nil
                                                        postalCode:qa[16]];
 
+    SPPAPIClient *cli = [[SPPAPIClient alloc] initWithSecretKey:@""
+                                                 publishableKey:@""
+                                                    environment:SPPEnvironmentQat
+                                           subMerchantAccountId: nil];
 
     [[SPAPIClient getSharedInstance] tokenizeWithPaymentType:SPPaymentTypeCreditCard
                                                accountNumber:qa[8]

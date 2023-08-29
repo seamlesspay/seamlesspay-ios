@@ -105,7 +105,30 @@ struct VerificationView: View {
     verificationState = .verifying
     tokenFieldIsFocused = false
 
-    SeamlessPayCore.APIClient.shared.setSecretKey(nil, publishableKey: nil, environment: SeamlessPayCore.Environment.production)
+    let cli = SeamlessPayCore.APIClient(
+      secretKey: nil,
+      publishableKey: "pk_XXX",
+      environment: SeamlessPayCore.Environment.production
+    )
+    cli.tokenize(
+      paymentType: .ach,
+      accountNumber: "",
+      expirationDate: "",
+      cvv: "",
+      accountType: "",
+      routing: "",
+      pin: "",
+      billingAddress: .init(),
+      name: ""
+    ) { result in
+      switch result {
+      case let .success(paymentMethod):
+        print("here = ", paymentMethod)
+      case let .failure(error):
+        print("error = ", error)
+      }
+    }
+
     SPAPIClient.getSharedInstance().verify(
       withToken: token,
       success: { charge in

@@ -28,29 +28,29 @@ extension Environment {
     }
   }
 
-  var baseURL: String {
+  var mainHost: String {
     switch self {
     case .sandbox:
-      return "https://sandbox.seamlesspay.com"
+      return "sandbox.seamlesspay.com"
     case .production:
-      return "https://api.seamlesspay.com"
+      return "api.seamlesspay.com"
     case .staging:
-      return "https://api.seamlesspay.dev"
+      return "api.seamlesspay.dev"
     case .qat:
-      return "https://api.seamlesspay.io"
+      return "api.seamlesspay.io"
     }
   }
 
-  var panVaultBaseURL: String {
+  var panVaultHost: String {
     switch self {
     case .sandbox:
-      return "https://sandbox-pan-vault.seamlesspay.com"
+      return "sandbox-pan-vault.seamlesspay.com"
     case .production:
-      return "https://pan-vault.seamlesspay.com"
+      return "pan-vault.seamlesspay.com"
     case .staging:
-      return "https://pan-vault.seamlesspay.dev"
+      return "pan-vault.seamlesspay.dev"
     case .qat:
-      return "https://pan-vault.seamlesspay.io"
+      return "pan-vault.seamlesspay.io"
     }
   }
 }

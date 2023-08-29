@@ -13,3 +13,18 @@ import Foundation
   case giftCard
   case plDebitCard
 }
+
+extension PaymentType {
+  var name: String {
+    switch self {
+    case .ach:
+      return "ach"
+    case .creditCard:
+      return "credit_card"
+    case .giftCard:
+      return "gift_card"
+    case .plDebitCard:
+      return "pldebit_card"
+    }
+  }
+}
