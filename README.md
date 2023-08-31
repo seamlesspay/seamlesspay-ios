@@ -34,44 +34,44 @@ Using only Publishable Key for a single page apps without their own backend. In 
 Using a Secret Key allows you using all transaction's methods (e.g. /charge, /refund, /void).
 
 Objective-C:
-
 ```objective-c
+@import SeamlessPayCore;
+    
+@implementation AppDelegate
+    
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-AppDelegate.m
-  #import "AppDelegate.h"
-  @import SeamlessPayCore;
-  
-  @implementation AppDelegate
-  - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-          [[SPAPIClient getSharedInstance]
-             setSecretKey:@"sk_XXXXXXXXXXXXXXXXXXXXXXXXXX"
-             publishableKey:@"pk_XXXXXXXXXXXXXXXXXXXXXXXXXX"
-             environment: SPEnvironmentSandbox];
-      // do any other necessary launch configuration
-      return YES;
-  }
-  @end
-
+  [[SPAPIClient getSharedInstance] setSecretKey:@"sk_XXXXXXXXXXXXXXXXXXXXXXXXXX" // can be nil
+                                 publishableKey:@"pk_XXXXXXXXXXXXXXXXXXXXXXXXXX"
+                                    environment:SPEnvironmentSandbox];
+  // do any other necessary launch configuration
+  return TRUE;
+}
+@end
 ```
 
 Swift:
 
 ```swift
 import SeamlessPayCore
-
+    
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-
-                SPAPIClient.getSharedInstance().setSecretKey( "sk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
-                                         publishableKey: "pk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
-                                         environment: .sandbox)
-
-        return true
-    }
+  func application(
+    _: UIApplication,
+    didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?
+  ) -> Bool {
+    // Override point for customization after application launch.
+    
+    SPAPIClient.getSharedInstance().setSecretKey(
+      "sk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
+      publishableKey: "pk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
+      environment: .sandbox
+    )
+    
+    return true
+  }
 }
-
 ```
 
 ## Create Payment Form
@@ -81,9 +81,6 @@ Securely collect card information on the client with SPPaymentCardTextField, a d
 Objective-C:
 
 ```objective-c
-CheckoutViewController.m
-
-#import "CheckoutViewController.h"
 @import SeamlessPayCore;
 
 @interface CheckoutViewController ()
@@ -94,87 +91,95 @@ CheckoutViewController.m
 @implementation CheckoutViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
-    SPPaymentCardTextField *cardTextField = [[SPPaymentCardTextField alloc] init];
-    self.cardTextField = cardTextField;
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.layer.cornerRadius = 5;
-    button.backgroundColor = [UIColor systemBlueColor];
-    button.titleLabel.font = [UIFont systemFontOfSize:22];
-    [button setTitle:@"Pay" forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(pay) forControlEvents:UIControlEventTouchUpInside];
-    self.payButton = button;
-    UIStackView *stackView = [[UIStackView alloc] initWithArrangedSubviews:@[cardTextField, button]];
-    stackView.axis = UILayoutConstraintAxisVertical;
-    stackView.translatesAutoresizingMaskIntoConstraints = FALSE;
-    stackView.spacing = 20;
-    [self.view addSubview:stackView];
-    [NSLayoutConstraint activateConstraints:@[
-        [stackView.leftAnchor constraintEqualToSystemSpacingAfterAnchor:self.view.leftAnchor multiplier:2],
-        [self.view.rightAnchor constraintEqualToSystemSpacingAfterAnchor:stackView.rightAnchor multiplier:2],
-        [stackView.topAnchor constraintEqualToSystemSpacingBelowAnchor:self.view.topAnchor multiplier:20],
-    ]];
+  [super viewDidLoad];
+
+  self.view.backgroundColor = [UIColor whiteColor];
+
+  SPPaymentCardTextField *cardTextField = [[SPPaymentCardTextField alloc] init];
+  self.cardTextField = cardTextField;
+
+  UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+  button.layer.cornerRadius = 5;
+  button.backgroundColor = [UIColor systemBlueColor];
+  button.titleLabel.font = [UIFont systemFontOfSize:22];
+  [button setTitle:@"Pay" forState:UIControlStateNormal];
+  [button addTarget:self action:@selector(pay) forControlEvents:UIControlEventTouchUpInside];
+  self.payButton = button;
+
+  UIStackView *stackView = [[UIStackView alloc] initWithArrangedSubviews:@[cardTextField, button]];
+  stackView.axis = UILayoutConstraintAxisVertical;
+  stackView.translatesAutoresizingMaskIntoConstraints = FALSE;
+  stackView.spacing = 20;
+  [self.view addSubview:stackView];
+
+  [NSLayoutConstraint activateConstraints:@[
+    [stackView.leftAnchor constraintEqualToSystemSpacingAfterAnchor:self.view.leftAnchor multiplier:2],
+    [self.view.rightAnchor constraintEqualToSystemSpacingAfterAnchor:stackView.rightAnchor multiplier:2],
+    [stackView.topAnchor constraintEqualToSystemSpacingBelowAnchor:self.view.topAnchor multiplier:20],
+  ]];
 }
 
 - (void)pay {
-
-    NSString *cardNumber = _cardTextField.cardNumber;
-    NSString *exp = _cardTextField.formattedExpirationDate;
-    NSString *cvc = _cardTextField.cvc;
-    NSString *postalCode = _cardTextField.postalCode;
-
-    NSLog(@"%@ %@ %@ %@",cardNumber,exp,cvc,postalCode);
+  NSString *cardNumber = _cardTextField.cardNumber;
+  NSString *exp = _cardTextField.formattedExpirationDate;
+  NSString *cvc = _cardTextField.cvc;
+  NSString *zip = _cardTextField.postalCode;
+    
+  NSLog(@"%@ %@ %@ %@",cardNumber,exp,cvc,zip);
 }
 @end
 ```
 
 Swift:
-
 ```swift
-CheckoutViewController.swift
-
-import UIKit
-
 import SeamlessPayCore
-
+    
 class ViewController: UIViewController {
-    lazy var cardTextField: SPPaymentCardTextField = {
-        let cardTextField = SPPaymentCardTextField()
-        return cardTextField
-    }()
-
-    lazy var payButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.layer.cornerRadius = 5
-        button.backgroundColor = .systemBlue
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 22)
-        button.setTitle("Pay", for: .normal)
-        button.addTarget(self, action: #selector(pay), for: .touchUpInside)
-        return button
-    }()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-
-        view.backgroundColor = .white
-        let stackView = UIStackView(arrangedSubviews: [cardTextField, payButton])
-        stackView.axis = .vertical
-        stackView.spacing = 20
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(stackView)
-        NSLayoutConstraint.activate([
-            stackView.leftAnchor.constraint(equalToSystemSpacingAfter: view.leftAnchor, multiplier: 2),
-            view.rightAnchor.constraint(equalToSystemSpacingAfter: stackView.rightAnchor, multiplier: 2),
-            stackView.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 20),
-        ])
-    }
-
-    @objc
-    func pay() {
-        // ...
-    }
+  lazy var cardTextField: SPPaymentCardTextField = {
+    let cardTextField = SPPaymentCardTextField()
+    return cardTextField
+  }()
+    
+  lazy var payButton: UIButton = {
+    let button = UIButton(type: .custom)
+    button.layer.cornerRadius = 5
+    button.backgroundColor = .systemBlue
+    button.titleLabel?.font = UIFont.systemFont(ofSize: 22)
+    button.setTitle("Pay", for: .normal)
+    button.addTarget(self, action: #selector(pay), for:  touchUpInside)
+    return button
+  }()
+    
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    // Do any additional setup after loading the view.
+    
+    view.backgroundColor = .white
+    let stackView = UIStackView(arrangedSubviews:[cardTextField, payButton])
+    stackView.axis = .vertical
+    stackView.spacing = 20
+    stackView.translatesAutoresizingMaskIntoConstraints =false
+    view.addSubview(stackView)
+    NSLayoutConstraint.activate([
+      stackView.leftAnchor.constraint(
+        equalToSystemSpacingAfter: view.leftAnchor,
+        multiplier: 2
+      ),
+      view.rightAnchor.constraint(
+        equalToSystemSpacingAfter: stackView.rightAnchor,
+        multiplier: 2
+      ),
+      stackView.topAnchor.constraint(
+        equalToSystemSpacingBelow: view.topAnchor,
+        multiplier: 20
+      ),
+    ])
+  }
+    
+  @objc
+  func pay() {
+    // ...
+  }
 }
 ```
 
@@ -184,136 +189,114 @@ When the user taps the pay button, convert the card information collected by STP
 After the client passes the token, pass its identifier as the source to create a charge with one SPAPIClient method -createChargeWithToken:
 
 Objective-C:
-
 ```objective-c
-
 - (void)pay {
-
-     SPAddress * billingAddress = [[SPAddress alloc]
-                                  initWithline1:nil
-                                  line2:nil
-                                  city:nil
-                                  country:nil
-                                  state:nil
-                                  postalCode:self.cardTextField.postalCode];
-    
-    [[SPAPIClient getSharedInstance]
-     tokenizeWithPaymentType:SPPaymentTypeCreditCard
-     accountNumber:self.cardTextField.cardNumber
-     expDate:self.cardTextField.formattedExpirationDate
-     cvv:self.cardTextField.cvc
-     accountType:nil
-     routing:nil
-     pin:nil
-     billingAddress:billingAddress
-     name:@"Michael Smith"
-     success:^(SPPaymentMethod *paymentMethod) {
-        
-        [[SPAPIClient getSharedInstance]
-         createChargeWithToken:paymentMethod.token
-         cvv:self.cardTextField.cvc
-         capture:YES
-         currency:nil
-         amount:[[self.amountTextField.text substringFromIndex:1] stringByReplacingOccurrencesOfString:@"," withString:@""]
-         taxAmount:nil
-         taxExempt:NO
-         tip:nil
-         surchargeFeeAmount:nil
-         description:@""
-         order:nil
-         orderId:nil
-         poNumber:nil
-         metadata:nil
-         descriptor:nil
-         entryType:nil
-         idempotencyKey:nil
-         success:^(SPCharge *charge) {
- 
-            NSString *success = [NSString
-                                 stringWithFormat:@"Amount: $%@\nStatus: %@\nStatus message: "
-                                 @"%@\ntxnID #: %@",
-                                 charge.amount, charge.status,
-                                 charge.statusDescription, charge.chargeId];
-                    NSLog(@"%@", success);
-          
-        }
-         failure:^(SPError *error) {
-             NSLog(@"%@", [error localizedDescription]);;
-        }];
+  SPAddress * billingAddress = [[SPAddress alloc] initWithline1:nil
+                                                            line2:nil
+                                                             city:nil
+                                                          country:nil
+                                                            state:nil
+                                                       postalCode:self.cardTextField.postalCode];
+      
+  [[SPAPIClient getSharedInstance] tokenizeWithPaymentType:SPPaymentTypeCreditCard
+                                                 accountNumber:self.cardTextField.cardNumber
+                                                       expDate:self.cardTextField.formattedExpirationDate
+                                                           cvv:self.cardTextField.cvc
+                                                   accountType:nil
+                                                       routing:nil
+                                                           pin:nil
+                                                billingAddress:billingAddress
+                                                          name:@"Michael Smith"
+                                                       success:^(SPPaymentMethod *paymentMethod) {
+    [[SPAPIClient getSharedInstance] createChargeWithToken:paymentMethod.token
+                                                           cvv:self.cardTextField.cvc
+                                                       capture:YES
+                                                      currency:nil
+                                                        amount:[[self.amountTextField.text substringFromIndex:1] stringByReplacingOccurrencesOfString:@"," withString:@""]
+                                                     taxAmount:nil
+                                                     taxExempt:NO
+                                                           tip:nil
+                                            surchargeFeeAmount:nil
+                                                   description:@""
+                                                         order:nil
+                                                       orderId:nil
+                                                      poNumber:nil
+                                                      metadata:nil
+                                                    descriptor:nil
+                                                     entryType:nil
+                                                idempotencyKey:nil
+                                                       success:^(SPCharge *charge) {
+      // Success Charge:
+      NSString *success = [NSString stringWithFormat: @"Amount: $%@\nStatus: %@\nStatus message: "
+                          @"%@\ntxnID #: %@",
+                          charge.amount,
+                          charge.status,
+                          charge.statusDescription,
+                          charge.chargeId];
     }
-     failure:^(SPError *error) {
-        NSLog(@"%@", [error localizedDescription]);
-    }];
-}
+                                                       failure:^(SPError *error) {
+          // Handle the error
+          NSString *description = [error localizedDescription];
+        }];
+      }
+                                                       failure:^(SPError *error) {
+        // Handle the error
+        NSString *description = [error localizedDescription];
+      }];
+    }
 ```
 
 Swift:
-
 ```swift
 @objc
-    func pay() {
-      let billingAddress = SPAddress.init(
-            line1: nil,
-            line2: nil,
-            city: nil,
-            country: nil,
-            state: nil,
-            postalCode: cardTextField.postalCode)
-        
-        
-        SPAPIClient.getSharedInstance().tokenize(
-            with: .creditCard,
-            accountNumber: cardTextField.cardNumber,
-            expDate: cardTextField.formattedExpirationDate,
-            cvv: self.cardTextField.cvc,
-            accountType: nil,
-            routing: nil,
-            pin: nil,
-            billingAddress: billingAddress,
-            name: "Michael Smith",
-            success: { (paymentMethod: SPPaymentMethod?) in
-                
-                let token = paymentMethod?.token
-                
-                SPAPIClient.getSharedInstance().createCharge(
-                    withToken: token!,
-                    cvv: self.cardTextField.cvc,
-                    capture: true, currency: nil,
-                    amount: "1",
-                    taxAmount: nil,
-                    taxExempt: false,
-                    tip: nil,
-                    surchargeFeeAmount: nil,
-                    description: nil,
-                    order: nil,
-                    orderId: nil,
-                    poNumber: nil,
-                    metadata: nil,
-                    descriptor: nil,
-                    entryType: nil,
-                    idempotencyKey: nil,
-                    success: { (charge: SPCharge?) in
-                        
-                        // Success Charge:
-                        print(charge?.chargeId ?? "charge is nil")
-                        
-                    }, failure: { (error: SPError?) in
-                        
-                        // Handle the error
-                        print(error?.localizedDescription ?? "")
-                        return
-                    }
-                )
-                
-            }, failure: { (error: SPError?) in
-                
-                // Handle the error
-                print(error?.localizedDescription ?? "")
-                return
-            }
-        )
+func pay() {
+  SPAPIClient.getSharedInstance().tokenize(
+    with: .creditCard,
+    accountNumber: cardTextField.cardNumber,
+    expDate: cardTextField.formattedExpirationDate,
+    cvv: cardTextField.cvc,
+    accountType: nil,
+    routing: nil,
+    pin: nil,
+    billingAddress: nil,
+    name: nil,
+    success: { paymentMethod in
+
+      let token = paymentMethod.token
+
+      SPAPIClient.getSharedInstance().createCharge(
+        withToken: token!, cvv: self.cardTextField.cvc,
+        capture: true,
+        currency: nil,
+        amount: "1",
+        taxAmount: nil,
+        taxExempt: false,
+        tip: nil,
+        surchargeFeeAmount: nil,
+        description: nil,
+        order: nil,
+        orderId: nil,
+        poNumber: nil,
+        metadata: nil,
+        descriptor: nil,
+        entryType: nil,
+        idempotencyKey: nil,
+        success: { charge in
+          // Success Charge:
+          print(charge)
+        }, failure: { error in
+          // Handle the error
+          print(error.localizedDescription)
+        }
+      )
+    }, failure: { error in
+
+      // Handle the error
+      print(error.localizedDescription)
+      return
     }
-    }
+  )
+}
 ```
 
 
