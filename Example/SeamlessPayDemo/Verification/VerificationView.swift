@@ -11,7 +11,7 @@ import SeamlessPayCore
 private enum VerificationState {
   case idle
   case verifying
-  case verified(Result<SPCharge, SPError>)
+  case verified(Result<SPCharge, SeamlessPayError>)
 
   var isVerifying: Bool {
     switch self {
@@ -105,12 +105,10 @@ struct VerificationView: View {
     verificationState = .verifying
     tokenFieldIsFocused = false
 
-    let cli = SeamlessPayCore.APIClient.shared
-    cli.set(secretKey: nil, publishableKey: "pk_XXX", environment: .production)
-    cli.tokenize(
+    APIClient.shared.tokenize(
       paymentType: .ach,
       accountNumber: "",
-      expirationDate: "",
+      expDate: "",
       cvv: "",
       accountType: "",
       routing: "",
@@ -126,19 +124,11 @@ struct VerificationView: View {
       }
     }
 
-    SPAPIClient.getSharedInstance().verify(
-      withToken: token,
-      success: { charge in
-        DispatchQueue.main.async {
-          verificationState = .verified(Result.success(charge))
-        }
-      },
-      failure: { error in
-        DispatchQueue.main.async {
-          verificationState = .verified(Result.failure(error))
-        }
+    APIClient.shared.verify(token: token) { result in
+      DispatchQueue.main.async {
+        verificationState = .verified(result)
       }
-    )
+    }
   }
 }
 

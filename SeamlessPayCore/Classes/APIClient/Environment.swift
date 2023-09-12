@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc(SPPEnvironment) public enum Environment: Int {
+@objc(SPEnvironment) public enum Environment: UInt {
   case sandbox
   case production
   case staging

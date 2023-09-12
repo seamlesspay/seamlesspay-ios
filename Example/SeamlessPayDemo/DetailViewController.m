@@ -8,6 +8,7 @@
 @import SeamlessPayCore;
 
 #import "DetailViewController.h"
+#import <SeamlessPayCore/SeamlessPayCore-Swift.h>
 
 @interface DetailViewController () <UITextFieldDelegate>
 
@@ -644,8 +645,7 @@ decisionHandler:
       [self.webView loadHTMLString:html baseURL:nil];
     };
 
-    [[SPAPIClient getSharedInstance] listChargesWithParams:@{}
-                                                   success:^(NSDictionary *dict) {
+    [[SPAPIClient getSharedInstance] listChargesWithSuccess:^(NSDictionary *dict) {
       if (dict) {
         updateWebView(@"Authentication success!");
       }
@@ -1187,7 +1187,7 @@ decisionHandler:
   } else if ([string isEqualToString:@"staging"]) {
     return SPEnvironmentStaging;
   } else if ([string isEqualToString:@"qat"]) {
-    return SPEnvironmentQAT;
+    return SPEnvironmentQat;
   } else {
     // Handle unrecognized string or return a default value
     return SPEnvironmentSandbox;
@@ -1230,7 +1230,7 @@ decisionHandler:
           environment == SPEnvironmentSandbox ? @"selected" : @"",
           environment == SPEnvironmentProduction ? @"selected" : @"",
           environment == SPEnvironmentStaging ? @"selected" : @"",
-          environment == SPEnvironmentQAT ? @"selected" : @""];
+          environment == SPEnvironmentQat ? @"selected" : @""];
   return html;
 }
 

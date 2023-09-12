@@ -7,11 +7,9 @@
 
 
 #import "SPPaymentViewController.h"
-
+#import <SeamlessPayCore/SeamlessPayCore-Swift.h>
 
 @interface SPPaymentViewController () <UITextFieldDelegate>
-
-
 @end
 
 @implementation SPPaymentViewController
@@ -79,7 +77,7 @@
          multiplier:2],
     ]];
     
-    self.activityIndicator = [[SPLoadingView alloc] initWithFrame:CGRectMake(0, 0, 35, 35)];;
+    self.activityIndicator = [[SPLoadingView alloc] initWithFrame:CGRectMake(0, 0, 35, 35)];
     self.activityIndicator.center = self.view.center;
     self.activityIndicator.lineColor = [UIColor systemBlueColor];
     [self.view addSubview:self.activityIndicator];
@@ -91,9 +89,9 @@
 
   [self.activityIndicator startAnimation];
     
-
     [[SPAPIClient getSharedInstance]
-     tokenizeWithPaymentType:self.paymentType ?: SPPaymentTypeCreditCard
+//     tokenizeWithPaymentType:self.paymentType ?: SPPaymentTypeCreditCard
+     tokenizeWithPaymentType:SPPaymentTypeCreditCard
      accountNumber:self.cardTextField.cardNumber
      expDate:self.cardTextField.formattedExpirationDate
      cvv:self.cardTextField.cvc

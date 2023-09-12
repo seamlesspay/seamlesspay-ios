@@ -10,14 +10,14 @@ import Foundation
 // SPAPIClient is essentially a wrapper for APIClient, providing an Objective-C compatible
 // interface.
 // TODO: Move to a separate package
-@objc public class SPPAPIClient: NSObject {
+@objc public class SPAPIClient: NSObject {
   // MARK: Private
   private var client: APIClient {
     APIClient.shared
   }
 
   // MARK: Public Interface
-  @objc public static let getSharedInstance = SPPAPIClient()
+  @objc public static let getSharedInstance = SPAPIClient()
 
   @objc public func setSecretKey(
     _ secretKey: String,
@@ -35,20 +35,20 @@ import Foundation
   @objc public func tokenize(
     paymentType: PaymentType,
     accountNumber: String,
-    expirationDate: String,
-    cvv: String,
-    accountType: String,
-    routing: String,
-    pin: String,
-    billingAddress: SPAddress,
-    name: String,
+    expDate: String? = nil,
+    cvv: String? = nil,
+    accountType: String? = nil,
+    routing: String? = nil,
+    pin: String? = nil,
+    billingAddress: SPAddress? = nil,
+    name: String? = nil,
     success: ((SPPaymentMethod) -> Void)?,
     failure: ((SPError) -> Void)?
   ) {
     client.tokenize(
       paymentType: paymentType,
       accountNumber: accountNumber,
-      expirationDate: expirationDate,
+      expDate: expDate,
       cvv: cvv,
       accountType: accountType,
       routing: routing,

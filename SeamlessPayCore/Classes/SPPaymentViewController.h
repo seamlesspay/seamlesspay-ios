@@ -8,11 +8,11 @@
 #import <UIKit/UIKit.h>
 
 #import "SPPaymentCardTextField.h"
-#import "SPAPIClient.h"
 #import "SPPaymentMethod.h"
 #import "SPCharge.h"
 #import "SPError.h"
 #import "SPLoadingView.h"
+#import "SPCustomer.h"
 
 @class SPPaymentViewController;
 @protocol SPPaymentViewControllerDelegate <NSObject>
@@ -42,7 +42,7 @@
 @property(nonatomic, strong) NSString *orderId;
 @property(nonatomic, strong) NSString *paymentDescription;
 @property(nonatomic, strong) NSString *paymentAmount;
-@property(nonatomic) SPPaymentType paymentType;
+//@property(nonatomic) SPPaymentType paymentType;
 
 @property(nonatomic, strong) SPAddress *billingAddress;
 @property(nonatomic, strong) SPCustomer *customer;

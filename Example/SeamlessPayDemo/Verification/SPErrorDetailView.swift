@@ -9,18 +9,18 @@ import SwiftUI
 import SeamlessPayCore
 
 struct SPDetailErrorView: View {
-  var viewModel: SPError
+  var viewModel: SeamlessPayError
 
   var body: some View {
     VStack(alignment: .leading) {
-      KeyValueRow(key: "Error Code", value: "\(viewModel.code)")
-      KeyValueRow(key: "Error Description", value: "\(viewModel.localizedDescription)")
+      KeyValueRow(key: "Error Code", value: "\(viewModel.spError.code)")
+      KeyValueRow(key: "Error Description", value: viewModel.localizedDescription)
     }
   }
 }
 
 struct SPDetailErrorView_Previews: PreviewProvider {
   static var previews: some View {
-    SPDetailErrorView(viewModel: SPError.unknownError())
+    SPDetailErrorView(viewModel: .apiError(SPError.unknownError()))
   }
 }

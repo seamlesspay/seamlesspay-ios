@@ -36,7 +36,6 @@ public class APIClient {
   public private(set) var publishableKey: String?
   public private(set) var environment: Environment?
 
-
   public func set(
     secretKey: String? = nil,
     publishableKey: String,
@@ -58,7 +57,7 @@ public class APIClient {
   public func tokenize(
     paymentType: PaymentType,
     accountNumber: String,
-    expirationDate: String? = nil,
+    expDate: String? = nil,
     cvv: String? = nil,
     accountType: String? = nil,
     routing: String? = nil,
@@ -80,12 +79,12 @@ public class APIClient {
       optionalParameters["bankAccountType"] = accountType
       optionalParameters["routingNumber"] = routing
     case .creditCard:
-      optionalParameters["expDate"] = expirationDate
+      optionalParameters["expDate"] = expDate
       optionalParameters["cvv"] = cvv
     case .giftCard:
       optionalParameters["pinNumber"] = pin
     case .plDebitCard:
-      optionalParameters["expDate"] = expirationDate
+      optionalParameters["expDate"] = expDate
     }
 
     let parameters = optionalParameters.compactMapValues { $0 }
@@ -99,7 +98,7 @@ public class APIClient {
   }
 
   // MARK: Customer
-  func createCustomer(
+  public func createCustomer(
     name: String,
     email: String,
     address: SPAddress? = nil,
@@ -126,7 +125,7 @@ public class APIClient {
     )
   }
 
-  func updateCustomer(
+  public func updateCustomer(
     id: String,
     name: String,
     email: String,
@@ -154,7 +153,7 @@ public class APIClient {
     )
   }
 
-  func retrieveCustomer(
+  public func retrieveCustomer(
     id: String,
     completion: ((Result<SPCustomer, SeamlessPayError>) -> Void)?
   ) {
@@ -162,7 +161,7 @@ public class APIClient {
   }
 
   // MARK: Charge
-  func createCharge(
+  public func createCharge(
     token: String,
     cvv: String? = nil,
     capture: Bool,
@@ -205,14 +204,14 @@ public class APIClient {
     )
   }
 
-  func retrieveCharge(
+  public func retrieveCharge(
     id: String,
     completion: ((Result<SPCharge, SeamlessPayError>) -> Void)?
   ) {
     charge(operation: .retrieveCharge(id: id), completion: completion)
   }
 
-  func listCharges(
+  public func listCharges(
     completion: ((Result<[String: Any], SeamlessPayError>) -> Void)?
   ) {
     execute(
@@ -229,7 +228,7 @@ public class APIClient {
   }
 
   // MARK: Verify
-  func verify(
+  public func verify(
     token: String,
     cvv: String? = nil,
     currency: String? = nil,
