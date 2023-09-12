@@ -105,11 +105,8 @@ struct VerificationView: View {
     verificationState = .verifying
     tokenFieldIsFocused = false
 
-    let cli = SeamlessPayCore.APIClient(
-      secretKey: nil,
-      publishableKey: "pk_XXX",
-      environment: SeamlessPayCore.Environment.production
-    )
+    let cli = SeamlessPayCore.APIClient.shared
+    cli.set(secretKey: nil, publishableKey: "pk_XXX", environment: .production)
     cli.tokenize(
       paymentType: .ach,
       accountNumber: "",

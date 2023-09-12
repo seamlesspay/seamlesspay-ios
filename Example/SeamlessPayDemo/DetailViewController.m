@@ -926,10 +926,6 @@ decisionHandler:
                                                             state:nil
                                                        postalCode:qa[16]];
 
-    SPPAPIClient *cli = [[SPPAPIClient alloc] initWithSecretKey:@""
-                                                 publishableKey:@""
-                                                    environment:SPPEnvironmentQat
-                                           subMerchantAccountId: nil];
 
     [[SPAPIClient getSharedInstance] tokenizeWithPaymentType:SPPaymentTypeCreditCard
                                                accountNumber:qa[8]

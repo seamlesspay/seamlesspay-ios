@@ -8,12 +8,15 @@
 import Foundation
 
 public class APIClient {
+  public static let shared = APIClient()
+
   // MARK: Private Constants
   private let apiVersion = "v2020"
+  private let session: URLSession
 
   // MARK: Private
-  private let secretKey: String?
-  private let subMerchantAccountId: String?
+  private var secretKey: String?
+  private var subMerchantAccountId: String?
   private var deviceFingerprint: String? {
     DeviceFingerprint.make(
       appOpenTime: appOpenTime,
@@ -24,25 +27,31 @@ public class APIClient {
   private var appOpenTime: Date?
   private var sentryClient: SPSentryClient?
 
-  // MARK: - Public Interface
-  public private(set) var publishableKey: String
-  public private(set) var environment: Environment = .sandbox
-
   // MARK: Init
-  public init(
+  internal init(session: URLSession = URLSession(configuration: .default)) {
+    self.session = session
+  }
+
+  // MARK: - Public Interface
+  public private(set) var publishableKey: String?
+  public private(set) var environment: Environment?
+
+
+  public func set(
     secretKey: String? = nil,
     publishableKey: String,
-    environment: Environment,
-    subMerchantAccountId: String? = nil
+    environment: Environment
   ) {
     self.secretKey = secretKey ?? publishableKey
     self.publishableKey = publishableKey
     self.environment = environment
-    self.subMerchantAccountId = subMerchantAccountId
-
-    appOpenTime = Date()
 
     setSentryClient()
+    appOpenTime = Date()
+  }
+
+  public func setSubMerchantAccountId(_ id: String) {
+    subMerchantAccountId = id
   }
 
   // MARK: Tokenize
@@ -276,7 +285,6 @@ private extension APIClient {
         parameters: parameters
       )
 
-      let session = URLSession(configuration: .default)
       session.dataTask(
         with: request
       ) { [weak self] data, response, error in
@@ -475,15 +483,15 @@ private extension APIClient {
     operation: APIOperation,
     parameters: [String: Any]?
   ) throws -> URLRequest {
-    let host: String
+    let host: String?
     let authorization: String?
 
     switch operation {
     case .createToken:
-      host = environment.panVaultHost
+      host = environment?.panVaultHost
       authorization = publishableKey
     default:
-      host = environment.mainHost
+      host = environment?.mainHost
       authorization = secretKey
     }
 
@@ -499,7 +507,7 @@ private extension APIClient {
   func request(
     method: HTTPMethod,
     path: String,
-    host: String,
+    host: String?,
     authorization: String?,
     parameters: [String: Any]?
   ) throws -> URLRequest {
@@ -534,7 +542,7 @@ private extension APIClient {
     return request
   }
 
-  func url(host: String, path: String, queryItems: [String: String]? = nil) throws -> URL {
+  func url(host: String?, path: String, queryItems: [String: String]? = nil) throws -> URL {
     var urlComponents = URLComponents()
     urlComponents.scheme = "https"
     urlComponents.host = host
@@ -577,7 +585,7 @@ private extension APIClient {
     sentryClient = SPSentryClient.makeWith(
       .init(
         userId: SPInstallation.installationID,
-        environment: environment.name
+        environment: environment?.name ?? "unspecified"
       )
     )
 //    #endif

@@ -11,20 +11,24 @@ import Foundation
 // interface.
 // TODO: Move to a separate package
 @objc public class SPPAPIClient: NSObject {
-  private let client: APIClient
-  @objc public init(
-    secretKey: String? = nil,
+  // MARK: Private
+  private var client: APIClient {
+    APIClient.shared
+  }
+
+  // MARK: Public Interface
+  @objc public static let getSharedInstance = SPPAPIClient()
+
+  @objc public func setSecretKey(
+    _ secretKey: String,
     publishableKey: String,
-    environment: Environment,
-    subMerchantAccountId: String? = nil
+    environment: Environment
   ) {
-    client = APIClient(
-      secretKey: secretKey,
-      publishableKey: publishableKey,
-      environment: environment,
-      subMerchantAccountId: subMerchantAccountId
-    )
-    super.init()
+    client.set(secretKey: secretKey, publishableKey: publishableKey, environment: environment)
+  }
+
+  @objc public func setSubMerchantAccountId(_ id: String) {
+    client.setSubMerchantAccountId(id)
   }
 
   // MARK: Obj-c wrappers
