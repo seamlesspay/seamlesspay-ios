@@ -7,6 +7,11 @@ jobs:
     working_directory: ~/seamlesspay-ios
     steps:
       - checkout
+      - run:
+          name: Clean project
+          command: |
+            cd Example/
+            xcodebuild clean -project SeamlessPayCore.xcodeproj
       - run: 
           name: Install pods
           command: |
