@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc(SPPaymentType) public enum PaymentType: Int {
+@objc(SPPaymentType) public enum PaymentType: UInt {
   case ach
   case creditCard
   case giftCard

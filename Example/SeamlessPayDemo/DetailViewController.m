@@ -8,7 +8,7 @@
 @import SeamlessPayCore;
 
 #import "DetailViewController.h"
-#import <SeamlessPayCore/SeamlessPayCore-Swift.h>
+#import "SeamlessPayCore-Swift.h"
 
 @interface DetailViewController () <UITextFieldDelegate>
 

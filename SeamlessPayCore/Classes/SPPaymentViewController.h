@@ -14,6 +14,13 @@
 #import "SPLoadingView.h"
 #import "SPCustomer.h"
 
+typedef NS_ENUM(NSUInteger, SPVCPaymentType) {
+  SPVCPaymentTypeAch = 0,
+  SPVCPaymentTypeCreditCard = 1,
+  SPVCPaymentTypeGiftCard = 2,
+  SPVCPaymentTypePlDebitCard = 3,
+};
+
 @class SPPaymentViewController;
 @protocol SPPaymentViewControllerDelegate <NSObject>
 @required
@@ -42,7 +49,7 @@
 @property(nonatomic, strong) NSString *orderId;
 @property(nonatomic, strong) NSString *paymentDescription;
 @property(nonatomic, strong) NSString *paymentAmount;
-//@property(nonatomic) SPPaymentType paymentType;
+@property(nonatomic) SPVCPaymentType paymentType;
 
 @property(nonatomic, strong) SPAddress *billingAddress;
 @property(nonatomic, strong) SPCustomer *customer;

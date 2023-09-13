@@ -28,6 +28,7 @@ public class APIClient {
   private var sentryClient: SPSentryClient?
 
   // MARK: Init
+  //TODO: Move under SPI
   internal init(session: URLSession = URLSession(configuration: .default)) {
     self.session = session
   }

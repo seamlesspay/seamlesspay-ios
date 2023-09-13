@@ -20,7 +20,7 @@ import Foundation
   @objc public static let getSharedInstance = SPAPIClient()
 
   @objc public func setSecretKey(
-    _ secretKey: String,
+    _ secretKey: String?,
     publishableKey: String,
     environment: Environment
   ) {
