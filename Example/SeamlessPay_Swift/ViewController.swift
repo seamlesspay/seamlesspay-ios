@@ -68,9 +68,6 @@ class ViewController: UIViewController {
       accountNumber: cardTextField.cardNumber ?? .init(),
       expDate: cardTextField.formattedExpirationDate,
       cvv: cardTextField.cvc,
-      accountType: nil,
-      routing: nil,
-      pin: nil,
       billingAddress: billingAddress,
       name: "Michael Smith"
     ) { result in
@@ -81,25 +78,14 @@ class ViewController: UIViewController {
         APIClient.shared.createCharge(
           token: token!,
           cvv: self.cardTextField.cvc,
-          capture: true, currency: nil,
+          capture: true,
           amount: "1",
-          taxAmount: nil,
-          taxExempt: false,
-          tip: nil,
-          surchargeFeeAmount: nil,
-          description: nil,
-          order: nil,
-          orderId: nil,
-          poNumber: nil,
-          metadata: nil,
-          descriptor: nil,
-          entryType: nil,
-          idempotencyKey: nil
+          taxExempt: false
         ) { result in
           switch result {
           case let .success(charge):
             // Success Charge:
-            print(charge.chargeId)
+            print(charge.chargeId ?? "charge is nil")
           case let .failure(error):
             // Handle the error
             print(error.localizedDescription)
