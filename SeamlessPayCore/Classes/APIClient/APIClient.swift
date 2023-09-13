@@ -296,7 +296,7 @@ private extension APIClient {
 
         let result: Result<ModelClass, SeamlessPayError>
 
-        if error != nil || !self.isResponseSuccessful(response) {
+        if error != nil || self.isResponseSuccessful(response) == false {
           result = .failure(
             .apiError(
               .init(
@@ -362,7 +362,7 @@ private extension APIClient {
         body = ["customers", value].joined(separator: "/")
       case .createCharge,
            .listCharges:
-        body = "changes"
+        body = "charges"
       }
       return "/" + body
     }
@@ -583,7 +583,7 @@ private extension APIClient {
   func setSentryClient() {
 //    #if !DEBUG // Initialize sentry client only for release builds
     sentryClient = SPSentryClient.makeWith(
-      .init(
+      configuration: .init(
         userId: SPInstallation.installationID,
         environment: environment?.name ?? "unspecified"
       )
@@ -596,7 +596,7 @@ private extension APIClient {
     response: URLResponse?,
     responseData: Data?
   ) {
-    if isResponseSuccessful(response) {
+    if isResponseSuccessful(response) == false {
       sentryClient?.captureFailedRequest(
         request,
         response: response,

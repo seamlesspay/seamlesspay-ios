@@ -54,7 +54,7 @@ import Foundation
 
 // MARK: Public
 public extension SPSentryClient {
-  @objc static func makeWith(_ configuration: SPSentryConfig) -> SPSentryClient? {
+  @objc static func makeWith(configuration: SPSentryConfig) -> SPSentryClient? {
     SPSentryClient(
       dsn: "https://3936eb5f56b34be7baf5eef81e5652ba@sentry.io/4505325448921088",
       config: configuration

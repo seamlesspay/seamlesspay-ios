@@ -105,25 +105,6 @@ struct VerificationView: View {
     verificationState = .verifying
     tokenFieldIsFocused = false
 
-    APIClient.shared.tokenize(
-      paymentType: .ach,
-      accountNumber: "",
-      expDate: "",
-      cvv: "",
-      accountType: "",
-      routing: "",
-      pin: "",
-      billingAddress: .init(),
-      name: ""
-    ) { result in
-      switch result {
-      case let .success(paymentMethod):
-        print("here = ", paymentMethod)
-      case let .failure(error):
-        print("error = ", error)
-      }
-    }
-
     APIClient.shared.verify(token: token) { result in
       DispatchQueue.main.async {
         verificationState = .verified(result)
