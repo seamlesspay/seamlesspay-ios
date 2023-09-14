@@ -3,15 +3,11 @@ version: 2.1
 jobs:
   build:
     macos:
-      xcode: 14.2.0
+      xcode: 14.3.1
+    resource_class: macos.m1.medium.gen1
     working_directory: ~/seamlesspay-ios
     steps:
       - checkout
-      - run:
-          name: Clean project
-          command: |
-            cd Example/
-            xcodebuild clean -project SeamlessPayCore.xcodeproj
       - run: 
           name: Install pods
           command: |
@@ -35,7 +31,7 @@ jobs:
               -workspace SeamlessPayCore.xcworkspace \
               -scheme CISeamlessPayCoreTests \
               -sdk iphonesimulator \
-              -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.2' \
+              -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.4' \
               -enableCodeCoverage YES \
               CODE_SIGN_IDENTITY="" \
               CODE_SIGNING_REQUIRED=NO \
@@ -48,7 +44,7 @@ jobs:
               -workspace SeamlessPayCore.xcworkspace \
               -scheme CISeamlessPayCoreTests \
               -sdk iphonesimulator \
-              -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.2' \
+              -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.4' \
               -enableCodeCoverage YES \
               CODE_SIGN_IDENTITY="" \
               CODE_SIGNING_REQUIRED=NO \
@@ -62,7 +58,7 @@ jobs:
               -workspace SeamlessPayCore.xcworkspace \
               -scheme SeamlessPayDemo \
               -sdk iphonesimulator \
-              -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.2' \
+              -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.4' \
               CODE_SIGN_IDENTITY="" \
               CODE_SIGNING_REQUIRED=NO
       - run: 
@@ -73,7 +69,7 @@ jobs:
               -workspace SeamlessPayCore.xcworkspace \
               -scheme SeamlessPay_ObjC \
               -sdk iphonesimulator \
-              -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.2' \
+              -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.4' \
               CODE_SIGN_IDENTITY="" \
               CODE_SIGNING_REQUIRED=NO
       - run: 
@@ -84,7 +80,7 @@ jobs:
               -workspace SeamlessPayCore.xcworkspace \
               -scheme SeamlessPay_Swift \
               -sdk iphonesimulator \
-              -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.2' \
+              -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.4' \
               CODE_SIGN_IDENTITY="" \
               CODE_SIGNING_REQUIRED=NO
       - run: 
@@ -95,7 +91,7 @@ jobs:
               -workspace SeamlessPayCore.xcworkspace \
               -scheme SPPaymentViewController \
               -sdk iphonesimulator \
-              -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.2' \
+              -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.4' \
               CODE_SIGN_IDENTITY="" \
               CODE_SIGNING_REQUIRED=NO
 
