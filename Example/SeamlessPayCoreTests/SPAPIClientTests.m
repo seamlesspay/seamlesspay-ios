@@ -5,8 +5,11 @@
 //
 
 #import <XCTest/XCTest.h>
-
-#import "../../SeamlessPayCore/Classes/SPAPIClient.h"
+#import "SeamlessPayCore-Swift.h"
+#import "SPError.h"
+#import "SPCharge.h"
+#import "SPCustomer.h"
+#import "SPPaymentMethod.h"
 
 @interface SPAPIClientTests : XCTestCase
 @end
@@ -33,12 +36,11 @@
 
   XCTestExpectation *documentExpectation = [self expectationWithDescription:@"testListCharges"];
 
-  [[SPAPIClient getSharedInstance] listChargesWithParams:@{}
-                                                 success:^(NSDictionary *dict) {
+  [[SPAPIClient getSharedInstance] listChargesWithSuccess:^(NSDictionary *dict) {
     XCTAssert(YES);
     [documentExpectation fulfill];
   }
-                                                 failure:^(SPError *error) {
+                                                  failure:^(SPError *error) {
     NSLog(@"%@", error.localizedDescription);
     XCTAssert(YES);
     [documentExpectation fulfill];
@@ -96,7 +98,7 @@
                                                      postalCode:@"12345"];
 
   [[SPAPIClient getSharedInstance] tokenizeWithPaymentType:SPPaymentTypeCreditCard
-                                                   accountNumber:@"4485245870307367"
+                                             accountNumber:@"4485245870307367"
                                                    expDate:@"12/30"
                                                        cvv:@"123"
                                                accountType:nil

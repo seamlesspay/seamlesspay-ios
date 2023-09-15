@@ -9,6 +9,19 @@
 
 @implementation SPError
 
++ (instancetype)errorWithData:(NSData *_Nullable)data error:(NSError *_Nullable)error {
+  SPError *spError = [SPError errorWithResponse: data];
+  if (spError) {
+    return spError;
+  }
+  spError = [SPError errorWithNSError: error];
+  if (spError) {
+    return spError;
+  }
+
+  return [SPError unknownError];
+}
+
 + (instancetype)errorWithResponse:(NSData *)data {
   NSError *error = nil;
   

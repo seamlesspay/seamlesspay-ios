@@ -20,7 +20,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.layer.cornerRadius = 5;
     button.backgroundColor = [UIColor blackColor];
@@ -63,6 +62,7 @@
     pk.billingAddress = billingAddress;
     pk.customer = customer;
     pk.delegate = self;
+    pk.paymentType = SPVCPaymentTypeCreditCard;
     self.paymentViewController = pk;
     [self presentViewController:self.paymentViewController animated:YES completion:nil];
 }

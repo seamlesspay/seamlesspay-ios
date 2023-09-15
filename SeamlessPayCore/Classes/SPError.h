@@ -59,8 +59,9 @@
 // 108	Transaction not found
 // 109	Additional payment required to complete transaction
 
-+ (instancetype)errorWithResponse:(NSData *)data;
-+ (instancetype)errorWithNSError:(NSError *)error;
-+ (instancetype)unknownError;
++ (instancetype _Nullable)errorWithResponse:(NSData * _Nullable)data;
++ (instancetype _Nullable)errorWithNSError:(NSError * _Nullable)error;
++ (instancetype _Nonnull)unknownError;
 
++ (instancetype _Nonnull)errorWithData:(NSData *_Nullable)data error:(NSError *_Nullable)error;
 @end

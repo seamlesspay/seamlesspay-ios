@@ -11,7 +11,7 @@ import SeamlessPayCore
 private enum VerificationState {
   case idle
   case verifying
-  case verified(Result<SPCharge, SPError>)
+  case verified(Result<SPCharge, SeamlessPayError>)
 
   var isVerifying: Bool {
     switch self {
@@ -105,19 +105,11 @@ struct VerificationView: View {
     verificationState = .verifying
     tokenFieldIsFocused = false
 
-    SPAPIClient.getSharedInstance().verify(
-      withToken: token,
-      success: { charge in
-        DispatchQueue.main.async {
-          verificationState = .verified(Result.success(charge))
-        }
-      },
-      failure: { error in
-        DispatchQueue.main.async {
-          verificationState = .verified(Result.failure(error))
-        }
+    APIClient.shared.verify(token: token) { result in
+      DispatchQueue.main.async {
+        verificationState = .verified(result)
       }
-    )
+    }
   }
 }
 

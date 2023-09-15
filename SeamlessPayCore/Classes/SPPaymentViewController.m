@@ -7,14 +7,34 @@
 
 
 #import "SPPaymentViewController.h"
-
+#import <SeamlessPayCore/SeamlessPayCore-Swift.h>
 
 @interface SPPaymentViewController () <UITextFieldDelegate>
-
 
 @end
 
 @implementation SPPaymentViewController
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil
+                         bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+      [self commonInit];
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+  self = [super initWithCoder:coder];
+  if (self) {
+    [self commonInit];
+  }
+  return self;
+}
+
+- (void)commonInit {
+  _paymentType = SPVCPaymentTypeCreditCard;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -79,7 +99,7 @@
          multiplier:2],
     ]];
     
-    self.activityIndicator = [[SPLoadingView alloc] initWithFrame:CGRectMake(0, 0, 35, 35)];;
+    self.activityIndicator = [[SPLoadingView alloc] initWithFrame:CGRectMake(0, 0, 35, 35)];
     self.activityIndicator.center = self.view.center;
     self.activityIndicator.lineColor = [UIColor systemBlueColor];
     [self.view addSubview:self.activityIndicator];
@@ -91,9 +111,8 @@
 
   [self.activityIndicator startAnimation];
     
-
     [[SPAPIClient getSharedInstance]
-     tokenizeWithPaymentType:self.paymentType ?: SPPaymentTypeCreditCard
+     tokenizeWithPaymentType:(SPPaymentType)self.paymentType
      accountNumber:self.cardTextField.cardNumber
      expDate:self.cardTextField.formattedExpirationDate
      cvv:self.cardTextField.cvc

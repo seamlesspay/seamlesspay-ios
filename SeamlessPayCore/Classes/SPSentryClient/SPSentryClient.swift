@@ -62,10 +62,10 @@ public extension SPSentryClient {
   }
 
   @objc func captureFailedRequest(
-    request: URLRequest,
-    response: URLResponse,
+    _ request: URLRequest,
+    response: URLResponse?,
     responseData: Data?,
-    completion: ((Data?, URLResponse?, Error?) -> Void)?
+    completion: ((Data?, URLResponse?, Error?) -> Void)? = nil
   ) {
     queue.async {
       self.send(

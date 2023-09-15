@@ -43,7 +43,7 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
 
     // when
     client!.captureFailedRequest(
-      request: .init(
+      .init(
         url: .init(
           string: "http://any.com"
         )!
@@ -71,7 +71,7 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
 
     // when
     client!.captureFailedRequest(
-      request: .init(
+      .init(
         url: .init(
           string: "http://any.com"
         )!
@@ -111,7 +111,7 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
 
     // when
     client!.captureFailedRequest(
-      request: request,
+      request,
       response: URLResponse(),
       responseData: "{}".data(using: .utf8)
     ) { data, response, error in

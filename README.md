@@ -2,7 +2,7 @@
 
 *The Seamless Payments iOS SDK makes it quick and easy to build an excellent payment experience in your iOS app.*
 
-Our framework provides elements that can be used out-of-the-box to collect your users' payment details. We also expose the low-level APIs that power those UIs so that you can build fully custom experiences. Additionally, a low-level `SPAPIClient` is included which corresponds to resources and methods in the Seamless Payments API, so that you can build any custom functionality on top of this layer while still taking advantage of utilities from the `SeamlessPayCore` framework.
+Our framework provides elements that can be used out-of-the-box to collect your users' payment details. We also expose the low-level APIs that power those UIs so that you can build fully custom experiences. Additionally, a low-level `APIClient` (`SPAPIClient` for Objective-C) is included which corresponds to resources and methods in the Seamless Payments API, so that you can build any custom functionality on top of this layer while still taking advantage of utilities from the `SeamlessPayCore` framework.
 
 ## Native UI Elements
 
@@ -57,18 +57,14 @@ import SeamlessPayCore
     
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-  func application(
-    _: UIApplication,
-    didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?
-  ) -> Bool {
-    // Override point for customization after application launch.
-    
-    SPAPIClient.getSharedInstance().setSecretKey(
-      "sk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
+    func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
+    APIClient.shared.set(
+      secretKey: "sk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
       publishableKey: "pk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
       environment: .sandbox
     )
-    
+
     return true
   }
 }
@@ -186,7 +182,7 @@ class ViewController: UIViewController {
 ## Create Payment Method and Charge
 
 When the user taps the pay button, convert the card information collected by STPPaymentCardTextField into a PaymentMethod token. Tokenization ensures that no sensitive card data ever needs to touch your server, so that your integration remains PCI compliant.
-After the client passes the token, pass its identifier as the source to create a charge with one SPAPIClient method -createChargeWithToken:
+After the client passes the token, pass its identifier as the source to create a charge with one `APIClient` function `createCharge(token:cvv:...`
 
 Objective-C:
 ```objective-c
@@ -248,55 +244,52 @@ Objective-C:
 
 Swift:
 ```swift
-@objc
-func pay() {
-  SPAPIClient.getSharedInstance().tokenize(
-    with: .creditCard,
-    accountNumber: cardTextField.cardNumber,
-    expDate: cardTextField.formattedExpirationDate,
-    cvv: cardTextField.cvc,
-    accountType: nil,
-    routing: nil,
-    pin: nil,
-    billingAddress: nil,
-    name: nil,
-    success: { paymentMethod in
+  @objc
+  func pay() {
+    let billingAddress = SPAddress(
+      line1: nil,
+      line2: nil,
+      city: nil,
+      country: nil,
+      state: nil,
+      postalCode: cardTextField.postalCode
+    )
 
-      let token = paymentMethod.token
+    APIClient.shared.tokenize(
+      paymentType: .creditCard,
+      accountNumber: cardTextField.cardNumber ?? .init(),
+      expDate: cardTextField.formattedExpirationDate,
+      cvv: cardTextField.cvc,
+      billingAddress: billingAddress,
+      name: "Michael Smith"
+    ) { result in
+      switch result {
+      case let .success(paymentMethod):
+        let token = paymentMethod.token
 
-      SPAPIClient.getSharedInstance().createCharge(
-        withToken: token!, cvv: self.cardTextField.cvc,
-        capture: true,
-        currency: nil,
-        amount: "1",
-        taxAmount: nil,
-        taxExempt: false,
-        tip: nil,
-        surchargeFeeAmount: nil,
-        description: nil,
-        order: nil,
-        orderId: nil,
-        poNumber: nil,
-        metadata: nil,
-        descriptor: nil,
-        entryType: nil,
-        idempotencyKey: nil,
-        success: { charge in
-          // Success Charge:
-          print(charge)
-        }, failure: { error in
-          // Handle the error
-          print(error.localizedDescription)
+        APIClient.shared.createCharge(
+          token: token!,
+          cvv: self.cardTextField.cvc,
+          capture: true,
+          amount: "1",
+          taxExempt: false
+        ) { result in
+          switch result {
+          case let .success(charge):
+            // Success Charge:
+            print(charge.chargeId ?? "charge is nil")
+          case let .failure(error):
+            // Handle the error
+            print(error.localizedDescription)
+            return
+          }
         }
-      )
-    }, failure: { error in
-
-      // Handle the error
-      print(error.localizedDescription)
-      return
+      case let .failure(error):
+        // Handle the error
+        print(error.localizedDescription)
+      }
     }
-  )
-}
+  }
 ```
 
 
