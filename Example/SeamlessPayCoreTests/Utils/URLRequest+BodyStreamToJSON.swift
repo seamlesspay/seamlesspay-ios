@@ -8,7 +8,7 @@
 import Foundation
 
 extension URLRequest {
-  func bodySteamAsJSON() -> [String: Any]? {
+  func bodyStreamAsJSON() -> [String: Any]? {
     guard let bodyStream = httpBodyStream else { return nil }
 
     bodyStream.open()

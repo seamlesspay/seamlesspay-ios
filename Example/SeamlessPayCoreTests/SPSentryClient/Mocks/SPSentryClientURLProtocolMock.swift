@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class SPSentryClientMockURLProtocol: URLProtocol {
+final class SPSentryClientURLProtocolMock: URLProtocol {
   enum ResponseType {
     case error(Error)
     case success(Data, HTTPURLResponse)
@@ -27,7 +27,7 @@ final class SPSentryClientMockURLProtocol: URLProtocol {
   }
 
   override func startLoading() {
-    Self.requestData = request.bodySteamAsJSON()
+    Self.requestData = request.bodyStreamAsJSON()
 
     switch Self.responseType! {
     case let .success(data, response):
@@ -44,7 +44,7 @@ final class SPSentryClientMockURLProtocol: URLProtocol {
   override func stopLoading() {}
 }
 
-extension SPSentryClientMockURLProtocol {
+extension SPSentryClientURLProtocolMock {
   enum MockError: Error {
     case none
   }
