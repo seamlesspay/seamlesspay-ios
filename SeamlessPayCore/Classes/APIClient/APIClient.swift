@@ -269,7 +269,7 @@ public class APIClient {
   }
 
   // MARK: Refunds
-  public func createUnmatchedRefund(
+  public func createRefund(
     token: String,
     amount: String,
     currency: String? = nil,

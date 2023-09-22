@@ -28,11 +28,11 @@ final class APIClientRefundTest: XCTestCase {
   }
 
   // MARK: Tests
-  func testCreateUnmatchedRefundRequest() {
+  func testCreateRefundRequest() {
     let expectation = XCTestExpectation(description: "Request completed")
 
     // when
-    client.createUnmatchedRefund(
+    client.createRefund(
       token: "test_token",
       amount: "101"
     ) { result in

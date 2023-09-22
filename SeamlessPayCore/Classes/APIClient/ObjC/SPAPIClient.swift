@@ -230,7 +230,7 @@ import Foundation
     }
   }
 
-  public func createUnmatchedRefund(
+  public func createRefund(
     token: String,
     amount: String,
     currency: String? = nil,
@@ -240,7 +240,7 @@ import Foundation
     success: ((Refund) -> Void)?,
     failure: ((SPError) -> Void)?
   ) {
-    client.createUnmatchedRefund(
+    client.createRefund(
       token: token,
       amount: amount,
       currency: currency,
