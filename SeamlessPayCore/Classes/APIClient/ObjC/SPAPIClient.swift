@@ -190,6 +190,17 @@ import Foundation
     }
   }
 
+  public func voidCharge(
+    id: String,
+    success: ((SPCharge) -> Void)?,
+    failure: ((SPError) -> Void)?
+  ) {
+    client.voidCharge(
+      id: id,
+      completion: { mapResult($0, success: success, failure: failure) }
+    )
+  }
+
   public func verify(
     token: String,
     cvv: String? = nil,

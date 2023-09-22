@@ -61,6 +61,7 @@
 		635DBA022A82B2CA0088E90A /* SwiftUIViewHostingControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635DBA012A82B2CA0088E90A /* SwiftUIViewHostingControllerFactory.swift */; };
 		6369FCF62A72B988005A353F /* SPSentryHTTPEventFactoryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6369FCF52A72B988005A353F /* SPSentryHTTPEventFactoryTest.swift */; };
 		6369FCF82A72BDD5005A353F /* SPInstallationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6369FCF72A72BDD5005A353F /* SPInstallationTest.swift */; };
+		636C1C5F2ABDE669002D121B /* APIOperationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636C1C5E2ABDE669002D121B /* APIOperationTest.swift */; };
 		638E38712A72B2D3008CEE2D /* SPSentryURLRequestFactoryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638E38702A72B2D3008CEE2D /* SPSentryURLRequestFactoryTest.swift */; };
 		639E1CF92A86621500D803EA /* URLRequest+BodyStreamToJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639E1CF82A86621500D803EA /* URLRequest+BodyStreamToJSON.swift */; };
 		639EE8D92AB83F6E00FED9DB /* APIClientURLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639EE8D82AB83F6E00FED9DB /* APIClientURLProtocolMock.swift */; };
@@ -159,6 +160,7 @@
 		635DBA012A82B2CA0088E90A /* SwiftUIViewHostingControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViewHostingControllerFactory.swift; sourceTree = "<group>"; };
 		6369FCF52A72B988005A353F /* SPSentryHTTPEventFactoryTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPSentryHTTPEventFactoryTest.swift; sourceTree = "<group>"; };
 		6369FCF72A72BDD5005A353F /* SPInstallationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPInstallationTest.swift; sourceTree = "<group>"; };
+		636C1C5E2ABDE669002D121B /* APIOperationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIOperationTest.swift; sourceTree = "<group>"; };
 		638E38702A72B2D3008CEE2D /* SPSentryURLRequestFactoryTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPSentryURLRequestFactoryTest.swift; sourceTree = "<group>"; };
 		639E1CF82A86621500D803EA /* URLRequest+BodyStreamToJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+BodyStreamToJSON.swift"; sourceTree = "<group>"; };
 		639EE8D82AB83F6E00FED9DB /* APIClientURLProtocolMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientURLProtocolMock.swift; sourceTree = "<group>"; };
@@ -412,6 +414,7 @@
 			children = (
 				639EE8DA2AB83FED00FED9DB /* Mocks */,
 				639EE8DB2AB8400A00FED9DB /* APIClientTest.swift */,
+				636C1C5E2ABDE669002D121B /* APIOperationTest.swift */,
 			);
 			path = APIClient;
 			sourceTree = "<group>";
@@ -895,6 +898,7 @@
 				1C14B9A82423C4EA005E4D45 /* SPFPXBankBrandTest.m in Sources */,
 				638E38712A72B2D3008CEE2D /* SPSentryURLRequestFactoryTest.swift in Sources */,
 				1C14B9AA2423C613005E4D45 /* SPPaymentViewControllerTest.m in Sources */,
+				636C1C5F2ABDE669002D121B /* APIOperationTest.swift in Sources */,
 				1C14B99E2423B333005E4D45 /* NSArray_ExtrasTest.m in Sources */,
 				639EE8DC2AB8400A00FED9DB /* APIClientTest.swift in Sources */,
 				1C10BC4E2416BA3500548808 /* SPPostalCodeValidatorTest.m in Sources */,
