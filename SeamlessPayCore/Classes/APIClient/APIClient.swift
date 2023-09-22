@@ -35,7 +35,7 @@ public class APIClient {
 
   // MARK: - Public Interface
   public private(set) var publishableKey: String?
-  public private(set) var environment: Environment?
+  public private(set) var environment: Environment = .sandbox
 
   public func set(
     secretKey: String? = nil,
@@ -174,7 +174,7 @@ public class APIClient {
     surchargeFeeAmount: String? = nil,
     description: String? = nil,
     order: [String: String]? = nil,
-    orderId: String? = nil,
+    orderID: String? = nil,
     poNumber: String? = nil,
     metadata: String? = nil,
     descriptor: String? = nil,
@@ -194,7 +194,7 @@ public class APIClient {
       surchargeFeeAmount: surchargeFeeAmount,
       description: description,
       order: order,
-      orderId: orderId,
+      orderID: orderID,
       poNumber: poNumber,
       metadata: metadata,
       descriptor: descriptor,
@@ -239,7 +239,7 @@ public class APIClient {
     surchargeFeeAmount: String? = nil,
     description: String? = nil,
     order: [String: String]? = nil,
-    orderId: String? = nil,
+    orderID: String? = nil,
     poNumber: String? = nil,
     metadata: String? = nil,
     descriptor: String? = nil,
@@ -259,7 +259,7 @@ public class APIClient {
       surchargeFeeAmount: surchargeFeeAmount,
       description: description,
       order: order,
-      orderId: orderId,
+      orderID: orderID,
       poNumber: poNumber,
       metadata: metadata,
       descriptor: descriptor,
@@ -340,48 +340,7 @@ private extension APIClient {
 
 // MARK: API operation
 private extension APIClient {
-  enum APIOperation {
-    case createToken
-    case createCustomer
-    case updateCustomer(id: String)
-    case retrieveCustomer(id: String)
-    case createCharge
-    case retrieveCharge(id: String)
-    case listCharges
-
-    var path: String {
-      let body: String
-      switch self {
-      case .createToken:
-        body = "tokens"
-      case .createCustomer:
-        body = "customers"
-      case let .retrieveCharge(value),
-           let .retrieveCustomer(value),
-           let .updateCustomer(value):
-        body = ["customers", value].joined(separator: "/")
-      case .createCharge,
-           .listCharges:
-        body = "charges"
-      }
-      return "/" + body
-    }
-
-    var method: HTTPMethod {
-      switch self {
-      case .createCharge,
-           .createCustomer,
-           .createToken:
-        return .post
-      case .updateCustomer:
-        return .put
-      case .listCharges,
-           .retrieveCharge,
-           .retrieveCustomer:
-        return .get
-      }
-    }
-  }
+  
 }
 
 // MARK: Helpers
@@ -435,7 +394,7 @@ private extension APIClient {
     surchargeFeeAmount: String? = nil,
     description: String? = nil,
     order: [String: String]? = nil,
-    orderId: String? = nil,
+    orderID: String? = nil,
     poNumber: String? = nil,
     metadata: String? = nil,
     descriptor: String? = nil,
@@ -455,7 +414,7 @@ private extension APIClient {
       "tip": tip,
       "surchargeFeeAmount": surchargeFeeAmount,
       "description": description,
-      "orderID": orderId,
+      "orderID": orderID,
       "poNumber": poNumber,
       "descriptor": descriptor,
       "idempotencyKey": idempotencyKey,
@@ -488,10 +447,10 @@ private extension APIClient {
 
     switch operation {
     case .createToken:
-      host = environment?.panVaultHost
+      host = environment.panVaultHost
       authorization = publishableKey
     default:
-      host = environment?.mainHost
+      host = environment.mainHost
       authorization = secretKey
     }
 
@@ -585,7 +544,7 @@ private extension APIClient {
     sentryClient = SPSentryClient.makeWith(
       configuration: .init(
         userId: SPInstallation.installationID,
-        environment: environment?.name ?? "unspecified"
+        environment: environment.name
       )
     )
 //    #endif

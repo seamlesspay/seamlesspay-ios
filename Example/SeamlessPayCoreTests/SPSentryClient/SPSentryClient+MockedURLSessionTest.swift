@@ -21,14 +21,14 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
       session: .init(
         configuration: {
           let configuration = URLSessionConfiguration.default
-          configuration.protocolClasses = [SPSentryClientMockURLProtocol.self]
+          configuration.protocolClasses = [SPSentryClientURLProtocolMock.self]
           return configuration
         }()
       )
     )!
 
-    SPSentryClientMockURLProtocol.responseType = nil
-    SPSentryClientMockURLProtocol.requestData = nil
+    SPSentryClientURLProtocolMock.responseType = nil
+    SPSentryClientURLProtocolMock.requestData = nil
   }
 
   override func tearDown() {
@@ -37,7 +37,7 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
 
   func testReturnsSuccess() {
     // given
-    SPSentryClientMockURLProtocol.responseWithSuccess()
+    SPSentryClientURLProtocolMock.responseWithSuccess()
 
     let expectation = XCTestExpectation(description: "Request completed")
 
@@ -54,7 +54,7 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
 
       // then
       if error != nil, data == nil {
-        XCTFail("Expect to have a success")
+        XCTFail("The expected result is success")
         return
       }
       expectation.fulfill()
@@ -65,7 +65,7 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
 
   func testFailureReturnsError() {
     // given
-    SPSentryClientMockURLProtocol.responseWithFailure()
+    SPSentryClientURLProtocolMock.responseWithFailure()
 
     let expectation = XCTestExpectation(description: "Request completed")
 
@@ -82,7 +82,7 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
 
       // then
       if error == nil, data != nil {
-        XCTFail("Expect to have a failure")
+        XCTFail("The expected result is failure")
         return
       }
       expectation.fulfill()
@@ -105,7 +105,7 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
     request.httpBody = try! JSONSerialization.data(withJSONObject: body)
 
     // given
-    SPSentryClientMockURLProtocol.responseWithSuccess()
+    SPSentryClientURLProtocolMock.responseWithSuccess()
 
     let expectation = XCTestExpectation(description: "Request completed")
 
@@ -117,7 +117,7 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
     ) { data, response, error in
 
       // then
-      let failedRequestData = SPSentryClientMockURLProtocol
+      let failedRequestData = SPSentryClientURLProtocolMock
         .requestData!["request"]! as! [String: Any]
       let failedRequestBody = failedRequestData["data"] as! [String: Any]
       let tokenValue = failedRequestBody[tokenKey] as! String
