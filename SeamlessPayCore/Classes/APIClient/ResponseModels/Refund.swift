@@ -6,7 +6,8 @@
 // *
 
 // MARK: - Refund
-@objcMembers public class Refund: NSObject, Codable {
+@objcMembers
+@objc(SPRefund) public class Refund: NSObject, Codable {
   let accountType: String?
   let amount: String?
   let authCode: String?
