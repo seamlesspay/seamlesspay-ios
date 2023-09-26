@@ -15,6 +15,7 @@ enum APIOperation {
   case createCharge
   case retrieveCharge(id: String)
   case listCharges
+  case createRefund
 
   var path: String {
     let body: String
@@ -30,6 +31,8 @@ enum APIOperation {
     case .createCharge,
          .listCharges:
       body = "charges"
+    case .createRefund:
+      body = "refunds"
     }
     return "/" + body
   }
@@ -38,7 +41,8 @@ enum APIOperation {
     switch self {
     case .createCharge,
          .createCustomer,
-         .createToken:
+         .createToken,
+         .createRefund:
       return .post
     case .updateCustomer:
       return .put

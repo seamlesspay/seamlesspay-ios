@@ -10,16 +10,16 @@ import Foundation
 // SPAPIClient is essentially a wrapper for APIClient, providing an Objective-C compatible
 // interface.
 // TODO: Move to a separate package
-@objc public class SPAPIClient: NSObject {
+@objcMembers public class SPAPIClient: NSObject {
   // MARK: Private
   private var client: APIClient {
     APIClient.shared
   }
 
   // MARK: Public Interface
-  @objc public static let getSharedInstance = SPAPIClient()
+  public static let getSharedInstance = SPAPIClient()
 
-  @objc public func setSecretKey(
+  public func setSecretKey(
     _ secretKey: String?,
     publishableKey: String,
     environment: Environment
@@ -27,12 +27,12 @@ import Foundation
     client.set(secretKey: secretKey, publishableKey: publishableKey, environment: environment)
   }
 
-  @objc public func setSubMerchantAccountId(_ id: String) {
+  public func setSubMerchantAccountId(_ id: String) {
     client.setSubMerchantAccountId(id)
   }
 
   // MARK: Obj-c wrappers
-  @objc public func tokenize(
+  public func tokenize(
     paymentType: PaymentType,
     accountNumber: String,
     expDate: String? = nil,
@@ -60,7 +60,7 @@ import Foundation
     }
   }
 
-  @objc public func createCustomer(
+  public func createCustomer(
     name: String,
     email: String,
     address: SPAddress? = nil,
@@ -88,7 +88,7 @@ import Foundation
     }
   }
 
-  @objc public func updateCustomer(
+  public func updateCustomer(
     id: String,
     name: String,
     email: String,
@@ -117,7 +117,7 @@ import Foundation
     }
   }
 
-  @objc public func retrieveCustomer(
+  public func retrieveCustomer(
     id: String,
     success: ((SPCustomer) -> Void)?,
     failure: ((SPError) -> Void)?
@@ -127,7 +127,7 @@ import Foundation
     }
   }
 
-  @objc public func createCharge(
+  public func createCharge(
     token: String,
     cvv: String? = nil,
     capture: Bool,
@@ -171,7 +171,7 @@ import Foundation
     }
   }
 
-  @objc public func retrieveCharge(
+  public func retrieveCharge(
     id: String,
     success: ((SPCharge) -> Void)?,
     failure: ((SPError) -> Void)?
@@ -181,7 +181,7 @@ import Foundation
     }
   }
 
-  @objc public func listCharges(
+  public func listCharges(
     success: (([String: Any]) -> Void)?,
     failure: ((SPError) -> Void)?
   ) {
@@ -190,7 +190,7 @@ import Foundation
     }
   }
 
-  @objc public func verify(
+  public func verify(
     token: String,
     cvv: String? = nil,
     currency: String? = nil,
@@ -228,6 +228,27 @@ import Foundation
     ) {
       mapResult($0, success: success, failure: failure)
     }
+  }
+
+  public func createRefund(
+    token: String,
+    amount: String,
+    currency: String? = nil,
+    descriptor: String? = nil,
+    idempotencyKey: String? = nil,
+    metadata: String? = nil,
+    success: ((Refund) -> Void)?,
+    failure: ((SPError) -> Void)?
+  ) {
+    client.createRefund(
+      token: token,
+      amount: amount,
+      currency: currency,
+      descriptor: descriptor,
+      idempotencyKey: idempotencyKey,
+      metadata: metadata,
+      completion: { mapResult($0, success: success, failure: failure) }
+    )
   }
 }
 

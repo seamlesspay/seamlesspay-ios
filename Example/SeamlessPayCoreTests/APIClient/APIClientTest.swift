@@ -27,7 +27,8 @@ final class APIClientTest: XCTestCase {
     APIClientURLProtocolMock.setFailureResponse()
   }
 
-  // MARK: Tests
+  // MARK: - Tests
+  // MARK: Verify
   func testShortVerifyRequest() {
     let expectation = XCTestExpectation(description: "Request completed")
 
@@ -138,6 +139,45 @@ final class APIClientTest: XCTestCase {
       XCTAssertEqual(descriptor, "test_descriptor")
       XCTAssertEqual(entryType, "test_entryType")
       XCTAssertEqual(idempotencyKey, "test_idempotencyKey")
+
+      expectation.fulfill()
+    }
+
+    wait(for: [expectation], timeout: 1.5)
+  }
+
+  // MARK: Refund
+  func testCreateRefundRequest() {
+    let expectation = XCTestExpectation(description: "Request completed")
+
+    // when
+    client.createRefund(
+      token: "test_token",
+      amount: "101"
+    ) { result in
+
+      let request = APIClientURLProtocolMock.testingRequest!
+      let body = request.bodyStreamAsJSON()!
+      let headers = request.allHTTPHeaderFields!
+      let url = request.url!.absoluteString
+      let method = request.httpMethod!
+
+      XCTAssertEqual(url, "https://sandbox.seamlesspay.com/refunds")
+      XCTAssertEqual(method, "POST")
+
+      // headers
+      XCTAssertNotNil(headers["Content-Length"])
+      XCTAssertEqual(headers["Content-Type"], "application/json")
+      XCTAssertEqual(headers["Accept"], "application/json")
+      XCTAssertEqual(headers["API-Version"], "v2020")
+      XCTAssertEqual(headers["User-Agent"], "seamlesspay_ios")
+
+      let token = body["token"] as! String
+      let amount = body["amount"] as! String
+
+      // parameters
+      XCTAssertEqual(token, "test_token")
+      XCTAssertEqual(amount, "101")
 
       expectation.fulfill()
     }

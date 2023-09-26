@@ -28,8 +28,8 @@ public class APIClient {
   private var sentryClient: SPSentryClient?
 
   // MARK: Init
-  //TODO: Move under SPI
-  internal init(session: URLSession = URLSession(configuration: .default)) {
+  // TODO: Move under SPI
+  init(session: URLSession = URLSession(configuration: .default)) {
     self.session = session
   }
 
@@ -67,7 +67,7 @@ public class APIClient {
     name: String? = nil,
     completion: ((Result<SPPaymentMethod, SeamlessPayError>) -> Void)?
   ) {
-    var optionalParameters: [String: Any?] = [
+    var parameters: [String: Any?] = [
       "paymentType": paymentType.name,
       "accountNumber": accountNumber,
       "billingAddress": billingAddress?.dictionary(),
@@ -77,18 +77,16 @@ public class APIClient {
 
     switch paymentType {
     case .ach:
-      optionalParameters["bankAccountType"] = accountType
-      optionalParameters["routingNumber"] = routing
+      parameters["bankAccountType"] = accountType
+      parameters["routingNumber"] = routing
     case .creditCard:
-      optionalParameters["expDate"] = expDate
-      optionalParameters["cvv"] = cvv
+      parameters["expDate"] = expDate
+      parameters["cvv"] = cvv
     case .giftCard:
-      optionalParameters["pinNumber"] = pin
+      parameters["pinNumber"] = pin
     case .plDebitCard:
-      optionalParameters["expDate"] = expDate
+      parameters["expDate"] = expDate
     }
-
-    let parameters = optionalParameters.compactMapValues { $0 }
 
     execute(
       operation: .createToken,
@@ -269,17 +267,48 @@ public class APIClient {
       completion: completion
     )
   }
+
+  // MARK: Refunds
+  public func createRefund(
+    token: String,
+    amount: String,
+    currency: String? = nil,
+    descriptor: String? = nil,
+    idempotencyKey: String? = nil,
+    metadata: String? = nil,
+    completion: ((Result<Refund, SeamlessPayError>) -> Void)?
+  ) {
+    let parameters: [String: Any?] = [
+      "token": token,
+      "amount": amount,
+      "currency": currency,
+      "descriptor": descriptor,
+      "idempotencyKey": idempotencyKey,
+      "metadata": metadata,
+    ]
+
+    execute(
+      operation: .createRefund,
+      parameters: parameters,
+      map: { data in
+        data.flatMap { try? Refund(data: $0) }
+      },
+      completion: completion
+    )
+  }
 }
 
-// MARK: - Request execution
+// MARK: - Private
+// MARK: Request execution
 private extension APIClient {
   func execute<ModelClass>(
     operation: APIOperation,
-    parameters: [String: Any]?,
+    parameters: [String: Any?]?,
     map: @escaping (Data?) -> ModelClass?,
     completion: ((Result<ModelClass, SeamlessPayError>) -> Void)?
   ) {
     do {
+      let parameters = parameters?.compactMapValues { $0 }
       let request = try request(
         operation: operation,
         parameters: parameters
@@ -336,13 +365,6 @@ private extension APIClient {
   }
 }
 
-// MARK: - Private
-
-// MARK: API operation
-private extension APIClient {
-  
-}
-
 // MARK: Helpers
 private extension APIClient {
   func customer(
@@ -358,7 +380,7 @@ private extension APIClient {
     operation: APIOperation,
     completion: ((Result<SPCustomer, SeamlessPayError>) -> Void)?
   ) {
-    let parametersOptional: [String: Any?] = [
+    let parameters: [String: Any?] = [
       "name": name,
       "website": website,
       "address": address?.dictionary(),
@@ -369,8 +391,6 @@ private extension APIClient {
       "metadata": metadata ?? "metadata",
       "paymentMethods": paymentMethods?.map { $0.token },
     ]
-
-    let parameters = parametersOptional.compactMapValues { $0 }
 
     execute(
       operation: operation,
@@ -403,7 +423,7 @@ private extension APIClient {
     operation: APIOperation,
     completion: ((Result<SPCharge, SeamlessPayError>) -> Void)?
   ) {
-    let parametersOptional: [String: Any?] = [
+    let parameters: [String: Any?] = [
       "token": token,
       "cvv": cvv,
       "capture": capture,
@@ -423,7 +443,6 @@ private extension APIClient {
       "order": order,
       "deviceFingerprint": deviceFingerprint,
     ]
-    let parameters = parametersOptional.compactMapValues { $0 }
 
     execute(
       operation: operation,
