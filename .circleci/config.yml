@@ -13,16 +13,6 @@ jobs:
           command: |
             cd Example/
             pod install
-      - run: 
-          name: Prepare schema
-          command: |
-            cd Example/
-            pwd
-            sed -i xcscheme "s/TEST_SECRET_KEY/${TEST_SECRET_KEY}/g" ./SeamlessPayCore.xcodeproj/xcshareddata/xcschemes/CISeamlessPayCoreTests.xcscheme
-            sed -i xcscheme "s/TEST_PUBLIC_KEY/${TEST_PUBLIC_KEY}/g" ./SeamlessPayCore.xcodeproj/xcshareddata/xcschemes/CISeamlessPayCoreTests.xcscheme
-            sed -i xcscheme "s/API_ENDPOINT/${API_ENDPOINT}/g" ./SeamlessPayCore.xcodeproj/xcshareddata/xcschemes/CISeamlessPayCoreTests.xcscheme
-            sed -i xcscheme "s/PAN_VAULT_ENDPOINT/${PAN_VAULT_ENDPOINT}/g" ./SeamlessPayCore.xcodeproj/xcshareddata/xcschemes/CISeamlessPayCoreTests.xcscheme
-            cat ./SeamlessPayCore.xcodeproj/xcshareddata/xcschemes/CISeamlessPayCoreTests.xcscheme
       - run:
           name: Build tests
           command: |
