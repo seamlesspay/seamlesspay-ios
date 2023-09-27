@@ -551,10 +551,7 @@ private extension APIClient {
     authorization: String?,
     contentLength: Int?
   ) -> [String: String] {
-    let authHeaderValue = authorization?
-      .data(using: .utf8)
-      .flatMap { $0.base64EncodedString(options: []) }
-      .flatMap { "Bearer " + $0 }
+    let authHeaderValue = authorization.flatMap { "Bearer " + $0 }
     let contentLength = contentLength.flatMap { String($0) }
 
     return [
