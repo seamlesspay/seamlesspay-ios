@@ -135,26 +135,26 @@ class ViewController: UIViewController {
     let cardTextField = SPPaymentCardTextField()
     return cardTextField
   }()
-    
+
   lazy var payButton: UIButton = {
     let button = UIButton(type: .custom)
     button.layer.cornerRadius = 5
     button.backgroundColor = .systemBlue
     button.titleLabel?.font = UIFont.systemFont(ofSize: 22)
     button.setTitle("Pay", for: .normal)
-    button.addTarget(self, action: #selector(pay), for:  touchUpInside)
+    button.addTarget(self, action: #selector(pay), for: .touchUpInside)
     return button
   }()
-    
+
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
-    
+
     view.backgroundColor = .white
-    let stackView = UIStackView(arrangedSubviews:[cardTextField, payButton])
+    let stackView = UIStackView(arrangedSubviews: [cardTextField, payButton])
     stackView.axis = .vertical
     stackView.spacing = 20
-    stackView.translatesAutoresizingMaskIntoConstraints =false
+    stackView.translatesAutoresizingMaskIntoConstraints = false
     view.addSubview(stackView)
     NSLayoutConstraint.activate([
       stackView.leftAnchor.constraint(
@@ -171,7 +171,7 @@ class ViewController: UIViewController {
       ),
     ])
   }
-    
+
   @objc
   func pay() {
     // ...
