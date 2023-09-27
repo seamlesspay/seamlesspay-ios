@@ -226,6 +226,20 @@ public class APIClient {
     )
   }
 
+  public func voidCharge(
+    id: String,
+    completion: ((Result<SPCharge, SeamlessPayError>) -> Void)?
+  ) {
+    execute(
+      operation: .voidCharge(id: id),
+      parameters: nil,
+      map: {
+        $0.flatMap(SPCharge.init(responseData:))
+      },
+      completion: completion
+    )
+  }
+
   // MARK: Verify
   public func verify(
     token: String,

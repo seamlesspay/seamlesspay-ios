@@ -16,25 +16,39 @@ enum APIOperation {
   case retrieveCharge(id: String)
   case listCharges
   case createRefund
+  case voidCharge(id: String)
 
-  var path: String {
-    let body: String
+  private var pathBase: String {
     switch self {
     case .createToken:
-      body = "tokens"
-    case .createCustomer:
-      body = "customers"
+      return "tokens"
+    case .createCustomer,
+         .retrieveCustomer,
+         .updateCustomer:
+      return "customers"
+    case .createCharge,
+         .listCharges,
+         .retrieveCharge,
+         .voidCharge:
+      return "charges"
+    case .createRefund:
+      return "refunds"
+    }
+  }
+
+  var path: String {
+    var path = "/" + pathBase
+    switch self {
     case let .retrieveCharge(value),
          let .retrieveCustomer(value),
-         let .updateCustomer(value):
-      body = ["customers", value].joined(separator: "/")
-    case .createCharge,
-         .listCharges:
-      body = "charges"
-    case .createRefund:
-      body = "refunds"
+         let .updateCustomer(value),
+         let .voidCharge(value):
+      path += "/" + value
+    default:
+      break
     }
-    return "/" + body
+
+    return path
   }
 
   var method: HTTPMethod {
@@ -50,6 +64,8 @@ enum APIOperation {
          .retrieveCharge,
          .retrieveCustomer:
       return .get
+    case .voidCharge:
+      return .delete
     }
   }
 }
