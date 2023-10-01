@@ -538,7 +538,7 @@
                      @"Amount: $%@\nStatus: %@\nStatus message: "
                      @"%@\ntxnID #: %@\nTimeInterval: %f s",
                      charge.amount, charge.status,
-                     charge.statusDescription, charge.chargeId,
+                     charge.statusDescription, charge.id,
                      elapsedTime];
                     
                     [self displayAlertWithTitle:@"Success"
@@ -645,8 +645,8 @@ decisionHandler:
       [self.webView loadHTMLString:html baseURL:nil];
     };
 
-    [[SPAPIClient getSharedInstance] listChargesWithSuccess:^(NSDictionary *dict) {
-      if (dict) {
+    [[SPAPIClient getSharedInstance] listChargesWithSuccess:^(SPChargePage *page) {
+      if (page) {
         updateWebView(@"Authentication success!");
       }
     }
@@ -862,7 +862,7 @@ decisionHandler:
                                                    success:^(SPCharge *charge) {
       if (charge) {
 
-        [[NSUserDefaults standardUserDefaults] setObject:charge.chargeId
+        [[NSUserDefaults standardUserDefaults] setObject:charge.id
                                                   forKey:@"chargeId"];
 
         NSString *html = [self.contentHTML
@@ -871,7 +871,7 @@ decisionHandler:
                             [NSString
                              stringWithFormat:
                                @"%@<br>%@",
-                             charge.chargeId,
+                             charge.id,
                              charge.statusDescription]];
         html = [NSString stringWithFormat:html, qa[2]];
         [self.webView loadHTMLString:html baseURL:nil];
@@ -899,7 +899,7 @@ decisionHandler:
                             [NSString stringWithFormat:
                              @"Charge ID: "
                              @"%@<br>Amount: %@",
-                             charge.chargeId,
+                             charge.id,
                              charge.amount]];
         html = [NSString stringWithFormat:html, qa[2]];
 
@@ -974,7 +974,7 @@ decisionHandler:
                                  charge.amount,
                                  charge.status,
                                  charge.statusDescription,
-                                 charge.chargeId]];
+                                 charge.id]];
             [self.webView loadHTMLString:html baseURL:nil];
 
             [self.activityIndicator stopAnimating];
@@ -1063,7 +1063,7 @@ decisionHandler:
                                  charge.amount,
                                  charge.status,
                                  charge.statusDescription,
-                                 charge.chargeId]];
+                                 charge.id]];
             [self.webView loadHTMLString:html baseURL:nil];
 
             [self.activityIndicator stopAnimating];
@@ -1144,7 +1144,7 @@ decisionHandler:
                                  charge.amount,
                                  charge.status,
                                  charge.statusDescription,
-                                 charge.chargeId]];
+                                 charge.id]];
             [self.webView loadHTMLString:html baseURL:nil];
 
             [self.activityIndicator stopAnimating];

@@ -11,7 +11,7 @@ import SeamlessPayCore
 private enum VerificationState {
   case idle
   case verifying
-  case verified(Result<SPCharge, SeamlessPayError>)
+  case verified(Result<Charge, SeamlessPayError>)
 
   var isVerifying: Bool {
     switch self {

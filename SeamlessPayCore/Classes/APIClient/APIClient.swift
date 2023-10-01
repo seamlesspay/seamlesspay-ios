@@ -178,7 +178,7 @@ public class APIClient {
     descriptor: String? = nil,
     entryType: String? = nil,
     idempotencyKey: String? = nil,
-    completion: ((Result<SPCharge, SeamlessPayError>) -> Void)?
+    completion: ((Result<Charge, SeamlessPayError>) -> Void)?
   ) {
     charge(
       token: token,
@@ -205,22 +205,19 @@ public class APIClient {
 
   public func retrieveCharge(
     id: String,
-    completion: ((Result<SPCharge, SeamlessPayError>) -> Void)?
+    completion: ((Result<Charge, SeamlessPayError>) -> Void)?
   ) {
     charge(operation: .retrieveCharge(id: id), completion: completion)
   }
 
   public func listCharges(
-    completion: ((Result<[String: Any], SeamlessPayError>) -> Void)?
+    completion: ((Result<ChargePage, SeamlessPayError>) -> Void)?
   ) {
     execute(
       operation: .listCharges,
       parameters: nil,
       map: { data in
-        // TODO: Transform to model
-        data.flatMap {
-          try? JSONSerialization.jsonObject(with: $0, options: .allowFragments)
-        } as? [String: Any]
+        data.flatMap { try? ChargePage.decode($0) }
       },
       completion: completion
     )
@@ -228,13 +225,15 @@ public class APIClient {
 
   public func voidCharge(
     id: String,
-    completion: ((Result<SPCharge, SeamlessPayError>) -> Void)?
+    completion: ((Result<Charge, SeamlessPayError>) -> Void)?
   ) {
     execute(
       operation: .voidCharge(id: id),
       parameters: nil,
-      map: {
-        $0.flatMap(SPCharge.init(responseData:))
+      map: { data in
+        data.flatMap {
+          try? Charge.decode($0)
+        }
       },
       completion: completion
     )
@@ -257,7 +256,7 @@ public class APIClient {
     descriptor: String? = nil,
     entryType: String? = nil,
     idempotencyKey: String? = nil,
-    completion: ((Result<SPCharge, SeamlessPayError>) -> Void)?
+    completion: ((Result<Charge, SeamlessPayError>) -> Void)?
   ) {
     charge(
       token: token,
@@ -305,7 +304,7 @@ public class APIClient {
       operation: .createRefund,
       parameters: parameters,
       map: { data in
-        data.flatMap { try? Refund(data: $0) }
+        data.flatMap { try? Refund.decode($0) }
       },
       completion: completion
     )
@@ -435,7 +434,7 @@ private extension APIClient {
     entryType: String? = nil,
     idempotencyKey: String? = nil,
     operation: APIOperation,
-    completion: ((Result<SPCharge, SeamlessPayError>) -> Void)?
+    completion: ((Result<Charge, SeamlessPayError>) -> Void)?
   ) {
     let parameters: [String: Any?] = [
       "token": token,
@@ -461,8 +460,10 @@ private extension APIClient {
     execute(
       operation: operation,
       parameters: parameters,
-      map: {
-        $0.flatMap(SPCharge.init(responseData:))
+      map: { data in
+        data.flatMap {
+          try? Charge.decode($0)
+        }
       },
       completion: completion
     )

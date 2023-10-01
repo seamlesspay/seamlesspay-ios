@@ -9,10 +9,10 @@
 
 #import "SPPaymentCardTextField.h"
 #import "SPPaymentMethod.h"
-#import "SPCharge.h"
 #import "SPError.h"
 #import "SPLoadingView.h"
 #import "SPCustomer.h"
+@class SPCharge;
 
 typedef NS_ENUM(NSUInteger, SPVCPaymentType) {
   SPVCPaymentTypeAch = 0,
