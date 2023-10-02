@@ -62,12 +62,11 @@ final class APIClientTest: XCTestCase {
   // MARK: Tokenize
   func testTokenizeCreditCardRequest() {
     let expectation = XCTestExpectation(description: "Request completed")
-
     // when
     client.tokenize(
       paymentType: .creditCard,
       accountNumber: "test_accountNumber",
-      expDate: "test_expDate",
+      expDate: .init(month: 7, year: 33),
       cvv: "test_cvv",
       accountType: "test_accountType",
       routing: "test_routing",
@@ -113,7 +112,7 @@ final class APIClientTest: XCTestCase {
       XCTAssertEqual(cvv, "test_cvv")
 
       XCTAssertEqual(accountNumber, "test_accountNumber")
-      XCTAssertEqual(expDate, "test_expDate")
+      XCTAssertEqual(expDate, "7/33")
       XCTAssertEqual(name, "test_name")
       XCTAssertEqual(paymentType, "credit_card")
 
@@ -149,7 +148,7 @@ final class APIClientTest: XCTestCase {
     client.tokenize(
       paymentType: .giftCard,
       accountNumber: "test_accountNumber",
-      expDate: "test_expDate",
+      expDate: .init(month: 7, year: 33),
       cvv: "test_cvv",
       accountType: "test_accountType",
       routing: "test_routing",
@@ -192,7 +191,7 @@ final class APIClientTest: XCTestCase {
     client.tokenize(
       paymentType: .ach,
       accountNumber: "test_accountNumber",
-      expDate: "test_expDate",
+      expDate: .init(month: 7, year: 33),
       cvv: "test_cvv",
       accountType: "test_accountType",
       routing: "test_routing",
@@ -236,7 +235,7 @@ final class APIClientTest: XCTestCase {
     client.tokenize(
       paymentType: .plDebitCard,
       accountNumber: "test_accountNumber",
-      expDate: "test_expDate",
+      expDate: .init(month: 7, year: 33),
       cvv: "test_cvv",
       accountType: "test_accountType",
       routing: "test_routing",
@@ -259,7 +258,7 @@ final class APIClientTest: XCTestCase {
       let expDate = body["expDate"] as! String
 
       // parameters
-      XCTAssertEqual(expDate, "test_expDate")
+      XCTAssertEqual(expDate, "7/33")
 
       XCTAssertNil(body["cvv"])
       XCTAssertNil(body["bankAccountType"])

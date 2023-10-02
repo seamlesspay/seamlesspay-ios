@@ -66,7 +66,10 @@ class ViewController: UIViewController {
     APIClient.shared.tokenize(
       paymentType: .creditCard,
       accountNumber: cardTextField.cardNumber ?? .init(),
-      expDate: cardTextField.formattedExpirationDate,
+      expDate: .init(
+        month: cardTextField.expirationMonth,
+        year: cardTextField.expirationYear
+      ),
       cvv: cardTextField.cvc,
       billingAddress: billingAddress,
       name: "Michael Smith"
