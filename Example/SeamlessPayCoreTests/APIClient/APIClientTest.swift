@@ -60,7 +60,7 @@ final class APIClientTest: XCTestCase {
   }
 
   // MARK: Tokenize
-  func testTokenizeRequest() {
+  func testTokenizeCreditCardRequest() {
     let expectation = XCTestExpectation(description: "Request completed")
 
     // when
@@ -117,6 +117,10 @@ final class APIClientTest: XCTestCase {
       XCTAssertEqual(name, "test_name")
       XCTAssertEqual(paymentType, "credit_card")
 
+      XCTAssertNil(body["bankAccountType"])
+      XCTAssertNil(body["routingNumber"])
+      XCTAssertNil(body["pinNumber"])
+
       // billing address
       let postalCode = billingAddress["postalCode"]!
       let country = billingAddress["country"]!
@@ -131,6 +135,136 @@ final class APIClientTest: XCTestCase {
       XCTAssertEqual(line1, "test_line1")
       XCTAssertEqual(line2, "test_line2")
       XCTAssertEqual(state, "test_state")
+
+      expectation.fulfill()
+    }
+
+    wait(for: [expectation], timeout: 1.5)
+  }
+
+  func testTokenizeGiftCardRequest() {
+    let expectation = XCTestExpectation(description: "Request completed")
+
+    // when
+    client.tokenize(
+      paymentType: .giftCard,
+      accountNumber: "test_accountNumber",
+      expDate: "test_expDate",
+      cvv: "test_cvv",
+      accountType: "test_accountType",
+      routing: "test_routing",
+      pin: "test_ping",
+      billingAddress: .init(
+        line1: "test_line1",
+        line2: "test_line2",
+        city: "test_city",
+        country: "test_country",
+        state: "test_state",
+        postalCode: "test_postalCode"
+      ),
+      name: "test_name"
+    ) { result in
+
+      // then
+      let request = APIClientURLProtocolMock.testingRequest!
+      let body = request.bodyStreamAsJSON()!
+
+      let pinNumber = body["pinNumber"] as! String
+
+      // parameters
+      XCTAssertEqual(pinNumber, "test_ping")
+
+      XCTAssertNil(body["cvv"])
+      XCTAssertNil(body["expDate"])
+      XCTAssertNil(body["bankAccountType"])
+      XCTAssertNil(body["routingNumber"])
+
+      expectation.fulfill()
+    }
+
+    wait(for: [expectation], timeout: 1.5)
+  }
+
+  func testTokenizeAchRequest() {
+    let expectation = XCTestExpectation(description: "Request completed")
+
+    // when
+    client.tokenize(
+      paymentType: .ach,
+      accountNumber: "test_accountNumber",
+      expDate: "test_expDate",
+      cvv: "test_cvv",
+      accountType: "test_accountType",
+      routing: "test_routing",
+      pin: "test_ping",
+      billingAddress: .init(
+        line1: "test_line1",
+        line2: "test_line2",
+        city: "test_city",
+        country: "test_country",
+        state: "test_state",
+        postalCode: "test_postalCode"
+      ),
+      name: "test_name"
+    ) { result in
+
+      // then
+      let request = APIClientURLProtocolMock.testingRequest!
+      let body = request.bodyStreamAsJSON()!
+
+      let bankAccountType = body["bankAccountType"] as! String
+      let routing = body["routingNumber"] as! String
+
+      // parameters
+      XCTAssertEqual(bankAccountType, "test_accountType")
+      XCTAssertEqual(routing, "test_routing")
+
+      XCTAssertNil(body["cvv"])
+      XCTAssertNil(body["expDate"])
+      XCTAssertNil(body["pinNumber"])
+
+      expectation.fulfill()
+    }
+
+    wait(for: [expectation], timeout: 1.5)
+  }
+
+  func testTokenizePlDebitCardRequest() {
+    let expectation = XCTestExpectation(description: "Request completed")
+
+    // when
+    client.tokenize(
+      paymentType: .plDebitCard,
+      accountNumber: "test_accountNumber",
+      expDate: "test_expDate",
+      cvv: "test_cvv",
+      accountType: "test_accountType",
+      routing: "test_routing",
+      pin: "test_ping",
+      billingAddress: .init(
+        line1: "test_line1",
+        line2: "test_line2",
+        city: "test_city",
+        country: "test_country",
+        state: "test_state",
+        postalCode: "test_postalCode"
+      ),
+      name: "test_name"
+    ) { result in
+
+      // then
+      let request = APIClientURLProtocolMock.testingRequest!
+      let body = request.bodyStreamAsJSON()!
+
+      let expDate = body["expDate"] as! String
+
+      // parameters
+      XCTAssertEqual(expDate, "test_expDate")
+
+      XCTAssertNil(body["cvv"])
+      XCTAssertNil(body["bankAccountType"])
+      XCTAssertNil(body["routingNumber"])
+      XCTAssertNil(body["pinNumber"])
 
       expectation.fulfill()
     }
