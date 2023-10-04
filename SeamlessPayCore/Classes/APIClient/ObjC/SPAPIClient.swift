@@ -145,7 +145,7 @@ import Foundation
     descriptor: String? = nil,
     entryType: String? = nil,
     idempotencyKey: String? = nil,
-    success: ((SPCharge) -> Void)?,
+    success: ((Charge) -> Void)?,
     failure: ((SPError) -> Void)?
   ) {
     client.createCharge(
@@ -173,7 +173,7 @@ import Foundation
 
   public func retrieveCharge(
     id: String,
-    success: ((SPCharge) -> Void)?,
+    success: ((Charge) -> Void)?,
     failure: ((SPError) -> Void)?
   ) {
     client.retrieveCharge(id: id) {
@@ -182,7 +182,7 @@ import Foundation
   }
 
   public func listCharges(
-    success: (([String: Any]) -> Void)?,
+    success: ((ChargePage) -> Void)?,
     failure: ((SPError) -> Void)?
   ) {
     client.listCharges {
@@ -192,7 +192,7 @@ import Foundation
 
   public func voidCharge(
     id: String,
-    success: ((SPCharge) -> Void)?,
+    success: ((Charge) -> Void)?,
     failure: ((SPError) -> Void)?
   ) {
     client.voidCharge(
@@ -217,7 +217,7 @@ import Foundation
     descriptor: String? = nil,
     entryType: String? = nil,
     idempotencyKey: String? = nil,
-    success: ((SPCharge) -> Void)?,
+    success: ((Charge) -> Void)?,
     failure: ((SPError) -> Void)?
   ) {
     client.verify(

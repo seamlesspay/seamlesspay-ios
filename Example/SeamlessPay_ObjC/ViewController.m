@@ -151,7 +151,7 @@
                                  stringWithFormat:@"Amount: $%@\nStatus: %@\nStatus message: "
                                  @"%@\ntxnID #: %@",
                                  charge.amount, charge.status,
-                                 charge.statusDescription, charge.chargeId];
+                                 charge.statusDescription, charge.id];
             
             [self displayAlertWithTitle:@"Success"
                                 message:success

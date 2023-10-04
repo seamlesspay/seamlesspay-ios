@@ -22,11 +22,11 @@ struct KeyValueRow: View {
 }
 
 struct SPChargeDetailView: View {
-  var viewModel: SPCharge
+  var viewModel: Charge
 
   var body: some View {
     VStack(alignment: .leading) {
-      KeyValueRow(key: "Charge ID", value: viewModel.chargeId ?? "")
+      KeyValueRow(key: "Charge ID", value: viewModel.id ?? "")
       KeyValueRow(key: "Method", value: viewModel.method ?? "")
       KeyValueRow(key: "Amount", value: viewModel.amount ?? "")
       KeyValueRow(key: "Tip", value: viewModel.tip ?? "")
@@ -38,6 +38,15 @@ struct SPChargeDetailView: View {
 
 struct SPChargeDetailView_Previews: PreviewProvider {
   static var previews: some View {
-    SPChargeDetailView(viewModel: SPCharge())
+    SPChargeDetailView(
+      viewModel: Charge(
+        id: "some_id",
+        method: "method",
+        amount: "101.1",
+        tip: "20",
+        currency: "USD",
+        status: "some_status"
+      )
+    )
   }
 }

@@ -85,7 +85,7 @@ class ViewController: UIViewController {
           switch result {
           case let .success(charge):
             // Success Charge:
-            print(charge.chargeId ?? "charge is nil")
+            print(charge.id ?? "charge is nil")
           case let .failure(error):
             // Handle the error
             print(error.localizedDescription)
