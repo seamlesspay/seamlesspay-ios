@@ -29,18 +29,6 @@
       shouldUseLaunchSchemeArgsEnv = "NO"
       codeCoverageEnabled = "YES"
       onlyGenerateCoverageForSpecifiedTargets = "YES">
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "SECRET_API_KEY"
-            value = "TEST_SECRET_KEY"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "PUBLIC_API_KEY"
-            value = "TEST_PUBLIC_KEY"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
       <CodeCoverageTargets>
          <BuildableReference
             BuildableIdentifier = "primary"
