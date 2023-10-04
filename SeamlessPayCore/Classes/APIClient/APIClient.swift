@@ -58,7 +58,7 @@ public class APIClient {
   public func tokenize(
     paymentType: PaymentType,
     accountNumber: String,
-    expDate: String? = nil,
+    expDate: ExpirationDate? = nil,
     cvv: String? = nil,
     accountType: String? = nil,
     routing: String? = nil,
@@ -80,12 +80,12 @@ public class APIClient {
       parameters["bankAccountType"] = accountType
       parameters["routingNumber"] = routing
     case .creditCard:
-      parameters["expDate"] = expDate
+      parameters["expDate"] = expDate?.stringValue
       parameters["cvv"] = cvv
     case .giftCard:
       parameters["pinNumber"] = pin
     case .plDebitCard:
-      parameters["expDate"] = expDate
+      parameters["expDate"] = expDate?.stringValue
     }
 
     execute(

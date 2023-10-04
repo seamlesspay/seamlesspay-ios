@@ -45,10 +45,22 @@ import Foundation
     success: ((SPPaymentMethod) -> Void)?,
     failure: ((SPError) -> Void)?
   ) {
+    let exp: ExpirationDate = {
+      let expElements = expDate?
+        .components(separatedBy: "/")
+        .map { UInt($0) }
+        .compactMap { $0 }
+
+      guard let expElements, expElements.count >= 2 else {
+        return .init(month: 0, year: 0)
+      }
+      return .init(month: expElements[0], year: expElements[1])
+    }()
+
     client.tokenize(
       paymentType: paymentType,
       accountNumber: accountNumber,
-      expDate: expDate,
+      expDate: exp,
       cvv: cvv,
       accountType: accountType,
       routing: routing,
