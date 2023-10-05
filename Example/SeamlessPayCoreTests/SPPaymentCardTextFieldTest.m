@@ -35,19 +35,19 @@
 @end
 @implementation PaymentCardTextFieldBlockDelegate
 - (void)paymentCardTextFieldDidChange:(SPPaymentCardTextField *)textField {
-    if (self.didChange) {
-        self.didChange(textField);
-    }
+  if (self.didChange) {
+    self.didChange(textField);
+  }
 }
 - (void)paymentCardTextFieldWillEndEditingForReturn:(SPPaymentCardTextField *)textField {
-    if (self.willEndEditingForReturn) {
-        self.willEndEditingForReturn(textField);
-    }
+  if (self.willEndEditingForReturn) {
+    self.willEndEditingForReturn(textField);
+  }
 }
 - (void)paymentCardTextFieldDidEndEditing:(SPPaymentCardTextField *)textField {
-    if (self.didEndEditing) {
-        self.didEndEditing(textField);
-    }
+  if (self.didEndEditing) {
+    self.didEndEditing(textField);
+  }
 }
 @end
 
@@ -59,54 +59,46 @@
 
 @implementation SPPaymentCardTextFieldTest
 
-- (void)setUp {
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-}
-
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-}
-
 - (void)testIntrinsicContentSize {
-    SPPaymentCardTextField *textField = [SPPaymentCardTextField new];
-    
-    UIFont *iOS8SystemFont = [UIFont fontWithName:@"HelveticaNeue" size:18];
-    textField.font = iOS8SystemFont;
-    XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.height, 44, 0.1);
-    XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.width, 135, 0.1);
+  SPPaymentCardTextField *textField = [SPPaymentCardTextField new];
 
-    UIFont *iOS9SystemFont = [UIFont systemFontOfSize:18];;
-    textField.font = iOS9SystemFont;
-    XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.height, 44, 0.1);
-    XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.width, 130, 0.1);
+  UIFont *iOS8SystemFont = [UIFont fontWithName:@"HelveticaNeue" size:18];
+  textField.font = iOS8SystemFont;
+  XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.height, 44, 0.1);
+  XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.width, 135, 0.1);
 
-    textField.font = [UIFont fontWithName:@"Avenir" size:44];
-    XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.height, 62, 0.1);
-    XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.width, 272, 0.1);
+  UIFont *iOS9SystemFont = [UIFont systemFontOfSize:18];;
+  textField.font = iOS9SystemFont;
+  XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.height, 44, 0.1);
+  XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.width, 130, 0.1);
+
+  textField.font = [UIFont fontWithName:@"Avenir" size:44];
+  XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.height, 62, 0.1);
+  XCTAssertEqualWithAccuracy(textField.intrinsicContentSize.width, 272, 0.1);
 }
 
 - (void)testSetCard_numberUnknown {
-    SPPaymentCardTextField *sut = [SPPaymentCardTextField new];
-    NSString *number = @"1";
-    sut.numberField.text = number;
-    XCTAssertEqualObjects(sut.numberField.text, number);
-    XCTAssertEqual(sut.expirationField.text.length, (NSUInteger)0);
-    XCTAssertEqual(sut.cvcField.text.length, (NSUInteger)0);
-    XCTAssertNil(sut.currentFirstResponderField);
+  SPPaymentCardTextField *sut = [SPPaymentCardTextField new];
+  NSString *number = @"1";
+  sut.numberField.text = number;
+  XCTAssertEqualObjects(sut.numberField.text, number);
+  XCTAssertEqual(sut.expirationField.text.length, (NSUInteger)0);
+  XCTAssertEqual(sut.cvcField.text.length, (NSUInteger)0);
+  XCTAssertNil(sut.currentFirstResponderField);
 }
 
 - (void)testSettingTextUpdatesViewModelText {
-    SPPaymentCardTextField *sut = [SPPaymentCardTextField new];
-    sut.numberField.text = @"4242424242424242";
-    XCTAssertEqualObjects(sut.viewModel.cardNumber, sut.numberField.text);
+  SPPaymentCardTextField *sut = [SPPaymentCardTextField new];
+  sut.numberField.text = @"4242424242424242";
+  XCTAssertEqualObjects(sut.viewModel.cardNumber, sut.numberField.text);
 
-    sut.cvcField.text = @"123";
-    XCTAssertEqualObjects(sut.viewModel.cvc, sut.cvcField.text);
+  sut.cvcField.text = @"123";
+  XCTAssertEqualObjects(sut.viewModel.cvc, sut.cvcField.text);
 
-    sut.expirationField.text = @"10/99";
-    XCTAssertEqualObjects(sut.viewModel.rawExpiration, sut.expirationField.text);
-    XCTAssertEqualObjects(sut.viewModel.expirationMonth, @"10");
-    XCTAssertEqualObjects(sut.viewModel.expirationYear, @"99");
+  sut.expirationField.text = @"10/99";
+  XCTAssertEqualObjects(sut.viewModel.rawExpiration, sut.expirationField.text);
+  XCTAssertEqualObjects(sut.viewModel.expirationMonth, @"10");
+  XCTAssertEqualObjects(sut.viewModel.expirationYear, @"99");
 }
 
 @end

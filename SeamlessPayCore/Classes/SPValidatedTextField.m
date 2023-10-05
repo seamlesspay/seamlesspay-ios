@@ -37,8 +37,8 @@
 - (void)setPlaceholder:(NSString *)placeholder {
   NSString *nonNilPlaceholder = placeholder ?: @"";
   NSAttributedString *attributedPlaceholder = [[NSAttributedString alloc]
-      initWithString:nonNilPlaceholder
-          attributes:[self placeholderTextAttributes]];
+                                               initWithString:nonNilPlaceholder
+                                               attributes:[self placeholderTextAttributes]];
   [self setAttributedPlaceholder:attributedPlaceholder];
 }
 
@@ -54,7 +54,7 @@
 
 - (NSDictionary *)placeholderTextAttributes {
   NSMutableDictionary *defaultAttributes =
-      [[self defaultTextAttributes] mutableCopy];
+  [[self defaultTextAttributes] mutableCopy];
   if (self.placeholderColor) {
     defaultAttributes[NSForegroundColorAttributeName] = self.placeholderColor;
   }

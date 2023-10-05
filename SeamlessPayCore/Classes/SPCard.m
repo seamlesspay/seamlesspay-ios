@@ -85,14 +85,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (nullable NSString *)stringFromFunding:(SPCardFundingType)funding {
   return
-      [[[self stringToFundingMapping] allKeysForObject:@(funding)] firstObject];
+  [[[self stringToFundingMapping] allKeysForObject:@(funding)] firstObject];
 }
 
 #pragma mark -
 
 - (BOOL)isApplePayCard {
   return [self.allResponseFields[@"tokenization_method"]
-      isEqualToString:@"apple_pay"];
+          isEqualToString:@"apple_pay"];
 }
 
 #pragma mark - Equality
@@ -123,38 +123,38 @@ NS_ASSUME_NONNULL_BEGIN
   NSArray *props = @[
     // Object
     [NSString
-        stringWithFormat:@"%@: %p", NSStringFromClass([self class]), self],
+     stringWithFormat:@"%@: %p", NSStringFromClass([self class]), self],
 
     // Identifier
     [NSString stringWithFormat:@"cardID = %@", self.cardID],
 
     // Basic card details
     [NSString stringWithFormat:@"brand = %@",
-                               [self.class stringFromBrand:self.brand]],
+     [self.class stringFromBrand:self.brand]],
     [NSString stringWithFormat:@"last4 = %@", self.last4],
     [NSString stringWithFormat:@"expMonth = %lu", (unsigned long)self.expMonth],
     [NSString stringWithFormat:@"expYear = %lu", (unsigned long)self.expYear],
     [NSString stringWithFormat:@"funding = %@",
-                               ([self.class stringFromFunding:self.funding])
-                                   ?: @"unknown"],
+     ([self.class stringFromFunding:self.funding])
+     ?: @"unknown"],
 
     // Additional card details (alphabetical)
     [NSString stringWithFormat:@"country = %@", self.country],
     [NSString stringWithFormat:@"currency = %@", self.currency],
     [NSString stringWithFormat:@"dynamicLast4 = %@", self.dynamicLast4],
     [NSString stringWithFormat:@"isApplePayCard = %@",
-                               (self.isApplePayCard) ? @"YES" : @"NO"],
+     (self.isApplePayCard) ? @"YES" : @"NO"],
     [NSString stringWithFormat:@"metadata = %@",
-                               (self.metadata) ? @"<redacted>" : nil],
+     (self.metadata) ? @"<redacted>" : nil],
 
     // Cardholder details
     [NSString stringWithFormat:@"name = %@", (self.name) ? @"<redacted>" : nil],
     [NSString
-        stringWithFormat:@"address = %@", (self.address) ? @"<redacted>" : nil],
+     stringWithFormat:@"address = %@", (self.address) ? @"<redacted>" : nil],
   ];
 
   return [NSString
-      stringWithFormat:@"<%@>", [props componentsJoinedByString:@"; "]];
+          stringWithFormat:@"<%@>", [props componentsJoinedByString:@"; "]];
 }
 
 - (NSString *)cardObject {

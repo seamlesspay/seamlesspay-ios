@@ -17,20 +17,20 @@ NS_ASSUME_NONNULL_BEGIN
   NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
 
   [self
-      enumerateKeysAndObjectsUsingBlock:^(id key, id obj, __unused BOOL *stop) {
-        if ([obj isKindOfClass:[NSArray class]]) {
-          // Save array after removing any null values
-          result[key] = [(NSArray *)obj sp_arrayByRemovingNulls];
-        } else if ([obj isKindOfClass:[NSDictionary class]]) {
-          // Save dictionary after removing any null values
-          result[key] = [(NSDictionary *)obj sp_dictionaryByRemovingNulls];
-        } else if ([obj isKindOfClass:[NSNull class]]) {
-          // Skip null value
-        } else {
-          // Save other value
-          result[key] = obj;
-        }
-      }];
+   enumerateKeysAndObjectsUsingBlock:^(id key, id obj, __unused BOOL *stop) {
+    if ([obj isKindOfClass:[NSArray class]]) {
+      // Save array after removing any null values
+      result[key] = [(NSArray *)obj sp_arrayByRemovingNulls];
+    } else if ([obj isKindOfClass:[NSDictionary class]]) {
+      // Save dictionary after removing any null values
+      result[key] = [(NSDictionary *)obj sp_dictionaryByRemovingNulls];
+    } else if ([obj isKindOfClass:[NSNull class]]) {
+      // Skip null value
+    } else {
+      // Save other value
+      result[key] = obj;
+    }
+  }];
 
   // Make immutable copy
   return [result copy];
@@ -40,13 +40,13 @@ NS_ASSUME_NONNULL_BEGIN
   NSMutableDictionary<NSString *, NSString *> *result = [[NSMutableDictionary alloc] init];
 
   [self
-      enumerateKeysAndObjectsUsingBlock:^(id key, id obj, __unused BOOL *stop) {
-        if ([key isKindOfClass:[NSString class]] &&
-            [obj isKindOfClass:[NSString class]]) {
-          // Save valid key/value pair
-          result[key] = obj;
-        }
-      }];
+   enumerateKeysAndObjectsUsingBlock:^(id key, id obj, __unused BOOL *stop) {
+    if ([key isKindOfClass:[NSString class]] &&
+        [obj isKindOfClass:[NSString class]]) {
+      // Save valid key/value pair
+      result[key] = obj;
+    }
+  }];
 
   // Make immutable copy
   return [result copy];

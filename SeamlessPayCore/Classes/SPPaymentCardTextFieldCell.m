@@ -20,7 +20,7 @@
   self = [super init];
   if (self) {
     SPPaymentCardTextField *paymentField =
-        [[SPPaymentCardTextField alloc] initWithFrame:self.bounds];
+    [[SPPaymentCardTextField alloc] initWithFrame:self.bounds];
     [self.contentView addSubview:paymentField];
     _paymentField = paymentField;
 

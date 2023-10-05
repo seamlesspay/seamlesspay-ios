@@ -21,7 +21,7 @@
   NSArray *props = @[
     // Object
     [NSString
-        stringWithFormat:@"%@: %p", NSStringFromClass([self class]), self],
+     stringWithFormat:@"%@: %p", NSStringFromClass([self class]), self],
 
     // Properties
     [NSString stringWithFormat:@"name = %@", self.name],
@@ -30,7 +30,7 @@
     [NSString stringWithFormat:@"address = %@", self.address],
   ];
   return [NSString
-      stringWithFormat:@"<%@>", [props componentsJoinedByString:@"; "]];
+          stringWithFormat:@"<%@>", [props componentsJoinedByString:@"; "]];
 }
 
 #pragma mark - SPFormEncodable

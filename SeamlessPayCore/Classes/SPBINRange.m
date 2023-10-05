@@ -103,22 +103,22 @@
 
   if (number.length < self.qRangeLow.length) {
     withinLowRange =
-        number.integerValue >=
-        [self.qRangeLow substringToIndex:number.length].integerValue;
+    number.integerValue >=
+    [self.qRangeLow substringToIndex:number.length].integerValue;
   } else {
     withinLowRange =
-        [number substringToIndex:self.qRangeLow.length].integerValue >=
-        self.qRangeLow.integerValue;
+    [number substringToIndex:self.qRangeLow.length].integerValue >=
+    self.qRangeLow.integerValue;
   }
 
   if (number.length < self.qRangeHigh.length) {
     withinHighRange =
-        number.integerValue <=
-        [self.qRangeHigh substringToIndex:number.length].integerValue;
+    number.integerValue <=
+    [self.qRangeHigh substringToIndex:number.length].integerValue;
   } else {
     withinHighRange =
-        [number substringToIndex:self.qRangeHigh.length].integerValue <=
-        self.qRangeHigh.integerValue;
+    [number substringToIndex:self.qRangeHigh.length].integerValue <=
+    self.qRangeHigh.integerValue;
   }
 
   return withinLowRange && withinHighRange;
@@ -130,34 +130,34 @@
 
 + (NSArray<SPBINRange *> *)binRangesForNumber:(NSString *)number {
   return [[self allRanges]
-      filteredArrayUsingPredicate:[NSPredicate
-                                      predicateWithBlock:^BOOL(
-                                          SPBINRange *range,
-                                          __unused NSDictionary *bindings) {
-                                        return [range matchesNumber:number];
-                                      }]];
+          filteredArrayUsingPredicate:[NSPredicate
+                                       predicateWithBlock:^BOOL(
+                                                                SPBINRange *range,
+                                                                __unused NSDictionary *bindings) {
+                                                                  return [range matchesNumber:number];
+                                                                }]];
 }
 
 + (instancetype)mostSpecificBINRangeForNumber:(NSString *)number {
   NSArray *validRanges = [[self allRanges]
-      filteredArrayUsingPredicate:[NSPredicate
-                                      predicateWithBlock:^BOOL(
-                                          SPBINRange *range,
-                                          __unused NSDictionary *bindings) {
-                                        return [range matchesNumber:number];
-                                      }]];
+                          filteredArrayUsingPredicate:[NSPredicate
+                                                       predicateWithBlock:^BOOL(
+                                                                                SPBINRange *range,
+                                                                                __unused NSDictionary *bindings) {
+                                                                                  return [range matchesNumber:number];
+                                                                                }]];
   return
-      [[validRanges sortedArrayUsingSelector:@selector(compare:)] lastObject];
+  [[validRanges sortedArrayUsingSelector:@selector(compare:)] lastObject];
 }
 
 + (NSArray<SPBINRange *> *)binRangesForBrand:(SPCardBrand)brand {
   return [[self allRanges]
-      filteredArrayUsingPredicate:[NSPredicate
-                                      predicateWithBlock:^BOOL(
-                                          SPBINRange *range,
-                                          __unused NSDictionary *bindings) {
-                                        return range.brand == brand;
-                                      }]];
+          filteredArrayUsingPredicate:[NSPredicate
+                                       predicateWithBlock:^BOOL(
+                                                                SPBINRange *range,
+                                                                __unused NSDictionary *bindings) {
+                                                                  return range.brand == brand;
+                                                                }]];
 }
 
 @end

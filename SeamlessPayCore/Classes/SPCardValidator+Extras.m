@@ -13,12 +13,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSArray<NSNumber *> *)cardNumberFormatForBrand:(SPCardBrand)brand {
   switch (brand) {
-  case SPCardBrandAmex:
-    return @[ @4, @6, @5 ];
-  case SPCardBrandDinersClub:
-    return @[ @4, @6, @4 ];
-  default:
-    return @[ @4, @4, @4, @4 ];
+    case SPCardBrandAmex:
+      return @[ @4, @6, @5 ];
+    case SPCardBrandDinersClub:
+      return @[ @4, @6, @4 ];
+    default:
+      return @[ @4, @4, @4, @4 ];
   }
 }
 

@@ -44,7 +44,7 @@
   NSArray *props = @[
     // Object
     [NSString
-        stringWithFormat:@"%@: %p", NSStringFromClass([self class]), self],
+     stringWithFormat:@"%@: %p", NSStringFromClass([self class]), self],
 
     // Basic card details
     [NSString stringWithFormat:@"last4 = %@", self.last4],
@@ -58,11 +58,11 @@
     // Cardholder details
     [NSString stringWithFormat:@"name = %@", (self.name) ? @"<redacted>" : nil],
     [NSString
-        stringWithFormat:@"address = %@", (self.address) ? @"<redacted>" : nil],
+     stringWithFormat:@"address = %@", (self.address) ? @"<redacted>" : nil],
   ];
 
   return [NSString
-      stringWithFormat:@"<%@>", [props componentsJoinedByString:@"; "]];
+          stringWithFormat:@"<%@>", [props componentsJoinedByString:@"; "]];
 }
 
 + (NSString *)rootObjectName {

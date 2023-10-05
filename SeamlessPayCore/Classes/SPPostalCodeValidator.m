@@ -43,10 +43,10 @@ countOfCharactersFromSetInString(NSString *_Nonnull string,
     count += range.length;
     while (lastPosition < string.length) {
       range = [string
-          rangeOfCharacterFromSet:cs
-                          options:(NSStringCompareOptions)kNilOptions
-                            range:NSMakeRange(lastPosition,
-                                              string.length - lastPosition)];
+               rangeOfCharacterFromSet:cs
+               options:(NSStringCompareOptions)kNilOptions
+               range:NSMakeRange(lastPosition,
+                                 string.length - lastPosition)];
       if (range.location == NSNotFound) {
         break;
       } else {
@@ -77,7 +77,7 @@ countOfCharactersFromSetInString(NSString *_Nonnull string,
   } else {
     // ZIP+4 territory
     NSUInteger numberOfDigits = countOfCharactersFromSetInString(
-        postalCode, [NSCharacterSet sp_asciiDigitCharacterSet]);
+                                                                 postalCode, [NSCharacterSet sp_asciiDigitCharacterSet]);
 
     if (numberOfDigits > 9) {
       // Too many digits
@@ -95,9 +95,9 @@ countOfCharactersFromSetInString(NSString *_Nonnull string,
       // its in the right place
 
       NSString *separatorCharacter =
-          [postalCode substringWithRange:NSMakeRange(5, 1)];
+      [postalCode substringWithRange:NSMakeRange(5, 1)];
       if (countOfCharactersFromSetInString(
-              separatorCharacter, [NSCharacterSet sp_asciiDigitCharacterSet]) ==
+                                           separatorCharacter, [NSCharacterSet sp_asciiDigitCharacterSet]) ==
           0) {
         // Non-digit is in right position to be separator
         if (numberOfDigits == 9) {
@@ -118,7 +118,7 @@ countOfCharactersFromSetInString(NSString *_Nonnull string,
 + (NSString *)formattedSanitizedPostalCodeFromString:(NSString *)postalCode
                                          countryCode:(NSString *)countryCode
                                                usage:(SPPostalCodeIntendedUsage)
-                                                         usage {
+usage {
   if (countryCode == nil) {
     return postalCode;
   }
@@ -133,19 +133,19 @@ countOfCharactersFromSetInString(NSString *_Nonnull string,
 
 + (NSString *)formattedSanitizedUSZipCodeFromString:(NSString *)zipCode
                                               usage:(SPPostalCodeIntendedUsage)
-                                                        usage {
+usage {
   NSUInteger maxLength = 0;
   switch (usage) {
-  case SPPostalCodeIntendedUsageBillingAddress:
-    maxLength = 5;
-    break;
-  case SPPostalCodeIntendedUsageShippingAddress:
-    maxLength = 9;
+    case SPPostalCodeIntendedUsageBillingAddress:
+      maxLength = 5;
+      break;
+    case SPPostalCodeIntendedUsageShippingAddress:
+      maxLength = 9;
   }
 
   NSString *formattedString =
-      [[SPCardValidator sanitizedNumericStringForString:zipCode]
-          sp_safeSubstringToIndex:maxLength];
+  [[SPCardValidator sanitizedNumericStringForString:zipCode]
+   sp_safeSubstringToIndex:maxLength];
 
   /*
    If the string is >5 numbers or == 5 and the last char of the unformatted
@@ -154,7 +154,7 @@ countOfCharactersFromSetInString(NSString *_Nonnull string,
   if (formattedString.length > 5 ||
       (formattedString.length == 5 &&
        [[zipCode substringFromIndex:(zipCode.length - 1)]
-           isEqualToString:@"-"])) {
+        isEqualToString:@"-"])) {
     NSMutableString *mutableZip = formattedString.mutableCopy;
     [mutableZip insertString:@"-" atIndex:5];
     formattedString = mutableZip.copy;
@@ -168,7 +168,7 @@ countOfCharactersFromSetInString(NSString *_Nonnull string,
     return YES;
   } else {
     return (![[self countriesWithNoPostalCodes]
-        containsObject:countryCode.uppercaseString]);
+              containsObject:countryCode.uppercaseString]);
   }
 }
 

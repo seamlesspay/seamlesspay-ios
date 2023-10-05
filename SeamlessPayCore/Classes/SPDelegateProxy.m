@@ -15,7 +15,7 @@
 
 - (BOOL)respondsToSelector:(SEL)selector {
   return [super respondsToSelector:selector] ||
-         [_delegate respondsToSelector:selector];
+  [_delegate respondsToSelector:selector];
 }
 
 - (id)forwardingTargetForSelector:(SEL)selector {
@@ -30,7 +30,7 @@
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)selector {
   return [super methodSignatureForSelector:selector]
-             ?: [_delegate methodSignatureForSelector:selector];
+  ?: [_delegate methodSignatureForSelector:selector];
 }
 
 - (void)forwardInvocation:(NSInvocation *)invocation {

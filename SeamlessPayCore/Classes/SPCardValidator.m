@@ -15,7 +15,7 @@
 
 + (NSString *)sanitizedNumericStringForString:(NSString *)string {
   return stringByRemovingCharactersFromSet(
-      string, [NSCharacterSet sp_invertedAsciiDigitCharacterSet]);
+                                           string, [NSCharacterSet sp_invertedAsciiDigitCharacterSet]);
 }
 
 + (NSString *)stringByRemovingSpacesFromString:(NSString *)string {
@@ -24,36 +24,36 @@
 }
 
 static NSString *_Nonnull stringByRemovingCharactersFromSet(
-    NSString *_Nonnull string, NSCharacterSet *_Nonnull cs) {
+                                                            NSString *_Nonnull string, NSCharacterSet *_Nonnull cs) {
   NSRange range = [string rangeOfCharacterFromSet:cs];
   if (range.location != NSNotFound) {
     NSMutableString *newString = [[string
-        substringWithRange:NSMakeRange(0, range.location)] mutableCopy];
+                                   substringWithRange:NSMakeRange(0, range.location)] mutableCopy];
     NSUInteger lastPosition = NSMaxRange(range);
     while (lastPosition < string.length) {
       range = [string
-          rangeOfCharacterFromSet:cs
-                          options:(NSStringCompareOptions)kNilOptions
-                            range:NSMakeRange(lastPosition,
-                                              string.length - lastPosition)];
+               rangeOfCharacterFromSet:cs
+               options:(NSStringCompareOptions)kNilOptions
+               range:NSMakeRange(lastPosition,
+                                 string.length - lastPosition)];
       if (range.location == NSNotFound) {
         break;
       }
       if (range.location != lastPosition) {
         [newString
-            appendString:[string
-                             substringWithRange:NSMakeRange(lastPosition,
-                                                            range.location -
-                                                                lastPosition)]];
+         appendString:[string
+                       substringWithRange:NSMakeRange(lastPosition,
+                                                      range.location -
+                                                      lastPosition)]];
       }
       lastPosition = NSMaxRange(range);
     }
     if (lastPosition != string.length) {
       [newString
-          appendString:[string
-                           substringWithRange:NSMakeRange(lastPosition,
-                                                          string.length -
-                                                              lastPosition)]];
+       appendString:[string
+                     substringWithRange:NSMakeRange(lastPosition,
+                                                    string.length -
+                                                    lastPosition)]];
     }
     return newString;
   } else {
@@ -63,43 +63,43 @@ static NSString *_Nonnull stringByRemovingCharactersFromSet(
 
 + (BOOL)stringIsNumeric:(NSString *)string {
   return [string rangeOfCharacterFromSet:[NSCharacterSet
-                                             sp_invertedAsciiDigitCharacterSet]]
-             .location == NSNotFound;
+                                          sp_invertedAsciiDigitCharacterSet]]
+    .location == NSNotFound;
 }
 
 + (SPCardValidationState)validationStateForExpirationMonth:
-    (NSString *)expirationMonth {
+(NSString *)expirationMonth {
 
   NSString *sanitizedExpiration =
-      [self stringByRemovingSpacesFromString:expirationMonth];
+  [self stringByRemovingSpacesFromString:expirationMonth];
 
   if (![self stringIsNumeric:sanitizedExpiration]) {
     return SPCardValidationStateInvalid;
   }
 
   switch (sanitizedExpiration.length) {
-  case 0:
-    return SPCardValidationStateIncomplete;
-  case 1:
-    return ([sanitizedExpiration isEqualToString:@"0"] ||
-            [sanitizedExpiration isEqualToString:@"1"])
-               ? SPCardValidationStateIncomplete
-               : SPCardValidationStateValid;
-  case 2:
-    return (0 < sanitizedExpiration.integerValue &&
-            sanitizedExpiration.integerValue <= 12)
-               ? SPCardValidationStateValid
-               : SPCardValidationStateInvalid;
-  default:
-    return SPCardValidationStateInvalid;
+    case 0:
+      return SPCardValidationStateIncomplete;
+    case 1:
+      return ([sanitizedExpiration isEqualToString:@"0"] ||
+              [sanitizedExpiration isEqualToString:@"1"])
+      ? SPCardValidationStateIncomplete
+      : SPCardValidationStateValid;
+    case 2:
+      return (0 < sanitizedExpiration.integerValue &&
+              sanitizedExpiration.integerValue <= 12)
+      ? SPCardValidationStateValid
+      : SPCardValidationStateInvalid;
+    default:
+      return SPCardValidationStateInvalid;
   }
 }
 
 + (SPCardValidationState)
-    validationStateForExpirationYear:(NSString *)expirationYear
-                             inMonth:(NSString *)expirationMonth
-                       inCurrentYear:(NSInteger)currentYear
-                        currentMonth:(NSInteger)currentMonth {
+validationStateForExpirationYear:(NSString *)expirationYear
+inMonth:(NSString *)expirationMonth
+inCurrentYear:(NSInteger)currentYear
+currentMonth:(NSInteger)currentMonth {
 
   NSInteger moddedYear = currentYear % 100;
 
@@ -109,38 +109,38 @@ static NSString *_Nonnull stringByRemovingCharactersFromSet(
   }
 
   NSString *sanitizedMonth =
-      [self sanitizedNumericStringForString:expirationMonth];
+  [self sanitizedNumericStringForString:expirationMonth];
   NSString *sanitizedYear =
-      [self sanitizedNumericStringForString:expirationYear];
+  [self sanitizedNumericStringForString:expirationYear];
 
   switch (sanitizedYear.length) {
-  case 0:
-  case 1:
-    return SPCardValidationStateIncomplete;
-  case 2: {
-    if ([self validationStateForExpirationMonth:sanitizedMonth] ==
-        SPCardValidationStateInvalid) {
-      return SPCardValidationStateInvalid;
-    } else {
-      if (sanitizedYear.integerValue == moddedYear) {
-        return sanitizedMonth.integerValue >= currentMonth
-                   ? SPCardValidationStateValid
-                   : SPCardValidationStateInvalid;
+    case 0:
+    case 1:
+      return SPCardValidationStateIncomplete;
+    case 2: {
+      if ([self validationStateForExpirationMonth:sanitizedMonth] ==
+          SPCardValidationStateInvalid) {
+        return SPCardValidationStateInvalid;
       } else {
-        return sanitizedYear.integerValue > moddedYear
-                   ? SPCardValidationStateValid
-                   : SPCardValidationStateInvalid;
+        if (sanitizedYear.integerValue == moddedYear) {
+          return sanitizedMonth.integerValue >= currentMonth
+          ? SPCardValidationStateValid
+          : SPCardValidationStateInvalid;
+        } else {
+          return sanitizedYear.integerValue > moddedYear
+          ? SPCardValidationStateValid
+          : SPCardValidationStateInvalid;
+        }
       }
     }
-  }
-  default:
-    return SPCardValidationStateInvalid;
+    default:
+      return SPCardValidationStateInvalid;
   }
 }
 
 + (SPCardValidationState)
-    validationStateForExpirationYear:(NSString *)expirationYear
-                             inMonth:(NSString *)expirationMonth {
+validationStateForExpirationYear:(NSString *)expirationYear
+inMonth:(NSString *)expirationMonth {
   return [self validationStateForExpirationYear:expirationYear
                                         inMonth:expirationMonth
                                   inCurrentYear:[self currentYear]
@@ -171,7 +171,7 @@ static NSString *_Nonnull stringByRemovingCharactersFromSet(
                               validatingCardBrand:(BOOL)validatingCardBrand {
 
   NSString *sanitizedNumber =
-      [self stringByRemovingSpacesFromString:cardNumber];
+  [self stringByRemovingSpacesFromString:cardNumber];
   if (sanitizedNumber.length == 0) {
     return SPCardValidationStateIncomplete;
   }
@@ -179,14 +179,14 @@ static NSString *_Nonnull stringByRemovingCharactersFromSet(
     return SPCardValidationStateInvalid;
   }
   SPBINRange *binRange =
-      [SPBINRange mostSpecificBINRangeForNumber:sanitizedNumber];
+  [SPBINRange mostSpecificBINRangeForNumber:sanitizedNumber];
   if (binRange.brand == SPCardBrandUnknown && validatingCardBrand) {
     return SPCardValidationStateInvalid;
   }
   if (sanitizedNumber.length == binRange.length) {
     BOOL isValidLuhn = [self stringIsValidLuhn:sanitizedNumber];
     return isValidLuhn ? SPCardValidationStateValid
-                       : SPCardValidationStateInvalid;
+    : SPCardValidationStateInvalid;
   } else if (sanitizedNumber.length > binRange.length) {
     return SPCardValidationStateInvalid;
   } else {
@@ -198,18 +198,18 @@ static NSString *_Nonnull stringByRemovingCharactersFromSet(
                                   inCurrentYear:(NSInteger)currentYear
                                    currentMonth:(NSInteger)currentMonth {
   SPCardValidationState numberValidation =
-      [self validationStateForNumber:card.number validatingCardBrand:YES];
+  [self validationStateForNumber:card.number validatingCardBrand:YES];
   NSString *expMonthString =
-      [NSString stringWithFormat:@"%02lu", (unsigned long)card.expMonth];
+  [NSString stringWithFormat:@"%02lu", (unsigned long)card.expMonth];
   SPCardValidationState expMonthValidation =
-      [self validationStateForExpirationMonth:expMonthString];
+  [self validationStateForExpirationMonth:expMonthString];
   NSString *expYearString =
-      [NSString stringWithFormat:@"%02lu", (unsigned long)card.expYear % 100];
+  [NSString stringWithFormat:@"%02lu", (unsigned long)card.expYear % 100];
   SPCardValidationState expYearValidation =
-      [self validationStateForExpirationYear:expYearString
-                                     inMonth:expMonthString
-                               inCurrentYear:currentYear
-                                currentMonth:currentMonth];
+  [self validationStateForExpirationYear:expYearString
+                                 inMonth:expMonthString
+                           inCurrentYear:currentYear
+                            currentMonth:currentMonth];
   SPCardBrand brand = [self brandForNumber:card.number];
   SPCardValidationState cvcValidation = [self validationStateForCVC:card.cvc
                                                           cardBrand:brand];
@@ -228,7 +228,7 @@ static NSString *_Nonnull stringByRemovingCharactersFromSet(
     }
   }
   return incomplete ? SPCardValidationStateIncomplete
-                    : SPCardValidationStateValid;
+  : SPCardValidationStateValid;
 }
 
 + (SPCardValidationState)validationStateForCard:(SPCardParams *)card {
@@ -243,11 +243,11 @@ static NSString *_Nonnull stringByRemovingCharactersFromSet(
 
 + (NSUInteger)maxCVCLengthForCardBrand:(SPCardBrand)brand {
   switch (brand) {
-  case SPCardBrandAmex:
-  case SPCardBrandUnknown:
-    return 4;
-  default:
-    return 3;
+    case SPCardBrandAmex:
+    case SPCardBrandUnknown:
+      return 4;
+    default:
+      return 3;
   }
 }
 
@@ -263,7 +263,7 @@ static NSString *_Nonnull stringByRemovingCharactersFromSet(
 + (NSSet *)possibleBrandsForNumber:(NSString *)cardNumber {
   NSArray<SPBINRange *> *binRanges = [SPBINRange binRangesForNumber:cardNumber];
   NSMutableSet *possibleBrands =
-      [NSMutableSet setWithArray:[binRanges valueForKeyPath:@"brand"]];
+  [NSMutableSet setWithArray:[binRanges valueForKeyPath:@"brand"]];
   [possibleBrands removeObject:@(SPCardBrandUnknown)];
   return [possibleBrands copy];
 }
@@ -289,7 +289,7 @@ static NSString *_Nonnull stringByRemovingCharactersFromSet(
 
 + (NSInteger)fragmentLengthForCardBrand:(SPCardBrand)brand {
   return
-      [[[self cardNumberFormatForBrand:brand] lastObject] unsignedIntegerValue];
+  [[[self cardNumberFormatForBrand:brand] lastObject] unsignedIntegerValue];
 }
 
 + (BOOL)stringIsValidLuhn:(NSString *)number {
@@ -315,7 +315,7 @@ static NSString *_Nonnull stringByRemovingCharactersFromSet(
 
 + (NSInteger)currentYear {
   NSCalendar *calendar = [[NSCalendar alloc]
-      initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+                          initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
   NSDateComponents *dateComponents = [calendar components:NSCalendarUnitYear
                                                  fromDate:[NSDate date]];
   return dateComponents.year % 100;
@@ -323,7 +323,7 @@ static NSString *_Nonnull stringByRemovingCharactersFromSet(
 
 + (NSInteger)currentMonth {
   NSCalendar *calendar = [[NSCalendar alloc]
-      initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+                          initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
   NSDateComponents *dateComponents = [calendar components:NSCalendarUnitMonth
                                                  fromDate:[NSDate date]];
   return dateComponents.month;

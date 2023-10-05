@@ -29,7 +29,8 @@ typedef NS_ENUM(NSUInteger, SPVCPaymentType) {
 - (void)paymentViewController:(SPPaymentViewController*)paymentViewController chargeError:(SPError*)error;
 
 @optional
-- (void)paymentViewController:(SPPaymentViewController*)paymentViewController paymentMethodSuccess:(SPPaymentMethod*)paymentMethod;
+- (void)paymentViewController:(SPPaymentViewController*)paymentViewController
+         paymentMethodSuccess:(SPPaymentMethod*)paymentMethod;
 @end
 
 

@@ -58,13 +58,13 @@
 
 + (UIImage *)cvcImageForCardBrand:(SPCardBrand)brand {
   NSString *imageName =
-      brand == SPCardBrandAmex ? @"sp_card_cvc_amex" : @"sp_card_cvc";
+  brand == SPCardBrandAmex ? @"sp_card_cvc_amex" : @"sp_card_cvc";
   return [self safeImageNamed:imageName];
 }
 
 + (UIImage *)errorImageForCardBrand:(SPCardBrand)brand {
   NSString *imageName =
-      brand == SPCardBrandAmex ? @"sp_card_error_amex" : @"sp_card_error";
+  brand == SPCardBrandAmex ? @"sp_card_error_amex" : @"sp_card_error";
   return [self safeImageNamed:imageName];
 }
 
@@ -74,7 +74,7 @@
 
 + (UIImage *)brandImageForFPXBankBrand:(SPFPXBankBrand)brand {
   NSString *imageName = [NSString
-      stringWithFormat:@"sp_bank_fpx_%@", SPIdentifierFromFPXBankBrand(brand)];
+                         stringWithFormat:@"sp_bank_fpx_%@", SPIdentifierFromFPXBankBrand(brand)];
   UIImage *image = [self safeImageNamed:imageName templateIfAvailable:NO];
   return image;
 }
@@ -124,10 +124,10 @@
 
   NSBundle *mainBundle = [NSBundle mainBundle];
   NSURL *imageURL =
-      [mainBundle URLForResource:imageName
-                   withExtension:@"png"
-                    subdirectory:@"Frameworks/SeamlessPayCore.framework"
-                    localization:nil];
+  [mainBundle URLForResource:imageName
+               withExtension:@"png"
+                subdirectory:@"Frameworks/SeamlessPayCore.framework"
+                localization:nil];
   UIImage *image = [UIImage imageWithContentsOfFile:[imageURL path]];
 
   // UIImage *image = [UIImage imageNamed:imageName inBundle:nil
@@ -147,41 +147,41 @@
   BOOL shouldUseTemplate = isTemplate;
   NSString *imageName;
   switch (brand) {
-  case SPCardBrandAmex:
-    imageName = shouldUseTemplate ? @"sp_card_amex_template" : @"sp_card_amex";
-    break;
-  case SPCardBrandDinersClub:
-    imageName =
-        shouldUseTemplate ? @"sp_card_diners_template" : @"sp_card_diners";
-    break;
-  case SPCardBrandDiscover:
-    imageName =
-        shouldUseTemplate ? @"sp_card_discover_template" : @"sp_card_discover";
-    break;
-  case SPCardBrandJCB:
-    imageName = shouldUseTemplate ? @"sp_card_jcb_template" : @"sp_card_jcb";
-    break;
-  case SPCardBrandMasterCard:
-    imageName = shouldUseTemplate ? @"sp_card_mastercard_template"
-                                  : @"sp_card_mastercard";
-    break;
-  case SPCardBrandUnionPay:
-    if ([[[NSLocale currentLocale] localeIdentifier].lowercaseString
-            hasPrefix:@"zh"]) {
-      imageName = shouldUseTemplate ? @"sp_card_unionpay_template_zh"
-                                    : @"sp_card_unionpay_zh";
-    } else {
-      imageName = shouldUseTemplate ? @"sp_card_unionpay_template_en"
-                                    : @"sp_card_unionpay_en";
-    }
-    break;
-  case SPCardBrandUnknown:
-    shouldUseTemplate = YES;
-    imageName = @"sp_card_unknown";
-    break;
-  case SPCardBrandVisa:
-    imageName = shouldUseTemplate ? @"sp_card_visa_template" : @"sp_card_visa";
-    break;
+    case SPCardBrandAmex:
+      imageName = shouldUseTemplate ? @"sp_card_amex_template" : @"sp_card_amex";
+      break;
+    case SPCardBrandDinersClub:
+      imageName =
+      shouldUseTemplate ? @"sp_card_diners_template" : @"sp_card_diners";
+      break;
+    case SPCardBrandDiscover:
+      imageName =
+      shouldUseTemplate ? @"sp_card_discover_template" : @"sp_card_discover";
+      break;
+    case SPCardBrandJCB:
+      imageName = shouldUseTemplate ? @"sp_card_jcb_template" : @"sp_card_jcb";
+      break;
+    case SPCardBrandMasterCard:
+      imageName = shouldUseTemplate ? @"sp_card_mastercard_template"
+      : @"sp_card_mastercard";
+      break;
+    case SPCardBrandUnionPay:
+      if ([[[NSLocale currentLocale] localeIdentifier].lowercaseString
+           hasPrefix:@"zh"]) {
+        imageName = shouldUseTemplate ? @"sp_card_unionpay_template_zh"
+        : @"sp_card_unionpay_zh";
+      } else {
+        imageName = shouldUseTemplate ? @"sp_card_unionpay_template_en"
+        : @"sp_card_unionpay_en";
+      }
+      break;
+    case SPCardBrandUnknown:
+      shouldUseTemplate = YES;
+      imageName = @"sp_card_unknown";
+      break;
+    case SPCardBrandVisa:
+      imageName = shouldUseTemplate ? @"sp_card_visa_template" : @"sp_card_visa";
+      break;
   }
   UIImage *image = [self safeImageNamed:imageName
                     templateIfAvailable:shouldUseTemplate];
@@ -193,7 +193,7 @@
   UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
   [color set];
   UIImage *templateImage =
-      [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+  [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
   [templateImage drawInRect:CGRectMake(0, 0, templateImage.size.width,
                                        templateImage.size.height)];
   newImage = UIGraphicsGetImageFromCurrentImageContext();

@@ -9,8 +9,7 @@
 #import "SPFormEncodable.h"
 
 FOUNDATION_EXPORT NSString *SPPercentEscapedStringFromString(NSString *string);
-FOUNDATION_EXPORT NSString *
-SPQueryStringFromParameters(NSDictionary *parameters);
+FOUNDATION_EXPORT NSString * SPQueryStringFromParameters(NSDictionary *parameters);
 
 @implementation SPFormEncoder
 
@@ -26,27 +25,27 @@ SPQueryStringFromParameters(NSDictionary *parameters);
 }
 
 + (NSDictionary *)dictionaryForObject:
-    (nonnull NSObject<SPFormEncodable> *)object {
+(nonnull NSObject<SPFormEncodable> *)object {
   NSDictionary *keyPairs = [self keyPairDictionaryForObject:object];
   NSString *rootObjectName = [object.class rootObjectName];
   NSDictionary *dict =
-      rootObjectName != nil ? @{rootObjectName : keyPairs} : keyPairs;
+  rootObjectName != nil ? @{rootObjectName : keyPairs} : keyPairs;
   return dict;
 }
 
 + (NSDictionary *)keyPairDictionaryForObject:
-    (nonnull NSObject<SPFormEncodable> *)object {
+(nonnull NSObject<SPFormEncodable> *)object {
   NSMutableDictionary *keyPairs = [NSMutableDictionary dictionary];
   [[object.class propertyNamesToFormFieldNamesMapping]
-      enumerateKeysAndObjectsUsingBlock:^(NSString *_Nonnull propertyName,
-                                          NSString *_Nonnull formFieldName,
-                                          __unused BOOL *_Nonnull stop) {
-        id value = [self
-            formEncodableValueForObject:[object valueForKey:propertyName]];
-        if (value) {
-          keyPairs[formFieldName] = value;
-        }
-      }];
+   enumerateKeysAndObjectsUsingBlock:^(NSString *_Nonnull propertyName,
+                                       NSString *_Nonnull formFieldName,
+                                       __unused BOOL *_Nonnull stop) {
+    id value = [self
+                formEncodableValueForObject:[object valueForKey:propertyName]];
+    if (value) {
+      keyPairs[formFieldName] = value;
+    }
+  }];
 
   return [keyPairs copy];
 }
@@ -54,18 +53,18 @@ SPQueryStringFromParameters(NSDictionary *parameters);
 + (id)formEncodableValueForObject:(NSObject *)object {
   if ([object conformsToProtocol:@protocol(SPFormEncodable)]) {
     return
-        [self keyPairDictionaryForObject:(NSObject<SPFormEncodable> *)object];
+    [self keyPairDictionaryForObject:(NSObject<SPFormEncodable> *)object];
   } else if ([object isKindOfClass:[NSDictionary class]]) {
     NSDictionary *dict = (NSDictionary *)object;
     NSMutableDictionary *result =
-        [NSMutableDictionary dictionaryWithCapacity:dict.count];
+    [NSMutableDictionary dictionaryWithCapacity:dict.count];
 
     [dict
-        enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull value,
-                                            __unused BOOL *_Nonnull stop) {
-          result[[self formEncodableValueForObject:key]] =
-              [self formEncodableValueForObject:value];
-        }];
+     enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull value,
+                                         __unused BOOL *_Nonnull stop) {
+      result[[self formEncodableValueForObject:key]] =
+      [self formEncodableValueForObject:value];
+    }];
 
     return result;
   } else if ([object isKindOfClass:[NSArray class]]) {
@@ -101,15 +100,15 @@ SPQueryStringFromParameters(NSDictionary *parameters);
 
 NSString *SPPercentEscapedStringFromString(NSString *string) {
   static NSString *const kSPCharactersGeneralDelimitersToEncode =
-      @":#[]@"; // does not include "?" or "/" due to RFC 3986 - Section 3.4
+  @":#[]@"; // does not include "?" or "/" due to RFC 3986 - Section 3.4
   static NSString *const kSPCharactersSubDelimitersToEncode = @"!$&'()*+,;=";
 
   NSMutableCharacterSet *allowedCharacterSet =
-      [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];
+  [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];
   [allowedCharacterSet
-      removeCharactersInString:
-          [kSPCharactersGeneralDelimitersToEncode
-              stringByAppendingString:kSPCharactersSubDelimitersToEncode]];
+   removeCharactersInString:
+     [kSPCharactersGeneralDelimitersToEncode
+      stringByAppendingString:kSPCharactersSubDelimitersToEncode]];
 
   static NSUInteger const batchSize = 50;
 
@@ -128,7 +127,7 @@ NSString *SPPercentEscapedStringFromString(NSString *string) {
 
     NSString *substring = [string substringWithRange:range];
     NSString *encoded = [substring
-        stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacterSet];
+                         stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacterSet];
     [escaped appendString:encoded];
 
     index += range.length;
@@ -167,7 +166,7 @@ NSString *SPPercentEscapedStringFromString(NSString *string) {
     return [self.field description] ?: @"";
   } else {
     return [NSString stringWithFormat:@"%@=%@", [self.field description],
-                                      [self.value description]];
+            [self.value description]];
   }
 }
 
@@ -193,9 +192,9 @@ NSString *SPQueryStringFromParameters(NSDictionary *parameters) {
 
   NSString *descriptionSelector = NSStringFromSelector(@selector(description));
   NSSortDescriptor *sortDescriptor =
-      [NSSortDescriptor sortDescriptorWithKey:descriptionSelector
-                                    ascending:YES
-                                     selector:@selector(compare:)];
+  [NSSortDescriptor sortDescriptorWithKey:descriptionSelector
+                                ascending:YES
+                                 selector:@selector(compare:)];
 
   // For each dictionary key-value pair, form-encode the pair (potentially
   // recursively). Thus {foo: {bar: "baz"}} becomes the tuple, ("foo[bar]",
@@ -258,9 +257,9 @@ NSArray *SPQueryStringPairsFromKeyAndValue(NSString *key, id value) {
   NSMutableArray *mutableQueryStringComponents = [NSMutableArray array];
   NSString *descriptionSelector = NSStringFromSelector(@selector(description));
   NSSortDescriptor *sortDescriptor =
-      [NSSortDescriptor sortDescriptorWithKey:descriptionSelector
-                                    ascending:YES
-                                     selector:@selector(compare:)];
+  [NSSortDescriptor sortDescriptorWithKey:descriptionSelector
+                                ascending:YES
+                                 selector:@selector(compare:)];
 
   if ([value isKindOfClass:[NSDictionary class]]) {
     NSDictionary *dictionary = value;
@@ -272,31 +271,31 @@ NSArray *SPQueryStringPairsFromKeyAndValue(NSString *key, id value) {
       id nestedValue = dictionary[nestedKey];
       // Call ourselves recursively, building up a larger param string
       NSString *combinedKey =
-          [NSString stringWithFormat:@"%@[%@]", key, nestedKey];
+      [NSString stringWithFormat:@"%@[%@]", key, nestedKey];
       [mutableQueryStringComponents
-          addObjectsFromArray:SPQueryStringPairsFromKeyAndValue(combinedKey,
-                                                                nestedValue)];
+       addObjectsFromArray:SPQueryStringPairsFromKeyAndValue(combinedKey,
+                                                             nestedValue)];
     }
   } else if ([value isKindOfClass:[NSArray class]]) {
     NSArray *array = value;
     [array enumerateObjectsUsingBlock:^(id _Nonnull nestedValue, NSUInteger idx,
                                         __unused BOOL *_Nonnull stop) {
       [mutableQueryStringComponents
-          addObjectsFromArray:SPQueryStringPairsFromKeyAndValue(
-                                  [NSString
-                                      stringWithFormat:@"%@[%lu]", key,
-                                                       (unsigned long)idx],
-                                  nestedValue)];
+       addObjectsFromArray:SPQueryStringPairsFromKeyAndValue(
+                                                             [NSString
+                                                              stringWithFormat:@"%@[%lu]", key,
+                                                              (unsigned long)idx],
+                                                             nestedValue)];
     }];
   } else if ([value isKindOfClass:[NSSet class]]) {
     NSSet *set = value;
     for (id obj in [set sortedArrayUsingDescriptors:@[ sortDescriptor ]]) {
       [mutableQueryStringComponents
-          addObjectsFromArray:SPQueryStringPairsFromKeyAndValue(key, obj)];
+       addObjectsFromArray:SPQueryStringPairsFromKeyAndValue(key, obj)];
     }
   } else {
     [mutableQueryStringComponents
-        addObject:[[SPQueryStringPair alloc] initWithField:key value:value]];
+     addObject:[[SPQueryStringPair alloc] initWithField:key value:value]];
   }
 
   return mutableQueryStringComponents;

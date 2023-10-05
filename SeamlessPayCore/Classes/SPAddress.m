@@ -51,7 +51,7 @@ SPContactField const SPContactFieldName = @"SPContactFieldName";
 }
 
 - (NSString *)sanitizedPhoneStringFromCNPhoneNumber:
-    (CNPhoneNumber *)phoneNumber {
+(CNPhoneNumber *)phoneNumber {
   NSString *phone = phoneNumber.stringValue;
   if (phone) {
     phone = [SPCardValidator sanitizedNumericStringForString:phone];
@@ -61,7 +61,7 @@ SPContactField const SPContactFieldName = @"SPContactFieldName";
 }
 
 - (instancetype)initWithPaymentMethodBillingDetails:
-    (SPPaymentMethodBillingDetails *)billingDetails {
+(SPPaymentMethodBillingDetails *)billingDetails {
   self = [super init];
   if (self) {
     _name = [billingDetails.name copy];
@@ -102,8 +102,8 @@ SPContactField const SPContactFieldName = @"SPContactFieldName";
     _givenName = stringIfHasContentsElseNil(contact.givenName);
     _familyName = stringIfHasContentsElseNil(contact.familyName);
     _name = stringIfHasContentsElseNil(
-      [CNContactFormatter stringFromContact:contact style:CNContactFormatterStyleFullName]
-    );
+                                       [CNContactFormatter stringFromContact:contact style:CNContactFormatterStyleFullName]
+                                       );
     _email = stringIfHasContentsElseNil([contact.emailAddresses firstObject].value);
     _phone = [self sanitizedPhoneStringFromCNPhoneNumber:contact.phoneNumbers.firstObject.value];
     [self setAddressFromCNPostalAddress:contact.postalAddresses.firstObject.value];
@@ -119,8 +119,8 @@ SPContactField const SPContactFieldName = @"SPContactFieldName";
       _givenName = stringIfHasContentsElseNil(nameComponents.givenName);
       _familyName = stringIfHasContentsElseNil(nameComponents.familyName);
       _name = stringIfHasContentsElseNil([NSPersonNameComponentsFormatter
-          localizedStringFromPersonNameComponents:nameComponents
-                                            style:NSPersonNameComponentsFormatterStyleDefault
+                                          localizedStringFromPersonNameComponents:nameComponents
+                                          style:NSPersonNameComponentsFormatterStyleDefault
                                           options:(NSPersonNameComponentsFormatterOptions)0]);
     }
     _email = stringIfHasContentsElseNil(contact.emailAddress);
@@ -201,30 +201,30 @@ SPContactField const SPContactFieldName = @"SPContactFieldName";
 - (BOOL)containsRequiredFields:(SPBillingAddressFields)requiredFields {
   BOOL containsFields = YES;
   switch (requiredFields) {
-  case SPBillingAddressFieldsNone:
-    return YES;
-  case SPBillingAddressFieldsZip:
-    return ([SPPostalCodeValidator
-      validationStateForPostalCode:self.postalCode
-                       countryCode:self.country] == SPCardValidationStateValid);
-  case SPBillingAddressFieldsFull:
-    return [self hasValidPostalAddress];
-  case SPBillingAddressFieldsName:
-    return self.name.length > 0;
+    case SPBillingAddressFieldsNone:
+      return YES;
+    case SPBillingAddressFieldsZip:
+      return ([SPPostalCodeValidator
+               validationStateForPostalCode:self.postalCode
+               countryCode:self.country] == SPCardValidationStateValid);
+    case SPBillingAddressFieldsFull:
+      return [self hasValidPostalAddress];
+    case SPBillingAddressFieldsName:
+      return self.name.length > 0;
   }
   return containsFields;
 }
 
 - (BOOL)containsContentForBillingAddressFields:(SPBillingAddressFields)desiredFields {
   switch (desiredFields) {
-  case SPBillingAddressFieldsNone:
-    return NO;
-  case SPBillingAddressFieldsZip:
-    return self.postalCode.length > 0;
-  case SPBillingAddressFieldsFull:
-    return [self hasPartialPostalAddress];
-  case SPBillingAddressFieldsName:
-    return self.name.length > 0;
+    case SPBillingAddressFieldsNone:
+      return NO;
+    case SPBillingAddressFieldsZip:
+      return self.postalCode.length > 0;
+    case SPBillingAddressFieldsFull:
+      return [self hasPartialPostalAddress];
+    case SPBillingAddressFieldsName:
+      return self.name.length > 0;
   }
 
   return NO;
@@ -238,11 +238,11 @@ SPContactField const SPContactFieldName = @"SPContactFieldName";
   }
   if ([requiredFields containsObject:SPContactFieldEmailAddress]) {
     containsFields = containsFields &&
-      [SPEmailAddressValidator stringIsValidEmailAddress:self.email];
+    [SPEmailAddressValidator stringIsValidEmailAddress:self.email];
   }
   if ([requiredFields containsObject:SPContactFieldPhoneNumber]) {
     containsFields = containsFields &&
-      [SPPhoneNumberValidator stringIsValidPhoneNumber:self.phone forCountryCode:self.country];
+    [SPPhoneNumberValidator stringIsValidPhoneNumber:self.phone forCountryCode:self.country];
   }
   if ([requiredFields containsObject:SPContactFieldPostalAddress]) {
     containsFields = containsFields && [self hasValidPostalAddress];
@@ -252,21 +252,21 @@ SPContactField const SPContactFieldName = @"SPContactFieldName";
 
 - (BOOL)containsContentForShippingAddressFields:(NSSet<SPContactField> *)desiredFields {
   return (
-    ([desiredFields containsObject:SPContactFieldName] && self.name.length > 0) ||
-    ([desiredFields containsObject:SPContactFieldEmailAddress] && self.email.length > 0) ||
-    ([desiredFields containsObject:SPContactFieldPhoneNumber] && self.phone.length > 0) ||
-    ([desiredFields containsObject:SPContactFieldPostalAddress] && [self hasPartialPostalAddress])
-  );
+          ([desiredFields containsObject:SPContactFieldName] && self.name.length > 0) ||
+          ([desiredFields containsObject:SPContactFieldEmailAddress] && self.email.length > 0) ||
+          ([desiredFields containsObject:SPContactFieldPhoneNumber] && self.phone.length > 0) ||
+          ([desiredFields containsObject:SPContactFieldPostalAddress] && [self hasPartialPostalAddress])
+          );
 }
 
 - (BOOL)hasValidPostalAddress {
   return (
-    self.line1.length > 0 &&
-    self.city.length > 0 &&
-    self.country.length > 0 &&
-    (self.state.length > 0 || ![self.country isEqualToString:@"US"]) &&
-    ([SPPostalCodeValidator validationStateForPostalCode:self.postalCode countryCode:self.country] == SPCardValidationStateValid)
-  );
+          self.line1.length > 0 &&
+          self.city.length > 0 &&
+          self.country.length > 0 &&
+          (self.state.length > 0 || ![self.country isEqualToString:@"US"]) &&
+          ([SPPostalCodeValidator validationStateForPostalCode:self.postalCode countryCode:self.country] == SPCardValidationStateValid)
+          );
 }
 
 /**
@@ -277,10 +277,10 @@ SPContactField const SPContactFieldName = @"SPContactFieldName";
  */
 - (BOOL)hasPartialPostalAddress {
   return (
-    self.line1.length > 0 || self.line2.length > 0 ||
-    self.city.length > 0 || self.country.length > 0 ||
-    self.state.length > 0 || self.postalCode.length > 0
-  );
+          self.line1.length > 0 || self.line2.length > 0 ||
+          self.city.length > 0 || self.country.length > 0 ||
+          self.state.length > 0 || self.postalCode.length > 0
+          );
 }
 
 #pragma mark SPFormEncodable
@@ -330,20 +330,20 @@ SPContactField const SPContactFieldName = @"SPContactFieldName";
 }
 
 - (NSDictionary *)dictionary {
-    NSMutableDictionary *params = [ @{
-      @"line1" : _line1  ?: @"",
-      @"line2" : _line2 ?: @"",
-      @"city" : _city ?: @"",
-      @"country" : _country ?: @"",
-      @"state" : _state ?: @"",
-      @"postalCode" : _postalCode ?: @"",
-    } mutableCopy];
-    
-    NSArray *keysForNullValues = [params allKeysForObject:@""];
-    keysForNullValues = [keysForNullValues arrayByAddingObjectsFromArray: [params allKeysForObject:[NSNull null]]];
-    [params removeObjectsForKeys:keysForNullValues];
-    
-    return [params count] !=0 ? params : nil;
+  NSMutableDictionary *params = [ @{
+    @"line1" : _line1  ?: @"",
+    @"line2" : _line2 ?: @"",
+    @"city" : _city ?: @"",
+    @"country" : _country ?: @"",
+    @"state" : _state ?: @"",
+    @"postalCode" : _postalCode ?: @"",
+  } mutableCopy];
+
+  NSArray *keysForNullValues = [params allKeysForObject:@""];
+  keysForNullValues = [keysForNullValues arrayByAddingObjectsFromArray: [params allKeysForObject:[NSNull null]]];
+  [params removeObjectsForKeys:keysForNullValues];
+
+  return [params count] !=0 ? params : nil;
 }
 
 @end
