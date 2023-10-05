@@ -11,3 +11,5 @@ SeamlessPayCoreTests.xcscheme
 
 Example/Pods
 Example/Podfile.lock
+
+.vscode/settings.json
