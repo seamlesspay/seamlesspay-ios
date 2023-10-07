@@ -28,7 +28,7 @@
   NSArray *props = @[
     // Object
     [NSString
-        stringWithFormat:@"%@: %p", NSStringFromClass([self class]), self],
+     stringWithFormat:@"%@: %p", NSStringFromClass([self class]), self],
 
     // Basic card details
     [NSString stringWithFormat:@"last4 = %@", self.last4],
@@ -41,7 +41,7 @@
   ];
 
   return [NSString
-      stringWithFormat:@"<%@>", [props componentsJoinedByString:@"; "]];
+          stringWithFormat:@"<%@>", [props componentsJoinedByString:@"; "]];
 }
 
 - (NSString *)last4 {

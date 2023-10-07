@@ -19,12 +19,10 @@ NS_ASSUME_NONNULL_BEGIN
                   forCountryCode:(nullable NSString *)countryCode;
 + (NSString *)formattedSanitizedPhoneNumberForString:(NSString *)string;
 + (NSString *)formattedSanitizedPhoneNumberForString:(NSString *)string
-                                      forCountryCode:
-                                          (nullable NSString *)countryCode;
+                                      forCountryCode:(nullable NSString *)countryCode;
 + (NSString *)formattedRedactedPhoneNumberForString:(NSString *)string;
 + (NSString *)formattedRedactedPhoneNumberForString:(NSString *)string
-                                     forCountryCode:
-                                         (nullable NSString *)countryCode;
+                                     forCountryCode:(nullable NSString *)countryCode;
 
 @end
 

@@ -16,12 +16,10 @@ typedef NS_ENUM(NSUInteger, SPPostalCodeIntendedUsage) {
 @interface SPPostalCodeValidator : NSObject
 
 + (BOOL)postalCodeIsRequiredForCountryCode:(nullable NSString *)countryCode;
-+ (SPCardValidationState)
-    validationStateForPostalCode:(nullable NSString *)postalCode
-                     countryCode:(nullable NSString *)countryCode;
-+ (nullable NSString *)
-    formattedSanitizedPostalCodeFromString:(nullable NSString *)postalCode
-                               countryCode:(nullable NSString *)countryCode
-                                     usage:(SPPostalCodeIntendedUsage)usage;
++ (SPCardValidationState)validationStateForPostalCode:(nullable NSString *)postalCode
+                                          countryCode:(nullable NSString *)countryCode;
++ (nullable NSString *)formattedSanitizedPostalCodeFromString:(nullable NSString *)postalCode
+                                                  countryCode:(nullable NSString *)countryCode
+                                                        usage:(SPPostalCodeIntendedUsage)usage;
 
 @end

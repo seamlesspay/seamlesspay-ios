@@ -14,8 +14,7 @@
 
 @interface SPTextFieldDelegateProxy : SPDelegateProxy <UITextFieldDelegate>
 
-@property(nonatomic, assign)
-    SPFormTextFieldAutoFormattingBehavior autoformattingBehavior;
+@property(nonatomic, assign) SPFormTextFieldAutoFormattingBehavior autoformattingBehavior;
 @property(nonatomic, assign) BOOL selectionEnabled;
 
 @end
@@ -23,10 +22,10 @@
 @implementation SPTextFieldDelegateProxy
 
 - (BOOL)textField:(UITextField *)textField
-    shouldChangeCharactersInRange:(NSRange)range
-                replacementString:(NSString *)string {
+shouldChangeCharactersInRange:(NSRange)range
+replacementString:(NSString *)string {
   BOOL insertingIntoEmptyField =
-      (textField.text.length == 0 && range.location == 0 && range.length == 0);
+  (textField.text.length == 0 && range.location == 0 && range.length == 0);
   BOOL hasTextContentType = NO;
   if (@available(iOS 11.0, *)) {
     // This property is available starting in 10.0, but didn't offer in-app
@@ -62,8 +61,8 @@
     inputText = [sanitized sp_safeSubstringToIndex:sanitized.length - 1];
   } else {
     NSString *newString =
-        [textField.text stringByReplacingCharactersInRange:range
-                                                withString:string];
+    [textField.text stringByReplacingCharactersInRange:range
+                                            withString:string];
     // Removes any disallowed characters from the whole string.
     // If we (incorrectly) allowed a space to start the text entry hoping it
     // would be a textContentType completion, this will remove it.
@@ -82,20 +81,20 @@
   textField.text = inputText;
 
   if (self.autoformattingBehavior ==
-          SPFormTextFieldAutoFormattingBehaviorNone &&
+      SPFormTextFieldAutoFormattingBehaviorNone &&
       self.selectionEnabled) {
 
     // this will be the new cursor location after insert/paste/typing
     NSInteger cursorOffset = [textField offsetFromPosition:beginning
                                                 toPosition:start] +
-                             string.length;
+    string.length;
 
     UITextPosition *newCursorPosition =
-        [textField positionFromPosition:textField.beginningOfDocument
-                                 offset:cursorOffset];
+    [textField positionFromPosition:textField.beginningOfDocument
+                             offset:cursorOffset];
     UITextRange *newSelectedRange =
-        [textField textRangeFromPosition:newCursorPosition
-                              toPosition:newCursorPosition];
+    [textField textRangeFromPosition:newCursorPosition
+                          toPosition:newCursorPosition];
     [textField setSelectedTextRange:newSelectedRange];
   }
 
@@ -104,19 +103,19 @@
 
 - (NSString *)unformattedStringForString:(NSString *)string {
   switch (self.autoformattingBehavior) {
-  case SPFormTextFieldAutoFormattingBehaviorNone:
-    return string;
-  case SPFormTextFieldAutoFormattingBehaviorCardNumbers:
-  case SPFormTextFieldAutoFormattingBehaviorPhoneNumbers:
-  case SPFormTextFieldAutoFormattingBehaviorExpiration:
-    return [SPCardValidator sanitizedNumericStringForString:string];
+    case SPFormTextFieldAutoFormattingBehaviorNone:
+      return string;
+    case SPFormTextFieldAutoFormattingBehaviorCardNumbers:
+    case SPFormTextFieldAutoFormattingBehaviorPhoneNumbers:
+    case SPFormTextFieldAutoFormattingBehaviorExpiration:
+      return [SPCardValidator sanitizedNumericStringForString:string];
   }
 }
 
 @end
 
 typedef NSAttributedString * (^SPFormTextTransformationBlock)(
-    NSAttributedString *inputText);
+                                                              NSAttributedString *inputText);
 
 @interface SPFormTextField ()
 @property(nonatomic) SPTextFieldDelegateProxy *delegateProxy;
@@ -126,14 +125,14 @@ typedef NSAttributedString * (^SPFormTextTransformationBlock)(
 @implementation SPFormTextField
 
 + (NSDictionary *)attributesForAttributedString:
-    (NSAttributedString *)attributedString {
+(NSAttributedString *)attributedString {
   if (attributedString.length == 0) {
     return @{};
   }
   return [attributedString
           attributesAtIndex:0
-      longestEffectiveRange:nil
-                    inRange:NSMakeRange(0, attributedString.length)];
+          longestEffectiveRange:nil
+          inRange:NSMakeRange(0, attributedString.length)];
 }
 
 - (void)setSelectionEnabled:(BOOL)selectionEnabled {
@@ -142,64 +141,64 @@ typedef NSAttributedString * (^SPFormTextTransformationBlock)(
 }
 
 - (void)setAutoFormattingBehavior:
-    (SPFormTextFieldAutoFormattingBehavior)autoFormattingBehavior {
+(SPFormTextFieldAutoFormattingBehavior)autoFormattingBehavior {
   _autoFormattingBehavior = autoFormattingBehavior;
   self.delegateProxy.autoformattingBehavior = autoFormattingBehavior;
   switch (autoFormattingBehavior) {
-  case SPFormTextFieldAutoFormattingBehaviorNone:
-  case SPFormTextFieldAutoFormattingBehaviorExpiration:
-    self.textFormattingBlock = nil;
-    break;
-  case SPFormTextFieldAutoFormattingBehaviorCardNumbers:
-    self.textFormattingBlock =
-        ^NSAttributedString *(NSAttributedString *inputString) {
-      if (![SPCardValidator stringIsNumeric:inputString.string]) {
-        return [inputString copy];
-      }
-      NSMutableAttributedString *attributedString = [inputString mutableCopy];
-      SPCardBrand currentBrand =
-          [SPCardValidator brandForNumber:attributedString.string];
-      NSArray<NSNumber *> *cardNumberFormat =
-          [SPCardValidator cardNumberFormatForBrand:currentBrand];
+    case SPFormTextFieldAutoFormattingBehaviorNone:
+    case SPFormTextFieldAutoFormattingBehaviorExpiration:
+      self.textFormattingBlock = nil;
+      break;
+    case SPFormTextFieldAutoFormattingBehaviorCardNumbers:
+      self.textFormattingBlock =
+      ^NSAttributedString *(NSAttributedString *inputString) {
+        if (![SPCardValidator stringIsNumeric:inputString.string]) {
+          return [inputString copy];
+        }
+        NSMutableAttributedString *attributedString = [inputString mutableCopy];
+        SPCardBrand currentBrand =
+        [SPCardValidator brandForNumber:attributedString.string];
+        NSArray<NSNumber *> *cardNumberFormat =
+        [SPCardValidator cardNumberFormatForBrand:currentBrand];
 
-      NSUInteger index = 0;
-      for (NSNumber *segmentLength in cardNumberFormat) {
-        NSUInteger segmentIndex = 0;
-        for (; index < attributedString.length &&
+        NSUInteger index = 0;
+        for (NSNumber *segmentLength in cardNumberFormat) {
+          NSUInteger segmentIndex = 0;
+          for (; index < attributedString.length &&
                segmentIndex < [segmentLength unsignedIntegerValue];
-             index++, segmentIndex++) {
-          if (index + 1 != attributedString.length &&
-              segmentIndex + 1 == [segmentLength unsignedIntegerValue]) {
-            [attributedString addAttribute:NSKernAttributeName
-                                     value:@(5)
-                                     range:NSMakeRange(index, 1)];
-          } else {
-            [attributedString addAttribute:NSKernAttributeName
-                                     value:@(0)
-                                     range:NSMakeRange(index, 1)];
+               index++, segmentIndex++) {
+            if (index + 1 != attributedString.length &&
+                segmentIndex + 1 == [segmentLength unsignedIntegerValue]) {
+              [attributedString addAttribute:NSKernAttributeName
+                                       value:@(5)
+                                       range:NSMakeRange(index, 1)];
+            } else {
+              [attributedString addAttribute:NSKernAttributeName
+                                       value:@(0)
+                                       range:NSMakeRange(index, 1)];
+            }
           }
         }
-      }
-      return [attributedString copy];
-    };
-    break;
-  case SPFormTextFieldAutoFormattingBehaviorPhoneNumbers: {
-    __weak typeof(self) weakSelf = self;
-    self.textFormattingBlock =
-        ^NSAttributedString *(NSAttributedString *inputString) {
-      if (![SPCardValidator stringIsNumeric:inputString.string]) {
-        return [inputString copy];
-      }
-      __strong typeof(self) strongSelf = weakSelf;
-      NSString *phoneNumber = [SPPhoneNumberValidator
-          formattedSanitizedPhoneNumberForString:inputString.string];
-      NSDictionary *attributes =
-          [[strongSelf class] attributesForAttributedString:inputString];
-      return [[NSAttributedString alloc] initWithString:phoneNumber
-                                             attributes:attributes];
-    };
-    break;
-  }
+        return [attributedString copy];
+      };
+      break;
+    case SPFormTextFieldAutoFormattingBehaviorPhoneNumbers: {
+      __weak typeof(self) weakSelf = self;
+      self.textFormattingBlock =
+      ^NSAttributedString *(NSAttributedString *inputString) {
+        if (![SPCardValidator stringIsNumeric:inputString.string]) {
+          return [inputString copy];
+        }
+        __strong typeof(self) strongSelf = weakSelf;
+        NSString *phoneNumber = [SPPhoneNumberValidator
+                                 formattedSanitizedPhoneNumberForString:inputString.string];
+        NSDictionary *attributes =
+        [[strongSelf class] attributesForAttributedString:inputString];
+        return [[NSAttributedString alloc] initWithString:phoneNumber
+                                               attributes:attributes];
+      };
+      break;
+    }
   }
 }
 
@@ -216,7 +215,7 @@ typedef NSAttributedString * (^SPFormTextTransformationBlock)(
   [super deleteBackward];
   if (self.text.length == 0) {
     if ([self.formDelegate
-            respondsToSelector:@selector(formTextFieldDidBackspaceOnEmpty:)]) {
+         respondsToSelector:@selector(formTextFieldDidBackspaceOnEmpty:)]) {
       [self.formDelegate formTextFieldDidBackspaceOnEmpty:self];
     }
   }
@@ -225,27 +224,27 @@ typedef NSAttributedString * (^SPFormTextTransformationBlock)(
 - (void)setText:(NSString *)text {
   NSString *nonNilText = text ?: @"";
   NSAttributedString *attributed =
-      [[NSAttributedString alloc] initWithString:nonNilText
-                                      attributes:self.defaultTextAttributes];
+  [[NSAttributedString alloc] initWithString:nonNilText
+                                  attributes:self.defaultTextAttributes];
   [self setAttributedText:attributed];
 }
 
 - (void)setAttributedText:(NSAttributedString *)attributedText {
   NSAttributedString *oldValue = [self attributedText];
   BOOL shouldModify =
-      self.formDelegate &&
-      [self.formDelegate respondsToSelector:@selector(formTextField:
-                                                modifyIncomingTextChange:)];
+  self.formDelegate &&
+  [self.formDelegate respondsToSelector:@selector(formTextField:
+                                                  modifyIncomingTextChange:)];
   NSAttributedString *modified =
-      shouldModify ? [self.formDelegate formTextField:self
-                             modifyIncomingTextChange:attributedText]
-                   : attributedText;
+  shouldModify ? [self.formDelegate formTextField:self
+                         modifyIncomingTextChange:attributedText]
+  : attributedText;
   NSAttributedString *transformed =
-      self.textFormattingBlock ? self.textFormattingBlock(modified) : modified;
+  self.textFormattingBlock ? self.textFormattingBlock(modified) : modified;
   [super setAttributedText:transformed];
   [self sendActionsForControlEvents:UIControlEventEditingChanged];
   if ([self.formDelegate
-          respondsToSelector:@selector(formTextFieldTextDidChange:)]) {
+       respondsToSelector:@selector(formTextFieldTextDidChange:)]) {
     if (![transformed isEqualToAttributedString:oldValue]) {
       [self.formDelegate formTextFieldTextDidChange:self];
     }
@@ -263,7 +262,7 @@ typedef NSAttributedString * (^SPFormTextTransformationBlock)(
 
 - (NSAttributedString *)accessibilityAttributedValue {
   NSMutableAttributedString *attributedString =
-      [self.attributedText mutableCopy];
+  [self.attributedText mutableCopy];
 #ifdef __IPHONE_13_0
   if (@available(iOS 13.0, *)) {
     [attributedString addAttribute:UIAccessibilitySpeechAttributeSpellOut
@@ -274,8 +273,8 @@ typedef NSAttributedString * (^SPFormTextTransformationBlock)(
   if (!self.validText) {
     NSString *invalidData = @"Invalid data.";
     NSMutableAttributedString *failedString = [[NSMutableAttributedString alloc]
-        initWithString:invalidData
-            attributes:@{UIAccessibilitySpeechAttributePitch : @(0.6)}];
+                                               initWithString:invalidData
+                                               attributes:@{UIAccessibilitySpeechAttributePitch : @(0.6)}];
     [failedString appendAttributedString:attributedString];
     attributedString = failedString;
   }
@@ -284,8 +283,8 @@ typedef NSAttributedString * (^SPFormTextTransformationBlock)(
 
 - (void)setAttributedPlaceholder:(NSAttributedString *)attributedPlaceholder {
   NSAttributedString *transformed =
-      self.textFormattingBlock ? self.textFormattingBlock(attributedPlaceholder)
-                               : attributedPlaceholder;
+  self.textFormattingBlock ? self.textFormattingBlock(attributedPlaceholder)
+  : attributedPlaceholder;
   [super setAttributedPlaceholder:transformed];
 }
 
@@ -293,9 +292,9 @@ typedef NSAttributedString * (^SPFormTextTransformationBlock)(
 // only affects the simulator and iPads with custom keyboards.
 - (NSArray *)keyCommands {
   return
-      @[ [UIKeyCommand keyCommandWithInput:@"\b"
-                             modifierFlags:UIKeyModifierCommand
-                                    action:@selector(commandDeleteBackwards)] ];
+  @[ [UIKeyCommand keyCommandWithInput:@"\b"
+                         modifierFlags:UIKeyModifierCommand
+                                action:@selector(commandDeleteBackwards)] ];
 }
 
 - (void)commandDeleteBackwards {
@@ -312,7 +311,7 @@ typedef NSAttributedString * (^SPFormTextTransformationBlock)(
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
   return [super canPerformAction:action withSender:sender] &&
-         action == @selector(paste:);
+  action == @selector(paste:);
 }
 
 - (void)paste:(id)sender {
@@ -325,7 +324,7 @@ typedef NSAttributedString * (^SPFormTextTransformationBlock)(
 
 - (void)setDelegate:(id<UITextFieldDelegate>)delegate {
   SPTextFieldDelegateProxy *delegateProxy =
-      [[SPTextFieldDelegateProxy alloc] init];
+  [[SPTextFieldDelegateProxy alloc] init];
   delegateProxy.autoformattingBehavior = self.autoFormattingBehavior;
   delegateProxy.selectionEnabled = self.selectionEnabled;
   delegateProxy.delegate = delegate;

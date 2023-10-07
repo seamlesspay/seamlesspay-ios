@@ -23,9 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
  You cannot directly instantiate an `SPPaymentMethodCard`. You should only use
  one that is part of an existing `SPPaymentMethod` object.
  */
-- (instancetype)init __attribute__((unavailable(
-    "You cannot directly instantiate an SPPaymentMethodCard. You should only "
-    "use one that is part of an existing SPPaymentMethod object.")));
+- (instancetype)init __attribute__((unavailable("You cannot directly instantiate an SPPaymentMethodCard. You should only "
+                                                "use one that is part of an existing SPPaymentMethod object.")));
 
 /**
  The issuer of the card.

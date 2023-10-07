@@ -12,11 +12,11 @@
 @implementation SPPhoneNumberValidator
 
 + (NSString *)countryCodeOrCurrentLocaleCountryFromString:
-    (nullable NSString *)nillableCode {
+(nullable NSString *)nillableCode {
   NSString *countryCode = nillableCode;
   if (!countryCode) {
     countryCode =
-        [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];
+    [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];
   }
   return countryCode;
 }
@@ -35,11 +35,11 @@
 + (BOOL)stringIsValidPartialPhoneNumber:(NSString *)string
                          forCountryCode:(nullable NSString *)nillableCode {
   NSString *countryCode =
-      [self countryCodeOrCurrentLocaleCountryFromString:nillableCode];
+  [self countryCodeOrCurrentLocaleCountryFromString:nillableCode];
 
   if ([countryCode isEqualToString:@"US"]) {
     return
-        [SPCardValidator sanitizedNumericStringForString:string].length <= 10;
+    [SPCardValidator sanitizedNumericStringForString:string].length <= 10;
   } else {
     return YES;
   }
@@ -48,11 +48,11 @@
 + (BOOL)stringIsValidPhoneNumber:(NSString *)string
                   forCountryCode:(nullable NSString *)nillableCode {
   NSString *countryCode =
-      [self countryCodeOrCurrentLocaleCountryFromString:nillableCode];
+  [self countryCodeOrCurrentLocaleCountryFromString:nillableCode];
 
   if ([countryCode isEqualToString:@"US"]) {
     return
-        [SPCardValidator sanitizedNumericStringForString:string].length == 10;
+    [SPCardValidator sanitizedNumericStringForString:string].length == 10;
   } else {
     return YES;
   }
@@ -65,11 +65,11 @@
 
 + (NSString *)formattedSanitizedPhoneNumberForString:(NSString *)string
                                       forCountryCode:
-                                          (nullable NSString *)nillableCode {
+(nullable NSString *)nillableCode {
   NSString *countryCode =
-      [self countryCodeOrCurrentLocaleCountryFromString:nillableCode];
+  [self countryCodeOrCurrentLocaleCountryFromString:nillableCode];
   NSString *sanitized =
-      [SPCardValidator sanitizedNumericStringForString:string];
+  [SPCardValidator sanitizedNumericStringForString:string];
   return [self formattedPhoneNumberForString:sanitized
                               forCountryCode:countryCode];
 }
@@ -80,9 +80,9 @@
 
 + (NSString *)formattedRedactedPhoneNumberForString:(NSString *)string
                                      forCountryCode:
-                                         (nullable NSString *)nillableCode {
+(nullable NSString *)nillableCode {
   NSString *countryCode =
-      [self countryCodeOrCurrentLocaleCountryFromString:nillableCode];
+  [self countryCodeOrCurrentLocaleCountryFromString:nillableCode];
   NSScanner *scanner = [NSScanner scannerWithString:string];
   NSMutableString *prefix = [NSMutableString stringWithCapacity:string.length];
   [scanner scanUpToString:@"*" intoString:&prefix];
@@ -102,15 +102,15 @@
   }
   if (string.length >= 6) {
     return [NSString stringWithFormat:@"(%@) %@-%@",
-                                      [string sp_safeSubstringToIndex:3],
-                                      [[string sp_safeSubstringToIndex:6]
-                                          sp_safeSubstringFromIndex:3],
-                                      [[string sp_safeSubstringToIndex:10]
-                                          sp_safeSubstringFromIndex:6]];
+            [string sp_safeSubstringToIndex:3],
+            [[string sp_safeSubstringToIndex:6]
+             sp_safeSubstringFromIndex:3],
+            [[string sp_safeSubstringToIndex:10]
+             sp_safeSubstringFromIndex:6]];
   } else if (string.length >= 3) {
     return [NSString stringWithFormat:@"(%@) %@",
-                                      [string sp_safeSubstringToIndex:3],
-                                      [string sp_safeSubstringFromIndex:3]];
+            [string sp_safeSubstringToIndex:3],
+            [string sp_safeSubstringFromIndex:3]];
   }
   return string;
 }

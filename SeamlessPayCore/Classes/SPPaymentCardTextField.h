@@ -26,7 +26,7 @@ IB_DESIGNABLE
  @see SPPaymentCardTextFieldDelegate
  */
 @property(nonatomic, weak, nullable) IBOutlet id<SPPaymentCardTextFieldDelegate>
-    delegate;
+delegate;
 
 /**
  The font used in each child field. Default is [UIFont systemFontOfSize:18].
@@ -42,7 +42,7 @@ IB_DESIGNABLE
  Set this property to nil to reset to the default.
  */
 @property(nonatomic, copy, null_resettable)
-    UIColor *textColor UI_APPEARANCE_SELECTOR;
+UIColor *textColor UI_APPEARANCE_SELECTOR;
 
 /**
  The text color to be used when the user has entered invalid information,
@@ -52,7 +52,7 @@ IB_DESIGNABLE
  default.
  */
 @property(nonatomic, copy, null_resettable)
-    UIColor *textErrorColor UI_APPEARANCE_SELECTOR;
+UIColor *textErrorColor UI_APPEARANCE_SELECTOR;
 
 /**
  The text placeholder color used in each child field.
@@ -63,7 +63,7 @@ IB_DESIGNABLE
  default.
  */
 @property(nonatomic, copy, null_resettable)
-    UIColor *placeholderColor UI_APPEARANCE_SELECTOR;
+UIColor *placeholderColor UI_APPEARANCE_SELECTOR;
 
 /**
  The placeholder for the card number field.
@@ -80,7 +80,7 @@ IB_DESIGNABLE
  The placeholder for the expiration field. Defaults to @"MM/YY".
  */
 @property(nonatomic, copy, nullable)
-    IBInspectable NSString *expirationPlaceholder;
+IBInspectable NSString *expirationPlaceholder;
 
 /**
  The placeholder for the cvc field. Defaults to @"CVC".
@@ -92,7 +92,7 @@ IB_DESIGNABLE
  or @"Postal" for all other country codes.
  */
 @property(nonatomic, copy, nullable)
-    IBInspectable NSString *postalCodePlaceholder;
+IBInspectable NSString *postalCodePlaceholder;
 
 /**
  The cursor color for the field.
@@ -101,7 +101,7 @@ IB_DESIGNABLE
  (in other words, calling setCursorColor is identical to calling setTintColor).
  */
 @property(nonatomic, copy, null_resettable)
-    UIColor *cursorColor UI_APPEARANCE_SELECTOR;
+UIColor *cursorColor UI_APPEARANCE_SELECTOR;
 
 /**
  The border color for the field.
@@ -111,7 +111,7 @@ IB_DESIGNABLE
  Default is [UIColor systemGray2Color].
  */
 @property(nonatomic, copy, nullable)
-    UIColor *borderColor UI_APPEARANCE_SELECTOR;
+UIColor *borderColor UI_APPEARANCE_SELECTOR;
 
 /**
  The width of the field's border.
@@ -133,7 +133,7 @@ IB_DESIGNABLE
  Default is UIKeyboardAppearanceDefault.
  */
 @property(nonatomic, assign)
-    UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
+UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
 
 /**
  This behaves identically to setting the inputView for each child text field.
@@ -147,7 +147,7 @@ IB_DESIGNABLE
 @property(nonatomic, strong, nullable) UIView *inputAccessoryView;
 
 /**
-The curent brand image displayed in the receiver.
+ The curent brand image displayed in the receiver.
  */
 @property(nonatomic, nullable, readonly) UIImage *brandImage;
 
@@ -259,8 +259,7 @@ The curent brand image displayed in the receiver.
  you own (retrieved from this text field if desired), and then set this property
  to the new value.
  */
-@property(nonatomic, copy, readwrite, nonnull)
-    SPPaymentMethodCardParams *cardParams;
+@property(nonatomic, copy, readwrite, nonnull)SPPaymentMethodCardParams *cardParams;
 
 /**
  Causes the text field to begin editing. Presents the keyboard.
@@ -337,13 +336,12 @@ The curent brand image displayed in the receiver.
  whether or not to enable a button to submit the form. Example:
 
  - (void)paymentCardTextFieldDidChange:(SPPaymentCardTextField *)textField {
-    self.paymentButton.enabled = textField.isValid;
+ self.paymentButton.enabled = textField.isValid;
  }
 
  @param textField the text field that has changed
  */
-- (void)paymentCardTextFieldDidChange:
-    (nonnull SPPaymentCardTextField *)textField;
+- (void)paymentCardTextFieldDidChange:(nonnull SPPaymentCardTextField *)textField;
 
 /**
  Called when editing begins in the text field as a whole.
@@ -351,8 +349,7 @@ The curent brand image displayed in the receiver.
  After receiving this callback, you will always also receive a callback for
  which specific subfield of the view began editing.
  */
-- (void)paymentCardTextFieldDidBeginEditing:
-    (nonnull SPPaymentCardTextField *)textField;
+- (void)paymentCardTextFieldDidBeginEditing:(nonnull SPPaymentCardTextField *)textField;
 
 /**
  Notification that the user pressed the `return` key after completely filling
@@ -364,8 +361,7 @@ The curent brand image displayed in the receiver.
  @param textField The SPPaymentCardTextField that was being edited when the user
  pressed return
  */
-- (void)paymentCardTextFieldWillEndEditingForReturn:
-    (nonnull SPPaymentCardTextField *)textField;
+- (void)paymentCardTextFieldWillEndEditingForReturn:(nonnull SPPaymentCardTextField *)textField;
 
 /**
  Called when editing ends in the text field as a whole.
@@ -373,54 +369,45 @@ The curent brand image displayed in the receiver.
  This callback is always preceded by an callback for which
  specific subfield of the view ended its editing.
  */
-- (void)paymentCardTextFieldDidEndEditing:
-    (nonnull SPPaymentCardTextField *)textField;
+- (void)paymentCardTextFieldDidEndEditing:(nonnull SPPaymentCardTextField *)textField;
 
 /**
  Called when editing begins in the payment card field's number field.
  */
-- (void)paymentCardTextFieldDidBeginEditingNumber:
-    (nonnull SPPaymentCardTextField *)textField;
+- (void)paymentCardTextFieldDidBeginEditingNumber:(nonnull SPPaymentCardTextField *)textField;
 
 /**
  Called when editing ends in the payment card field's number field.
  */
-- (void)paymentCardTextFieldDidEndEditingNumber:
-    (nonnull SPPaymentCardTextField *)textField;
+- (void)paymentCardTextFieldDidEndEditingNumber:(nonnull SPPaymentCardTextField *)textField;
 
 /**
  Called when editing begins in the payment card field's CVC field.
  */
-- (void)paymentCardTextFieldDidBeginEditingCVC:
-    (nonnull SPPaymentCardTextField *)textField;
+- (void)paymentCardTextFieldDidBeginEditingCVC:(nonnull SPPaymentCardTextField *)textField;
 
 /**
  Called when editing ends in the payment card field's CVC field.
  */
-- (void)paymentCardTextFieldDidEndEditingCVC:
-    (nonnull SPPaymentCardTextField *)textField;
+- (void)paymentCardTextFieldDidEndEditingCVC:(nonnull SPPaymentCardTextField *)textField;
 
 /**
  Called when editing begins in the payment card field's expiration field.
  */
-- (void)paymentCardTextFieldDidBeginEditingExpiration:
-    (nonnull SPPaymentCardTextField *)textField;
+- (void)paymentCardTextFieldDidBeginEditingExpiration:(nonnull SPPaymentCardTextField *)textField;
 
 /**
  Called when editing ends in the payment card field's expiration field.
  */
-- (void)paymentCardTextFieldDidEndEditingExpiration:
-    (nonnull SPPaymentCardTextField *)textField;
+- (void)paymentCardTextFieldDidEndEditingExpiration:(nonnull SPPaymentCardTextField *)textField;
 
 /**
  Called when editing begins in the payment card field's ZIP/postal code field.
  */
-- (void)paymentCardTextFieldDidBeginEditingPostalCode:
-    (nonnull SPPaymentCardTextField *)textField;
+- (void)paymentCardTextFieldDidBeginEditingPostalCode:(nonnull SPPaymentCardTextField *)textField;
 
 /**
  Called when editing ends in the payment card field's ZIP/postal code field.
  */
-- (void)paymentCardTextFieldDidEndEditingPostalCode:
-    (nonnull SPPaymentCardTextField *)textField;
+- (void)paymentCardTextFieldDidEndEditingPostalCode:(nonnull SPPaymentCardTextField *)textField;
 @end

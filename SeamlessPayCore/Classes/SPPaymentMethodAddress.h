@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  City/District/Suburb/Town/Village.
-*/
+ */
 @property(nonatomic, copy, nullable, readwrite) NSString *city;
 
 /**

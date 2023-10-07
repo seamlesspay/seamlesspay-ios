@@ -20,22 +20,17 @@ typedef NS_ENUM(NSInteger, SPFormTextFieldAutoFormattingBehavior) {
 
 @protocol SPFormTextFieldDelegate <UITextFieldDelegate>
 @optional
-- (void)formTextFieldDidBackspaceOnEmpty:
-    (nonnull SPFormTextField *)formTextField;
-- (nonnull NSAttributedString *)
-               formTextField:(nonnull SPFormTextField *)formTextField
-    modifyIncomingTextChange:(nonnull NSAttributedString *)input;
+- (void)formTextFieldDidBackspaceOnEmpty:(nonnull SPFormTextField *)formTextField;
+- (nonnull NSAttributedString *)formTextField:(nonnull SPFormTextField *)formTextField
+                     modifyIncomingTextChange:(nonnull NSAttributedString *)input;
 - (void)formTextFieldTextDidChange:(nonnull SPFormTextField *)textField;
 @end
 
 @interface SPFormTextField : SPValidatedTextField
 
 @property(nonatomic, readwrite, assign) BOOL selectionEnabled; // defaults to NO
-@property(nonatomic, readwrite, assign)
-    BOOL preservesContentsOnPaste; // defaults to NO
-@property(nonatomic, readwrite, assign)
-    SPFormTextFieldAutoFormattingBehavior autoFormattingBehavior;
-@property(nonatomic, readwrite, weak, nullable) id<SPFormTextFieldDelegate>
-    formDelegate;
+@property(nonatomic, readwrite, assign) BOOL preservesContentsOnPaste; // defaults to NO
+@property(nonatomic, readwrite, assign) SPFormTextFieldAutoFormattingBehavior autoFormattingBehavior;
+@property(nonatomic, readwrite, weak, nullable) id<SPFormTextFieldDelegate> formDelegate;
 
 @end

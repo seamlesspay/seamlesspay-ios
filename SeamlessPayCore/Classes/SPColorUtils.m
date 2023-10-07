@@ -13,7 +13,7 @@
   CGFloat red, green, blue;
   if ([color getRed:&red green:&green blue:&blue alpha:nil]) {
     return red * (CGFloat)0.299 + green * (CGFloat)0.587 +
-           blue * (CGFloat)0.114;
+    blue * (CGFloat)0.114;
   } else {
     return (CGFloat)0.4;
   }

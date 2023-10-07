@@ -14,7 +14,7 @@
 
 - (void)setCardNumber:(NSString *)cardNumber {
   NSString *sanitizedNumber =
-      [SPCardValidator sanitizedNumericStringForString:cardNumber];
+  [SPCardValidator sanitizedNumericStringForString:cardNumber];
   SPCardBrand brand = [SPCardValidator brandForNumber:sanitizedNumber];
   NSInteger maxLength = [SPCardValidator maxLengthForCardBrand:brand];
   _cardNumber = [sanitizedNumber sp_safeSubstringToIndex:maxLength];
@@ -31,7 +31,7 @@
       SPCardValidationStateValid) {
     // Use fragment length
     NSUInteger length =
-        [SPCardValidator fragmentLengthForCardBrand:currentBrand];
+    [SPCardValidator fragmentLengthForCardBrand:currentBrand];
     NSUInteger index = cardNumber.length - length;
 
     if (index < cardNumber.length) {
@@ -40,7 +40,7 @@
   } else {
     // use the card number format
     NSArray<NSNumber *> *cardNumberFormat =
-        [SPCardValidator cardNumberFormatForBrand:currentBrand];
+    [SPCardValidator cardNumberFormatForBrand:currentBrand];
 
     NSUInteger index = 0;
     for (NSNumber *segment in cardNumberFormat) {
@@ -58,10 +58,10 @@
 // This might contain slashes.
 - (void)setRawExpiration:(NSString *)expiration {
   NSString *sanitizedExpiration =
-      [SPCardValidator sanitizedNumericStringForString:expiration];
+  [SPCardValidator sanitizedNumericStringForString:expiration];
   self.expirationMonth = [sanitizedExpiration sp_safeSubstringToIndex:2];
   self.expirationYear = [[sanitizedExpiration sp_safeSubstringFromIndex:2]
-      sp_safeSubstringToIndex:2];
+                         sp_safeSubstringToIndex:2];
 }
 
 - (NSString *)rawExpiration {
@@ -71,7 +71,7 @@
   }
 
   if ([SPCardValidator
-          validationStateForExpirationMonth:self.expirationMonth] ==
+       validationStateForExpirationMonth:self.expirationMonth] ==
       SPCardValidationStateValid) {
     [array addObject:self.expirationYear];
   }
@@ -80,7 +80,7 @@
 
 - (void)setExpirationMonth:(NSString *)expirationMonth {
   NSString *sanitizedExpiration =
-      [SPCardValidator sanitizedNumericStringForString:expirationMonth];
+  [SPCardValidator sanitizedNumericStringForString:expirationMonth];
   if (sanitizedExpiration.length == 1 &&
       ![sanitizedExpiration isEqualToString:@"0"] &&
       ![sanitizedExpiration isEqualToString:@"1"]) {
@@ -91,31 +91,31 @@
 
 - (void)setExpirationYear:(NSString *)expirationYear {
   _expirationYear =
-      [[SPCardValidator sanitizedNumericStringForString:expirationYear]
-          sp_safeSubstringToIndex:2];
+  [[SPCardValidator sanitizedNumericStringForString:expirationYear]
+   sp_safeSubstringToIndex:2];
 }
 
 - (void)setCvc:(NSString *)cvc {
   NSInteger maxLength = [SPCardValidator maxCVCLengthForCardBrand:self.brand];
   _cvc = [[SPCardValidator sanitizedNumericStringForString:cvc]
-      sp_safeSubstringToIndex:maxLength];
+          sp_safeSubstringToIndex:maxLength];
 }
 
 - (void)setPostalCode:(NSString *)postalCode {
   _postalCode = [SPPostalCodeValidator
-      formattedSanitizedPostalCodeFromString:postalCode
-                                 countryCode:self.postalCodeCountryCode
-                                       usage:
-                                           SPPostalCodeIntendedUsageBillingAddress];
+                 formattedSanitizedPostalCodeFromString:postalCode
+                 countryCode:self.postalCodeCountryCode
+                 usage:
+                   SPPostalCodeIntendedUsageBillingAddress];
 }
 
 - (void)setPostalCodeCountryCode:(NSString *)postalCodeCountryCode {
   _postalCodeCountryCode = postalCodeCountryCode;
   _postalCode = [SPPostalCodeValidator
-      formattedSanitizedPostalCodeFromString:self.postalCode
-                                 countryCode:postalCodeCountryCode
-                                       usage:
-                                           SPPostalCodeIntendedUsageBillingAddress];
+                 formattedSanitizedPostalCodeFromString:self.postalCode
+                 countryCode:postalCodeCountryCode
+                 usage:
+                   SPPostalCodeIntendedUsageBillingAddress];
 }
 
 - (SPCardBrand)brand {
@@ -124,47 +124,47 @@
 
 - (SPCardValidationState)validationStateForField:(SPCardFieldType)fieldType {
   switch (fieldType) {
-  case SPCardFieldTypeNumber:
-    return [SPCardValidator validationStateForNumber:self.cardNumber
-                                 validatingCardBrand:YES];
-    break;
-  case SPCardFieldTypeExpiration: {
-    SPCardValidationState monthState = [SPCardValidator
-        validationStateForExpirationMonth:self.expirationMonth];
-    SPCardValidationState yearState =
-        [SPCardValidator validationStateForExpirationYear:self.expirationYear
-                                                  inMonth:self.expirationMonth];
-    if (monthState == SPCardValidationStateValid &&
-        yearState == SPCardValidationStateValid) {
-      return SPCardValidationStateValid;
-    } else if (monthState == SPCardValidationStateInvalid ||
-               yearState == SPCardValidationStateInvalid) {
-      return SPCardValidationStateInvalid;
-    } else {
-      return SPCardValidationStateIncomplete;
+    case SPCardFieldTypeNumber:
+      return [SPCardValidator validationStateForNumber:self.cardNumber
+                                   validatingCardBrand:YES];
+      break;
+    case SPCardFieldTypeExpiration: {
+      SPCardValidationState monthState = [SPCardValidator
+                                          validationStateForExpirationMonth:self.expirationMonth];
+      SPCardValidationState yearState =
+      [SPCardValidator validationStateForExpirationYear:self.expirationYear
+                                                inMonth:self.expirationMonth];
+      if (monthState == SPCardValidationStateValid &&
+          yearState == SPCardValidationStateValid) {
+        return SPCardValidationStateValid;
+      } else if (monthState == SPCardValidationStateInvalid ||
+                 yearState == SPCardValidationStateInvalid) {
+        return SPCardValidationStateInvalid;
+      } else {
+        return SPCardValidationStateIncomplete;
+      }
+      break;
     }
-    break;
-  }
-  case SPCardFieldTypeCVC:
-    return [SPCardValidator validationStateForCVC:self.cvc
-                                        cardBrand:self.brand];
-  case SPCardFieldTypePostalCode:
-    return [SPPostalCodeValidator
-        validationStateForPostalCode:self.postalCode
-                         countryCode:self.postalCodeCountryCode];
+    case SPCardFieldTypeCVC:
+      return [SPCardValidator validationStateForCVC:self.cvc
+                                          cardBrand:self.brand];
+    case SPCardFieldTypePostalCode:
+      return [SPPostalCodeValidator
+              validationStateForPostalCode:self.postalCode
+              countryCode:self.postalCodeCountryCode];
   }
 }
 
 - (BOOL)isValid {
   return ([self validationStateForField:SPCardFieldTypeNumber] ==
-              SPCardValidationStateValid &&
+          SPCardValidationStateValid &&
           [self validationStateForField:SPCardFieldTypeExpiration] ==
-              SPCardValidationStateValid &&
+          SPCardValidationStateValid &&
           [self validationStateForField:SPCardFieldTypeCVC] ==
-              SPCardValidationStateValid &&
+          SPCardValidationStateValid &&
           (!self.postalCodeRequired ||
            [self validationStateForField:SPCardFieldTypePostalCode] ==
-               SPCardValidationStateValid));
+           SPCardValidationStateValid));
 }
 
 - (NSString *)defaultPlaceholder {

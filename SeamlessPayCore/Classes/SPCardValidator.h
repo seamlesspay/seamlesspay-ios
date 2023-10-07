@@ -50,8 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
  SPCardValidationStateIncomplete if the number is a substring of a valid
  card (e.g. @"4242").
  */
-+ (SPCardValidationState)validationStateForNumber:
-                             (nullable NSString *)cardNumber
++ (SPCardValidationState)validationStateForNumber:(nullable NSString *)cardNumber
                               validatingCardBrand:(BOOL)validatingCardBrand;
 
 /**
@@ -118,8 +117,7 @@ NS_ASSUME_NONNULL_BEGIN
  SPCardValidationStateIncomplete if the month is a substring of a valid
  month (e.g. @"0" or @"1").
  */
-+ (SPCardValidationState)validationStateForExpirationMonth:
-    (NSString *)expirationMonth;
++ (SPCardValidationState)validationStateForExpirationMonth:(NSString *)expirationMonth;
 
 /**
  Validates an expiration year, passed as a string representing the final
@@ -146,9 +144,8 @@ NS_ASSUME_NONNULL_BEGIN
  SPCardValidationStateIncomplete if the year is a substring of a valid
  year (e.g. @"1" or @"2").
  */
-+ (SPCardValidationState)
-    validationStateForExpirationYear:(NSString *)expirationYear
-                             inMonth:(NSString *)expirationMonth;
++ (SPCardValidationState)validationStateForExpirationYear:(NSString *)expirationYear
+                                                  inMonth:(NSString *)expirationMonth;
 
 /**
  The max CVC length for a card brand (for example, American Express CVCs are

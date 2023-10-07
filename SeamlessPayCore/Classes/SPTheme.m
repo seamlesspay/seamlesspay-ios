@@ -29,7 +29,7 @@ static UIFont *SPThemeDefaultMediumFont;
 #ifdef __IPHONE_13_0
   if (@available(iOS 13.0, *)) {
     SPThemeDefaultPrimaryBackgroundColor =
-        [UIColor secondarySystemBackgroundColor];
+    [UIColor secondarySystemBackgroundColor];
     SPThemeDefaultSecondaryBackgroundColor = [UIColor systemBackgroundColor];
     SPThemeDefaultPrimaryForegroundColor = [UIColor labelColor];
     SPThemeDefaultSecondaryForegroundColor = [UIColor secondaryLabelColor];
@@ -47,10 +47,10 @@ static UIFont *SPThemeDefaultMediumFont;
                                                             blue:45.0f / 255.0f
                                                            alpha:1];
     SPThemeDefaultSecondaryForegroundColor =
-        [UIColor colorWithRed:142.0f / 255.0f
-                        green:142.0f / 255.0f
-                         blue:147.0f / 255.0f
-                        alpha:1];
+    [UIColor colorWithRed:142.0f / 255.0f
+                    green:142.0f / 255.0f
+                     blue:147.0f / 255.0f
+                    alpha:1];
     SPThemeDefaultAccentColor = [UIColor colorWithRed:0
                                                 green:122.0f / 255.0f
                                                  blue:1
@@ -65,7 +65,7 @@ static UIFont *SPThemeDefaultMediumFont;
   SPThemeDefaultFont = [UIFont systemFontOfSize:17];
 
   SPThemeDefaultMediumFont = [UIFont systemFontOfSize:17.0f weight:0.2f]
-                                 ?: [UIFont boldSystemFontOfSize:17];
+  ?: [UIFont boldSystemFontOfSize:17];
 }
 
 + (SPTheme *)defaultTheme {
@@ -119,9 +119,9 @@ static UIFont *SPThemeDefaultMediumFont;
 #ifdef __IPHONE_13_0
   if (@available(iOS 13.0, *)) {
     return [UIColor colorWithDynamicProvider:^UIColor *_Nonnull(
-                        UITraitCollection *__unused _Nonnull traitCollection) {
-      return colorBlock();
-    }];
+                                                                UITraitCollection *__unused _Nonnull traitCollection) {
+                                                                  return colorBlock();
+                                                                }];
   } else {
 #endif
     return colorBlock();
@@ -142,9 +142,9 @@ static UIFont *SPThemeDefaultMediumFont;
 #ifdef __IPHONE_13_0
   if (@available(iOS 13.0, *)) {
     return [UIColor colorWithDynamicProvider:^UIColor *_Nonnull(
-                        UITraitCollection *__unused _Nonnull traitCollection) {
-      return [self.primaryForegroundColor colorWithAlphaComponent:0.25f];
-    }];
+                                                                UITraitCollection *__unused _Nonnull traitCollection) {
+                                                                  return [self.primaryForegroundColor colorWithAlphaComponent:0.25f];
+                                                                }];
   } else {
 #endif
     return [self.primaryForegroundColor colorWithAlphaComponent:0.25f];
@@ -171,9 +171,9 @@ static UIFont *SPThemeDefaultMediumFont;
 #ifdef __IPHONE_13_0
   if (@available(iOS 13.0, *)) {
     return [UIColor colorWithDynamicProvider:^UIColor *_Nonnull(
-                        UITraitCollection *__unused _Nonnull traitCollection) {
-      return colorBlock();
-    }];
+                                                                UITraitCollection *__unused _Nonnull traitCollection) {
+                                                                  return colorBlock();
+                                                                }];
   } else {
 #endif
     return colorBlock();

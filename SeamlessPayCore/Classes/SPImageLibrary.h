@@ -68,8 +68,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (UIImage *)brandImageForCardBrand:(SPCardBrand)brand;
 
 /**
-This returns the appropriate icon for the specified bank brand.
-*/
+ This returns the appropriate icon for the specified bank brand.
+ */
 + (UIImage *)brandImageForFPXBankBrand:(SPFPXBankBrand)brand;
 
 /**

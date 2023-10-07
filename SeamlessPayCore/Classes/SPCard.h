@@ -39,9 +39,8 @@ typedef NS_ENUM(NSInteger, SPCardFundingType) {
 
 @interface SPCard : NSObject
 
-- (instancetype)init __attribute__((unavailable(
-    "You cannot directly instantiate an SPCard. You should only use one that "
-    "has been returned from an SPAPIClient callback.")));
+- (instancetype)init __attribute__((unavailable("You cannot directly instantiate an SPCard. You should only use one that "
+                                                "has been returned from an SPAPIClient callback.")));
 
 /**
  The last 4 digits of the card.
@@ -69,8 +68,7 @@ typedef NS_ENUM(NSInteger, SPCardFundingType) {
 @property(nonatomic, readonly) SPCardFundingType funding;
 @property(nonatomic, nullable, readonly) NSString *country;
 @property(nonatomic, nullable, readonly) NSString *currency;
-@property(nonatomic, copy, nullable, readonly)
-    NSDictionary<NSString *, NSString *> *metadata;
+@property(nonatomic, copy, nullable, readonly) NSDictionary<NSString *, NSString *> *metadata;
 
 + (NSString *)stringFromBrand:(SPCardBrand)brand;
 + (SPCardBrand)brandFromString:(NSString *)string;

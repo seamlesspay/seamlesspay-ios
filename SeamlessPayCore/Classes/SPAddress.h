@@ -118,11 +118,11 @@ extern SPContactField const SPContactFieldName;
 @property(nonatomic, copy, nullable) NSString *email;
 
 + (nullable NSDictionary *)
-    shippingInfoForChargeWithAddress:(nullable SPAddress *)address
-                      shippingMethod:(nullable PKShippingMethod *)method;
+shippingInfoForChargeWithAddress:(nullable SPAddress *)address
+shippingMethod:(nullable PKShippingMethod *)method;
 
 - (instancetype)initWithPaymentMethodBillingDetails:
-    (SPPaymentMethodBillingDetails *)billingDetails;
+(SPPaymentMethodBillingDetails *)billingDetails;
 - (instancetype)initWithPKContact:(PKContact *)contact;
 - (PKContact *)PKContactValue;
 - (instancetype)initWithCNContact:(CNContact *)contact;
@@ -135,11 +135,11 @@ extern SPContactField const SPContactFieldName;
 
 - (BOOL)containsRequiredFields:(SPBillingAddressFields)requiredFields;
 - (BOOL)containsContentForBillingAddressFields:
-    (SPBillingAddressFields)desiredFields;
+(SPBillingAddressFields)desiredFields;
 - (BOOL)containsRequiredShippingAddressFields:
-    (nullable NSSet<SPContactField> *)requiredFields;
+(nullable NSSet<SPContactField> *)requiredFields;
 - (BOOL)containsContentForShippingAddressFields:
-    (nullable NSSet<SPContactField> *)desiredFields;
+(nullable NSSet<SPContactField> *)desiredFields;
 - (NSDictionary *_Nullable )dictionary;
 @end
 
