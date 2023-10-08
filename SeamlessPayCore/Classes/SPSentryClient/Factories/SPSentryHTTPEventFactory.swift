@@ -60,8 +60,10 @@ enum SPSentryHTTPEventFactory {
       )
     )
 
+    // swiftlint:disable line_length
     let release =
       "\(systemDataProvider.app.bundleIdentifier)@\(systemDataProvider.app.version)+\(systemDataProvider.app.buildVersion)"
+    // swiftlint:enable line_length
 
     return .init(
       exception: exception,

@@ -18,14 +18,14 @@ enum SPSentryURLRequestFactory {
     var request = URLRequest(
       url: apiURL,
       cachePolicy: .reloadIgnoringLocalCacheData,
-      timeoutInterval: C.requestTimeout
+      timeoutInterval: requestTimeout
     )
 
     request.httpMethod = "POST"
     request.setValue(authHeader(url: dsn.url), forHTTPHeaderField: "X-Sentry-Auth")
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
     request.setValue(dsn.url.host, forHTTPHeaderField: "Host")
-    request.setValue(C.userAgent, forHTTPHeaderField: "User-Agent")
+    request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
     request.setValue(String(data.count), forHTTPHeaderField: "Content-Length")
     request.httpBody = data
 
@@ -36,12 +36,10 @@ enum SPSentryURLRequestFactory {
 // MARK: Constants
 private extension SPSentryURLRequestFactory {
   // MARK: Constants
-  enum C {
-    static let requestTimeout: TimeInterval = 15
-    static let userAgent = "seamlesspay-ios-sentry-client"
-    static let userAgentVersion = "0.1"
-    static let sentryVersion = "7"
-  }
+  static let requestTimeout: TimeInterval = 15
+  static let userAgent = "seamlesspay-ios-sentry-client"
+  static let userAgentVersion = "0.1"
+  static let sentryVersion = "7"
 }
 
 // MARK: Private
@@ -53,8 +51,8 @@ private extension SPSentryURLRequestFactory {
 
     let start = "Sentry"
     let components: String = [
-      "sentry_version": C.sentryVersion,
-      "sentry_client": "\(C.userAgent)/\(C.userAgentVersion)",
+      "sentry_version": sentryVersion,
+      "sentry_client": "\(userAgent)/\(userAgentVersion)",
       "sentry_key": sentryKey,
       "sentry_secret": url.password,
     ]
