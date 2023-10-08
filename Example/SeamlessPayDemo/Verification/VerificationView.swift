@@ -69,13 +69,13 @@ struct VerificationView: View {
         )
       }
       .onAppear {
-        self.tokenFieldIsFocused = true
+        tokenFieldIsFocused = true
       }
       VStack {
         Spacer()
         Button(
           action: {
-            self.verifyToken()
+            verifyToken()
           },
           label: {
             if verificationState.isVerifying {

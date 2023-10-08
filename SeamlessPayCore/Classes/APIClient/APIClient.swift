@@ -402,7 +402,7 @@ private extension APIClient {
       "email": email,
       "phone": phone,
       "metadata": metadata ?? "metadata",
-      "paymentMethods": paymentMethods?.map { $0.token },
+      "paymentMethods": paymentMethods?.map(\.token),
     ]
 
     execute(

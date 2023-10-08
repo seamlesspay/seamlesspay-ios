@@ -20,4 +20,3 @@ final class ExpirationDateTest: XCTestCase {
     XCTAssertEqual(stringValue, "8/39")
   }
 }
-
