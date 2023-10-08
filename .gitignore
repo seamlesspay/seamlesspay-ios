@@ -13,3 +13,4 @@ Example/Pods
 Example/Podfile.lock
 
 .vscode/settings.json
+Brewfile.lock.json

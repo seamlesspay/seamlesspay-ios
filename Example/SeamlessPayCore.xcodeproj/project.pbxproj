@@ -512,6 +512,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1C94044823D3451C00BC4697 /* Build configuration list for PBXNativeTarget "SeamlessPayDemo" */;
 			buildPhases = (
+				638E7B812AD2C6E600C2DADC /* ShellScript */,
 				C284ADE72E668170A9068B04 /* [CP] Check Pods Manifest.lock */,
 				1C94042B23D3451700BC4697 /* Sources */,
 				1C94042C23D3451700BC4697 /* Frameworks */,
@@ -754,6 +755,23 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SeamlessPay_ObjC/Pods-SeamlessPay_ObjC-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		638E7B812AD2C6E600C2DADC /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		7C283073070B15E8296D27C5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

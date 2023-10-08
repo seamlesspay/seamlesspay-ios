@@ -1,0 +1,3 @@
+
+brew 'cocoapods'
+brew 'swiftlint'
