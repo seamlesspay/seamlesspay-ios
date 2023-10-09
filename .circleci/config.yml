@@ -52,17 +52,6 @@ jobs:
               CODE_SIGN_IDENTITY="" \
               CODE_SIGNING_REQUIRED=NO
       - run: 
-          name: Build SeamlessPay_ObjC
-          command: |
-            cd Example/ 
-            xcodebuild \
-              -workspace SeamlessPayCore.xcworkspace \
-              -scheme SeamlessPay_ObjC \
-              -sdk iphonesimulator \
-              -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.4' \
-              CODE_SIGN_IDENTITY="" \
-              CODE_SIGNING_REQUIRED=NO
-      - run: 
           name: Build SeamlessPay_Swift
           command: |
             cd Example/ 
