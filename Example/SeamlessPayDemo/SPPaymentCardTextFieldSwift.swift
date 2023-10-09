@@ -10,7 +10,7 @@ import UIKit
 import PassKit
 import SeamlessPayCore
 
-class ViewController: UIViewController {
+@objcMembers class SPPaymentCardTextFieldSwift: UIViewController {
   lazy var cardTextField: SPPaymentCardTextField = {
     let cardTextField = SPPaymentCardTextField()
     return cardTextField
