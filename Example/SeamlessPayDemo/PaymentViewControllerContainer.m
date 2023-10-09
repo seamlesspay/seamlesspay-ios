@@ -1,20 +1,20 @@
-//
-//  ViewController.m
-//  SPPaymentViewController
-//
-
-
-#import "ViewController.h"
+// **
+// * Copyright (c) Seamless Payments, Inc.
+// *
+// * This source code is licensed under the MIT license found in the
+// * LICENSE file in the root directory of this source tree.
+// *
 
 @import SeamlessPayCore;
 
+#import "PaymentViewControllerContainer.h"
 #import "SPPaymentViewController.h"
 
-@interface ViewController () <SPPaymentViewControllerDelegate>
+@interface PaymentViewControllerContainer () <SPPaymentViewControllerDelegate>
 @property(nonatomic, weak) SPPaymentViewController *paymentViewController;
 @end
 
-@implementation ViewController
+@implementation PaymentViewControllerContainer
 
 - (void)viewDidLoad {
   [super viewDidLoad];

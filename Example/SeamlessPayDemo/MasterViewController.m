@@ -8,6 +8,7 @@
 #import "MasterViewController.h"
 #import "DetailViewController.h"
 #import "SeamlessPayDemo-Swift.h"
+#import "PaymentViewControllerContainer.h"
 
 @interface MasterViewController ()
 
@@ -34,6 +35,7 @@
     @"Virtual Terminal (GIFT CARD)",
     @"UI Payment Card Text Field",
     @"Verification",
+    @"SPPaymentViewController"
   ];
 }
 
@@ -82,6 +84,8 @@
     UIViewController *viewController;
     if ([object isEqualToString:@"Verification"]) {
       viewController = [SwiftUIViewHostingControllerFactory verificationViewHostingController];
+    } else if ([object isEqualToString:@"SPPaymentViewController"]) {
+      viewController = [[PaymentViewControllerContainer alloc] init];
     } else {
       DetailViewController *detailViewController = (DetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"DetailViewControllerStoryboardIdentifier"];
       detailViewController.detailItem = object;
