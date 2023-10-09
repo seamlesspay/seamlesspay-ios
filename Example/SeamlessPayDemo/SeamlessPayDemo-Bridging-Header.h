@@ -3,3 +3,4 @@
 //
 
 #import "DetailViewController.h"
+#import "AppDelegate.h"
