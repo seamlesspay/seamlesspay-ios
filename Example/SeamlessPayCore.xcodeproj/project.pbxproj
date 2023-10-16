@@ -21,7 +21,6 @@
 		1C14B9A42423BE19005E4D45 /* NSCharacterSet_ExtrasTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C14B9A32423BE19005E4D45 /* NSCharacterSet_ExtrasTest.m */; };
 		1C14B9A62423C3A1005E4D45 /* SPBinRangeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C14B9A52423C3A1005E4D45 /* SPBinRangeTest.m */; };
 		1C14B9A82423C4EA005E4D45 /* SPFPXBankBrandTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C14B9A72423C4EA005E4D45 /* SPFPXBankBrandTest.m */; };
-		1C14B9AA2423C613005E4D45 /* SPPaymentViewControllerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C14B9A92423C613005E4D45 /* SPPaymentViewControllerTest.m */; };
 		1C94043323D3451700BC4697 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C94043223D3451700BC4697 /* AppDelegate.m */; };
 		1C94043623D3451700BC4697 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C94043523D3451700BC4697 /* SceneDelegate.m */; };
 		1C94043923D3451700BC4697 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C94043823D3451700BC4697 /* MasterViewController.m */; };
@@ -34,7 +33,6 @@
 		6315C9CC2A8522DE00E5E098 /* SPChargeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6315C9CB2A8522DE00E5E098 /* SPChargeDetailView.swift */; };
 		6315C9CE2A8523FC00E5E098 /* SPErrorDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6315C9CD2A8523FC00E5E098 /* SPErrorDetailView.swift */; };
 		633820882AD445FC007AAA12 /* AppDelegate+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633820872AD445FC007AAA12 /* AppDelegate+Swift.swift */; };
-		633820902AD44F85007AAA12 /* PaymentViewControllerContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338208F2AD44F85007AAA12 /* PaymentViewControllerContainer.m */; };
 		633820942AD4525E007AAA12 /* SPPaymentCardTextFieldSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633820932AD4525E007AAA12 /* SPPaymentCardTextFieldSwift.swift */; };
 		633D77812ACDDCE900A59094 /* ExpirationDateTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633D77802ACDDCE900A59094 /* ExpirationDateTest.swift */; };
 		635DB9FF2A82A7760088E90A /* VerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635DB9FE2A82A7760088E90A /* VerificationView.swift */; };
@@ -47,6 +45,7 @@
 		639EE8D92AB83F6E00FED9DB /* APIClientURLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639EE8D82AB83F6E00FED9DB /* APIClientURLProtocolMock.swift */; };
 		639EE8DC2AB8400A00FED9DB /* APIClientTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639EE8DB2AB8400A00FED9DB /* APIClientTest.swift */; };
 		63A14FFA2ACB40CF00B6F151 /* DetailViewController+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A14FF92ACB40CF00B6F151 /* DetailViewController+Swift.swift */; };
+		63AD73A22ADDC09400C5DDB7 /* PaymentViewControllerContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AD73A12ADDC09400C5DDB7 /* PaymentViewControllerContainer.swift */; };
 		63CB82252A729BA800E30361 /* SPSentryDSNFactoryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CB82242A729BA800E30361 /* SPSentryDSNFactoryTest.swift */; };
 		63CB82272A729C3C00E30361 /* SPSentryClientURLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CB82262A729C3C00E30361 /* SPSentryClientURLProtocolMock.swift */; };
 		63CB82292A72A19100E30361 /* SPSentryClient+MockedURLSessionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CB82282A72A19100E30361 /* SPSentryClient+MockedURLSessionTest.swift */; };
@@ -75,7 +74,6 @@
 		1C14B9A32423BE19005E4D45 /* NSCharacterSet_ExtrasTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSCharacterSet_ExtrasTest.m; sourceTree = "<group>"; };
 		1C14B9A52423C3A1005E4D45 /* SPBinRangeTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SPBinRangeTest.m; sourceTree = "<group>"; };
 		1C14B9A72423C4EA005E4D45 /* SPFPXBankBrandTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SPFPXBankBrandTest.m; sourceTree = "<group>"; };
-		1C14B9A92423C613005E4D45 /* SPPaymentViewControllerTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SPPaymentViewControllerTest.m; sourceTree = "<group>"; };
 		1C94042F23D3451700BC4697 /* SeamlessPayDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeamlessPayDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C94043123D3451700BC4697 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1C94043223D3451700BC4697 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -103,8 +101,6 @@
 		6315C9CB2A8522DE00E5E098 /* SPChargeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPChargeDetailView.swift; sourceTree = "<group>"; };
 		6315C9CD2A8523FC00E5E098 /* SPErrorDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPErrorDetailView.swift; sourceTree = "<group>"; };
 		633820872AD445FC007AAA12 /* AppDelegate+Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Swift.swift"; sourceTree = "<group>"; };
-		6338208E2AD44F85007AAA12 /* PaymentViewControllerContainer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PaymentViewControllerContainer.h; sourceTree = "<group>"; };
-		6338208F2AD44F85007AAA12 /* PaymentViewControllerContainer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PaymentViewControllerContainer.m; sourceTree = "<group>"; };
 		633820932AD4525E007AAA12 /* SPPaymentCardTextFieldSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SPPaymentCardTextFieldSwift.swift; sourceTree = "<group>"; };
 		633D77802ACDDCE900A59094 /* ExpirationDateTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpirationDateTest.swift; sourceTree = "<group>"; };
 		635DB9FD2A82A7750088E90A /* SeamlessPayDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SeamlessPayDemo-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -119,6 +115,7 @@
 		639EE8D82AB83F6E00FED9DB /* APIClientURLProtocolMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientURLProtocolMock.swift; sourceTree = "<group>"; };
 		639EE8DB2AB8400A00FED9DB /* APIClientTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientTest.swift; sourceTree = "<group>"; };
 		63A14FF92ACB40CF00B6F151 /* DetailViewController+Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DetailViewController+Swift.swift"; sourceTree = "<group>"; };
+		63AD73A12ADDC09400C5DDB7 /* PaymentViewControllerContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentViewControllerContainer.swift; sourceTree = "<group>"; };
 		63CB82212A72956C00E30361 /* SeamlessPayCoreTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SeamlessPayCoreTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		63CB82242A729BA800E30361 /* SPSentryDSNFactoryTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPSentryDSNFactoryTest.swift; sourceTree = "<group>"; };
 		63CB82262A729C3C00E30361 /* SPSentryClientURLProtocolMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPSentryClientURLProtocolMock.swift; sourceTree = "<group>"; };
@@ -177,7 +174,6 @@
 				1C14B9A32423BE19005E4D45 /* NSCharacterSet_ExtrasTest.m */,
 				1C14B9A52423C3A1005E4D45 /* SPBinRangeTest.m */,
 				1C14B9A72423C4EA005E4D45 /* SPFPXBankBrandTest.m */,
-				1C14B9A92423C613005E4D45 /* SPPaymentViewControllerTest.m */,
 				63CB82202A72955200E30361 /* SPSentryClient */,
 				6369FCF72A72BDD5005A353F /* SPInstallationTest.swift */,
 			);
@@ -187,6 +183,7 @@
 		1C94043023D3451700BC4697 /* SeamlessPayDemo */ = {
 			isa = PBXGroup;
 			children = (
+				63AD73A12ADDC09400C5DDB7 /* PaymentViewControllerContainer.swift */,
 				633820932AD4525E007AAA12 /* SPPaymentCardTextFieldSwift.swift */,
 				6315C9CA2A8522CD00E5E098 /* Verification */,
 				1C94043123D3451700BC4697 /* AppDelegate.h */,
@@ -206,8 +203,6 @@
 				635DBA012A82B2CA0088E90A /* SwiftUIViewHostingControllerFactory.swift */,
 				63A14FF92ACB40CF00B6F151 /* DetailViewController+Swift.swift */,
 				633820872AD445FC007AAA12 /* AppDelegate+Swift.swift */,
-				6338208E2AD44F85007AAA12 /* PaymentViewControllerContainer.h */,
-				6338208F2AD44F85007AAA12 /* PaymentViewControllerContainer.m */,
 			);
 			path = SeamlessPayDemo;
 			sourceTree = "<group>";
@@ -607,7 +602,6 @@
 				1C14B9A82423C4EA005E4D45 /* SPFPXBankBrandTest.m in Sources */,
 				638E38712A72B2D3008CEE2D /* SPSentryURLRequestFactoryTest.swift in Sources */,
 				63E89B2F2AC57ECC00210462 /* APIClientTest+Environment.swift in Sources */,
-				1C14B9AA2423C613005E4D45 /* SPPaymentViewControllerTest.m in Sources */,
 				636C1C5F2ABDE669002D121B /* APIOperationTest.swift in Sources */,
 				1C14B99E2423B333005E4D45 /* NSArray_ExtrasTest.m in Sources */,
 				639EE8DC2AB8400A00FED9DB /* APIClientTest.swift in Sources */,
@@ -627,12 +621,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				6315C9CE2A8523FC00E5E098 /* SPErrorDetailView.swift in Sources */,
+				63AD73A22ADDC09400C5DDB7 /* PaymentViewControllerContainer.swift in Sources */,
 				1C94044723D3451C00BC4697 /* main.m in Sources */,
 				6315C9CC2A8522DE00E5E098 /* SPChargeDetailView.swift in Sources */,
 				1C94043323D3451700BC4697 /* AppDelegate.m in Sources */,
 				1C94043923D3451700BC4697 /* MasterViewController.m in Sources */,
 				63A14FFA2ACB40CF00B6F151 /* DetailViewController+Swift.swift in Sources */,
-				633820902AD44F85007AAA12 /* PaymentViewControllerContainer.m in Sources */,
 				635DBA022A82B2CA0088E90A /* SwiftUIViewHostingControllerFactory.swift in Sources */,
 				635DB9FF2A82A7760088E90A /* VerificationView.swift in Sources */,
 				633820942AD4525E007AAA12 /* SPPaymentCardTextFieldSwift.swift in Sources */,

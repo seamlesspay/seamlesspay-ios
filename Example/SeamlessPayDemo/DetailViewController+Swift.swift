@@ -668,7 +668,22 @@ extension DetailViewController {
     }
   }
 
-  @objc func authContentHTML(
+  @objc func authContent() -> String {
+    guard let publishableKey = UserDefaults.standard.string(forKey: "publishableKey"),
+          let secretKey = UserDefaults.standard.string(forKey: "secretkey"),
+          let env = Environment(rawValue: UInt(UserDefaults.standard.integer(forKey: "env"))) else {
+      return .init()
+    }
+
+    return authContentHTML(
+      resultMessage: nil,
+      secretKey: secretKey,
+      publishableKey: publishableKey,
+      environment: env
+    )
+  }
+
+  private func authContentHTML(
     resultMessage: String?,
     secretKey: String,
     publishableKey: String,

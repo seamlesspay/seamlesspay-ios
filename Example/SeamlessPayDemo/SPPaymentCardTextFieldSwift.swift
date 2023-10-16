@@ -52,7 +52,6 @@ import SeamlessPayCore
     ])
   }
 
-  @objc
   func pay() {
     let billingAddress = SPAddress(
       line1: nil,

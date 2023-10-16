@@ -8,8 +8,7 @@
 import Foundation
 
 // MARK: - PageOfCharges
-@objcMembers
-@objc(SPChargePage) public class ChargePage: NSObject, APIPaginable, APICodable {
+public class ChargePage: NSObject, APIPaginable, APICodable {
   public let data: [Charge]
   public let pagination: Pagination
   public let total: Int

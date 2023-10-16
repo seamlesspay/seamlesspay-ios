@@ -7,8 +7,8 @@
 
 import Foundation
 
-@objc public class SPInstallation: NSObject {
-  @objc public static var installationID: String {
+public class SPInstallation: NSObject {
+  public static var installationID: String {
     let cachesDirectory = NSSearchPathForDirectoriesInDomains(
       .cachesDirectory,
       .userDomainMask,

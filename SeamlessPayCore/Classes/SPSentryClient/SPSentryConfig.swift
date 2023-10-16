@@ -7,11 +7,11 @@
 
 import Foundation
 
-@objc public class SPSentryConfig: NSObject {
+public class SPSentryConfig: NSObject {
   let userId: String
   let environment: String
 
-  @objc public init(userId: String, environment: String) {
+  public init(userId: String, environment: String) {
     self.userId = userId
     self.environment = environment
   }

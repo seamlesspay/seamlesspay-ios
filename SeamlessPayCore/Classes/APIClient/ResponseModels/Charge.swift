@@ -8,8 +8,8 @@
 import Foundation
 
 // MARK: - Charge
-@objcMembers
-@objc(SPCharge) public class Charge: NSObject, APICodable {
+
+public class Charge: NSObject, APICodable {
   public let id, method, amount, tip, surchargeFeeAmount: String?
   public let order: Order?
   public let currency, expDate, lastFour, token, transactionDate: String?
@@ -79,8 +79,7 @@ import Foundation
 }
 
 // MARK: - Order
-@objcMembers
-@objc(SPOrder) public class Order: NSObject, Codable {
+public class Order: NSObject, Codable {
   public let items: [Item]?
   public let shipFromPostalCode: String?
   public let shippingAddress: ShippingAddress?
@@ -97,8 +96,7 @@ import Foundation
 }
 
 // MARK: - Item
-@objcMembers
-@objc(SPItem) public class Item: NSObject, Codable {
+public class Item: NSObject, Codable {
   public let itemDescription, discountAmount, lineNumber, lineTotal: String?
   public let taxRate, unitCost, unitOfMeasure, upc: String?
   public let quantity, taxAmount: String?
@@ -146,8 +144,7 @@ import Foundation
 }
 
 // MARK: - ShippingAddress
-@objcMembers
-@objc(SPShippingAddress) public class ShippingAddress: NSObject, Codable {
+public class ShippingAddress: NSObject, Codable {
   public let city, country, line1, line2, postalCode, state: String?
 
   public init(
@@ -168,8 +165,7 @@ import Foundation
 }
 
 // MARK: - VerificationResults
-@objcMembers
-@objc(SPVerificationResults) public class VerificationResults: NSObject, Codable {
+public class VerificationResults: NSObject, Codable {
   public let avsPostalCode, avsStreetAddress, cvv: String?
 
   public init(avsPostalCode: String? = nil, avsStreetAddress: String? = nil, cvv: String? = nil) {

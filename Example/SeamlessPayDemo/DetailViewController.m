@@ -23,20 +23,11 @@
 
   if ([self.title isEqualToString:@"Authentication"]) {
 
-    NSString *secretKey =
-    [[NSUserDefaults standardUserDefaults] objectForKey:@"secretkey"];
-    NSString *publishableKey =
-    [[NSUserDefaults standardUserDefaults] objectForKey:@"publishableKey"];
-    SPEnvironment env = [[NSUserDefaults standardUserDefaults] integerForKey:@"env"];
-
     NSDataAsset *dataAsset = [[NSDataAsset alloc] initWithName:@"authentication-html"];
 
     _contentHTML = [[NSString alloc] initWithData:dataAsset.data encoding:NSUTF8StringEncoding];
 
-    NSString *html = [self authContentHTMLWithResultMessage:nil
-                                                  secretKey:secretKey
-                                             publishableKey:publishableKey
-                                                environment:env];
+    NSString *html = [self authContent];
 
     WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
 

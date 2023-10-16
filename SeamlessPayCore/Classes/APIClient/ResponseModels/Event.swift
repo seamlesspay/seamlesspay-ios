@@ -8,8 +8,7 @@
 import Foundation
 
 // MARK: - Event
-@objcMembers
-@objc(SPEvent) public class Event: NSObject, Codable {
+public class Event: NSObject, Codable {
   public let delta: String?
   public let createdAt: String?
   public let eventDelta: String?
