@@ -31,7 +31,18 @@ public struct Address {
     self.postalCode = postalCode
     self.state = state
   }
-
 }
 
 extension Address: APIEncodable, APIReqParameterable {}
+
+// MARK: - SPAddress compatibility
+public extension Address {
+  init(spAddress: SPAddress) {
+    city = spAddress.city
+    country = spAddress.country
+    line1 = spAddress.line1
+    line2 = spAddress.line2
+    postalCode = spAddress.postalCode
+    state = spAddress.state
+  }
+}
