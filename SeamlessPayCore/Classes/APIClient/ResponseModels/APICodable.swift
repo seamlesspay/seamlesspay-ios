@@ -29,7 +29,6 @@ public extension APIEncodable {
   }
 }
 
-
 public protocol APIReqParameterable: APIEncodable {
   func asParameter() -> [String: String]?
 }

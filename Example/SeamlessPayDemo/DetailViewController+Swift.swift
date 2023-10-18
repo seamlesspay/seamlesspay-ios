@@ -9,6 +9,8 @@ import UIKit
 import SeamlessPayCore
 
 extension DetailViewController {
+  // swiftlint:disable cyclomatic_complexity
+  // swiftlint:disable function_body_length
   @objc func shouldStartDecidePolicy(_ request: URLRequest) -> Bool {
     guard
       let absoluteString = request.url?.absoluteString.removingPercentEncoding else {
@@ -20,16 +22,16 @@ extension DetailViewController {
       .replacingOccurrences(of: "?", with: "&")
       .replacingOccurrences(of: "+", with: " ")
 
-    let qa = str.components(separatedBy: "&")
+    let params = str.components(separatedBy: "&")
 
-    if qa.count == 1 {
+    if params.count == 1 {
       return true
     }
 
     if detailItem == "Authentication" {
-      let publishableKey = qa[2]
-      let secretKey = qa[4]
-      let envSting = qa[6]
+      let publishableKey = params[2]
+      let secretKey = params[4]
+      let envSting = params[6]
       let env = environmentFromString(envSting)
 
       UserDefaults.standard.set(publishableKey, forKey: "publishableKey")
@@ -65,24 +67,24 @@ extension DetailViewController {
       return false
     } else if ["Add Credit/Debit Card", "Add Gift Card", "Add ACH"].contains(detailItem) {
       let billingAddress = Address(
-        line1: qa[14],
-        line2: qa[16],
-        city: qa[18],
-        country: qa[20],
-        state: qa[22],
-        postalCode: qa[24]
+        line1: params[14],
+        line2: params[16],
+        city: params[18],
+        country: params[20],
+        state: params[22],
+        postalCode: params[24]
       )
 
       APIClient.shared.tokenize(
-        paymentType: paymentTypeFromString(qa[2]),
-        accountNumber: qa[4],
-        expDate: expDateFromString(qa[6]),
-        cvv: qa[8],
-        accountType: qa[10],
-        routing: qa[8],
-        pin: qa[12],
+        paymentType: paymentTypeFromString(params[2]),
+        accountNumber: params[4],
+        expDate: expDateFromString(params[6]),
+        cvv: params[8],
+        accountType: params[10],
+        routing: params[8],
+        pin: params[12],
         billingAddress: billingAddress,
-        name: qa[26]
+        name: params[26]
       ) { result in
         switch result {
         case let .success(paymentMethod):
@@ -121,22 +123,22 @@ extension DetailViewController {
       }
 
       let address = Address(
-        line1: qa[6],
-        line2: qa[8],
-        city: qa[10],
-        country: qa[12],
-        state: qa[14],
-        postalCode: qa[16]
+        line1: params[6],
+        line2: params[8],
+        city: params[10],
+        country: params[12],
+        state: params[14],
+        postalCode: params[16]
       )
 
       APIClient.shared.createCustomer(
-        name: qa[2],
-        email: qa[4],
+        name: params[2],
+        email: params[4],
         address: address,
-        companyName: qa[18],
+        companyName: params[18],
         notes: nil,
-        phone: qa[20],
-        website: qa[22],
+        phone: params[20],
+        website: params[22],
         paymentMethods: paymentMethods,
         metadata: "{\"customOption\":\"example\"}"
       ) { result in
@@ -159,7 +161,7 @@ extension DetailViewController {
 
       return false
     } else if detailItem == "Retrieve a Customer" {
-      APIClient.shared.retrieveCustomer(id: qa[2]) { result in
+      APIClient.shared.retrieveCustomer(id: params[2]) { result in
         switch result {
         case let .success(customer):
           UserDefaults.standard.set(try? customer.encode(), forKey: "customer")
@@ -181,23 +183,23 @@ extension DetailViewController {
       return false
     } else if detailItem == "Update Customer" {
       let address = Address(
-        line1: qa[6],
-        line2: qa[8],
-        city: qa[10],
-        country: qa[12],
-        state: qa[14],
-        postalCode: qa[16]
+        line1: params[6],
+        line2: params[8],
+        city: params[10],
+        country: params[12],
+        state: params[14],
+        postalCode: params[16]
       )
 
       APIClient.shared.updateCustomer(
-        id: qa[24],
-        name: qa[2],
-        email: qa[4],
+        id: params[24],
+        name: params[2],
+        email: params[4],
         address: address,
-        companyName: qa[18],
+        companyName: params[18],
         notes: nil,
-        phone: qa[20],
-        website: qa[22],
+        phone: params[20],
+        website: params[22],
         paymentMethods: nil,
         metadata: "{\"customOption\":\"exampleupdate\"}"
       ) { result in
@@ -239,21 +241,21 @@ extension DetailViewController {
       return false
     } else if detailItem == "Create a Charge" {
       APIClient.shared.createCharge(
-        token: qa[2],
-        cvv: qa[4],
-        capture: qa[20] == "YES",
+        token: params[2],
+        cvv: params[4],
+        capture: params[20] == "YES",
         currency: nil,
-        amount: qa[6],
-        taxAmount: qa[8],
-        taxExempt: qa[22] == "YES",
-        tip: qa[12],
-        surchargeFeeAmount: qa[10],
-        description: qa[14],
+        amount: params[6],
+        taxAmount: params[8],
+        taxExempt: params[22] == "YES",
+        tip: params[12],
+        surchargeFeeAmount: params[10],
+        description: params[14],
         order: nil,
-        orderID: qa[16],
+        orderID: params[16],
         poNumber: nil,
         metadata: nil,
-        descriptor: qa[18],
+        descriptor: params[18],
         entryType: nil,
         idempotencyKey: nil
       ) { result in
@@ -266,7 +268,7 @@ extension DetailViewController {
             of: "<!--[RESULTS]-->",
             with: "\(charge.id)\n\(charge.statusDescription ?? "")"
           )
-          html = String(format: html, qa[2])
+          html = String(format: html, params[2])
           self.webView.loadHTMLString(html, baseURL: nil)
 
         case let .failure(error):
@@ -274,14 +276,14 @@ extension DetailViewController {
             of: "<!--[RESULTS]-->",
             with: error.localizedDescription
           )
-          html = String(format: html, qa[2])
+          html = String(format: html, params[2])
           self.webView.loadHTMLString(html, baseURL: nil)
         }
       }
 
       return false
     } else if title == "Retrieve a Charge" {
-      APIClient.shared.retrieveCharge(id: qa[2]) { result in
+      APIClient.shared.retrieveCharge(id: params[2]) { result in
         switch result {
         case let .success(charge):
 
@@ -289,7 +291,7 @@ extension DetailViewController {
             of: "<!--[RESULTS]-->",
             with: "Charge ID: \(charge.id)\nAmount: \(charge.amount ?? "")"
           )
-          html = String(format: html, qa[2])
+          html = String(format: html, params[2])
           self.webView.loadHTMLString(html, baseURL: nil)
 
         case let .failure(error):
@@ -297,7 +299,7 @@ extension DetailViewController {
             of: "<!--[RESULTS]-->",
             with: error.localizedDescription
           )
-          html = String(format: html, qa[2])
+          html = String(format: html, params[2])
           self.webView.loadHTMLString(html, baseURL: nil)
         }
       }
@@ -307,42 +309,42 @@ extension DetailViewController {
       activityIndicator.startAnimating()
 
       let billingAddress = Address(
-        line1: qa[14],
+        line1: params[14],
         line2: nil,
         city: nil,
         country: "US",
         state: nil,
-        postalCode: qa[16]
+        postalCode: params[16]
       )
 
       APIClient.shared.tokenize(
         paymentType: .creditCard,
-        accountNumber: qa[8],
-        expDate: expDateFromString(qa[10]),
-        cvv: qa[12],
+        accountNumber: params[8],
+        expDate: expDateFromString(params[10]),
+        cvv: params[12],
         accountType: nil,
         routing: nil,
         pin: nil,
         billingAddress: billingAddress,
-        name: qa[4]
+        name: params[4]
       ) { result in
         switch result {
         case let .success(paymentMethod):
 
           APIClient.shared.createCharge(
             token: paymentMethod.token,
-            cvv: qa[12],
-            capture: qa[2] == "YES",
+            cvv: params[12],
+            capture: params[2] == "YES",
             currency: nil,
-            amount: qa[6],
-            taxAmount: qa[18],
+            amount: params[6],
+            taxAmount: params[18],
             taxExempt: false,
             tip: nil,
             surchargeFeeAmount: nil,
-            description: qa[22],
+            description: params[22],
             order: nil,
             orderID: nil,
-            poNumber: qa[20],
+            poNumber: params[20],
             metadata: nil,
             descriptor: nil,
             entryType: nil,
@@ -369,7 +371,7 @@ extension DetailViewController {
                 of: "<!--[RESULTS]-->",
                 with: error.localizedDescription
               )
-              html = String(format: html, qa[2])
+              html = String(format: html, params[2])
               self.webView.loadHTMLString(html, baseURL: nil)
               self.activityIndicator.stopAnimating()
             }
@@ -389,24 +391,24 @@ extension DetailViewController {
       activityIndicator.startAnimating()
 
       let billingAddress = Address(
-        line1: qa[14],
+        line1: params[14],
         line2: nil,
-        city: qa[16],
-        country: qa[22],
-        state: qa[18],
-        postalCode: qa[20]
+        city: params[16],
+        country: params[22],
+        state: params[18],
+        postalCode: params[20]
       )
 
       APIClient.shared.tokenize(
         paymentType: .ach,
-        accountNumber: qa[10],
+        accountNumber: params[10],
         expDate: nil,
         cvv: nil,
-        accountType: qa[2],
-        routing: qa[8],
+        accountType: params[2],
+        routing: params[8],
         pin: nil,
         billingAddress: billingAddress,
-        name: qa[4]
+        name: params[4]
       ) { result in
         switch result {
         case let .success(paymentMethod):
@@ -415,13 +417,13 @@ extension DetailViewController {
             token: paymentMethod.token,
             cvv: nil,
             capture: false,
-            currency: qa[10],
-            amount: qa[6],
+            currency: params[10],
+            amount: params[6],
             taxAmount: nil,
             taxExempt: false,
             tip: nil,
             surchargeFeeAmount: nil,
-            description: qa[26],
+            description: params[26],
             order: nil,
             orderID: nil,
             poNumber: nil,
@@ -449,7 +451,7 @@ extension DetailViewController {
                 of: "<!--[RESULTS]-->",
                 with: error.localizedDescription
               )
-              html = String(format: html, qa[2])
+              html = String(format: html, params[2])
               self.webView.loadHTMLString(html, baseURL: nil)
               self.activityIndicator.stopAnimating()
             }
@@ -471,14 +473,14 @@ extension DetailViewController {
 
       APIClient.shared.tokenize(
         paymentType: .giftCard,
-        accountNumber: qa[4],
+        accountNumber: params[4],
         expDate: nil,
         cvv: nil,
         accountType: nil,
         routing: nil,
-        pin: qa[8],
+        pin: params[8],
         billingAddress: nil,
-        name: qa[2]
+        name: params[2]
       ) { result in
         switch result {
         case let .success(paymentMethod):
@@ -486,8 +488,8 @@ extension DetailViewController {
             token: paymentMethod.token,
             cvv: nil,
             capture: false,
-            currency: qa[10],
-            amount: qa[6],
+            currency: params[10],
+            amount: params[6],
             taxAmount: nil,
             taxExempt: false,
             tip: nil,
@@ -520,7 +522,7 @@ extension DetailViewController {
                 of: "<!--[RESULTS]-->",
                 with: error.localizedDescription
               )
-              html = String(format: html, qa[2])
+              html = String(format: html, params[2])
               self.webView.loadHTMLString(html, baseURL: nil)
               self.activityIndicator.stopAnimating()
             }
@@ -530,7 +532,7 @@ extension DetailViewController {
             of: "<!--[RESULTS]-->",
             with: error.localizedDescription
           )
-          html = String(format: html, qa[2])
+          html = String(format: html, params[2])
           self.webView.loadHTMLString(html, baseURL: nil)
           self.activityIndicator.stopAnimating()
         }
@@ -540,6 +542,9 @@ extension DetailViewController {
     }
     return true
   }
+
+  // swiftlint:enable cyclomatic_complexity
+  // swiftlint:enable function_body_length
 
   @objc func pay() {
     guard let cardNumber = cardTextField.cardNumber,

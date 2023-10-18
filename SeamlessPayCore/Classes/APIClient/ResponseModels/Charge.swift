@@ -59,7 +59,8 @@ public struct Charge: APICodable {
    */
   public let status: String?
   /**
-   * Transaction status code (See all available transaction status codes https://docs.seamlesspay.com/#section/Transaction-Statuses  ).
+   * Transaction status code
+   * (See all available transaction status codes https://docs.seamlesspay.com/#section/Transaction-Statuses ).
    */
   public let statusCode: String?
   /**
@@ -75,7 +76,8 @@ public struct Charge: APICodable {
    */
   public let authCode: String?
   /**
-   * Enum: "Credit" "Debit" "Prepaid"  Determines the card type (credit, debit, prepaid) and usage (pin, signature etc.).
+   * Enum: "Credit" "Debit" "Prepaid".
+   * Determines the card type (credit, debit, prepaid) and usage (pin, signature etc.).
    */
   public let accountType: String?
   /**
@@ -83,7 +85,8 @@ public struct Charge: APICodable {
    */
   public let paymentType: String?
   /**
-   * Enum: "Visa" "MasterCard" "American Express" "Discover"  Detail Card Product - Visa, MasterCard, American Express, Discover.
+   * Enum: "Visa" "MasterCard" "American Express" "Discover".
+   * Detail Card Product - Visa, MasterCard, American Express, Discover.
    */
   public let paymentNetwork: String?
   /**

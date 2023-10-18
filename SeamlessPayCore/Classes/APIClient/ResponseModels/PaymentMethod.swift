@@ -7,11 +7,12 @@
 
 import Foundation
 
+// MARK: - PaymentMethod
+
 /**
  *  A token returned from submitting payment details to the SeamlessPay API. You
  *  should not have to instantiate one of these directly.
  */
-// MARK: - PaymentMethod
 public struct PaymentMethod: APICodable {
   /**
    *  Token of given payment data.
