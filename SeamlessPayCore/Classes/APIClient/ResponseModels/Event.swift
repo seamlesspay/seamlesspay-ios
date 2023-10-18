@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - Event
-public class Event: NSObject, Codable {
+public struct Event: Codable {
   public let delta: String?
   public let createdAt: String?
   public let eventDelta: String?
@@ -27,25 +27,5 @@ public class Event: NSObject, Codable {
     case statusCode
     case statusDescription
     case type
-  }
-
-  public init(
-    delta: String?,
-    createdAt: String?,
-    eventDelta: String?,
-    offlineCreatedAt: String?,
-    status: String?,
-    statusCode: String?,
-    statusDescription: String?,
-    type: String?
-  ) {
-    self.delta = delta
-    self.createdAt = createdAt
-    self.eventDelta = eventDelta
-    self.offlineCreatedAt = offlineCreatedAt
-    self.status = status
-    self.statusCode = statusCode
-    self.statusDescription = statusDescription
-    self.type = type
   }
 }

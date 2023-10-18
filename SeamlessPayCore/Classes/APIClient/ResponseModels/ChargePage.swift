@@ -8,14 +8,8 @@
 import Foundation
 
 // MARK: - PageOfCharges
-public class ChargePage: NSObject, APIPaginable, APICodable {
+public struct ChargePage: APIPaginable, APICodable {
   public let data: [Charge]
   public let pagination: Pagination
   public let total: Int
-
-  public init(data: [Charge], pagination: Pagination, total: Int) {
-    self.data = data
-    self.pagination = pagination
-    self.total = total
-  }
 }
