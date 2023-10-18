@@ -31,6 +31,7 @@ public struct Address {
     self.postalCode = postalCode
     self.state = state
   }
+
 }
 
-extension Address: APICodable, APIReqParameterable {}
+extension Address: APIEncodable, APIReqParameterable {}

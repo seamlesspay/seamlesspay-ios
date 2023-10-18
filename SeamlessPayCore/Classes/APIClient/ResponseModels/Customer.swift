@@ -16,7 +16,7 @@ public struct Customer: APICodable {
   /**
    * The customer's first address
    */
-  public let address: Address?
+  public let address: BillingAddress?
   /**
    *  The customer's company name.
    */

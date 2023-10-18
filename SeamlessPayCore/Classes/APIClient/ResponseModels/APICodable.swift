@@ -7,22 +7,30 @@
 
 import Foundation
 
-public protocol APICodable: Codable {
+public protocol APICodable: APIDecodable, APIEncodable {}
+
+public protocol APIDecodable: Decodable {
   static func decode(_ data: Data) throws -> Self
+}
+
+public protocol APIEncodable: Encodable {
   func encode() throws -> Data
 }
 
-public extension APICodable {
+public extension APIDecodable {
   static func decode(_ data: Data) throws -> Self {
     try APIResponseDecoder.decode(Self.self, from: data)
   }
+}
 
+public extension APIEncodable {
   func encode() throws -> Data {
     try APIResponseEncoder.encode(self)
   }
 }
 
-public protocol APIReqParameterable: APICodable {
+
+public protocol APIReqParameterable: APIEncodable {
   func asParameter() -> [String: String]?
 }
 
