@@ -60,7 +60,16 @@ struct VerificationView: View {
             case let .verified(result):
               switch result {
               case let .success(charge):
-                SPChargeDetailView(viewModel: charge)
+                SPChargeDetailView(
+                  viewModel: .init(
+                    id: charge.id,
+                    method: charge.method,
+                    amount: charge.amount,
+                    tip: charge.tip,
+                    currency: charge.currency,
+                    status: charge.status
+                  )
+                )
               case let .failure(error):
                 SPDetailErrorView(viewModel: error)
               }

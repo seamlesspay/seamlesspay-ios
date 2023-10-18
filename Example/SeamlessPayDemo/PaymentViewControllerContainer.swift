@@ -65,7 +65,7 @@ class PaymentViewControllerContainer: UIViewController, SPPaymentViewControllerD
 
   func paymentViewControllerPaymentMethodSuccess(
     _ viewController: SeamlessPayCore.SPPaymentViewController,
-    paymentMethod: SPPaymentMethod
+    paymentMethod: PaymentMethod
   ) {}
 
   func paymentViewControllerChargeSuccess(

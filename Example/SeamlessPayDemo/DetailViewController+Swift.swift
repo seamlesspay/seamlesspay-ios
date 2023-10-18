@@ -128,12 +128,13 @@ extension DetailViewController {
       ) { result in
         switch result {
         case let .success(paymentMethod):
-          UserDefaults.standard.set(paymentMethod.dictionary(), forKey: "paymentMethod")
+
+          UserDefaults.standard.set(try? paymentMethod.encode(), forKey: "paymentMethod")
 
           let paymentMethodInfo = """
-          Token info:<br>\(paymentMethod.token ?? "")<br>\
+          Token info:<br>\(paymentMethod.token)<br>\
           \(paymentMethod.paymentType ?? "")<br>\
-          \(paymentMethod.lastfour ?? "")<br>\
+          \(paymentMethod.lastFour ?? "")<br>\
           \(paymentMethod.expDate ?? "")<br>
           """
 
@@ -155,9 +156,10 @@ extension DetailViewController {
       return false
 
     } else if detailItem == "Create Customer" {
-      var paymentMethods: [SPPaymentMethod] = []
-      if let savedPaymentMethod = UserDefaults.standard.dictionary(forKey: "paymentMethod") {
-        paymentMethods.append(SPPaymentMethod(dictionary: savedPaymentMethod))
+      var paymentMethods: [PaymentMethod] = []
+      if let savedPaymentMethodData = UserDefaults.standard.data(forKey: "paymentMethod"),
+         let paymentMethod = try? PaymentMethod.decode(savedPaymentMethodData) {
+        paymentMethods.append(paymentMethod)
       }
 
       let address = SPAddress(

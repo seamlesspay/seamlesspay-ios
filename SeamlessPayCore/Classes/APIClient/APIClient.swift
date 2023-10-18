@@ -65,7 +65,7 @@ public class APIClient {
     pin: String? = nil,
     billingAddress: SPAddress? = nil,
     name: String? = nil,
-    completion: ((Result<SPPaymentMethod, SeamlessPayError>) -> Void)?
+    completion: ((Result<PaymentMethod, SeamlessPayError>) -> Void)?
   ) {
     var parameters: [String: Any?] = [
       "paymentType": paymentType.name,
@@ -91,7 +91,9 @@ public class APIClient {
     execute(
       operation: .createToken,
       parameters: parameters,
-      map: SPPaymentMethod.token(withResponseData:),
+      map: { data in
+        data.flatMap { try? PaymentMethod.decode($0) }
+      },
       completion: completion
     )
   }
@@ -105,7 +107,7 @@ public class APIClient {
     notes: String? = nil,
     phone: String? = nil,
     website: String? = nil,
-    paymentMethods: [SPPaymentMethod]? = nil,
+    paymentMethods: [PaymentMethod]? = nil,
     metadata: String? = nil,
     completion: ((Result<SPCustomer, SeamlessPayError>) -> Void)?
   ) {
@@ -133,7 +135,7 @@ public class APIClient {
     notes: String? = nil,
     phone: String? = nil,
     website: String? = nil,
-    paymentMethods: [SPPaymentMethod]? = nil,
+    paymentMethods: [PaymentMethod]? = nil,
     metadata: String? = nil,
     completion: ((Result<SPCustomer, SeamlessPayError>) -> Void)?
   ) {
@@ -388,7 +390,7 @@ private extension APIClient {
     notes: String? = nil,
     phone: String? = nil,
     website: String? = nil,
-    paymentMethods: [SPPaymentMethod]? = nil,
+    paymentMethods: [PaymentMethod]? = nil,
     metadata: String? = nil,
     operation: APIOperation,
     completion: ((Result<SPCustomer, SeamlessPayError>) -> Void)?

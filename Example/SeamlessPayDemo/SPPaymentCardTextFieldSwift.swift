@@ -78,7 +78,7 @@ import SeamlessPayCore
         let token = paymentMethod.token
 
         APIClient.shared.createCharge(
-          token: token!,
+          token: token,
           cvv: self.cardTextField.cvc,
           capture: true,
           amount: "1",

@@ -19,7 +19,7 @@ public protocol SPPaymentViewControllerDelegate: AnyObject {
   )
   func paymentViewControllerPaymentMethodSuccess(
     _ viewController: SPPaymentViewController,
-    paymentMethod: SPPaymentMethod
+    paymentMethod: PaymentMethod
   )
   func paymentViewControllerPaymentMethodError(
     _ viewController: SPPaymentViewController,
