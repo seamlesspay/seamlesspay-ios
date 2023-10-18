@@ -10,16 +10,112 @@ import Foundation
 // MARK: - Charge
 
 public class Charge: NSObject, APICodable {
-  public let id, method, amount, tip, surchargeFeeAmount: String?
+  /**
+   * The ID of base charge.
+   */
+  public let id: String?
+  /**
+   * Value: "charge"  Transaction method
+   */
+  public let method: String?
+  /**
+   * Amount to add to stored value account.
+   */
+  public let amount: String?
+  /**
+   * String with 2 decimal places e.g “25.00”.
+   */
+  public let tip: String?
+  /**
+   * Surcharge fee amount. String with 2 decimal places e.g “25.00”.
+   */
+  public let surchargeFeeAmount: String?
+  /**
+   * Order dictionary
+   */
   public let order: Order?
-  public let currency, expDate, lastFour, token, transactionDate: String?
-  public let status, statusCode, statusDescription, ipAddress: String?
-  public let authCode, accountType, paymentType, paymentNetwork, batch: String?
+  /**
+   * Currency:  USD - United States dollar.  CAD - Canadian dollar.
+   */
+  public let currency: String?
+  /**
+   * Card Expiration Date.
+   */
+  public let expDate: String?
+  /**
+   * Last four of account number.
+   */
+  public let lastFour: String?
+  /**
+   * The payment method (token) from pan-vault
+   */
+  public let token: String?
+  /**
+   * Transaction date string <date-time>
+   */
+  public let transactionDate: String?
+  /**
+   * Enum: "authorized" "captured" "declined" "error"  Transaction status
+   */
+  public let status: String?
+  /**
+   * Transaction status code (See all available transaction status codes https://docs.seamlesspay.com/#section/Transaction-Statuses  ).
+   */
+  public let statusCode: String?
+  /**
+   * Transaction status description.
+   */
+  public let statusDescription: String?
+  /**
+   * IP address
+   */
+  public let ipAddress: String?
+  /**
+   * Auth Code
+   */
+  public let authCode: String?
+  /**
+   * Enum: "Credit" "Debit" "Prepaid"  Determines the card type (credit, debit, prepaid) and usage (pin, signature etc.).
+   */
+  public let accountType: String?
+  /**
+   * Payment type
+   */
+  public let paymentType: String?
+  /**
+   * Enum: "Visa" "MasterCard" "American Express" "Discover"  Detail Card Product - Visa, MasterCard, American Express, Discover.
+   */
+  public let paymentNetwork: String?
+  /**
+   * Batch ID
+   */
+  public let batch: String?
+  /**
+    *  verificationResults
+   */
   public let verificationResults: VerificationResults?
+  /**
+    *  Business Card
+   */
   public let businessCard: Bool?
+  /**
+    *  fullyRefunded
+   */
   public let fullyRefunded: Bool?
+  /**
+    *  Array of Dictionary  List of refunds associated with the charge.
+   */
   public let refunds: [Refund]?
-  public let createdAt, updatedAt: String?
+  /**
+   *   The customer's created.
+   *   string <date-time>
+   */
+  public let createdAt: String?
+  /**
+   *   The customer's updated.
+   *   string <date-time>
+   */
+  public let updatedAt: String?
 
   public init(
     id: String? = nil,
