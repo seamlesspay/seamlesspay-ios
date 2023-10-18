@@ -31,8 +31,7 @@ public class SPPaymentViewController: UIViewController {
   public var paymentType: PaymentType = .creditCard
   public var paymentDescription: String?
   public var paymentAmount: Decimal = 0.0
-  public var billingAddress: SPAddress?
-  public var customer: SPCustomer?
+  public var billingAddress: Address?
   public var logoImage: UIImage?
   public weak var delegate: SPPaymentViewControllerDelegate?
 

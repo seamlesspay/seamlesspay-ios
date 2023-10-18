@@ -27,7 +27,7 @@ class PaymentViewControllerContainer: UIViewController, SPPaymentViewControllerD
   }
 
   @objc func presentPaymentModal() {
-    let billingAddress = SPAddress(
+    let billingAddress = Address(
       line1: nil,
       line2: nil,
       city: nil,
@@ -36,24 +36,11 @@ class PaymentViewControllerContainer: UIViewController, SPPaymentViewControllerD
       postalCode: "12345"
     )
 
-    let customer = SPCustomer(
-      name: "Test name",
-      email: nil,
-      phone: nil,
-      companyName: nil,
-      notes: nil,
-      website: nil,
-      metadata: nil,
-      address: nil,
-      paymentMethods: nil
-    )
-
     let paymentVC = SPPaymentViewController(nibName: nil, bundle: nil)
     paymentVC.paymentDescription = "Order payment description"
     paymentVC.logoImage = UIImage(named: "Icon-72.png")
     paymentVC.paymentAmount = 10.2
     paymentVC.billingAddress = billingAddress
-    paymentVC.customer = customer
     paymentVC.delegate = self
     paymentVC.paymentType = .creditCard
     paymentViewController = paymentVC

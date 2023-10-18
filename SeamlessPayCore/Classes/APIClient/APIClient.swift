@@ -63,14 +63,14 @@ public class APIClient {
     accountType: String? = nil,
     routing: String? = nil,
     pin: String? = nil,
-    billingAddress: SPAddress? = nil,
+    billingAddress: Address? = nil,
     name: String? = nil,
     completion: ((Result<PaymentMethod, SeamlessPayError>) -> Void)?
   ) {
     var parameters: [String: Any?] = [
       "paymentType": paymentType.name,
       "accountNumber": accountNumber,
-      "billingAddress": billingAddress?.dictionary(),
+      "billingAddress": billingAddress?.asParameter(),
       "name": name,
       "deviceFingerprint": deviceFingerprint,
     ]
@@ -102,7 +102,7 @@ public class APIClient {
   public func createCustomer(
     name: String,
     email: String,
-    address: SPAddress? = nil,
+    address: Address? = nil,
     companyName: String? = nil,
     notes: String? = nil,
     phone: String? = nil,
@@ -130,7 +130,7 @@ public class APIClient {
     id: String,
     name: String,
     email: String,
-    address: SPAddress? = nil,
+    address: Address? = nil,
     companyName: String? = nil,
     notes: String? = nil,
     phone: String? = nil,
@@ -385,7 +385,7 @@ private extension APIClient {
   func customer(
     name: String? = nil,
     email: String? = nil,
-    address: SPAddress? = nil,
+    address: Address? = nil,
     companyName: String? = nil,
     notes: String? = nil,
     phone: String? = nil,
@@ -398,7 +398,7 @@ private extension APIClient {
     let parameters: [String: Any?] = [
       "name": name,
       "website": website,
-      "address": address?.dictionary(),
+      "address": address?.asParameter(),
       "companyName": companyName,
       "description": notes,
       "email": email,

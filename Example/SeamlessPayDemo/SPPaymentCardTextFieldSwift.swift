@@ -53,7 +53,7 @@ import SeamlessPayCore
   }
 
   func pay() {
-    let billingAddress = SPAddress(
+    let billingAddress = Address(
       line1: nil,
       line2: nil,
       city: nil,

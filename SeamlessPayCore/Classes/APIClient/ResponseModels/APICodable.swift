@@ -22,6 +22,19 @@ public extension APICodable {
   }
 }
 
+public protocol APIReqParameterable: APICodable {
+  func asParameter() -> [String: String]?
+}
+
+public extension APIReqParameterable {
+  func asParameter() -> [String: String]? {
+    if let data = try? encode() {
+      return try? JSONSerialization.jsonObject(with: data, options: []) as? [String: String]
+    }
+    return nil
+  }
+}
+
 public var APIResponseDecoder: JSONDecoder {
   let decoder = JSONDecoder()
   let formatter = ISO8601DateFormatter()

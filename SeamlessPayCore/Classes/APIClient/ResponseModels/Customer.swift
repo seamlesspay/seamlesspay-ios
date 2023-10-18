@@ -61,9 +61,3 @@ public struct Customer: APICodable {
    */
   public let updatedAt: String?
 }
-
-// MARK: - Address
-public struct Address: Codable {
-  public let city, country, line1, line2: String?
-  public let postalCode, state: String?
-}

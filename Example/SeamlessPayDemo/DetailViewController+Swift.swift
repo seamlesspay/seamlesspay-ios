@@ -64,7 +64,7 @@ extension DetailViewController {
 
       return false
     } else if ["Add Credit/Debit Card", "Add Gift Card", "Add ACH"].contains(detailItem) {
-      let billingAddress = SPAddress(
+      let billingAddress = Address(
         line1: qa[14],
         line2: qa[16],
         city: qa[18],
@@ -120,7 +120,7 @@ extension DetailViewController {
         paymentMethods.append(paymentMethod)
       }
 
-      let address = SPAddress(
+      let address = Address(
         line1: qa[6],
         line2: qa[8],
         city: qa[10],
@@ -180,7 +180,7 @@ extension DetailViewController {
 
       return false
     } else if detailItem == "Update Customer" {
-      let address = SPAddress(
+      let address = Address(
         line1: qa[6],
         line2: qa[8],
         city: qa[10],
@@ -306,7 +306,7 @@ extension DetailViewController {
     } else if title == "Virtual Terminal (CHARGE)" {
       activityIndicator.startAnimating()
 
-      let billingAddress = SPAddress(
+      let billingAddress = Address(
         line1: qa[14],
         line2: nil,
         city: nil,
@@ -388,7 +388,7 @@ extension DetailViewController {
     } else if title == "Virtual Terminal (ACH)" {
       activityIndicator.startAnimating()
 
-      let billingAddress = SPAddress(
+      let billingAddress = Address(
         line1: qa[14],
         line2: nil,
         city: qa[16],
@@ -553,7 +553,7 @@ extension DetailViewController {
     let startTime = CACurrentMediaTime()
     // perform some action
 
-    let billingAddress = SPAddress(
+    let billingAddress = Address(
       line1: nil,
       line2: nil,
       city: nil,
