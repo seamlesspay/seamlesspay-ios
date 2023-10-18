@@ -87,7 +87,7 @@ import SeamlessPayCore
           switch result {
           case let .success(charge):
             // Success Charge:
-            print(charge.id ?? "charge is nil")
+            print(charge.id)
           case let .failure(error):
             // Handle the error
             print(error.localizedDescription)

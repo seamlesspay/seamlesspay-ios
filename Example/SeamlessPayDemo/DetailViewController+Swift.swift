@@ -264,7 +264,7 @@ extension DetailViewController {
 
           var html = self.contentHTML.replacingOccurrences(
             of: "<!--[RESULTS]-->",
-            with: "\(charge.id ?? "")\n\(charge.statusDescription ?? "")"
+            with: "\(charge.id)\n\(charge.statusDescription ?? "")"
           )
           html = String(format: html, qa[2])
           self.webView.loadHTMLString(html, baseURL: nil)
@@ -287,7 +287,7 @@ extension DetailViewController {
 
           var html = self.contentHTML.replacingOccurrences(
             of: "<!--[RESULTS]-->",
-            with: "Charge ID: \(charge.id ?? "")\nAmount: \(charge.amount ?? "")"
+            with: "Charge ID: \(charge.id)\nAmount: \(charge.amount ?? "")"
           )
           html = String(format: html, qa[2])
           self.webView.loadHTMLString(html, baseURL: nil)
@@ -358,7 +358,7 @@ extension DetailViewController {
                 Amount: $\(charge.amount ?? "")<br>
                 Status: \(charge.status ?? "")<br>
                 Status message: \(charge.statusDescription ?? "")<br>
-                txnID #: \(charge.id ?? "")</div>
+                txnID #: \(charge.id)</div>
                 """
               )
               self.webView.loadHTMLString(html, baseURL: nil)
@@ -439,7 +439,7 @@ extension DetailViewController {
                 Amount: $\(charge.amount ?? "")<br>
                 Status: \(charge.status ?? "")<br>
                 Status message: \(charge.statusDescription ?? "")<br>
-                txnID #: \(charge.id ?? "")</div>
+                txnID #: \(charge.id)</div>
                 """
               )
               self.webView.loadHTMLString(html, baseURL: nil)
@@ -510,7 +510,7 @@ extension DetailViewController {
                 Amount: $\(charge.amount ?? "")<br>
                 Status: \(charge.status ?? "")<br>
                 Status message: \(charge.statusDescription ?? "")<br>
-                txnID #: \(charge.id ?? "")</div>
+                txnID #: \(charge.id)</div>
                 """
               )
               self.webView.loadHTMLString(html, baseURL: nil)
@@ -604,7 +604,7 @@ extension DetailViewController {
                 Amount: $\(charge.amount ?? "")
                 Status: \(charge.status ?? "")
                 Status message: \(charge.statusDescription ?? "")
-                txnID #: \(charge.id ?? "")
+                txnID #: \(charge.id)
                 TimeInterval: \(elapsedTime) s
             """
             self.displayAlert(withTitle: "Success", message: success, restartDemo: true)

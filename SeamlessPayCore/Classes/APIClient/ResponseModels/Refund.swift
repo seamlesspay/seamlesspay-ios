@@ -7,6 +7,7 @@
 
 // MARK: - Refund
 public class Refund: APICodable {
+  public let id: String
   public let accountType: String?
   public let amount: String?
   public let authCode: String?
@@ -14,7 +15,6 @@ public class Refund: APICodable {
   public let createdAt: String?
   public let currency: String?
   public let events: [Event]?
-  public let id: String?
   public let idempotencyKey: String?
   public let ipAddress: String?
   public let lastFour: String?

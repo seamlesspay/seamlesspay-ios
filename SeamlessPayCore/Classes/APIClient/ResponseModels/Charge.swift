@@ -13,7 +13,7 @@ public struct Charge: APICodable {
   /**
    * The ID of base charge.
    */
-  public let id: String?
+  public let id: String
   /**
    * Value: "charge"  Transaction method
    */

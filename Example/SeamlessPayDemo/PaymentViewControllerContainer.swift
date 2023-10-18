@@ -64,7 +64,7 @@ class PaymentViewControllerContainer: UIViewController, SPPaymentViewControllerD
       Amount: $\(charge.amount ?? "")
       Status: \(charge.status ?? "")
       Status message: \(charge.statusDescription ?? "")
-      txnID #: \(charge.id ?? "")
+      txnID #: \(charge.id)
       """
     displayAlertWithTitle("Success", message: success)
   }
