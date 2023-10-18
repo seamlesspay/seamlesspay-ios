@@ -7,12 +7,11 @@
 
 import Foundation
 
-// MARK:  SPSentryHTTPEvent
+// MARK: SPSentryHTTPEvent
 struct SPSentryHTTPEvent: Codable {
-
-  // MARK:  Contexts
+  // MARK: Contexts
   struct Contexts: Codable {
-    // MARK:  Response
+    // MARK: Response
     struct Response: Codable {
       let headers: [String: String]?
       let statusCode: Int?
@@ -25,7 +24,7 @@ struct SPSentryHTTPEvent: Codable {
       }
     }
 
-    // MARK:  App
+    // MARK: App
     struct App: Codable {
       let appVersion: String
       let appIdentifier: String
@@ -40,7 +39,7 @@ struct SPSentryHTTPEvent: Codable {
       }
     }
 
-    // MARK:  Device
+    // MARK: Device
     struct Device: Codable {
       let modelId: String
       let simulator: Bool
@@ -53,7 +52,7 @@ struct SPSentryHTTPEvent: Codable {
       }
     }
 
-    // MARK:  OS
+    // MARK: OS
     struct OS: Codable {
       let name: String
       let version: String
@@ -70,9 +69,9 @@ struct SPSentryHTTPEvent: Codable {
     let device: Device
   }
 
-  // MARK:  Exception
+  // MARK: Exception
   struct Exception: Codable {
-    // MARK:  Value
+    // MARK: Value
     struct Value: Codable {
       let value: String
       let mechanism: Mechanism
@@ -82,12 +81,12 @@ struct SPSentryHTTPEvent: Codable {
     let values: [Value]
   }
 
-  // MARK:  Mechanism
+  // MARK: Mechanism
   struct Mechanism: Codable {
     let type: String
   }
 
-  // MARK:  Request
+  // MARK: Request
   struct Request: Codable {
     let url: String?
     let method: String?
@@ -97,7 +96,7 @@ struct SPSentryHTTPEvent: Codable {
     let data: [String: String]?
   }
 
-  // MARK:  User
+  // MARK: User
   struct User: Codable {
     let id: String
   }

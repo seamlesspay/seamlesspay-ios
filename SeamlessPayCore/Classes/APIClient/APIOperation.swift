@@ -55,8 +55,8 @@ enum APIOperation {
     switch self {
     case .createCharge,
          .createCustomer,
-         .createToken,
-         .createRefund:
+         .createRefund,
+         .createToken:
       return .post
     case .updateCustomer:
       return .put

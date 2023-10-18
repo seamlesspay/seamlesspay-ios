@@ -163,6 +163,7 @@
 		6369FCF72A72BDD5005A353F /* SPInstallationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPInstallationTest.swift; sourceTree = "<group>"; };
 		636C1C5E2ABDE669002D121B /* APIOperationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIOperationTest.swift; sourceTree = "<group>"; };
 		638E38702A72B2D3008CEE2D /* SPSentryURLRequestFactoryTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPSentryURLRequestFactoryTest.swift; sourceTree = "<group>"; };
+		638E7B822AD2C80500C2DADC /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; name = .swiftlint.yml; path = ../.swiftlint.yml; sourceTree = "<group>"; };
 		639E1CF82A86621500D803EA /* URLRequest+BodyStreamToJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+BodyStreamToJSON.swift"; sourceTree = "<group>"; };
 		639EE8D82AB83F6E00FED9DB /* APIClientURLProtocolMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientURLProtocolMock.swift; sourceTree = "<group>"; };
 		639EE8DB2AB8400A00FED9DB /* APIClientTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientTest.swift; sourceTree = "<group>"; };
@@ -332,6 +333,7 @@
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
+				638E7B822AD2C80500C2DADC /* .swiftlint.yml */,
 				60FF7A9C1954A5C5007DD14C /* Podspec Metadata */,
 				1C94043023D3451700BC4697 /* SeamlessPayDemo */,
 				1C94045023D349AF00BC4697 /* SeamlessPay_ObjC */,
@@ -512,6 +514,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1C94044823D3451C00BC4697 /* Build configuration list for PBXNativeTarget "SeamlessPayDemo" */;
 			buildPhases = (
+				638E7B812AD2C6E600C2DADC /* ShellScript */,
 				C284ADE72E668170A9068B04 /* [CP] Check Pods Manifest.lock */,
 				1C94042B23D3451700BC4697 /* Sources */,
 				1C94042C23D3451700BC4697 /* Frameworks */,
@@ -754,6 +757,23 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SeamlessPay_ObjC/Pods-SeamlessPay_ObjC-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		638E7B812AD2C6E600C2DADC /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"$SRCROOT/..\"\nif [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		7C283073070B15E8296D27C5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

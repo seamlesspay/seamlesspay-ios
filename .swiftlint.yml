@@ -1,0 +1,29 @@
+disabled_rules: # rule identifiers to exclude from running
+  - large_tuple
+  - todo
+  - trailing_comma
+  - unused_optional_binding
+  - file_length
+#  - type_body_length
+opt_in_rules:
+  - overridden_super_call
+excluded:
+  - Example/SeamlessPayCoreTests
+
+type_body_length: 400
+line_length: 120
+function_body_length: 80
+nesting:
+  type_level: 3
+
+identifier_name:
+  allowed_symbols: "_"
+  excluded:
+    - id
+    - x
+    - y
+    - os
+type_name:
+  excluded:
+    - OS
+cyclomatic_complexity: 20

@@ -15,7 +15,6 @@ extension APICodable {
   static func decode(_ data: Data) throws -> Self {
     try APIResponseDecoder.decode(Self.self, from: data)
   }
-
 }
 
 private var APIResponseDecoder: JSONDecoder {

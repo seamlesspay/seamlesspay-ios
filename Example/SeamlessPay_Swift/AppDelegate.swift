@@ -9,7 +9,7 @@ import UIKit
 
 import SeamlessPayCore
 
-@UIApplicationMain
+@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(
     _: UIApplication,
