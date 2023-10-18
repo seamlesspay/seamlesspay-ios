@@ -132,9 +132,6 @@
 
   } else if ([self.title isEqualToString:@"Retrieve a Customer"]) {
 
-    NSDictionary *dict =
-    [[NSUserDefaults standardUserDefaults] objectForKey:@"customer"];
-
     _contentHTML =
     @"<html><head><style "
     @"type=\"text/"
@@ -153,7 +150,7 @@
     @"body></html>";
 
     NSString *html =
-    [NSString stringWithFormat:_contentHTML, dict ? dict[@"customerId"] : @""];
+    [NSString stringWithFormat:_contentHTML, self.savedCustomerData[@"id"]];
 
     WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
     _webView = [[WKWebView alloc] initWithFrame:self.view.frame
@@ -167,8 +164,7 @@
 
   } else if ([self.title isEqualToString:@"Update Customer"]) {
 
-    NSDictionary *dict =
-    [[NSUserDefaults standardUserDefaults] objectForKey:@"customer"];
+    NSDictionary *dict = self.savedCustomerData;
 
     if (!dict) {
       dict = [NSDictionary new];
@@ -209,12 +205,12 @@
                       stringWithFormat:_contentHTML,
                       dict[@"name"] ?: @"",
                       dict[@"email"] ?: @"",
-                      dict[@"address"][@"line1"] ?: @"",
-                      dict[@"address"][@"line2"] ?: @"",
-                      dict[@"address"][@"city"] ?: @"",
-                      dict[@"address"][@"country"] ?: @"",
-                      dict[@"address"][@"state"] ?: @"",
-                      dict[@"address"][@"postalCode"] ?: @"",
+                      dict[@"line1"] ?: @"",
+                      dict[@"line2"] ?: @"",
+                      dict[@"city"] ?: @"",
+                      dict[@"country"] ?: @"",
+                      dict[@"state"] ?: @"",
+                      dict[@"postalCode"] ?: @"",
                       dict[@"companyName"] ?: @"",
                       dict[@"phone"] ?: @"",
                       dict[@"website"] ?: @"",
@@ -231,9 +227,6 @@
     [self.webView loadHTMLString:html baseURL:nil];
 
   } else if ([self.title isEqualToString:@"Create a Charge"]) {
-
-    NSDictionary *savedPaymentMethod =
-    [[NSUserDefaults standardUserDefaults] objectForKey:@"paymentMethod"];
 
     _contentHTML =
     @"<html><head><style "
@@ -265,9 +258,7 @@
     @"body></html>";
 
     NSString *html = [NSString
-                      stringWithFormat:_contentHTML, savedPaymentMethod
-                      ? savedPaymentMethod[@"token"]
-                      : @""];
+                      stringWithFormat:_contentHTML, [self savedPaymentMethodToken] ?: @""];
 
     WKWebViewConfiguration *theConfiguration = [WKWebViewConfiguration new];
     _webView = [[WKWebView alloc] initWithFrame:self.view.frame

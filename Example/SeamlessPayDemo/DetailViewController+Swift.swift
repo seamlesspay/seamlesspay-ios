@@ -9,48 +9,6 @@ import UIKit
 import SeamlessPayCore
 
 extension DetailViewController {
-  private func environmentFromString(_ string: String) -> Environment {
-    switch string {
-    case "production":
-      return .production
-    case "staging":
-      return .staging
-    case "sandbox":
-      return .sandbox
-    case "qat":
-      return .qat
-    default:
-      return .sandbox
-    }
-  }
-
-  private func paymentTypeFromString(_ string: String) -> PaymentType {
-    switch string {
-    case "credit_card":
-      return .creditCard
-    case "pldebit_card":
-      return .plDebitCard
-    case "gift_card":
-      return .giftCard
-    case "ach":
-      return .ach
-    default:
-      return .creditCard
-    }
-  }
-
-  func expDateFromString(_ string: String) -> ExpirationDate {
-    let expElements = string
-      .components(separatedBy: "/")
-      .map { UInt($0) }
-      .compactMap { $0 }
-
-    guard expElements.count >= 2 else {
-      return .init(month: 0, year: 0)
-    }
-    return .init(month: expElements[0], year: expElements[1])
-  }
-
   @objc func shouldStartDecidePolicy(_ request: URLRequest) -> Bool {
     guard
       let absoluteString = request.url?.absoluteString.removingPercentEncoding else {
@@ -184,10 +142,10 @@ extension DetailViewController {
       ) { result in
         switch result {
         case let .success(customer):
-          UserDefaults.standard.set(customer.dictionary(), forKey: "customer")
+          UserDefaults.standard.set(try? customer.encode(), forKey: "customer")
           let html = self.contentHTML.replacingOccurrences(
             of: "<!--[RESULTS]-->",
-            with: customer.customerId ?? ""
+            with: customer.id
           )
           self.webView.loadHTMLString(html, baseURL: nil)
         case let .failure(error):
@@ -204,12 +162,12 @@ extension DetailViewController {
       APIClient.shared.retrieveCustomer(id: qa[2]) { result in
         switch result {
         case let .success(customer):
-          UserDefaults.standard.set(customer.dictionary(), forKey: "customer")
+          UserDefaults.standard.set(try? customer.encode(), forKey: "customer")
           var html = self.contentHTML.replacingOccurrences(
             of: "<!--[RESULTS]-->",
-            with: "Customer Name: \(customer.name)"
+            with: "Customer Name: \(customer.name ?? "")"
           )
-          html = String(format: html, customer.customerId ?? "")
+          html = String(format: html, customer.id)
           self.webView.loadHTMLString(html, baseURL: nil)
         case let .failure(error):
           let html = self.contentHTML.replacingOccurrences(
@@ -245,8 +203,8 @@ extension DetailViewController {
       ) { result in
         switch result {
         case let .success(customer):
-          let dict = customer.dictionary
-          UserDefaults.standard.set(dict, forKey: "customer")
+          let data = try? customer.encode()
+          UserDefaults.standard.set(data, forKey: "customer")
 
           var html = self.contentHTML.replacingOccurrences(
             of: "<!--[RESULTS]-->",
@@ -254,7 +212,7 @@ extension DetailViewController {
           )
           html = String(
             format: html,
-            customer.name,
+            customer.name ?? "",
             customer.email ?? "",
             customer.address?.line1 ?? "",
             customer.address?.line2 ?? "",
@@ -265,7 +223,7 @@ extension DetailViewController {
             customer.companyName ?? "",
             customer.phone ?? "",
             customer.website ?? "",
-            customer.customerId ?? ""
+            customer.id
           )
 
           self.webView.loadHTMLString(html, baseURL: nil)
@@ -710,5 +668,80 @@ extension DetailViewController {
                          environment == .qat ? "selected" : "")
 
     return contentHTML
+  }
+}
+
+extension DetailViewController {
+  private var savedPaymentMethod: PaymentMethod? {
+    UserDefaults.standard.data(forKey: "paymentMethod").flatMap { try? PaymentMethod.decode($0) }
+  }
+
+  private var savedCustomer: Customer? {
+    UserDefaults.standard.data(forKey: "customer").flatMap { try? Customer.decode($0) }
+  }
+
+  @objc var savedPaymentMethodToken: String? {
+    savedPaymentMethod?.token
+  }
+
+  @objc var savedCustomerData: [String: String] {
+    [
+      "name": savedCustomer?.name ?? "",
+      "email": savedCustomer?.email ?? "",
+      "line1": savedCustomer?.address?.line1 ?? "",
+      "line2": savedCustomer?.address?.line2 ?? "",
+      "city": savedCustomer?.address?.city ?? "",
+      "country": savedCustomer?.address?.country ?? "",
+      "state": savedCustomer?.address?.state ?? "",
+      "postalCode": savedCustomer?.address?.postalCode ?? "",
+      "companyName": savedCustomer?.companyName ?? "",
+      "phone": savedCustomer?.phone ?? "",
+      "website": savedCustomer?.website ?? "",
+      "id": savedCustomer?.id ?? "",
+    ]
+  }
+}
+
+private extension DetailViewController {
+  private func expDateFromString(_ string: String) -> ExpirationDate {
+    let expElements = string
+      .components(separatedBy: "/")
+      .map { UInt($0) }
+      .compactMap { $0 }
+
+    guard expElements.count >= 2 else {
+      return .init(month: 0, year: 0)
+    }
+    return .init(month: expElements[0], year: expElements[1])
+  }
+
+  private func environmentFromString(_ string: String) -> Environment {
+    switch string {
+    case "production":
+      return .production
+    case "staging":
+      return .staging
+    case "sandbox":
+      return .sandbox
+    case "qat":
+      return .qat
+    default:
+      return .sandbox
+    }
+  }
+
+  private func paymentTypeFromString(_ string: String) -> PaymentType {
+    switch string {
+    case "credit_card":
+      return .creditCard
+    case "pldebit_card":
+      return .plDebitCard
+    case "gift_card":
+      return .giftCard
+    case "ach":
+      return .ach
+    default:
+      return .creditCard
+    }
   }
 }

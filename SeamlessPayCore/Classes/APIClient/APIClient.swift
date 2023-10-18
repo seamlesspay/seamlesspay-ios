@@ -109,7 +109,7 @@ public class APIClient {
     website: String? = nil,
     paymentMethods: [PaymentMethod]? = nil,
     metadata: String? = nil,
-    completion: ((Result<SPCustomer, SeamlessPayError>) -> Void)?
+    completion: ((Result<Customer, SeamlessPayError>) -> Void)?
   ) {
     customer(
       name: name,
@@ -137,7 +137,7 @@ public class APIClient {
     website: String? = nil,
     paymentMethods: [PaymentMethod]? = nil,
     metadata: String? = nil,
-    completion: ((Result<SPCustomer, SeamlessPayError>) -> Void)?
+    completion: ((Result<Customer, SeamlessPayError>) -> Void)?
   ) {
     customer(
       name: name,
@@ -156,7 +156,7 @@ public class APIClient {
 
   public func retrieveCustomer(
     id: String,
-    completion: ((Result<SPCustomer, SeamlessPayError>) -> Void)?
+    completion: ((Result<Customer, SeamlessPayError>) -> Void)?
   ) {
     customer(operation: .retrieveCharge(id: id), completion: completion)
   }
@@ -393,7 +393,7 @@ private extension APIClient {
     paymentMethods: [PaymentMethod]? = nil,
     metadata: String? = nil,
     operation: APIOperation,
-    completion: ((Result<SPCustomer, SeamlessPayError>) -> Void)?
+    completion: ((Result<Customer, SeamlessPayError>) -> Void)?
   ) {
     let parameters: [String: Any?] = [
       "name": name,
@@ -403,15 +403,17 @@ private extension APIClient {
       "description": notes,
       "email": email,
       "phone": phone,
-      "metadata": metadata ?? "metadata",
-      "paymentMethods": paymentMethods?.map(\.token),
+      "metadata": metadata,
+      "paymentMethods": paymentMethods?.map { $0.token },
     ]
 
     execute(
       operation: operation,
       parameters: parameters,
-      map: {
-        $0.flatMap(SPCustomer.init(responseData:))
+      map: { data in
+        data.flatMap {
+          try? Customer.decode($0)
+        }
       },
       completion: completion
     )
