@@ -660,7 +660,7 @@ extension DetailViewController {
       return ""
     }
 
-    if let resultMessage = resultMessage {
+    if let resultMessage {
       contentHTML = contentHTML.replacingOccurrences(of: "<!--[RESULTS]-->", with: resultMessage)
     }
 

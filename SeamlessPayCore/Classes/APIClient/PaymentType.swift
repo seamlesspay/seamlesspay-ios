@@ -25,8 +25,6 @@ extension PaymentType {
       return "gift_card"
     case .plDebitCard:
       return "pldebit_card"
-    @unknown default:
-      return "unspecified"
     }
   }
 }

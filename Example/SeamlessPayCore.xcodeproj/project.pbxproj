@@ -367,7 +367,8 @@
 			buildConfigurationList = 1C94044823D3451C00BC4697 /* Build configuration list for PBXNativeTarget "SeamlessPayDemo" */;
 			buildPhases = (
 				C284ADE72E668170A9068B04 /* [CP] Check Pods Manifest.lock */,
-				638E7B812AD2C6E600C2DADC /* ShellScript */,
+				638E7B812AD2C6E600C2DADC /* Run SwiftLint */,
+				6386CE432AE0151A00372661 /* Run swiftformat */,
 				1C94042B23D3451700BC4697 /* Sources */,
 				1C94042C23D3451700BC4697 /* Frameworks */,
 				1C94042D23D3451700BC4697 /* Resources */,
@@ -483,7 +484,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SeamlessPayCoreTests/Pods-SeamlessPayCoreTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		638E7B812AD2C6E600C2DADC /* ShellScript */ = {
+		6386CE432AE0151A00372661 /* Run swiftformat */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -492,6 +493,25 @@
 			);
 			inputPaths = (
 			);
+			name = "Run swiftformat";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftformat > /dev/null; then\n  swiftformat --lint --lenient ../\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
+		};
+		638E7B812AD2C6E600C2DADC /* Run SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run SwiftLint";
 			outputFileListPaths = (
 			);
 			outputPaths = (
