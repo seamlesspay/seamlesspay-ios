@@ -8,14 +8,6 @@
 import Foundation
 
 // MARK: - Pagination
-@objcMembers
-@objc(SPPagination) public class Pagination: NSObject, Codable {
+public struct Pagination: Codable {
   public let count, page, pages, size: Int
-
-  public init(count: Int, page: Int, pages: Int, size: Int) {
-    self.count = count
-    self.page = page
-    self.pages = pages
-    self.size = size
-  }
 }

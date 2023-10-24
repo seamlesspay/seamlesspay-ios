@@ -7,17 +7,42 @@
 
 import Foundation
 
-protocol APICodable: Codable {
+public protocol APICodable: APIDecodable, APIEncodable {}
+
+public protocol APIDecodable: Decodable {
   static func decode(_ data: Data) throws -> Self
 }
 
-extension APICodable {
+public protocol APIEncodable: Encodable {
+  func encode() throws -> Data
+}
+
+public extension APIDecodable {
   static func decode(_ data: Data) throws -> Self {
     try APIResponseDecoder.decode(Self.self, from: data)
   }
 }
 
-private var APIResponseDecoder: JSONDecoder {
+public extension APIEncodable {
+  func encode() throws -> Data {
+    try APIResponseEncoder.encode(self)
+  }
+}
+
+public protocol APIReqParameterable: APIEncodable {
+  func asParameter() -> [String: String]?
+}
+
+public extension APIReqParameterable {
+  func asParameter() -> [String: String]? {
+    if let data = try? encode() {
+      return try? JSONSerialization.jsonObject(with: data, options: []) as? [String: String]
+    }
+    return nil
+  }
+}
+
+public var APIResponseDecoder: JSONDecoder {
   let decoder = JSONDecoder()
   let formatter = ISO8601DateFormatter()
   formatter.formatOptions.insert(.withFractionalSeconds)
@@ -37,7 +62,7 @@ private var APIResponseDecoder: JSONDecoder {
   return decoder
 }
 
-private var APIResponseEncoder: JSONEncoder {
+public var APIResponseEncoder: JSONEncoder {
   let encoder = JSONEncoder()
   let formatter = ISO8601DateFormatter()
   formatter.formatOptions.insert(.withFractionalSeconds)

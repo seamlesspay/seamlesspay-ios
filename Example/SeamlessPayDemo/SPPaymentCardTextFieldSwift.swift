@@ -10,7 +10,7 @@ import UIKit
 import PassKit
 import SeamlessPayCore
 
-class ViewController: UIViewController {
+@objcMembers class SPPaymentCardTextFieldSwift: UIViewController {
   lazy var cardTextField: SPPaymentCardTextField = {
     let cardTextField = SPPaymentCardTextField()
     return cardTextField
@@ -52,9 +52,8 @@ class ViewController: UIViewController {
     ])
   }
 
-  @objc
   func pay() {
-    let billingAddress = SPAddress(
+    let billingAddress = Address(
       line1: nil,
       line2: nil,
       city: nil,
@@ -79,7 +78,7 @@ class ViewController: UIViewController {
         let token = paymentMethod.token
 
         APIClient.shared.createCharge(
-          token: token!,
+          token: token,
           cvv: self.cardTextField.cvc,
           capture: true,
           amount: "1",
@@ -88,7 +87,7 @@ class ViewController: UIViewController {
           switch result {
           case let .success(charge):
             // Success Charge:
-            print(charge.id ?? "charge is nil")
+            print(charge.id)
           case let .failure(error):
             // Handle the error
             print(error.localizedDescription)

@@ -6,18 +6,6 @@ target 'SeamlessPayDemo' do
   pod 'SeamlessPayCore', :path => '../'
 end
 
-target 'SeamlessPay_ObjC' do
-  pod 'SeamlessPayCore', :path => '../'
-end
-
-target 'SeamlessPay_Swift' do
-  pod 'SeamlessPayCore', :path => '../'
-end
-
-target 'SPPaymentViewController' do
-  pod 'SeamlessPayCore', :path => '../'
-end
-
 target 'SeamlessPayCoreTests' do
   pod 'SeamlessPayCore', :path => '../'
 end

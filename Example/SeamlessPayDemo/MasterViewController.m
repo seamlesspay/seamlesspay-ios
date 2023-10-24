@@ -34,6 +34,8 @@
     @"Virtual Terminal (GIFT CARD)",
     @"UI Payment Card Text Field",
     @"Verification",
+    @"SPPaymentViewController",
+    @"SPPaymentCardTextField+Swift"
   ];
 }
 
@@ -82,6 +84,10 @@
     UIViewController *viewController;
     if ([object isEqualToString:@"Verification"]) {
       viewController = [SwiftUIViewHostingControllerFactory verificationViewHostingController];
+    } else if ([object isEqualToString:@"SPPaymentViewController"]) {
+      viewController = [[PaymentViewControllerContainer alloc] init];
+    } else if ([object isEqualToString:@"SPPaymentCardTextField+Swift"]) {
+      viewController = [[SPPaymentCardTextFieldSwift alloc] init];
     } else {
       DetailViewController *detailViewController = (DetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"DetailViewControllerStoryboardIdentifier"];
       detailViewController.detailItem = object;

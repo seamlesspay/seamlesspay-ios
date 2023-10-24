@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc(SPPaymentType) public enum PaymentType: UInt {
+public enum PaymentType: UInt {
   case ach
   case creditCard
   case giftCard
@@ -25,8 +25,6 @@ extension PaymentType {
       return "gift_card"
     case .plDebitCard:
       return "pldebit_card"
-    @unknown default:
-      return "unspecified"
     }
   }
 }

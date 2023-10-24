@@ -63,14 +63,14 @@ public class APIClient {
     accountType: String? = nil,
     routing: String? = nil,
     pin: String? = nil,
-    billingAddress: SPAddress? = nil,
+    billingAddress: Address? = nil,
     name: String? = nil,
-    completion: ((Result<SPPaymentMethod, SeamlessPayError>) -> Void)?
+    completion: ((Result<PaymentMethod, SeamlessPayError>) -> Void)?
   ) {
     var parameters: [String: Any?] = [
       "paymentType": paymentType.name,
       "accountNumber": accountNumber,
-      "billingAddress": billingAddress?.dictionary(),
+      "billingAddress": billingAddress?.asParameter(),
       "name": name,
       "deviceFingerprint": deviceFingerprint,
     ]
@@ -91,7 +91,9 @@ public class APIClient {
     execute(
       operation: .createToken,
       parameters: parameters,
-      map: SPPaymentMethod.token(withResponseData:),
+      map: { data in
+        data.flatMap { try? PaymentMethod.decode($0) }
+      },
       completion: completion
     )
   }
@@ -100,14 +102,14 @@ public class APIClient {
   public func createCustomer(
     name: String,
     email: String,
-    address: SPAddress? = nil,
+    address: Address? = nil,
     companyName: String? = nil,
     notes: String? = nil,
     phone: String? = nil,
     website: String? = nil,
-    paymentMethods: [SPPaymentMethod]? = nil,
+    paymentMethods: [PaymentMethod]? = nil,
     metadata: String? = nil,
-    completion: ((Result<SPCustomer, SeamlessPayError>) -> Void)?
+    completion: ((Result<Customer, SeamlessPayError>) -> Void)?
   ) {
     customer(
       name: name,
@@ -128,14 +130,14 @@ public class APIClient {
     id: String,
     name: String,
     email: String,
-    address: SPAddress? = nil,
+    address: Address? = nil,
     companyName: String? = nil,
     notes: String? = nil,
     phone: String? = nil,
     website: String? = nil,
-    paymentMethods: [SPPaymentMethod]? = nil,
+    paymentMethods: [PaymentMethod]? = nil,
     metadata: String? = nil,
-    completion: ((Result<SPCustomer, SeamlessPayError>) -> Void)?
+    completion: ((Result<Customer, SeamlessPayError>) -> Void)?
   ) {
     customer(
       name: name,
@@ -154,7 +156,7 @@ public class APIClient {
 
   public func retrieveCustomer(
     id: String,
-    completion: ((Result<SPCustomer, SeamlessPayError>) -> Void)?
+    completion: ((Result<Customer, SeamlessPayError>) -> Void)?
   ) {
     customer(operation: .retrieveCharge(id: id), completion: completion)
   }
@@ -383,33 +385,35 @@ private extension APIClient {
   func customer(
     name: String? = nil,
     email: String? = nil,
-    address: SPAddress? = nil,
+    address: Address? = nil,
     companyName: String? = nil,
     notes: String? = nil,
     phone: String? = nil,
     website: String? = nil,
-    paymentMethods: [SPPaymentMethod]? = nil,
+    paymentMethods: [PaymentMethod]? = nil,
     metadata: String? = nil,
     operation: APIOperation,
-    completion: ((Result<SPCustomer, SeamlessPayError>) -> Void)?
+    completion: ((Result<Customer, SeamlessPayError>) -> Void)?
   ) {
     let parameters: [String: Any?] = [
       "name": name,
       "website": website,
-      "address": address?.dictionary(),
+      "address": address?.asParameter(),
       "companyName": companyName,
       "description": notes,
       "email": email,
       "phone": phone,
-      "metadata": metadata ?? "metadata",
+      "metadata": metadata,
       "paymentMethods": paymentMethods?.map(\.token),
     ]
 
     execute(
       operation: operation,
       parameters: parameters,
-      map: {
-        $0.flatMap(SPCustomer.init(responseData:))
+      map: { data in
+        data.flatMap {
+          try? Customer.decode($0)
+        }
       },
       completion: completion
     )

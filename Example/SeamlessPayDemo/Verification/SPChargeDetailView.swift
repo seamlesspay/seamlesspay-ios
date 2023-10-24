@@ -21,8 +21,17 @@ struct KeyValueRow: View {
   }
 }
 
+struct SPChargeDetailViewModel {
+  let id: String?
+  let method: String?
+  let amount: String?
+  let tip: String?
+  let currency: String?
+  let status: String?
+}
+
 struct SPChargeDetailView: View {
-  var viewModel: Charge
+  var viewModel: SPChargeDetailViewModel
 
   var body: some View {
     VStack(alignment: .leading) {
@@ -39,7 +48,7 @@ struct SPChargeDetailView: View {
 struct SPChargeDetailView_Previews: PreviewProvider {
   static var previews: some View {
     SPChargeDetailView(
-      viewModel: Charge(
+      viewModel: .init(
         id: "some_id",
         method: "method",
         amount: "101.1",
