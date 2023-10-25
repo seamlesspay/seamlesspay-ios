@@ -16,6 +16,10 @@ let package = Package(
       name: "SeamlessPay",
       targets: ["SeamlessPay"]
     ),
+    .library(
+      name: "SeamlessPayUI",
+      targets: ["SeamlessPayUI"]
+    ),
   ],
   dependencies: [
     // Dependencies declare other packages that this package depends on.
@@ -28,11 +32,22 @@ let package = Package(
     // depends on.
     .target(
       name: "SeamlessPay",
-      dependencies: []
+      dependencies: [],
+      path: "SeamlessPay"
+    ),
+    .target(
+      name: "SeamlessPayUI",
+      dependencies: [],
+      path: "SeamlessPayUI"
+    ),
+    .target(
+      name: "SeamlessPayObjC",
+      dependencies: [],
+      path: "SeamlessPayObjC"
     ),
     .testTarget(
       name: "SeamlessPayTests",
-      dependencies: ["SeamlessPay"]
+      dependencies: ["SeamlessPay", "SeamlessPayUI", "SeamlessPayObjC"]
     ),
   ]
 )

@@ -6,7 +6,6 @@
  */
 
 #import <UIKit/UIKit.h>
-
 #import "SPPaymentMethodCard.h"
 
 @class SPPaymentCardTextField, SPPaymentMethodCardParams;
