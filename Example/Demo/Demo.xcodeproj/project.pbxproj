@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		630544302AED5FDE00B26BCD /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 6305442D2AED5FDD00B26BCD /* Base.lproj */; };
-		630544312AED5FDE00B26BCD /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = 6305442E2AED5FDD00B26BCD /* Resources */; };
+		630544312AED5FDE00B26BCD /* Res in Resources */ = {isa = PBXBuildFile; fileRef = 6305442E2AED5FDD00B26BCD /* Res */; };
 		630544322AED5FDE00B26BCD /* Sources in Resources */ = {isa = PBXBuildFile; fileRef = 6305442F2AED5FDE00B26BCD /* Sources */; };
 /* End PBXBuildFile section */
 
@@ -18,7 +18,7 @@
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6305442D2AED5FDD00B26BCD /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
-		6305442E2AED5FDD00B26BCD /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
+		6305442E2AED5FDD00B26BCD /* Res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Res; sourceTree = "<group>"; };
 		6305442F2AED5FDE00B26BCD /* Sources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sources; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -37,7 +37,7 @@
 			isa = PBXGroup;
 			children = (
 				6305442D2AED5FDD00B26BCD /* Base.lproj */,
-				6305442E2AED5FDD00B26BCD /* Resources */,
+				6305442E2AED5FDD00B26BCD /* Res */,
 				6305442F2AED5FDE00B26BCD /* Sources */,
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
@@ -69,13 +69,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1C94044823D3451C00BC4697 /* Build configuration list for PBXNativeTarget "Demo" */;
 			buildPhases = (
-				C284ADE72E668170A9068B04 /* [CP] Check Pods Manifest.lock */,
 				638E7B812AD2C6E600C2DADC /* Run SwiftLint */,
 				6386CE432AE0151A00372661 /* Run swiftformat */,
 				1C94042B23D3451700BC4697 /* Sources */,
 				1C94042C23D3451700BC4697 /* Frameworks */,
 				1C94042D23D3451700BC4697 /* Resources */,
-				1101CC8CAF6BB7A25E9D5D3A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -129,7 +127,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				630544322AED5FDE00B26BCD /* Sources in Resources */,
-				630544312AED5FDE00B26BCD /* Resources in Resources */,
+				630544312AED5FDE00B26BCD /* Res in Resources */,
 				630544302AED5FDE00B26BCD /* Base.lproj in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -137,24 +135,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1101CC8CAF6BB7A25E9D5D3A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SeamlessPayDemo/Pods-SeamlessPayDemo-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/SeamlessPayCore/SeamlessPayCore.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SeamlessPayCore.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SeamlessPayDemo/Pods-SeamlessPayDemo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		6386CE432AE0151A00372661 /* Run swiftformat */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -191,28 +171,6 @@
 			shellPath = /bin/sh;
 			shellScript = "cd \"$SRCROOT/..\"\nif [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
-		C284ADE72E668170A9068B04 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SeamlessPayDemo-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -248,13 +206,14 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = VVHY4NW744;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = SeamlessPayDemo/Info.plist;
+				INFOPLIST_FILE = Res/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = SeamlessPayDemo;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -262,6 +221,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seamlesspay.core.SeamlessPayDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "SeamlessPayDemo/SeamlessPayDemo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -291,6 +251,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -298,7 +259,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = SeamlessPayDemo/Info.plist;
+				INFOPLIST_FILE = Res/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = SeamlessPayDemo;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -306,6 +267,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.seamlesspay.core.SeamlessPayDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "SeamlessPayDemo/SeamlessPayDemo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
