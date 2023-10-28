@@ -7,7 +7,7 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
-#import "SeamlessPayDemo-Swift.h"
+#import "Demo-Swift.h"
 
 @interface MasterViewController ()
 

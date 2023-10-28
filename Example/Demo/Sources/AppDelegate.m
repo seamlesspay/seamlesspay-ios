@@ -8,7 +8,7 @@
 @import SeamlessPayCore;
 
 #import "AppDelegate.h"
-#import "SeamlessPayDemo-Swift.h"
+#import "Demo-Swift.h"
 
 @interface AppDelegate ()
 

@@ -8,8 +8,7 @@
 //@import SeamlessPayCore;
 
 #import "DetailViewController.h"
-#import "SeamlessPayCore-Swift.h"
-#import "SeamlessPayDemo-Swift.h"
+#import "Demo-Swift.h"
 
 @interface DetailViewController () <UITextFieldDelegate>
 @property(nonatomic, weak) UIButton *payButton;
