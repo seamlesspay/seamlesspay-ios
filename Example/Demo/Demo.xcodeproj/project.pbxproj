@@ -53,6 +53,7 @@
 		63BBDA742AED726600DD4267 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		63BBDA752AED726600DD4267 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		63BBDA762AED726600DD4267 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		63BBDA7E2AED72F400DD4267 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +71,7 @@
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
+				63BBDA7E2AED72F400DD4267 /* Info.plist */,
 				6384F1022AED71410038AE4D /* Sources */,
 				63BBDA732AED726600DD4267 /* Resources */,
 				6384F0D42AED6AEA0038AE4D /* Packages */,
