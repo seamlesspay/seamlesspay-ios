@@ -17,8 +17,8 @@ let package = Package(
       targets: ["SeamlessPay"]
     ),
     .library(
-      name: "SeamlessPayUI",
-      targets: ["SeamlessPayUI"]
+      name: "SeamlessPayObjC",
+      targets: ["SeamlessPayObjC"]
     ),
   ],
   dependencies: [
@@ -32,13 +32,8 @@ let package = Package(
     // depends on.
     .target(
       name: "SeamlessPay",
-      dependencies: [],
+      dependencies: ["SeamlessPayObjC"],
       path: "SeamlessPay"
-    ),
-    .target(
-      name: "SeamlessPayUI",
-      dependencies: [],
-      path: "SeamlessPayUI"
     ),
     .target(
       name: "SeamlessPayObjC",
@@ -47,7 +42,11 @@ let package = Package(
     ),
     .testTarget(
       name: "SeamlessPayTests",
-      dependencies: ["SeamlessPay", "SeamlessPayUI", "SeamlessPayObjC"]
+      dependencies: ["SeamlessPay", "SeamlessPayObjC"]
+    ),
+    .testTarget(
+      name: "SeamlessPayTestsObjC",
+      dependencies: ["SeamlessPay", "SeamlessPayObjC"]
     ),
   ]
 )
