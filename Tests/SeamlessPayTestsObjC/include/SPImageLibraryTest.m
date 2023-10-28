@@ -6,8 +6,8 @@
 
 #import <XCTest/XCTest.h>
 
-#import "../../SeamlessPayCore/Classes/SPImageLibrary.h"
-#import "../../SeamlessPayCore/Classes/SPImageLibrary+Extras.h"
+#import "../../SeamlessPayObjC/include/SPImageLibrary.h"
+#import "../../SeamlessPayObjC/include/SPImageLibrary+Extras.h"
 
 @interface SPImageLibraryTest : XCTestCase
 @property NSArray<NSNumber *> *cardBrands;

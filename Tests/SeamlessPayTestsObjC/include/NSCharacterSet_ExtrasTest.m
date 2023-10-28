@@ -4,7 +4,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "../../SeamlessPayCore/Classes/NSCharacterSet+Extras.h"
+#import "../../SeamlessPayObjC/include/NSCharacterSet+Extras.h"
 
 static NSUInteger countOfCharactersFromSetInString(NSString * _Nonnull string, NSCharacterSet * _Nonnull cs) {
   NSRange range = [string rangeOfCharacterFromSet:cs];

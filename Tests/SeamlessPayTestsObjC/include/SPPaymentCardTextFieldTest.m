@@ -6,9 +6,9 @@
 
 #import <XCTest/XCTest.h>
 
-//#import "../../SeamlessPayCore/Classes/SPPaymentCardTextField.h"
-//#import "../../SeamlessPayCore/Classes/SPFormTextField.h"
-//#import "../../SeamlessPayCore/Classes/SPPaymentCardTextFieldViewModel.h"
+#import "../../SeamlessPayObjC/include/SPPaymentCardTextField.h"
+#import "../../SeamlessPayObjC/include/SPFormTextField.h"
+#import "../../SeamlessPayObjC/include/SPPaymentCardTextFieldViewModel.h"
 
 
 @interface SPPaymentCardTextField (Testing)

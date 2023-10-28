@@ -4,7 +4,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "../../SeamlessPayCore/Classes/NSString+Extras.h"
+#import "../../SeamlessPayObjC/include/NSString+Extras.h"
 
 @interface NSString_ExtrasTest : XCTestCase
 

@@ -6,7 +6,7 @@
 
 #import <XCTest/XCTest.h>
 
-#import "../../SeamlessPayCore/Classes/NSArray+Extras.h"
+#import "../../SeamlessPayObjC/include/NSArray+Extras.h"
 
 
 @interface NSArray_ExtrasTest : XCTestCase

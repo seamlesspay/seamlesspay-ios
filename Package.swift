@@ -14,11 +14,15 @@ let package = Package(
     // other packages.
     .library(
       name: "SeamlessPay",
-      targets: ["SeamlessPay"]
+      targets: [
+        "SeamlessPay",
+      ]
     ),
     .library(
       name: "SeamlessPayObjC",
-      targets: ["SeamlessPayObjC"]
+      targets: [
+        "SeamlessPayObjC",
+      ]
     ),
   ],
   dependencies: [
@@ -42,11 +46,17 @@ let package = Package(
     ),
     .testTarget(
       name: "SeamlessPayTests",
-      dependencies: ["SeamlessPay", "SeamlessPayObjC"]
+      dependencies: [
+        "SeamlessPay",
+        "SeamlessPayObjC",
+      ]
     ),
     .testTarget(
       name: "SeamlessPayTestsObjC",
-      dependencies: ["SeamlessPay", "SeamlessPayObjC"]
+      dependencies: [
+        "SeamlessPay",
+        "SeamlessPayObjC",
+      ]
     ),
   ]
 )
