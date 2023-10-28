@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		630544302AED5FDE00B26BCD /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 6305442D2AED5FDD00B26BCD /* Base.lproj */; };
 		630544312AED5FDE00B26BCD /* Res in Resources */ = {isa = PBXBuildFile; fileRef = 6305442E2AED5FDD00B26BCD /* Res */; };
 		6382A7EF2AED648D006D4265 /* Verification in Sources */ = {isa = PBXBuildFile; fileRef = 6382A7DC2AED648D006D4265 /* Verification */; };
 		6382A7F02AED648D006D4265 /* SPChargeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6382A7DD2AED648D006D4265 /* SPChargeDetailView.swift */; };
@@ -23,6 +22,7 @@
 		6382A8002AED648D006D4265 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6382A7ED2AED648D006D4265 /* AppDelegate.m */; };
 		6382A8012AED648D006D4265 /* SPPaymentCardTextFieldSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6382A7EE2AED648D006D4265 /* SPPaymentCardTextFieldSwift.swift */; };
 		6384F0DA2AED6D390038AE4D /* SeamlessPayCore in Frameworks */ = {isa = PBXBuildFile; productRef = 6384F0D92AED6D390038AE4D /* SeamlessPayCore */; };
+		6384F0DC2AED6E590038AE4D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6384F0DB2AED6E590038AE4D /* main.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,7 +30,6 @@
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		6305442D2AED5FDD00B26BCD /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
 		6305442E2AED5FDD00B26BCD /* Res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Res; sourceTree = "<group>"; };
 		6382A7DC2AED648D006D4265 /* Verification */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Verification; path = Sources/Verification; sourceTree = "<group>"; };
 		6382A7DD2AED648D006D4265 /* SPChargeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SPChargeDetailView.swift; path = Sources/Verification/SPChargeDetailView.swift; sourceTree = "<group>"; };
@@ -51,6 +50,7 @@
 		6382A7ED2AED648D006D4265 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Sources/AppDelegate.m; sourceTree = "<group>"; };
 		6382A7EE2AED648D006D4265 /* SPPaymentCardTextFieldSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SPPaymentCardTextFieldSwift.swift; path = Sources/SPPaymentCardTextFieldSwift.swift; sourceTree = "<group>"; };
 		6384F0D82AED6CC30038AE4D /* seamlesspay-ios */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "seamlesspay-ios"; path = ../..; sourceTree = "<group>"; };
+		6384F0DB2AED6E590038AE4D /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Sources/main.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				6384F0D42AED6AEA0038AE4D /* Packages */,
+				6384F0DB2AED6E590038AE4D /* main.m */,
 				6382A7E62AED648D006D4265 /* AppDelegate.h */,
 				6382A7ED2AED648D006D4265 /* AppDelegate.m */,
 				6382A7E92AED648D006D4265 /* AppDelegate+Swift.swift */,
@@ -87,7 +88,6 @@
 				6382A7E12AED648D006D4265 /* SwiftUIViewHostingControllerFactory.swift */,
 				6382A7DC2AED648D006D4265 /* Verification */,
 				6382A7E22AED648D006D4265 /* VerificationView.swift */,
-				6305442D2AED5FDD00B26BCD /* Base.lproj */,
 				6305442E2AED5FDD00B26BCD /* Res */,
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
@@ -188,7 +188,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				630544312AED5FDE00B26BCD /* Res in Resources */,
-				630544302AED5FDE00B26BCD /* Base.lproj in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,6 +249,7 @@
 				6382A7FC2AED648D006D4265 /* AppDelegate+Swift.swift in Sources */,
 				6382A7FE2AED648D006D4265 /* SceneDelegate.m in Sources */,
 				6382A8002AED648D006D4265 /* AppDelegate.m in Sources */,
+				6384F0DC2AED6E590038AE4D /* main.m in Sources */,
 				6382A8012AED648D006D4265 /* SPPaymentCardTextFieldSwift.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
