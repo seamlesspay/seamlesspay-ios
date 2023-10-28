@@ -7,22 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		630544312AED5FDE00B26BCD /* Res in Resources */ = {isa = PBXBuildFile; fileRef = 6305442E2AED5FDD00B26BCD /* Res */; };
-		6382A7EF2AED648D006D4265 /* Verification in Sources */ = {isa = PBXBuildFile; fileRef = 6382A7DC2AED648D006D4265 /* Verification */; };
-		6382A7F02AED648D006D4265 /* SPChargeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6382A7DD2AED648D006D4265 /* SPChargeDetailView.swift */; };
-		6382A7F32AED648D006D4265 /* SPErrorDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6382A7E02AED648D006D4265 /* SPErrorDetailView.swift */; };
-		6382A7F42AED648D006D4265 /* SwiftUIViewHostingControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6382A7E12AED648D006D4265 /* SwiftUIViewHostingControllerFactory.swift */; };
-		6382A7F52AED648D006D4265 /* VerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6382A7E22AED648D006D4265 /* VerificationView.swift */; };
-		6382A7F72AED648D006D4265 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6382A7E42AED648D006D4265 /* MasterViewController.m */; };
-		6382A7F82AED648D006D4265 /* PaymentViewControllerContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6382A7E52AED648D006D4265 /* PaymentViewControllerContainer.swift */; };
-		6382A7FA2AED648D006D4265 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6382A7E72AED648D006D4265 /* DetailViewController.m */; };
-		6382A7FB2AED648D006D4265 /* DetailViewController+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6382A7E82AED648D006D4265 /* DetailViewController+Swift.swift */; };
-		6382A7FC2AED648D006D4265 /* AppDelegate+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6382A7E92AED648D006D4265 /* AppDelegate+Swift.swift */; };
-		6382A7FE2AED648D006D4265 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6382A7EB2AED648D006D4265 /* SceneDelegate.m */; };
-		6382A8002AED648D006D4265 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6382A7ED2AED648D006D4265 /* AppDelegate.m */; };
-		6382A8012AED648D006D4265 /* SPPaymentCardTextFieldSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6382A7EE2AED648D006D4265 /* SPPaymentCardTextFieldSwift.swift */; };
 		6384F0DA2AED6D390038AE4D /* SeamlessPayCore in Frameworks */ = {isa = PBXBuildFile; productRef = 6384F0D92AED6D390038AE4D /* SeamlessPayCore */; };
-		6384F0DC2AED6E590038AE4D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6384F0DB2AED6E590038AE4D /* main.m */; };
+		6384F11A2AED71410038AE4D /* PaymentViewControllerContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1032AED71410038AE4D /* PaymentViewControllerContainer.swift */; };
+		6384F11B2AED71410038AE4D /* DetailViewController+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1042AED71410038AE4D /* DetailViewController+Swift.swift */; };
+		6384F11C2AED71410038AE4D /* SPPaymentCardTextFieldSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1072AED71410038AE4D /* SPPaymentCardTextFieldSwift.swift */; };
+		6384F11D2AED71410038AE4D /* AppDelegate+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1082AED71410038AE4D /* AppDelegate+Swift.swift */; };
+		6384F11E2AED71410038AE4D /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1092AED71410038AE4D /* DetailViewController.m */; };
+		6384F11F2AED71410038AE4D /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6384F10A2AED71410038AE4D /* SceneDelegate.m */; };
+		6384F1202AED71410038AE4D /* SPChargeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384F10D2AED71410038AE4D /* SPChargeDetailView.swift */; };
+		6384F1212AED71410038AE4D /* VerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384F10E2AED71410038AE4D /* VerificationView.swift */; };
+		6384F1222AED71410038AE4D /* SPErrorDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384F10F2AED71410038AE4D /* SPErrorDetailView.swift */; };
+		6384F1232AED71410038AE4D /* SwiftUIViewHostingControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1102AED71410038AE4D /* SwiftUIViewHostingControllerFactory.swift */; };
+		6384F1242AED71410038AE4D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1112AED71410038AE4D /* main.m */; };
+		6384F1252AED71410038AE4D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1122AED71410038AE4D /* AppDelegate.m */; };
+		6384F1262AED71410038AE4D /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1132AED71410038AE4D /* MasterViewController.m */; };
+		63BBDA782AED726600DD4267 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63BBDA742AED726600DD4267 /* LaunchScreen.storyboard */; };
+		63BBDA792AED726600DD4267 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63BBDA752AED726600DD4267 /* Assets.xcassets */; };
+		63BBDA7A2AED726600DD4267 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63BBDA762AED726600DD4267 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,27 +31,28 @@
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		6305442E2AED5FDD00B26BCD /* Res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Res; sourceTree = "<group>"; };
-		6382A7DC2AED648D006D4265 /* Verification */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Verification; path = Sources/Verification; sourceTree = "<group>"; };
-		6382A7DD2AED648D006D4265 /* SPChargeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SPChargeDetailView.swift; path = Sources/Verification/SPChargeDetailView.swift; sourceTree = "<group>"; };
-		6382A7DE2AED648D006D4265 /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MasterViewController.h; path = Sources/MasterViewController.h; sourceTree = "<group>"; };
-		6382A7DF2AED648D006D4265 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SceneDelegate.h; path = Sources/SceneDelegate.h; sourceTree = "<group>"; };
-		6382A7E02AED648D006D4265 /* SPErrorDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SPErrorDetailView.swift; path = Sources/Verification/SPErrorDetailView.swift; sourceTree = "<group>"; };
-		6382A7E12AED648D006D4265 /* SwiftUIViewHostingControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SwiftUIViewHostingControllerFactory.swift; path = Sources/SwiftUIViewHostingControllerFactory.swift; sourceTree = "<group>"; };
-		6382A7E22AED648D006D4265 /* VerificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = VerificationView.swift; path = Sources/Verification/VerificationView.swift; sourceTree = "<group>"; };
-		6382A7E42AED648D006D4265 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MasterViewController.m; path = Sources/MasterViewController.m; sourceTree = "<group>"; };
-		6382A7E52AED648D006D4265 /* PaymentViewControllerContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PaymentViewControllerContainer.swift; path = Sources/PaymentViewControllerContainer.swift; sourceTree = "<group>"; };
-		6382A7E62AED648D006D4265 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Sources/AppDelegate.h; sourceTree = "<group>"; };
-		6382A7E72AED648D006D4265 /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DetailViewController.m; path = Sources/DetailViewController.m; sourceTree = "<group>"; };
-		6382A7E82AED648D006D4265 /* DetailViewController+Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "DetailViewController+Swift.swift"; path = "Sources/DetailViewController+Swift.swift"; sourceTree = "<group>"; };
-		6382A7E92AED648D006D4265 /* AppDelegate+Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "AppDelegate+Swift.swift"; path = "Sources/AppDelegate+Swift.swift"; sourceTree = "<group>"; };
-		6382A7EA2AED648D006D4265 /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DetailViewController.h; path = Sources/DetailViewController.h; sourceTree = "<group>"; };
-		6382A7EB2AED648D006D4265 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SceneDelegate.m; path = Sources/SceneDelegate.m; sourceTree = "<group>"; };
-		6382A7EC2AED648D006D4265 /* SeamlessPayDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "SeamlessPayDemo-Bridging-Header.h"; path = "Sources/SeamlessPayDemo-Bridging-Header.h"; sourceTree = "<group>"; };
-		6382A7ED2AED648D006D4265 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Sources/AppDelegate.m; sourceTree = "<group>"; };
-		6382A7EE2AED648D006D4265 /* SPPaymentCardTextFieldSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SPPaymentCardTextFieldSwift.swift; path = Sources/SPPaymentCardTextFieldSwift.swift; sourceTree = "<group>"; };
 		6384F0D82AED6CC30038AE4D /* seamlesspay-ios */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "seamlesspay-ios"; path = ../..; sourceTree = "<group>"; };
-		6384F0DB2AED6E590038AE4D /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Sources/main.m; sourceTree = "<group>"; };
+		6384F1032AED71410038AE4D /* PaymentViewControllerContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentViewControllerContainer.swift; sourceTree = "<group>"; };
+		6384F1042AED71410038AE4D /* DetailViewController+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DetailViewController+Swift.swift"; sourceTree = "<group>"; };
+		6384F1052AED71410038AE4D /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		6384F1062AED71410038AE4D /* SeamlessPayDemo-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SeamlessPayDemo-Bridging-Header.h"; sourceTree = "<group>"; };
+		6384F1072AED71410038AE4D /* SPPaymentCardTextFieldSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SPPaymentCardTextFieldSwift.swift; sourceTree = "<group>"; };
+		6384F1082AED71410038AE4D /* AppDelegate+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Swift.swift"; sourceTree = "<group>"; };
+		6384F1092AED71410038AE4D /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		6384F10A2AED71410038AE4D /* SceneDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
+		6384F10B2AED71410038AE4D /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
+		6384F10D2AED71410038AE4D /* SPChargeDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SPChargeDetailView.swift; sourceTree = "<group>"; };
+		6384F10E2AED71410038AE4D /* VerificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationView.swift; sourceTree = "<group>"; };
+		6384F10F2AED71410038AE4D /* SPErrorDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SPErrorDetailView.swift; sourceTree = "<group>"; };
+		6384F1102AED71410038AE4D /* SwiftUIViewHostingControllerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftUIViewHostingControllerFactory.swift; sourceTree = "<group>"; };
+		6384F1112AED71410038AE4D /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6384F1122AED71410038AE4D /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		6384F1132AED71410038AE4D /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
+		6384F1142AED71410038AE4D /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		6384F1152AED71410038AE4D /* SceneDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
+		63BBDA742AED726600DD4267 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		63BBDA752AED726600DD4267 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		63BBDA762AED726600DD4267 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,27 +70,9 @@
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
+				6384F1022AED71410038AE4D /* Sources */,
+				63BBDA732AED726600DD4267 /* Resources */,
 				6384F0D42AED6AEA0038AE4D /* Packages */,
-				6384F0DB2AED6E590038AE4D /* main.m */,
-				6382A7E62AED648D006D4265 /* AppDelegate.h */,
-				6382A7ED2AED648D006D4265 /* AppDelegate.m */,
-				6382A7E92AED648D006D4265 /* AppDelegate+Swift.swift */,
-				6382A7EA2AED648D006D4265 /* DetailViewController.h */,
-				6382A7E72AED648D006D4265 /* DetailViewController.m */,
-				6382A7E82AED648D006D4265 /* DetailViewController+Swift.swift */,
-				6382A7DE2AED648D006D4265 /* MasterViewController.h */,
-				6382A7E42AED648D006D4265 /* MasterViewController.m */,
-				6382A7E52AED648D006D4265 /* PaymentViewControllerContainer.swift */,
-				6382A7DF2AED648D006D4265 /* SceneDelegate.h */,
-				6382A7EB2AED648D006D4265 /* SceneDelegate.m */,
-				6382A7EC2AED648D006D4265 /* SeamlessPayDemo-Bridging-Header.h */,
-				6382A7DD2AED648D006D4265 /* SPChargeDetailView.swift */,
-				6382A7E02AED648D006D4265 /* SPErrorDetailView.swift */,
-				6382A7EE2AED648D006D4265 /* SPPaymentCardTextFieldSwift.swift */,
-				6382A7E12AED648D006D4265 /* SwiftUIViewHostingControllerFactory.swift */,
-				6382A7DC2AED648D006D4265 /* Verification */,
-				6382A7E22AED648D006D4265 /* VerificationView.swift */,
-				6305442E2AED5FDD00B26BCD /* Res */,
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
 			);
@@ -118,6 +102,49 @@
 				6384F0D82AED6CC30038AE4D /* seamlesspay-ios */,
 			);
 			name = Packages;
+			sourceTree = "<group>";
+		};
+		6384F1022AED71410038AE4D /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				6384F1032AED71410038AE4D /* PaymentViewControllerContainer.swift */,
+				6384F1042AED71410038AE4D /* DetailViewController+Swift.swift */,
+				6384F1052AED71410038AE4D /* AppDelegate.h */,
+				6384F1062AED71410038AE4D /* SeamlessPayDemo-Bridging-Header.h */,
+				6384F1072AED71410038AE4D /* SPPaymentCardTextFieldSwift.swift */,
+				6384F1082AED71410038AE4D /* AppDelegate+Swift.swift */,
+				6384F1092AED71410038AE4D /* DetailViewController.m */,
+				6384F10A2AED71410038AE4D /* SceneDelegate.m */,
+				6384F10B2AED71410038AE4D /* MasterViewController.h */,
+				6384F10C2AED71410038AE4D /* Verification */,
+				6384F1102AED71410038AE4D /* SwiftUIViewHostingControllerFactory.swift */,
+				6384F1112AED71410038AE4D /* main.m */,
+				6384F1122AED71410038AE4D /* AppDelegate.m */,
+				6384F1132AED71410038AE4D /* MasterViewController.m */,
+				6384F1142AED71410038AE4D /* DetailViewController.h */,
+				6384F1152AED71410038AE4D /* SceneDelegate.h */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		6384F10C2AED71410038AE4D /* Verification */ = {
+			isa = PBXGroup;
+			children = (
+				6384F10D2AED71410038AE4D /* SPChargeDetailView.swift */,
+				6384F10E2AED71410038AE4D /* VerificationView.swift */,
+				6384F10F2AED71410038AE4D /* SPErrorDetailView.swift */,
+			);
+			path = Verification;
+			sourceTree = "<group>";
+		};
+		63BBDA732AED726600DD4267 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				63BBDA742AED726600DD4267 /* LaunchScreen.storyboard */,
+				63BBDA752AED726600DD4267 /* Assets.xcassets */,
+				63BBDA762AED726600DD4267 /* Main.storyboard */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,7 +214,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				630544312AED5FDE00B26BCD /* Res in Resources */,
+				63BBDA7A2AED726600DD4267 /* Main.storyboard in Resources */,
+				63BBDA792AED726600DD4267 /* Assets.xcassets in Resources */,
+				63BBDA782AED726600DD4267 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,20 +266,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6382A7EF2AED648D006D4265 /* Verification in Sources */,
-				6382A7F02AED648D006D4265 /* SPChargeDetailView.swift in Sources */,
-				6382A7F32AED648D006D4265 /* SPErrorDetailView.swift in Sources */,
-				6382A7F42AED648D006D4265 /* SwiftUIViewHostingControllerFactory.swift in Sources */,
-				6382A7F52AED648D006D4265 /* VerificationView.swift in Sources */,
-				6382A7F72AED648D006D4265 /* MasterViewController.m in Sources */,
-				6382A7F82AED648D006D4265 /* PaymentViewControllerContainer.swift in Sources */,
-				6382A7FA2AED648D006D4265 /* DetailViewController.m in Sources */,
-				6382A7FB2AED648D006D4265 /* DetailViewController+Swift.swift in Sources */,
-				6382A7FC2AED648D006D4265 /* AppDelegate+Swift.swift in Sources */,
-				6382A7FE2AED648D006D4265 /* SceneDelegate.m in Sources */,
-				6382A8002AED648D006D4265 /* AppDelegate.m in Sources */,
-				6384F0DC2AED6E590038AE4D /* main.m in Sources */,
-				6382A8012AED648D006D4265 /* SPPaymentCardTextFieldSwift.swift in Sources */,
+				6384F1222AED71410038AE4D /* SPErrorDetailView.swift in Sources */,
+				6384F1202AED71410038AE4D /* SPChargeDetailView.swift in Sources */,
+				6384F1262AED71410038AE4D /* MasterViewController.m in Sources */,
+				6384F11E2AED71410038AE4D /* DetailViewController.m in Sources */,
+				6384F11F2AED71410038AE4D /* SceneDelegate.m in Sources */,
+				6384F1232AED71410038AE4D /* SwiftUIViewHostingControllerFactory.swift in Sources */,
+				6384F11C2AED71410038AE4D /* SPPaymentCardTextFieldSwift.swift in Sources */,
+				6384F11B2AED71410038AE4D /* DetailViewController+Swift.swift in Sources */,
+				6384F11D2AED71410038AE4D /* AppDelegate+Swift.swift in Sources */,
+				6384F1252AED71410038AE4D /* AppDelegate.m in Sources */,
+				6384F11A2AED71410038AE4D /* PaymentViewControllerContainer.swift in Sources */,
+				6384F1242AED71410038AE4D /* main.m in Sources */,
+				6384F1212AED71410038AE4D /* VerificationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,7 +314,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = Res/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = SeamlessPayDemo;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -335,7 +363,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = Res/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = SeamlessPayDemo;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
