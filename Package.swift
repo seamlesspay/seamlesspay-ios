@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-  name: "SeamlessPay",
+  name: "SeamlessPayCore",
   defaultLocalization: "en",
   platforms: [
     .iOS(.v15),
@@ -13,15 +13,9 @@ let package = Package(
     // Products define the executables and libraries a package produces, and make them visible to
     // other packages.
     .library(
-      name: "SeamlessPay",
+      name: "SeamlessPayCore",
       targets: [
-        "SeamlessPay",
-      ]
-    ),
-    .library(
-      name: "SeamlessPayObjC",
-      targets: [
-        "SeamlessPayObjC",
+        "SeamlessPayCore",
       ]
     ),
   ],
@@ -35,27 +29,27 @@ let package = Package(
     // Targets can depend on other targets in this package, and on products in packages this package
     // depends on.
     .target(
-      name: "SeamlessPay",
-      dependencies: ["SeamlessPayObjC"],
-      path: "SeamlessPay"
+      name: "SeamlessPayCore",
+      dependencies: ["SeamlessPayCoreObjC"],
+      path: "SeamlessPayCore"
     ),
     .target(
-      name: "SeamlessPayObjC",
+      name: "SeamlessPayCoreObjC",
       dependencies: [],
-      path: "SeamlessPayObjC"
+      path: "SeamlessPayCoreObjC"
     ),
     .testTarget(
-      name: "SeamlessPayTests",
+      name: "SeamlessPayCoreTests",
       dependencies: [
-        "SeamlessPay",
-        "SeamlessPayObjC",
+        "SeamlessPayCore",
+        "SeamlessPayCoreObjC",
       ]
     ),
     .testTarget(
-      name: "SeamlessPayTestsObjC",
+      name: "SeamlessPayCoreTestsObjC",
       dependencies: [
-        "SeamlessPay",
-        "SeamlessPayObjC",
+        "SeamlessPayCore",
+        "SeamlessPayCoreObjC",
       ]
     ),
   ]

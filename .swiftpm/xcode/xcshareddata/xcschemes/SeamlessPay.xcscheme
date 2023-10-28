@@ -34,6 +34,20 @@
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "SeamlessPayObjC"
+               BuildableName = "SeamlessPayObjC"
+               BlueprintName = "SeamlessPayObjC"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -50,6 +64,16 @@
                BlueprintIdentifier = "SeamlessPayTests"
                BuildableName = "SeamlessPayTests"
                BlueprintName = "SeamlessPayTests"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "SeamlessPayTestsObjC"
+               BuildableName = "SeamlessPayTestsObjC"
+               BlueprintName = "SeamlessPayTestsObjC"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>

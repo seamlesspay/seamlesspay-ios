@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-@import SeamlessPayCore;
+//@import SeamlessPayCore;
 
 #import "DetailViewController.h"
 #import "SeamlessPayCore-Swift.h"
