@@ -122,15 +122,19 @@
 + (UIImage *)safeImageNamed:(NSString *)imageName
         templateIfAvailable:(BOOL)templateIfAvailable {
 
+#if SWIFT_PACKAGE
+  NSString *path = [SWIFTPM_MODULE_BUNDLE pathForResource:imageName ofType:@"png"];
+#else
   NSBundle *mainBundle = [NSBundle mainBundle];
-  NSURL *imageURL =
-  [mainBundle URLForResource:imageName
-               withExtension:@"png"
-                subdirectory:@"Frameworks/SeamlessPayCore.framework"
-                localization:nil];
-  UIImage *image = [UIImage imageWithContentsOfFile:[imageURL path]];
+  NSURL *imageURL = [mainBundle URLForResource:imageName
+                                 withExtension:@"png"
+                                  subdirectory:@"Frameworks/SeamlessPayCore.framework"
+                                  localization:nil];
 
-   UIImage *image2 = [UIImage imageNamed:imageName inBundle:NSBundle.mainBundle compatibleWithTraitCollection:nil];
+  NSString *path = [imageURL path];
+#endif
+
+  UIImage *image = [UIImage imageWithContentsOfFile:path];
 
   if (image == nil) {
     image = [UIImage imageNamed:imageName];
