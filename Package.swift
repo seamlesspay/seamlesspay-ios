@@ -23,7 +23,10 @@ let package = Package(
     .target(
       name: "SeamlessPayCore",
       dependencies: ["SeamlessPayCoreObjC"],
-      path: "SeamlessPayCore"
+      path: "SeamlessPayCore",
+      resources: [
+        .process("Resources/Assets"),
+      ]
     ),
     .target(
       name: "SeamlessPayCoreObjC",
