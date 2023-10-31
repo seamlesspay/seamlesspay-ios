@@ -2,7 +2,7 @@
 .DS_Store
 build
 codecov
-*.xcuserdatad
+*.xcuserdata
 .vscode/settings.json
 Brewfile.lock.json
 
