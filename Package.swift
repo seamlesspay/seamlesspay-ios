@@ -23,15 +23,16 @@ let package = Package(
     .target(
       name: "SeamlessPayCore",
       dependencies: ["SeamlessPayCoreObjC"],
-      path: "SeamlessPayCore",
-      resources: [
-        .process("Resources/Assets"),
-      ]
+      path: "SeamlessPayCore"
     ),
     .target(
       name: "SeamlessPayCoreObjC",
       dependencies: [],
-      path: "SeamlessPayCoreObjC"
+      path: "SeamlessPayCoreObjC",
+
+      resources: [
+        .process("Resources/Assets"),
+      ]
     ),
     .testTarget(
       name: "SeamlessPayCoreTests",

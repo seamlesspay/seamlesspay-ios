@@ -130,8 +130,7 @@
                 localization:nil];
   UIImage *image = [UIImage imageWithContentsOfFile:[imageURL path]];
 
-  // UIImage *image = [UIImage imageNamed:imageName inBundle:nil
-  // compatibleWithTraitCollection:nil];
+   UIImage *image2 = [UIImage imageNamed:imageName inBundle:NSBundle.mainBundle compatibleWithTraitCollection:nil];
 
   if (image == nil) {
     image = [UIImage imageNamed:imageName];
