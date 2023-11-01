@@ -5,7 +5,4 @@
 // * LICENSE file in the root directory of this source tree.
 // *
 
-import XCTest
-@testable import PodsDemo
-
-final class PodsDemoTests: XCTestCase {}
+@_exported import SeamlessPayCoreObjC
