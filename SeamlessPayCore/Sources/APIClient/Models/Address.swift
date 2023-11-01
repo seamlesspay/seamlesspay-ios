@@ -7,8 +7,6 @@
 
 import Foundation
 
-@_exported import SeamlessPayCoreObjC
-
 // MARK: - Address
 public struct Address {
   public let city: String?

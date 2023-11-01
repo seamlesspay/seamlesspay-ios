@@ -6,6 +6,9 @@
 // *
 
 // MARK: - Refund
+
+import Foundation
+
 public class Refund: APICodable {
   public let id: String
   public let accountType: String?

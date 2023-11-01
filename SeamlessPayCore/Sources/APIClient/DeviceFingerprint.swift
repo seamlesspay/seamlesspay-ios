@@ -5,7 +5,7 @@
 // * LICENSE file in the root directory of this source tree.
 // *
 
-import Foundation
+import UIKit
 
 enum DeviceFingerprint {
   static func make(appOpenTime: Date?, apiVersion: String) -> String? {
