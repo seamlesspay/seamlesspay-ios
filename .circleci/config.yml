@@ -10,7 +10,7 @@ jobs:
       - checkout
       - run:
           name: Run tests for the Package
-          no_output_timeout: 5s
+          no_output_timeout: 5m
           command: |
             xcodebuild \
               -scheme SeamlessPayCore \
@@ -22,16 +22,15 @@ jobs:
               test
       - run:
           name: Install CocoaPods dependencies for the PodsDemo application
-          no_output_timeout: 5s
+          no_output_timeout: 5m
           command: |
-            cd Example/PodsDemo/
+            cd Example/PodsDemo
             pod install
       - run:
           name: Run tests for the PodsDemo application
-          no_output_timeout: 5s
+          no_output_timeout: 5m
           command: |
             cd Example/PodsDemo
-            cd PodsDemo
             xcodebuild \
               -workspace PodsDemo.xcworkspace \
               -scheme PodsDemo \
@@ -43,7 +42,7 @@ jobs:
               test
       - run:
           name: Build the Demo application
-          no_output_timeout: 5s
+          no_output_timeout: 5m
           command: |
             cd Example/Demo
             xcodebuild \
