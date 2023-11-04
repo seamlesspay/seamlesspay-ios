@@ -5,11 +5,15 @@
 // * LICENSE file in the root directory of this source tree.
 // *
 
-import Foundation
+import UIKit
 import SeamlessPayCore
 
-extension AppDelegate {
-  @objc func configureSeamlessPayEnvironment() {
+@main
+class AppDelegate: UIResponder, UIApplicationDelegate {
+  func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+  ) -> Bool {
     let publishableKey =
       UserDefaults.standard.string(forKey: "publishableKey") ?? "pk_XXXXXXXXXXXXXXXXXXXXXXXXXX"
     let secretKey =
@@ -22,5 +26,16 @@ extension AppDelegate {
     UserDefaults.standard.set(env.rawValue, forKey: "env")
 
     APIClient.shared.set(secretKey: secretKey, publishableKey: publishableKey, environment: env)
+
+    return true
+  }
+
+  // MARK: UISceneSession Lifecycle
+  func application(
+    _ application: UIApplication,
+    configurationForConnecting connectingSceneSession: UISceneSession,
+    options: UIScene.ConnectionOptions
+  ) -> UISceneConfiguration {
+    UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
   }
 }
