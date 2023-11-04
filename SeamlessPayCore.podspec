@@ -13,6 +13,7 @@ Pod::Spec.new do |s|
   s.source           = { git: 'https://github.com/seamlesspay/seamlesspay-ios.git', tag: s.version.to_s }
 
   s.ios.deployment_target = '15.0'
+  s.swift_versions = '5.7'
 
   s.source_files = [
     'SeamlessPayCore/Sources/**/*.{swift}',
