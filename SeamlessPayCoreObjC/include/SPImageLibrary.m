@@ -126,9 +126,10 @@
   NSString *path = [SWIFTPM_MODULE_BUNDLE pathForResource:imageName ofType:@"png"];
 #else
   NSBundle *mainBundle = [NSBundle mainBundle];
+
   NSURL *imageURL = [mainBundle URLForResource:imageName
                                  withExtension:@"png"
-                                  subdirectory:@"Frameworks/SeamlessPayCore.framework"
+                                  subdirectory:@"Frameworks/SeamlessPayCore.framework/Assets"
                                   localization:nil];
 
   NSString *path = [imageURL path];
