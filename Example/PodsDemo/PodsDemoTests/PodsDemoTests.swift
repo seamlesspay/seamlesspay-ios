@@ -7,5 +7,14 @@
 
 import XCTest
 @testable import PodsDemo
+import SeamlessPayCore
 
-final class PodsDemoTests: XCTestCase {}
+final class PodsDemoTests: XCTestCase {
+  func seamlessPaySDKSetupTest() {
+    APIClient.shared.set(
+      secretKey: "secret123",
+      publishableKey: "publish456",
+      environment: .sandbox
+    )
+  }
+}

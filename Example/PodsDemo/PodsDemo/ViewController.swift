@@ -6,5 +6,6 @@
 // *
 
 import UIKit
+import SeamlessPayCore
 
 class ViewController: UIViewController {}
