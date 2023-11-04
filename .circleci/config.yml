@@ -27,7 +27,7 @@ jobs:
       - run:
           name: Run tests for the PodsDemo application.
           command: |
-            cd Example
+            cd Example/PodsDemo
             cd PodsDemo
             xcodebuild \
               -workspace PodsDemo.xcworkspace \
@@ -41,8 +41,7 @@ jobs:
       - run:
           name: Build the Demo application
           command: |
-            cd ..
-            cd Demo
+            cd Example/Demo
             xcodebuild \
               -project Demo.xcodeproj \
               -scheme Demo \
