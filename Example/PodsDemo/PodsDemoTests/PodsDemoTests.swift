@@ -10,11 +10,16 @@ import XCTest
 import SeamlessPayCore
 
 final class PodsDemoTests: XCTestCase {
-  func seamlessPaySDKSetupTest() {
+  func testSeamlessPaySDKSetup() {
     APIClient.shared.set(
       secretKey: "secret123",
       publishableKey: "publish456",
       environment: .sandbox
     )
+  }
+
+  func testImageExistence() {
+    XCTAssertNotNil(SPImageLibrary.unknownCardCardImage())
+    XCTAssertNotNil(SPImageLibrary.applePayCardImage())
   }
 }

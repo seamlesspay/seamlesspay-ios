@@ -1,0 +1,36 @@
+{
+  "configurations" : [
+    {
+      "id" : "174400F0-AF51-43EE-9A0D-D30A933DD8ED",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:Demo.xcodeproj",
+      "identifier" : "1C94042E23D3451700BC4697",
+      "name" : "Demo"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:..\/..",
+        "identifier" : "SeamlessPayCoreTests",
+        "name" : "SeamlessPayCoreTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/..",
+        "identifier" : "SeamlessPayCoreTestsObjC",
+        "name" : "SeamlessPayCoreTestsObjC"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -755,8 +755,7 @@ CGFloat const SPPaymentCardTextFieldMinimumPadding = 10;
 
 - (CGFloat)numberFieldFullWidth {
   // Current longest possible pan is 16 digits which our standard sample fits
-  if ([self.viewModel validationStateForField:SPCardFieldTypeNumber] ==
-      SPCardValidationStateValid) {
+  if ([self.viewModel validationStateForField:SPCardFieldTypeNumber] == SPCardValidationStateValid) {
     return [self widthForCardNumber:self.viewModel.cardNumber];
   } else {
     return MAX([self widthForCardNumber:self.viewModel.cardNumber],
