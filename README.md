@@ -16,7 +16,7 @@ Our framework provides elements that can be used out-of-the-box to collect your 
 
 ## Example
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+To run the example project, clone the repo, and open `Demo.xcodeproj` from the `./Example/Demo` directory.
 
 ## Installation
 
