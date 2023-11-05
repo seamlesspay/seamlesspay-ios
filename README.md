@@ -20,10 +20,17 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Installation
 
-SeamlessPayCore is available through [CocoaPods](https://cocoapods.org). To install, simply add the following line to your Podfile:
+### CocoaPods
+To install, add the following line to your Podfile:
 
 ```ruby
 pod 'SeamlessPayCore'
+```
+
+### SPM
+Add the package to your Xcode project:
+```ruby
+https://github.com/seamlesspay/seamlesspay-ios.git
 ```
 
 ## Authentication
