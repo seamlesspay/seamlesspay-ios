@@ -12,5 +12,5 @@ Brewfile.lock.json
 xcuserdata/
 DerivedData/
 .swiftpm
-!.swiftpm/xcode/package.xcworkspace/xcshareddata/IDETemplateMacros.plist
+!.swiftpm/xcode/package.xcworkspace/xcshareddata
 .netrc
