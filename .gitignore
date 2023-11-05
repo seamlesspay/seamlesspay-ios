@@ -1,16 +1,24 @@
 
 .DS_Store
-
 build
-
 codecov
-
-*.xcuserdatad
-
-SeamlessPayCoreTests.xcscheme
-
-Example/Pods
-Example/Podfile.lock
-
+*.xcuserdata
 .vscode/settings.json
 Brewfile.lock.json
+
+/.build
+/Packages
+/*.xcodeproj
+xcuserdata/
+DerivedData/
+.netrc
+
+# Ignore IDETemplateMacros in .swiftpm
+.swiftpm/*
+!.swiftpm/xcode/
+.swiftpm/xcode/*
+!.swiftpm/xcode/package.xcworkspace/
+.swiftpm/xcode/package.xcworkspace/*
+!.swiftpm/xcode/package.xcworkspace/xcshareddata/
+.swiftpm/xcode/package.xcworkspace/xcshareddata/*
+!.swiftpm/xcode/package.xcworkspace/xcshareddata/IDETemplateMacros.plist

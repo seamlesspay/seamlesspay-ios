@@ -14,16 +14,23 @@ Our framework provides elements that can be used out-of-the-box to collect your 
 
 *Requirements: The SeamlessPay iOS SDK requires Xcode 10.1 or later and is compatible with apps targeting iOS 11 or above.*
 
-## Example
+## Demo
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+To run the demo project, clone the repository, and open `Demo.xcodeproj` from the `./Example/Demo` directory.
 
 ## Installation
 
-SeamlessPayCore is available through [CocoaPods](https://cocoapods.org). To install, simply add the following line to your Podfile:
+### CocoaPods
+To install, add the following line to your Podfile:
 
 ```ruby
 pod 'SeamlessPayCore'
+```
+
+### Swift Package Manager
+Add the package to your Xcode project:
+```ruby
+https://github.com/seamlesspay/seamlesspay-ios.git
 ```
 
 ## Authentication
@@ -32,8 +39,6 @@ When your app starts, configure the SDK with your SeamlessPay publishable (you c
 
 Using only Publishable Key for a single page apps without their own backend. In this case you will be able to do /charge only.
 Using a Secret Key allows you using all transaction's methods (e.g. /charge, /refund, /void).
-
-Swift:
 
 ```swift
 import SeamlessPayCore
@@ -57,7 +62,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 Securely collect card information on the client with SPPaymentCardTextField, a drop-in UI component provided by the SDK. Create an instance of the card component and a Pay button with the following code:
 
-Swift:
 ```swift
 import SeamlessPayCore
     
@@ -115,7 +119,6 @@ class ViewController: UIViewController {
 When the user taps the pay button, convert the card information collected by STPPaymentCardTextField into a PaymentMethod token. Tokenization ensures that no sensitive card data ever needs to touch your server, so that your integration remains PCI compliant.
 After the client passes the token, pass its identifier as the source to create a charge with one `APIClient` function `createCharge(token:cvv:...`
 
-Swift:
 ```swift
   func pay() {
     let billingAddress = Address(
@@ -168,7 +171,7 @@ Swift:
 ```
 
 
-Start with [**'Demo APP'**](https://github.com/seamlesspay/seamlesspay-ios/tree/dev/Example) for sample on basic setup and usage.
+Start with [**'Demo APP'**](https://github.com/seamlesspay/seamlesspay-ios/tree/dev/Example/Demo) for sample on basic setup and usage.
 
 
 ## License
