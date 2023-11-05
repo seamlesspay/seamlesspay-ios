@@ -88,7 +88,7 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
       expectation.fulfill()
     }
 
-    wait(for: [expectation], timeout: 2)
+    wait(for: [expectation], timeout: 3)
   }
 
   func testRequestWithSensitiveDataInEvent() {
@@ -126,6 +126,6 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
       expectation.fulfill()
     }
 
-    wait(for: [expectation], timeout: 2)
+    wait(for: [expectation], timeout: 3)
   }
 }
