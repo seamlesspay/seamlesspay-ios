@@ -14,9 +14,9 @@ Our framework provides elements that can be used out-of-the-box to collect your 
 
 *Requirements: The SeamlessPay iOS SDK requires Xcode 10.1 or later and is compatible with apps targeting iOS 11 or above.*
 
-## Example
+## Demo
 
-To run the example project, clone the repo, and open `Demo.xcodeproj` from the `./Example/Demo` directory.
+To run the demo project, clone the repository, and open `Demo.xcodeproj` from the `./Example/Demo` directory.
 
 ## Installation
 
