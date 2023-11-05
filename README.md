@@ -40,8 +40,6 @@ When your app starts, configure the SDK with your SeamlessPay publishable (you c
 Using only Publishable Key for a single page apps without their own backend. In this case you will be able to do /charge only.
 Using a Secret Key allows you using all transaction's methods (e.g. /charge, /refund, /void).
 
-Swift:
-
 ```swift
 import SeamlessPayCore
     
@@ -64,7 +62,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 Securely collect card information on the client with SPPaymentCardTextField, a drop-in UI component provided by the SDK. Create an instance of the card component and a Pay button with the following code:
 
-Swift:
 ```swift
 import SeamlessPayCore
     
@@ -122,7 +119,6 @@ class ViewController: UIViewController {
 When the user taps the pay button, convert the card information collected by STPPaymentCardTextField into a PaymentMethod token. Tokenization ensures that no sensitive card data ever needs to touch your server, so that your integration remains PCI compliant.
 After the client passes the token, pass its identifier as the source to create a charge with one `APIClient` function `createCharge(token:cvv:...`
 
-Swift:
 ```swift
   func pay() {
     let billingAddress = Address(
