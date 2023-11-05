@@ -11,5 +11,14 @@ Brewfile.lock.json
 /*.xcodeproj
 xcuserdata/
 DerivedData/
-.swiftpm/*
 .netrc
+
+# Ignore IDETemplateMacros in .swiftpm
+.swiftpm/*
+!.swiftpm/xcode/
+.swiftpm/xcode/*
+!.swiftpm/xcode/package.xcworkspace/
+.swiftpm/xcode/package.xcworkspace/*
+!.swiftpm/xcode/package.xcworkspace/xcshareddata/
+.swiftpm/xcode/package.xcworkspace/xcshareddata/*
+!.swiftpm/xcode/package.xcworkspace/xcshareddata/IDETemplateMacros.plist
