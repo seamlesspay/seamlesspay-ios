@@ -27,7 +27,7 @@ To install, add the following line to your Podfile:
 pod 'SeamlessPayCore'
 ```
 
-### SPM
+### Swift Package Manager
 Add the package to your Xcode project:
 ```ruby
 https://github.com/seamlesspay/seamlesspay-ios.git
