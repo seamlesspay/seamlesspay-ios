@@ -171,7 +171,7 @@ After the client passes the token, pass its identifier as the source to create a
 ```
 
 
-Start with [**'Demo APP'**](https://github.com/seamlesspay/seamlesspay-ios/tree/dev/Example) for sample on basic setup and usage.
+Start with [**'Demo APP'**](https://github.com/seamlesspay/seamlesspay-ios/tree/dev/Example/Demo) for sample on basic setup and usage.
 
 
 ## License
