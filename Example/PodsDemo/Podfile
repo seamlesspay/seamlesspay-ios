@@ -1,0 +1,11 @@
+use_frameworks!
+
+platform :ios, '15.0'
+
+target 'PodsDemo' do
+  pod 'SeamlessPayCore', :path => '../../'
+end
+
+target 'PodsDemoTests' do
+  pod 'SeamlessPayCore', :path => '../../'
+end

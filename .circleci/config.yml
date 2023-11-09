@@ -9,44 +9,45 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install pods
+          name: Run tests for the Package
+          no_output_timeout: 5m
           command: |
-            cd Example/
-            pod install
-      - run:
-          name: Build tests
-          command: |
-            cd Example/ 
             xcodebuild \
-              -workspace SeamlessPayCore.xcworkspace \
-              -scheme CISeamlessPayCoreTests \
-              -sdk iphonesimulator \
-              -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.4' \
-              -enableCodeCoverage YES \
-              CODE_SIGN_IDENTITY="" \
-              CODE_SIGNING_REQUIRED=NO \
-              build-for-testing
-      - run:
-          name: Run tests
-          command: |
-            cd Example/ 
-            xcodebuild \
-              -workspace SeamlessPayCore.xcworkspace \
-              -scheme CISeamlessPayCoreTests \
+              -scheme SeamlessPayCore \
               -sdk iphonesimulator \
               -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.4' \
               -enableCodeCoverage YES \
               CODE_SIGN_IDENTITY="" \
               CODE_SIGNING_REQUIRED=NO \
               test
-          # bash <(curl -s https://codecov.io/bash) -J 'SeamlessPayCoreTests.xctest' -t ${CODECOV_TOKEN}
       - run:
-          name: Build demo
+          name: Install CocoaPods dependencies for the PodsDemo application
+          no_output_timeout: 5m
           command: |
-            cd Example/ 
+            cd Example/PodsDemo
+            pod install
+      - run:
+          name: Run tests for the PodsDemo application
+          no_output_timeout: 5m
+          command: |
+            cd Example/PodsDemo
             xcodebuild \
-              -workspace SeamlessPayCore.xcworkspace \
-              -scheme SeamlessPayDemo \
+              -workspace PodsDemo.xcworkspace \
+              -scheme PodsDemo \
+              -sdk iphonesimulator \
+              -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.4' \
+              -enableCodeCoverage YES \
+              CODE_SIGN_IDENTITY="" \
+              CODE_SIGNING_REQUIRED=NO \
+              test
+      - run:
+          name: Build the Demo application
+          no_output_timeout: 5m
+          command: |
+            cd Example/Demo
+            xcodebuild \
+              -project Demo.xcodeproj \
+              -scheme Demo \
               -sdk iphonesimulator \
               -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.4' \
               CODE_SIGN_IDENTITY="" \
