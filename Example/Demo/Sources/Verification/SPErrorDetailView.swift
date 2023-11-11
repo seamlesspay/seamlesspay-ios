@@ -13,14 +13,35 @@ struct SPDetailErrorView: View {
 
   var body: some View {
     VStack(alignment: .leading) {
-      KeyValueRow(key: "Error Code", value: "\(viewModel.spError.code)")
+      KeyValueRow(
+        key: "Error Code",
+        value: viewModel.errorCodeString
+      )
       KeyValueRow(key: "Error Description", value: viewModel.localizedDescription)
     }
   }
 }
 
+private extension SeamlessPayError {
+  var errorCodeString: String {
+    guard case let .apiError(error) = self else {
+      return .init()
+    }
+
+    return error.code.description
+  }
+}
+
 struct SPDetailErrorView_Previews: PreviewProvider {
   static var previews: some View {
-    SPDetailErrorView(viewModel: .apiError(SPError.unknownError()))
+    SPDetailErrorView(
+      viewModel: .apiError(
+        .init(
+          domain: "domain",
+          code: 0,
+          userInfo: [:]
+        )
+      )
+    )
   }
 }

@@ -342,12 +342,7 @@ private extension APIClient {
 
         if error != nil || self.isResponseSuccessful(response) == false {
           result = .failure(
-            .apiError(
-              .init(
-                data: data,
-                error: error
-              )
-            )
+            .fromFailedSessionTask(data: data, error: error)
           )
         } else if let model = map(data) {
           result = .success(model)

@@ -9,13 +9,14 @@ import Foundation
 
 public enum SeamlessPayError: LocalizedError {
   case requestCreationError(Error)
-  // TODO: Create separate type to represent api errors instead of SPError type
-  case apiError(SPError)
+  case sessionTaskError(Error)
+  case apiError(APIError)
   case responseSerializationError
 
   public var errorDescription: String? {
     switch self {
-    case let .requestCreationError(error):
+    case let .requestCreationError(error),
+         let .sessionTaskError(error):
       return error.localizedDescription
     case let .apiError(error):
       return error.localizedDescription
@@ -25,33 +26,28 @@ public enum SeamlessPayError: LocalizedError {
   }
 }
 
-public struct SeamlessPayInvalidURLError: LocalizedError {
-  public var errorDescription: String? {
-    "Invalid URL"
-  }
-}
-
-// MARK: SeamlessPayError + SPError
-public extension SeamlessPayError {
-  var spError: SPError {
-    switch self {
-    case let .apiError(error):
-      return error
-    case .requestCreationError,
-         .responseSerializationError:
-      return SPError.sdkError(description: localizedDescription)
+extension SeamlessPayError {
+  static func fromFailedSessionTask(data: Data?, error: Error?) -> Self {
+    if let error {
+      return .sessionTaskError(error)
+    } else if let data, let error = APIError.apiError(data) {
+      return .apiError(error)
+    } else {
+      return .apiError(
+        .init(
+          domain: "api.seamlesspay.com",
+          code: 29,
+          userInfo: [
+            NSLocalizedDescriptionKey: "Unknown Error",
+          ]
+        )
+      )
     }
   }
 }
 
-public extension SPError {
-  static func sdkError(description: String) -> SPError {
-    SPError(
-      domain: "ios.sdk.seamlesspay.com",
-      code: 0,
-      userInfo: [
-        NSLocalizedDescriptionKey: description,
-      ]
-    )
+public struct SeamlessPayInvalidURLError: LocalizedError {
+  public var errorDescription: String? {
+    "Invalid URL"
   }
 }
