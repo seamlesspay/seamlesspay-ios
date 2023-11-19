@@ -33,7 +33,7 @@ public struct Address {
   }
 }
 
-extension Address: APIEncodable, APIReqParameterable {}
+extension Address: APICodable, APIReqParameterable {}
 
 // MARK: - SPAddress compatibility
 public extension Address {
@@ -55,5 +55,22 @@ public extension Address {
     spAddress.postalCode = postalCode
     spAddress.state = state
     return spAddress
+  }
+}
+
+public extension Address {
+  static func shippingInfoForCharge(
+    address: SPAddress,
+    shippingMethod: PKShippingMethod
+  ) -> [String: Any]? {
+    var params = [String: Any]()
+    params["name"] = address.name
+    params["phone"] = address.phone
+    params["carrier"] = shippingMethod.label
+
+    // Re-use SPFormEncoder
+    params["address"] = SPFormEncoder.dictionary(forObject: address)
+
+    return params
   }
 }

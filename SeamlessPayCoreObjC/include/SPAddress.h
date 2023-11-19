@@ -117,30 +117,30 @@ extern SPContactField const SPContactFieldName;
  */
 @property(nonatomic, copy, nullable) NSString *email;
 
-//+ (nullable NSDictionary *)
-//shippingInfoForChargeWithAddress:(nullable SPAddress *)address
-//shippingMethod:(nullable PKShippingMethod *)method;
++ (nullable NSDictionary *)
+shippingInfoForChargeWithAddress:(nullable SPAddress *)address
+shippingMethod:(nullable PKShippingMethod *)method;
 
-//- (instancetype)initWithPaymentMethodBillingDetails:
-//(SPPaymentMethodBillingDetails *)billingDetails;
-//- (instancetype)initWithPKContact:(PKContact *)contact;
-//- (PKContact *)PKContactValue;
-//- (instancetype)initWithCNContact:(CNContact *)contact;
-//- (instancetype)initWithline1:(nullable NSString *)line1
-//                        line2:(nullable NSString *)line2
-//                         city:(nullable NSString *)city
-//                      country:(nullable NSString *)country
-//                        state:(nullable NSString *)state
-//                   postalCode:(nullable NSString *)postalCode;
+- (instancetype)initWithPaymentMethodBillingDetails:
+(SPPaymentMethodBillingDetails *)billingDetails;
+- (instancetype)initWithPKContact:(PKContact *)contact;
+- (PKContact *)PKContactValue;
+- (instancetype)initWithCNContact:(CNContact *)contact;
+- (instancetype)initWithline1:(nullable NSString *)line1
+                        line2:(nullable NSString *)line2
+                         city:(nullable NSString *)city
+                      country:(nullable NSString *)country
+                        state:(nullable NSString *)state
+                   postalCode:(nullable NSString *)postalCode;
 
-//- (BOOL)containsRequiredFields:(SPBillingAddressFields)requiredFields;
-//- (BOOL)containsContentForBillingAddressFields:
-//(SPBillingAddressFields)desiredFields;
-//- (BOOL)containsRequiredShippingAddressFields:
-//(nullable NSSet<SPContactField> *)requiredFields;
-//- (BOOL)containsContentForShippingAddressFields:
-//(nullable NSSet<SPContactField> *)desiredFields;
-//- (NSDictionary *_Nullable )dictionary;
+- (BOOL)containsRequiredFields:(SPBillingAddressFields)requiredFields;
+- (BOOL)containsContentForBillingAddressFields:
+(SPBillingAddressFields)desiredFields;
+- (BOOL)containsRequiredShippingAddressFields:
+(nullable NSSet<SPContactField> *)requiredFields;
+- (BOOL)containsContentForShippingAddressFields:
+(nullable NSSet<SPContactField> *)desiredFields;
+- (NSDictionary *_Nullable )dictionary;
 @end
 
 NS_ASSUME_NONNULL_END
