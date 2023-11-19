@@ -45,4 +45,15 @@ public extension Address {
     postalCode = spAddress.postalCode
     state = spAddress.state
   }
+
+  var spAddress: SPAddress {
+    let spAddress = SPAddress()
+    spAddress.city = city
+    spAddress.country = country
+    spAddress.line1 = line1
+    spAddress.line2 = line2
+    spAddress.postalCode = postalCode
+    spAddress.state = state
+    return spAddress
+  }
 }
