@@ -13,9 +13,7 @@
 
 - (instancetype)init {
   self = [super init];
-  if (self) {
-    _address = [SPAddress new];
-  }
+  if (self) {}
   return self;
 }
 
@@ -25,16 +23,6 @@
   } else {
     return nil;
   }
-}
-
-- (void)setName:(NSString *)name {
-  _name = [name copy];
-  self.address.name = self.name;
-}
-
-- (void)setAddress:(SPAddress *)address {
-  _address = address;
-  _name = [address.name copy];
 }
 
 #pragma mark - Description
@@ -56,8 +44,6 @@
 
     // Cardholder details
     [NSString stringWithFormat:@"name = %@", (self.name) ? @"<redacted>" : nil],
-    [NSString
-     stringWithFormat:@"address = %@", (self.address) ? @"<redacted>" : nil],
   ];
 
   return [NSString
