@@ -6,7 +6,6 @@
  */
 
 #import "SPCardParams.h"
-#import "SPCard+Extras.h"
 
 #import "SPCardValidator.h"
 

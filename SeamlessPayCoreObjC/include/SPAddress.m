@@ -13,7 +13,6 @@
 #import "SPCardValidator.h"
 #import "SPEmailAddressValidator.h"
 #import "SPFormEncoder.h"
-#import "SPPaymentMethodAddress.h"
 #import "SPPaymentMethodBillingDetails.h"
 #import "SPPhoneNumberValidator.h"
 #import "SPPostalCodeValidator.h"
@@ -58,24 +57,6 @@ SPContactField const SPContactFieldName = @"SPContactFieldName";
   }
 
   return stringIfHasContentsElseNil(phone);
-}
-
-- (instancetype)initWithPaymentMethodBillingDetails:
-(SPPaymentMethodBillingDetails *)billingDetails {
-  self = [super init];
-  if (self) {
-    _name = [billingDetails.name copy];
-    _phone = [billingDetails.phone copy];
-    _email = [billingDetails.email copy];
-    SPPaymentMethodAddress *pmAddress = billingDetails.address;
-    _line1 = [pmAddress.line1 copy];
-    _line2 = [pmAddress.line2 copy];
-    _city = [pmAddress.city copy];
-    _state = [pmAddress.state copy];
-    _postalCode = [pmAddress.postalCode copy];
-    _country = [pmAddress.country copy];
-  }
-  return self;
 }
 
 - (instancetype)initWithline1:(NSString *)line1

@@ -121,8 +121,6 @@ extern SPContactField const SPContactFieldName;
 shippingInfoForChargeWithAddress:(nullable SPAddress *)address
 shippingMethod:(nullable PKShippingMethod *)method;
 
-- (instancetype)initWithPaymentMethodBillingDetails:
-(SPPaymentMethodBillingDetails *)billingDetails;
 - (instancetype)initWithPKContact:(PKContact *)contact;
 - (PKContact *)PKContactValue;
 - (instancetype)initWithCNContact:(CNContact *)contact;
