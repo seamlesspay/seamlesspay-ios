@@ -30,9 +30,9 @@ class PaymentViewControllerContainer: UIViewController, SPPaymentViewControllerD
     let billingAddress = Address(
       line1: nil,
       line2: nil,
-      city: nil,
       country: "US",
       state: nil,
+      city: nil,
       postalCode: "12345"
     )
 

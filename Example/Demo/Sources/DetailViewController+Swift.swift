@@ -69,9 +69,9 @@ extension DetailViewController {
       let billingAddress = Address(
         line1: params[14],
         line2: params[16],
-        city: params[18],
         country: params[20],
         state: params[22],
+        city: params[18],
         postalCode: params[24]
       )
 
@@ -125,9 +125,9 @@ extension DetailViewController {
       let address = Address(
         line1: params[6],
         line2: params[8],
-        city: params[10],
         country: params[12],
         state: params[14],
+        city: params[10],
         postalCode: params[16]
       )
 
@@ -185,9 +185,9 @@ extension DetailViewController {
       let address = Address(
         line1: params[6],
         line2: params[8],
-        city: params[10],
         country: params[12],
         state: params[14],
+        city: params[10],
         postalCode: params[16]
       )
 
@@ -311,9 +311,9 @@ extension DetailViewController {
       let billingAddress = Address(
         line1: params[14],
         line2: nil,
-        city: nil,
         country: "US",
         state: nil,
+        city: nil,
         postalCode: params[16]
       )
 
@@ -393,9 +393,9 @@ extension DetailViewController {
       let billingAddress = Address(
         line1: params[14],
         line2: nil,
-        city: params[16],
         country: params[22],
         state: params[18],
+        city: params[16],
         postalCode: params[20]
       )
 
@@ -561,9 +561,9 @@ extension DetailViewController {
     let billingAddress = Address(
       line1: nil,
       line2: nil,
-      city: nil,
       country: nil,
       state: nil,
+      city: nil,
       postalCode: zip
     )
 

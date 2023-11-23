@@ -124,9 +124,9 @@ After the client passes the token, pass its identifier as the source to create a
     let billingAddress = Address(
       line1: nil,
       line2: nil,
-      city: nil,
       country: nil,
       state: nil,
+      city: nil,
       postalCode: cardTextField.postalCode
     )
 

@@ -56,9 +56,9 @@ import SeamlessPayCore
     let billingAddress = Address(
       line1: nil,
       line2: nil,
-      city: nil,
       country: nil,
       state: nil,
+      city: nil,
       postalCode: cardTextField.postalCode
     )
 
