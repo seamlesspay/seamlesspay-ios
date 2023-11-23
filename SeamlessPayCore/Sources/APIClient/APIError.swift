@@ -57,7 +57,7 @@ import Foundation
 // 108  Transaction not found
 // 109  Additional payment required to complete transaction
 
-public struct APIError: Error {
+public struct APIError: LocalizedError {
   public let domain: String
   public let code: Int
   public let userInfo: [String: Any]
@@ -66,6 +66,10 @@ public struct APIError: Error {
     self.domain = domain
     self.code = code
     self.userInfo = userInfo
+  }
+
+  public var errorDescription: String? {
+    userInfo[NSLocalizedDescriptionKey] as? String
   }
 }
 
