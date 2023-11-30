@@ -61,5 +61,5 @@ public struct PaymentMethod: APICodable {
    */
   public let verificationResults: VerificationResults?
 
-  public let billingAddress: BillingAddress?
+  public let billingAddress: Address?
 }

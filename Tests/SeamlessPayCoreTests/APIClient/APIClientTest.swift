@@ -74,9 +74,9 @@ final class APIClientTest: XCTestCase {
       billingAddress: .init(
         line1: "test_line1",
         line2: "test_line2",
-        city: "test_city",
         country: "test_country",
         state: "test_state",
+        city: "test_city",
         postalCode: "test_postalCode"
       ),
       name: "test_name"
@@ -156,9 +156,9 @@ final class APIClientTest: XCTestCase {
       billingAddress: .init(
         line1: "test_line1",
         line2: "test_line2",
-        city: "test_city",
         country: "test_country",
         state: "test_state",
+        city: "test_city",
         postalCode: "test_postalCode"
       ),
       name: "test_name"
@@ -199,9 +199,9 @@ final class APIClientTest: XCTestCase {
       billingAddress: .init(
         line1: "test_line1",
         line2: "test_line2",
-        city: "test_city",
         country: "test_country",
         state: "test_state",
+        city: "test_city",
         postalCode: "test_postalCode"
       ),
       name: "test_name"
@@ -243,9 +243,9 @@ final class APIClientTest: XCTestCase {
       billingAddress: .init(
         line1: "test_line1",
         line2: "test_line2",
-        city: "test_city",
         country: "test_country",
         state: "test_state",
+        city: "test_city",
         postalCode: "test_postalCode"
       ),
       name: "test_name"

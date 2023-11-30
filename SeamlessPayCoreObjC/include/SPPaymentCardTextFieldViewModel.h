@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#import "SPCard.h"
+//#import "SPCard.h"
 #import "SPCardValidator.h"
 #import "SPPostalCodeValidator.h"
 

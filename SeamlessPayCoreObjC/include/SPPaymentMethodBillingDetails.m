@@ -7,7 +7,7 @@
 
 #import "SPPaymentMethodBillingDetails.h"
 #import "NSDictionary+Extras.h"
-#import "SPPaymentMethodAddress.h"
+//#import "SPPaymentMethodAddress.h"
 
 @interface SPPaymentMethodBillingDetails ()
 

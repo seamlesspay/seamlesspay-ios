@@ -125,7 +125,7 @@ public struct Charge: APICodable {
 public struct Order: Codable {
   public let items: [Item]?
   public let shipFromPostalCode: String?
-  public let shippingAddress: ShippingAddress?
+  public let shippingAddress: Address?
 }
 
 // MARK: - Item
@@ -148,11 +148,6 @@ public struct Item: Codable {
     case unitOfMeasure
     case upc
   }
-}
-
-// MARK: - ShippingAddress
-public struct ShippingAddress: Codable {
-  public let city, country, line1, line2, postalCode, state: String?
 }
 
 // MARK: - VerificationResults

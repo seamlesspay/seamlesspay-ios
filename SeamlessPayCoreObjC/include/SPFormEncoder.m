@@ -24,8 +24,7 @@ FOUNDATION_EXPORT NSString * SPQueryStringFromParameters(NSDictionary *parameter
   return [camelCaseParam copy];
 }
 
-+ (NSDictionary *)dictionaryForObject:
-(nonnull NSObject<SPFormEncodable> *)object {
++ (NSDictionary *)dictionaryForObject:(nonnull NSObject<SPFormEncodable> *)object {
   NSDictionary *keyPairs = [self keyPairDictionaryForObject:object];
   NSString *rootObjectName = [object.class rootObjectName];
   NSDictionary *dict =

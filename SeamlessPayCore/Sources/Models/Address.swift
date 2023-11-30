@@ -9,40 +9,28 @@ import Foundation
 
 // MARK: - Address
 public struct Address {
-  public let city: String?
-  public let country: String?
   public let line1: String?
   public let line2: String?
-  public let postalCode: String?
+  public let country: String?
   public let state: String?
+  public let city: String?
+  public let postalCode: String?
 
   public init(
     line1: String?,
     line2: String?,
-    city: String?,
     country: String?,
     state: String?,
+    city: String?,
     postalCode: String?
   ) {
-    self.city = city
-    self.country = country
     self.line1 = line1
     self.line2 = line2
-    self.postalCode = postalCode
+    self.country = country
     self.state = state
+    self.city = city
+    self.postalCode = postalCode
   }
 }
 
-extension Address: APIEncodable, APIReqParameterable {}
-
-// MARK: - SPAddress compatibility
-public extension Address {
-  init(spAddress: SPAddress) {
-    city = spAddress.city
-    country = spAddress.country
-    line1 = spAddress.line1
-    line2 = spAddress.line2
-    postalCode = spAddress.postalCode
-    state = spAddress.state
-  }
-}
+extension Address: APICodable, APIReqParameterable {}
