@@ -79,7 +79,7 @@ public struct Charge: APICodable {
    * Enum: "Credit" "Debit" "Prepaid".
    * Determines the card type (credit, debit, prepaid) and usage (pin, signature etc.).
    */
-  public let accountType: String?
+  public let accountType: AccountType?
   /**
    * Payment type
    */

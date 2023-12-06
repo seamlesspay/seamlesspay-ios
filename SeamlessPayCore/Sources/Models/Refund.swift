@@ -11,7 +11,7 @@ import Foundation
 
 public class Refund: APICodable {
   public let id: String
-  public let accountType: String?
+  public let accountType: AccountType?
   public let amount: String?
   public let authCode: String?
   public let batchID: String?

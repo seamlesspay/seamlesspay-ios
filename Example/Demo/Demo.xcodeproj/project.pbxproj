@@ -116,11 +116,11 @@
 				6384F1072AED71410038AE4D /* SPPaymentCardTextFieldSwift.swift */,
 				6384F1062AED71410038AE4D /* SeamlessPayDemo-Bridging-Header.h */,
 				6384F10B2AED71410038AE4D /* MasterViewController.h */,
-				6384F1092AED71410038AE4D /* DetailViewController.m */,
+				6384F1132AED71410038AE4D /* MasterViewController.m */,
 				6384F10C2AED71410038AE4D /* Verification */,
 				6384F1102AED71410038AE4D /* SwiftUIViewHostingControllerFactory.swift */,
 				6384F1142AED71410038AE4D /* DetailViewController.h */,
-				6384F1132AED71410038AE4D /* MasterViewController.m */,
+				6384F1092AED71410038AE4D /* DetailViewController.m */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
