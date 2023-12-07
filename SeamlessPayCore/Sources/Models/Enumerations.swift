@@ -23,6 +23,8 @@ public enum Status: String, APICodable {
   case captured
   case declined
   case error
+  case settled
+  case voided
 }
 
 public enum Method: String, APICodable {
