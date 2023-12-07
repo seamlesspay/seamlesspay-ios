@@ -84,8 +84,6 @@ public class APIClient {
       parameters["cvv"] = cvv
     case .giftCard:
       parameters["pinNumber"] = pin
-    case .plDebitCard:
-      parameters["expDate"] = expDate?.stringValue
     }
 
     execute(

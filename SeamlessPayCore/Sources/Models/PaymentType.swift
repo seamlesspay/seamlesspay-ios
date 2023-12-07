@@ -9,7 +9,6 @@ import Foundation
 
 public enum PaymentType: String, APICodable {
   case creditCard = "credit_card"
-  case plDebitCard = "pldebit_card"
   case giftCard = "gift_card"
   case ach
 }

@@ -736,17 +736,6 @@ private extension DetailViewController {
   }
 
   private func paymentTypeFromString(_ string: String) -> PaymentType {
-    switch string {
-    case "credit_card":
-      return .creditCard
-    case "pldebit_card":
-      return .plDebitCard
-    case "gift_card":
-      return .giftCard
-    case "ach":
-      return .ach
-    default:
-      return .creditCard
-    }
+    PaymentType(rawValue: string) ?? .creditCard
   }
 }
