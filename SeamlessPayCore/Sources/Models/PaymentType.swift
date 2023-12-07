@@ -7,24 +7,9 @@
 
 import Foundation
 
-public enum PaymentType: UInt {
+public enum PaymentType: String, APICodable {
+  case creditCard = "credit_card"
+  case plDebitCard = "pldebit_card"
+  case giftCard = "gift_card"
   case ach
-  case creditCard
-  case giftCard
-  case plDebitCard
-}
-
-extension PaymentType {
-  var name: String {
-    switch self {
-    case .ach:
-      return "ach"
-    case .creditCard:
-      return "credit_card"
-    case .giftCard:
-      return "gift_card"
-    case .plDebitCard:
-      return "pldebit_card"
-    }
-  }
 }

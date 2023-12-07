@@ -17,7 +17,7 @@ public struct Charge: APICodable {
   /**
    * Value: "charge"  Transaction method
    */
-  public let method: String?
+  public let method: Method?
   /**
    * Amount to add to stored value account.
    */
@@ -37,7 +37,7 @@ public struct Charge: APICodable {
   /**
    * Currency:  USD - United States dollar.  CAD - Canadian dollar.
    */
-  public let currency: String?
+  public let currency: Currency?
   /**
    * Card Expiration Date.
    */
@@ -57,7 +57,7 @@ public struct Charge: APICodable {
   /**
    * Enum: "authorized" "captured" "declined" "error"  Transaction status
    */
-  public let status: String?
+  public let status: Status?
   /**
    * Transaction status code
    * (See all available transaction status codes https://docs.seamlesspay.com/#section/Transaction-Statuses ).
@@ -83,12 +83,12 @@ public struct Charge: APICodable {
   /**
    * Payment type
    */
-  public let paymentType: String?
+  public let paymentType: PaymentType?
   /**
    * Enum: "Visa" "MasterCard" "American Express" "Discover".
    * Detail Card Product - Visa, MasterCard, American Express, Discover.
    */
-  public let paymentNetwork: String?
+  public let paymentNetwork: PaymentNetwork?
   /**
    * Batch ID
    */
@@ -152,5 +152,5 @@ public struct Item: Codable {
 
 // MARK: - VerificationResults
 public struct VerificationResults: Codable {
-  public let avsPostalCode, avsStreetAddress, cvv: String?
+  public let avsPostalCode, avsStreetAddress, cvv: AVSResult?
 }

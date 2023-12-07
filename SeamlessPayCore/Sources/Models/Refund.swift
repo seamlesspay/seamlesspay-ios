@@ -16,15 +16,15 @@ public class Refund: APICodable {
   public let authCode: String?
   public let batchID: String?
   public let createdAt: String?
-  public let currency: String?
+  public let currency: Currency?
   public let events: [Event]?
   public let idempotencyKey: String?
   public let ipAddress: String?
   public let lastFour: String?
   public let metadata: String?
   public let method: String?
-  public let paymentNetwork: String?
-  public let status: String?
+  public let paymentNetwork: PaymentNetwork?
+  public let status: Status?
   public let statusCode: String?
   public let statusDescription: String?
   public let token: String?

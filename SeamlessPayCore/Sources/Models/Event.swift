@@ -9,14 +9,26 @@ import Foundation
 
 // MARK: - Event
 public struct Event: Codable {
+  public enum Status: String, APICodable {
+    case success
+    case fail
+  }
+
+  public enum EType: String, APICodable {
+    case authorized
+    case captured
+    case declined
+    case error
+  }
+
   public let delta: String?
   public let createdAt: String?
   public let eventDelta: String?
   public let offlineCreatedAt: String?
-  public let status: String?
+  public let status: Event.Status?
   public let statusCode: String?
   public let statusDescription: String?
-  public let type: String?
+  public let type: EType?
 
   enum CodingKeys: String, CodingKey {
     case delta = "_delta"
