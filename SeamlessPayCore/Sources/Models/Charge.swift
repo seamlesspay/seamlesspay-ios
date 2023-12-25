@@ -17,7 +17,7 @@ public struct Charge: APICodable {
   /**
    * Value: "charge"  Transaction method
    */
-  public let method: Method?
+  public let method: TransactionMethod?
   /**
    * Amount to add to stored value account.
    */
@@ -57,7 +57,7 @@ public struct Charge: APICodable {
   /**
    * Enum: "authorized" "captured" "declined" "error"  Transaction status
    */
-  public let status: Status?
+  public let status: TransactionStatus?
   /**
    * Transaction status code
    * (See all available transaction status codes https://docs.seamlesspay.com/#section/Transaction-Statuses ).

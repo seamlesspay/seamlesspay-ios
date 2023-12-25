@@ -18,16 +18,19 @@ public enum Currency: String, APICodable {
   case cad = "CAD"
 }
 
-public enum Status: String, APICodable {
+public enum TransactionStatus: String, APICodable {
   case authorized
   case captured
   case declined
   case error
   case settled
   case voided
+  case verification
+  case refunded
+  case partially_refunded
 }
 
-public enum Method: String, APICodable {
+public enum TransactionMethod: String, APICodable {
   case refund
   case charge
 }

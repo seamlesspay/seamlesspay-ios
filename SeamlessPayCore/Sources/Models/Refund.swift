@@ -22,9 +22,9 @@ public class Refund: APICodable {
   public let ipAddress: String?
   public let lastFour: String?
   public let metadata: String?
-  public let method: String?
+  public let method: TransactionMethod?
   public let paymentNetwork: PaymentNetwork?
-  public let status: Status?
+  public let status: TransactionStatus?
   public let statusCode: String?
   public let statusDescription: String?
   public let token: String?

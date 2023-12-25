@@ -14,11 +14,14 @@ public struct Event: Codable {
     case fail
   }
 
-  public enum EType: String, APICodable {
-    case authorized
-    case captured
-    case declined
-    case error
+  public enum `Type`: String, APICodable {
+    case authorize
+    case adjust
+    case capture
+    case uncapture
+    case void
+    case refund
+    case settle
   }
 
   public let delta: String?
@@ -28,7 +31,7 @@ public struct Event: Codable {
   public let status: Event.Status?
   public let statusCode: String?
   public let statusDescription: String?
-  public let type: EType?
+  public let type: Event.`Type`?
 
   enum CodingKeys: String, CodingKey {
     case delta = "_delta"
