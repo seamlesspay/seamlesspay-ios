@@ -228,49 +228,6 @@ final class APIClientTest: XCTestCase {
     wait(for: [expectation], timeout: 1.5)
   }
 
-  func testTokenizePlDebitCardRequest() {
-    let expectation = XCTestExpectation(description: "Request completed")
-
-    // when
-    client.tokenize(
-      paymentType: .plDebitCard,
-      accountNumber: "test_accountNumber",
-      expDate: .init(month: 7, year: 33),
-      cvv: "test_cvv",
-      accountType: "test_accountType",
-      routing: "test_routing",
-      pin: "test_ping",
-      billingAddress: .init(
-        line1: "test_line1",
-        line2: "test_line2",
-        country: "test_country",
-        state: "test_state",
-        city: "test_city",
-        postalCode: "test_postalCode"
-      ),
-      name: "test_name"
-    ) { result in
-
-      // then
-      let request = APIClientURLProtocolMock.testingRequest!
-      let body = request.bodyStreamAsJSON()!
-
-      let expDate = body["expDate"] as! String
-
-      // parameters
-      XCTAssertEqual(expDate, "7/33")
-
-      XCTAssertNil(body["cvv"])
-      XCTAssertNil(body["bankAccountType"])
-      XCTAssertNil(body["routingNumber"])
-      XCTAssertNil(body["pinNumber"])
-
-      expectation.fulfill()
-    }
-
-    wait(for: [expectation], timeout: 1.5)
-  }
-
   // MARK: Charge
   func testListChargesRequest() {
     let expectation = XCTestExpectation(description: "Request completed")

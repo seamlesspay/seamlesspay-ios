@@ -68,7 +68,7 @@ public class APIClient {
     completion: ((Result<PaymentMethod, SeamlessPayError>) -> Void)?
   ) {
     var parameters: [String: Any?] = [
-      "paymentType": paymentType.name,
+      "paymentType": paymentType.rawValue,
       "accountNumber": accountNumber,
       "billingAddress": billingAddress?.asParameter(),
       "name": name,
@@ -84,8 +84,6 @@ public class APIClient {
       parameters["cvv"] = cvv
     case .giftCard:
       parameters["pinNumber"] = pin
-    case .plDebitCard:
-      parameters["expDate"] = expDate?.stringValue
     }
 
     execute(

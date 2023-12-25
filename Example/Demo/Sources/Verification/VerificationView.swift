@@ -63,11 +63,11 @@ struct VerificationView: View {
                 SPChargeDetailView(
                   viewModel: .init(
                     id: charge.id,
-                    method: charge.method,
+                    method: charge.method?.rawValue,
                     amount: charge.amount,
                     tip: charge.tip,
-                    currency: charge.currency,
-                    status: charge.status
+                    currency: charge.currency?.rawValue,
+                    status: charge.status?.rawValue
                   )
                 )
               case let .failure(error):

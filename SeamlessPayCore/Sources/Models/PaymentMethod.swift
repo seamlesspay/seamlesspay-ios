@@ -33,12 +33,12 @@ public struct PaymentMethod: APICodable {
   /**
    *  The various card brands to which a payment card can belong.
    */
-  public let paymentNetwork: String?
+  public let paymentNetwork: PaymentNetwork?
   /**
    *  PAN Vault support five types of payments "Credit Card", "PINLess Debit
    *  Card", "ACH", "Gift Card" enum: credit_card, pldebit_card, ach, gift_card
    */
-  public let paymentType: String?
+  public let paymentType: PaymentType?
   /**
    *  Bank account type: "Checking" "Savings"
    */

@@ -93,7 +93,7 @@ extension DetailViewController {
 
           let paymentMethodInfo = """
           Token info:<br>\(paymentMethod.token)<br>\
-          \(paymentMethod.paymentType ?? "")<br>\
+          \(paymentMethod.paymentType?.rawValue ?? "")<br>\
           \(paymentMethod.lastFour ?? "")<br>\
           \(paymentMethod.expDate ?? "")<br>
           """
@@ -358,7 +358,7 @@ extension DetailViewController {
                 with: """
                 <div id="info">
                 Amount: $\(charge.amount ?? "")<br>
-                Status: \(charge.status ?? "")<br>
+                Status: \(charge.status?.rawValue ?? "")<br>
                 Status message: \(charge.statusDescription ?? "")<br>
                 txnID #: \(charge.id)</div>
                 """
@@ -439,7 +439,7 @@ extension DetailViewController {
                 with: """
                 <div id="info">
                 Amount: $\(charge.amount ?? "")<br>
-                Status: \(charge.status ?? "")<br>
+                Status: \(charge.status?.rawValue ?? "")<br>
                 Status message: \(charge.statusDescription ?? "")<br>
                 txnID #: \(charge.id)</div>
                 """
@@ -510,7 +510,7 @@ extension DetailViewController {
                 with: """
                 <div id="info">
                 Amount: $\(charge.amount ?? "")<br>
-                Status: \(charge.status ?? "")<br>
+                Status: \(charge.status?.rawValue ?? "")<br>
                 Status message: \(charge.statusDescription ?? "")<br>
                 txnID #: \(charge.id)</div>
                 """
@@ -607,7 +607,7 @@ extension DetailViewController {
             let elapsedTime = CACurrentMediaTime() - startTime
             let success = """
                 Amount: $\(charge.amount ?? "")
-                Status: \(charge.status ?? "")
+                Status: \(charge.status?.rawValue ?? "")
                 Status message: \(charge.statusDescription ?? "")
                 txnID #: \(charge.id)
                 TimeInterval: \(elapsedTime) s
@@ -736,17 +736,6 @@ private extension DetailViewController {
   }
 
   private func paymentTypeFromString(_ string: String) -> PaymentType {
-    switch string {
-    case "credit_card":
-      return .creditCard
-    case "pldebit_card":
-      return .plDebitCard
-    case "gift_card":
-      return .giftCard
-    case "ach":
-      return .ach
-    default:
-      return .creditCard
-    }
+    PaymentType(rawValue: string) ?? .creditCard
   }
 }

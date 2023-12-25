@@ -62,7 +62,7 @@ class PaymentViewControllerContainer: UIViewController, SPPaymentViewControllerD
     let success =
       """
       Amount: $\(charge.amount ?? "")
-      Status: \(charge.status ?? "")
+      Status: \(charge.status?.rawValue ?? "")
       Status message: \(charge.statusDescription ?? "")
       txnID #: \(charge.id)
       """
