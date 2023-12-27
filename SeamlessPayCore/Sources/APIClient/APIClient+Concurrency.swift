@@ -19,8 +19,8 @@ public extension APIClient {
     pin: String? = nil,
     billingAddress: Address? = nil,
     name: String? = nil
-  ) async throws -> PaymentMethod {
-    return try await withCheckedThrowingContinuation { continuation in
+  ) async -> Result<PaymentMethod, SeamlessPayError> {
+    await withCheckedContinuation { continuation in
       tokenize(
         paymentType: paymentType,
         accountNumber: accountNumber,
@@ -32,7 +32,7 @@ public extension APIClient {
         billingAddress: billingAddress,
         name: name
       ) { result in
-        resume(continuation: continuation, accordingTo: result)
+        continuation.resume(returning: result)
       }
     }
   }
@@ -48,8 +48,8 @@ public extension APIClient {
     website: String? = nil,
     paymentMethods: [PaymentMethod]? = nil,
     metadata: String? = nil
-  ) async throws -> Customer {
-    return try await withCheckedThrowingContinuation { continuation in
+  ) async -> Result<Customer, SeamlessPayError> {
+    await withCheckedContinuation { continuation in
       createCustomer(
         name: name,
         email: email,
@@ -61,7 +61,7 @@ public extension APIClient {
         paymentMethods: paymentMethods,
         metadata: metadata
       ) { result in
-        resume(continuation: continuation, accordingTo: result)
+        continuation.resume(returning: result)
       }
     }
   }
@@ -77,8 +77,8 @@ public extension APIClient {
     website: String? = nil,
     paymentMethods: [PaymentMethod]? = nil,
     metadata: String? = nil
-  ) async throws -> Customer {
-    return try await withCheckedThrowingContinuation { continuation in
+  ) async -> Result<Customer, SeamlessPayError> {
+    await withCheckedContinuation { continuation in
       updateCustomer(
         id: id,
         name: name,
@@ -90,19 +90,19 @@ public extension APIClient {
         website: website,
         paymentMethods: paymentMethods
       ) { result in
-        resume(continuation: continuation, accordingTo: result)
+        continuation.resume(returning: result)
       }
     }
   }
 
   func retrieveCustomer(
     id: String
-  ) async throws -> Customer {
-    return try await withCheckedThrowingContinuation { continuation in
+  ) async -> Result<Customer, SeamlessPayError> {
+    await withCheckedContinuation { continuation in
       retrieveCustomer(
         id: id
       ) { result in
-        resume(continuation: continuation, accordingTo: result)
+        continuation.resume(returning: result)
       }
     }
   }
@@ -126,8 +126,8 @@ public extension APIClient {
     descriptor: String? = nil,
     entryType: String? = nil,
     idempotencyKey: String? = nil
-  ) async throws -> Charge {
-    return try await withCheckedThrowingContinuation { continuation in
+  ) async -> Result<Charge, SeamlessPayError> {
+    await withCheckedContinuation { continuation in
       createCharge(
         token: token,
         cvv: cvv,
@@ -147,37 +147,37 @@ public extension APIClient {
         entryType: entryType,
         idempotencyKey: idempotencyKey
       ) { result in
-        resume(continuation: continuation, accordingTo: result)
+        continuation.resume(returning: result)
       }
     }
   }
 
   func retrieveCharge(
     id: String
-  ) async throws -> Charge {
-    return try await withCheckedThrowingContinuation { continuation in
+  ) async -> Result<Charge, SeamlessPayError> {
+    await withCheckedContinuation { continuation in
       retrieveCharge(
         id: id
       ) { result in
-        resume(continuation: continuation, accordingTo: result)
+        continuation.resume(returning: result)
       }
     }
   }
 
-  func listCharges() async throws -> ChargePage {
-    return try await withCheckedThrowingContinuation { continuation in
+  func listCharges() async -> Result<ChargePage, SeamlessPayError> {
+    await withCheckedContinuation { continuation in
       listCharges { result in
-        resume(continuation: continuation, accordingTo: result)
+        continuation.resume(returning: result)
       }
     }
   }
 
   func voidCharge(
     id: String
-  ) async throws -> Charge {
-    return try await withCheckedThrowingContinuation { continuation in
+  ) async -> Result<Charge, SeamlessPayError> {
+    await withCheckedContinuation { continuation in
       voidCharge(id: id) { result in
-        resume(continuation: continuation, accordingTo: result)
+        continuation.resume(returning: result)
       }
     }
   }
@@ -199,8 +199,8 @@ public extension APIClient {
     descriptor: String? = nil,
     entryType: String? = nil,
     idempotencyKey: String? = nil
-  ) async throws -> Charge {
-    return try await withCheckedThrowingContinuation { continuation in
+  ) async -> Result<Charge, SeamlessPayError> {
+    return await withCheckedContinuation { continuation in
       verify(
         token: token,
         cvv: cvv,
@@ -218,7 +218,7 @@ public extension APIClient {
         entryType: entryType,
         idempotencyKey: idempotencyKey
       ) { result in
-        resume(continuation: continuation, accordingTo: result)
+        continuation.resume(returning: result)
       }
     }
   }
@@ -231,8 +231,8 @@ public extension APIClient {
     descriptor: String? = nil,
     idempotencyKey: String? = nil,
     metadata: String? = nil
-  ) async throws -> Refund {
-    return try await withCheckedThrowingContinuation { continuation in
+  ) async -> Result<Refund, SeamlessPayError> {
+    await withCheckedContinuation { continuation in
       createRefund(
         token: token,
         amount: amount,
@@ -241,20 +241,8 @@ public extension APIClient {
         idempotencyKey: idempotencyKey,
         metadata: metadata
       ) { result in
-        resume(continuation: continuation, accordingTo: result)
+        continuation.resume(returning: result)
       }
     }
-  }
-}
-
-private func resume<T>(
-  continuation: CheckedContinuation<T, Error>,
-  accordingTo result: Result<T, SeamlessPayError>
-) {
-  switch result {
-  case let .success(data):
-    continuation.resume(returning: data)
-  case let .failure(error):
-    continuation.resume(throwing: error)
   }
 }

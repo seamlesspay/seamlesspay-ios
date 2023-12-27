@@ -40,7 +40,7 @@ final class APIClientConcurrencyTest: XCTestCase {
   // MARK: Tokenize
   func testAsyncTokenizeCreditCardRequest() async {
     // when
-    _ = try? await client.tokenize(
+    _ = await client.tokenize(
       paymentType: .creditCard,
       accountNumber: "test_accountNumber",
       expDate: .init(month: 7, year: 33),
@@ -67,7 +67,7 @@ final class APIClientConcurrencyTest: XCTestCase {
   // MARK: Charge
   func testListChargesRequest() async {
     // when
-    _ = try? await client.listCharges()
+    _ = await client.listCharges()
 
     // then
     XCTAssertEqual(urlToBeTested, "https://sandbox.seamlesspay.com/charges")
@@ -76,7 +76,7 @@ final class APIClientConcurrencyTest: XCTestCase {
 
   func testAsyncGetChargeRequest() async {
     // when
-    _ = try? await client.retrieveCharge(id: "test_charge_id")
+    _ = await client.retrieveCharge(id: "test_charge_id")
 
     // then
     XCTAssertEqual(urlToBeTested, "https://sandbox.seamlesspay.com/charges/test_charge_id")
@@ -85,7 +85,7 @@ final class APIClientConcurrencyTest: XCTestCase {
 
   func testAsyncVoidChargeRequest() async {
     // when
-    _ = try? await client.voidCharge(id: "test_charge_id")
+    _ = await client.voidCharge(id: "test_charge_id")
 
     // then
     XCTAssertEqual(urlToBeTested, "https://sandbox.seamlesspay.com/charges/test_charge_id")
@@ -94,7 +94,7 @@ final class APIClientConcurrencyTest: XCTestCase {
 
   func testAsyncCreateChargeRequest() async {
     // when
-    _ = try? await client.createCharge(token: "test_token", capture: true)
+    _ = await client.createCharge(token: "test_token", capture: true)
 
     // then
     XCTAssertEqual(urlToBeTested, "https://sandbox.seamlesspay.com/charges")
@@ -104,7 +104,7 @@ final class APIClientConcurrencyTest: XCTestCase {
   // MARK: Verify
   func testAsyncVerifyRequest() async {
     // when
-    _ = try? await client.verify(token: "test_token")
+    _ = await client.verify(token: "test_token")
 
     // then
     XCTAssertEqual(urlToBeTested, "https://sandbox.seamlesspay.com/charges")
@@ -115,7 +115,7 @@ final class APIClientConcurrencyTest: XCTestCase {
 
   func testAsyncCreateRefundRequest() async {
     // when
-    _ = try? await client.createRefund(
+    _ = await client.createRefund(
       token: "test_token",
       amount: "101"
     )

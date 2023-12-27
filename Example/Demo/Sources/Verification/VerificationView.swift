@@ -110,14 +110,13 @@ struct VerificationView: View {
     }
   }
 
+  @MainActor
   private func verifyToken() {
     verificationState = .verifying
     tokenFieldIsFocused = false
 
-    APIClient.shared.verify(token: token) { result in
-      DispatchQueue.main.async {
-        verificationState = .verified(result)
-      }
+    Task {
+      verificationState = await .verified(APIClient.shared.verify(token: token))
     }
   }
 }
