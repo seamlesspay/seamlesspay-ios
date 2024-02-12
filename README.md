@@ -170,6 +170,30 @@ After the client passes the token, pass its identifier as the source to create a
   }
 ```
 
+## Swift Concurrency
+
+The SeamlessPay iOS SDK API client now supports new Swift concurrency. Swift's concurrency, released in Swift 5.5, refers to a collection of features and tools aimed at simplifying and managing concurrent and asynchronous programming tasks. These include the async/await syntax, structured concurrency, and actors. The SeamlessPay iOS SDK provides the `APIClient` extension, allowing you to make API calls with Swift's concurrency features.
+
+```swift
+  let result = await APIClient.shared.tokenize(
+    paymentType: .creditCard,
+    accountNumber: cardTextField.cardNumber ?? .init(),
+    expDate: .init(month: cardTextField.expirationMonth, year: cardTextField.expirationYear),
+    cvv: cardTextField.cvc,
+    billingAddress: billingAddress,
+    name: "Michael Smith"
+  )
+```
+
+```swift
+  let result = await APIClient.shared.createCharge(
+    token: token,
+    cvv: cardTextField.cvc,
+    capture: true,
+    amount: "1",
+    taxExempt: false
+  )
+```
 
 Start with [**'Demo APP'**](https://github.com/seamlesspay/seamlesspay-ios/tree/dev/Example/Demo) for sample on basic setup and usage.
 
