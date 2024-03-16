@@ -6,7 +6,7 @@
 // *
 
 import SwiftUI
-import SeamlessPayCore
+import SeamlessPay
 
 private enum VerificationState {
   case idle

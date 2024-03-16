@@ -7,7 +7,7 @@
 
 import XCTest
 @testable import PodsDemo
-import SeamlessPayCore
+import SeamlessPay
 
 final class PodsDemoTests: XCTestCase {
   func testSeamlessPaySDKSetup() {

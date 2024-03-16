@@ -6,7 +6,7 @@
 // *
 
 import UIKit
-import SeamlessPayCore
+import SeamlessPay
 
 class PaymentViewControllerContainer: UIViewController, SPPaymentViewControllerDelegate {
   var paymentViewController: SPPaymentViewController?
@@ -51,13 +51,13 @@ class PaymentViewControllerContainer: UIViewController, SPPaymentViewControllerD
   // MARK: SPPaymentViewControllerDelegate
 
   func paymentViewControllerPaymentMethodSuccess(
-    _ viewController: SeamlessPayCore.SPPaymentViewController,
+    _ viewController: SeamlessPay.SPPaymentViewController,
     paymentMethod: PaymentMethod
   ) {}
 
   func paymentViewControllerChargeSuccess(
-    _ viewController: SeamlessPayCore.SPPaymentViewController,
-    charge: SeamlessPayCore.Charge
+    _ viewController: SeamlessPay.SPPaymentViewController,
+    charge: SeamlessPay.Charge
   ) {
     let success =
       """
@@ -70,15 +70,15 @@ class PaymentViewControllerContainer: UIViewController, SPPaymentViewControllerD
   }
 
   func paymentViewControllerPaymentMethodError(
-    _ viewController: SeamlessPayCore.SPPaymentViewController,
-    error: SeamlessPayCore.SeamlessPayError
+    _ viewController: SeamlessPay.SPPaymentViewController,
+    error: SeamlessPay.SeamlessPayError
   ) {
     displayAlertWithTitle("Error", message: error.localizedDescription)
   }
 
   func paymentViewControllerChargeError(
-    _ viewController: SeamlessPayCore.SPPaymentViewController,
-    error: SeamlessPayCore.SeamlessPayError
+    _ viewController: SeamlessPay.SPPaymentViewController,
+    error: SeamlessPay.SeamlessPayError
   ) {
     displayAlertWithTitle("Error", message: error.localizedDescription)
   }

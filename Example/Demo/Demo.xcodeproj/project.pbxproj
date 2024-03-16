@@ -3,13 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		6383CB4D2AF6B05800A115B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6383CB4C2AF6AE9B00A115B9 /* AppDelegate.swift */; };
 		6383CB4E2AF6B05C00A115B9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6383CB4B2AF6AE9B00A115B9 /* SceneDelegate.swift */; };
-		6384F0DA2AED6D390038AE4D /* SeamlessPayCore in Frameworks */ = {isa = PBXBuildFile; productRef = 6384F0D92AED6D390038AE4D /* SeamlessPayCore */; };
+		638437592BA6F92D003403C1 /* SeamlessPay in Frameworks */ = {isa = PBXBuildFile; productRef = 638437582BA6F92D003403C1 /* SeamlessPay */; };
 		6384F11A2AED71410038AE4D /* PaymentViewControllerContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1032AED71410038AE4D /* PaymentViewControllerContainer.swift */; };
 		6384F11B2AED71410038AE4D /* DetailViewController+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1042AED71410038AE4D /* DetailViewController+Swift.swift */; };
 		6384F11C2AED71410038AE4D /* SPPaymentCardTextFieldSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1072AED71410038AE4D /* SPPaymentCardTextFieldSwift.swift */; };
@@ -31,7 +31,6 @@
 		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6383CB4B2AF6AE9B00A115B9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		6383CB4C2AF6AE9B00A115B9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		6384F0D82AED6CC30038AE4D /* seamlesspay-ios */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "seamlesspay-ios"; path = ../..; sourceTree = "<group>"; };
 		6384F1032AED71410038AE4D /* PaymentViewControllerContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentViewControllerContainer.swift; sourceTree = "<group>"; };
 		6384F1042AED71410038AE4D /* DetailViewController+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DetailViewController+Swift.swift"; sourceTree = "<group>"; };
 		6384F1062AED71410038AE4D /* SeamlessPayDemo-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SeamlessPayDemo-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -44,7 +43,6 @@
 		6384F1102AED71410038AE4D /* SwiftUIViewHostingControllerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftUIViewHostingControllerFactory.swift; sourceTree = "<group>"; };
 		6384F1132AED71410038AE4D /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
 		6384F1142AED71410038AE4D /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
-		638C9BED2AF6C924006ACE43 /* Demo.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Demo.xctestplan; sourceTree = "<group>"; };
 		63BBDA742AED726600DD4267 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		63BBDA752AED726600DD4267 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		63BBDA762AED726600DD4267 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -58,7 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6384F0DA2AED6D390038AE4D /* SeamlessPayCore in Frameworks */,
+				638437592BA6F92D003403C1 /* SeamlessPay in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,13 +66,11 @@
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
-				638C9BED2AF6C924006ACE43 /* Demo.xctestplan */,
 				63BBDA802AED784600DD4267 /* .swiftformat */,
 				63BBDA812AED784600DD4267 /* .swiftlint.yml */,
 				63BBDA7E2AED72F400DD4267 /* Info.plist */,
 				6384F1022AED71410038AE4D /* Sources */,
 				63BBDA732AED726600DD4267 /* Resources */,
-				6384F0D42AED6AEA0038AE4D /* Packages */,
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
 			);
@@ -96,14 +92,6 @@
 				6003F591195388D20070C39A /* UIKit.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		6384F0D42AED6AEA0038AE4D /* Packages */ = {
-			isa = PBXGroup;
-			children = (
-				6384F0D82AED6CC30038AE4D /* seamlesspay-ios */,
-			);
-			name = Packages;
 			sourceTree = "<group>";
 		};
 		6384F1022AED71410038AE4D /* Sources */ = {
@@ -164,7 +152,7 @@
 			);
 			name = Demo;
 			packageProductDependencies = (
-				6384F0D92AED6D390038AE4D /* SeamlessPayCore */,
+				638437582BA6F92D003403C1 /* SeamlessPay */,
 			);
 			productName = SeamlessPayDemo;
 			productReference = 1C94042F23D3451700BC4697 /* Demo.app */;
@@ -198,6 +186,9 @@
 				Base,
 			);
 			mainGroup = 6003F581195388D10070C39A;
+			packageReferences = (
+				638437572BA6F92D003403C1 /* XCLocalSwiftPackageReference "../.." */,
+			);
 			productRefGroup = 6003F58B195388D20070C39A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -319,7 +310,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.seamlesspay.core.SeamlessPayDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.seamlesspay.SeamlessPayDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Sources/SeamlessPayDemo-Bridging-Header.h";
@@ -368,7 +359,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.seamlesspay.core.SeamlessPayDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.seamlesspay.SeamlessPayDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Sources/SeamlessPayDemo-Bridging-Header.h";
@@ -504,10 +495,17 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		638437572BA6F92D003403C1 /* XCLocalSwiftPackageReference "../.." */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../..;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
-		6384F0D92AED6D390038AE4D /* SeamlessPayCore */ = {
+		638437582BA6F92D003403C1 /* SeamlessPay */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = SeamlessPayCore;
+			productName = SeamlessPay;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

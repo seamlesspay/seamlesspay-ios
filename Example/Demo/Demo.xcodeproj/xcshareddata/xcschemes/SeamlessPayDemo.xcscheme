@@ -17,7 +17,7 @@
                BlueprintIdentifier = "1C94042E23D3451700BC4697"
                BuildableName = "SeamlessPayDemo.app"
                BlueprintName = "SeamlessPayDemo"
-               ReferencedContainer = "container:SeamlessPayCore.xcodeproj">
+               ReferencedContainer = "container:SeamlessPay.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,7 +47,7 @@
             BlueprintIdentifier = "1C94042E23D3451700BC4697"
             BuildableName = "SeamlessPayDemo.app"
             BlueprintName = "SeamlessPayDemo"
-            ReferencedContainer = "container:SeamlessPayCore.xcodeproj">
+            ReferencedContainer = "container:SeamlessPay.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -64,7 +64,7 @@
             BlueprintIdentifier = "1C94042E23D3451700BC4697"
             BuildableName = "SeamlessPayDemo.app"
             BlueprintName = "SeamlessPayDemo"
-            ReferencedContainer = "container:SeamlessPayCore.xcodeproj">
+            ReferencedContainer = "container:SeamlessPay.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

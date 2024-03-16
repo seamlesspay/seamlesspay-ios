@@ -6,7 +6,7 @@
 // *
 
 import SwiftUI
-import SeamlessPayCore
+import SeamlessPay
 
 struct SPDetailErrorView: View {
   var viewModel: SeamlessPayError
