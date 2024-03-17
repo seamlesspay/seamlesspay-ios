@@ -6,7 +6,7 @@
 
 #import <XCTest/XCTest.h>
 
-#import "../../SeamlessPayObjC/include/SPFPXBankBrand.h"
+#import "SPFPXBankBrand.h"
 
 @interface SPFPXBankBrandTest : XCTestCase
 

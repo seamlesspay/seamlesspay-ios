@@ -6,8 +6,8 @@
 
 #import <XCTest/XCTest.h>
 
-#import "../../SeamlessPayObjC/include/SPBINRange.h"
-#import "../../SeamlessPayObjC/include/SPCardBrand.h"
+#import "SPBINRange.h"
+#import "SPCardBrand.h"
 
 @interface SPBINRange(Testing)
 

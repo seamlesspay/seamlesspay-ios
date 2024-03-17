@@ -16,10 +16,10 @@ Pod::Spec.new do |s|
   s.swift_versions = '5.7'
 
   s.source_files = [
-    'SeamlessPay/Sources/**/*.{swift}',
-    'SeamlessPayObjC/include/**/*.{h,m}'
+    'SeamlessPay/**/*.{swift}',
+    'ObjC/**/*.{h,m}'
   ]
-  s.exclude_files = 'SeamlessPay/Sources/SeamlessPay+ExportedImports.swift'
+  s.exclude_files = 'SeamlessPay/SeamlessPay+ExportedImports.swift'
 
-  s.resources = ['SeamlessPayObjC/Resources/Assets']
+  s.resources = ['ObjC/Resources/Assets']
 end

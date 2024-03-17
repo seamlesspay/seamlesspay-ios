@@ -5,7 +5,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "../../SeamlessPayObjC/include/NSDictionary+Extras.h"
+#import "NSDictionary+Extras.h"
 
 @interface NSDictionary_ExtrasTest : XCTestCase
 

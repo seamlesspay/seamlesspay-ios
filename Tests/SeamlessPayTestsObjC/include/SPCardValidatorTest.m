@@ -4,8 +4,7 @@
 //
 
 #import <XCTest/XCTest.h>
-
-#import "../../SeamlessPayObjC/include/SPCardValidator.h"
+#import "SPCardValidator.h"
 
 @interface SPCardValidator (Testing)
 

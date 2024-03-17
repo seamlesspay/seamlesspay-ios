@@ -22,30 +22,33 @@ let package = Package(
   targets: [
     .target(
       name: "SeamlessPay",
-      dependencies: ["SeamlessPayObjC"],
+      dependencies: ["ObjC"],
       path: "SeamlessPay"
     ),
     .target(
-      name: "SeamlessPayObjC",
+      name: "ObjC",
       dependencies: [],
-      path: "SeamlessPayObjC",
-
+      path: "ObjC",
+      sources: [
+        "include/",
+      ],
       resources: [
         .process("Resources/Assets"),
-      ]
+      ],
+      publicHeadersPath: "include"
     ),
     .testTarget(
       name: "SeamlessPayTests",
       dependencies: [
         "SeamlessPay",
-        "SeamlessPayObjC",
+        "ObjC",
       ]
     ),
     .testTarget(
       name: "SeamlessPayTestsObjC",
       dependencies: [
         "SeamlessPay",
-        "SeamlessPayObjC",
+        "ObjC",
       ]
     ),
   ]

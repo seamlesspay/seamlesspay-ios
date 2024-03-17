@@ -5,4 +5,6 @@
 // * LICENSE file in the root directory of this source tree.
 // *
 
-@_exported import SeamlessPayObjC
+import UIKit
+
+public extension SPPaymentCardTextField {}
