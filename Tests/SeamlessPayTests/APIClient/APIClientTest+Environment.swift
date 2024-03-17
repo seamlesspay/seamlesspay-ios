@@ -13,13 +13,12 @@ final class APIClientTestEnvironment: XCTestCase {
 
   override func setUp() {
     client = APIClient(
-      session: .init(
-        configuration: {
-          let configuration = URLSessionConfiguration.default
-          configuration.protocolClasses = [APIClientURLProtocolMock.self]
-          return configuration
-        }()
-      )
+      authorization: .init(environment: .sandbox, secretKey: "sk_TEST"),
+      session: {
+        let configuration = URLSessionConfiguration.default
+        configuration.protocolClasses = [APIClientURLProtocolMock.self]
+        return .init(configuration: configuration)
+      }()
     )
 
     APIClientURLProtocolMock.testingRequest = nil
@@ -28,12 +27,18 @@ final class APIClientTestEnvironment: XCTestCase {
   }
 
   // MARK: - Tests
-
-  private func testMainHostEnvironmentSet(_ environment: Environment, expectedBaseURL: String) {
+  private func testMainHostEnvironmentSet(environment: Environment, expectedBaseURL: String) {
     let expectation = XCTestExpectation(description: "Request completed")
 
     // given
-    client.set(secretKey: "", publishableKey: "", environment: environment)
+    let client = APIClient(
+      authorization: .init(environment: environment, secretKey: ""),
+      session: {
+        let configuration = URLSessionConfiguration.default
+        configuration.protocolClasses = [APIClientURLProtocolMock.self]
+        return .init(configuration: configuration)
+      }()
+    )
 
     // when
     client.listCharges { result in
@@ -50,18 +55,30 @@ final class APIClientTestEnvironment: XCTestCase {
   }
 
   func testSandboxEnvSet() {
-    testMainHostEnvironmentSet(.sandbox, expectedBaseURL: "https://sandbox.seamlesspay.com")
+    testMainHostEnvironmentSet(
+      environment: .sandbox,
+      expectedBaseURL: "https://sandbox.seamlesspay.com"
+    )
   }
 
   func testStagingEnvSet() {
-    testMainHostEnvironmentSet(.staging, expectedBaseURL: "https://api.seamlesspay.dev")
+    testMainHostEnvironmentSet(
+      environment: .staging,
+      expectedBaseURL: "https://api.seamlesspay.dev"
+    )
   }
 
   func testProductionEnvSet() {
-    testMainHostEnvironmentSet(.production, expectedBaseURL: "https://api.seamlesspay.com")
+    testMainHostEnvironmentSet(
+      environment: .production,
+      expectedBaseURL: "https://api.seamlesspay.com"
+    )
   }
 
   func testQatEnvSet() {
-    testMainHostEnvironmentSet(.qat, expectedBaseURL: "https://api.seamlesspay.io")
+    testMainHostEnvironmentSet(
+      environment: .qat,
+      expectedBaseURL: "https://api.seamlesspay.io"
+    )
   }
 }

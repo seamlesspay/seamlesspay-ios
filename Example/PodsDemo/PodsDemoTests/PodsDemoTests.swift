@@ -11,10 +11,8 @@ import SeamlessPay
 
 final class PodsDemoTests: XCTestCase {
   func testSeamlessPaySDKSetup() {
-    APIClient.shared.set(
-      secretKey: "secret123",
-      publishableKey: "publish456",
-      environment: .sandbox
+    let client = APIClient(
+      authorization: .init(environment: .sandbox, secretKey: "secret_key")
     )
   }
 

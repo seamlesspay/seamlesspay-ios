@@ -82,7 +82,7 @@
 
     UIViewController *viewController;
     if ([object isEqualToString:@"Verification"]) {
-      viewController = [SwiftUIViewHostingControllerFactory verificationViewHostingController];
+      viewController = [ViewControllers verificationViewController];
     } else if ([object isEqualToString:@"SPPaymentCardTextField+Swift"]) {
       viewController = [[SPPaymentCardTextFieldSwift alloc] init];
     } else {
