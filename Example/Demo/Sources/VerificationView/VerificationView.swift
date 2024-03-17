@@ -116,7 +116,7 @@ struct VerificationView: View {
     tokenFieldIsFocused = false
 
     Task {
-      verificationState = await .verified(APIClient.shared.verify(token: token))
+      verificationState = await .verified(sharedSeamlessPayAPIClient.verify(token: token))
     }
   }
 }

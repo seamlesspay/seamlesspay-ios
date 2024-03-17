@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum Environment: UInt {
+public enum Environment: Int {
   case sandbox
   case production
   case staging

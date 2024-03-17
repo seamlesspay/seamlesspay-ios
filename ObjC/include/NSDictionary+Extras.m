@@ -124,15 +124,6 @@ NS_ASSUME_NONNULL_BEGIN
   return nil;
 }
 
-- (nullable NSURL *)sp_urlForKey:(NSString *)key {
-  id value = self[key];
-  if (value && [value isKindOfClass:[NSString class]] &&
-      ((NSString *)value).length > 0) {
-    return [NSURL URLWithString:value];
-  }
-  return nil;
-}
-
 @end
 
 void linkNSDictionaryCategory(void) {}

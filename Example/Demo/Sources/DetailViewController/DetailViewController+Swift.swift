@@ -34,14 +34,9 @@ extension DetailViewController {
       let envSting = params[6]
       let env = environmentFromString(envSting)
 
-      UserDefaults.standard.set(publishableKey, forKey: "publishableKey")
-      UserDefaults.standard.set(secretKey, forKey: "secretkey")
-      UserDefaults.standard.set(env.rawValue, forKey: "env")
-
-      APIClient.shared.set(
-        secretKey: secretKey,
-        publishableKey: publishableKey,
-        environment: env
+      sharedSeamlessPayAPIClientAuthorization = .init(
+        environment: env,
+        secretKey: secretKey
       )
 
       let updateWebView: (String) -> Void = { message in
@@ -54,7 +49,7 @@ extension DetailViewController {
         self.webView.loadHTMLString(html, baseURL: nil)
       }
 
-      APIClient.shared.listCharges { result in
+      sharedSeamlessPayAPIClient.listCharges { result in
         switch result {
         case .success:
           updateWebView("Authentication success!")
@@ -75,7 +70,7 @@ extension DetailViewController {
         postalCode: params[24]
       )
 
-      APIClient.shared.tokenize(
+      sharedSeamlessPayAPIClient.tokenize(
         paymentType: paymentTypeFromString(params[2]),
         accountNumber: params[4],
         expDate: expDateFromString(params[6]),
@@ -131,7 +126,7 @@ extension DetailViewController {
         postalCode: params[16]
       )
 
-      APIClient.shared.createCustomer(
+      sharedSeamlessPayAPIClient.createCustomer(
         name: params[2],
         email: params[4],
         address: address,
@@ -161,7 +156,7 @@ extension DetailViewController {
 
       return false
     } else if detailItem == "Retrieve a Customer" {
-      APIClient.shared.retrieveCustomer(id: params[2]) { result in
+      sharedSeamlessPayAPIClient.retrieveCustomer(id: params[2]) { result in
         switch result {
         case let .success(customer):
           UserDefaults.standard.set(try? customer.encode(), forKey: "customer")
@@ -191,7 +186,7 @@ extension DetailViewController {
         postalCode: params[16]
       )
 
-      APIClient.shared.updateCustomer(
+      sharedSeamlessPayAPIClient.updateCustomer(
         id: params[24],
         name: params[2],
         email: params[4],
@@ -240,7 +235,7 @@ extension DetailViewController {
 
       return false
     } else if detailItem == "Create a Charge" {
-      APIClient.shared.createCharge(
+      sharedSeamlessPayAPIClient.createCharge(
         token: params[2],
         cvv: params[4],
         capture: params[20] == "YES",
@@ -283,7 +278,7 @@ extension DetailViewController {
 
       return false
     } else if title == "Retrieve a Charge" {
-      APIClient.shared.retrieveCharge(id: params[2]) { result in
+      sharedSeamlessPayAPIClient.retrieveCharge(id: params[2]) { result in
         switch result {
         case let .success(charge):
 
@@ -317,7 +312,7 @@ extension DetailViewController {
         postalCode: params[16]
       )
 
-      APIClient.shared.tokenize(
+      sharedSeamlessPayAPIClient.tokenize(
         paymentType: .creditCard,
         accountNumber: params[8],
         expDate: expDateFromString(params[10]),
@@ -331,7 +326,7 @@ extension DetailViewController {
         switch result {
         case let .success(paymentMethod):
 
-          APIClient.shared.createCharge(
+          sharedSeamlessPayAPIClient.createCharge(
             token: paymentMethod.token,
             cvv: params[12],
             capture: params[2] == "YES",
@@ -399,7 +394,7 @@ extension DetailViewController {
         postalCode: params[20]
       )
 
-      APIClient.shared.tokenize(
+      sharedSeamlessPayAPIClient.tokenize(
         paymentType: .ach,
         accountNumber: params[10],
         expDate: nil,
@@ -413,7 +408,7 @@ extension DetailViewController {
         switch result {
         case let .success(paymentMethod):
 
-          APIClient.shared.createCharge(
+          sharedSeamlessPayAPIClient.createCharge(
             token: paymentMethod.token,
             cvv: nil,
             capture: false,
@@ -471,7 +466,7 @@ extension DetailViewController {
     } else if title == "Virtual Terminal (GIFT CARD)" {
       activityIndicator.startAnimating()
 
-      APIClient.shared.tokenize(
+      sharedSeamlessPayAPIClient.tokenize(
         paymentType: .giftCard,
         accountNumber: params[4],
         expDate: nil,
@@ -484,7 +479,7 @@ extension DetailViewController {
       ) { result in
         switch result {
         case let .success(paymentMethod):
-          APIClient.shared.createCharge(
+          sharedSeamlessPayAPIClient.createCharge(
             token: paymentMethod.token,
             cvv: nil,
             capture: false,
@@ -567,7 +562,7 @@ extension DetailViewController {
       postalCode: zip
     )
 
-    APIClient.shared.tokenize(
+    sharedSeamlessPayAPIClient.tokenize(
       paymentType: .creditCard,
       accountNumber: cardNumber,
       expDate: .init(month: cardTextField.expirationMonth, year: cardTextField.expirationYear),
@@ -581,7 +576,7 @@ extension DetailViewController {
       switch result {
       case let .success(paymentMethod):
 
-        APIClient.shared.createCharge(
+        sharedSeamlessPayAPIClient.createCharge(
           token: paymentMethod.token,
           cvv: cvc,
           capture: true,
@@ -636,7 +631,7 @@ extension DetailViewController {
   @objc func authContent() -> String {
     guard let publishableKey = UserDefaults.standard.string(forKey: "publishableKey"),
           let secretKey = UserDefaults.standard.string(forKey: "secretkey"),
-          let env = Environment(rawValue: UInt(UserDefaults.standard.integer(forKey: "env"))) else {
+          let env = Environment(rawValue: UserDefaults.standard.integer(forKey: "env")) else {
       return .init()
     }
 
