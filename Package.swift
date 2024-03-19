@@ -4,16 +4,16 @@
 import PackageDescription
 
 let package = Package(
-  name: "SeamlessPayCore",
+  name: "SeamlessPay",
   defaultLocalization: "en",
   platforms: [
     .iOS(.v15),
   ],
   products: [
     .library(
-      name: "SeamlessPayCore",
+      name: "SeamlessPay",
       targets: [
-        "SeamlessPayCore",
+        "SeamlessPay",
       ]
     ),
   ],
@@ -21,31 +21,34 @@ let package = Package(
   ],
   targets: [
     .target(
-      name: "SeamlessPayCore",
-      dependencies: ["SeamlessPayCoreObjC"],
-      path: "SeamlessPayCore"
+      name: "SeamlessPay",
+      dependencies: ["ObjC"],
+      path: "SeamlessPay"
     ),
     .target(
-      name: "SeamlessPayCoreObjC",
+      name: "ObjC",
       dependencies: [],
-      path: "SeamlessPayCoreObjC",
-
+      path: "ObjC",
+      sources: [
+        "include/",
+      ],
       resources: [
         .process("Resources/Assets"),
+      ],
+      publicHeadersPath: "include"
+    ),
+    .testTarget(
+      name: "SeamlessPayTests",
+      dependencies: [
+        "SeamlessPay",
+        "ObjC",
       ]
     ),
     .testTarget(
-      name: "SeamlessPayCoreTests",
+      name: "SeamlessPayTestsObjC",
       dependencies: [
-        "SeamlessPayCore",
-        "SeamlessPayCoreObjC",
-      ]
-    ),
-    .testTarget(
-      name: "SeamlessPayCoreTestsObjC",
-      dependencies: [
-        "SeamlessPayCore",
-        "SeamlessPayCoreObjC",
+        "SeamlessPay",
+        "ObjC",
       ]
     ),
   ]

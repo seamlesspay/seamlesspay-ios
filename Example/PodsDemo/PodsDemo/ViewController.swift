@@ -6,7 +6,7 @@
 // *
 
 import UIKit
-import SeamlessPayCore
+import SeamlessPay
 
 class ViewController: UIViewController {
   lazy var cardTextField: SPPaymentCardTextField = {

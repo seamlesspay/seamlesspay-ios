@@ -6,7 +6,7 @@
 // *
 
 import UIKit
-import SeamlessPayCore
+import SeamlessPay
 
 extension DetailViewController {
   // swiftlint:disable cyclomatic_complexity

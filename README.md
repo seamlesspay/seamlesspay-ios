@@ -1,8 +1,8 @@
-# SeamlessPayCore
+# SeamlessPay
 
 *The Seamless Payments iOS SDK makes it quick and easy to build an excellent payment experience in your iOS app.*
 
-Our framework provides elements that can be used out-of-the-box to collect your users' payment details. We also expose the low-level APIs that power those UIs so that you can build fully custom experiences. Additionally, a low-level `APIClient` is included which corresponds to resources and methods in the Seamless Payments API, so that you can build any custom functionality on top of this layer while still taking advantage of utilities from the `SeamlessPayCore` framework.
+Our framework provides elements that can be used out-of-the-box to collect your users' payment details. We also expose the low-level APIs that power those UIs so that you can build fully custom experiences. Additionally, a low-level `APIClient` is included which corresponds to resources and methods in the Seamless Payments API, so that you can build any custom functionality on top of this layer while still taking advantage of utilities from the `SeamlessPay` framework.
 
 ## Native UI Elements
 
@@ -10,7 +10,7 @@ Our framework provides elements that can be used out-of-the-box to collect your 
 
 #### Example UI
 
-![image](https://github.com/seamlesspay/seamlesspay-ios/blob/dev/files/card-field.gif)
+![image](card-field.gif)
 
 *Requirements: The SeamlessPay iOS SDK requires Xcode 10.1 or later and is compatible with apps targeting iOS 11 or above.*
 
@@ -24,7 +24,7 @@ To run the demo project, clone the repository, and open `Demo.xcodeproj` from th
 To install, add the following line to your Podfile:
 
 ```ruby
-pod 'SeamlessPayCore'
+pod 'SeamlessPay'
 ```
 
 ### Swift Package Manager
@@ -41,7 +41,7 @@ Using only Publishable Key for a single page apps without their own backend. In 
 Using a Secret Key allows you using all transaction's methods (e.g. /charge, /refund, /void).
 
 ```swift
-import SeamlessPayCore
+import SeamlessPay
     
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -63,7 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 Securely collect card information on the client with SPPaymentCardTextField, a drop-in UI component provided by the SDK. Create an instance of the card component and a Pay button with the following code:
 
 ```swift
-import SeamlessPayCore
+import SeamlessPay
     
 class ViewController: UIViewController {
   lazy var cardTextField: SPPaymentCardTextField = {
@@ -200,4 +200,4 @@ Start with [**'Demo APP'**](https://github.com/seamlesspay/seamlesspay-ios/tree/
 
 ## License
 
-SeamlessPayCore is available under the MIT license. See the LICENSE file for more info.
+SeamlessPay is available under the MIT license. See the LICENSE file for more info.

@@ -6,7 +6,7 @@
 // *
 
 import UIKit
-import SeamlessPayCore
+import SeamlessPay
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
