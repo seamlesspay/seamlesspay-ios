@@ -182,47 +182,6 @@ public extension APIClient {
     }
   }
 
-  // MARK: Verify
-  func verify(
-    token: String,
-    cvv: String? = nil,
-    currency: String? = nil,
-    taxAmount: String? = nil,
-    taxExempt: Bool? = nil,
-    tip: String? = nil,
-    surchargeFeeAmount: String? = nil,
-    description: String? = nil,
-    order: [String: String]? = nil,
-    orderID: String? = nil,
-    poNumber: String? = nil,
-    metadata: String? = nil,
-    descriptor: String? = nil,
-    entryType: String? = nil,
-    idempotencyKey: String? = nil
-  ) async -> Result<Charge, SeamlessPayError> {
-    return await withCheckedContinuation { continuation in
-      verify(
-        token: token,
-        cvv: cvv,
-        currency: currency,
-        taxAmount: taxAmount,
-        taxExempt: taxExempt,
-        tip: tip,
-        surchargeFeeAmount: surchargeFeeAmount,
-        description: description,
-        order: order,
-        orderID: orderID,
-        poNumber: poNumber,
-        metadata: metadata,
-        descriptor: descriptor,
-        entryType: entryType,
-        idempotencyKey: idempotencyKey
-      ) { result in
-        continuation.resume(returning: result)
-      }
-    }
-  }
-
   // MARK: Refunds
   func createRefund(
     token: String,

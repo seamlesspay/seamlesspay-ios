@@ -98,16 +98,6 @@ final class APIClientConcurrencyTest: XCTestCase {
     XCTAssertEqual(hTTPMethodToBeTested, "POST")
   }
 
-  // MARK: Verify
-  func testAsyncVerifyRequest() async {
-    // when
-    _ = await client.verify(token: "test_token")
-
-    // then
-    XCTAssertEqual(urlToBeTested, "https://sandbox.seamlesspay.com/charges")
-    XCTAssertEqual(hTTPMethodToBeTested, "POST")
-  }
-
   // MARK: Refund
 
   func testAsyncCreateRefundRequest() async {
