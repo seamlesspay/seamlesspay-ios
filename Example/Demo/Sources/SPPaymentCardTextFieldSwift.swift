@@ -62,7 +62,7 @@ import SeamlessPay
       postalCode: cardTextField.postalCode
     )
 
-    APIClient.shared.tokenize(
+    sharedSeamlessPayAPIClient.tokenize(
       paymentType: .creditCard,
       accountNumber: cardTextField.cardNumber ?? .init(),
       expDate: .init(
@@ -77,7 +77,7 @@ import SeamlessPay
       case let .success(paymentMethod):
         let token = paymentMethod.token
 
-        APIClient.shared.createCharge(
+        sharedSeamlessPayAPIClient.createCharge(
           token: token,
           cvv: self.cardTextField.cvc,
           capture: true,

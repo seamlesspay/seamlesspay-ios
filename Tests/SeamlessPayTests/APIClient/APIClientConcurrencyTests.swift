@@ -13,16 +13,13 @@ final class APIClientConcurrencyTest: XCTestCase {
 
   override func setUp() {
     client = APIClient(
-      session: .init(
-        configuration: {
-          let configuration = URLSessionConfiguration.default
-          configuration.protocolClasses = [APIClientURLProtocolMock.self]
-          return configuration
-        }()
-      )
+      authorization: .init(environment: .sandbox, secretKey: "sk_TEST"),
+      session: {
+        let configuration = URLSessionConfiguration.default
+        configuration.protocolClasses = [APIClientURLProtocolMock.self]
+        return .init(configuration: configuration)
+      }()
     )
-
-    client.set(secretKey: "sk_TEST", publishableKey: "pk_TEST", environment: .sandbox)
 
     APIClientURLProtocolMock.testingRequest = nil
     // Response type doesn't matter

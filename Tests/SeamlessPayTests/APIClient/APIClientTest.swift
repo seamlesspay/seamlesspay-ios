@@ -12,17 +12,17 @@ final class APIClientTest: XCTestCase {
   private var client: APIClient!
 
   override func setUp() {
-    client = APIClient(
-      session: .init(
-        configuration: {
-          let configuration = URLSessionConfiguration.default
-          configuration.protocolClasses = [APIClientURLProtocolMock.self]
-          return configuration
-        }()
-      )
-    )
+    let configuration = URLSessionConfiguration.default
+    configuration.protocolClasses = [APIClientURLProtocolMock.self]
 
-    client.set(secretKey: "sk_TEST", publishableKey: "pk_TEST", environment: .sandbox)
+    client = APIClient(
+      authorization: .init(environment: .sandbox, secretKey: "sk_TEST"),
+      session: {
+        let configuration = URLSessionConfiguration.default
+        configuration.protocolClasses = [APIClientURLProtocolMock.self]
+        return .init(configuration: configuration)
+      }()
+    )
 
     APIClientURLProtocolMock.testingRequest = nil
     // Response type doesn't matter
@@ -30,35 +30,6 @@ final class APIClientTest: XCTestCase {
   }
 
   // MARK: - Tests
-  func testSetPublishableKeyValueToSecretKey() {
-    let expectation = XCTestExpectation(description: "Request completed")
-
-    // when
-    client.listCharges { result in
-
-      // then
-      let request = APIClientURLProtocolMock.testingRequest!
-      let headers = request.allHTTPHeaderFields!
-      XCTAssertEqual(headers["Authorization"], "Bearer sk_TEST")
-
-      // given
-      self.client.set(publishableKey: "pk_new_TEST", environment: .sandbox)
-
-      // when
-      self.client.listCharges { result in
-
-        // then
-        let request = APIClientURLProtocolMock.testingRequest!
-        let headers = request.allHTTPHeaderFields!
-        XCTAssertEqual(headers["Authorization"], "Bearer pk_new_TEST")
-
-        expectation.fulfill()
-      }
-    }
-
-    wait(for: [expectation], timeout: 1.5)
-  }
-
   // MARK: Tokenize
   func testTokenizeCreditCardRequest() {
     let expectation = XCTestExpectation(description: "Request completed")
@@ -98,7 +69,7 @@ final class APIClientTest: XCTestCase {
       XCTAssertEqual(headers["Accept"], "application/json")
       XCTAssertEqual(headers["API-Version"], "v2020")
       XCTAssertEqual(headers["User-Agent"], "seamlesspay_ios")
-      XCTAssertEqual(headers["Authorization"], "Bearer pk_TEST")
+      XCTAssertEqual(headers["Authorization"], "Bearer sk_TEST")
 
       let cvv = body["cvv"] as! String
       let accountNumber = body["accountNumber"] as! String

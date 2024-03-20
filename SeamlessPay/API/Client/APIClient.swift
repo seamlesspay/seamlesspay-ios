@@ -8,50 +8,41 @@
 import Foundation
 
 public class APIClient {
-  public static let shared = APIClient()
-
   // MARK: Private Constants
   private let apiVersion = "v2020"
-  private let session: URLSession
 
   // MARK: Private
-  private var secretKey: String?
-  private var subMerchantAccountId: String?
+  private let session: URLSession
   private var deviceFingerprint: String? {
     DeviceFingerprint.make(
-      appOpenTime: appOpenTime,
+      appOpenTime: initDate,
       apiVersion: apiVersion
     )
   }
 
-  private var appOpenTime: Date?
+  private var initDate: Date
   private var sentryClient: SPSentryClient?
+
+  // MARK: - Public Interface
+  public let secretKey: String
+  public let environment: Environment
 
   // MARK: Init
   // TODO: Move under SPI
-  init(session: URLSession = URLSession(configuration: .default)) {
+  public convenience init(authorization: Authorization) {
+    self.init(
+      authorization: authorization,
+      session: URLSession(configuration: .default)
+    )
+  }
+
+  init(authorization: Authorization, session: URLSession) {
+    secretKey = authorization.secretKey
+    environment = authorization.environment
     self.session = session
-  }
 
-  // MARK: - Public Interface
-  public private(set) var publishableKey: String?
-  public private(set) var environment: Environment = .sandbox
-
-  public func set(
-    secretKey: String? = nil,
-    publishableKey: String,
-    environment: Environment
-  ) {
-    self.secretKey = secretKey ?? publishableKey
-    self.publishableKey = publishableKey
-    self.environment = environment
-
-    setSentryClient()
-    appOpenTime = Date()
-  }
-
-  public func setSubMerchantAccountId(_ id: String) {
-    subMerchantAccountId = id
+    sentryClient = Self.makeClient()
+    initDate = Date()
   }
 
   // MARK: Tokenize
@@ -473,13 +464,13 @@ private extension APIClient {
     operation: APIOperation,
     parameters: [String: Any]?
   ) throws -> URLRequest {
-    let host: String?
-    let authorization: String?
+    let host: String
+    let authorization: String
 
     switch operation {
     case .createToken:
       host = environment.panVaultHost
-      authorization = publishableKey
+      authorization = secretKey
     default:
       host = environment.mainHost
       authorization = secretKey
@@ -558,7 +549,6 @@ private extension APIClient {
       "Accept": "application/json",
       "Authorization": authHeaderValue,
       "User-Agent": "seamlesspay_ios",
-      "SeamlessPay-Account": subMerchantAccountId,
       "Content-Length": contentLength,
     ]
     .compactMapValues { $0 }
@@ -567,15 +557,17 @@ private extension APIClient {
 
 // MARK: Sentry Client
 private extension APIClient {
-  func setSentryClient() {
-//    #if !DEBUG // Initialize sentry client only for release builds
-    sentryClient = SPSentryClient.makeWith(
-      configuration: .init(
-        userId: SPInstallation.installationID,
-        environment: environment.name
+  static func makeClient() -> SPSentryClient? {
+    #if !DEBUG // Initialize sentry client only for release builds
+      return SPSentryClient.makeWith(
+        configuration: .init(
+          userId: SPInstallation.installationID,
+          environment: environment.name
+        )
       )
-    )
-//    #endif
+    #endif
+
+    return nil
   }
 
   func trackFailedRequest(

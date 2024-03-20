@@ -8,8 +8,8 @@
 import SwiftUI
 import Foundation
 
-@objc class SwiftUIViewHostingControllerFactory: NSObject {
-  @objc static func verificationViewHostingController() -> UIViewController {
+@objc class ViewControllers: NSObject {
+  @objc static func verificationViewController() -> UIViewController {
     UIHostingController(
       rootView: VerificationView()
     )

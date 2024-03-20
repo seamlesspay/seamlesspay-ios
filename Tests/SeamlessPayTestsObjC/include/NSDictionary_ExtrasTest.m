@@ -232,13 +232,4 @@
   XCTAssertNil([dict sp_stringForKey:@"b"]);
 }
 
-- (void)testURLForKey {
-  NSDictionary *dict = @{
-    @"a": @"https://example.com",
-    @"b": @"not a url"
-  };
-  XCTAssertEqualObjects([dict sp_urlForKey:@"a"], [NSURL URLWithString:@"https://example.com"]);
-  XCTAssertNil([dict sp_urlForKey:@"b"]);
-  XCTAssertNil([dict sp_urlForKey:@"c"]);
-}
 @end

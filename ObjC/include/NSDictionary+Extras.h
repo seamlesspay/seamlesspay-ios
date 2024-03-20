@@ -22,7 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSInteger)sp_intForKey:(NSString *)key or:(NSInteger)defaultValue;
 - (nullable NSNumber *)sp_numberForKey:(NSString *)key;
 - (nullable NSString *)sp_stringForKey:(NSString *)key;
-- (nullable NSURL *)sp_urlForKey:(NSString *)key;
 
 @end
 
