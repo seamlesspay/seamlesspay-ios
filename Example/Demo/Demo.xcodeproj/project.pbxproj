@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		6383CB4D2AF6B05800A115B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6383CB4C2AF6AE9B00A115B9 /* AppDelegate.swift */; };
 		6383CB4E2AF6B05C00A115B9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6383CB4B2AF6AE9B00A115B9 /* SceneDelegate.swift */; };
-		638437592BA6F92D003403C1 /* SeamlessPay in Frameworks */ = {isa = PBXBuildFile; productRef = 638437582BA6F92D003403C1 /* SeamlessPay */; };
-		638437842BA790B0003403C1 /* SeamlessPay in Frameworks */ = {isa = PBXBuildFile; productRef = 638437832BA790B0003403C1 /* SeamlessPay */; };
 		638437862BA7935E003403C1 /* SharedSeamlessPayAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638437852BA7935E003403C1 /* SharedSeamlessPayAPIClient.swift */; };
 		6384F11B2AED71410038AE4D /* DetailViewController+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1042AED71410038AE4D /* DetailViewController+Swift.swift */; };
 		6384F11C2AED71410038AE4D /* SPPaymentCardTextFieldSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1072AED71410038AE4D /* SPPaymentCardTextFieldSwift.swift */; };
@@ -20,6 +18,7 @@
 		6384F1222AED71410038AE4D /* SPErrorDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384F10F2AED71410038AE4D /* SPErrorDetailView.swift */; };
 		6384F1232AED71410038AE4D /* VerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1102AED71410038AE4D /* VerificationViewController.swift */; };
 		6384F1262AED71410038AE4D /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1132AED71410038AE4D /* MasterViewController.m */; };
+		6393543A2BB0A00F00447D2F /* SeamlessPay in Frameworks */ = {isa = PBXBuildFile; productRef = 639354392BB0A00F00447D2F /* SeamlessPay */; };
 		63BBDA782AED726600DD4267 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63BBDA742AED726600DD4267 /* LaunchScreen.storyboard */; };
 		63BBDA792AED726600DD4267 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63BBDA752AED726600DD4267 /* Assets.xcassets */; };
 		63BBDA7A2AED726600DD4267 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63BBDA762AED726600DD4267 /* Main.storyboard */; };
@@ -57,8 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				638437842BA790B0003403C1 /* SeamlessPay in Frameworks */,
-				638437592BA6F92D003403C1 /* SeamlessPay in Frameworks */,
+				6393543A2BB0A00F00447D2F /* SeamlessPay in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,8 +168,7 @@
 			);
 			name = Demo;
 			packageProductDependencies = (
-				638437582BA6F92D003403C1 /* SeamlessPay */,
-				638437832BA790B0003403C1 /* SeamlessPay */,
+				639354392BB0A00F00447D2F /* SeamlessPay */,
 			);
 			productName = SeamlessPayDemo;
 			productReference = 1C94042F23D3451700BC4697 /* Demo.app */;
@@ -206,7 +203,7 @@
 			);
 			mainGroup = 6003F581195388D10070C39A;
 			packageReferences = (
-				638437822BA790B0003403C1 /* XCLocalSwiftPackageReference "../.." */,
+				639354382BB0A00F00447D2F /* XCLocalSwiftPackageReference "../.." */,
 			);
 			productRefGroup = 6003F58B195388D20070C39A /* Products */;
 			projectDirPath = "";
@@ -515,18 +512,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		638437822BA790B0003403C1 /* XCLocalSwiftPackageReference "../.." */ = {
+		639354382BB0A00F00447D2F /* XCLocalSwiftPackageReference "../.." */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../..;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		638437582BA6F92D003403C1 /* SeamlessPay */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SeamlessPay;
-		};
-		638437832BA790B0003403C1 /* SeamlessPay */ = {
+		639354392BB0A00F00447D2F /* SeamlessPay */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SeamlessPay;
 		};
