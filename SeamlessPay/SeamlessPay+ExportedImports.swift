@@ -6,3 +6,4 @@
 // *
 
 @_exported import ObjC
+@_exported import API

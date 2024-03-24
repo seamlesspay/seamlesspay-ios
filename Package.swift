@@ -22,12 +22,12 @@ let package = Package(
   targets: [
     .target(
       name: "SeamlessPay",
-      dependencies: ["ObjC"],
+      dependencies: ["ObjC", "API"],
       path: "SeamlessPay"
     ),
     .target(
       name: "ObjC",
-      dependencies: [],
+      dependencies: ["API"],
       path: "ObjC",
       sources: [
         "include/",
@@ -37,18 +37,25 @@ let package = Package(
       ],
       publicHeadersPath: "include"
     ),
+    .target(
+      name: "API",
+      dependencies: [],
+      path: "API"
+    ),
     .testTarget(
       name: "SeamlessPayTests",
       dependencies: [
         "SeamlessPay",
-        "ObjC",
+//        "ObjC",
+        "API"
       ]
     ),
     .testTarget(
       name: "SeamlessPayTestsObjC",
       dependencies: [
         "SeamlessPay",
-        "ObjC",
+//        "ObjC",
+        "API"
       ]
     ),
   ]

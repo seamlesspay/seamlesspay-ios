@@ -10,9 +10,12 @@
 #import "SPCardValidator+Extras.h"
 #import "SPPostalCodeValidator.h"
 
+@import API;
+
 @implementation SPPaymentCardTextFieldViewModel
 
 - (void)setCardNumber:(NSString *)cardNumber {
+  APIClient *client = [[APIClient alloc] init];
   NSString *sanitizedNumber =
   [SPCardValidator sanitizedNumericStringForString:cardNumber];
   SPCardBrand brand = [SPCardValidator brandForNumber:sanitizedNumber];

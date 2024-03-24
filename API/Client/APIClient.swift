@@ -7,12 +7,12 @@
 
 import Foundation
 
-public class APIClient {
+@objc public class APIClient: NSObject {
   // MARK: Private Constants
   private let apiVersion = "v2020"
 
   // MARK: Private
-  private let session: URLSession
+  private var session: URLSession
   private var deviceFingerprint: String? {
     DeviceFingerprint.make(
       appOpenTime: initDate,
@@ -29,6 +29,14 @@ public class APIClient {
 
   // MARK: Init
   // TODO: Move under SPI
+  override public init() {
+    session = URLSession(configuration: .default)
+    initDate = Date()
+    secretKey = ""
+    environment = .sandbox
+    super.init()
+  }
+
   public convenience init(authorization: Authorization) {
     self.init(
       authorization: authorization,

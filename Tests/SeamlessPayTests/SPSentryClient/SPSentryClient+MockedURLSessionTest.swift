@@ -7,6 +7,7 @@
 
 import XCTest
 @testable import SeamlessPay
+@testable import API
 
 final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
   private var client: SPSentryClient!
