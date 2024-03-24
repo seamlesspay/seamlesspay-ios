@@ -6,5 +6,6 @@
 // *
 
 import UIKit
+import ObjC
 
 public extension SPPaymentCardTextField {}
