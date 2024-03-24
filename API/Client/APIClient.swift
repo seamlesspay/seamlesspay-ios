@@ -25,7 +25,7 @@ import Foundation
 
   // MARK: - Public Interface
   public let secretKey: String
-  public let environment: Environment
+  public let env: Environment
 
   // MARK: Init
   // TODO: Move under SPI
@@ -33,7 +33,7 @@ import Foundation
     session = URLSession(configuration: .default)
     initDate = Date()
     secretKey = ""
-    environment = .sandbox
+    env = .sandbox
     super.init()
   }
 
@@ -46,10 +46,10 @@ import Foundation
 
   init(authorization: Authorization, session: URLSession) {
     secretKey = authorization.secretKey
-    environment = authorization.environment
+    env = authorization.environment
     self.session = session
 
-    sentryClient = Self.makeClient()
+    sentryClient = Self.makeSentryClient(env: env)
     initDate = Date()
   }
 
@@ -477,10 +477,10 @@ private extension APIClient {
 
     switch operation {
     case .createToken:
-      host = environment.panVaultHost
+      host = env.panVaultHost
       authorization = secretKey
     default:
-      host = environment.mainHost
+      host = env.mainHost
       authorization = secretKey
     }
 
@@ -565,17 +565,14 @@ private extension APIClient {
 
 // MARK: Sentry Client
 private extension APIClient {
-  static func makeClient() -> SPSentryClient? {
-    #if !DEBUG // Initialize sentry client only for release builds
-      return SPSentryClient.makeWith(
-        configuration: .init(
-          userId: SPInstallation.installationID,
-          environment: environment.name
-        )
+  static func makeSentryClient(env: Environment) -> SPSentryClient? {
+    // Initialize sentry client only for release builds
+    return SPSentryClient.makeWith(
+      configuration: .init(
+        userId: SPInstallation.installationID,
+        environment: env.name
       )
-    #endif
-
-    return nil
+    )
   }
 
   func trackFailedRequest(

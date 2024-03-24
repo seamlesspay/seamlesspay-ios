@@ -10,7 +10,12 @@
 #import "SPCardValidator+Extras.h"
 #import "SPPostalCodeValidator.h"
 
+#if __has_include(<SeamlessPay/SeamlessPay-Swift.h>)
+#import <SeamlessPay/SeamlessPay-Swift.h>
+#else
 @import SeamlessPayAPI;
+#endif
+
 
 @implementation SPPaymentCardTextFieldViewModel
 

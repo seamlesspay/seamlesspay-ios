@@ -6,6 +6,8 @@
 // *
 
 import UIKit
-import SeamlessPayObjC
+#if canImport(SeamlessPayObjC)
+  import SeamlessPayObjC
+#endif
 
 public extension SPPaymentCardTextField {}

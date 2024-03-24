@@ -17,6 +17,8 @@ Pod::Spec.new do |s|
 
   s.source_files = [
     'SeamlessPay/**/*.{swift}',
+    'API/**/*.{swift}',
+    'UI/**/*.{swift}',
     'ObjC/**/*.{h,m}'
   ]
   s.exclude_files = 'SeamlessPay/SeamlessPay+ExportedImports.swift'
