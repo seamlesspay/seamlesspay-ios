@@ -41,7 +41,7 @@ public class APIClient {
     environment = authorization.environment
     self.session = session
 
-    sentryClient = Self.makeClient()
+    sentryClient = Self.makeClient(environment: environment)
     initDate = Date()
   }
 
@@ -557,17 +557,16 @@ private extension APIClient {
 
 // MARK: Sentry Client
 private extension APIClient {
-  static func makeClient() -> SPSentryClient? {
-    #if !DEBUG // Initialize sentry client only for release builds
-      return SPSentryClient.makeWith(
-        configuration: .init(
-          userId: SPInstallation.installationID,
-          environment: environment.name
-        )
-      )
+  static func makeClient(environment: Environment) -> SPSentryClient? {
+    #if DEBUG // Initialize sentry client only for release builds
+      return nil
     #endif
-
-    return nil
+    return SPSentryClient.makeWith(
+      configuration: .init(
+        userId: SPInstallation.installationID,
+        environment: environment.name
+      )
+    )
   }
 
   func trackFailedRequest(
