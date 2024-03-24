@@ -6,6 +6,6 @@
 // *
 
 import UIKit
-import ObjC
+import SeamlessPayObjC
 
 public extension SPPaymentCardTextField {}

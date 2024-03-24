@@ -10,7 +10,7 @@
 #import "SPCardValidator+Extras.h"
 #import "SPPostalCodeValidator.h"
 
-@import API;
+@import SeamlessPayAPI;
 
 @implementation SPPaymentCardTextFieldViewModel
 

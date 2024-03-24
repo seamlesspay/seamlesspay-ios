@@ -6,8 +6,7 @@
 // *
 
 import XCTest
-// @testable import SeamlessPay
-@testable import API
+@testable import SeamlessPayAPI
 
 final class SPInstallationTest: XCTestCase {
   func testSPInstallation() {

@@ -6,8 +6,7 @@
 // *
 
 import XCTest
-// @testable import SeamlessPay
-@testable import API
+@testable import SeamlessPayAPI
 
 final class APIClientTest: XCTestCase {
   private var client: APIClient!

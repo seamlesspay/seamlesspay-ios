@@ -5,6 +5,6 @@
 // * LICENSE file in the root directory of this source tree.
 // *
 
-@_exported import ObjC
-@_exported import API
-@_exported import UI
+@_exported import SeamlessPayUI
+@_exported import SeamlessPayAPI
+@_exported import SeamlessPayObjC

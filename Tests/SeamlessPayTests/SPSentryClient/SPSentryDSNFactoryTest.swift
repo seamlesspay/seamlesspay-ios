@@ -6,8 +6,7 @@
 // *
 
 import XCTest
-// @testable import SeamlessPay
-@testable import API
+@testable import SeamlessPayAPI
 
 final class SPSentryDSNFactoryTest: XCTestCase {
   func testValidDSN() {
