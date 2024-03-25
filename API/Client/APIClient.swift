@@ -7,7 +7,18 @@
 
 import Foundation
 
-@objc public class APIClient: NSObject {
+@objcMembers public class SPAPIClient: NSObject {
+  private let apiClient: APIClient
+
+  public init(env: Environment, secretKey: String) {
+    apiClient = APIClient(authorization: .init(
+      environment: env,
+      secretKey: secretKey
+    ))
+  }
+}
+
+public class APIClient {
   // MARK: Private Constants
   private let apiVersion = "v2020"
 
@@ -28,15 +39,6 @@ import Foundation
   public let env: Environment
 
   // MARK: Init
-  // TODO: Move under SPI
-  override public init() {
-    session = URLSession(configuration: .default)
-    initDate = Date()
-    secretKey = ""
-    env = .sandbox
-    super.init()
-  }
-
   public convenience init(authorization: Authorization) {
     self.init(
       authorization: authorization,

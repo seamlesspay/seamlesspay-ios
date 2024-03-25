@@ -7,7 +7,27 @@
 
 import UIKit
 #if canImport(SeamlessPayObjC)
+  import SeamlessPayAPI
   import SeamlessPayObjC
 #endif
 
-public extension SPPaymentCardTextField {}
+// MARK: Init with Authorization
+public extension SPPaymentCardTextField {
+  convenience init(authorization: Authorization) {
+    self.init()
+
+    let spEnv: SPEnvironment
+    switch authorization.environment {
+    case .sandbox:
+      spEnv = .sandbox
+    case .production:
+      spEnv = .production
+    case .qat:
+      spEnv = .qat
+    case .staging:
+      spEnv = .staging
+    }
+
+    setAuthorization(spEnv, andSecretKey: authorization.secretKey)
+  }
+}

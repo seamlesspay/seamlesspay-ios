@@ -12,6 +12,9 @@
 #import "SPCardValidator.h"
 #import "SPPostalCodeValidator.h"
 
+@class SPAPIClient;
+
+
 typedef NS_ENUM(NSInteger, SPCardFieldType) {
   SPCardFieldTypeNumber,
   SPCardFieldTypeExpiration,
@@ -32,6 +35,8 @@ typedef NS_ENUM(NSInteger, SPCardFieldType) {
 @property(nonatomic, readwrite, copy, nullable) NSString *postalCodeCountryCode;
 @property(nonatomic, readonly) SPCardBrand brand;
 @property(nonatomic, readonly) BOOL isValid;
+
+@property(nonatomic, retain) SPAPIClient * _Nullable apiClient;
 
 - (nonnull NSString *)defaultPlaceholder;
 - (SPCardValidationState)validationStateForField:(SPCardFieldType)fieldType;

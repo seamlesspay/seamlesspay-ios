@@ -5,9 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-#import <UIKit/UIKit.h>
-#import "SPPaymentMethodCard.h"
-
 /**
  ### Refactoring SPPaymentCardTextField Guide
 
@@ -53,6 +50,12 @@
  - **Properties:** All properties need to be translated. Swift has different property attributes, for example, instead of nullable, Swift uses optional **`?`**.
  - **UI_APPEARANCE_SELECTOR:** Swift gets a free pass by not needing the attribute associated with it, but that just means you have to [make sure your property accessor methods are compatible](https://developer.apple.com/documentation/uikit/uiappearancecontainer).
  */
+
+#import <UIKit/UIKit.h>
+#import "SPPaymentMethodCard.h"
+#import "SPEnvironment.h"
+
+@class SPAuthorization;
 
 @class SPPaymentCardTextField, SPPaymentMethodCardParams;
 @protocol SPPaymentCardTextFieldDelegate;
@@ -366,6 +369,9 @@ UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
  */
 - (CGRect)fieldsRectForBounds:(CGRect)bounds;
 
+
+- (void)setAuthorization:(SPEnvironment)env andSecretKey:(NSString * _Nonnull)secretKey;
+
 @end
 
 /**
@@ -455,4 +461,5 @@ UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
  Called when editing ends in the payment card field's ZIP/postal code field.
  */
 - (void)paymentCardTextFieldDidEndEditingPostalCode:(nonnull SPPaymentCardTextField *)textField;
+
 @end

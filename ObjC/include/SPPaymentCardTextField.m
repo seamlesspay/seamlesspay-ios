@@ -16,6 +16,12 @@
 #import "SPPaymentCardTextFieldViewModel.h"
 #import "SPPaymentMethodCardParams.h"
 
+#if __has_include(<SeamlessPay/SeamlessPay-Swift.h>)
+#import <SeamlessPay/SeamlessPay-Swift.h>
+#else
+@import SeamlessPayAPI;
+#endif
+
 @interface SPPaymentCardTextField () <SPFormTextFieldDelegate>
 
 @property(nonatomic, readwrite, weak) UIImageView *brandImageView;
@@ -98,6 +104,10 @@ CGFloat const SPPaymentCardTextFieldDefaultInsets = 13;
 CGFloat const SPPaymentCardTextFieldMinimumPadding = 10;
 
 #pragma mark initializers
+
+- (void)setAuthorization:(SPEnvironment)env andSecretKey:(NSString *)secretKey; {
+  self.viewModel.apiClient = [[SPAPIClient alloc] initWithEnv:env secretKey:secretKey];
+}
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
   self = [super initWithCoder:aDecoder];
