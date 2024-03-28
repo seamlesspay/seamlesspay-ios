@@ -15,10 +15,6 @@
 		6384F11B2AED71410038AE4D /* DetailViewController+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1042AED71410038AE4D /* DetailViewController+Swift.swift */; };
 		6384F11C2AED71410038AE4D /* SPPaymentCardTextFieldSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1072AED71410038AE4D /* SPPaymentCardTextFieldSwift.swift */; };
 		6384F11E2AED71410038AE4D /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1092AED71410038AE4D /* DetailViewController.m */; };
-		6384F1202AED71410038AE4D /* SPChargeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384F10D2AED71410038AE4D /* SPChargeDetailView.swift */; };
-		6384F1212AED71410038AE4D /* VerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384F10E2AED71410038AE4D /* VerificationView.swift */; };
-		6384F1222AED71410038AE4D /* SPErrorDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384F10F2AED71410038AE4D /* SPErrorDetailView.swift */; };
-		6384F1232AED71410038AE4D /* VerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1102AED71410038AE4D /* VerificationViewController.swift */; };
 		6384F1262AED71410038AE4D /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1132AED71410038AE4D /* MasterViewController.m */; };
 		63BBDA782AED726600DD4267 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63BBDA742AED726600DD4267 /* LaunchScreen.storyboard */; };
 		63BBDA792AED726600DD4267 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63BBDA752AED726600DD4267 /* Assets.xcassets */; };
@@ -38,10 +34,6 @@
 		6384F1072AED71410038AE4D /* SPPaymentCardTextFieldSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SPPaymentCardTextFieldSwift.swift; sourceTree = "<group>"; };
 		6384F1092AED71410038AE4D /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		6384F10B2AED71410038AE4D /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
-		6384F10D2AED71410038AE4D /* SPChargeDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SPChargeDetailView.swift; sourceTree = "<group>"; };
-		6384F10E2AED71410038AE4D /* VerificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationView.swift; sourceTree = "<group>"; };
-		6384F10F2AED71410038AE4D /* SPErrorDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SPErrorDetailView.swift; sourceTree = "<group>"; };
-		6384F1102AED71410038AE4D /* VerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationViewController.swift; sourceTree = "<group>"; };
 		6384F1132AED71410038AE4D /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
 		6384F1142AED71410038AE4D /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		63BBDA742AED726600DD4267 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -120,7 +112,6 @@
 			children = (
 				638437872BA871E3003403C1 /* DetailViewController */,
 				638437882BA8720D003403C1 /* MasterViewController */,
-				6384F10C2AED71410038AE4D /* VerificationView */,
 				6383CB4C2AF6AE9B00A115B9 /* AppDelegate.swift */,
 				6383CB4B2AF6AE9B00A115B9 /* SceneDelegate.swift */,
 				6384F1072AED71410038AE4D /* SPPaymentCardTextFieldSwift.swift */,
@@ -128,17 +119,6 @@
 				638437852BA7935E003403C1 /* SharedSeamlessPayAPIClient.swift */,
 			);
 			path = Sources;
-			sourceTree = "<group>";
-		};
-		6384F10C2AED71410038AE4D /* VerificationView */ = {
-			isa = PBXGroup;
-			children = (
-				6384F1102AED71410038AE4D /* VerificationViewController.swift */,
-				6384F10D2AED71410038AE4D /* SPChargeDetailView.swift */,
-				6384F10E2AED71410038AE4D /* VerificationView.swift */,
-				6384F10F2AED71410038AE4D /* SPErrorDetailView.swift */,
-			);
-			path = VerificationView;
 			sourceTree = "<group>";
 		};
 		63BBDA732AED726600DD4267 /* Resources */ = {
@@ -276,15 +256,11 @@
 			files = (
 				6383CB4E2AF6B05C00A115B9 /* SceneDelegate.swift in Sources */,
 				6383CB4D2AF6B05800A115B9 /* AppDelegate.swift in Sources */,
-				6384F1222AED71410038AE4D /* SPErrorDetailView.swift in Sources */,
-				6384F1202AED71410038AE4D /* SPChargeDetailView.swift in Sources */,
 				6384F1262AED71410038AE4D /* MasterViewController.m in Sources */,
 				6384F11E2AED71410038AE4D /* DetailViewController.m in Sources */,
-				6384F1232AED71410038AE4D /* VerificationViewController.swift in Sources */,
 				6384F11C2AED71410038AE4D /* SPPaymentCardTextFieldSwift.swift in Sources */,
 				6384F11B2AED71410038AE4D /* DetailViewController+Swift.swift in Sources */,
 				638437862BA7935E003403C1 /* SharedSeamlessPayAPIClient.swift in Sources */,
-				6384F1212AED71410038AE4D /* VerificationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

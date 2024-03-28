@@ -230,48 +230,6 @@ public class APIClient {
     )
   }
 
-  // MARK: Verify
-  public func verify(
-    token: String,
-    cvv: String? = nil,
-    currency: String? = nil,
-    taxAmount: String? = nil,
-    taxExempt: Bool? = nil,
-    tip: String? = nil,
-    surchargeFeeAmount: String? = nil,
-    description: String? = nil,
-    order: [String: String]? = nil,
-    orderID: String? = nil,
-    poNumber: String? = nil,
-    metadata: String? = nil,
-    descriptor: String? = nil,
-    entryType: String? = nil,
-    idempotencyKey: String? = nil,
-    completion: ((Result<Charge, SeamlessPayError>) -> Void)?
-  ) {
-    charge(
-      token: token,
-      cvv: cvv,
-      capture: false,
-      currency: currency,
-      amount: nil,
-      taxAmount: taxAmount,
-      taxExempt: taxExempt,
-      tip: tip,
-      surchargeFeeAmount: surchargeFeeAmount,
-      description: description,
-      order: order,
-      orderID: orderID,
-      poNumber: poNumber,
-      metadata: metadata,
-      descriptor: descriptor,
-      entryType: entryType,
-      idempotencyKey: idempotencyKey,
-      operation: .createCharge,
-      completion: completion
-    )
-  }
-
   // MARK: Refunds
   public func createRefund(
     token: String,
