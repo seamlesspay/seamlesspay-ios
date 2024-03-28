@@ -8,9 +8,9 @@
 import Foundation
 
 public struct TokenizeResponse {
-  let token: String
-  let name: String?
-  let lastFour: String?
-  let expirationDate: String?
-  let paymentNetwork: PaymentNetwork?
+  public let token: String
+  public let name: String?
+  public let lastFour: String?
+  public let expirationDate: String?
+  public let paymentNetwork: PaymentNetwork?
 }

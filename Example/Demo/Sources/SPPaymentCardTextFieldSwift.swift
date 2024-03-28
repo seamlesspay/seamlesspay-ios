@@ -52,15 +52,6 @@ import SeamlessPay
   }
 
   func pay() {
-    let billingAddress = Address(
-      line1: nil,
-      line2: nil,
-      country: nil,
-      state: nil,
-      city: nil,
-      postalCode: cardTextField.postalCode
-    )
-
     cardTextField.submit(
       amount: "1"
     ) { result in

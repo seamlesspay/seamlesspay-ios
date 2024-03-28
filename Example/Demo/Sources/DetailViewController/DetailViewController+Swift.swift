@@ -555,85 +555,29 @@ extension DetailViewController {
   // swiftlint:enable function_body_length
 
   @objc func pay() {
-    guard let cardNumber = cardTextField.cardNumber,
-          let cvc = cardTextField.cvc,
-          let zip = cardTextField.postalCode else {
-      return
-    }
-
     activityIndicator.startAnimating()
 
     let startTime = CACurrentMediaTime()
-    // perform some action
 
-    let billingAddress = Address(
-      line1: nil,
-      line2: nil,
-      country: nil,
-      state: nil,
-      city: nil,
-      postalCode: zip
-    )
+    let amount = (amountTextField.text?.replacingOccurrences(of: ",", with: "")) ?? ""
+    cardTextField.submit(amount: amount) { result in
+      self.activityIndicator.stopAnimating()
 
-    apiClient.tokenize(
-      paymentType: .creditCard,
-      accountNumber: cardNumber,
-      expDate: .init(month: cardTextField.expirationMonth, year: cardTextField.expirationYear),
-      cvv: cvc,
-      accountType: nil,
-      routing: nil,
-      pin: nil,
-      billingAddress: billingAddress,
-      name: "Michael Smith"
-    ) { result in
       switch result {
-      case let .success(paymentMethod):
+      case let .success(paymentResponse):
+        let elapsedTime = CACurrentMediaTime() - startTime
+        let success = """
+            Amount: $\(paymentResponse.amount ?? "")
+            Status: \(paymentResponse.status?.rawValue ?? "")
+            Status message: \(paymentResponse.statusDescription ?? "")
+            txnID #: \(paymentResponse.id)
+            TimeInterval: \(elapsedTime) s
+        """
+        self.displayAlert(withTitle: "Success", message: success, restartDemo: true)
 
-        apiClient.createCharge(
-          token: paymentMethod.token,
-          cvv: cvc,
-          capture: true,
-          currency: nil,
-          amount: (self.amountTextField.text?.replacingOccurrences(of: ",", with: "")) ?? "",
-          taxAmount: nil,
-          taxExempt: false,
-          tip: nil,
-          surchargeFeeAmount: nil,
-          description: "",
-          order: nil,
-          orderID: nil,
-          poNumber: nil,
-          metadata: nil,
-          descriptor: nil,
-          entryType: nil,
-          idempotencyKey: nil
-        ) { result in
-          self.activityIndicator.stopAnimating()
-
-          switch result {
-          case let .success(charge):
-            let elapsedTime = CACurrentMediaTime() - startTime
-            let success = """
-                Amount: $\(charge.amount ?? "")
-                Status: \(charge.status?.rawValue ?? "")
-                Status message: \(charge.statusDescription ?? "")
-                txnID #: \(charge.id)
-                TimeInterval: \(elapsedTime) s
-            """
-            self.displayAlert(withTitle: "Success", message: success, restartDemo: true)
-
-          case let .failure(error):
-            self.displayAlert(
-              withTitle: "Error creating Charge",
-              message: error.localizedDescription,
-              restartDemo: false
-            )
-          }
-        }
       case let .failure(error):
-        self.activityIndicator.stopAnimating()
         self.displayAlert(
-          withTitle: "Error creating token",
+          withTitle: "Error creating Charge",
           message: error.localizedDescription,
           restartDemo: false
         )

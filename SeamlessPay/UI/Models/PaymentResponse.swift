@@ -8,19 +8,19 @@
 import Foundation
 
 public struct PaymentResponse {
-  let accountType: AccountType?
-  let amount: String?
-  let currency: Currency?
-  let authCode: String?
-  let batchId: String?
-  let expDate: String?
-  let id: String
-  let lastFour: String?
-  let cardBrand: String?
-  let status: TransactionStatus?
-  let statusCode: String?
-  let statusDescription: String?
-  let surchargeFeeAmount: String?
-  let tip: String?
-  let transactionDate: String?
+  public let accountType: AccountType?
+  public let amount: String?
+  public let currency: Currency?
+  public let authCode: String?
+  public let batchId: String?
+  public let expDate: String?
+  public let id: String
+  public let lastFour: String?
+  public let cardBrand: String?
+  public let status: TransactionStatus?
+  public let statusCode: String?
+  public let statusDescription: String?
+  public let surchargeFeeAmount: String?
+  public let tip: String?
+  public let transactionDate: String?
 }
