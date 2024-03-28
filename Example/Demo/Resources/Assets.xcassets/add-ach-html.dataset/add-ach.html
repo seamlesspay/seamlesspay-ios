@@ -1,0 +1,54 @@
+<html>
+
+<head>
+    <style type="text/css">
+        html {
+            padding: 5px;
+            font-family: Verdana;
+            font-size: 13pt;
+        }
+
+        body {
+            background-color: #f8f8f8;
+        }
+
+        input,
+        select {
+            background-color: white;
+            -webkit-appearance: none;
+            border-radius: 2px;
+            font-size: 12pt;
+            padding: 4px;
+        }
+
+        input[type="submit"] {
+            background-color: #40a9ff;
+            color: white;
+            padding: 10px 25px;
+            border: none;
+        }
+    </style>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1.0, user-scalable=no" />
+</head>
+
+<body>Our stored value API can be used to create a variety of integrated applications, such as gift card and rewards
+    programs. A stored-value card is a payments card with a monetary value stored on the card itself, not in an external
+    account maintained by a financial institution.<br><br>
+    <form><input type="hidden" name="txnType" value="ach"><br>Account Number:<br><input type="number"
+            name="accountNumber" required><br><input type="hidden" name="expDate">Routing number (9
+        characters):<br><input type="number" name="routingNumber" required><br>Select bank account type:&nbsp;<select
+            name="bankAccountType">
+            <option>Checking</option>
+            <option>Savings</option>
+        </select><input type="hidden" name="pinNumber"><br>Billing first address:<br><input type="text"
+            name="billingAddress" size="36"><br>Billing second address:<br><input type="text" name="billingAddress2"
+            size="36"><br>Billing city:<br><input type="text" name="billingCity" size="36"><br>Billing
+        Country:<br><input type="text" name="billingCountry" size="36"><br>Billing State (2 characters):<br><input
+            type="text" name="billingState" size="36"><br>Billing Zip (5 characters):<br><input type="text"
+            name="billingZip" size="36"><br>Name:<input type="text" name="name" size="36"><br><br>
+        <center><input type="submit" name="panvault" value="Create"></center>
+    </form>
+    <center><!--[RESULTS]--></center>
+</body>
+
+</html>

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
-  s.name             = 'SeamlessPayCore'
-  s.version          = '2.0.0'
+  s.name             = 'SeamlessPay'
+  s.version          = '1.1.0'
   s.summary          = 'There are three demo apps included with the framework.'
 
   s.description      = <<~DESC
@@ -16,10 +16,10 @@ Pod::Spec.new do |s|
   s.swift_versions = '5.7'
 
   s.source_files = [
-    'SeamlessPayCore/Sources/**/*.{swift}',
-    'SeamlessPayCoreObjC/include/**/*.{h,m}'
+    'SeamlessPay/**/*.{swift}',
+    'ObjC/**/*.{h,m}'
   ]
-  s.exclude_files = 'SeamlessPayCore/Sources/SeamlessPayCore+ExportedImports.swift'
+  s.exclude_files = 'SeamlessPay/SeamlessPay+ExportedImports.swift'
 
-  s.resources = ['SeamlessPayCoreObjC/Resources/Assets']
+  s.resources = ['ObjC/Resources/Assets']
 end
