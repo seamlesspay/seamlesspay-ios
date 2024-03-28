@@ -51,8 +51,8 @@ public extension SPPaymentCardTextField {
 public extension SPPaymentCardTextField {
   func submit(
     amount: String,
-    capture: Bool,
-    currency: String,
+    capture: Bool = true,
+    currency: String? = nil,
     description: String? = nil,
     descriptor: String? = nil,
     entryType: String? = nil,
@@ -73,7 +73,7 @@ public extension SPPaymentCardTextField {
         self.apiClient?.createCharge(
           token: tokenize.token,
           cvv: self.viewModel?.cvc,
-          capture: false,
+          capture: capture,
           currency: currency,
           amount: amount,
           taxAmount: taxAmount,

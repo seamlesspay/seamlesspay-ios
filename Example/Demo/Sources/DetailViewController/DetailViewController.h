@@ -16,7 +16,7 @@
 @property(strong, nonatomic) NSString *contentHTML;
 @property(strong, nonatomic) WKWebView *webView;
 @property(nonatomic, strong) UIActivityIndicatorView *activityIndicator;
-@property(nonatomic, weak) SPPaymentCardTextField *cardTextField;
+@property(nonatomic, strong) SPPaymentCardTextField *cardTextField;
 @property(nonatomic, weak) UITextField *amountTextField;
 
 - (void)displayAlertWithTitle:(NSString *)title
