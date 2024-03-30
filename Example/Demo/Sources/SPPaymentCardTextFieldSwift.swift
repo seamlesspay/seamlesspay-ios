@@ -53,7 +53,7 @@ import SeamlessPay
 
   func pay() {
     cardTextField.submit(
-      amount: "1"
+      .init(amount: "101")
     ) { result in
       switch result {
       case let .success(paymentResponse):

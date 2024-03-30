@@ -560,16 +560,16 @@ extension DetailViewController {
     let startTime = CACurrentMediaTime()
 
     let amount = (amountTextField.text?.replacingOccurrences(of: ",", with: "")) ?? ""
-    cardTextField.submit(amount: amount) { result in
+    cardTextField.submit(.init(amount: amount)) { result in
       self.activityIndicator.stopAnimating()
 
       switch result {
       case let .success(paymentResponse):
         let elapsedTime = CACurrentMediaTime() - startTime
         let success = """
-            Amount: $\(paymentResponse.amount ?? "")
-            Status: \(paymentResponse.status?.rawValue ?? "")
-            Status message: \(paymentResponse.statusDescription ?? "")
+            Amount: $\(paymentResponse.details.amount ?? "")
+            Status: \(paymentResponse.details.status?.rawValue ?? "")
+            Status message: \(paymentResponse.details.statusDescription ?? "")
             txnID #: \(paymentResponse.id)
             TimeInterval: \(elapsedTime) s
         """
