@@ -22,11 +22,11 @@ let package = Package(
   targets: [
     .target(
       name: "SeamlessPay",
-      dependencies: ["ObjC"],
+      dependencies: ["SeamlessPayObjC"],
       path: "SeamlessPay"
     ),
     .target(
-      name: "ObjC",
+      name: "SeamlessPayObjC",
       dependencies: [],
       path: "ObjC",
       sources: [
@@ -41,14 +41,12 @@ let package = Package(
       name: "SeamlessPayTests",
       dependencies: [
         "SeamlessPay",
-        "ObjC",
       ]
     ),
     .testTarget(
       name: "SeamlessPayTestsObjC",
       dependencies: [
-        "SeamlessPay",
-        "ObjC",
+        "SeamlessPayObjC",
       ]
     ),
   ]
