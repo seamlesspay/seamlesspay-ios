@@ -54,7 +54,7 @@
 #import <UIKit/UIKit.h>
 #import "SPPaymentMethodCard.h"
 
-@class SPPaymentCardTextField, SPPaymentMethodCardParams;
+@class SPPaymentCardTextField;
 @protocol SPPaymentCardTextFieldDelegate;
 
 /**
@@ -233,21 +233,6 @@ UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
  By default this will fetch the user's current country code from NSLocale.
  */
 @property(nonatomic, copy, nullable) NSString *countryCode;
-
-/**
- Convenience property for creating an `SPPaymentMethodCardParams` from the
- currently entered information or programmatically setting the field's contents.
- For example, if you're using another library to scan your user's credit card
- with a camera, you can assemble that data into an `SPPaymentMethodCardParams`
- object and set this property to that object to prefill the fields you've
- collected.
-
- Accessing this property returns a *copied* `cardParams`. The only way to change
- properties in this object is to make changes to a `SPPaymentMethodCardParams`
- you own (retrieved from this text field if desired), and then set this property
- to the new value.
- */
-//@property(nonatomic, copy, readwrite, nonnull)SPPaymentMethodCardParams *cardParams;
 
 /**
  Causes the text field to begin editing. Presents the keyboard.

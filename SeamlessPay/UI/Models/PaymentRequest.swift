@@ -27,7 +27,7 @@ public struct PaymentRequest {
   public init(
     amount: String,
     capture: Bool = true,
-currency: String? = .none,
+    currency: String? = .none,
     description: String? = .none,
     descriptor: String? = .none,
     entryType: String? = .none,
