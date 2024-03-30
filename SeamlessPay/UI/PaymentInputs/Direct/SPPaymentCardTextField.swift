@@ -57,8 +57,8 @@ public extension SPPaymentCardTextField {
     _ request: PaymentRequest,
     completion: ((Result<PaymentResponse, SeamlessPayError>) -> Void)?
   ) {
-    tokenize { tokenizeResult in
-      switch tokenizeResult {
+    tokenize { result in
+      switch result {
       case let .success(paymentMethod):
         self.apiClient?.createCharge(
           token: paymentMethod.paymentToken,
