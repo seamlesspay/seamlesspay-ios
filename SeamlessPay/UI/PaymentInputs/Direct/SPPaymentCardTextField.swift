@@ -7,9 +7,26 @@
 
 import UIKit
 
-// MARK: - Tokenize
+// MARK: - Public
+// MARK: Init with Authorization model
 public extension SPPaymentCardTextField {
-  func tokenize(completion: ((Result<PaymentMethodResponse, SeamlessPayError>) -> Void)?) {
+  convenience init(authorization: Authorization) {
+    self.init()
+    setAuthorization(authorization)
+  }
+
+  func setAuthorization(
+    _ authorization: Authorization
+  ) {
+    apiClient = .init(authorization: authorization)
+  }
+}
+
+// MARK: Tokenize
+public extension SPPaymentCardTextField {
+  func tokenize(
+    completion: ((Result<PaymentMethodResponse, SeamlessPayError>) -> Void)?
+  ) {
     let paymentType: PaymentType = .creditCard
     apiClient?.tokenize(
       paymentType: paymentType,
@@ -38,16 +55,6 @@ public extension SPPaymentCardTextField {
         )
       }
     )
-  }
-
-  private var expDate: ExpirationDate? {
-    let expirationMonth = viewModel?.expirationMonth.flatMap { UInt($0) }
-    let expirationYear = viewModel?.expirationYear.flatMap { UInt($0) }
-    if let expirationMonth, let expirationYear {
-      return .init(month: expirationMonth, year: expirationYear)
-    } else {
-      return nil
-    }
   }
 }
 
@@ -92,7 +99,7 @@ public extension SPPaymentCardTextField {
                     batchId: $0.batch,
                     expDate: $0.expDate,
                     lastFour: $0.lastFour,
-                    cardBrand: .none,
+                    cardBrand: paymentMethod.details.paymentNetwork,
                     status: $0.status,
                     statusCode: $0.statusCode,
                     statusDescription: $0.statusDescription,
@@ -112,6 +119,29 @@ public extension SPPaymentCardTextField {
   }
 }
 
+// MARK: - Internal
+// MARK: APIClient instance
+extension SPPaymentCardTextField {
+  static var apiClientAssociationKey: Void?
+
+  var apiClient: APIClient? {
+    get {
+      objc_getAssociatedObject(
+        self,
+        &Self.apiClientAssociationKey
+      ) as? APIClient
+    }
+    set {
+      objc_setAssociatedObject(
+        self,
+        &Self.apiClientAssociationKey,
+        newValue,
+        .OBJC_ASSOCIATION_RETAIN_NONATOMIC
+      )
+    }
+  }
+}
+
 // MARK: - SPPaymentCardTextField ViewModel
 private extension SPPaymentCardTextField {
   var viewModel: SPPaymentCardTextFieldViewModel? {
@@ -119,5 +149,18 @@ private extension SPPaymentCardTextField {
       return object_getIvar(self, ivar) as? SPPaymentCardTextFieldViewModel
     }
     return nil
+  }
+}
+
+// MARK: - Private
+private extension SPPaymentCardTextField {
+  var expDate: ExpirationDate? {
+    let expirationMonth = viewModel?.expirationMonth.flatMap { UInt($0) }
+    let expirationYear = viewModel?.expirationYear.flatMap { UInt($0) }
+    if let expirationMonth, let expirationYear {
+      return .init(month: expirationMonth, year: expirationYear)
+    } else {
+      return nil
+    }
   }
 }

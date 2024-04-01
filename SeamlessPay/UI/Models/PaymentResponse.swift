@@ -16,7 +16,7 @@ public struct PaymentResponse: Identifiable, Equatable {
     public let batchId: String?
     public let expDate: String?
     public let lastFour: String?
-    public let cardBrand: String?
+    public let cardBrand: PaymentNetwork?
     public let status: TransactionStatus?
     public let statusCode: String?
     public let statusDescription: String?
