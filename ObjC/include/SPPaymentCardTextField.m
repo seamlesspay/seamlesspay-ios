@@ -14,7 +14,6 @@
 #import "SPImageLibrary.h"
 #import "SPPaymentCardTextField.h"
 #import "SPPaymentCardTextFieldViewModel.h"
-#import "SPPaymentMethodCardParams.h"
 
 @interface SPPaymentCardTextField () <SPFormTextFieldDelegate>
 
@@ -25,7 +24,6 @@
 @property(nonatomic, readwrite, weak) SPFormTextField *cvcField;
 @property(nonatomic, readwrite, weak) SPFormTextField *postalCodeField;
 @property(nonatomic, readwrite, strong)SPPaymentCardTextFieldViewModel *viewModel;
-@property(nonatomic, readwrite, strong)SPPaymentMethodCardParams *internalCardParams;
 @property(nonatomic, strong) NSArray<SPFormTextField *> *allFields;
 @property(nonatomic, readwrite, strong) SPFormTextField *sizingField;
 @property(nonatomic, readwrite, strong) UILabel *sizingLabel;
@@ -127,7 +125,6 @@ CGFloat const SPPaymentCardTextFieldMinimumPadding = 10;
 
   self.clipsToBounds = YES;
 
-  _internalCardParams = [SPPaymentMethodCardParams new];
   _viewModel = [SPPaymentCardTextFieldViewModel new];
   _sizingField = [self buildTextField];
   _sizingField.formDelegate = nil;
@@ -648,89 +645,6 @@ CGFloat const SPPaymentCardTextFieldMinimumPadding = 10;
   } else {
     return nil;
   }
-}
-
-- (SPPaymentMethodCardParams *)cardParams {
-  self.internalCardParams.number = self.cardNumber;
-  self.internalCardParams.expMonth = @(self.expirationMonth);
-  self.internalCardParams.expYear = @(self.expirationYear);
-  self.internalCardParams.cvc = self.cvc;
-  return [self.internalCardParams copy];
-}
-
-- (void)setCardParams:(SPPaymentMethodCardParams *)callersCardParams {
-  /*
-   Due to the way this class is written, programmatically setting field text
-   behaves identically to user entering text (and will have the same forwarding
-   on to next responder logic).
-
-   We have some custom logic here in the main accesible programmatic setter
-   to dance around this a bit. First we save what is the current responder
-   at the time this method was called. Later logic after text setting should be:
-   1. If we were not first responder, we should still not be first responder
-   (but layout might need updating depending on PAN validity)
-   2. If original field is still not valid, it is still first responder
-   (manually reset it back to first responder)
-   3. Otherwise the first subfield with invalid text should now be first
-   responder
-   */
-  SPFormTextField *originalSubResponder = self.currentFirstResponderField;
-
-  /*
-   #1031 small footgun hiding here. Use copies to protect from mutations of
-   `internalCardParams` in the `cardParams` property accessor and any mutations
-   the app code might make to their `callersCardParams` object.
-   */
-  SPPaymentMethodCardParams *desiredCardParams = [callersCardParams copy];
-  self.internalCardParams = [desiredCardParams copy];
-
-  [self setText:desiredCardParams.number inField:SPCardFieldTypeNumber];
-  BOOL expirationPresent =
-  desiredCardParams.expMonth && desiredCardParams.expYear;
-  if (expirationPresent) {
-    NSString *text = [NSString
-                      stringWithFormat:@"%02lu%02lu",
-                      (unsigned long)desiredCardParams.expMonth.integerValue,
-                      (unsigned long)desiredCardParams.expYear.integerValue %
-                      100];
-    [self setText:text inField:SPCardFieldTypeExpiration];
-  } else {
-    [self setText:@"" inField:SPCardFieldTypeExpiration];
-  }
-  [self setText:desiredCardParams.cvc inField:SPCardFieldTypeCVC];
-
-  if ([self isFirstResponder]) {
-    SPCardFieldType fieldType = originalSubResponder.tag;
-    SPCardValidationState state =
-    [self.viewModel validationStateForField:fieldType];
-
-    if (state == SPCardValidationStateValid) {
-      SPFormTextField *nextField = [self firstInvalidSubField];
-      if (nextField) {
-        [nextField becomeFirstResponder];
-      } else {
-        [self resignFirstResponder];
-      }
-    } else {
-      [originalSubResponder becomeFirstResponder];
-    }
-  } else {
-    [self layoutViewsToFocusField:nil
-             becomeFirstResponder:YES
-                         animated:NO
-                       completion:nil];
-  }
-
-  // update the card image, falling back to the number field image if not
-  // editing
-  if ([self.expirationField isFirstResponder]) {
-    [self updateImageForFieldType:SPCardFieldTypeExpiration];
-  } else if ([self.cvcField isFirstResponder]) {
-    [self updateImageForFieldType:SPCardFieldTypeCVC];
-  } else {
-    [self updateImageForFieldType:SPCardFieldTypeNumber];
-  }
-  [self updateCVCPlaceholder];
 }
 
 - (void)setText:(NSString *)text inField:(SPCardFieldType)field {

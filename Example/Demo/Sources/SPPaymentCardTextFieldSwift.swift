@@ -11,10 +11,9 @@ import PassKit
 import SeamlessPay
 
 @objcMembers class SPPaymentCardTextFieldSwift: UIViewController {
-  lazy var cardTextField: SPPaymentCardTextField = {
-    let cardTextField = SPPaymentCardTextField()
-    return cardTextField
-  }()
+  lazy var cardTextField = SPPaymentCardTextField(
+    authorization: sharedSPAuthorization
+  )
 
   lazy var payButton: UIButton = {
     let button = UIButton(type: .custom)
@@ -53,50 +52,17 @@ import SeamlessPay
   }
 
   func pay() {
-    let billingAddress = Address(
-      line1: nil,
-      line2: nil,
-      country: nil,
-      state: nil,
-      city: nil,
-      postalCode: cardTextField.postalCode
-    )
-
-    sharedSeamlessPayAPIClient.tokenize(
-      paymentType: .creditCard,
-      accountNumber: cardTextField.cardNumber ?? .init(),
-      expDate: .init(
-        month: cardTextField.expirationMonth,
-        year: cardTextField.expirationYear
-      ),
-      cvv: cardTextField.cvc,
-      billingAddress: billingAddress,
-      name: "Michael Smith"
+    cardTextField.submit(
+      .init(amount: "101")
     ) { result in
       switch result {
-      case let .success(paymentMethod):
-        let token = paymentMethod.token
-
-        sharedSeamlessPayAPIClient.createCharge(
-          token: token,
-          cvv: self.cardTextField.cvc,
-          capture: true,
-          amount: "1",
-          taxExempt: false
-        ) { result in
-          switch result {
-          case let .success(charge):
-            // Success Charge:
-            print(charge.id)
-          case let .failure(error):
-            // Handle the error
-            print(error.localizedDescription)
-            return
-          }
-        }
+      case let .success(paymentResponse):
+        // Success Charge:
+        print(paymentResponse)
       case let .failure(error):
         // Handle the error
         print(error.localizedDescription)
+        return
       }
     }
   }

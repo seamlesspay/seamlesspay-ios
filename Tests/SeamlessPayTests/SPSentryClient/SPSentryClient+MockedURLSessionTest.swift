@@ -85,6 +85,7 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
         XCTFail("The expected result is failure")
         return
       }
+
       expectation.fulfill()
     }
 

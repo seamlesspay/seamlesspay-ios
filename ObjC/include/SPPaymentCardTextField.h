@@ -5,9 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-#import <UIKit/UIKit.h>
-#import "SPPaymentMethodCard.h"
-
 /**
  ### Refactoring SPPaymentCardTextField Guide
 
@@ -54,7 +51,10 @@
  - **UI_APPEARANCE_SELECTOR:** Swift gets a free pass by not needing the attribute associated with it, but that just means you have to [make sure your property accessor methods are compatible](https://developer.apple.com/documentation/uikit/uiappearancecontainer).
  */
 
-@class SPPaymentCardTextField, SPPaymentMethodCardParams;
+#import <UIKit/UIKit.h>
+#import "SPPaymentMethodCard.h"
+
+@class SPPaymentCardTextField;
 @protocol SPPaymentCardTextFieldDelegate;
 
 /**
@@ -70,8 +70,7 @@ IB_DESIGNABLE
 /**
  @see SPPaymentCardTextFieldDelegate
  */
-@property(nonatomic, weak, nullable) IBOutlet id<SPPaymentCardTextFieldDelegate>
-delegate;
+@property(nonatomic, weak, nullable) IBOutlet id<SPPaymentCardTextFieldDelegate> delegate;
 
 /**
  The font used in each child field. Default is [UIFont systemFontOfSize:18].
@@ -210,62 +209,6 @@ UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
 @property(nonatomic, getter=isEnabled) BOOL enabled;
 
 /**
- The current card number displayed by the field.
-
- May or may not be valid, unless `isValid` is true, in which case it is
- guaranteed to be valid.
- */
-@property(nonatomic, readonly, nullable) NSString *cardNumber;
-
-/**
- The current expiration month displayed by the field (1 = January, etc).
-
- May or may not be valid, unless `isValid` is true, in which case it is
- guaranteed to be valid.
- */
-@property(nonatomic, readonly) NSUInteger expirationMonth;
-
-/**
- The current expiration month displayed by the field, as a string. T
-
- This may or may not be a valid entry (i.e. "0") unless `isValid` is true.
- It may be also 0-prefixed (i.e. "01" for January).
- */
-@property(nonatomic, readonly, nullable) NSString *formattedExpirationMonth;
-
-/**
- The current expiration year displayed by the field, modulo 100
- (e.g. the year 2015 will be represented as 15).
-
- May or may not be valid, unless `isValid` is true, in which case it is
- guaranteed to be valid.
- */
-@property(nonatomic, readonly) NSUInteger expirationYear;
-
-/**
- The current expiration year displayed by the field, as a string.
-
- This is a 2-digit year (i.e. "15"), and may or may not be a valid entry
- unless `isValid` is true.
- */
-@property(nonatomic, readonly, nullable) NSString *formattedExpirationYear;
-
-@property(nonatomic, readonly, nullable) NSString *formattedExpirationDate;
-
-/**
- The current card CVC displayed by the field.
-
- May or may not be valid, unless `isValid` is true, in which case it
- is guaranteed to be valid.
- */
-@property(nonatomic, readonly, nullable) NSString *cvc;
-
-/**
- The current card ZIP or postal code displayed by the field.
- */
-@property(nonatomic, readonly, nullable) NSString *postalCode;
-
-/**
  Controls if a postal code entry field can be displayed to the user.
 
  Default is NO (no postal code entry will ever be displayed).
@@ -292,21 +235,6 @@ UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
 @property(nonatomic, copy, nullable) NSString *countryCode;
 
 /**
- Convenience property for creating an `SPPaymentMethodCardParams` from the
- currently entered information or programmatically setting the field's contents.
- For example, if you're using another library to scan your user's credit card
- with a camera, you can assemble that data into an `SPPaymentMethodCardParams`
- object and set this property to that object to prefill the fields you've
- collected.
-
- Accessing this property returns a *copied* `cardParams`. The only way to change
- properties in this object is to make changes to a `SPPaymentMethodCardParams`
- you own (retrieved from this text field if desired), and then set this property
- to the new value.
- */
-@property(nonatomic, copy, readwrite, nonnull)SPPaymentMethodCardParams *cardParams;
-
-/**
  Causes the text field to begin editing. Presents the keyboard.
 
  @return Whether or not the text field successfully began editing.
@@ -327,37 +255,6 @@ UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
  being edited, the number field will become selected.
  */
 - (void)clear;
-
-/**
- Returns the cvc image used for a card brand.
- Override this method in a subclass if you would like to provide custom images.
- @param cardBrand The brand of card entered.
- @return The cvc image used for a card brand.
- */
-+ (nullable UIImage *)cvcImageForCardBrand:(SPCardBrand)cardBrand;
-
-/**
- Returns the brand image used for a card brand.
- Override this method in a subclass if you would like to provide custom images.
- @param cardBrand The brand of card entered.
- @return The brand image used for a card brand.
- */
-+ (nullable UIImage *)brandImageForCardBrand:(SPCardBrand)cardBrand;
-
-/**
- Returns the error image used for a card brand.
- Override this method in a subclass if you would like to provide custom images.
- @param cardBrand The brand of card entered.
- @return The error image used for a card brand.
- */
-+ (nullable UIImage *)errorImageForCardBrand:(SPCardBrand)cardBrand;
-
-/**
- Returns the rectangle in which the receiver draws its brand image.
- @param bounds The bounding rectangle of the receiver.
- @return the rectangle in which the receiver draws its brand image.
- */
-- (CGRect)brandImageRectForBounds:(CGRect)bounds;
 
 /**
  Returns the rectangle in which the receiver draws the text fields.
@@ -455,4 +352,5 @@ UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
  Called when editing ends in the payment card field's ZIP/postal code field.
  */
 - (void)paymentCardTextFieldDidEndEditingPostalCode:(nonnull SPPaymentCardTextField *)textField;
+
 @end

@@ -353,11 +353,7 @@
 
   } else if ([self.title isEqualToString:@"UI Payment Card Text Field"]) {
 
-    SPPaymentCardTextField *cardTextField =
-    [[SPPaymentCardTextField alloc] init];
-    cardTextField.postalCodeEntryEnabled = YES;
-    cardTextField.countryCode = @"US";
-    self.cardTextField = cardTextField;
+    [self configureCardTextField];
 
     UITextField *amountTextField = [[UITextField alloc] initWithFrame:CGRectMake(70, 0, 150, 22)];
     amountTextField.text = @"$1.00";
@@ -383,7 +379,7 @@
     [infoLbel addSubview:amountTextField];
 
     UIStackView *stackView = [[UIStackView alloc]
-                              initWithArrangedSubviews:@[ infoLbel, cardTextField, button ]];
+                              initWithArrangedSubviews:@[ infoLbel, self.cardTextField, button ]];
     stackView.axis = UILayoutConstraintAxisVertical;
     stackView.translatesAutoresizingMaskIntoConstraints = NO;
     stackView.spacing = 20;

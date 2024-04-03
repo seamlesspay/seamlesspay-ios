@@ -8,19 +8,15 @@
 import Foundation
 import SeamlessPay
 
-private(set) var sharedSeamlessPayAPIClient: APIClient = .init(
-  authorization: sharedSeamlessPayAPIClientAuthorization
-)
-
-var sharedSeamlessPayAPIClientAuthorization: Authorization {
+var sharedSPAuthorization: Authorization {
   get {
     let environment = Environment(
       rawValue: UserDefaults.standard.integer(forKey: "env")
-    ) ?? defaultAuthorization.environment
+    ) ?? mockSPAuthorization.environment
 
     let secretKey = UserDefaults.standard.string(
       forKey: "secretkey"
-    ) ?? defaultAuthorization.secretKey
+    ) ?? mockSPAuthorization.secretKey
 
     return Authorization(
       environment: environment,
@@ -30,14 +26,10 @@ var sharedSeamlessPayAPIClientAuthorization: Authorization {
   set {
     UserDefaults.standard.set(newValue.secretKey, forKey: "secretkey")
     UserDefaults.standard.set(newValue.environment.rawValue, forKey: "env")
-
-    sharedSeamlessPayAPIClient = .init(
-      authorization: sharedSeamlessPayAPIClientAuthorization
-    )
   }
 }
 
-private var defaultAuthorization: Authorization {
+var mockSPAuthorization: Authorization {
   Authorization(
     environment: .sandbox,
     secretKey: "sk_XXXXXXXXXXXXXXXXXXXXXXXXXX"
