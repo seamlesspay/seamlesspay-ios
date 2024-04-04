@@ -34,13 +34,16 @@ class SPPaymentCardTextFieldRequestsTest: XCTestCase {
     sut.tokenize { result in
       // Then
       switch result {
-      case let .success(paymentMethod):
-        XCTAssertEqual(paymentMethod.paymentToken, "mockedToken")
-        XCTAssertEqual(paymentMethod.details.expirationDate, "01/25")
-        XCTAssertEqual(paymentMethod.details.lastFour, "1234")
-        XCTAssertEqual(paymentMethod.details.name, "John Doe")
-        XCTAssertEqual(paymentMethod.details.paymentNetwork, .masterCard)
-        XCTAssertEqual(paymentMethod.paymentType, .creditCard)
+      case let .success(tokenize):
+        switch tokenize.details {
+        case let .creditCard(name, lastFour, expirationDate, paymentNetwork):
+          XCTAssertEqual(expirationDate, "01/25")
+          XCTAssertEqual(lastFour, "1234")
+          XCTAssertEqual(name, "John Doe")
+          XCTAssertEqual(paymentNetwork, .masterCard)
+        default:
+          XCTFail("Wrong payment details")
+        }
       case .failure:
         XCTFail("Tokenization should succeed")
       }
@@ -60,26 +63,40 @@ class SPPaymentCardTextFieldRequestsTest: XCTestCase {
       // Then
       switch result {
       case let .success(payment):
-        XCTAssertEqual(payment.id, "mockedChargeID")
-        XCTAssertNotNil(payment.paymentMethod)
-        XCTAssertEqual(payment.details.amount, "99")
-        XCTAssertEqual(payment.details.currency, .usd)
-        XCTAssertEqual(payment.details.status, .captured)
-        XCTAssertEqual(payment.details.statusCode, "mocked_statusCode")
-        XCTAssertEqual(payment.details.statusDescription, "mocked_statusDescription")
-        XCTAssertEqual(payment.details.authCode, "mocked_authCode")
-        XCTAssertEqual(payment.details.accountType, .credit)
-        XCTAssertEqual(payment.details.batchId, "mocked_batch")
-        XCTAssertEqual(payment.details.expDate, "mocked_expDate")
-        XCTAssertEqual(payment.details.tip, "mocked_tip")
-        XCTAssertEqual(payment.details.transactionDate, "mocked_transactionDate")
-        XCTAssertEqual(payment.details.surchargeFeeAmount, "mocked_surchargeFeeAmount")
-        XCTAssertEqual(payment.details.cardBrand, .masterCard)
-        XCTAssertEqual(payment.details.lastFour, "mocked_lastFour")
-
-
-
-
+        switch payment.details {
+        case let .creditCard(
+          accountType,
+          amount,
+          currency,
+          authCode,
+          batchId,
+          expDate,
+          lastFour,
+          cardBrand,
+          status,
+          statusCode,
+          statusDescription,
+          surchargeFeeAmount,
+          tip,
+          transactionDate
+        ):
+          XCTAssertEqual(amount, "99")
+          XCTAssertEqual(currency, .usd)
+          XCTAssertEqual(status, .captured)
+          XCTAssertEqual(statusCode, "mocked_statusCode")
+          XCTAssertEqual(statusDescription, "mocked_statusDescription")
+          XCTAssertEqual(authCode, "mocked_authCode")
+          XCTAssertEqual(accountType, .credit)
+          XCTAssertEqual(batchId, "mocked_batch")
+          XCTAssertEqual(expDate, "mocked_expDate")
+          XCTAssertEqual(tip, "mocked_tip")
+          XCTAssertEqual(transactionDate, "mocked_transactionDate")
+          XCTAssertEqual(surchargeFeeAmount, "mocked_surchargeFeeAmount")
+          XCTAssertEqual(cardBrand, .masterCard)
+          XCTAssertEqual(lastFour, "mocked_lastFour")
+        default:
+          XCTFail("Wrong payment details")
+        }
       case .failure:
         XCTFail("Submission should succeed")
       }
@@ -89,7 +106,6 @@ class SPPaymentCardTextFieldRequestsTest: XCTestCase {
 
 // MARK: - Mocks
 private class APIClientMock: APIClient {
-
   convenience init() {
     self.init(
       authorization: .init(environment: .sandbox, secretKey: "test_secret_key"),
@@ -151,7 +167,6 @@ private class APIClientMock: APIClient {
     idempotencyKey: String? = nil,
     completion: ((Result<Charge, SeamlessPayError>) -> Void)?
   ) {
-
     let charge = Charge(
       id: "mockedChargeID",
       method: .charge,

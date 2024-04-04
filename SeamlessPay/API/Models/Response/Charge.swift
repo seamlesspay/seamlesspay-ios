@@ -49,7 +49,7 @@ public struct Charge: APICodable {
   /**
    * The payment method (token) from pan-vault
    */
-  public let token: String?
+  public let token: String
   /**
    * Transaction date string <date-time>
    */

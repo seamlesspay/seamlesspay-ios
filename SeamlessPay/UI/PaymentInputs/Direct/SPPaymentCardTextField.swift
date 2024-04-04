@@ -25,7 +25,7 @@ public extension SPPaymentCardTextField {
 // MARK: Tokenize
 public extension SPPaymentCardTextField {
   func tokenize(
-    completion: ((Result<PaymentMethodResponse, SeamlessPayError>) -> Void)?
+    completion: ((Result<TokenizeResponse, SeamlessPayError>) -> Void)?
   ) {
     let paymentType: PaymentType = .creditCard
     apiClient?.tokenize(
@@ -43,8 +43,7 @@ public extension SPPaymentCardTextField {
           result.map {
             .init(
               paymentToken: $0.token,
-              paymentType: paymentType,
-              details: .init(
+              details: .creditCard(
                 name: $0.name,
                 lastFour: $0.lastFour,
                 expirationDate: $0.expDate,
@@ -89,9 +88,8 @@ public extension SPPaymentCardTextField {
             completion?(
               result.map {
                 .init(
-                  id: $0.id,
-                  paymentMethod: paymentMethod,
-                  details: .init(
+                  paymentToken: $0.token,
+                  details: .creditCard(
                     accountType: $0.accountType,
                     amount: $0.amount,
                     currency: $0.currency,
@@ -99,7 +97,7 @@ public extension SPPaymentCardTextField {
                     batchId: $0.batch,
                     expDate: $0.expDate,
                     lastFour: $0.lastFour,
-                    cardBrand: paymentMethod.details.paymentNetwork,
+                    cardBrand: $0.paymentNetwork,
                     status: $0.status,
                     statusCode: $0.statusCode,
                     statusDescription: $0.statusDescription,

@@ -7,25 +7,40 @@
 
 import Foundation
 
-public struct PaymentResponse: Identifiable, Equatable {
-  public struct Details: Equatable {
-    public let accountType: AccountType?
-    public let amount: String?
-    public let currency: Currency?
-    public let authCode: String?
-    public let batchId: String?
-    public let expDate: String?
-    public let lastFour: String?
-    public let cardBrand: PaymentNetwork?
-    public let status: TransactionStatus?
-    public let statusCode: String?
-    public let statusDescription: String?
-    public let surchargeFeeAmount: String?
-    public let tip: String?
-    public let transactionDate: String?
+public struct PaymentResponse {
+  public enum Details {
+    case creditCard(
+      accountType: AccountType?,
+      amount: String?,
+      currency: Currency?,
+      authCode: String?,
+      batchId: String?,
+      expDate: String?,
+      lastFour: String?,
+      cardBrand: PaymentNetwork?,
+      status: TransactionStatus?,
+      statusCode: String?,
+      statusDescription: String?,
+      surchargeFeeAmount: String?,
+      tip: String?,
+      transactionDate: String?
+    )
+    case giftCard
+    case ach
   }
 
-  public let id: String
-  public let paymentMethod: PaymentMethodResponse
-  public let details: Details
+  public let paymentToken: String
+  public let details: PaymentResponse.Details
+}
+
+extension PaymentResponse: Identifiable, Equatable {
+  // MARK: Identifiable
+  public var id: String {
+    paymentToken
+  }
+
+  // MARK: Equatable
+  public static func == (lhs: PaymentResponse, rhs: PaymentResponse) -> Bool {
+    return lhs.paymentToken == rhs.paymentToken
+  }
 }
