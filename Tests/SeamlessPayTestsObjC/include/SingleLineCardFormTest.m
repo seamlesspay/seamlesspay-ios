@@ -1,23 +1,23 @@
 //
-//  SPPaymentCardTextFieldTest.m
+//  SingleLineCardFormTest.m
 //  SeamlessPayTests
 //
 
 
 #import <XCTest/XCTest.h>
 
-#import "SPPaymentCardTextField.h"
+#import "SingleLineCardForm.h"
 #import "SPFormTextField.h"
-#import "SPPaymentCardTextFieldViewModel.h"
+#import "SingleLineCardForm.h"
 
-@interface SPPaymentCardTextFieldTest : XCTestCase
+@interface SingleLineCardFormTest : XCTestCase
 
 @end
 
-@implementation SPPaymentCardTextFieldTest
+@implementation SingleLineCardFormTest
 
 - (void)testIntrinsicContentSize {
-  SPPaymentCardTextField *textField = [SPPaymentCardTextField new];
+  SingleLineCardForm *textField = [SingleLineCardForm new];
 
   UIFont *defaultFont = [UIFont systemFontOfSize:18];
   textField.font = defaultFont;

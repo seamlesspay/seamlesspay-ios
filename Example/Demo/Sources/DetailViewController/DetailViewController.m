@@ -353,7 +353,7 @@
 
   } else if ([self.title isEqualToString:@"UI Payment Card Text Field"]) {
 
-    [self configureCardTextField];
+    [self configureSingleLineCardFormView];
 
     UITextField *amountTextField = [[UITextField alloc] initWithFrame:CGRectMake(70, 0, 150, 22)];
     amountTextField.text = @"$1.00";
@@ -379,7 +379,7 @@
     [infoLbel addSubview:amountTextField];
 
     UIStackView *stackView = [[UIStackView alloc]
-                              initWithArrangedSubviews:@[ infoLbel, self.cardTextField, button ]];
+                              initWithArrangedSubviews:@[ infoLbel, self.singleLineCardFormView, button ]];
     stackView.axis = UILayoutConstraintAxisVertical;
     stackView.translatesAutoresizingMaskIntoConstraints = NO;
     stackView.spacing = 20;
@@ -439,10 +439,9 @@
                         actionWithTitle:@"Restart demo"
                         style:UIAlertActionStyleCancel
                         handler:^(UIAlertAction *action) {
-        [self.cardTextField clear];
-        self.cardTextField.postalCodeEntryEnabled =
-        YES;
-        self.cardTextField.countryCode = @"US";
+        [self.singleLineCardFormView clear];
+        self.singleLineCardFormView.postalCodeEntryEnabled = YES;
+        self.singleLineCardFormView.countryCode = @"US";
         self.amountTextField.text = @"0.00";
       }]];
     } else {

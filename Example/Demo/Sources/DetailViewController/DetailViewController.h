@@ -8,7 +8,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <UIKit/UIKit.h>
 #import <WebKit/WebKit.h>
-#import "SPPaymentCardTextField.h"
+#import "SingleLineCardForm.h"
 
 @interface DetailViewController : UIViewController <WKNavigationDelegate>
 
@@ -16,7 +16,7 @@
 @property(strong, nonatomic) NSString *contentHTML;
 @property(strong, nonatomic) WKWebView *webView;
 @property(nonatomic, strong) UIActivityIndicatorView *activityIndicator;
-@property(nonatomic, strong) SPPaymentCardTextField *cardTextField;
+@property(nonatomic, strong) SingleLineCardForm *singleLineCardFormView;
 @property(nonatomic, weak) UITextField *amountTextField;
 
 - (void)displayAlertWithTitle:(NSString *)title

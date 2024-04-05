@@ -6,7 +6,7 @@ Our framework provides elements that can be used out-of-the-box to collect your 
 
 ## Native UI Elements
 
-`SPPaymentCardTextField` is a text field with similar properties to `UITextField`, but it is specialized for collecting credit/debit card information. It manages multiple `UITextFields` under the hood in order to collect this information seamlessly from users. It's designed to fit on a single line, and from a design perspective can be used anywhere a `UITextField` would be appropriate.
+`SingleLineCardForm` is a text field with similar properties to `UITextField`, but it is specialized for collecting credit/debit card information. It manages multiple `UITextFields` under the hood in order to collect this information seamlessly from users. It's designed to fit on a single line, and from a design perspective can be used anywhere a `UITextField` would be appropriate.
 
 #### Example UI
 
@@ -60,15 +60,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 ## Create Payment Form
 
-Securely collect card information on the client with SPPaymentCardTextField, a drop-in UI component provided by the SDK. Create an instance of the card component and a Pay button with the following code:
+Securely collect card information on the client with SingleLineCardForm, a drop-in UI component provided by the SDK. Create an instance of the card component and a Pay button with the following code:
 
 ```swift
 import SeamlessPay
     
 class ViewController: UIViewController {
-  lazy var cardTextField: SPPaymentCardTextField = {
-    let cardTextField = SPPaymentCardTextField()
-    return cardTextField
+  lazy var singleLineCardFormView: SingleLineCardForm = {
+    let singleLineCardFormView = SingleLineCardForm()
+    return singleLineCardFormView
   }()
 
   lazy var payButton: UIButton = {
@@ -86,7 +86,7 @@ class ViewController: UIViewController {
     // Do any additional setup after loading the view.
 
     view.backgroundColor = .white
-    let stackView = UIStackView(arrangedSubviews: [cardTextField, payButton])
+    let stackView = UIStackView(arrangedSubviews: [singleLineCardFormView, payButton])
     stackView.axis = .vertical
     stackView.spacing = 20
     stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -116,7 +116,7 @@ class ViewController: UIViewController {
 
 ## Create Payment Method and Charge
 
-When the user taps the pay button, convert the card information collected by STPPaymentCardTextField into a PaymentMethod token. Tokenization ensures that no sensitive card data ever needs to touch your server, so that your integration remains PCI compliant.
+When the user taps the pay button, convert the card information collected by SingleLineCardForm into a PaymentMethod token. Tokenization ensures that no sensitive card data ever needs to touch your server, so that your integration remains PCI compliant.
 After the client passes the token, pass its identifier as the source to create a charge with one `APIClient` function `createCharge(token:cvv:...`
 
 ```swift
@@ -127,17 +127,17 @@ After the client passes the token, pass its identifier as the source to create a
       country: nil,
       state: nil,
       city: nil,
-      postalCode: cardTextField.postalCode
+      postalCode: singleLineCardFormView.postalCode
     )
 
     APIClient.shared.tokenize(
       paymentType: .creditCard,
-      accountNumber: cardTextField.cardNumber ?? .init(),
+      accountNumber: singleLineCardFormView.cardNumber ?? .init(),
       expDate: .init(
-        month: cardTextField.expirationMonth,
-        year: cardTextField.expirationYear
+        month: singleLineCardFormView.expirationMonth,
+        year: singleLineCardFormView.expirationYear
       ),
-      cvv: cardTextField.cvc,
+      cvv: singleLineCardFormView.cvc,
       billingAddress: billingAddress,
       name: "Michael Smith"
     ) { result in
@@ -147,7 +147,7 @@ After the client passes the token, pass its identifier as the source to create a
 
         APIClient.shared.createCharge(
           token: token!,
-          cvv: self.cardTextField.cvc,
+          cvv: self.singleLineCardFormView.cvc,
           capture: true,
           amount: "1",
           taxExempt: false
@@ -177,9 +177,9 @@ The SeamlessPay iOS SDK API client now supports new Swift concurrency. Swift's c
 ```swift
   let result = await APIClient.shared.tokenize(
     paymentType: .creditCard,
-    accountNumber: cardTextField.cardNumber ?? .init(),
-    expDate: .init(month: cardTextField.expirationMonth, year: cardTextField.expirationYear),
-    cvv: cardTextField.cvc,
+    accountNumber: singleLineCardFormView.cardNumber ?? .init(),
+    expDate: .init(month: singleLineCardFormView.expirationMonth, year: singleLineCardFormView.expirationYear),
+    cvv: singleLineCardFormView.cvc,
     billingAddress: billingAddress,
     name: "Michael Smith"
   )
@@ -188,7 +188,7 @@ The SeamlessPay iOS SDK API client now supports new Swift concurrency. Swift's c
 ```swift
   let result = await APIClient.shared.createCharge(
     token: token,
-    cvv: cardTextField.cvc,
+    cvv: singleLineCardFormView.cvc,
     capture: true,
     amount: "1",
     taxExempt: false
