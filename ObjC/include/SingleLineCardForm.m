@@ -12,10 +12,10 @@
 #import "SPCardValidator+Extras.h"
 #import "SPFormTextField.h"
 #import "SPImageLibrary.h"
-#import "SPPaymentCardTextField.h"
-#import "SPPaymentCardTextFieldViewModel.h"
+#import "SingleLineCardForm.h"
+#import "SingleLineCardFormViewModel.h"
 
-@interface SPPaymentCardTextField () <SPFormTextFieldDelegate>
+@interface SingleLineCardForm () <SPFormTextFieldDelegate>
 
 @property(nonatomic, readwrite, weak) UIImageView *brandImageView;
 @property(nonatomic, readwrite, weak) UIView *fieldsView;
@@ -23,7 +23,7 @@
 @property(nonatomic, readwrite, weak) SPFormTextField *expirationField;
 @property(nonatomic, readwrite, weak) SPFormTextField *cvcField;
 @property(nonatomic, readwrite, weak) SPFormTextField *postalCodeField;
-@property(nonatomic, readwrite, strong)SPPaymentCardTextFieldViewModel *viewModel;
+@property(nonatomic, readwrite, strong)SingleLineCardFormViewModel *viewModel;
 @property(nonatomic, strong) NSArray<SPFormTextField *> *allFields;
 @property(nonatomic, readwrite, strong) SPFormTextField *sizingField;
 @property(nonatomic, readwrite, strong) UILabel *sizingLabel;
@@ -80,7 +80,7 @@ NS_INLINE CGFloat sp_ceilCGFloat(CGFloat x) {
 #endif
 }
 
-@implementation SPPaymentCardTextField
+@implementation SingleLineCardForm
 
 @synthesize font = _font;
 @synthesize textColor = _textColor;
@@ -91,9 +91,9 @@ NS_INLINE CGFloat sp_ceilCGFloat(CGFloat x) {
 @synthesize cornerRadius = _cornerRadius;
 @dynamic enabled;
 
-CGFloat const SPPaymentCardTextFieldDefaultPadding = 13;
-CGFloat const SPPaymentCardTextFieldDefaultInsets = 13;
-CGFloat const SPPaymentCardTextFieldMinimumPadding = 10;
+CGFloat const SingleLineCardFormDefaultPadding = 13;
+CGFloat const SingleLineCardFormDefaultInsets = 13;
+CGFloat const SingleLineCardFormMinimumPadding = 10;
 
 #pragma mark initializers
 
@@ -125,7 +125,7 @@ CGFloat const SPPaymentCardTextFieldMinimumPadding = 10;
 
   self.clipsToBounds = YES;
 
-  _viewModel = [SPPaymentCardTextFieldViewModel new];
+  _viewModel = [SingleLineCardFormViewModel new];
   _sizingField = [self buildTextField];
   _sizingField.formDelegate = nil;
   _sizingLabel = [UILabel new];
@@ -201,9 +201,9 @@ CGFloat const SPPaymentCardTextFieldMinimumPadding = 10;
   [self resetSubviewEditingTransitionState];
 }
 
-- (SPPaymentCardTextFieldViewModel *)viewModel {
+- (SingleLineCardFormViewModel *)viewModel {
   if (_viewModel == nil) {
-    _viewModel = [SPPaymentCardTextFieldViewModel new];
+    _viewModel = [SingleLineCardFormViewModel new];
   }
   return _viewModel;
 }
@@ -584,7 +584,7 @@ CGFloat const SPPaymentCardTextFieldMinimumPadding = 10;
   for (SPFormTextField *field in [self allFields]) {
     field.text = @"";
   }
-  self.viewModel = [SPPaymentCardTextFieldViewModel new];
+  self.viewModel = [SingleLineCardFormViewModel new];
   [self onChange];
   [self updateImageForFieldType:SPCardFieldTypeNumber];
   [self updateCVCPlaceholder];
@@ -777,56 +777,56 @@ CGFloat const SPPaymentCardTextFieldMinimumPadding = 10;
   [self.sizingField sizeToFit];
   CGFloat textHeight = CGRectGetHeight(self.sizingField.frame);
   CGFloat imageHeight =
-  imageSize.height + (SPPaymentCardTextFieldDefaultInsets);
+  imageSize.height + (SingleLineCardFormDefaultInsets);
   CGFloat height = sp_ceilCGFloat((MAX(MAX(imageHeight, textHeight), 44)));
 
   CGFloat width =
-  (SPPaymentCardTextFieldDefaultInsets + imageSize.width +
-   SPPaymentCardTextFieldDefaultInsets + [self numberFieldFullWidth] +
-   SPPaymentCardTextFieldDefaultInsets);
+  (SingleLineCardFormDefaultInsets + imageSize.width +
+   SingleLineCardFormDefaultInsets + [self numberFieldFullWidth] +
+   SingleLineCardFormDefaultInsets);
 
   width = sp_ceilCGFloat(width);
 
   return CGSizeMake(width, height);
 }
 
-typedef NS_ENUM(NSInteger, SPCardTextFieldState) {
-  SPCardTextFieldStateVisible,
-  SPCardTextFieldStateCompressed,
-  SPCardTextFieldStateHidden,
+typedef NS_ENUM(NSInteger, SingleLineCardFormState) {
+  SingleLineCardFormVisible,
+  SingleLineCardFormCompressed,
+  SingleLineCardFormHidden,
 };
 
 - (CGFloat)
 minimumPaddingForViewsWithWidth:(CGFloat)width
-pan:(SPCardTextFieldState)panVisibility
-expiry:(SPCardTextFieldState)expiryVisibility
-cvc:(SPCardTextFieldState)cvcVisibility
-postal:(SPCardTextFieldState)postalVisibility {
+pan:(SingleLineCardFormState)panVisibility
+expiry:(SingleLineCardFormState)expiryVisibility
+cvc:(SingleLineCardFormState)cvcVisibility
+postal:(SingleLineCardFormState)postalVisibility {
 
   CGFloat requiredWidth = 0;
   CGFloat paddingsRequired = -1;
 
-  if (panVisibility != SPCardTextFieldStateHidden) {
+  if (panVisibility != SingleLineCardFormHidden) {
     paddingsRequired += 1;
-    requiredWidth += (panVisibility == SPCardTextFieldStateCompressed)
+    requiredWidth += (panVisibility == SingleLineCardFormCompressed)
     ? [self numberFieldCompressedWidth]
     : [self numberFieldFullWidth];
   }
 
-  if (expiryVisibility != SPCardTextFieldStateHidden) {
+  if (expiryVisibility != SingleLineCardFormHidden) {
     paddingsRequired += 1;
     requiredWidth += [self expirationFieldWidth];
   }
 
-  if (cvcVisibility != SPCardTextFieldStateHidden) {
+  if (cvcVisibility != SingleLineCardFormHidden) {
     paddingsRequired += 1;
     requiredWidth += [self cvcFieldWidth];
   }
 
-  if (postalVisibility != SPCardTextFieldStateHidden &&
+  if (postalVisibility != SingleLineCardFormHidden &&
       self.postalCodeEntryEnabled) {
     paddingsRequired += 1;
-    requiredWidth += (postalVisibility == SPCardTextFieldStateCompressed)
+    requiredWidth += (postalVisibility == SingleLineCardFormCompressed)
     ? [self postalCodeFieldCompressedWidth]
     : [self postalCodeFieldFullWidth];
   }
@@ -834,12 +834,12 @@ postal:(SPCardTextFieldState)postalVisibility {
   if (paddingsRequired > 0) {
     return sp_ceilCGFloat(((width - requiredWidth) / paddingsRequired));
   } else {
-    return SPPaymentCardTextFieldMinimumPadding;
+    return SingleLineCardFormMinimumPadding;
   }
 }
 
 - (CGRect)brandImageRectForBounds:(CGRect)bounds {
-  return CGRectMake(SPPaymentCardTextFieldDefaultPadding, -1,
+  return CGRectMake(SingleLineCardFormDefaultPadding, -1,
                     self.brandImageView.image.size.width, bounds.size.height);
 }
 
@@ -864,18 +864,18 @@ postal:(SPCardTextFieldState)postalVisibility {
   self.fieldsView.frame = fieldsViewRect;
 
   CGFloat availableFieldsWidth = CGRectGetWidth(fieldsViewRect) -
-  (2 * SPPaymentCardTextFieldDefaultInsets);
+  (2 * SingleLineCardFormDefaultInsets);
 
   // These values are filled in via the if statements and then used
   // to do the proper layout at the end
   CGFloat fieldsHeight = CGRectGetHeight(fieldsViewRect);
-  CGFloat hPadding = SPPaymentCardTextFieldDefaultPadding;
-  __block SPCardTextFieldState panVisibility = SPCardTextFieldStateVisible;
-  __block SPCardTextFieldState expiryVisibility = SPCardTextFieldStateVisible;
-  __block SPCardTextFieldState cvcVisibility = SPCardTextFieldStateVisible;
-  __block SPCardTextFieldState postalVisibility =
-  self.postalCodeEntryEnabled ? SPCardTextFieldStateVisible
-  : SPCardTextFieldStateHidden;
+  CGFloat hPadding = SingleLineCardFormDefaultPadding;
+  __block SingleLineCardFormState panVisibility =   SingleLineCardFormVisible;
+  __block SingleLineCardFormState expiryVisibility =   SingleLineCardFormVisible;
+  __block SingleLineCardFormState cvcVisibility =   SingleLineCardFormVisible;
+  __block SingleLineCardFormState postalVisibility =
+  self.postalCodeEntryEnabled ?   SingleLineCardFormVisible
+  : SingleLineCardFormHidden;
 
   CGFloat (^calculateMinimumPaddingWithLocalVars)(void) = ^CGFloat() {
     return [self minimumPaddingForViewsWithWidth:availableFieldsWidth
@@ -887,7 +887,7 @@ postal:(SPCardTextFieldState)postalVisibility {
 
   hPadding = calculateMinimumPaddingWithLocalVars();
 
-  if (hPadding >= SPPaymentCardTextFieldMinimumPadding) {
+  if (hPadding >= SingleLineCardFormMinimumPadding) {
     // Can just render everything at full size
     // Do Nothing
   } else {
@@ -905,15 +905,15 @@ postal:(SPCardTextFieldState)postalVisibility {
        and has moved on to another field (so we want to show summary)
        but possibly some fields are invalid
        */
-      while (hPadding < SPPaymentCardTextFieldMinimumPadding) {
+      while (hPadding < SingleLineCardFormMinimumPadding) {
         // Try hiding things in this order
-        if (panVisibility == SPCardTextFieldStateVisible) {
-          panVisibility = SPCardTextFieldStateCompressed;
-        } else if (postalVisibility == SPCardTextFieldStateVisible) {
-          postalVisibility = SPCardTextFieldStateCompressed;
+        if (panVisibility ==   SingleLineCardFormVisible) {
+          panVisibility = SingleLineCardFormCompressed;
+        } else if (postalVisibility ==   SingleLineCardFormVisible) {
+          postalVisibility = SingleLineCardFormCompressed;
         } else {
           // Can't hide anything else, set to minimum and stop
-          hPadding = SPPaymentCardTextFieldMinimumPadding;
+          hPadding = SingleLineCardFormMinimumPadding;
           break;
         }
         hPadding = calculateMinimumPaddingWithLocalVars();
@@ -927,17 +927,17 @@ postal:(SPCardTextFieldState)postalVisibility {
            It must be fully visible. Everything else is optional
            */
 
-          while (hPadding < SPPaymentCardTextFieldMinimumPadding) {
-            if (postalVisibility == SPCardTextFieldStateVisible) {
-              postalVisibility = SPCardTextFieldStateCompressed;
-            } else if (postalVisibility == SPCardTextFieldStateCompressed) {
-              postalVisibility = SPCardTextFieldStateHidden;
-            } else if (cvcVisibility == SPCardTextFieldStateVisible) {
-              cvcVisibility = SPCardTextFieldStateHidden;
-            } else if (expiryVisibility == SPCardTextFieldStateVisible) {
-              expiryVisibility = SPCardTextFieldStateHidden;
+          while (hPadding < SingleLineCardFormMinimumPadding) {
+            if (postalVisibility ==   SingleLineCardFormVisible) {
+              postalVisibility = SingleLineCardFormCompressed;
+            } else if (postalVisibility == SingleLineCardFormCompressed) {
+              postalVisibility = SingleLineCardFormHidden;
+            } else if (cvcVisibility ==   SingleLineCardFormVisible) {
+              cvcVisibility = SingleLineCardFormHidden;
+            } else if (expiryVisibility ==   SingleLineCardFormVisible) {
+              expiryVisibility = SingleLineCardFormHidden;
             } else {
-              hPadding = SPPaymentCardTextFieldMinimumPadding;
+              hPadding = SingleLineCardFormMinimumPadding;
               break;
             }
             hPadding = calculateMinimumPaddingWithLocalVars();
@@ -950,15 +950,15 @@ postal:(SPCardTextFieldState)postalVisibility {
            It must be fully visible, and the next and previous fields
            must be visible so they can be tapped over to
            */
-          while (hPadding < SPPaymentCardTextFieldMinimumPadding) {
-            if (panVisibility == SPCardTextFieldStateVisible) {
-              panVisibility = SPCardTextFieldStateCompressed;
-            } else if (postalVisibility == SPCardTextFieldStateVisible) {
-              postalVisibility = SPCardTextFieldStateCompressed;
-            } else if (postalVisibility == SPCardTextFieldStateCompressed) {
-              postalVisibility = SPCardTextFieldStateHidden;
+          while (hPadding < SingleLineCardFormMinimumPadding) {
+            if (panVisibility ==   SingleLineCardFormVisible) {
+              panVisibility = SingleLineCardFormCompressed;
+            } else if (postalVisibility ==   SingleLineCardFormVisible) {
+              postalVisibility = SingleLineCardFormCompressed;
+            } else if (postalVisibility == SingleLineCardFormCompressed) {
+              postalVisibility = SingleLineCardFormHidden;
             } else {
-              hPadding = SPPaymentCardTextFieldMinimumPadding;
+              hPadding = SingleLineCardFormMinimumPadding;
               break;
             }
             hPadding = calculateMinimumPaddingWithLocalVars();
@@ -973,15 +973,15 @@ postal:(SPCardTextFieldState)postalVisibility {
            must be visible so they can be tapped over to (although
            there might not be a next field)
            */
-          while (hPadding < SPPaymentCardTextFieldMinimumPadding) {
-            if (panVisibility == SPCardTextFieldStateVisible) {
-              panVisibility = SPCardTextFieldStateCompressed;
-            } else if (postalVisibility == SPCardTextFieldStateVisible) {
-              postalVisibility = SPCardTextFieldStateCompressed;
-            } else if (panVisibility == SPCardTextFieldStateCompressed) {
-              panVisibility = SPCardTextFieldStateHidden;
+          while (hPadding < SingleLineCardFormMinimumPadding) {
+            if (panVisibility ==   SingleLineCardFormVisible) {
+              panVisibility = SingleLineCardFormCompressed;
+            } else if (postalVisibility ==   SingleLineCardFormVisible) {
+              postalVisibility = SingleLineCardFormCompressed;
+            } else if (panVisibility == SingleLineCardFormCompressed) {
+              panVisibility = SingleLineCardFormHidden;
             } else {
-              hPadding = SPPaymentCardTextFieldMinimumPadding;
+              hPadding = SingleLineCardFormMinimumPadding;
               break;
             }
             hPadding = calculateMinimumPaddingWithLocalVars();
@@ -994,15 +994,15 @@ postal:(SPCardTextFieldState)postalVisibility {
            It must be fully visible, and the previous field must
            be visible
            */
-          while (hPadding < SPPaymentCardTextFieldMinimumPadding) {
-            if (panVisibility == SPCardTextFieldStateVisible) {
-              panVisibility = SPCardTextFieldStateCompressed;
-            } else if (panVisibility == SPCardTextFieldStateCompressed) {
-              panVisibility = SPCardTextFieldStateHidden;
-            } else if (expiryVisibility == SPCardTextFieldStateVisible) {
-              expiryVisibility = SPCardTextFieldStateHidden;
+          while (hPadding < SingleLineCardFormMinimumPadding) {
+            if (panVisibility ==   SingleLineCardFormVisible) {
+              panVisibility = SingleLineCardFormCompressed;
+            } else if (panVisibility == SingleLineCardFormCompressed) {
+              panVisibility = SingleLineCardFormHidden;
+            } else if (expiryVisibility ==   SingleLineCardFormVisible) {
+              expiryVisibility = SingleLineCardFormHidden;
             } else {
-              hPadding = SPPaymentCardTextFieldMinimumPadding;
+              hPadding = SingleLineCardFormMinimumPadding;
               break;
             }
             hPadding = calculateMinimumPaddingWithLocalVars();
@@ -1013,7 +1013,7 @@ postal:(SPCardTextFieldState)postalVisibility {
   }
 
   // -- Do layout here --
-  CGFloat xOffset = SPPaymentCardTextFieldDefaultInsets;
+  CGFloat xOffset = SingleLineCardFormDefaultInsets;
   CGFloat width = 0;
 
   // Make all fields actually slightly wider than needed so that when the
@@ -1021,7 +1021,7 @@ postal:(SPCardTextFieldState)postalVisibility {
   // side
   CGFloat additionalWidth = [self widthForText:@"8"];
 
-  if (panVisibility == SPCardTextFieldStateCompressed) {
+  if (panVisibility == SingleLineCardFormCompressed) {
     // Need to lower xOffset so pan is partially off-screen
 
     BOOL hasEnteredCardNumber = self.cardNumber.length > 0;
@@ -1063,7 +1063,7 @@ postal:(SPCardTextFieldState)postalVisibility {
       self.numberField.maskView = nil;
     }];
 
-    if (panVisibility == SPCardTextFieldStateHidden) {
+    if (panVisibility == SingleLineCardFormHidden) {
       // Need to lower xOffset so pan is fully off screen
       xOffset = xOffset - width - hPadding;
     }
@@ -1085,14 +1085,14 @@ postal:(SPCardTextFieldState)postalVisibility {
 
   if (self.postalCodeEntryEnabled) {
     width = self.fieldsView.frame.size.width - xOffset -
-    SPPaymentCardTextFieldDefaultInsets;
+    SingleLineCardFormDefaultInsets;
     self.postalCodeField.frame =
     CGRectMake(xOffset, 0, width + additionalWidth, fieldsHeight);
   }
 
-  void (^updateFieldVisibility)(SPFormTextField *, SPCardTextFieldState) =
-  ^(SPFormTextField *field, SPCardTextFieldState fieldState) {
-    if (fieldState == SPCardTextFieldStateHidden) {
+  void (^updateFieldVisibility)(SPFormTextField *, SingleLineCardFormState) =
+  ^(SPFormTextField *field, SingleLineCardFormState fieldState) {
+    if (fieldState == SingleLineCardFormHidden) {
       field.alpha = 0.0f;
       field.isAccessibilityElement = NO;
     } else {
@@ -1106,7 +1106,7 @@ postal:(SPCardTextFieldState)postalVisibility {
   updateFieldVisibility(self.cvcField, cvcVisibility);
   updateFieldVisibility(self.postalCodeField, self.postalCodeEntryEnabled
                         ? postalVisibility
-                        : SPCardTextFieldStateHidden);
+                        : SingleLineCardFormHidden);
 }
 
 #pragma mark - private helper methods
@@ -1400,8 +1400,8 @@ typedef NS_ENUM(NSInteger, SPFieldEditingTransitionCallSite) {
 
   if (!isMidSubviewEditingTransition) {
     if ([self.delegate respondsToSelector:@selector
-         (paymentCardTextFieldDidBeginEditing:)]) {
-      [self.delegate paymentCardTextFieldDidBeginEditing:self];
+         (singleLineCardFormDidBeginEditing:)]) {
+      [self.delegate singleLineCardFormDidBeginEditing:self];
     }
   }
 
@@ -1409,26 +1409,26 @@ typedef NS_ENUM(NSInteger, SPFieldEditingTransitionCallSite) {
     case SPCardFieldTypeNumber:
       ((SPFormTextField *)textField).validText = YES;
       if ([self.delegate respondsToSelector:@selector
-           (paymentCardTextFieldDidBeginEditingNumber:)]) {
-        [self.delegate paymentCardTextFieldDidBeginEditingNumber:self];
+           (singleLineCardFormDidBeginEditingNumber:)]) {
+        [self.delegate singleLineCardFormDidBeginEditingNumber:self];
       }
       break;
     case SPCardFieldTypeCVC:
       if ([self.delegate respondsToSelector:@selector
-           (paymentCardTextFieldDidBeginEditingCVC:)]) {
-        [self.delegate paymentCardTextFieldDidBeginEditingCVC:self];
+           (singleLineCardFormBeginEditingCVC:)]) {
+        [self.delegate singleLineCardFormBeginEditingCVC:self];
       }
       break;
     case SPCardFieldTypeExpiration:
       if ([self.delegate respondsToSelector:@selector
-           (paymentCardTextFieldDidBeginEditingExpiration:)]) {
-        [self.delegate paymentCardTextFieldDidBeginEditingExpiration:self];
+           (singleLineCardFormDidBeginEditingExpiration:)]) {
+        [self.delegate singleLineCardFormDidBeginEditingExpiration:self];
       }
       break;
     case SPCardFieldTypePostalCode:
       if ([self.delegate respondsToSelector:@selector
-           (paymentCardTextFieldDidBeginEditingPostalCode:)]) {
-        [self.delegate paymentCardTextFieldDidBeginEditingPostalCode:self];
+           (singleLineCardFormDidBeginEditingPostalCode:)]) {
+        [self.delegate singleLineCardFormDidBeginEditingPostalCode:self];
       }
       break;
   }
@@ -1454,26 +1454,26 @@ typedef NS_ENUM(NSInteger, SPFieldEditingTransitionCallSite) {
         ((SPFormTextField *)textField).validText = NO;
       }
       if ([self.delegate respondsToSelector:@selector
-           (paymentCardTextFieldDidEndEditingNumber:)]) {
-        [self.delegate paymentCardTextFieldDidEndEditingNumber:self];
+           (singleLineCardFormDidEndEditingNumber:)]) {
+        [self.delegate singleLineCardFormDidEndEditingNumber:self];
       }
       break;
     case SPCardFieldTypeCVC:
       if ([self.delegate respondsToSelector:@selector
-           (paymentCardTextFieldDidEndEditingCVC:)]) {
-        [self.delegate paymentCardTextFieldDidEndEditingCVC:self];
+           (singleLineCardFormDidEndEditingCVC:)]) {
+        [self.delegate singleLineCardFormDidEndEditingCVC:self];
       }
       break;
     case SPCardFieldTypeExpiration:
       if ([self.delegate respondsToSelector:@selector
-           (paymentCardTextFieldDidEndEditingExpiration:)]) {
-        [self.delegate paymentCardTextFieldDidEndEditingExpiration:self];
+           (singleLineCardFormDidEndEditingExpiration:)]) {
+        [self.delegate singleLineCardFormDidEndEditingExpiration:self];
       }
       break;
     case SPCardFieldTypePostalCode:
       if ([self.delegate respondsToSelector:@selector
-           (paymentCardTextFieldDidEndEditingPostalCode:)]) {
-        [self.delegate paymentCardTextFieldDidEndEditingPostalCode:self];
+           (singleLineCardFormDidEndEditingPostalCode:)]) {
+        [self.delegate singleLineCardFormDidEndEditingPostalCode:self];
       }
       break;
   }
@@ -1485,8 +1485,8 @@ typedef NS_ENUM(NSInteger, SPFieldEditingTransitionCallSite) {
                        completion:nil];
     [self updateImageForFieldType:SPCardFieldTypeNumber];
     if ([self.delegate
-         respondsToSelector:@selector(paymentCardTextFieldDidEndEditing:)]) {
-      [self.delegate paymentCardTextFieldDidEndEditing:self];
+         respondsToSelector:@selector(singleLineCardFormDidEndEditing:)]) {
+      [self.delegate singleLineCardFormDidEndEditing:self];
     }
   }
 }
@@ -1495,8 +1495,8 @@ typedef NS_ENUM(NSInteger, SPFieldEditingTransitionCallSite) {
   if (textField == [self lastSubField] && [self firstInvalidSubField] == nil) {
     // User pressed return in the last field, and all fields are valid
     if ([self.delegate respondsToSelector:@selector
-         (paymentCardTextFieldWillEndEditingForReturn:)]) {
-      [self.delegate paymentCardTextFieldWillEndEditingForReturn:self];
+         (singleLineCardFormWillEndEditingForReturn:)]) {
+      [self.delegate singleLineCardFormWillEndEditingForReturn:self];
     }
     [self resignFirstResponder];
   } else {
@@ -1626,8 +1626,8 @@ oldBrand:(SPCardBrand)oldBrand {
 
 - (void)onChange {
   if ([self.delegate
-       respondsToSelector:@selector(paymentCardTextFieldDidChange:)]) {
-    [self.delegate paymentCardTextFieldDidChange:self];
+       respondsToSelector:@selector(singleLineCardFormDidChange:)]) {
+    [self.delegate singleLineCardFormDidChange:self];
   }
   [self sendActionsForControlEvents:UIControlEventValueChanged];
 }

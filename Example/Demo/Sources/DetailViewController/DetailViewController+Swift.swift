@@ -13,10 +13,10 @@ private var apiClient: APIClient = .init(
 )
 
 extension DetailViewController {
-  @objc func configureCardTextField() {
-    cardTextField = SPPaymentCardTextField(authorization: sharedSPAuthorization)
-    cardTextField.postalCodeEntryEnabled = true
-    cardTextField.countryCode = "US"
+  @objc func configureSingleLineCardFormView() {
+    singleLineCardFormView = SingleLineCardForm(authorization: sharedSPAuthorization)
+    singleLineCardFormView.postalCodeEntryEnabled = true
+    singleLineCardFormView.countryCode = "US"
   }
 
   // swiftlint:disable cyclomatic_complexity
@@ -560,7 +560,7 @@ extension DetailViewController {
     let startTime = CACurrentMediaTime()
 
     let amount = (amountTextField.text?.replacingOccurrences(of: ",", with: "")) ?? ""
-    cardTextField.submit(.init(amount: amount)) { result in
+    singleLineCardFormView.submit(.init(amount: amount)) { result in
       self.activityIndicator.stopAnimating()
 
       switch result {

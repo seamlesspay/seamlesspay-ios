@@ -12,7 +12,7 @@
 		6383CB4E2AF6B05C00A115B9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6383CB4B2AF6AE9B00A115B9 /* SceneDelegate.swift */; };
 		638437862BA7935E003403C1 /* SharedSeamlessPayAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638437852BA7935E003403C1 /* SharedSeamlessPayAPIClient.swift */; };
 		6384F11B2AED71410038AE4D /* DetailViewController+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1042AED71410038AE4D /* DetailViewController+Swift.swift */; };
-		6384F11C2AED71410038AE4D /* SPPaymentCardTextFieldSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1072AED71410038AE4D /* SPPaymentCardTextFieldSwift.swift */; };
+		6384F11C2AED71410038AE4D /* SingleLineCardFormVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1072AED71410038AE4D /* SingleLineCardFormVC.swift */; };
 		6384F11E2AED71410038AE4D /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1092AED71410038AE4D /* DetailViewController.m */; };
 		6384F1262AED71410038AE4D /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1132AED71410038AE4D /* MasterViewController.m */; };
 		63BBDA782AED726600DD4267 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63BBDA742AED726600DD4267 /* LaunchScreen.storyboard */; };
@@ -30,7 +30,7 @@
 		638437852BA7935E003403C1 /* SharedSeamlessPayAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedSeamlessPayAPIClient.swift; sourceTree = "<group>"; };
 		6384F1042AED71410038AE4D /* DetailViewController+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DetailViewController+Swift.swift"; sourceTree = "<group>"; };
 		6384F1062AED71410038AE4D /* SeamlessPayDemo-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SeamlessPayDemo-Bridging-Header.h"; sourceTree = "<group>"; };
-		6384F1072AED71410038AE4D /* SPPaymentCardTextFieldSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SPPaymentCardTextFieldSwift.swift; sourceTree = "<group>"; };
+		6384F1072AED71410038AE4D /* SingleLineCardFormVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleLineCardFormVC.swift; sourceTree = "<group>"; };
 		6384F1092AED71410038AE4D /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		6384F10B2AED71410038AE4D /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
 		6384F1132AED71410038AE4D /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
@@ -112,7 +112,7 @@
 				638437882BA8720D003403C1 /* MasterViewController */,
 				6383CB4C2AF6AE9B00A115B9 /* AppDelegate.swift */,
 				6383CB4B2AF6AE9B00A115B9 /* SceneDelegate.swift */,
-				6384F1072AED71410038AE4D /* SPPaymentCardTextFieldSwift.swift */,
+				6384F1072AED71410038AE4D /* SingleLineCardFormVC.swift */,
 				6384F1062AED71410038AE4D /* SeamlessPayDemo-Bridging-Header.h */,
 				638437852BA7935E003403C1 /* SharedSeamlessPayAPIClient.swift */,
 			);
@@ -255,7 +255,7 @@
 				6383CB4D2AF6B05800A115B9 /* AppDelegate.swift in Sources */,
 				6384F1262AED71410038AE4D /* MasterViewController.m in Sources */,
 				6384F11E2AED71410038AE4D /* DetailViewController.m in Sources */,
-				6384F11C2AED71410038AE4D /* SPPaymentCardTextFieldSwift.swift in Sources */,
+				6384F11C2AED71410038AE4D /* SingleLineCardFormVC.swift in Sources */,
 				6384F11B2AED71410038AE4D /* DetailViewController+Swift.swift in Sources */,
 				638437862BA7935E003403C1 /* SharedSeamlessPayAPIClient.swift in Sources */,
 			);

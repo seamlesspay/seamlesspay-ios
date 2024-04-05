@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-#import "SPPaymentCardTextFieldViewModel.h"
+#import "SingleLineCardFormViewModel.h"
 #import "NSString+Extras.h"
 #import "SPCardValidator+Extras.h"
 #import "SPPostalCodeValidator.h"
 
-@implementation SPPaymentCardTextFieldViewModel
+@implementation SingleLineCardFormViewModel
 
 - (void)setCardNumber:(NSString *)cardNumber {
   NSString *sanitizedNumber =

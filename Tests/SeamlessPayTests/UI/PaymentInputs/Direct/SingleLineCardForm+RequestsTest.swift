@@ -7,15 +7,14 @@
 
 import XCTest
 
-// import SeamlessPay
 @testable import SeamlessPay
 
-class SPPaymentCardTextFieldRequestsTest: XCTestCase {
-  var sut: SPPaymentCardTextField!
+class SingleLineCardFormRequestsTest: XCTestCase {
+  var sut: SingleLineCardForm!
 
   override func setUp() {
     super.setUp()
-    sut = SPPaymentCardTextField()
+    sut = SingleLineCardForm()
   }
 
   override func tearDown() {
@@ -77,9 +76,6 @@ class SPPaymentCardTextFieldRequestsTest: XCTestCase {
         XCTAssertEqual(payment.details.cardBrand, .masterCard)
         XCTAssertEqual(payment.details.lastFour, "mocked_lastFour")
 
-
-
-
       case .failure:
         XCTFail("Submission should succeed")
       }
@@ -89,7 +85,6 @@ class SPPaymentCardTextFieldRequestsTest: XCTestCase {
 
 // MARK: - Mocks
 private class APIClientMock: APIClient {
-
   convenience init() {
     self.init(
       authorization: .init(environment: .sandbox, secretKey: "test_secret_key"),
@@ -151,7 +146,6 @@ private class APIClientMock: APIClient {
     idempotencyKey: String? = nil,
     completion: ((Result<Charge, SeamlessPayError>) -> Void)?
   ) {
-
     let charge = Charge(
       id: "mockedChargeID",
       method: .charge,

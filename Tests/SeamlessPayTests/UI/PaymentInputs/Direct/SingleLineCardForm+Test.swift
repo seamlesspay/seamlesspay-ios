@@ -5,16 +5,16 @@
 // * LICENSE file in the root directory of this source tree.
 // *
 
-@testable import SeamlessPayObjC
 import XCTest
+@testable import SeamlessPayObjC
 @testable import SeamlessPay
 
-final class SPPaymentCardTextFieldTest: XCTestCase {
-  var textField: SPPaymentCardTextField!
+final class SingleLineCardFormTest: XCTestCase {
+  var textField: SingleLineCardForm!
 
   override func setUp() {
     super.setUp()
-    textField = SPPaymentCardTextField(
+    textField = SingleLineCardForm(
       authorization: .init(
         environment: .sandbox,
         secretKey: "test_secret_key"
@@ -36,7 +36,7 @@ final class SPPaymentCardTextFieldTest: XCTestCase {
 
   func testSetAuthorization() {
     // Given
-    let textField = SPPaymentCardTextField()
+    let textField = SingleLineCardForm()
     let authorization = Authorization(
       environment: .sandbox,
       secretKey: "another_test_secret_key"
@@ -55,7 +55,7 @@ final class SPPaymentCardTextFieldTest: XCTestCase {
   func testAPIClientAssociationKey() {
     // Given
     // When
-    let textField2 = SPPaymentCardTextField(authorization: .init(
+    let textField2 = SingleLineCardForm(authorization: .init(
       environment: .production,
       secretKey: "another_test_secret_key"
     ))

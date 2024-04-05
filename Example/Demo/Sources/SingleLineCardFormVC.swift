@@ -10,8 +10,8 @@ import UIKit
 import PassKit
 import SeamlessPay
 
-@objcMembers class SPPaymentCardTextFieldSwift: UIViewController {
-  lazy var cardTextField = SPPaymentCardTextField(
+@objcMembers class SingleLineCardFormVC: UIViewController {
+  lazy var singleLineCardFormView = SingleLineCardForm(
     authorization: sharedSPAuthorization
   )
 
@@ -30,7 +30,7 @@ import SeamlessPay
     // Do any additional setup after loading the view.
 
     view.backgroundColor = .white
-    let stackView = UIStackView(arrangedSubviews: [cardTextField, payButton])
+    let stackView = UIStackView(arrangedSubviews: [singleLineCardFormView, payButton])
     stackView.axis = .vertical
     stackView.spacing = 20
     stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -52,7 +52,7 @@ import SeamlessPay
   }
 
   func pay() {
-    cardTextField.submit(
+    singleLineCardFormView.submit(
       .init(amount: "101")
     ) { result in
       switch result {

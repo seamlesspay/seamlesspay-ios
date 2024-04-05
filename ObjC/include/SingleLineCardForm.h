@@ -6,16 +6,16 @@
  */
 
 /**
- ### Refactoring SPPaymentCardTextField Guide
+ ### Refactoring SingleLineCardForm Guide
 
- Refactoring `SPPaymentCardTextField` from obj-c to Swift is a large task due to the size and complexity of the file, and it will require moderate to high effort. It is recommended to refactor this file in stages to prevent issues with the remainder of your application. Here's a refactoring guide:
+ Refactoring `SingleLineCardForm` from obj-c to Swift is a large task due to the size and complexity of the file, and it will require moderate to high effort. It is recommended to refactor this file in stages to prevent issues with the remainder of your application. Here's a refactoring guide:
 
  **Incremental refactoring**
 
  To smooth the transition, you can use Swift extensions to incrementally build out the needed functionality. Here's an example:
 
  ```swift
- extension SPPaymentCardTextField {
+ extension SingleLineCardForm {
      var swiftProperty: Type {
          get { // return appropriate value
          }
@@ -41,7 +41,7 @@
 
  **High Effort**
 
- - **Class and Protocol Conversions:** Convert **`SPPaymentCardTextField`** and its delegate protocol **`SPPaymentCardTextFieldDelegate`** to Swift. Use **`@objc`** annotation for compatibility with Objective-C code. Include delegates, methods, and instance variables.
+ - **Class and Protocol Conversions:** Convert **`SingleLineCardForm`** and its delegate protocol **`SingleLineCardForm`** to Swift. Use **`@objc`** annotation for compatibility with Objective-C code. Include delegates, methods, and instance variables.
  - **Enums:** **`SPCardBrand`** needs to be translated into Swift. Swift enums are more powerful so you could use associated values if applicable.
  - **Methods:** All methods need to be converted to Swift. Be aware of any Objective-C specific behaviors in these methods, such as Nullable and Nonnull types.
 
@@ -54,23 +54,23 @@
 #import <UIKit/UIKit.h>
 #import "SPPaymentMethodCard.h"
 
-@class SPPaymentCardTextField;
-@protocol SPPaymentCardTextFieldDelegate;
+@class SingleLineCardForm;
+@protocol SingleLineCardFormDelegate;
 
 /**
- SPPaymentCardTextField is a text field with similar properties to UITextField,
+ SingleLineCardForm is a text field with similar properties to UITextField,
  but specialized for collecting credit/debit card information. It manages
  multiple UITextFields under the hood to collect this information. It's
  designed to fit on a single line, and from a design perspective can be used
  anywhere a UITextField would be appropriate.
  */
 IB_DESIGNABLE
-@interface SPPaymentCardTextField : UIControl <UIKeyInput>
+@interface SingleLineCardForm : UIControl <UIKeyInput>
 
 /**
- @see SPPaymentCardTextFieldDelegate
+ @see SingleLineCardFormDelegate
  */
-@property(nonatomic, weak, nullable) IBOutlet id<SPPaymentCardTextFieldDelegate> delegate;
+@property(nonatomic, weak, nullable) IBOutlet id<SingleLineCardFormDelegate> delegate;
 
 /**
  The font used in each child field. Default is [UIFont systemFontOfSize:18].
@@ -270,20 +270,20 @@ UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
  contents change, which can in turn be used to take further actions depending
  on the validity of its contents.
  */
-@protocol SPPaymentCardTextFieldDelegate <NSObject>
+@protocol SingleLineCardFormDelegate <NSObject>
 @optional
 /**
  Called when either the card number, expiration, or CVC changes. At this point,
  one can call `isValid` on the text field to determine, for example,
  whether or not to enable a button to submit the form. Example:
 
- - (void)paymentCardTextFieldDidChange:(SPPaymentCardTextField *)textField {
+ - (void)singleLineCardFormDidChange:(SingleLineCardForm *)textField {
  self.paymentButton.enabled = textField.isValid;
  }
 
  @param textField the text field that has changed
  */
-- (void)paymentCardTextFieldDidChange:(nonnull SPPaymentCardTextField *)textField;
+- (void)singleLineCardFormDidChange:(nonnull SingleLineCardForm *)textField;
 
 /**
  Called when editing begins in the text field as a whole.
@@ -291,19 +291,19 @@ UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
  After receiving this callback, you will always also receive a callback for
  which specific subfield of the view began editing.
  */
-- (void)paymentCardTextFieldDidBeginEditing:(nonnull SPPaymentCardTextField *)textField;
+- (void)singleLineCardFormDidBeginEditing:(nonnull SingleLineCardForm *)textField;
 
 /**
  Notification that the user pressed the `return` key after completely filling
- out the SPPaymentCardTextField with data that passes validation.
+ out the SingleLineCardForm with data that passes validation.
 
  This is delivered *before* the corresponding
- `paymentCardTextFieldDidEndEditing:`
+ `singleLineCardFormDidEndEditing:`
 
- @param textField The SPPaymentCardTextField that was being edited when the user
+ @param textField The SingleLineCardForm that was being edited when the user
  pressed return
  */
-- (void)paymentCardTextFieldWillEndEditingForReturn:(nonnull SPPaymentCardTextField *)textField;
+- (void)singleLineCardFormWillEndEditingForReturn:(nonnull SingleLineCardForm *)textField;
 
 /**
  Called when editing ends in the text field as a whole.
@@ -311,46 +311,46 @@ UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
  This callback is always preceded by an callback for which
  specific subfield of the view ended its editing.
  */
-- (void)paymentCardTextFieldDidEndEditing:(nonnull SPPaymentCardTextField *)textField;
+- (void)singleLineCardFormDidEndEditing:(nonnull SingleLineCardForm *)textField;
 
 /**
  Called when editing begins in the payment card field's number field.
  */
-- (void)paymentCardTextFieldDidBeginEditingNumber:(nonnull SPPaymentCardTextField *)textField;
+- (void)singleLineCardFormDidBeginEditingNumber:(nonnull SingleLineCardForm *)textField;
 
 /**
  Called when editing ends in the payment card field's number field.
  */
-- (void)paymentCardTextFieldDidEndEditingNumber:(nonnull SPPaymentCardTextField *)textField;
+- (void)singleLineCardFormDidEndEditingNumber:(nonnull SingleLineCardForm *)textField;
 
 /**
  Called when editing begins in the payment card field's CVC field.
  */
-- (void)paymentCardTextFieldDidBeginEditingCVC:(nonnull SPPaymentCardTextField *)textField;
+- (void)singleLineCardFormBeginEditingCVC:(nonnull SingleLineCardForm *)textField;
 
 /**
  Called when editing ends in the payment card field's CVC field.
  */
-- (void)paymentCardTextFieldDidEndEditingCVC:(nonnull SPPaymentCardTextField *)textField;
+- (void)singleLineCardFormDidEndEditingCVC:(nonnull SingleLineCardForm *)textField;
 
 /**
  Called when editing begins in the payment card field's expiration field.
  */
-- (void)paymentCardTextFieldDidBeginEditingExpiration:(nonnull SPPaymentCardTextField *)textField;
+- (void)singleLineCardFormDidBeginEditingExpiration:(nonnull SingleLineCardForm *)textField;
 
 /**
  Called when editing ends in the payment card field's expiration field.
  */
-- (void)paymentCardTextFieldDidEndEditingExpiration:(nonnull SPPaymentCardTextField *)textField;
+- (void)singleLineCardFormDidEndEditingExpiration:(nonnull SingleLineCardForm *)textField;
 
 /**
  Called when editing begins in the payment card field's ZIP/postal code field.
  */
-- (void)paymentCardTextFieldDidBeginEditingPostalCode:(nonnull SPPaymentCardTextField *)textField;
+- (void)singleLineCardFormDidBeginEditingPostalCode:(nonnull SingleLineCardForm *)textField;
 
 /**
  Called when editing ends in the payment card field's ZIP/postal code field.
  */
-- (void)paymentCardTextFieldDidEndEditingPostalCode:(nonnull SPPaymentCardTextField *)textField;
+- (void)singleLineCardFormDidEndEditingPostalCode:(nonnull SingleLineCardForm *)textField;
 
 @end

@@ -9,7 +9,7 @@ import UIKit
 
 // MARK: - Public
 // MARK: Init with Authorization model
-public extension SPPaymentCardTextField {
+public extension SingleLineCardForm {
   convenience init(authorization: Authorization) {
     self.init()
     setAuthorization(authorization)
@@ -23,7 +23,7 @@ public extension SPPaymentCardTextField {
 }
 
 // MARK: Tokenize
-public extension SPPaymentCardTextField {
+public extension SingleLineCardForm {
   func tokenize(
     completion: ((Result<PaymentMethodResponse, SeamlessPayError>) -> Void)?
   ) {
@@ -59,7 +59,7 @@ public extension SPPaymentCardTextField {
 }
 
 // MARK: - Submit
-public extension SPPaymentCardTextField {
+public extension SingleLineCardForm {
   func submit(
     _ request: PaymentRequest,
     completion: ((Result<PaymentResponse, SeamlessPayError>) -> Void)?
@@ -121,7 +121,7 @@ public extension SPPaymentCardTextField {
 
 // MARK: - Internal
 // MARK: APIClient instance
-extension SPPaymentCardTextField {
+extension SingleLineCardForm {
   static var apiClientAssociationKey: Void?
 
   var apiClient: APIClient? {
@@ -142,18 +142,24 @@ extension SPPaymentCardTextField {
   }
 }
 
-// MARK: - SPPaymentCardTextField ViewModel
-private extension SPPaymentCardTextField {
-  var viewModel: SPPaymentCardTextFieldViewModel? {
-    if let ivar = class_getInstanceVariable(type(of: self), "_viewModel") {
-      return object_getIvar(self, ivar) as? SPPaymentCardTextFieldViewModel
+// MARK: - SingleLineCardForm ViewModel
+private extension SingleLineCardForm {
+  var viewModel: SingleLineCardFormViewModel? {
+    class_getInstanceVariable(
+      type(of: self),
+      "_viewModel"
+    )
+    .flatMap {
+      object_getIvar(self, $0)
     }
-    return nil
+    .flatMap {
+      $0 as? SingleLineCardFormViewModel
+    }
   }
 }
 
 // MARK: - Private
-private extension SPPaymentCardTextField {
+private extension SingleLineCardForm {
   var expDate: ExpirationDate? {
     let expirationMonth = viewModel?.expirationMonth.flatMap { UInt($0) }
     let expirationYear = viewModel?.expirationYear.flatMap { UInt($0) }
