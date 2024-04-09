@@ -15,7 +15,6 @@ private var apiClient: APIClient = .init(
 extension DetailViewController {
   @objc func configureSingleLineCardFormView() {
     singleLineCardFormView = SingleLineCardForm(authorization: sharedSPAuthorization)
-    singleLineCardFormView.postalCodeEntryEnabled = true
     singleLineCardFormView.countryCode = "US"
   }
 

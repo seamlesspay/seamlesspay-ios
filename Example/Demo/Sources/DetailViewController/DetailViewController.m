@@ -440,7 +440,6 @@
                         style:UIAlertActionStyleCancel
                         handler:^(UIAlertAction *action) {
         [self.singleLineCardFormView clear];
-        self.singleLineCardFormView.postalCodeEntryEnabled = YES;
         self.singleLineCardFormView.countryCode = @"US";
         self.amountTextField.text = @"0.00";
       }]];

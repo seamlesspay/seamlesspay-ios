@@ -1,0 +1,26 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Open Swift Package",
+            "type": "f5anything",
+            "request": "launch",
+            "command": "xed ."
+        },
+        {
+            "name": "Open Demo Application",
+            "type": "f5anything",
+            "request": "launch",
+            "command": "open -a XCode Example/Demo/Demo.xcodeproj"
+        },
+        {
+            "name": "Open Pods Demo Application",
+            "type": "f5anything",
+            "request": "launch",
+            "command": "cd Example/PodsDemo; pod install; open -a XCode PodsDemo.xcworkspace; cd ../.."
+        }
+    ]
+}

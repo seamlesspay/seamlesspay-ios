@@ -209,22 +209,7 @@ UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
 @property(nonatomic, getter=isEnabled) BOOL enabled;
 
 /**
- Controls if a postal code entry field can be displayed to the user.
-
- Default is NO (no postal code entry will ever be displayed).
-
- If YES, the type of code entry shown is controlled by the set `countryCode`
- value. Some country codes may result in no postal code entry being shown if
- those countries do not commonly use postal codes.
- */
-@property(nonatomic, assign, readwrite) BOOL postalCodeEntryEnabled;
-
-/**
  The two-letter ISO country code that corresponds to the user's billing address.
-
- If `postalCodeEntryEnabled` is YES, this controls which type of entry is
- allowed. If `postalCodeEntryEnabled` is NO, this property currently has no
- effect.
 
  If set to nil and postal code entry is enabled, the country from the user's
  current locale will be filled in. Otherwise the specific country code set will

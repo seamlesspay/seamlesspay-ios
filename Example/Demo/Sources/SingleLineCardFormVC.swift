@@ -13,9 +13,12 @@ import SeamlessPay
 @objcMembers class SingleLineCardFormVC: UIViewController, SingleLineCardFormDelegate {
   lazy var singleLineCardFormView: SingleLineCardForm = {
     let view = SingleLineCardForm(
-      authorization: sharedSPAuthorization
+      authorization: sharedSPAuthorization,
+      fieldOptions: .init(
+        cvv: .init(display: .none),
+        postalCode: .init(display: .none)
+      )
     )
-    view.postalCodeEntryEnabled = true
     view.delegate = self
 
     return view
