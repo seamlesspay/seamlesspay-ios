@@ -12,6 +12,21 @@
 
 @implementation SingleLineCardFormViewModel
 
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+
+      // Default display configuration
+      self.cvcDisplayed = YES;
+      self.cvcRequired = NO;
+
+      // Default display configuration
+      self.postalCodeDisplayed = YES;
+      self.postalCodeRequired = NO;
+    }
+    return self;
+}
+
 - (void)setCardNumber:(NSString *)cardNumber {
   NSString *sanitizedNumber =
   [SPCardValidator sanitizedNumericStringForString:cardNumber];
@@ -27,8 +42,7 @@
   }
 
   SPCardBrand currentBrand = [SPCardValidator brandForNumber:cardNumber];
-  if ([self validationStateForField:SPCardFieldTypeNumber] ==
-      SPCardValidationStateValid) {
+  if ([self validationStateForField:SPCardFieldTypeNumber] == SPCardValidationStateValid) {
     // Use fragment length
     NSUInteger length =
     [SPCardValidator fragmentLengthForCardBrand:currentBrand];
@@ -57,11 +71,9 @@
 
 // This might contain slashes.
 - (void)setRawExpiration:(NSString *)expiration {
-  NSString *sanitizedExpiration =
-  [SPCardValidator sanitizedNumericStringForString:expiration];
+  NSString *sanitizedExpiration = [SPCardValidator sanitizedNumericStringForString:expiration];
   self.expirationMonth = [sanitizedExpiration sp_safeSubstringToIndex:2];
-  self.expirationYear = [[sanitizedExpiration sp_safeSubstringFromIndex:2]
-                         sp_safeSubstringToIndex:2];
+  self.expirationYear = [[sanitizedExpiration sp_safeSubstringFromIndex:2] sp_safeSubstringToIndex:2];
 }
 
 - (NSString *)rawExpiration {
@@ -70,11 +82,10 @@
     [array addObject:self.expirationMonth];
   }
 
-  if ([SPCardValidator
-       validationStateForExpirationMonth:self.expirationMonth] ==
-      SPCardValidationStateValid) {
+  if ([SPCardValidator validationStateForExpirationMonth:self.expirationMonth] == SPCardValidationStateValid) {
     [array addObject:self.expirationYear];
   }
+
   return [array componentsJoinedByString:@"/"];
 }
 
@@ -91,31 +102,25 @@
 
 - (void)setExpirationYear:(NSString *)expirationYear {
   _expirationYear =
-  [[SPCardValidator sanitizedNumericStringForString:expirationYear]
-   sp_safeSubstringToIndex:2];
+  [[SPCardValidator sanitizedNumericStringForString:expirationYear] sp_safeSubstringToIndex:2];
 }
 
 - (void)setCvc:(NSString *)cvc {
   NSInteger maxLength = [SPCardValidator maxCVCLengthForCardBrand:self.brand];
-  _cvc = [[SPCardValidator sanitizedNumericStringForString:cvc]
-          sp_safeSubstringToIndex:maxLength];
+  _cvc = [[SPCardValidator sanitizedNumericStringForString:cvc] sp_safeSubstringToIndex:maxLength];
 }
 
 - (void)setPostalCode:(NSString *)postalCode {
-  _postalCode = [SPPostalCodeValidator
-                 formattedSanitizedPostalCodeFromString:postalCode
-                 countryCode:self.postalCodeCountryCode
-                 usage:
-                   SPPostalCodeIntendedUsageBillingAddress];
+  _postalCode = [SPPostalCodeValidator formattedSanitizedPostalCodeFromString:postalCode
+                                                                  countryCode:self.postalCodeCountryCode
+                                                                        usage:SPPostalCodeIntendedUsageBillingAddress];
 }
 
 - (void)setPostalCodeCountryCode:(NSString *)postalCodeCountryCode {
   _postalCodeCountryCode = postalCodeCountryCode;
-  _postalCode = [SPPostalCodeValidator
-                 formattedSanitizedPostalCodeFromString:self.postalCode
-                 countryCode:postalCodeCountryCode
-                 usage:
-                   SPPostalCodeIntendedUsageBillingAddress];
+  _postalCode = [SPPostalCodeValidator formattedSanitizedPostalCodeFromString:self.postalCode
+                                                                  countryCode:postalCodeCountryCode
+                                                                        usage:SPPostalCodeIntendedUsageBillingAddress];
 }
 
 - (SPCardBrand)brand {
@@ -129,11 +134,9 @@
                                    validatingCardBrand:YES];
       break;
     case SPCardFieldTypeExpiration: {
-      SPCardValidationState monthState = [SPCardValidator
-                                          validationStateForExpirationMonth:self.expirationMonth];
-      SPCardValidationState yearState =
-      [SPCardValidator validationStateForExpirationYear:self.expirationYear
-                                                inMonth:self.expirationMonth];
+      SPCardValidationState monthState = [SPCardValidator validationStateForExpirationMonth:self.expirationMonth];
+      SPCardValidationState yearState = [SPCardValidator validationStateForExpirationYear:self.expirationYear
+                                                                                  inMonth:self.expirationMonth];
       if (monthState == SPCardValidationStateValid &&
           yearState == SPCardValidationStateValid) {
         return SPCardValidationStateValid;
@@ -149,39 +152,24 @@
       return [SPCardValidator validationStateForCVC:self.cvc
                                           cardBrand:self.brand];
     case SPCardFieldTypePostalCode:
-      return [SPPostalCodeValidator
-              validationStateForPostalCode:self.postalCode
-              countryCode:self.postalCodeCountryCode];
+      return [SPPostalCodeValidator validationStateForPostalCode:self.postalCode
+                                                     countryCode:self.postalCodeCountryCode];
   }
 }
 
+- (BOOL)isFieldValid:(SPCardFieldType)fieldType {
+  return [self validationStateForField:fieldType] == SPCardValidationStateValid;
+}
+
 - (BOOL)isValid {
-  return ([self validationStateForField:SPCardFieldTypeNumber] ==
-          SPCardValidationStateValid &&
-          [self validationStateForField:SPCardFieldTypeExpiration] ==
-          SPCardValidationStateValid &&
-          [self validationStateForField:SPCardFieldTypeCVC] ==
-          SPCardValidationStateValid &&
-          (!self.postalCodeRequired ||
-           [self validationStateForField:SPCardFieldTypePostalCode] ==
-           SPCardValidationStateValid));
+  return ([self isFieldValid:SPCardFieldTypeNumber] &&
+          [self isFieldValid:SPCardFieldTypeExpiration] &&
+          (!self.cvcRequired || [self isFieldValid:SPCardFieldTypeCVC]) &&
+          (!self.postalCodeRequired || [self isFieldValid:SPCardFieldTypePostalCode]));
 }
 
 - (NSString *)defaultPlaceholder {
   return @".... .... .... ....";
-}
-
-+ (NSSet<NSString *> *)keyPathsForValuesAffectingValid {
-  return [NSSet setWithArray:@[
-    NSStringFromSelector(@selector(cardNumber)),
-    NSStringFromSelector(@selector(expirationMonth)),
-    NSStringFromSelector(@selector(expirationYear)),
-    NSStringFromSelector(@selector(cvc)),
-    NSStringFromSelector(@selector(brand)),
-    NSStringFromSelector(@selector(postalCode)),
-    NSStringFromSelector(@selector(postalCodeRequired)),
-    NSStringFromSelector(@selector(postalCodeCountryCode)),
-  ]];
 }
 
 @end

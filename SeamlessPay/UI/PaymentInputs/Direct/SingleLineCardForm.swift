@@ -10,15 +10,24 @@ import UIKit
 // MARK: - Public
 // MARK: Init with Authorization model
 public extension SingleLineCardForm {
-  convenience init(authorization: Authorization) {
+  convenience init(authorization: Authorization, fieldOptions: FieldOptions = .default) {
     self.init()
     setAuthorization(authorization)
+    setFieldOptions(fieldOptions)
   }
 
   func setAuthorization(
     _ authorization: Authorization
   ) {
     apiClient = .init(authorization: authorization)
+  }
+
+  func setFieldOptions(_ fieldOptions: FieldOptions) {
+    viewModel?.cvcDisplayed = fieldOptions.cvv.display != .none
+    viewModel?.cvcRequired = fieldOptions.cvv.display == .required
+
+    viewModel?.postalCodeDisplayed = fieldOptions.postalCode.display != .none
+    viewModel?.postalCodeRequired = fieldOptions.postalCode.display == .required
   }
 }
 
@@ -143,7 +152,7 @@ extension SingleLineCardForm {
 }
 
 // MARK: - SingleLineCardForm ViewModel
-private extension SingleLineCardForm {
+extension SingleLineCardForm {
   var viewModel: SingleLineCardFormViewModel? {
     class_getInstanceVariable(
       type(of: self),

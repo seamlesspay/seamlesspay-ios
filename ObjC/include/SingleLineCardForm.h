@@ -209,22 +209,7 @@ UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
 @property(nonatomic, getter=isEnabled) BOOL enabled;
 
 /**
- Controls if a postal code entry field can be displayed to the user.
-
- Default is NO (no postal code entry will ever be displayed).
-
- If YES, the type of code entry shown is controlled by the set `countryCode`
- value. Some country codes may result in no postal code entry being shown if
- those countries do not commonly use postal codes.
- */
-@property(nonatomic, assign, readwrite) BOOL postalCodeEntryEnabled;
-
-/**
  The two-letter ISO country code that corresponds to the user's billing address.
-
- If `postalCodeEntryEnabled` is YES, this controls which type of entry is
- allowed. If `postalCodeEntryEnabled` is NO, this property currently has no
- effect.
 
  If set to nil and postal code entry is enabled, the country from the user's
  current locale will be filled in. Otherwise the specific country code set will
@@ -277,13 +262,13 @@ UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
  one can call `isValid` on the text field to determine, for example,
  whether or not to enable a button to submit the form. Example:
 
- - (void)singleLineCardFormDidChange:(SingleLineCardForm *)textField {
- self.paymentButton.enabled = textField.isValid;
+ - (void)singleLineCardFormDidChange:(SingleLineCardForm *)view {
+ self.paymentButton.enabled = view.isValid;
  }
 
- @param textField the text field that has changed
+ @param view the SingleLineCardForm that has changed
  */
-- (void)singleLineCardFormDidChange:(nonnull SingleLineCardForm *)textField;
+- (void)singleLineCardFormDidChange:(nonnull SingleLineCardForm *)view;
 
 /**
  Called when editing begins in the text field as a whole.
@@ -291,7 +276,7 @@ UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
  After receiving this callback, you will always also receive a callback for
  which specific subfield of the view began editing.
  */
-- (void)singleLineCardFormDidBeginEditing:(nonnull SingleLineCardForm *)textField;
+- (void)singleLineCardFormDidBeginEditing:(nonnull SingleLineCardForm *)view;
 
 /**
  Notification that the user pressed the `return` key after completely filling
@@ -300,10 +285,10 @@ UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
  This is delivered *before* the corresponding
  `singleLineCardFormDidEndEditing:`
 
- @param textField The SingleLineCardForm that was being edited when the user
+ @param view The SingleLineCardForm that was being edited when the user
  pressed return
  */
-- (void)singleLineCardFormWillEndEditingForReturn:(nonnull SingleLineCardForm *)textField;
+- (void)singleLineCardFormWillEndEditingForReturn:(nonnull SingleLineCardForm *)view;
 
 /**
  Called when editing ends in the text field as a whole.
@@ -311,46 +296,46 @@ UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
  This callback is always preceded by an callback for which
  specific subfield of the view ended its editing.
  */
-- (void)singleLineCardFormDidEndEditing:(nonnull SingleLineCardForm *)textField;
+- (void)singleLineCardFormDidEndEditing:(nonnull SingleLineCardForm *)view;
 
 /**
  Called when editing begins in the payment card field's number field.
  */
-- (void)singleLineCardFormDidBeginEditingNumber:(nonnull SingleLineCardForm *)textField;
+- (void)singleLineCardFormDidBeginEditingNumber:(nonnull SingleLineCardForm *)view;
 
 /**
  Called when editing ends in the payment card field's number field.
  */
-- (void)singleLineCardFormDidEndEditingNumber:(nonnull SingleLineCardForm *)textField;
+- (void)singleLineCardFormDidEndEditingNumber:(nonnull SingleLineCardForm *)view;
 
 /**
  Called when editing begins in the payment card field's CVC field.
  */
-- (void)singleLineCardFormBeginEditingCVC:(nonnull SingleLineCardForm *)textField;
+- (void)singleLineCardFormBeginEditingCVC:(nonnull SingleLineCardForm *)view;
 
 /**
  Called when editing ends in the payment card field's CVC field.
  */
-- (void)singleLineCardFormDidEndEditingCVC:(nonnull SingleLineCardForm *)textField;
+- (void)singleLineCardFormDidEndEditingCVC:(nonnull SingleLineCardForm *)view;
 
 /**
  Called when editing begins in the payment card field's expiration field.
  */
-- (void)singleLineCardFormDidBeginEditingExpiration:(nonnull SingleLineCardForm *)textField;
+- (void)singleLineCardFormDidBeginEditingExpiration:(nonnull SingleLineCardForm *)view;
 
 /**
  Called when editing ends in the payment card field's expiration field.
  */
-- (void)singleLineCardFormDidEndEditingExpiration:(nonnull SingleLineCardForm *)textField;
+- (void)singleLineCardFormDidEndEditingExpiration:(nonnull SingleLineCardForm *)view;
 
 /**
  Called when editing begins in the payment card field's ZIP/postal code field.
  */
-- (void)singleLineCardFormDidBeginEditingPostalCode:(nonnull SingleLineCardForm *)textField;
+- (void)singleLineCardFormDidBeginEditingPostalCode:(nonnull SingleLineCardForm *)view;
 
 /**
  Called when editing ends in the payment card field's ZIP/postal code field.
  */
-- (void)singleLineCardFormDidEndEditingPostalCode:(nonnull SingleLineCardForm *)textField;
+- (void)singleLineCardFormDidEndEditingPostalCode:(nonnull SingleLineCardForm *)view;
 
 @end

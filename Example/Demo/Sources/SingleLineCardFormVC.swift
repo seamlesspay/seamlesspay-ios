@@ -10,10 +10,19 @@ import UIKit
 import PassKit
 import SeamlessPay
 
-@objcMembers class SingleLineCardFormVC: UIViewController {
-  lazy var singleLineCardFormView = SingleLineCardForm(
-    authorization: sharedSPAuthorization
-  )
+@objcMembers class SingleLineCardFormVC: UIViewController, SingleLineCardFormDelegate {
+  lazy var singleLineCardFormView: SingleLineCardForm = {
+    let view = SingleLineCardForm(
+      authorization: sharedSPAuthorization,
+      fieldOptions: .init(
+        cvv: .init(display: .required),
+        postalCode: .init(display: .required)
+      )
+    )
+    view.delegate = self
+
+    return view
+  }()
 
   lazy var payButton: UIButton = {
     let button = UIButton(type: .custom)
@@ -65,5 +74,9 @@ import SeamlessPay
         return
       }
     }
+  }
+
+  func singleLineCardFormDidChange(_ view: SingleLineCardForm) {
+    payButton.isEnabled = view.isValid
   }
 }

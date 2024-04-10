@@ -191,14 +191,14 @@ CGFloat const SingleLineCardFormMinimumPadding = 10;
   // just as large. Previously, taps on the brand image would *dismiss* the
   // keyboard. Make it move to the numberField instead
   brandImageView.userInteractionEnabled = YES;
-  [brandImageView
-   addGestureRecognizer:[[UITapGestureRecognizer alloc]
-                         initWithTarget:numberField
-                         action:@selector(becomeFirstResponder)]];
+  [brandImageView addGestureRecognizer:[[UITapGestureRecognizer alloc]
+                                        initWithTarget:numberField
+                                        action:@selector(becomeFirstResponder)]];
 
   self.focusedTextFieldForLayout = nil;
   [self updateCVCPlaceholder];
   [self resetSubviewEditingTransitionState];
+  self.countryCode = [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];
 }
 
 - (SingleLineCardFormViewModel *)viewModel {
@@ -351,16 +351,20 @@ CGFloat const SingleLineCardFormMinimumPadding = 10;
   [self updatePostalFieldPlaceholder];
 }
 
-- (void)setPostalCodeEntryEnabled:(BOOL)postalCodeEntryEnabled {
-  self.viewModel.postalCodeRequired = postalCodeEntryEnabled;
-  if (postalCodeEntryEnabled && !self.countryCode) {
-    self.countryCode =
-    [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];
-  }
+- (BOOL)postalCodeEntryDisplayed {
+  return self.viewModel.postalCodeDisplayed;
 }
 
-- (BOOL)postalCodeEntryEnabled {
+- (BOOL)postalCodeEntryRequired {
   return self.viewModel.postalCodeRequired;
+}
+
+- (BOOL)cvcEntryDisplayed {
+  return self.viewModel.cvcDisplayed;
+}
+
+- (BOOL)cvcEntryRequired {
+  return self.viewModel.cvcRequired;
 }
 
 - (NSString *)countryCode {
@@ -368,9 +372,7 @@ CGFloat const SingleLineCardFormMinimumPadding = 10;
 }
 
 - (void)setCountryCode:(NSString *)cCode {
-  NSString *countryCode = cCode
-  ?: [[NSLocale autoupdatingCurrentLocale]
-      objectForKey:NSLocaleCountryCode];
+  NSString *countryCode = cCode ?: [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];
 
   self.viewModel.postalCodeCountryCode = countryCode;
   [self updatePostalFieldPlaceholder];
@@ -387,15 +389,13 @@ CGFloat const SingleLineCardFormMinimumPadding = 10;
 
 - (void)updatePostalFieldPlaceholder {
   if (self.postalCodePlaceholder == nil) {
-    self.postalCodeField.placeholder =
-    [self defaultPostalFieldPlaceholderForCountryCode:self.countryCode];
+    self.postalCodeField.placeholder = [self defaultPostalFieldPlaceholderForCountryCode:self.countryCode];
   } else {
     self.postalCodeField.placeholder = _postalCodePlaceholder;
   }
 }
 
-- (NSString *)defaultPostalFieldPlaceholderForCountryCode:
-(NSString *)countryCode {
+- (NSString *)defaultPostalFieldPlaceholderForCountryCode:(NSString *)countryCode {
   if ([countryCode.uppercaseString isEqualToString:@"US"]) {
     return @"ZIP";
   } else {
@@ -496,43 +496,39 @@ CGFloat const SingleLineCardFormMinimumPadding = 10;
  Returns the next text field to be edited, in priority order:
 
  1. If we're currently in a text field, returns the next one (ignoring
- postalCodeField if postalCodeEntryEnabled == NO)
+ postalCodeField if postalCodeEntryDisplayed == NO and cvcField if cvcEntryDisplayed == NO)
  2. Otherwise, returns the first invalid field (either cycling back from the end
  or as it gains 1st responder)
  3. As a final fallback, just returns the last field
  */
 - (nonnull SPFormTextField *)nextFirstResponderField {
   SPFormTextField *currentFirstResponder = [self currentFirstResponderField];
+  SPFormTextField *nextField = nil;
+
   if (currentFirstResponder) {
     NSUInteger index = [self.allFields indexOfObject:currentFirstResponder];
     if (index != NSNotFound) {
-      SPFormTextField *nextField =
-      [self.allFields sp_boundSafeObjectAtIndex:index + 1];
-      if (nextField != nil &&
-          (self.postalCodeEntryEnabled || nextField != self.postalCodeField)) {
-        return nextField;
-      }
+      nextField = [self.allFields sp_boundSafeObjectAtIndex:index + 1];
     }
+  }
+
+  if (nextField &&
+      (self.postalCodeEntryDisplayed || nextField != self.postalCodeField) &&
+      (self.cvcEntryDisplayed || nextField != self.cvcField)) {
+    return nextField;
   }
 
   return [self firstInvalidSubField] ?: [self lastSubField];
 }
 
 - (nullable SPFormTextField *)firstInvalidSubField {
-  if ([self.viewModel validationStateForField:SPCardFieldTypeNumber] !=
-      SPCardValidationStateValid) {
+  if ([self.viewModel isFieldValid:SPCardFieldTypeNumber] == NO) {
     return self.numberField;
-  } else if ([self.viewModel
-              validationStateForField:SPCardFieldTypeExpiration] !=
-             SPCardValidationStateValid) {
+  } else if ([self.viewModel isFieldValid:SPCardFieldTypeExpiration] == NO) {
     return self.expirationField;
-  } else if ([self.viewModel validationStateForField:SPCardFieldTypeCVC] !=
-             SPCardValidationStateValid) {
+  } else if (self.cvcEntryRequired && [self.viewModel isFieldValid:SPCardFieldTypeCVC] == NO) {
     return self.cvcField;
-  } else if (self.postalCodeEntryEnabled &&
-             [self.viewModel
-              validationStateForField:SPCardFieldTypePostalCode] !=
-             SPCardValidationStateValid) {
+  } else if (self.postalCodeEntryRequired && [self.viewModel isFieldValid:SPCardFieldTypePostalCode] == NO) {
     return self.postalCodeField;
   } else {
     return nil;
@@ -540,7 +536,13 @@ CGFloat const SingleLineCardFormMinimumPadding = 10;
 }
 
 - (nonnull SPFormTextField *)lastSubField {
-  return self.postalCodeEntryEnabled ? self.postalCodeField : self.cvcField;
+  if (self.postalCodeEntryDisplayed) {
+    return self.postalCodeField;
+  } else if (self.cvcEntryDisplayed) {
+    return self.cvcField;;
+  } else {
+    return self.expirationField;
+  }
 }
 
 - (SPFormTextField *)currentFirstResponderField {
@@ -636,11 +638,15 @@ CGFloat const SingleLineCardFormMinimumPadding = 10;
 }
 
 - (NSString *)cvc {
-  return self.viewModel.cvc;
+  if (self.cvcEntryDisplayed) {
+    return self.viewModel.cvc;
+  } else {
+    return nil;
+  }
 }
 
 - (NSString *)postalCode {
-  if (self.postalCodeEntryEnabled) {
+  if (self.postalCodeEntryDisplayed) {
     return self.viewModel.postalCode;
   } else {
     return nil;
@@ -669,7 +675,7 @@ CGFloat const SingleLineCardFormMinimumPadding = 10;
 
 - (CGFloat)numberFieldFullWidth {
   // Current longest possible pan is 16 digits which our standard sample fits
-  if ([self.viewModel validationStateForField:SPCardFieldTypeNumber] == SPCardValidationStateValid) {
+  if ([self.viewModel isFieldValid:SPCardFieldTypeNumber]) {
     return [self widthForCardNumber:self.viewModel.cardNumber];
   } else {
     return MAX([self widthForCardNumber:self.viewModel.cardNumber],
@@ -701,9 +707,7 @@ CGFloat const SingleLineCardFormMinimumPadding = 10;
 }
 
 - (CGFloat)cvcFieldWidth {
-  if (self.focusedTextFieldForLayout == nil &&
-      [self.viewModel validationStateForField:SPCardFieldTypeCVC] ==
-      SPCardValidationStateValid) {
+  if (self.focusedTextFieldForLayout == nil && [self.viewModel isFieldValid:SPCardFieldTypeCVC]) {
     // If we're not focused and have valid text, size exactly to what is entered
     return [self widthForText:self.viewModel.cvc];
   } else {
@@ -722,9 +726,7 @@ CGFloat const SingleLineCardFormMinimumPadding = 10;
 }
 
 - (CGFloat)expirationFieldWidth {
-  if (self.focusedTextFieldForLayout == nil &&
-      [self.viewModel validationStateForField:SPCardFieldTypeExpiration] ==
-      SPCardValidationStateValid) {
+  if (self.focusedTextFieldForLayout == nil && [self.viewModel isFieldValid:SPCardFieldTypeExpiration]) {
     // If we're not focused and have valid text, size exactly to what is entered
     return [self widthForText:self.viewModel.rawExpiration];
   } else {
@@ -763,9 +765,7 @@ CGFloat const SingleLineCardFormMinimumPadding = 10;
     maxTextWidth = [self widthForText:@"888 8888"];
   }
 
-  CGFloat placeholderWidth = [self
-                              widthForText:
-                                [self defaultPostalFieldPlaceholderForCountryCode:self.countryCode]];
+  CGFloat placeholderWidth = [self widthForText: [self defaultPostalFieldPlaceholderForCountryCode:self.countryCode]];
   return MAX(maxTextWidth, placeholderWidth);
 }
 
@@ -796,12 +796,11 @@ typedef NS_ENUM(NSInteger, SingleLineCardFormState) {
   SingleLineCardFormHidden,
 };
 
-- (CGFloat)
-minimumPaddingForViewsWithWidth:(CGFloat)width
-pan:(SingleLineCardFormState)panVisibility
-expiry:(SingleLineCardFormState)expiryVisibility
-cvc:(SingleLineCardFormState)cvcVisibility
-postal:(SingleLineCardFormState)postalVisibility {
+- (CGFloat)minimumPaddingForViewsWithWidth:(CGFloat)width
+                                       pan:(SingleLineCardFormState)panVisibility
+                                    expiry:(SingleLineCardFormState)expiryVisibility
+                                       cvc:(SingleLineCardFormState)cvcVisibility
+                                    postal:(SingleLineCardFormState)postalVisibility {
 
   CGFloat requiredWidth = 0;
   CGFloat paddingsRequired = -1;
@@ -818,13 +817,12 @@ postal:(SingleLineCardFormState)postalVisibility {
     requiredWidth += [self expirationFieldWidth];
   }
 
-  if (cvcVisibility != SingleLineCardFormHidden) {
+  if (cvcVisibility != SingleLineCardFormHidden && self.cvcEntryDisplayed) {
     paddingsRequired += 1;
     requiredWidth += [self cvcFieldWidth];
   }
 
-  if (postalVisibility != SingleLineCardFormHidden &&
-      self.postalCodeEntryEnabled) {
+  if (postalVisibility != SingleLineCardFormHidden && self.postalCodeEntryDisplayed) {
     paddingsRequired += 1;
     requiredWidth += (postalVisibility == SingleLineCardFormCompressed)
     ? [self postalCodeFieldCompressedWidth]
@@ -870,12 +868,12 @@ postal:(SingleLineCardFormState)postalVisibility {
   // to do the proper layout at the end
   CGFloat fieldsHeight = CGRectGetHeight(fieldsViewRect);
   CGFloat hPadding = SingleLineCardFormDefaultPadding;
-  __block SingleLineCardFormState panVisibility =   SingleLineCardFormVisible;
-  __block SingleLineCardFormState expiryVisibility =   SingleLineCardFormVisible;
-  __block SingleLineCardFormState cvcVisibility =   SingleLineCardFormVisible;
+  __block SingleLineCardFormState panVisibility = SingleLineCardFormVisible;
+  __block SingleLineCardFormState expiryVisibility = SingleLineCardFormVisible;
+  __block SingleLineCardFormState cvcVisibility =
+  self.cvcEntryDisplayed ? SingleLineCardFormVisible : SingleLineCardFormHidden;
   __block SingleLineCardFormState postalVisibility =
-  self.postalCodeEntryEnabled ?   SingleLineCardFormVisible
-  : SingleLineCardFormHidden;
+  self.postalCodeEntryDisplayed ? SingleLineCardFormVisible : SingleLineCardFormHidden;
 
   CGFloat (^calculateMinimumPaddingWithLocalVars)(void) = ^CGFloat() {
     return [self minimumPaddingForViewsWithWidth:availableFieldsWidth
@@ -1078,12 +1076,14 @@ postal:(SingleLineCardFormState)postalVisibility {
   CGRectMake(xOffset, 0, width + additionalWidth, fieldsHeight);
   xOffset += width + hPadding;
 
-  width = [self cvcFieldWidth];
-  self.cvcField.frame =
-  CGRectMake(xOffset, 0, width + additionalWidth, fieldsHeight);
-  xOffset += width + hPadding;
+  if (self.cvcEntryDisplayed) {
+    width = [self cvcFieldWidth];
+    self.cvcField.frame =
+    CGRectMake(xOffset, 0, width + additionalWidth, fieldsHeight);
+    xOffset += width + hPadding;
+  }
 
-  if (self.postalCodeEntryEnabled) {
+  if (self.postalCodeEntryDisplayed) {
     width = self.fieldsView.frame.size.width - xOffset -
     SingleLineCardFormDefaultInsets;
     self.postalCodeField.frame =
@@ -1103,8 +1103,10 @@ postal:(SingleLineCardFormState)postalVisibility {
 
   updateFieldVisibility(self.numberField, panVisibility);
   updateFieldVisibility(self.expirationField, expiryVisibility);
-  updateFieldVisibility(self.cvcField, cvcVisibility);
-  updateFieldVisibility(self.postalCodeField, self.postalCodeEntryEnabled
+  updateFieldVisibility(self.cvcField, self.cvcEntryDisplayed
+                        ? cvcVisibility
+                        : SingleLineCardFormHidden);
+  updateFieldVisibility(self.postalCodeField, self.postalCodeEntryDisplayed
                         ? postalVisibility
                         : SingleLineCardFormHidden);
 }
@@ -1645,14 +1647,6 @@ oldBrand:(SPCardBrand)oldBrand {
 
 - (void)deleteBackward {
   [self.currentFirstResponderField deleteBackward];
-}
-
-+ (NSSet<NSString *> *)keyPathsForValuesAffectingIsValid {
-  return [NSSet setWithArray:@[
-    [NSString stringWithFormat:@"%@.%@",
-     NSStringFromSelector(@selector(viewModel)),
-     NSStringFromSelector(@selector(valid))],
-  ]];
 }
 
 @end
