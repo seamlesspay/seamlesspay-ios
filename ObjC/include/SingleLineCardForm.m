@@ -675,7 +675,7 @@ CGFloat const SingleLineCardFormMinimumPadding = 10;
 
 - (CGFloat)numberFieldFullWidth {
   // Current longest possible pan is 16 digits which our standard sample fits
-  if ([self.viewModel validationStateForField:SPCardFieldTypeNumber] == SPCardValidationStateValid) {
+  if ([self.viewModel isFieldValid:SPCardFieldTypeNumber]) {
     return [self widthForCardNumber:self.viewModel.cardNumber];
   } else {
     return MAX([self widthForCardNumber:self.viewModel.cardNumber],
@@ -707,9 +707,7 @@ CGFloat const SingleLineCardFormMinimumPadding = 10;
 }
 
 - (CGFloat)cvcFieldWidth {
-  if (self.focusedTextFieldForLayout == nil &&
-      [self.viewModel validationStateForField:SPCardFieldTypeCVC] ==
-      SPCardValidationStateValid) {
+  if (self.focusedTextFieldForLayout == nil && [self.viewModel isFieldValid:SPCardFieldTypeCVC]) {
     // If we're not focused and have valid text, size exactly to what is entered
     return [self widthForText:self.viewModel.cvc];
   } else {
@@ -728,9 +726,7 @@ CGFloat const SingleLineCardFormMinimumPadding = 10;
 }
 
 - (CGFloat)expirationFieldWidth {
-  if (self.focusedTextFieldForLayout == nil &&
-      [self.viewModel validationStateForField:SPCardFieldTypeExpiration] ==
-      SPCardValidationStateValid) {
+  if (self.focusedTextFieldForLayout == nil && [self.viewModel isFieldValid:SPCardFieldTypeExpiration]) {
     // If we're not focused and have valid text, size exactly to what is entered
     return [self widthForText:self.viewModel.rawExpiration];
   } else {

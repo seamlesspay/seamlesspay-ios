@@ -71,8 +71,7 @@
 
 // This might contain slashes.
 - (void)setRawExpiration:(NSString *)expiration {
-  NSString *sanitizedExpiration =
-  [SPCardValidator sanitizedNumericStringForString:expiration];
+  NSString *sanitizedExpiration = [SPCardValidator sanitizedNumericStringForString:expiration];
   self.expirationMonth = [sanitizedExpiration sp_safeSubstringToIndex:2];
   self.expirationYear = [[sanitizedExpiration sp_safeSubstringFromIndex:2] sp_safeSubstringToIndex:2];
 }
@@ -86,6 +85,7 @@
   if ([SPCardValidator validationStateForExpirationMonth:self.expirationMonth] == SPCardValidationStateValid) {
     [array addObject:self.expirationYear];
   }
+
   return [array componentsJoinedByString:@"/"];
 }
 

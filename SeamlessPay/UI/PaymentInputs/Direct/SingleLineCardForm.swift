@@ -152,7 +152,7 @@ extension SingleLineCardForm {
 }
 
 // MARK: - SingleLineCardForm ViewModel
-private extension SingleLineCardForm {
+extension SingleLineCardForm {
   var viewModel: SingleLineCardFormViewModel? {
     class_getInstanceVariable(
       type(of: self),

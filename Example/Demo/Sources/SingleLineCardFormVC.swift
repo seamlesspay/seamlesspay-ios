@@ -15,8 +15,8 @@ import SeamlessPay
     let view = SingleLineCardForm(
       authorization: sharedSPAuthorization,
       fieldOptions: .init(
-        cvv: .init(display: .none),
-        postalCode: .init(display: .none)
+        cvv: .init(display: .required),
+        postalCode: .init(display: .required)
       )
     )
     view.delegate = self
