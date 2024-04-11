@@ -31,7 +31,22 @@ import SeamlessPay
     button.titleLabel?.font = UIFont.systemFont(ofSize: 22)
     button.setTitle("Pay", for: .normal)
     button.addTarget(self, action: #selector(pay), for: .touchUpInside)
+    button.isEnabled = false
     return button
+  }()
+
+  lazy var activityIndicator: UIActivityIndicatorView = {
+    let indicator = UIActivityIndicatorView(style: .large)
+    indicator.hidesWhenStopped = true
+    return indicator
+  }()
+
+  lazy var resultLabel: UILabel = {
+    let label = UILabel()
+    label.textAlignment = .center
+    label.textColor = .black
+    label.numberOfLines = 0
+    return label
   }()
 
   override func viewDidLoad() {
@@ -39,7 +54,14 @@ import SeamlessPay
     // Do any additional setup after loading the view.
 
     view.backgroundColor = .white
-    let stackView = UIStackView(arrangedSubviews: [singleLineCardFormView, payButton])
+    let stackView = UIStackView(
+      arrangedSubviews: [
+        singleLineCardFormView,
+        payButton,
+        activityIndicator,
+        resultLabel,
+      ]
+    )
     stackView.axis = .vertical
     stackView.spacing = 20
     stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -61,16 +83,22 @@ import SeamlessPay
   }
 
   func pay() {
+    activityIndicator.startAnimating()
+
     singleLineCardFormView.submit(
       .init(amount: "101")
-    ) { result in
+    ) { [weak self] result in
+
+      self?.activityIndicator.stopAnimating()
+      self?.resultLabel.text = ""
+
       switch result {
       case let .success(paymentResponse):
         // Success Charge:
-        print(paymentResponse)
+        self?.resultLabel.text = "Payment Successful\n\(paymentResponse)"
       case let .failure(error):
         // Handle the error
-        print(error.localizedDescription)
+        self?.resultLabel.text = "Payment Failed\n\(error.localizedDescription)"
         return
       }
     }

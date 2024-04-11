@@ -45,7 +45,14 @@ public extension SingleLineCardForm {
       accountType: .none,
       routing: .none,
       pin: .none,
-      billingAddress: .none,
+      billingAddress: .init(
+        line1: .none,
+        line2: .none,
+        country: .none,
+        state: .none,
+        city: .none,
+        postalCode: viewModel?.postalCode
+      ),
       name: .none,
       completion: { result in
         completion?(
