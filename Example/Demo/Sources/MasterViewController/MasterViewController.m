@@ -83,7 +83,7 @@
     if ([object isEqualToString:@"SingleLineCardForm"]) {
       viewController = [[SingleLineCardFormVC alloc] init];
     } else if([object isEqualToString:@"MultiLineCardForm"]) {
-      viewController = [[MultiLineCardFormVC alloc] init];
+      viewController = [ViewControllers multiLineCardForm];
     } else {
       DetailViewController *detailViewController = (DetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"DetailViewControllerStoryboardIdentifier"];
       detailViewController.detailItem = object;

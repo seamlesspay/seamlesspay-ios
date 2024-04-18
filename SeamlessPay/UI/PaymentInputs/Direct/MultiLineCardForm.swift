@@ -183,4 +183,8 @@ private extension MultiLineCardForm {
   }
 }
 
-extension MultiLineCardForm: SPFormTextFieldDelegate {}
+extension MultiLineCardForm: SPFormTextFieldDelegate {
+  public func formTextFieldTextDidChange(_ textField: SPFormTextField) {
+    
+  }
+}
