@@ -9,22 +9,23 @@
 #import "NSString+Extras.h"
 #import "SPCardValidator+Extras.h"
 #import "SPPostalCodeValidator.h"
+#import "SPImageLibrary.h"
 
 @implementation SingleLineCardFormViewModel
 
 - (instancetype)init {
-    self = [super init];
-    if (self) {
+  self = [super init];
+  if (self) {
 
-      // Default display configuration
-      self.cvcDisplayed = YES;
-      self.cvcRequired = NO;
+    // Default display configuration
+    self.cvcDisplayed = YES;
+    self.cvcRequired = NO;
 
-      // Default display configuration
-      self.postalCodeDisplayed = YES;
-      self.postalCodeRequired = NO;
-    }
-    return self;
+    // Default display configuration
+    self.postalCodeDisplayed = YES;
+    self.postalCodeRequired = NO;
+  }
+  return self;
 }
 
 - (void)setCardNumber:(NSString *)cardNumber {

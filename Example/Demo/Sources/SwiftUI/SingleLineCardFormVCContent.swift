@@ -33,7 +33,7 @@ struct SingleLineCardFormVCContent: View {
 struct SingleLineCardFormUI: UIViewRepresentable {
   let cardForm = SingleLineCardForm(
     authorization: sharedSPAuthorization,
-    fieldOptions: .default
+    fieldOptions: .init(cvv: .init(display: .required), postalCode: .init(display: .none))
   )
 
   func makeUIView(context: Context) -> SingleLineCardForm {

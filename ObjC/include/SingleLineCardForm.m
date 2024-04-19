@@ -11,9 +11,9 @@
 #import "NSString+Extras.h"
 #import "SPCardValidator+Extras.h"
 #import "SPFormTextField.h"
-#import "SPImageLibrary.h"
 #import "SingleLineCardForm.h"
 #import "SingleLineCardFormViewModel.h"
+#import "CardLogoImageViewManager.h"
 
 @interface SingleLineCardForm () <SPFormTextFieldDelegate>
 
@@ -28,12 +28,7 @@
 @property(nonatomic, readwrite, strong) SPFormTextField *sizingField;
 @property(nonatomic, readwrite, strong) UILabel *sizingLabel;
 
-/*
- These track the input parameters to the brand image setter so that we can
- later perform proper transition animations when new values are set
- */
-@property(nonatomic, assign) SPCardFieldType currentBrandImageFieldType;
-@property(nonatomic, assign) SPCardBrand currentBrandImageBrand;
+@property(nonatomic, strong) CardLogoImageViewManager *cardLogoImageViewManager;
 
 /**
  This is a number-wrapped SPCardFieldType (or nil) that layout uses
@@ -130,12 +125,12 @@ CGFloat const SingleLineCardFormMinimumPadding = 10;
   _sizingField.formDelegate = nil;
   _sizingLabel = [UILabel new];
 
-  UIImageView *brandImageView =
-  [[UIImageView alloc] initWithImage:self.brandImage];
+  UIImageView *brandImageView = [[UIImageView alloc] initWithImage:nil];
   brandImageView.contentMode = UIViewContentModeCenter;
   brandImageView.backgroundColor = [UIColor clearColor];
   brandImageView.tintColor = self.placeholderColor;
   self.brandImageView = brandImageView;
+  [self updateImageForFieldType:SPCardFieldTypeNumber];
 
   SPFormTextField *numberField = [self buildTextField];
   // This does not offer quick-type suggestions (as iOS 11.2), but does pick
@@ -206,6 +201,13 @@ CGFloat const SingleLineCardFormMinimumPadding = 10;
     _viewModel = [SingleLineCardFormViewModel new];
   }
   return _viewModel;
+}
+
+- (CardLogoImageViewManager *)cardLogoImageViewManager {
+  if (_cardLogoImageViewManager == nil) {
+    _cardLogoImageViewManager = [[CardLogoImageViewManager alloc] init];
+  }
+  return _cardLogoImageViewManager;
 }
 
 #pragma mark appearance properties
@@ -1512,99 +1514,14 @@ typedef NS_ENUM(NSInteger, SPFieldEditingTransitionCallSite) {
 }
 
 - (UIImage *)brandImage {
-  SPCardFieldType fieldType = SPCardFieldTypeNumber;
-  if (self.currentFirstResponderField) {
-    fieldType = self.currentFirstResponderField.tag;
-  }
-  SPCardValidationState validationState =
-  [self.viewModel validationStateForField:fieldType];
-  return [self brandImageForFieldType:fieldType
-                      validationState:validationState];
-}
-
-+ (UIImage *)cvcImageForCardBrand:(SPCardBrand)cardBrand {
-  return [SPImageLibrary cvcImageForCardBrand:cardBrand];
-}
-
-+ (UIImage *)brandImageForCardBrand:(SPCardBrand)cardBrand {
-  return [SPImageLibrary brandImageForCardBrand:cardBrand];
-}
-
-+ (UIImage *)errorImageForCardBrand:(SPCardBrand)cardBrand {
-  return [SPImageLibrary errorImageForCardBrand:cardBrand];
-}
-
-- (UIImage *)brandImageForFieldType:(SPCardFieldType)fieldType
-                    validationState:(SPCardValidationState)validationState {
-  switch (fieldType) {
-    case SPCardFieldTypeNumber:
-      if (validationState == SPCardValidationStateInvalid) {
-        return [self.class errorImageForCardBrand:self.viewModel.brand];
-      } else {
-        return [self.class brandImageForCardBrand:self.viewModel.brand];
-      }
-    case SPCardFieldTypeCVC:
-      return [self.class cvcImageForCardBrand:self.viewModel.brand];
-    case SPCardFieldTypeExpiration:
-      return [self.class brandImageForCardBrand:self.viewModel.brand];
-    case SPCardFieldTypePostalCode:
-      return [self.class brandImageForCardBrand:self.viewModel.brand];
-  }
-}
-
-- (UIViewAnimationOptions)
-brandImageAnimationOptionsForNewType:(SPCardFieldType)newType
-newBrand:(SPCardBrand)newBrand
-oldType:(SPCardFieldType)oldType
-oldBrand:(SPCardBrand)oldBrand {
-
-  if (newType == SPCardFieldTypeCVC && oldType != SPCardFieldTypeCVC) {
-    // Transitioning to show CVC
-
-    if (newBrand != SPCardBrandAmex) {
-      // CVC is on the back
-      return (UIViewAnimationOptionCurveEaseInOut |
-              UIViewAnimationOptionTransitionFlipFromRight);
-    }
-  } else if (newType != SPCardFieldTypeCVC && oldType == SPCardFieldTypeCVC) {
-    // Transitioning to stop showing CVC
-
-    if (oldBrand != SPCardBrandAmex) {
-      // CVC was on the back
-      return (UIViewAnimationOptionCurveEaseInOut |
-              UIViewAnimationOptionTransitionFlipFromLeft);
-    }
-  }
-
-  // All other cases just cross dissolve
-  return (UIViewAnimationOptionCurveEaseInOut |
-          UIViewAnimationOptionTransitionCrossDissolve);
+  return self.brandImageView.image;
 }
 
 - (void)updateImageForFieldType:(SPCardFieldType)fieldType {
-  SPCardValidationState validationState = [self.viewModel validationStateForField:fieldType];
-  UIImage *image = [self brandImageForFieldType:fieldType
-                                validationState:validationState];
-  if (![image isEqual:self.brandImageView.image]) {
-
-    SPCardBrand newBrand = self.viewModel.brand;
-    UIViewAnimationOptions imageAnimationOptions = [self
-                                                    brandImageAnimationOptionsForNewType:fieldType
-                                                    newBrand:newBrand
-                                                    oldType:self.currentBrandImageFieldType
-                                                    oldBrand:self.currentBrandImageBrand];
-
-    self.currentBrandImageFieldType = fieldType;
-    self.currentBrandImageBrand = newBrand;
-
-    [UIView transitionWithView:self.brandImageView
-                      duration:0.2
-                       options:imageAnimationOptions
-                    animations:^{
-      self.brandImageView.image = image;
-    }
-                    completion:nil];
-  }
+  [self.cardLogoImageViewManager updateImageView:self.brandImageView
+                                    fieldType:fieldType
+                                        brand:self.viewModel.brand
+                                   validation:[self.viewModel validationStateForField:fieldType]];
 }
 
 - (NSString *)defaultCVCPlaceholder {

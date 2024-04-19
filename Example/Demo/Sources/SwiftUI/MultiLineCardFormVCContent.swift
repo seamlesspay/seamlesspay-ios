@@ -26,7 +26,6 @@ struct MultiLineCardFormVCContent: View {
           .cornerRadius(5)
       }
     }
-    .padding(20)
   }
 }
 
