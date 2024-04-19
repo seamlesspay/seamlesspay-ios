@@ -67,6 +67,8 @@ public final class MultiLineCardForm: UIControl {
     return textField
   }()
 
+  private let fieldsView = UIView()
+
   // MARK: Init
   override public init(frame: CGRect) {
     super.init(frame: frame)
@@ -94,9 +96,21 @@ public final class MultiLineCardForm: UIControl {
 
   // MARK: Private
   private func setupViews() {
-    // Set background color
     backgroundColor = .gray
-    clipsToBounds = true // Set self to clip to bounds
+
+    fieldsView.clipsToBounds = true
+    fieldsView.backgroundColor = .red
+
+    addSubview(fieldsView)
+
+    fieldsView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate(
+      [
+        fieldsView.centerYAnchor.constraint(equalTo: centerYAnchor),
+        fieldsView.centerXAnchor.constraint(equalTo: centerXAnchor),
+        fieldsView.widthAnchor.constraint(equalTo: widthAnchor),
+      ]
+    )
 
     configureTextField(numberField)
     numberField.textContentType = UITextContentType.creditCardNumber
@@ -116,50 +130,60 @@ public final class MultiLineCardForm: UIControl {
     postalCodeField.textContentType = UITextContentType.postalCode
     postalCodeField.tag = SPCardFieldType.postalCode.rawValue
 
-    addSubview(numberField)
-    addSubview(expirationField)
-    addSubview(cvcField)
-    addSubview(postalCodeField)
-    addSubview(brandImageView)
+    fieldsView.addSubview(numberField)
+    fieldsView.addSubview(brandImageView)
+    fieldsView.addSubview(expirationField)
+    fieldsView.addSubview(cvcField)
+    fieldsView.addSubview(postalCodeField)
 
     numberField.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      numberField.topAnchor.constraint(equalTo: topAnchor, constant: 0),
-      numberField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0),
-      numberField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -44),
-      numberField.heightAnchor.constraint(equalToConstant: 44),
-    ])
+    NSLayoutConstraint.activate(
+      [
+        numberField.topAnchor.constraint(equalTo: fieldsView.topAnchor, constant: 0),
+        numberField.leadingAnchor.constraint(equalTo: fieldsView.leadingAnchor, constant: 0),
+        numberField.trailingAnchor.constraint(equalTo: fieldsView.trailingAnchor, constant: -44),
+        numberField.heightAnchor.constraint(equalToConstant: 44),
+      ]
+    )
 
     brandImageView.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      brandImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
-      brandImageView.centerYAnchor.constraint(equalTo: numberField.centerYAnchor),
-    ])
+    NSLayoutConstraint.activate(
+      [
+        brandImageView.trailingAnchor.constraint(equalTo: fieldsView.trailingAnchor, constant: -10),
+        brandImageView.centerYAnchor.constraint(equalTo: numberField.centerYAnchor),
+      ]
+    )
 
     expirationField.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      expirationField.topAnchor.constraint(equalTo: numberField.bottomAnchor, constant: 10),
-      expirationField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0),
-      expirationField.trailingAnchor.constraint(equalTo: cvcField.leadingAnchor, constant: -10),
-      expirationField.widthAnchor.constraint(equalTo: cvcField.widthAnchor, multiplier: 1.5),
-      expirationField.heightAnchor.constraint(equalToConstant: 44),
-    ])
+    NSLayoutConstraint.activate(
+      [
+        expirationField.topAnchor.constraint(equalTo: numberField.bottomAnchor, constant: 10),
+        expirationField.leadingAnchor.constraint(equalTo: fieldsView.leadingAnchor, constant: 0),
+        expirationField.trailingAnchor.constraint(equalTo: cvcField.leadingAnchor, constant: -10),
+        expirationField.widthAnchor.constraint(equalTo: cvcField.widthAnchor, multiplier: 1.5),
+        expirationField.heightAnchor.constraint(equalToConstant: 44),
+      ]
+    )
 
     cvcField.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      cvcField.topAnchor.constraint(equalTo: expirationField.topAnchor),
-      cvcField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -0),
-      cvcField.heightAnchor.constraint(equalToConstant: 44),
-    ])
+    NSLayoutConstraint.activate(
+      [
+        cvcField.topAnchor.constraint(equalTo: expirationField.topAnchor),
+        cvcField.trailingAnchor.constraint(equalTo: fieldsView.trailingAnchor, constant: -0),
+        cvcField.heightAnchor.constraint(equalToConstant: 44),
+      ]
+    )
 
     postalCodeField.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      postalCodeField.topAnchor.constraint(equalTo: cvcField.bottomAnchor, constant: 10),
-      postalCodeField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0),
-      postalCodeField.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -0),
-      postalCodeField.heightAnchor.constraint(equalToConstant: 44),
-      postalCodeField.widthAnchor.constraint(equalTo: expirationField.widthAnchor),
-    ])
+    NSLayoutConstraint.activate(
+      [
+        postalCodeField.topAnchor.constraint(equalTo: cvcField.bottomAnchor, constant: 10),
+        postalCodeField.leadingAnchor.constraint(equalTo: fieldsView.leadingAnchor, constant: 0),
+        postalCodeField.bottomAnchor.constraint(equalTo: fieldsView.bottomAnchor, constant: -0),
+        postalCodeField.heightAnchor.constraint(equalToConstant: 44),
+        postalCodeField.widthAnchor.constraint(equalTo: expirationField.widthAnchor),
+      ]
+    )
 
     numberField.backgroundColor = .yellow
     expirationField.backgroundColor = .green
@@ -181,10 +205,18 @@ private extension MultiLineCardForm {
     textField.formDelegate = self
     textField.validText = true
   }
+
+  func updateCardNumberFiled() {
+    let validationResult = viewModel.validationState(for: .number)
+  }
 }
 
+// MARK: SPFormTextFieldDelegate
 extension MultiLineCardForm: SPFormTextFieldDelegate {
   public func formTextFieldTextDidChange(_ textField: SPFormTextField) {
-    
+    let cardFiledType = SPCardFieldType(rawValue: textField.tag)
+    if cardFiledType == .number {
+      updateCardNumberFiled()
+    }
   }
 }

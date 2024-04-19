@@ -1,20 +1,20 @@
-/**
- * Copyright (c) Seamless Payments, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
+// **
+// * Copyright (c) Seamless Payments, Inc.
+// *
+// * This source code is licensed under the MIT license found in the
+// * LICENSE file in the root directory of this source tree.
+// *
 
 import SwiftUI
 import SeamlessPay
 
-struct MultiLineCardFormView: View {
+struct MultiLineCardFormVCContent: View {
   var cardFormUI = MultiLineCardFormUI()
 
   var body: some View {
     VStack {
       cardFormUI
-        
+
       Button {
         cardFormUI.submit()
       } label: {
@@ -42,13 +42,5 @@ struct MultiLineCardFormUI: UIViewRepresentable {
 
   func updateUIView(_ uiView: MultiLineCardForm, context: Context) {}
 
-  func submit() {
-    cardForm.setAuthorization(sharedSPAuthorization)
-  }
-}
-
-@objcMembers class ViewControllers: NSObject {
-  final class func multiLineCardForm() -> UIViewController {
-    UIHostingController(rootView: MultiLineCardFormView())
-  }
+  func submit() {}
 }

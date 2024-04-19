@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6334161B2BCFA97000AEDD0D /* MultiLineCardFormVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6334161A2BCFA97000AEDD0D /* MultiLineCardFormVC.swift */; };
 		636896CA2BB5F165000E5811 /* SeamlessPay in Frameworks */ = {isa = PBXBuildFile; productRef = 636896C92BB5F165000E5811 /* SeamlessPay */; };
 		6383CB4D2AF6B05800A115B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6383CB4C2AF6AE9B00A115B9 /* AppDelegate.swift */; };
 		6383CB4E2AF6B05C00A115B9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6383CB4B2AF6AE9B00A115B9 /* SceneDelegate.swift */; };
@@ -16,6 +15,9 @@
 		6384F11C2AED71410038AE4D /* SingleLineCardFormVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1072AED71410038AE4D /* SingleLineCardFormVC.swift */; };
 		6384F11E2AED71410038AE4D /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1092AED71410038AE4D /* DetailViewController.m */; };
 		6384F1262AED71410038AE4D /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6384F1132AED71410038AE4D /* MasterViewController.m */; };
+		6388FB682BD295F500887A57 /* VCs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6388FB672BD295F500887A57 /* VCs.swift */; };
+		6388FB6A2BD2964100887A57 /* MultiLineCardFormVCContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6388FB692BD2964100887A57 /* MultiLineCardFormVCContent.swift */; };
+		6388FB6C2BD2965800887A57 /* SingleLineCardFormVCContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6388FB6B2BD2965800887A57 /* SingleLineCardFormVCContent.swift */; };
 		63BBDA782AED726600DD4267 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63BBDA742AED726600DD4267 /* LaunchScreen.storyboard */; };
 		63BBDA792AED726600DD4267 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63BBDA752AED726600DD4267 /* Assets.xcassets */; };
 		63BBDA7A2AED726600DD4267 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63BBDA762AED726600DD4267 /* Main.storyboard */; };
@@ -26,7 +28,6 @@
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		6334161A2BCFA97000AEDD0D /* MultiLineCardFormVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiLineCardFormVC.swift; sourceTree = "<group>"; };
 		6383CB4B2AF6AE9B00A115B9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		6383CB4C2AF6AE9B00A115B9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		638437852BA7935E003403C1 /* SharedSeamlessPayAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedSeamlessPayAPIClient.swift; sourceTree = "<group>"; };
@@ -37,6 +38,9 @@
 		6384F10B2AED71410038AE4D /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
 		6384F1132AED71410038AE4D /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
 		6384F1142AED71410038AE4D /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		6388FB672BD295F500887A57 /* VCs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCs.swift; sourceTree = "<group>"; };
+		6388FB692BD2964100887A57 /* MultiLineCardFormVCContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiLineCardFormVCContent.swift; sourceTree = "<group>"; };
+		6388FB6B2BD2965800887A57 /* SingleLineCardFormVCContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleLineCardFormVCContent.swift; sourceTree = "<group>"; };
 		63BBDA742AED726600DD4267 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		63BBDA752AED726600DD4267 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		63BBDA762AED726600DD4267 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -110,6 +114,7 @@
 		6384F1022AED71410038AE4D /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				6388FB662BD295E100887A57 /* SwiftUI */,
 				6384F1062AED71410038AE4D /* SeamlessPayDemo-Bridging-Header.h */,
 				638437872BA871E3003403C1 /* DetailViewController */,
 				638437882BA8720D003403C1 /* MasterViewController */,
@@ -117,9 +122,18 @@
 				6383CB4B2AF6AE9B00A115B9 /* SceneDelegate.swift */,
 				6384F1072AED71410038AE4D /* SingleLineCardFormVC.swift */,
 				638437852BA7935E003403C1 /* SharedSeamlessPayAPIClient.swift */,
-				6334161A2BCFA97000AEDD0D /* MultiLineCardFormVC.swift */,
 			);
 			path = Sources;
+			sourceTree = "<group>";
+		};
+		6388FB662BD295E100887A57 /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				6388FB672BD295F500887A57 /* VCs.swift */,
+				6388FB692BD2964100887A57 /* MultiLineCardFormVCContent.swift */,
+				6388FB6B2BD2965800887A57 /* SingleLineCardFormVCContent.swift */,
+			);
+			path = SwiftUI;
 			sourceTree = "<group>";
 		};
 		63BBDA732AED726600DD4267 /* Resources */ = {
@@ -254,14 +268,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6388FB6A2BD2964100887A57 /* MultiLineCardFormVCContent.swift in Sources */,
+				6388FB682BD295F500887A57 /* VCs.swift in Sources */,
 				6383CB4E2AF6B05C00A115B9 /* SceneDelegate.swift in Sources */,
-				6334161B2BCFA97000AEDD0D /* MultiLineCardFormVC.swift in Sources */,
 				6383CB4D2AF6B05800A115B9 /* AppDelegate.swift in Sources */,
 				6384F1262AED71410038AE4D /* MasterViewController.m in Sources */,
 				6384F11E2AED71410038AE4D /* DetailViewController.m in Sources */,
 				6384F11C2AED71410038AE4D /* SingleLineCardFormVC.swift in Sources */,
 				6384F11B2AED71410038AE4D /* DetailViewController+Swift.swift in Sources */,
 				638437862BA7935E003403C1 /* SharedSeamlessPayAPIClient.swift in Sources */,
+				6388FB6C2BD2965800887A57 /* SingleLineCardFormVCContent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

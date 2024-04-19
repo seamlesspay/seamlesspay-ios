@@ -1582,8 +1582,7 @@ oldBrand:(SPCardBrand)oldBrand {
 }
 
 - (void)updateImageForFieldType:(SPCardFieldType)fieldType {
-  SPCardValidationState validationState =
-  [self.viewModel validationStateForField:fieldType];
+  SPCardValidationState validationState = [self.viewModel validationStateForField:fieldType];
   UIImage *image = [self brandImageForFieldType:fieldType
                                 validationState:validationState];
   if (![image isEqual:self.brandImageView.image]) {
