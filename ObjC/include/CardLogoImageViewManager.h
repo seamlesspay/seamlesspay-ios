@@ -6,7 +6,7 @@
 // *
 
 #import <UIKit/UIKit.h>
-#import "SingleLineCardFormViewModel.h"
+#import "CardFormViewModel.h"
 
 @interface CardLogoImageViewManager : NSObject
 

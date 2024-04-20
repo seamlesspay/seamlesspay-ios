@@ -9,13 +9,13 @@ import XCTest
 @testable import SeamlessPayObjC
 @testable import SeamlessPay
 
-final class SingleLineCardFormViewModelTest: XCTestCase {
-  var viewModel: SingleLineCardFormViewModel!
+final class CardFormViewModelTest: XCTestCase {
+  var viewModel: CardFormViewModel!
 
   override func setUp() {
     super.setUp()
 
-    viewModel = SingleLineCardFormViewModel()
+    viewModel = CardFormViewModel()
   }
 
   override func tearDown() {

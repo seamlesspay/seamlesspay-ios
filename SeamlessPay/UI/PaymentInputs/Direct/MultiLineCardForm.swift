@@ -9,18 +9,6 @@ import UIKit
 
 public class MultiLineCardForm: CardForm {
   // MARK: Private
-  private var viewModel: SingleLineCardFormViewModel {
-    class_getInstanceVariable(
-      type(of: self),
-      "_viewModel"
-    )
-    .flatMap {
-      object_getIvar(self, $0)
-    }
-    .flatMap {
-      $0 as? SingleLineCardFormViewModel
-    }!
-  }
 
   // MARK: Subviews
   private var numberField: SPFormTextField {
@@ -101,34 +89,11 @@ public class MultiLineCardForm: CardForm {
     }!
   }
 
-  // MARK: Init
-  public convenience init(
-    authorization: Authorization,
-    fieldOptions: FieldOptions = .default
-  ) {
-    self.init()
-    setAuthorization(authorization)
-    setFieldOptions(fieldOptions)
-  }
-
-  // MARK: Public
-  public func setAuthorization(_ authorization: Authorization) {}
-
-  public func setFieldOptions(_ fieldOptions: FieldOptions) {}
-
   // MARK: Override
   override public func commonInit() {
     super.commonInit()
 
     constraintViews()
-
-    // TODO: Remove
-//    backgroundColor = .gray
-//    numberField.backgroundColor = .yellow
-//    expirationField.backgroundColor = .green
-//    cvcField.backgroundColor = .blue
-//    postalCodeField.backgroundColor = .orange
-//    fieldsView.backgroundColor = .white
   }
 }
 

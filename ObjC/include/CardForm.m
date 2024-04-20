@@ -12,7 +12,7 @@
 #import "SPCardValidator+Extras.h"
 #import "SPFormTextField.h"
 #import "CardForm.h"
-#import "SingleLineCardFormViewModel.h"
+#import "CardFormViewModel.h"
 #import "CardLogoImageViewManager.h"
 
 @interface CardForm () <SPFormTextFieldDelegate>
@@ -23,7 +23,7 @@
 @property(nonatomic, readwrite, weak) SPFormTextField *expirationField;
 @property(nonatomic, readwrite, weak) SPFormTextField *cvcField;
 @property(nonatomic, readwrite, weak) SPFormTextField *postalCodeField;
-@property(nonatomic, readwrite, strong)SingleLineCardFormViewModel *viewModel;
+@property(nonatomic, readwrite, strong)CardFormViewModel *viewModel;
 @property(nonatomic, strong) NSArray<SPFormTextField *> *allFields;
 
 @property(nonatomic, strong) CardLogoImageViewManager *cardLogoImageViewManager;
@@ -92,7 +92,7 @@
 
   self.clipsToBounds = YES;
 
-  _viewModel = [SingleLineCardFormViewModel new];
+  _viewModel = [CardFormViewModel new];
 
   UIImageView *brandImageView = [[UIImageView alloc] initWithImage:nil];
   brandImageView.contentMode = UIViewContentModeCenter;
@@ -161,9 +161,9 @@
   self.countryCode = [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];
 }
 
-- (SingleLineCardFormViewModel *)viewModel {
+- (CardFormViewModel *)viewModel {
   if (_viewModel == nil) {
-    _viewModel = [SingleLineCardFormViewModel new];
+    _viewModel = [CardFormViewModel new];
   }
   return _viewModel;
 }
@@ -539,7 +539,7 @@
   for (SPFormTextField *field in [self allFields]) {
     field.text = @"";
   }
-  self.viewModel = [SingleLineCardFormViewModel new];
+  self.viewModel = [CardFormViewModel new];
   [self onChange];
   [self updateImageForFieldType:SPCardFieldTypeNumber];
   [self updateCVCPlaceholder];

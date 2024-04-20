@@ -12,7 +12,7 @@
 #import "SPCardValidator+Extras.h"
 #import "SPFormTextField.h"
 #import "SingleLineCardForm.h"
-#import "SingleLineCardFormViewModel.h"
+#import "CardFormViewModel.h"
 
 @interface CardForm (Private)
 @property(nonatomic, readwrite, weak) UIImageView *brandImageView;
@@ -21,7 +21,7 @@
 @property(nonatomic, readwrite, weak) SPFormTextField *expirationField;
 @property(nonatomic, readwrite, weak) SPFormTextField *cvcField;
 @property(nonatomic, readwrite, weak) SPFormTextField *postalCodeField;
-@property(nonatomic, readwrite, strong)SingleLineCardFormViewModel *viewModel;
+@property(nonatomic, readwrite, strong)CardFormViewModel *viewModel;
 @property(nonatomic, strong) NSArray<SPFormTextField *> *allFields;
 
 - (NSString *)defaultPostalFieldPlaceholderForCountryCode:(NSString *)countryCode;

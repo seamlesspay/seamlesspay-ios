@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-#import "SingleLineCardFormViewModel.h"
+#import "CardFormViewModel.h"
 #import "NSString+Extras.h"
 #import "SPCardValidator+Extras.h"
 #import "SPPostalCodeValidator.h"
 #import "SPImageLibrary.h"
 
-@implementation SingleLineCardFormViewModel
+@implementation CardFormViewModel
 
 - (instancetype)init {
   self = [super init];

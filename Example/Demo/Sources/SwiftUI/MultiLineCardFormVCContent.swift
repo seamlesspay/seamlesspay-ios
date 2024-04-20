@@ -18,7 +18,7 @@ struct MultiLineCardFormVCContent: View {
         .padding(20)
 
       Button {
-        cardFormUI.submit()
+        cardFormUI.submit(.init(amount: "101")) { _ in }
       } label: {
         Text("Pay")
           .font(.system(size: 22))
@@ -43,5 +43,24 @@ struct MultiLineCardFormUI: UIViewRepresentable {
 
   func updateUIView(_ uiView: MultiLineCardForm, context: Context) {}
 
-  func submit() {}
+  func makeCoordinator() -> MultiLineCardFormUICoordinator {
+    MultiLineCardFormUICoordinator(cardFormUI: self)
+  }
+
+  func submit(
+    _ request: PaymentRequest,
+    completion: ((Result<PaymentResponse, SeamlessPayError>) -> Void)?
+  ) {
+    cardForm.submit(request, completion: completion)
+  }
+}
+
+class MultiLineCardFormUICoordinator: NSObject, CardFormDelegate {
+  let cardFormUI: MultiLineCardFormUI
+  init(cardFormUI: MultiLineCardFormUI) {
+    self.cardFormUI = cardFormUI
+  }
+
+  // MARK: CardFormDelegate
+  func cardFormDidChange(_ view: CardForm) {}
 }

@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "CardLogoImageViewManager.h"
-#import "SingleLineCardFormViewModel.h"
+#import "CardFormViewModel.h"
 #import "SPImageLibrary.h"
 
 @implementation CardLogoImageViewManager {

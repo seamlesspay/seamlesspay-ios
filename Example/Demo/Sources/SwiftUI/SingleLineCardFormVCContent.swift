@@ -16,7 +16,8 @@ struct SingleLineCardFormVCContent: View {
       cardFormUI
 
       Button {
-        cardFormUI.submit()
+        cardFormUI.submit(.init(amount: "101")) { _ in
+        }
       } label: {
         Text("Pay with Single line card form")
           .font(.system(size: 22))
@@ -42,5 +43,10 @@ struct SingleLineCardFormUI: UIViewRepresentable {
 
   func updateUIView(_ uiView: SingleLineCardForm, context: Context) {}
 
-  func submit() {}
+  func submit(
+    _ request: PaymentRequest,
+    completion: ((Result<PaymentResponse, SeamlessPayError>) -> Void)?
+  ) {
+    cardForm.submit(request, completion: completion)
+  }
 }
