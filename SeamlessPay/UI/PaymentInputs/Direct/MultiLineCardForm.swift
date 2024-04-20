@@ -8,85 +8,29 @@
 import UIKit
 
 public class MultiLineCardForm: CardForm {
-  // MARK: Private
-
   // MARK: Subviews
   private var numberField: SPFormTextField {
-    class_getInstanceVariable(
-      type(of: self),
-      "_numberField"
-    )
-    .flatMap {
-      object_getIvar(self, $0)
-    }
-    .flatMap {
-      $0 as? SPFormTextField
-    }!
+    getInstanceVariable("_numberField")!
   }
 
   private var expirationField: SPFormTextField {
-    class_getInstanceVariable(
-      type(of: self),
-      "_expirationField"
-    )
-    .flatMap {
-      object_getIvar(self, $0)
-    }
-    .flatMap {
-      $0 as? SPFormTextField
-    }!
+    getInstanceVariable("_expirationField")!
   }
 
   private var cvcField: SPFormTextField {
-    class_getInstanceVariable(
-      type(of: self),
-      "_cvcField"
-    )
-    .flatMap {
-      object_getIvar(self, $0)
-    }
-    .flatMap {
-      $0 as? SPFormTextField
-    }!
+    getInstanceVariable("_cvcField")!
   }
 
   private var postalCodeField: SPFormTextField {
-    class_getInstanceVariable(
-      type(of: self),
-      "_postalCodeField"
-    )
-    .flatMap {
-      object_getIvar(self, $0)
-    }
-    .flatMap {
-      $0 as? SPFormTextField
-    }!
+    getInstanceVariable("_postalCodeField")!
   }
 
   private var fieldsView: UIView {
-    class_getInstanceVariable(
-      type(of: self),
-      "_fieldsView"
-    )
-    .flatMap {
-      object_getIvar(self, $0)
-    }
-    .flatMap {
-      $0 as? UIView
-    }!
+    getInstanceVariable("_fieldsView")!
   }
 
   private var brandImageView: UIImageView {
-    class_getInstanceVariable(
-      type(of: self),
-      "_brandImageView"
-    )
-    .flatMap {
-      object_getIvar(self, $0)
-    }
-    .flatMap {
-      $0 as? UIImageView
-    }!
+    getInstanceVariable("_brandImageView")!
   }
 
   // MARK: Override
@@ -169,4 +113,18 @@ private extension MultiLineCardForm {
   }
 }
 
-private extension MultiLineCardForm {}
+// MARK: Get Instance Variable
+private extension MultiLineCardForm {
+  func getInstanceVariable<T>(_ propertyName: String) -> T? {
+    class_getInstanceVariable(
+      type(of: self),
+      propertyName
+    )
+    .flatMap {
+      object_getIvar(self, $0)
+    }
+    .flatMap {
+      $0 as? T
+    }
+  }
+}
