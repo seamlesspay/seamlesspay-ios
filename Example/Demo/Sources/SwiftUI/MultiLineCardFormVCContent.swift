@@ -14,6 +14,8 @@ struct MultiLineCardFormVCContent: View {
   var body: some View {
     VStack {
       cardFormUI
+        .frame(height: 200)
+        .padding(20)
 
       Button {
         cardFormUI.submit()
