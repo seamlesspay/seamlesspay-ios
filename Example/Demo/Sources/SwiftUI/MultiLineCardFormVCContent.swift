@@ -14,7 +14,7 @@ struct MultiLineCardFormVCContent: View {
   var body: some View {
     VStack {
       cardFormUI
-        .frame(height: 200)
+        .frame(height: 300)
         .padding(20)
 
       Button {
@@ -34,7 +34,7 @@ struct MultiLineCardFormVCContent: View {
 struct MultiLineCardFormUI: UIViewRepresentable {
   let cardForm = MultiLineCardForm(
     authorization: sharedSPAuthorization,
-    fieldOptions: .default
+    fieldOptions: .init(cvv: .init(display: .required), postalCode: .init(display: .none))
   )
 
   func makeUIView(context: Context) -> MultiLineCardForm {

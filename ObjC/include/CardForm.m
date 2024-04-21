@@ -85,7 +85,7 @@
   // called, and won't override properties that have already been customized
   _borderColor = [self.class placeholderGrayColor];
   _cornerRadius = 5.0f;
-  _borderWidth = 1.0f;
+  _borderWidth = 0.5f;
   self.layer.borderColor = [[_borderColor copy] CGColor];
   self.layer.cornerRadius = _cornerRadius;
   self.layer.borderWidth = _borderWidth;

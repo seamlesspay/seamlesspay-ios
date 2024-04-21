@@ -34,21 +34,32 @@ public class MultiLineCardForm: CardForm {
   }
 
   // MARK: Override
-  override public func commonInit() {
-    super.commonInit()
+  override public init(frame: CGRect) {
+    super.init(frame: frame)
+    commonInit()
+  }
 
+  required init?(coder: NSCoder) {
+    super.init(coder: coder)
+    commonInit()
+  }
+}
+
+// MARK: Set Up Views
+private extension MultiLineCardForm {
+  func commonInit() {
+    configureViews()
     constraintViews()
+  }
 
+  func configureViews() {
     numberField.borderStyle = .roundedRect
     expirationField.borderStyle = .roundedRect
     cvcField.borderStyle = .roundedRect
     postalCodeField.borderStyle = .roundedRect
     borderWidth = 0.5
   }
-}
 
-// MARK: Set Up Views
-private extension MultiLineCardForm {
   func constraintViews() {
     fieldsView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate(

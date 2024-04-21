@@ -100,7 +100,7 @@ IB_DESIGNABLE
 /**
  The width of the field's border.
 
- Default is 1.0.
+ Default is 0.5.
  */
 @property(nonatomic, assign) CGFloat borderWidth UI_APPEARANCE_SELECTOR;
 
@@ -179,8 +179,6 @@ IB_DESIGNABLE
  being edited, the number field will become selected.
  */
 - (void)clear;
-
-- (void)commonInit;
 
 @end
 

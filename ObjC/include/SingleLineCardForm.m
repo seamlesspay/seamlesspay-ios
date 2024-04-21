@@ -67,9 +67,25 @@ CGFloat const SingleLineCardFormMinimumPadding = 10;
 
 #pragma mark initializers
 
-- (void)commonInit {
-  [super commonInit];
+#pragma mark Initializers
 
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+  self = [super initWithCoder:aDecoder];
+  if (self) {
+    [self singleLineCardFormCommonInit];
+  }
+  return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame {
+  self = [super initWithFrame:frame];
+  if (self) {
+    [self singleLineCardFormCommonInit];
+  }
+  return self;
+}
+
+- (void)singleLineCardFormCommonInit {
   self.expirationField.alpha = 0;
   self.cvcField.alpha = 0;
   self.postalCodeField.alpha = 0;
@@ -80,6 +96,7 @@ CGFloat const SingleLineCardFormMinimumPadding = 10;
 
   self.focusedTextFieldForLayout = nil;
 }
+
 
 - (void)clearSizingCache {
   self.textToWidthCache = [NSMutableDictionary new];

@@ -12,17 +12,11 @@ import UIKit
 public extension CardForm {
   convenience init(authorization: Authorization, fieldOptions: FieldOptions = .default) {
     self.init()
-    setAuthorization(authorization)
+    apiClient = .init(authorization: authorization)
     setFieldOptions(fieldOptions)
   }
 
-  func setAuthorization(
-    _ authorization: Authorization
-  ) {
-    apiClient = .init(authorization: authorization)
-  }
-
-  func setFieldOptions(_ fieldOptions: FieldOptions) {
+  private func setFieldOptions(_ fieldOptions: FieldOptions) {
     viewModel?.cvcDisplayed = fieldOptions.cvv.display != .none
     viewModel?.cvcRequired = fieldOptions.cvv.display == .required
 
