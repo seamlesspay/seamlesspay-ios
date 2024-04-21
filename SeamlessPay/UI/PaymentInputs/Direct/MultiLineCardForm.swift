@@ -38,6 +38,12 @@ public class MultiLineCardForm: CardForm {
     super.commonInit()
 
     constraintViews()
+
+    numberField.borderStyle = .roundedRect
+    expirationField.borderStyle = .roundedRect
+    cvcField.borderStyle = .roundedRect
+    postalCodeField.borderStyle = .roundedRect
+    borderWidth = 0.5
   }
 }
 
@@ -63,7 +69,7 @@ private extension MultiLineCardForm {
         ),
         numberField.trailingAnchor.constraint(
           equalTo: fieldsView.trailingAnchor,
-          constant: -44
+          constant: -52
         ),
         numberField.heightAnchor.constraint(equalToConstant: 44),
       ]

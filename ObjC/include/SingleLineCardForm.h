@@ -68,5 +68,12 @@
 IB_DESIGNABLE
 @interface SingleLineCardForm : CardForm
 
+/**
+ Returns the rectangle in which the receiver draws the text fields.
+ @param bounds The bounding rectangle of the receiver.
+ @return The rectangle in which the receiver draws the text fields.
+ */
+- (CGRect)fieldsRectForBounds:(CGRect)bounds;
+
 @end
 

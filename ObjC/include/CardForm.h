@@ -32,8 +32,7 @@ IB_DESIGNABLE
 
  Set this property to nil to reset to the default.
  */
-@property(nonatomic, copy, null_resettable)
-UIColor *textColor UI_APPEARANCE_SELECTOR;
+@property(nonatomic, copy, null_resettable) UIColor *textColor UI_APPEARANCE_SELECTOR;
 
 /**
  The text color to be used when the user has entered invalid information,
@@ -42,8 +41,7 @@ UIColor *textColor UI_APPEARANCE_SELECTOR;
  Default is [UIColor redColor]. Set this property to nil to reset to the
  default.
  */
-@property(nonatomic, copy, null_resettable)
-UIColor *textErrorColor UI_APPEARANCE_SELECTOR;
+@property(nonatomic, copy, null_resettable) UIColor *textErrorColor UI_APPEARANCE_SELECTOR;
 
 /**
  The text placeholder color used in each child field.
@@ -53,8 +51,7 @@ UIColor *textErrorColor UI_APPEARANCE_SELECTOR;
  Default is [UIColor systemGray2Color]. Set this property to nil to reset to the
  default.
  */
-@property(nonatomic, copy, null_resettable)
-UIColor *placeholderColor UI_APPEARANCE_SELECTOR;
+@property(nonatomic, copy, null_resettable) UIColor *placeholderColor UI_APPEARANCE_SELECTOR;
 
 /**
  The placeholder for the card number field.
@@ -70,8 +67,7 @@ UIColor *placeholderColor UI_APPEARANCE_SELECTOR;
 /**
  The placeholder for the expiration field. Defaults to @"MM/YY".
  */
-@property(nonatomic, copy, nullable)
-IBInspectable NSString *expirationPlaceholder;
+@property(nonatomic, copy, nullable) IBInspectable NSString *expirationPlaceholder;
 
 /**
  The placeholder for the cvc field. Defaults to @"CVC".
@@ -82,8 +78,7 @@ IBInspectable NSString *expirationPlaceholder;
  The placeholder for the postal code field. Defaults to @"ZIP" for United States
  or @"Postal" for all other country codes.
  */
-@property(nonatomic, copy, nullable)
-IBInspectable NSString *postalCodePlaceholder;
+@property(nonatomic, copy, nullable) IBInspectable NSString *postalCodePlaceholder;
 
 /**
  The cursor color for the field.
@@ -91,8 +86,7 @@ IBInspectable NSString *postalCodePlaceholder;
  This is a proxy for the view's tintColor property, exposed for clarity only
  (in other words, calling setCursorColor is identical to calling setTintColor).
  */
-@property(nonatomic, copy, null_resettable)
-UIColor *cursorColor UI_APPEARANCE_SELECTOR;
+@property(nonatomic, copy, null_resettable) UIColor *cursorColor UI_APPEARANCE_SELECTOR;
 
 /**
  The border color for the field.
@@ -101,8 +95,7 @@ UIColor *cursorColor UI_APPEARANCE_SELECTOR;
 
  Default is [UIColor systemGray2Color].
  */
-@property(nonatomic, copy, nullable)
-UIColor *borderColor UI_APPEARANCE_SELECTOR;
+@property(nonatomic, copy, nullable) UIColor *borderColor UI_APPEARANCE_SELECTOR;
 
 /**
  The width of the field's border.
@@ -123,8 +116,7 @@ UIColor *borderColor UI_APPEARANCE_SELECTOR;
 
  Default is UIKeyboardAppearanceDefault.
  */
-@property(nonatomic, assign)
-UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
+@property(nonatomic, assign) UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
 
 /**
  This behaves identically to setting the inputView for each child text field.
@@ -187,13 +179,6 @@ UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
  being edited, the number field will become selected.
  */
 - (void)clear;
-
-/**
- Returns the rectangle in which the receiver draws the text fields.
- @param bounds The bounding rectangle of the receiver.
- @return The rectangle in which the receiver draws the text fields.
- */
-- (CGRect)fieldsRectForBounds:(CGRect)bounds;
 
 - (void)commonInit;
 
