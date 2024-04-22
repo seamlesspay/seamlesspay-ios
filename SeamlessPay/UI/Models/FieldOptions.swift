@@ -22,15 +22,9 @@ public struct FieldOptions {
 }
 
 public struct FieldConfiguration {
-  public let display: DisplayConfiguration
+  public let display: CardFieldDisplay
 
-  public init(display: DisplayConfiguration) {
+  public init(display: CardFieldDisplay) {
     self.display = display
   }
-}
-
-public enum DisplayConfiguration {
-  case none
-  case optional
-  case required
 }

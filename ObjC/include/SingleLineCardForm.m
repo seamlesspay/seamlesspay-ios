@@ -15,8 +15,8 @@
 #import "CardFormViewModel.h"
 
 @interface CardForm (Private)
-@property(nonatomic, readwrite, weak) UIImageView *brandImageView;
-@property(nonatomic, readwrite, weak) UIView *fieldsView;
+@property(nonatomic, readwrite, strong) UIImageView *brandImageView;
+@property(nonatomic, readwrite, strong) UIView *fieldsView;
 @property(nonatomic, readwrite, weak) SPFormTextField *numberField;
 @property(nonatomic, readwrite, weak) SPFormTextField *expirationField;
 @property(nonatomic, readwrite, weak) SPFormTextField *cvcField;
@@ -86,6 +86,14 @@ CGFloat const SingleLineCardFormMinimumPadding = 10;
 }
 
 - (void)singleLineCardFormCommonInit {
+  [self addSubview:self.fieldsView];
+  
+  for (SPFormTextField *field in self.allFields) {
+    [self.fieldsView addSubview:field];
+  }
+
+  [self addSubview:self.brandImageView];
+
   self.expirationField.alpha = 0;
   self.cvcField.alpha = 0;
   self.postalCodeField.alpha = 0;

@@ -34,7 +34,7 @@ struct MultiLineCardFormVCContent: View {
 struct MultiLineCardFormUI: UIViewRepresentable {
   let cardForm = MultiLineCardForm(
     authorization: sharedSPAuthorization,
-    fieldOptions: .init(cvv: .init(display: .required), postalCode: .init(display: .none))
+    fieldOptions: .init(cvv: .init(display: .optional), postalCode: .init(display: .optional))
   )
 
   func makeUIView(context: Context) -> MultiLineCardForm {

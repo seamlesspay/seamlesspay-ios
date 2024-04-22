@@ -8,6 +8,12 @@
 #import <UIKit/UIKit.h>
 #import "SPPaymentMethodCard.h"
 
+typedef NS_ENUM(NSInteger, CardFieldDisplay) {
+  CardFieldDisplayNone,
+  CardFieldDisplayOptional,
+  CardFieldDisplayRequired,
+};
+
 @class CardForm;
 @protocol CardFormDelegate;
 
@@ -100,7 +106,7 @@ IB_DESIGNABLE
 /**
  The width of the field's border.
 
- Default is 0.5.
+ Default is 1.0.
  */
 @property(nonatomic, assign) CGFloat borderWidth UI_APPEARANCE_SELECTOR;
 
@@ -179,6 +185,9 @@ IB_DESIGNABLE
  being edited, the number field will become selected.
  */
 - (void)clear;
+
+- (void)setCVCDisplayConfig:(CardFieldDisplay)displayConfig;
+- (void)setPostalCodeDisplayConfig:(CardFieldDisplay)displayConfig;
 
 @end
 

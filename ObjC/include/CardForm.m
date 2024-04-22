@@ -17,8 +17,8 @@
 
 @interface CardForm () <SPFormTextFieldDelegate>
 
-@property(nonatomic, readwrite, weak) UIImageView *brandImageView;
-@property(nonatomic, readwrite, weak) UIView *fieldsView;
+@property(nonatomic, readwrite, strong) UIImageView *brandImageView;
+@property(nonatomic, readwrite, strong) UIView *fieldsView;
 @property(nonatomic, readwrite, weak) SPFormTextField *numberField;
 @property(nonatomic, readwrite, weak) SPFormTextField *expirationField;
 @property(nonatomic, readwrite, weak) SPFormTextField *cvcField;
@@ -85,7 +85,7 @@
   // called, and won't override properties that have already been customized
   _borderColor = [self.class placeholderGrayColor];
   _cornerRadius = 5.0f;
-  _borderWidth = 0.5f;
+  _borderWidth = 1.0f;
   self.layer.borderColor = [[_borderColor copy] CGColor];
   self.layer.cornerRadius = _cornerRadius;
   self.layer.borderWidth = _borderWidth;
@@ -142,12 +142,6 @@
 
   self.allFields = @[ numberField, expirationField, cvcField, postalCodeField ];
 
-  [self addSubview:self.fieldsView];
-  for (SPFormTextField *field in self.allFields) {
-    [self.fieldsView addSubview:field];
-  }
-
-  [self addSubview:brandImageView];
   // On small screens, the number field fits ~4 numbers, and the brandImage is
   // just as large. Previously, taps on the brand image would *dismiss* the
   // keyboard. Make it move to the numberField instead
@@ -543,6 +537,16 @@
   [self onChange];
   [self updateImageForFieldType:SPCardFieldTypeNumber];
   [self updateCVCPlaceholder];
+}
+
+- (void)setCVCDisplayConfig:(CardFieldDisplay)displayConfig {
+  self.viewModel.cvcDisplayed = displayConfig != CardFieldDisplayNone;
+  self.viewModel.cvcRequired = displayConfig == CardFieldDisplayRequired;
+}
+
+- (void)setPostalCodeDisplayConfig:(CardFieldDisplay)displayConfig {
+  self.viewModel.postalCodeDisplayed = displayConfig != CardFieldDisplayNone;
+  self.viewModel.postalCodeRequired = displayConfig == CardFieldDisplayRequired;
 }
 
 - (BOOL)isValid {

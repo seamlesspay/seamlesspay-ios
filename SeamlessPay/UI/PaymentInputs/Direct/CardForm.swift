@@ -17,11 +17,8 @@ public extension CardForm {
   }
 
   private func setFieldOptions(_ fieldOptions: FieldOptions) {
-    viewModel?.cvcDisplayed = fieldOptions.cvv.display != .none
-    viewModel?.cvcRequired = fieldOptions.cvv.display == .required
-
-    viewModel?.postalCodeDisplayed = fieldOptions.postalCode.display != .none
-    viewModel?.postalCodeRequired = fieldOptions.postalCode.display == .required
+    setCVCDisplayConfig(fieldOptions.cvv.display)
+    setPostalCodeDisplayConfig(fieldOptions.postalCode.display)
   }
 }
 

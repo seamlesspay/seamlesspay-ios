@@ -33,6 +33,21 @@ public class MultiLineCardForm: CardForm {
     getInstanceVariable("_brandImageView")!
   }
 
+  private lazy var cardNumberLabel = buildHeaderLabel(placeholder: "Card Number")
+  private lazy var expirationLabel = buildHeaderLabel(placeholder: "Exp Date")
+  private lazy var cvcLabel = buildHeaderLabel(placeholder: "Security Code")
+  private lazy var postalCodeLabel = buildHeaderLabel(placeholder: "ZIP Code")
+
+  // MARK: Private variables
+  private lazy var headerLabels: [UILabel] = [
+    cardNumberLabel,
+    expirationLabel,
+    cvcLabel,
+    postalCodeLabel,
+  ]
+  private var postalCodeFieldHeightConstraint: NSLayoutConstraint?
+  private var fieldsViewBottomConstraint: NSLayoutConstraint?
+
   // MARK: Override
   override public init(frame: CGRect) {
     super.init(frame: frame)
@@ -43,21 +58,79 @@ public class MultiLineCardForm: CardForm {
     super.init(coder: coder)
     commonInit()
   }
+
+  override public var textColor: UIColor! {
+    didSet {
+      super.textColor = textColor
+      headerLabels.forEach { label in
+        label.textColor = textColor
+      }
+    }
+  }
+
+  override public var font: UIFont! {
+    didSet {
+      super.font = font
+      headerLabels.forEach { label in
+        label.font = font.withSize(16)
+      }
+    }
+  }
+
+  override public func setCVCDisplayConfig(_ displayConfig: CardFieldDisplay) {
+    super.setCVCDisplayConfig(displayConfig)
+
+    let cvcShouldBeHidden = displayConfig == .none
+    cvcField.isHidden = cvcShouldBeHidden
+    cvcLabel.isHidden = cvcShouldBeHidden
+
+    layoutIfNeeded()
+  }
+
+  override public func setPostalCodeDisplayConfig(_ displayConfig: CardFieldDisplay) {
+    super.setPostalCodeDisplayConfig(displayConfig)
+
+    let postalCodeShouldBeHidden = displayConfig == .none
+    fieldsViewBottomConstraint?.isActive = false
+    let bottomAnchor =
+      postalCodeShouldBeHidden ? expirationField.bottomAnchor : postalCodeField.bottomAnchor
+
+    fieldsViewBottomConstraint = fieldsView.bottomAnchor.constraint(
+      equalTo: bottomAnchor,
+      constant: -0
+    )
+    fieldsViewBottomConstraint?.isActive = true
+
+    postalCodeField.isHidden = postalCodeShouldBeHidden
+    postalCodeLabel.isHidden = postalCodeShouldBeHidden
+
+    layoutIfNeeded()
+  }
+
+  // MARK: Private
+  private func commonInit() {
+    addSubview(fieldsView)
+    fieldsView.addSubview(numberField)
+    fieldsView.addSubview(brandImageView)
+    fieldsView.addSubview(expirationField)
+    fieldsView.addSubview(cvcField)
+    fieldsView.addSubview(postalCodeField)
+
+    configureViews()
+    constraintViews()
+  }
 }
 
 // MARK: Set Up Views
 private extension MultiLineCardForm {
-  func commonInit() {
-    configureViews()
-    constraintViews()
-  }
-
   func configureViews() {
     numberField.borderStyle = .roundedRect
     expirationField.borderStyle = .roundedRect
     cvcField.borderStyle = .roundedRect
     postalCodeField.borderStyle = .roundedRect
-    borderWidth = 0.5
+
+    numberField.placeholder = "1234 1234 1234 1234"
+    cvcField.placeholder = "***"
   }
 
   func constraintViews() {
@@ -70,10 +143,31 @@ private extension MultiLineCardForm {
       ]
     )
 
+    fieldsViewBottomConstraint = fieldsView.bottomAnchor.constraint(
+      equalTo: postalCodeField.bottomAnchor,
+      constant: -0
+    )
+
+    fieldsViewBottomConstraint?.isActive = true
+
+    fieldsView.addSubview(cardNumberLabel)
+
+    NSLayoutConstraint.activate([
+      cardNumberLabel.topAnchor.constraint(equalTo: fieldsView.topAnchor, constant: 0),
+      cardNumberLabel.leadingAnchor.constraint(
+        equalTo: numberField.leadingAnchor,
+        constant: 0
+      ),
+      cardNumberLabel.trailingAnchor.constraint(
+        equalTo: numberField.trailingAnchor,
+        constant: 0
+      ),
+    ])
+
     numberField.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate(
       [
-        numberField.topAnchor.constraint(equalTo: fieldsView.topAnchor, constant: 0),
+        numberField.topAnchor.constraint(equalTo: cardNumberLabel.bottomAnchor, constant: 10),
         numberField.leadingAnchor.constraint(
           equalTo: fieldsView.leadingAnchor,
           constant: 10
@@ -97,16 +191,44 @@ private extension MultiLineCardForm {
       ]
     )
 
+    fieldsView.addSubview(expirationLabel)
+
+    NSLayoutConstraint.activate([
+      expirationLabel.topAnchor.constraint(equalTo: numberField.bottomAnchor, constant: 10),
+      expirationLabel.leadingAnchor.constraint(
+        equalTo: expirationField.leadingAnchor,
+        constant: 0
+      ),
+      expirationLabel.trailingAnchor.constraint(
+        equalTo: expirationField.trailingAnchor,
+        constant: 0
+      ),
+    ])
+
     expirationField.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate(
       [
-        expirationField.topAnchor.constraint(equalTo: numberField.bottomAnchor, constant: 10),
+        expirationField.topAnchor.constraint(equalTo: expirationLabel.bottomAnchor, constant: 10),
         expirationField.leadingAnchor.constraint(equalTo: fieldsView.leadingAnchor, constant: 10),
         expirationField.trailingAnchor.constraint(equalTo: cvcField.leadingAnchor, constant: -10),
         expirationField.widthAnchor.constraint(equalTo: cvcField.widthAnchor, multiplier: 1.5),
         expirationField.heightAnchor.constraint(equalToConstant: 44),
       ]
     )
+
+    fieldsView.addSubview(cvcLabel)
+
+    NSLayoutConstraint.activate([
+      cvcLabel.topAnchor.constraint(equalTo: numberField.bottomAnchor, constant: 10),
+      cvcLabel.leadingAnchor.constraint(
+        equalTo: cvcField.leadingAnchor,
+        constant: 0
+      ),
+      cvcLabel.trailingAnchor.constraint(
+        equalTo: cvcField.trailingAnchor,
+        constant: 0
+      ),
+    ])
 
     cvcField.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate(
@@ -117,16 +239,43 @@ private extension MultiLineCardForm {
       ]
     )
 
+    fieldsView.addSubview(postalCodeLabel)
+
+    NSLayoutConstraint.activate([
+      postalCodeLabel.topAnchor.constraint(equalTo: cvcField.bottomAnchor, constant: 10),
+      postalCodeLabel.leadingAnchor.constraint(
+        equalTo: postalCodeField.leadingAnchor,
+        constant: 0
+      ),
+      postalCodeLabel.trailingAnchor.constraint(
+        equalTo: postalCodeField.trailingAnchor,
+        constant: 0
+      ),
+    ])
+
     postalCodeField.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate(
       [
-        postalCodeField.topAnchor.constraint(equalTo: cvcField.bottomAnchor, constant: 10),
+        postalCodeField.topAnchor.constraint(equalTo: postalCodeLabel.bottomAnchor, constant: 5),
         postalCodeField.leadingAnchor.constraint(equalTo: fieldsView.leadingAnchor, constant: 10),
-        postalCodeField.bottomAnchor.constraint(equalTo: fieldsView.bottomAnchor, constant: -0),
         postalCodeField.heightAnchor.constraint(equalToConstant: 44),
         postalCodeField.widthAnchor.constraint(equalTo: expirationField.widthAnchor),
       ]
     )
+
+    fieldsView.backgroundColor = .gray
+  }
+}
+
+private extension MultiLineCardForm {
+  func buildHeaderLabel(placeholder: String) -> UILabel {
+    let label = UILabel()
+    label.text = placeholder
+    label.textAlignment = .left
+    label.font = font.withSize(16)
+    label.textColor = textColor
+    label.translatesAutoresizingMaskIntoConstraints = false
+    return label
   }
 }
 
