@@ -24,6 +24,23 @@
 @property(nonatomic, readwrite, strong)CardFormViewModel *viewModel;
 @property(nonatomic, strong) NSArray<SPFormTextField *> *allFields;
 
+// Customisation
+@property(nonatomic, copy, null_resettable) UIFont *font;
+@property(nonatomic, copy, null_resettable) UIColor *textColor;
+@property(nonatomic, copy, null_resettable) UIColor *textErrorColor;
+@property(nonatomic, copy, null_resettable) UIColor *placeholderColor;
+@property(nonatomic, copy, nullable) IBInspectable NSString *numberPlaceholder;
+@property(nonatomic, copy, nullable) IBInspectable NSString *expirationPlaceholder;
+@property(nonatomic, copy, nullable) IBInspectable NSString *cvcPlaceholder;
+@property(nonatomic, copy, nullable) IBInspectable NSString *postalCodePlaceholder;
+@property(nonatomic, copy, null_resettable) UIColor *cursorColor;
+@property(nonatomic, copy, nullable) UIColor *borderColor;
+@property(nonatomic, assign) CGFloat borderWidth;
+@property(nonatomic, assign) CGFloat cornerRadius;
+@property(nonatomic, strong, nullable) UIView *inputView;
+@property(nonatomic, strong, nullable) UIView *inputAccessoryView;
+//
+
 - (NSString *)defaultPostalFieldPlaceholderForCountryCode:(NSString *)countryCode;
 
 @end
@@ -61,11 +78,11 @@ NS_INLINE CGFloat sp_ceilCGFloat(CGFloat x) {
 
 @implementation SingleLineCardForm
 
+@synthesize keyboardAppearance = _keyboardAppearance;
+
 CGFloat const SingleLineCardFormDefaultPadding = 13;
 CGFloat const SingleLineCardFormDefaultInsets = 13;
 CGFloat const SingleLineCardFormMinimumPadding = 10;
-
-#pragma mark initializers
 
 #pragma mark Initializers
 
@@ -105,6 +122,119 @@ CGFloat const SingleLineCardFormMinimumPadding = 10;
   self.focusedTextFieldForLayout = nil;
 }
 
+#pragma mark Setters and Getters
+
+- (void)setCursorColor:(UIColor *)cursorColor {
+  super.cursorColor = cursorColor;
+}
+
+- (UIColor *)cursorColor {
+  return super.cursorColor;
+}
+
+- (void)setPostalCodePlaceholder:(NSString *)postalCodePlaceholder {
+  super.postalCodePlaceholder = postalCodePlaceholder;
+}
+
+- (NSString *)postalCodePlaceholder {
+  return super.postalCodePlaceholder;
+}
+
+- (void)setCvcPlaceholder:(NSString *)cvcPlaceholder {
+  super.cvcPlaceholder = cvcPlaceholder;
+}
+
+- (NSString *)cvcPlaceholder {
+  return super.cvcPlaceholder;
+}
+
+- (void)setExpirationPlaceholder:(NSString *)expirationPlaceholder {
+  super.expirationPlaceholder = expirationPlaceholder;
+}
+
+- (NSString *)expirationPlaceholder {
+  return super.expirationPlaceholder;
+}
+
+- (void)setNumberPlaceholder:(NSString *)numberPlaceholder {
+  super.numberPlaceholder = numberPlaceholder;
+}
+
+- (NSString *)numberPlaceholder {
+  return super.numberPlaceholder;
+}
+
+- (void)setTextColor:(UIColor *)textColor {
+  super.textColor = textColor;
+}
+
+- (UIColor *)textColor {
+  return super.textColor;
+}
+
+- (void)setTextErrorColor:(UIColor *)textErrorColor {
+  super.textErrorColor = textErrorColor;
+}
+
+- (UIColor *)textErrorColor {
+  return super.textErrorColor;
+}
+
+- (void)setKeyboardAppearance:(UIKeyboardAppearance)keyboardAppearance {
+  _keyboardAppearance = keyboardAppearance;
+  for (SPFormTextField *field in [self allFields]) {
+    field.keyboardAppearance = keyboardAppearance;
+  }
+}
+
+- (void)setBorderColor:(UIColor *__nullable)borderColor {
+  super.borderColor = borderColor;
+}
+
+- (UIColor *__nullable)borderColor {
+  return super.borderColor;
+}
+
+- (void)setCornerRadius:(CGFloat)cornerRadius {
+  super.cornerRadius = cornerRadius;
+}
+
+- (CGFloat)cornerRadius {
+  return super.cornerRadius;
+}
+
+- (void)setBorderWidth:(CGFloat)borderWidth {
+  super.borderWidth = borderWidth;
+}
+
+- (CGFloat)borderWidth {
+  return super.borderWidth;
+}
+
+- (void)setInputView:(UIView *)inputView {
+  super.inputView = inputView;
+}
+
+- (UIView *)inputView {
+  return  super.inputView;
+}
+
+- (void)setInputAccessoryView:(UIView *)inputAccessoryView {
+  super.inputAccessoryView = inputAccessoryView;
+}
+
+- (UIView *)inputAccessoryView {
+  return super.inputAccessoryView;
+}
+
+- (void)setPlaceholderColor:(UIColor *)placeholderColor {
+  super.placeholderColor = placeholderColor;
+}
+
+- (UIColor *)placeholderColor {
+  return super.placeholderColor;
+}
+
 
 - (void)clearSizingCache {
   self.textToWidthCache = [NSMutableDictionary new];
@@ -118,6 +248,10 @@ CGFloat const SingleLineCardFormMinimumPadding = 10;
   [self clearSizingCache];
 
   [self setNeedsLayout];
+}
+
+- (UIFont *)font {
+  return super.font;
 }
 
 - (NSString *)cardNumber {

@@ -26,6 +26,23 @@
 @property(nonatomic, readwrite, strong)CardFormViewModel *viewModel;
 @property(nonatomic, strong) NSArray<SPFormTextField *> *allFields;
 
+// Customisation
+@property(nonatomic, copy, null_resettable) UIFont *font;
+@property(nonatomic, copy, null_resettable) UIColor *textColor;
+@property(nonatomic, copy, null_resettable) UIColor *textErrorColor;
+@property(nonatomic, copy, null_resettable) UIColor *placeholderColor;
+@property(nonatomic, copy, nullable) IBInspectable NSString *numberPlaceholder;
+@property(nonatomic, copy, nullable) IBInspectable NSString *expirationPlaceholder;
+@property(nonatomic, copy, nullable) IBInspectable NSString *cvcPlaceholder;
+@property(nonatomic, copy, nullable) IBInspectable NSString *postalCodePlaceholder;
+@property(nonatomic, copy, null_resettable) UIColor *cursorColor;
+@property(nonatomic, copy, nullable) UIColor *borderColor;
+@property(nonatomic, assign) CGFloat borderWidth;
+@property(nonatomic, assign) CGFloat cornerRadius;
+@property(nonatomic, strong, nullable) UIView *inputView;
+@property(nonatomic, strong, nullable) UIView *inputAccessoryView;
+//
+
 @property(nonatomic, strong) CardLogoImageViewManager *cardLogoImageViewManager;
 
 /**
@@ -391,13 +408,6 @@
 
 - (CGFloat)borderWidth {
   return _borderWidth;
-}
-
-- (void)setKeyboardAppearance:(UIKeyboardAppearance)keyboardAppearance {
-  _keyboardAppearance = keyboardAppearance;
-  for (SPFormTextField *field in [self allFields]) {
-    field.keyboardAppearance = keyboardAppearance;
-  }
 }
 
 - (void)setInputView:(UIView *)inputView {

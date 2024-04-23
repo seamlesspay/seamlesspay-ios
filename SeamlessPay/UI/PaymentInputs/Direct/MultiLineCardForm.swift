@@ -59,24 +59,6 @@ public class MultiLineCardForm: CardForm {
     commonInit()
   }
 
-  override public var textColor: UIColor! {
-    didSet {
-      super.textColor = textColor
-      headerLabels.forEach { label in
-        label.textColor = textColor
-      }
-    }
-  }
-
-  override public var font: UIFont! {
-    didSet {
-      super.font = font
-      headerLabels.forEach { label in
-        label.font = font.withSize(14)
-      }
-    }
-  }
-
   override public func setCVCDisplayConfig(_ displayConfig: CardFieldDisplay) {
     super.setCVCDisplayConfig(displayConfig)
 
@@ -289,8 +271,7 @@ private extension MultiLineCardForm {
     let label = UILabel()
     label.text = placeholder
     label.textAlignment = .left
-    label.font = font.withSize(14)
-    label.textColor = textColor
+    label.font = UIFont.systemFont(ofSize: 14)
     label.translatesAutoresizingMaskIntoConstraints = false
     return label
   }
