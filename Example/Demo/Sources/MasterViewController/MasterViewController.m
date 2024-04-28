@@ -32,8 +32,9 @@
     @"Virtual Terminal (CHARGE)",
     @"Virtual Terminal (ACH)",
     @"Virtual Terminal (GIFT CARD)",
-    @"UI Payment Card Text Field",
-    @"SingleLineCardForm+Swift"
+    @"SingleLineCardForm",
+    @"MultiLineCardForm+SwiftUI",
+    @"SingleLineCardForm+SwiftUI"
   ];
 }
 
@@ -62,7 +63,9 @@
   NSDate *object = self.objects[indexPath.row];
   cell.textLabel.text = [object description];
 
-  if ([object.description isEqualToString:@"UI Payment Card Text Field"]) {
+  if ([object.description isEqualToString:@"SingleLineCardForm"] || 
+      [object.description isEqualToString:@"MultiLineCardForm+SwiftUI"] ||
+      [object.description isEqualToString:@"SingleLineCardForm+SwiftUI"]) {
     cell.textLabel.textColor = [UIColor blueColor];
   }
 
@@ -80,8 +83,12 @@
     NSString *object = self.objects[row];
 
     UIViewController *viewController;
-    if ([object isEqualToString:@"SingleLineCardForm+Swift"]) {
+    if ([object isEqualToString:@"SingleLineCardForm"]) {
       viewController = [[SingleLineCardFormVC alloc] init];
+    } else if([object isEqualToString:@"MultiLineCardForm+SwiftUI"]) {
+      viewController = [VCs multiLineCardFormVC];
+    } else if([object isEqualToString:@"SingleLineCardForm+SwiftUI"]) {
+      viewController = [VCs singleLineCardFormVC];
     } else {
       DetailViewController *detailViewController = (DetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"DetailViewControllerStoryboardIdentifier"];
       detailViewController.detailItem = object;

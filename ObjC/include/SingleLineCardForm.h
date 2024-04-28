@@ -53,6 +53,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SPPaymentMethodCard.h"
+#import "CardForm.h"
 
 @class SingleLineCardForm;
 @protocol SingleLineCardFormDelegate;
@@ -65,12 +66,7 @@
  anywhere a UITextField would be appropriate.
  */
 IB_DESIGNABLE
-@interface SingleLineCardForm : UIControl <UIKeyInput>
-
-/**
- @see SingleLineCardFormDelegate
- */
-@property(nonatomic, weak, nullable) IBOutlet id<SingleLineCardFormDelegate> delegate;
+@interface SingleLineCardForm : CardForm
 
 /**
  The font used in each child field. Default is [UIFont systemFontOfSize:18].
@@ -85,8 +81,7 @@ IB_DESIGNABLE
 
  Set this property to nil to reset to the default.
  */
-@property(nonatomic, copy, null_resettable)
-UIColor *textColor UI_APPEARANCE_SELECTOR;
+@property(nonatomic, copy, null_resettable) UIColor *textColor UI_APPEARANCE_SELECTOR;
 
 /**
  The text color to be used when the user has entered invalid information,
@@ -95,8 +90,7 @@ UIColor *textColor UI_APPEARANCE_SELECTOR;
  Default is [UIColor redColor]. Set this property to nil to reset to the
  default.
  */
-@property(nonatomic, copy, null_resettable)
-UIColor *textErrorColor UI_APPEARANCE_SELECTOR;
+@property(nonatomic, copy, null_resettable) UIColor *textErrorColor UI_APPEARANCE_SELECTOR;
 
 /**
  The text placeholder color used in each child field.
@@ -106,8 +100,7 @@ UIColor *textErrorColor UI_APPEARANCE_SELECTOR;
  Default is [UIColor systemGray2Color]. Set this property to nil to reset to the
  default.
  */
-@property(nonatomic, copy, null_resettable)
-UIColor *placeholderColor UI_APPEARANCE_SELECTOR;
+@property(nonatomic, copy, null_resettable) UIColor *placeholderColor UI_APPEARANCE_SELECTOR;
 
 /**
  The placeholder for the card number field.
@@ -123,8 +116,7 @@ UIColor *placeholderColor UI_APPEARANCE_SELECTOR;
 /**
  The placeholder for the expiration field. Defaults to @"MM/YY".
  */
-@property(nonatomic, copy, nullable)
-IBInspectable NSString *expirationPlaceholder;
+@property(nonatomic, copy, nullable) IBInspectable NSString *expirationPlaceholder;
 
 /**
  The placeholder for the cvc field. Defaults to @"CVC".
@@ -135,8 +127,7 @@ IBInspectable NSString *expirationPlaceholder;
  The placeholder for the postal code field. Defaults to @"ZIP" for United States
  or @"Postal" for all other country codes.
  */
-@property(nonatomic, copy, nullable)
-IBInspectable NSString *postalCodePlaceholder;
+@property(nonatomic, copy, nullable) IBInspectable NSString *postalCodePlaceholder;
 
 /**
  The cursor color for the field.
@@ -144,8 +135,7 @@ IBInspectable NSString *postalCodePlaceholder;
  This is a proxy for the view's tintColor property, exposed for clarity only
  (in other words, calling setCursorColor is identical to calling setTintColor).
  */
-@property(nonatomic, copy, null_resettable)
-UIColor *cursorColor UI_APPEARANCE_SELECTOR;
+@property(nonatomic, copy, null_resettable) UIColor *cursorColor UI_APPEARANCE_SELECTOR;
 
 /**
  The border color for the field.
@@ -154,8 +144,7 @@ UIColor *cursorColor UI_APPEARANCE_SELECTOR;
 
  Default is [UIColor systemGray2Color].
  */
-@property(nonatomic, copy, nullable)
-UIColor *borderColor UI_APPEARANCE_SELECTOR;
+@property(nonatomic, copy, nullable) UIColor *borderColor UI_APPEARANCE_SELECTOR;
 
 /**
  The width of the field's border.
@@ -176,8 +165,7 @@ UIColor *borderColor UI_APPEARANCE_SELECTOR;
 
  Default is UIKeyboardAppearanceDefault.
  */
-@property(nonatomic, assign)
-UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
+@property(nonatomic, assign) UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
 
 /**
  This behaves identically to setting the inputView for each child text field.
@@ -195,51 +183,6 @@ UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
  */
 @property(nonatomic, nullable, readonly) UIImage *brandImage;
 
-/**
- Whether or not the form currently contains a valid card number,
- expiration date, CVC, and postal code (if required).
-
- @see SPCardValidator
- */
-@property(nonatomic, readonly) BOOL isValid;
-
-/**
- Enable/disable
- */
-@property(nonatomic, getter=isEnabled) BOOL enabled;
-
-/**
- The two-letter ISO country code that corresponds to the user's billing address.
-
- If set to nil and postal code entry is enabled, the country from the user's
- current locale will be filled in. Otherwise the specific country code set will
- be used.
-
- By default this will fetch the user's current country code from NSLocale.
- */
-@property(nonatomic, copy, nullable) NSString *countryCode;
-
-/**
- Causes the text field to begin editing. Presents the keyboard.
-
- @return Whether or not the text field successfully began editing.
- @see UIResponder
- */
-- (BOOL)becomeFirstResponder;
-
-/**
- Causes the text field to stop editing. Dismisses the keyboard.
-
- @return Whether or not the field successfully stopped editing.
- @see UIResponder
- */
-- (BOOL)resignFirstResponder;
-
-/**
- Resets all of the contents of all of the fields. If the field is currently
- being edited, the number field will become selected.
- */
-- (void)clear;
 
 /**
  Returns the rectangle in which the receiver draws the text fields.
@@ -250,92 +193,3 @@ UIKeyboardAppearance keyboardAppearance UI_APPEARANCE_SELECTOR;
 
 @end
 
-/**
- This protocol allows a delegate to be notified when a payment text field's
- contents change, which can in turn be used to take further actions depending
- on the validity of its contents.
- */
-@protocol SingleLineCardFormDelegate <NSObject>
-@optional
-/**
- Called when either the card number, expiration, or CVC changes. At this point,
- one can call `isValid` on the text field to determine, for example,
- whether or not to enable a button to submit the form. Example:
-
- - (void)singleLineCardFormDidChange:(SingleLineCardForm *)view {
- self.paymentButton.enabled = view.isValid;
- }
-
- @param view the SingleLineCardForm that has changed
- */
-- (void)singleLineCardFormDidChange:(nonnull SingleLineCardForm *)view;
-
-/**
- Called when editing begins in the text field as a whole.
-
- After receiving this callback, you will always also receive a callback for
- which specific subfield of the view began editing.
- */
-- (void)singleLineCardFormDidBeginEditing:(nonnull SingleLineCardForm *)view;
-
-/**
- Notification that the user pressed the `return` key after completely filling
- out the SingleLineCardForm with data that passes validation.
-
- This is delivered *before* the corresponding
- `singleLineCardFormDidEndEditing:`
-
- @param view The SingleLineCardForm that was being edited when the user
- pressed return
- */
-- (void)singleLineCardFormWillEndEditingForReturn:(nonnull SingleLineCardForm *)view;
-
-/**
- Called when editing ends in the text field as a whole.
-
- This callback is always preceded by an callback for which
- specific subfield of the view ended its editing.
- */
-- (void)singleLineCardFormDidEndEditing:(nonnull SingleLineCardForm *)view;
-
-/**
- Called when editing begins in the payment card field's number field.
- */
-- (void)singleLineCardFormDidBeginEditingNumber:(nonnull SingleLineCardForm *)view;
-
-/**
- Called when editing ends in the payment card field's number field.
- */
-- (void)singleLineCardFormDidEndEditingNumber:(nonnull SingleLineCardForm *)view;
-
-/**
- Called when editing begins in the payment card field's CVC field.
- */
-- (void)singleLineCardFormBeginEditingCVC:(nonnull SingleLineCardForm *)view;
-
-/**
- Called when editing ends in the payment card field's CVC field.
- */
-- (void)singleLineCardFormDidEndEditingCVC:(nonnull SingleLineCardForm *)view;
-
-/**
- Called when editing begins in the payment card field's expiration field.
- */
-- (void)singleLineCardFormDidBeginEditingExpiration:(nonnull SingleLineCardForm *)view;
-
-/**
- Called when editing ends in the payment card field's expiration field.
- */
-- (void)singleLineCardFormDidEndEditingExpiration:(nonnull SingleLineCardForm *)view;
-
-/**
- Called when editing begins in the payment card field's ZIP/postal code field.
- */
-- (void)singleLineCardFormDidBeginEditingPostalCode:(nonnull SingleLineCardForm *)view;
-
-/**
- Called when editing ends in the payment card field's ZIP/postal code field.
- */
-- (void)singleLineCardFormDidEndEditingPostalCode:(nonnull SingleLineCardForm *)view;
-
-@end

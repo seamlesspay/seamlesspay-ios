@@ -19,7 +19,7 @@ typedef NS_ENUM(NSInteger, SPCardFieldType) {
   SPCardFieldTypePostalCode,
 };
 
-@interface SingleLineCardFormViewModel : NSObject
+@interface CardFormViewModel : NSObject
 
 @property(nonatomic, readwrite, copy, nullable) NSString *cardNumber;
 @property(nonatomic, readonly, nullable) NSString *compressedCardNumber;

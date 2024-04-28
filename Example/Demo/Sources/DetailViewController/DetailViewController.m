@@ -351,52 +351,6 @@
 
     [self.webView loadHTMLString:_contentHTML baseURL:nil];
 
-  } else if ([self.title isEqualToString:@"UI Payment Card Text Field"]) {
-
-    [self configureSingleLineCardFormView];
-
-    UITextField *amountTextField = [[UITextField alloc] initWithFrame:CGRectMake(70, 0, 150, 22)];
-    amountTextField.text = @"$1.00";
-    amountTextField.keyboardType = UIKeyboardTypeNumberPad;
-    amountTextField.delegate = self;
-    self.amountTextField = amountTextField;
-
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.layer.cornerRadius = 5;
-    button.backgroundColor = [UIColor systemBlueColor];
-    button.titleLabel.font = [UIFont systemFontOfSize:22];
-    [button setTitle:@"Pay" forState:UIControlStateNormal];
-    [button addTarget:self
-               action:@selector(pay)
-     forControlEvents:UIControlEventTouchUpInside];
-    self.payButton = button;
-
-    UILabel *infoLbel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 250, 30)];
-    infoLbel.userInteractionEnabled = TRUE;
-    infoLbel.textColor = [UIColor darkGrayColor];
-    infoLbel.text = @"Amount:";
-
-    [infoLbel addSubview:amountTextField];
-
-    UIStackView *stackView = [[UIStackView alloc]
-                              initWithArrangedSubviews:@[ infoLbel, self.singleLineCardFormView, button ]];
-    stackView.axis = UILayoutConstraintAxisVertical;
-    stackView.translatesAutoresizingMaskIntoConstraints = NO;
-    stackView.spacing = 20;
-    [self.view addSubview:stackView];
-
-    [NSLayoutConstraint activateConstraints:@[
-      [stackView.leftAnchor
-       constraintEqualToSystemSpacingAfterAnchor:self.view.leftAnchor
-       multiplier:2],
-      [self.view.rightAnchor
-       constraintEqualToSystemSpacingAfterAnchor:stackView.rightAnchor
-       multiplier:2],
-      [stackView.topAnchor
-       constraintEqualToSystemSpacingBelowAnchor:self.view.topAnchor
-       multiplier:20],
-    ]];
-
   }
 }
 

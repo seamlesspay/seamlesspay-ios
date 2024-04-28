@@ -9,30 +9,21 @@ import UIKit
 
 // MARK: - Public
 // MARK: Init with Authorization model
-public extension SingleLineCardForm {
+public extension CardForm {
   convenience init(authorization: Authorization, fieldOptions: FieldOptions = .default) {
     self.init()
-    setAuthorization(authorization)
+    apiClient = .init(authorization: authorization)
     setFieldOptions(fieldOptions)
   }
 
-  func setAuthorization(
-    _ authorization: Authorization
-  ) {
-    apiClient = .init(authorization: authorization)
-  }
-
-  func setFieldOptions(_ fieldOptions: FieldOptions) {
-    viewModel?.cvcDisplayed = fieldOptions.cvv.display != .none
-    viewModel?.cvcRequired = fieldOptions.cvv.display == .required
-
-    viewModel?.postalCodeDisplayed = fieldOptions.postalCode.display != .none
-    viewModel?.postalCodeRequired = fieldOptions.postalCode.display == .required
+  private func setFieldOptions(_ fieldOptions: FieldOptions) {
+    setCVCDisplayConfig(fieldOptions.cvv.display)
+    setPostalCodeDisplayConfig(fieldOptions.postalCode.display)
   }
 }
 
 // MARK: Tokenize
-public extension SingleLineCardForm {
+public extension CardForm {
   func tokenize(
     completion: ((Result<PaymentMethodResponse, SeamlessPayError>) -> Void)?
   ) {
@@ -75,7 +66,7 @@ public extension SingleLineCardForm {
 }
 
 // MARK: - Submit
-public extension SingleLineCardForm {
+public extension CardForm {
   func submit(
     _ request: PaymentRequest,
     completion: ((Result<PaymentResponse, SeamlessPayError>) -> Void)?
@@ -137,7 +128,7 @@ public extension SingleLineCardForm {
 
 // MARK: - Internal
 // MARK: APIClient instance
-extension SingleLineCardForm {
+extension CardForm {
   static var apiClientAssociationKey: Void?
 
   var apiClient: APIClient? {
@@ -159,8 +150,8 @@ extension SingleLineCardForm {
 }
 
 // MARK: - SingleLineCardForm ViewModel
-extension SingleLineCardForm {
-  var viewModel: SingleLineCardFormViewModel? {
+extension CardForm {
+  var viewModel: CardFormViewModel? {
     class_getInstanceVariable(
       type(of: self),
       "_viewModel"
@@ -169,13 +160,13 @@ extension SingleLineCardForm {
       object_getIvar(self, $0)
     }
     .flatMap {
-      $0 as? SingleLineCardFormViewModel
+      $0 as? CardFormViewModel
     }
   }
 }
 
 // MARK: - Private
-private extension SingleLineCardForm {
+private extension CardForm {
   var expDate: ExpirationDate? {
     let expirationMonth = viewModel?.expirationMonth.flatMap { UInt($0) }
     let expirationYear = viewModel?.expirationYear.flatMap { UInt($0) }

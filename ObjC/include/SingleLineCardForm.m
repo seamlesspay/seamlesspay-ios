@@ -11,29 +11,46 @@
 #import "NSString+Extras.h"
 #import "SPCardValidator+Extras.h"
 #import "SPFormTextField.h"
-#import "SPImageLibrary.h"
 #import "SingleLineCardForm.h"
-#import "SingleLineCardFormViewModel.h"
+#import "CardFormViewModel.h"
 
-@interface SingleLineCardForm () <SPFormTextFieldDelegate>
-
-@property(nonatomic, readwrite, weak) UIImageView *brandImageView;
-@property(nonatomic, readwrite, weak) UIView *fieldsView;
+@interface CardForm (Private)
+@property(nonatomic, readwrite, strong) UIImageView *brandImageView;
+@property(nonatomic, readwrite, strong) UIView *fieldsView;
 @property(nonatomic, readwrite, weak) SPFormTextField *numberField;
 @property(nonatomic, readwrite, weak) SPFormTextField *expirationField;
 @property(nonatomic, readwrite, weak) SPFormTextField *cvcField;
 @property(nonatomic, readwrite, weak) SPFormTextField *postalCodeField;
-@property(nonatomic, readwrite, strong)SingleLineCardFormViewModel *viewModel;
+@property(nonatomic, readwrite, strong)CardFormViewModel *viewModel;
 @property(nonatomic, strong) NSArray<SPFormTextField *> *allFields;
+
+// Customisation
+@property(nonatomic, copy, null_resettable) UIFont *font;
+@property(nonatomic, copy, null_resettable) UIColor *textColor;
+@property(nonatomic, copy, null_resettable) UIColor *textErrorColor;
+@property(nonatomic, copy, null_resettable) UIColor *placeholderColor;
+@property(nonatomic, copy, nullable) IBInspectable NSString *numberPlaceholder;
+@property(nonatomic, copy, nullable) IBInspectable NSString *expirationPlaceholder;
+@property(nonatomic, copy, nullable) IBInspectable NSString *cvcPlaceholder;
+@property(nonatomic, copy, nullable) IBInspectable NSString *postalCodePlaceholder;
+@property(nonatomic, copy, null_resettable) UIColor *cursorColor;
+@property(nonatomic, copy, nullable) UIColor *borderColor;
+@property(nonatomic, assign) CGFloat borderWidth;
+@property(nonatomic, assign) CGFloat cornerRadius;
+@property(nonatomic, strong, nullable) UIView *inputView;
+@property(nonatomic, strong, nullable) UIView *inputAccessoryView;
+//
+
+- (NSString *)defaultPostalFieldPlaceholderForCountryCode:(NSString *)countryCode;
+
+@end
+
+@interface SingleLineCardForm ()
+
 @property(nonatomic, readwrite, strong) SPFormTextField *sizingField;
 @property(nonatomic, readwrite, strong) UILabel *sizingLabel;
 
-/*
- These track the input parameters to the brand image setter so that we can
- later perform proper transition animations when new values are set
- */
-@property(nonatomic, assign) SPCardFieldType currentBrandImageFieldType;
-@property(nonatomic, assign) SPCardBrand currentBrandImageBrand;
+//@property(nonatomic, strong) CardLogoImageViewManager *cardLogoImageViewManager;
 
 /**
  This is a number-wrapped SPCardFieldType (or nil) that layout uses
@@ -49,27 +66,6 @@
 @property(nonatomic, strong)NSMutableDictionary<NSString *, NSNumber *> *textToWidthCache;
 @property(nonatomic, strong)NSMutableDictionary<NSString *, NSNumber *> *numberToWidthCache;
 
-/**
- These bits lets us track beginEditing and endEditing for payment text field
- as a whole (instead of on a per-subview basis).
-
- DO NOT read this values directly. Use the return value from
- `getAndUpdateSubviewEditingTransitionStateFromCall:` which updates them all
- and returns you the correct current state for the method you are in.
-
- The state transitons in the should/did begin/end editing callbacks for all
- our subfields. If we get a shouldEnd AND a shouldBegin before getting either's
- matching didEnd/didBegin, then we are transitioning focus between our subviews
- (and so we ourselves should not consider us to have begun or ended editing).
-
- But if we get a should and did called on their own without a matching opposite
- pair (shouldBegin/didBegin or shouldEnd/didEnd) then we are transitioning
- into/out of our subviews from/to outside of ourselves
- */
-@property(nonatomic, assign) BOOL isMidSubviewEditingTransitionInternal;
-@property(nonatomic, assign) BOOL receivedUnmatchedShouldBeginEditing;
-@property(nonatomic, assign) BOOL receivedUnmatchedShouldEndEditing;
-
 @end
 
 NS_INLINE CGFloat sp_ceilCGFloat(CGFloat x) {
@@ -82,25 +78,18 @@ NS_INLINE CGFloat sp_ceilCGFloat(CGFloat x) {
 
 @implementation SingleLineCardForm
 
-@synthesize font = _font;
-@synthesize textColor = _textColor;
-@synthesize textErrorColor = _textErrorColor;
-@synthesize placeholderColor = _placeholderColor;
-@synthesize borderColor = _borderColor;
-@synthesize borderWidth = _borderWidth;
-@synthesize cornerRadius = _cornerRadius;
-@dynamic enabled;
+@synthesize keyboardAppearance = _keyboardAppearance;
 
 CGFloat const SingleLineCardFormDefaultPadding = 13;
 CGFloat const SingleLineCardFormDefaultInsets = 13;
 CGFloat const SingleLineCardFormMinimumPadding = 10;
 
-#pragma mark initializers
+#pragma mark Initializers
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
   self = [super initWithCoder:aDecoder];
   if (self) {
-    [self commonInit];
+    [self singleLineCardFormCommonInit];
   }
   return self;
 }
@@ -108,338 +97,87 @@ CGFloat const SingleLineCardFormMinimumPadding = 10;
 - (instancetype)initWithFrame:(CGRect)frame {
   self = [super initWithFrame:frame];
   if (self) {
-    [self commonInit];
+    [self singleLineCardFormCommonInit];
   }
   return self;
 }
 
-- (void)commonInit {
-  // We're using ivars here because UIAppearance tracks when setters are
-  // called, and won't override properties that have already been customized
-  _borderColor = [self.class placeholderGrayColor];
-  _cornerRadius = 5.0f;
-  _borderWidth = 1.0f;
-  self.layer.borderColor = [[_borderColor copy] CGColor];
-  self.layer.cornerRadius = _cornerRadius;
-  self.layer.borderWidth = _borderWidth;
-
-  self.clipsToBounds = YES;
-
-  _viewModel = [SingleLineCardFormViewModel new];
-  _sizingField = [self buildTextField];
-  _sizingField.formDelegate = nil;
-  _sizingLabel = [UILabel new];
-
-  UIImageView *brandImageView =
-  [[UIImageView alloc] initWithImage:self.brandImage];
-  brandImageView.contentMode = UIViewContentModeCenter;
-  brandImageView.backgroundColor = [UIColor clearColor];
-  brandImageView.tintColor = self.placeholderColor;
-  self.brandImageView = brandImageView;
-
-  SPFormTextField *numberField = [self buildTextField];
-  // This does not offer quick-type suggestions (as iOS 11.2), but does pick
-  // the best keyboard (maybe other, hidden behavior?)
-  numberField.textContentType = UITextContentTypeCreditCardNumber;
-  numberField.autoFormattingBehavior =
-  SPFormTextFieldAutoFormattingBehaviorCardNumbers;
-  numberField.tag = SPCardFieldTypeNumber;
-  numberField.accessibilityLabel = @"card number";
-  self.numberField = numberField;
-  self.numberPlaceholder = [self.viewModel defaultPlaceholder];
-
-  SPFormTextField *expirationField = [self buildTextField];
-  expirationField.autoFormattingBehavior =
-  SPFormTextFieldAutoFormattingBehaviorExpiration;
-  expirationField.tag = SPCardFieldTypeExpiration;
-  expirationField.alpha = 0;
-  expirationField.isAccessibilityElement = NO;
-  expirationField.accessibilityLabel = @"expiration date";
-  self.expirationField = expirationField;
-  self.expirationPlaceholder = @"MM/YY";
-
-  SPFormTextField *cvcField = [self buildTextField];
-  cvcField.tag = SPCardFieldTypeCVC;
-  cvcField.alpha = 0;
-  cvcField.isAccessibilityElement = NO;
-  self.cvcField = cvcField;
-  self.cvcPlaceholder = nil;
-  self.cvcField.accessibilityLabel = [self defaultCVCPlaceholder];
-
-  SPFormTextField *postalCodeField = [self buildTextField];
-  postalCodeField.textContentType = UITextContentTypePostalCode;
-  postalCodeField.tag = SPCardFieldTypePostalCode;
-  postalCodeField.alpha = 0;
-  postalCodeField.isAccessibilityElement = NO;
-  self.postalCodeField = postalCodeField;
-  // Placeholder and appropriate keyboard typeare set by country code setter
-
-  UIView *fieldsView = [[UIView alloc] init];
-  fieldsView.clipsToBounds = YES;
-  fieldsView.backgroundColor = [UIColor clearColor];
-  self.fieldsView = fieldsView;
-
-  self.allFields = @[ numberField, expirationField, cvcField, postalCodeField ];
-
+- (void)singleLineCardFormCommonInit {
   [self addSubview:self.fieldsView];
+  
   for (SPFormTextField *field in self.allFields) {
     [self.fieldsView addSubview:field];
   }
 
-  [self addSubview:brandImageView];
-  // On small screens, the number field fits ~4 numbers, and the brandImage is
-  // just as large. Previously, taps on the brand image would *dismiss* the
-  // keyboard. Make it move to the numberField instead
-  brandImageView.userInteractionEnabled = YES;
-  [brandImageView addGestureRecognizer:[[UITapGestureRecognizer alloc]
-                                        initWithTarget:numberField
-                                        action:@selector(becomeFirstResponder)]];
+  [self addSubview:self.brandImageView];
+
+  self.expirationField.alpha = 0;
+  self.cvcField.alpha = 0;
+  self.postalCodeField.alpha = 0;
+
+  _sizingField = [self buildSizingTextField];
+  _sizingField.formDelegate = nil;
+  _sizingLabel = [UILabel new];
 
   self.focusedTextFieldForLayout = nil;
-  [self updateCVCPlaceholder];
-  [self resetSubviewEditingTransitionState];
-  self.countryCode = [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];
 }
 
-- (SingleLineCardFormViewModel *)viewModel {
-  if (_viewModel == nil) {
-    _viewModel = [SingleLineCardFormViewModel new];
-  }
-  return _viewModel;
-}
-
-#pragma mark appearance properties
-
-- (void)clearSizingCache {
-  self.textToWidthCache = [NSMutableDictionary new];
-  self.numberToWidthCache = [NSMutableDictionary new];
-}
-
-+ (UIColor *)placeholderGrayColor {
-#ifdef __IPHONE_13_0
-  if (@available(iOS 13.0, *)) {
-    return [UIColor systemGray2Color];
-  }
-#endif
-
-  return [UIColor lightGrayColor];
-}
-
-- (void)setBackgroundColor:(UIColor *)backgroundColor {
-  [super setBackgroundColor:[backgroundColor copy]];
-  self.numberField.backgroundColor = self.backgroundColor;
-}
-
-- (UIColor *)backgroundColor {
-  UIColor *defaultColor = [UIColor whiteColor];
-#ifdef __IPHONE_13_0
-  if (@available(iOS 13.0, *)) {
-    defaultColor = [UIColor systemBackgroundColor];
-  }
-#endif
-
-  return [super backgroundColor] ?: defaultColor;
-}
-
-- (void)setFont:(UIFont *)font {
-  _font = [font copy];
-
-  for (UITextField *field in [self allFields]) {
-    field.font = _font;
-  }
-
-  self.sizingField.font = _font;
-  [self clearSizingCache];
-
-  [self setNeedsLayout];
-}
-
-- (UIFont *)font {
-  return _font ?: [UIFont systemFontOfSize:18];
-}
-
-- (void)setTextColor:(UIColor *)textColor {
-  _textColor = [textColor copy];
-
-  for (SPFormTextField *field in [self allFields]) {
-    field.defaultColor = _textColor;
-  }
-}
-
-- (void)setContentVerticalAlignment:
-(UIControlContentVerticalAlignment)contentVerticalAlignment {
-  [super setContentVerticalAlignment:contentVerticalAlignment];
-  for (UITextField *field in [self allFields]) {
-    field.contentVerticalAlignment = contentVerticalAlignment;
-  }
-  switch (contentVerticalAlignment) {
-    case UIControlContentVerticalAlignmentCenter:
-      self.brandImageView.contentMode = UIViewContentModeCenter;
-      break;
-    case UIControlContentVerticalAlignmentBottom:
-      self.brandImageView.contentMode = UIViewContentModeBottom;
-      break;
-    case UIControlContentVerticalAlignmentFill:
-      self.brandImageView.contentMode = UIViewContentModeTop;
-      break;
-    case UIControlContentVerticalAlignmentTop:
-      self.brandImageView.contentMode = UIViewContentModeTop;
-      break;
-  }
-}
-
-- (UIColor *)textColor {
-  UIColor *defaultColor = [UIColor blackColor];
-#ifdef __IPHONE_13_0
-  if (@available(iOS 13.0, *)) {
-    defaultColor = [UIColor labelColor];
-  }
-#endif
-
-  return _textColor ?: defaultColor;
-}
-
-- (void)setTextErrorColor:(UIColor *)textErrorColor {
-  _textErrorColor = [textErrorColor copy];
-
-  for (SPFormTextField *field in [self allFields]) {
-    field.errorColor = _textErrorColor;
-  }
-}
-
-- (UIColor *)textErrorColor {
-  UIColor *defaultColor = [UIColor redColor];
-#ifdef __IPHONE_13_0
-  if (@available(iOS 13.0, *)) {
-    defaultColor = [UIColor systemRedColor];
-  }
-#endif
-
-  return _textErrorColor ?: defaultColor;
-}
-
-- (void)setPlaceholderColor:(UIColor *)placeholderColor {
-  _placeholderColor = [placeholderColor copy];
-  self.brandImageView.tintColor = placeholderColor;
-
-  for (SPFormTextField *field in [self allFields]) {
-    field.placeholderColor = _placeholderColor;
-  }
-}
-
-- (UIColor *)placeholderColor {
-  return _placeholderColor ?: [self.class placeholderGrayColor];
-}
-
-- (void)setNumberPlaceholder:(NSString *__nullable)numberPlaceholder {
-  _numberPlaceholder = [numberPlaceholder copy];
-  self.numberField.placeholder = _numberPlaceholder;
-}
-
-- (void)setExpirationPlaceholder:(NSString *__nullable)expirationPlaceholder {
-  _expirationPlaceholder = [expirationPlaceholder copy];
-  self.expirationField.placeholder = _expirationPlaceholder;
-}
-
-- (void)setCvcPlaceholder:(NSString *__nullable)cvcPlaceholder {
-  _cvcPlaceholder = [cvcPlaceholder copy];
-  self.cvcField.placeholder = _cvcPlaceholder;
-}
-
-- (void)setPostalCodePlaceholder:(NSString *)postalCodePlaceholder {
-  _postalCodePlaceholder = postalCodePlaceholder.copy;
-  [self updatePostalFieldPlaceholder];
-}
-
-- (BOOL)postalCodeEntryDisplayed {
-  return self.viewModel.postalCodeDisplayed;
-}
-
-- (BOOL)postalCodeEntryRequired {
-  return self.viewModel.postalCodeRequired;
-}
-
-- (BOOL)cvcEntryDisplayed {
-  return self.viewModel.cvcDisplayed;
-}
-
-- (BOOL)cvcEntryRequired {
-  return self.viewModel.cvcRequired;
-}
-
-- (NSString *)countryCode {
-  return self.viewModel.postalCodeCountryCode;
-}
-
-- (void)setCountryCode:(NSString *)cCode {
-  NSString *countryCode = cCode ?: [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];
-
-  self.viewModel.postalCodeCountryCode = countryCode;
-  [self updatePostalFieldPlaceholder];
-
-  if ([countryCode isEqualToString:@"US"]) {
-    self.postalCodeField.keyboardType = UIKeyboardTypePhonePad;
-  } else {
-    self.postalCodeField.keyboardType = UIKeyboardTypeDefault;
-  }
-
-  // This will revalidate and reformat
-  [self setText:self.postalCode inField:SPCardFieldTypePostalCode];
-}
-
-- (void)updatePostalFieldPlaceholder {
-  if (self.postalCodePlaceholder == nil) {
-    self.postalCodeField.placeholder = [self defaultPostalFieldPlaceholderForCountryCode:self.countryCode];
-  } else {
-    self.postalCodeField.placeholder = _postalCodePlaceholder;
-  }
-}
-
-- (NSString *)defaultPostalFieldPlaceholderForCountryCode:(NSString *)countryCode {
-  if ([countryCode.uppercaseString isEqualToString:@"US"]) {
-    return @"ZIP";
-  } else {
-    return @"Postal";
-  }
-}
+#pragma mark Setters and Getters
 
 - (void)setCursorColor:(UIColor *)cursorColor {
-  self.tintColor = cursorColor;
+  super.cursorColor = cursorColor;
 }
 
 - (UIColor *)cursorColor {
-  return self.tintColor;
+  return super.cursorColor;
 }
 
-- (void)setBorderColor:(UIColor *__nullable)borderColor {
-  _borderColor = borderColor;
-  if (borderColor) {
-    self.layer.borderColor = [[borderColor copy] CGColor];
-  } else {
-    self.layer.borderColor = [[UIColor clearColor] CGColor];
-  }
+- (void)setPostalCodePlaceholder:(NSString *)postalCodePlaceholder {
+  super.postalCodePlaceholder = postalCodePlaceholder;
 }
 
-- (UIColor *__nullable)borderColor {
-  return _borderColor;
+- (NSString *)postalCodePlaceholder {
+  return super.postalCodePlaceholder;
 }
 
-- (void)setCornerRadius:(CGFloat)cornerRadius {
-  _cornerRadius = cornerRadius;
-  self.layer.cornerRadius = cornerRadius;
+- (void)setCvcPlaceholder:(NSString *)cvcPlaceholder {
+  super.cvcPlaceholder = cvcPlaceholder;
 }
 
-- (CGFloat)cornerRadius {
-  return _cornerRadius;
+- (NSString *)cvcPlaceholder {
+  return super.cvcPlaceholder;
 }
 
-- (void)setBorderWidth:(CGFloat)borderWidth {
-  _borderWidth = borderWidth;
-  self.layer.borderWidth = borderWidth;
+- (void)setExpirationPlaceholder:(NSString *)expirationPlaceholder {
+  super.expirationPlaceholder = expirationPlaceholder;
 }
 
-- (CGFloat)borderWidth {
-  return _borderWidth;
+- (NSString *)expirationPlaceholder {
+  return super.expirationPlaceholder;
+}
+
+- (void)setNumberPlaceholder:(NSString *)numberPlaceholder {
+  super.numberPlaceholder = numberPlaceholder;
+}
+
+- (NSString *)numberPlaceholder {
+  return super.numberPlaceholder;
+}
+
+- (void)setTextColor:(UIColor *)textColor {
+  super.textColor = textColor;
+}
+
+- (UIColor *)textColor {
+  return super.textColor;
+}
+
+- (void)setTextErrorColor:(UIColor *)textErrorColor {
+  super.textErrorColor = textErrorColor;
+}
+
+- (UIColor *)textErrorColor {
+  return super.textErrorColor;
 }
 
 - (void)setKeyboardAppearance:(UIKeyboardAppearance)keyboardAppearance {
@@ -449,147 +187,100 @@ CGFloat const SingleLineCardFormMinimumPadding = 10;
   }
 }
 
-- (void)setInputView:(UIView *)inputView {
-  _inputView = inputView;
+- (void)setBorderColor:(UIColor *__nullable)borderColor {
+  super.borderColor = borderColor;
+}
 
-  for (SPFormTextField *field in [self allFields]) {
-    field.inputView = inputView;
-  }
+- (UIColor *__nullable)borderColor {
+  return super.borderColor;
+}
+
+- (void)setCornerRadius:(CGFloat)cornerRadius {
+  super.cornerRadius = cornerRadius;
+}
+
+- (CGFloat)cornerRadius {
+  return super.cornerRadius;
+}
+
+- (void)setBorderWidth:(CGFloat)borderWidth {
+  super.borderWidth = borderWidth;
+}
+
+- (CGFloat)borderWidth {
+  return super.borderWidth;
+}
+
+- (void)setInputView:(UIView *)inputView {
+  super.inputView = inputView;
+}
+
+- (UIView *)inputView {
+  return  super.inputView;
 }
 
 - (void)setInputAccessoryView:(UIView *)inputAccessoryView {
-  _inputAccessoryView = inputAccessoryView;
-
-  for (SPFormTextField *field in [self allFields]) {
-    field.inputAccessoryView = inputAccessoryView;
-  }
+  super.inputAccessoryView = inputAccessoryView;
 }
 
-#pragma mark UIControl
-
-- (void)setEnabled:(BOOL)enabled {
-  [super setEnabled:enabled];
-  for (SPFormTextField *textField in [self allFields]) {
-    textField.enabled = enabled;
-  };
+- (UIView *)inputAccessoryView {
+  return super.inputAccessoryView;
 }
 
-#pragma mark UIResponder & related methods
-
-- (BOOL)isFirstResponder {
-  return self.currentFirstResponderField != nil;
+- (void)setPlaceholderColor:(UIColor *)placeholderColor {
+  super.placeholderColor = placeholderColor;
 }
 
-- (BOOL)canBecomeFirstResponder {
-  SPFormTextField *firstResponder =
-  [self currentFirstResponderField] ?: [self nextFirstResponderField];
-  return [firstResponder canBecomeFirstResponder];
+- (UIColor *)placeholderColor {
+  return super.placeholderColor;
 }
 
-- (BOOL)becomeFirstResponder {
-  SPFormTextField *firstResponder =
-  [self currentFirstResponderField] ?: [self nextFirstResponderField];
-  return [firstResponder becomeFirstResponder];
+
+- (void)clearSizingCache {
+  self.textToWidthCache = [NSMutableDictionary new];
+  self.numberToWidthCache = [NSMutableDictionary new];
 }
 
-/**
- Returns the next text field to be edited, in priority order:
+- (void)setFont:(UIFont *)font {
+  [super setFont:font];
 
- 1. If we're currently in a text field, returns the next one (ignoring
- postalCodeField if postalCodeEntryDisplayed == NO and cvcField if cvcEntryDisplayed == NO)
- 2. Otherwise, returns the first invalid field (either cycling back from the end
- or as it gains 1st responder)
- 3. As a final fallback, just returns the last field
- */
-- (nonnull SPFormTextField *)nextFirstResponderField {
-  SPFormTextField *currentFirstResponder = [self currentFirstResponderField];
-  SPFormTextField *nextField = nil;
+  self.sizingField.font = [font copy];
+  [self clearSizingCache];
 
-  if (currentFirstResponder) {
-    NSUInteger index = [self.allFields indexOfObject:currentFirstResponder];
-    if (index != NSNotFound) {
-      nextField = [self.allFields sp_boundSafeObjectAtIndex:index + 1];
-    }
-  }
-
-  if (nextField &&
-      (self.postalCodeEntryDisplayed || nextField != self.postalCodeField) &&
-      (self.cvcEntryDisplayed || nextField != self.cvcField)) {
-    return nextField;
-  }
-
-  return [self firstInvalidSubField] ?: [self lastSubField];
+  [self setNeedsLayout];
 }
 
-- (nullable SPFormTextField *)firstInvalidSubField {
-  if ([self.viewModel isFieldValid:SPCardFieldTypeNumber] == NO) {
-    return self.numberField;
-  } else if ([self.viewModel isFieldValid:SPCardFieldTypeExpiration] == NO) {
-    return self.expirationField;
-  } else if (self.cvcEntryRequired && [self.viewModel isFieldValid:SPCardFieldTypeCVC] == NO) {
-    return self.cvcField;
-  } else if (self.postalCodeEntryRequired && [self.viewModel isFieldValid:SPCardFieldTypePostalCode] == NO) {
-    return self.postalCodeField;
-  } else {
-    return nil;
-  }
+- (UIFont *)font {
+  return super.font;
 }
 
-- (nonnull SPFormTextField *)lastSubField {
-  if (self.postalCodeEntryDisplayed) {
-    return self.postalCodeField;
-  } else if (self.cvcEntryDisplayed) {
-    return self.cvcField;;
-  } else {
-    return self.expirationField;
-  }
+- (NSString *)cardNumber {
+  return self.viewModel.cardNumber;
 }
 
-- (SPFormTextField *)currentFirstResponderField {
-  for (SPFormTextField *textField in [self allFields]) {
-    if ([textField isFirstResponder]) {
-      return textField;
-    }
-  }
-  return nil;
+- (BOOL)postalCodeEntryDisplayed {
+  return self.viewModel.postalCodeDisplayed;
 }
 
-- (BOOL)canResignFirstResponder {
-  return [self.currentFirstResponderField canResignFirstResponder];
+- (BOOL)cvcEntryDisplayed {
+  return self.viewModel.cvcDisplayed;
 }
+
 
 - (BOOL)resignFirstResponder {
-  [super resignFirstResponder];
-  BOOL success = [self.currentFirstResponderField resignFirstResponder];
+  BOOL success = [super resignFirstResponder];
+
   [self layoutViewsToFocusField:nil
            becomeFirstResponder:NO
                        animated:YES
                      completion:nil];
-  [self updateImageForFieldType:SPCardFieldTypeNumber];
+
   return success;
 }
 
-- (SPFormTextField *)previousField {
-  SPFormTextField *currentSubResponder = self.currentFirstResponderField;
-  if (currentSubResponder) {
-    NSUInteger index = [self.allFields indexOfObject:currentSubResponder];
-    if (index != NSNotFound && index > 0) {
-      return self.allFields[index - 1];
-    }
-  }
-  return nil;
-}
-
-#pragma mark public convenience methods
-
 - (void)clear {
-  for (SPFormTextField *field in [self allFields]) {
-    field.text = @"";
-  }
-  self.viewModel = [SingleLineCardFormViewModel new];
-  [self onChange];
-  [self updateImageForFieldType:SPCardFieldTypeNumber];
-  [self updateCVCPlaceholder];
+  [super clear];
+  
   __weak typeof(self) weakSelf = self;
   [self layoutViewsToFocusField:@(SPCardFieldTypePostalCode)
            becomeFirstResponder:YES
@@ -600,77 +291,6 @@ CGFloat const SingleLineCardFormMinimumPadding = 10;
       [[strongSelf numberField] becomeFirstResponder];
     }
   }];
-}
-
-- (BOOL)isValid {
-  return [self.viewModel isValid];
-}
-
-- (BOOL)valid {
-  return self.isValid;
-}
-
-#pragma mark readonly variables
-
-- (NSString *)cardNumber {
-  return self.viewModel.cardNumber;
-}
-
-- (NSUInteger)expirationMonth {
-  return [self.viewModel.expirationMonth integerValue];
-}
-
-- (NSUInteger)expirationYear {
-  return [self.viewModel.expirationYear integerValue];
-}
-
-- (NSString *)formattedExpirationMonth {
-  return self.viewModel.expirationMonth;
-}
-
-- (NSString *)formattedExpirationYear {
-  return self.viewModel.expirationYear;
-}
-
-- (NSString *)formattedExpirationDate {
-  return [self.viewModel.expirationMonth
-          stringByAppendingFormat:@"/%@", self.viewModel.expirationYear];
-}
-
-- (NSString *)cvc {
-  if (self.cvcEntryDisplayed) {
-    return self.viewModel.cvc;
-  } else {
-    return nil;
-  }
-}
-
-- (NSString *)postalCode {
-  if (self.postalCodeEntryDisplayed) {
-    return self.viewModel.postalCode;
-  } else {
-    return nil;
-  }
-}
-
-- (void)setText:(NSString *)text inField:(SPCardFieldType)field {
-  NSString *nonNilText = text ?: @"";
-  SPFormTextField *textField = nil;
-  switch (field) {
-    case SPCardFieldTypeNumber:
-      textField = self.numberField;
-      break;
-    case SPCardFieldTypeExpiration:
-      textField = self.expirationField;
-      break;
-    case SPCardFieldTypeCVC:
-      textField = self.cvcField;
-      break;
-    case SPCardFieldTypePostalCode:
-      textField = self.postalCodeField;
-      break;
-  }
-  textField.text = nonNilText;
 }
 
 - (CGFloat)numberFieldFullWidth {
@@ -1113,9 +733,8 @@ typedef NS_ENUM(NSInteger, SingleLineCardFormState) {
 
 #pragma mark - private helper methods
 
-- (SPFormTextField *)buildTextField {
-  SPFormTextField *textField =
-  [[SPFormTextField alloc] initWithFrame:CGRectZero];
+- (SPFormTextField *)buildSizingTextField {
+  SPFormTextField *textField = [[SPFormTextField alloc] initWithFrame:CGRectZero];
   textField.backgroundColor = [UIColor clearColor];
   // setCountryCode: updates the postalCodeField keyboardType, this is safe
   textField.keyboardType = UIKeyboardTypeASCIICapableNumberPad;
@@ -1124,7 +743,7 @@ typedef NS_ENUM(NSInteger, SingleLineCardFormState) {
   textField.defaultColor = self.textColor;
   textField.errorColor = self.textErrorColor;
   textField.placeholderColor = self.placeholderColor;
-  textField.formDelegate = self;
+  textField.formDelegate = nil;
   textField.validText = true;
   return textField;
 }
@@ -1217,436 +836,6 @@ typedef void (^SPLayoutAnimationCompletionBlock)(BOOL completed);
     self.numberToWidthCache[cardNumber] = cachedValue;
   }
   return (CGFloat)[cachedValue doubleValue];
-}
-
-#pragma mark SPFormTextFieldDelegate
-
-- (void)formTextFieldDidBackspaceOnEmpty:
-(__unused SPFormTextField *)formTextField {
-  SPFormTextField *previous = [self previousField];
-  [previous becomeFirstResponder];
-  UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification,
-                                  nil);
-  if (previous.hasText) {
-    [previous deleteBackward];
-  }
-}
-
-- (NSAttributedString *)formTextField:(SPFormTextField *)formTextField
-             modifyIncomingTextChange:(NSAttributedString *)input {
-  SPCardFieldType fieldType = formTextField.tag;
-  switch (fieldType) {
-    case SPCardFieldTypeNumber:
-      self.viewModel.cardNumber = input.string;
-      [self setNeedsLayout];
-      break;
-    case SPCardFieldTypeExpiration:
-      self.viewModel.rawExpiration = input.string;
-      break;
-    case SPCardFieldTypeCVC:
-      self.viewModel.cvc = input.string;
-      break;
-    case SPCardFieldTypePostalCode:
-      self.viewModel.postalCode = input.string;
-      [self setNeedsLayout];
-      break;
-  }
-
-  switch (fieldType) {
-    case SPCardFieldTypeNumber:
-      return [[NSAttributedString alloc]
-              initWithString:self.viewModel.cardNumber
-              attributes:self.numberField.defaultTextAttributes];
-    case SPCardFieldTypeExpiration:
-      return [[NSAttributedString alloc]
-              initWithString:self.viewModel.rawExpiration
-              attributes:self.expirationField.defaultTextAttributes];
-    case SPCardFieldTypeCVC:
-      return [[NSAttributedString alloc]
-              initWithString:self.viewModel.cvc
-              attributes:self.cvcField.defaultTextAttributes];
-    case SPCardFieldTypePostalCode:
-      return [[NSAttributedString alloc]
-              initWithString:self.viewModel.postalCode
-              attributes:self.cvcField.defaultTextAttributes];
-  }
-}
-
-- (void)formTextFieldTextDidChange:(SPFormTextField *)formTextField {
-  SPCardFieldType fieldType = formTextField.tag;
-  if (fieldType == SPCardFieldTypeNumber) {
-    [self updateImageForFieldType:fieldType];
-    [self updateCVCPlaceholder];
-    // Changing the card number field can invalidate the cvc, e.g. going from 4
-    // digit Amex cvc to 3 digit Visa
-    self.cvcField.validText =
-    [self.viewModel validationStateForField:SPCardFieldTypeCVC] !=
-    SPCardValidationStateInvalid;
-  }
-
-  SPCardValidationState state =
-  [self.viewModel validationStateForField:fieldType];
-  formTextField.validText = YES;
-  switch (state) {
-    case SPCardValidationStateInvalid:
-      formTextField.validText = NO;
-      break;
-    case SPCardValidationStateIncomplete:
-      break;
-    case SPCardValidationStateValid: {
-      if (fieldType == SPCardFieldTypeCVC) {
-        /*
-         Even though any CVC longer than the min required CVC length
-         is valid, we don't want to forward on to the next field
-         unless it is actually >= the max cvc length (otherwise when
-         postal code is showing, you can't easily enter CVCs longer than
-         the minimum.
-         */
-        NSString *sanitizedCvc =
-        [SPCardValidator sanitizedNumericStringForString:formTextField.text];
-        if (sanitizedCvc.length <
-            [SPCardValidator maxCVCLengthForCardBrand:self.viewModel.brand]) {
-          break;
-        }
-      } else if (fieldType == SPCardFieldTypePostalCode) {
-        /*
-         Similar to the UX problems on CVC, since our Postal Code validation
-         is pretty light, we want to block auto-advance here. In the US, this
-         allows users to enter 9 digit zips if they want, and as many as they
-         need in non-US countries (where >0 characters is "valid")
-         */
-        break;
-      }
-
-      // This is a no-op if this is the last field & they're all valid
-      [[self nextFirstResponderField] becomeFirstResponder];
-      UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification,
-                                      nil);
-
-      break;
-    }
-  }
-
-  [self onChange];
-}
-
-typedef NS_ENUM(NSInteger, SPFieldEditingTransitionCallSite) {
-  SPFieldEditingTransitionCallSiteShouldBegin,
-  SPFieldEditingTransitionCallSiteShouldEnd,
-  SPFieldEditingTransitionCallSiteDidBegin,
-  SPFieldEditingTransitionCallSiteDidEnd,
-};
-
-// Explanation of the logic here is with the definition of these properties
-// at the top of this file
-- (BOOL)getAndUpdateSubviewEditingTransitionStateFromCall:
-(SPFieldEditingTransitionCallSite)sendingMethod {
-  BOOL stateToReturn;
-  switch (sendingMethod) {
-    case SPFieldEditingTransitionCallSiteShouldBegin:
-      self.receivedUnmatchedShouldBeginEditing = YES;
-      if (self.receivedUnmatchedShouldEndEditing) {
-        self.isMidSubviewEditingTransitionInternal = YES;
-      }
-      stateToReturn = self.isMidSubviewEditingTransitionInternal;
-      break;
-    case SPFieldEditingTransitionCallSiteShouldEnd:
-      self.receivedUnmatchedShouldEndEditing = YES;
-      if (self.receivedUnmatchedShouldBeginEditing) {
-        self.isMidSubviewEditingTransitionInternal = YES;
-      }
-      stateToReturn = self.isMidSubviewEditingTransitionInternal;
-      break;
-    case SPFieldEditingTransitionCallSiteDidBegin:
-      stateToReturn = self.isMidSubviewEditingTransitionInternal;
-      self.receivedUnmatchedShouldBeginEditing = NO;
-
-      if (self.receivedUnmatchedShouldEndEditing == NO) {
-        self.isMidSubviewEditingTransitionInternal = NO;
-      }
-      break;
-    case SPFieldEditingTransitionCallSiteDidEnd:
-      stateToReturn = self.isMidSubviewEditingTransitionInternal;
-      self.receivedUnmatchedShouldEndEditing = NO;
-
-      if (self.receivedUnmatchedShouldBeginEditing == NO) {
-        self.isMidSubviewEditingTransitionInternal = NO;
-      }
-      break;
-  }
-
-  return stateToReturn;
-}
-
-- (void)resetSubviewEditingTransitionState {
-  self.isMidSubviewEditingTransitionInternal = NO;
-  self.receivedUnmatchedShouldBeginEditing = NO;
-  self.receivedUnmatchedShouldEndEditing = NO;
-}
-
-- (BOOL)textFieldShouldBeginEditing:(__unused UITextField *)textField {
-  [self getAndUpdateSubviewEditingTransitionStateFromCall:
-   SPFieldEditingTransitionCallSiteShouldBegin];
-  return YES;
-}
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-  BOOL isMidSubviewEditingTransition =
-  [self getAndUpdateSubviewEditingTransitionStateFromCall:
-   SPFieldEditingTransitionCallSiteDidBegin];
-
-  [self layoutViewsToFocusField:@(textField.tag)
-           becomeFirstResponder:YES
-                       animated:YES
-                     completion:nil];
-
-  if (!isMidSubviewEditingTransition) {
-    if ([self.delegate respondsToSelector:@selector
-         (singleLineCardFormDidBeginEditing:)]) {
-      [self.delegate singleLineCardFormDidBeginEditing:self];
-    }
-  }
-
-  switch ((SPCardFieldType)textField.tag) {
-    case SPCardFieldTypeNumber:
-      ((SPFormTextField *)textField).validText = YES;
-      if ([self.delegate respondsToSelector:@selector
-           (singleLineCardFormDidBeginEditingNumber:)]) {
-        [self.delegate singleLineCardFormDidBeginEditingNumber:self];
-      }
-      break;
-    case SPCardFieldTypeCVC:
-      if ([self.delegate respondsToSelector:@selector
-           (singleLineCardFormBeginEditingCVC:)]) {
-        [self.delegate singleLineCardFormBeginEditingCVC:self];
-      }
-      break;
-    case SPCardFieldTypeExpiration:
-      if ([self.delegate respondsToSelector:@selector
-           (singleLineCardFormDidBeginEditingExpiration:)]) {
-        [self.delegate singleLineCardFormDidBeginEditingExpiration:self];
-      }
-      break;
-    case SPCardFieldTypePostalCode:
-      if ([self.delegate respondsToSelector:@selector
-           (singleLineCardFormDidBeginEditingPostalCode:)]) {
-        [self.delegate singleLineCardFormDidBeginEditingPostalCode:self];
-      }
-      break;
-  }
-  [self updateImageForFieldType:textField.tag];
-}
-
-- (BOOL)textFieldShouldEndEditing:(__unused UITextField *)textField {
-  [self getAndUpdateSubviewEditingTransitionStateFromCall:
-   SPFieldEditingTransitionCallSiteShouldEnd];
-  [self updateImageForFieldType:SPCardFieldTypeNumber];
-  return YES;
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-  BOOL isMidSubviewEditingTransition =
-  [self getAndUpdateSubviewEditingTransitionStateFromCall:
-   SPFieldEditingTransitionCallSiteDidEnd];
-
-  switch ((SPCardFieldType)textField.tag) {
-    case SPCardFieldTypeNumber:
-      if ([self.viewModel validationStateForField:SPCardFieldTypeNumber] ==
-          SPCardValidationStateIncomplete) {
-        ((SPFormTextField *)textField).validText = NO;
-      }
-      if ([self.delegate respondsToSelector:@selector
-           (singleLineCardFormDidEndEditingNumber:)]) {
-        [self.delegate singleLineCardFormDidEndEditingNumber:self];
-      }
-      break;
-    case SPCardFieldTypeCVC:
-      if ([self.delegate respondsToSelector:@selector
-           (singleLineCardFormDidEndEditingCVC:)]) {
-        [self.delegate singleLineCardFormDidEndEditingCVC:self];
-      }
-      break;
-    case SPCardFieldTypeExpiration:
-      if ([self.delegate respondsToSelector:@selector
-           (singleLineCardFormDidEndEditingExpiration:)]) {
-        [self.delegate singleLineCardFormDidEndEditingExpiration:self];
-      }
-      break;
-    case SPCardFieldTypePostalCode:
-      if ([self.delegate respondsToSelector:@selector
-           (singleLineCardFormDidEndEditingPostalCode:)]) {
-        [self.delegate singleLineCardFormDidEndEditingPostalCode:self];
-      }
-      break;
-  }
-
-  if (!isMidSubviewEditingTransition) {
-    [self layoutViewsToFocusField:nil
-             becomeFirstResponder:NO
-                         animated:YES
-                       completion:nil];
-    [self updateImageForFieldType:SPCardFieldTypeNumber];
-    if ([self.delegate
-         respondsToSelector:@selector(singleLineCardFormDidEndEditing:)]) {
-      [self.delegate singleLineCardFormDidEndEditing:self];
-    }
-  }
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-  if (textField == [self lastSubField] && [self firstInvalidSubField] == nil) {
-    // User pressed return in the last field, and all fields are valid
-    if ([self.delegate respondsToSelector:@selector
-         (singleLineCardFormWillEndEditingForReturn:)]) {
-      [self.delegate singleLineCardFormWillEndEditingForReturn:self];
-    }
-    [self resignFirstResponder];
-  } else {
-    // otherwise, move to the next field
-    [[self nextFirstResponderField] becomeFirstResponder];
-    UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification,
-                                    nil);
-  }
-
-  return NO;
-}
-
-- (UIImage *)brandImage {
-  SPCardFieldType fieldType = SPCardFieldTypeNumber;
-  if (self.currentFirstResponderField) {
-    fieldType = self.currentFirstResponderField.tag;
-  }
-  SPCardValidationState validationState =
-  [self.viewModel validationStateForField:fieldType];
-  return [self brandImageForFieldType:fieldType
-                      validationState:validationState];
-}
-
-+ (UIImage *)cvcImageForCardBrand:(SPCardBrand)cardBrand {
-  return [SPImageLibrary cvcImageForCardBrand:cardBrand];
-}
-
-+ (UIImage *)brandImageForCardBrand:(SPCardBrand)cardBrand {
-  return [SPImageLibrary brandImageForCardBrand:cardBrand];
-}
-
-+ (UIImage *)errorImageForCardBrand:(SPCardBrand)cardBrand {
-  return [SPImageLibrary errorImageForCardBrand:cardBrand];
-}
-
-- (UIImage *)brandImageForFieldType:(SPCardFieldType)fieldType
-                    validationState:(SPCardValidationState)validationState {
-  switch (fieldType) {
-    case SPCardFieldTypeNumber:
-      if (validationState == SPCardValidationStateInvalid) {
-        return [self.class errorImageForCardBrand:self.viewModel.brand];
-      } else {
-        return [self.class brandImageForCardBrand:self.viewModel.brand];
-      }
-    case SPCardFieldTypeCVC:
-      return [self.class cvcImageForCardBrand:self.viewModel.brand];
-    case SPCardFieldTypeExpiration:
-      return [self.class brandImageForCardBrand:self.viewModel.brand];
-    case SPCardFieldTypePostalCode:
-      return [self.class brandImageForCardBrand:self.viewModel.brand];
-  }
-}
-
-- (UIViewAnimationOptions)
-brandImageAnimationOptionsForNewType:(SPCardFieldType)newType
-newBrand:(SPCardBrand)newBrand
-oldType:(SPCardFieldType)oldType
-oldBrand:(SPCardBrand)oldBrand {
-
-  if (newType == SPCardFieldTypeCVC && oldType != SPCardFieldTypeCVC) {
-    // Transitioning to show CVC
-
-    if (newBrand != SPCardBrandAmex) {
-      // CVC is on the back
-      return (UIViewAnimationOptionCurveEaseInOut |
-              UIViewAnimationOptionTransitionFlipFromRight);
-    }
-  } else if (newType != SPCardFieldTypeCVC && oldType == SPCardFieldTypeCVC) {
-    // Transitioning to stop showing CVC
-
-    if (oldBrand != SPCardBrandAmex) {
-      // CVC was on the back
-      return (UIViewAnimationOptionCurveEaseInOut |
-              UIViewAnimationOptionTransitionFlipFromLeft);
-    }
-  }
-
-  // All other cases just cross dissolve
-  return (UIViewAnimationOptionCurveEaseInOut |
-          UIViewAnimationOptionTransitionCrossDissolve);
-}
-
-- (void)updateImageForFieldType:(SPCardFieldType)fieldType {
-  SPCardValidationState validationState =
-  [self.viewModel validationStateForField:fieldType];
-  UIImage *image = [self brandImageForFieldType:fieldType
-                                validationState:validationState];
-  if (![image isEqual:self.brandImageView.image]) {
-
-    SPCardBrand newBrand = self.viewModel.brand;
-    UIViewAnimationOptions imageAnimationOptions = [self
-                                                    brandImageAnimationOptionsForNewType:fieldType
-                                                    newBrand:newBrand
-                                                    oldType:self.currentBrandImageFieldType
-                                                    oldBrand:self.currentBrandImageBrand];
-
-    self.currentBrandImageFieldType = fieldType;
-    self.currentBrandImageBrand = newBrand;
-
-    [UIView transitionWithView:self.brandImageView
-                      duration:0.2
-                       options:imageAnimationOptions
-                    animations:^{
-      self.brandImageView.image = image;
-    }
-                    completion:nil];
-  }
-}
-
-- (NSString *)defaultCVCPlaceholder {
-  if (self.viewModel.brand == SPCardBrandAmex) {
-    return @"CVV";
-  } else {
-    return @"CVC";
-  }
-}
-
-- (void)updateCVCPlaceholder {
-  if (self.cvcPlaceholder) {
-    self.cvcField.placeholder = self.cvcPlaceholder;
-    self.cvcField.accessibilityLabel = self.cvcPlaceholder;
-  } else {
-    self.cvcField.placeholder = [self defaultCVCPlaceholder];
-    self.cvcField.accessibilityLabel = [self defaultCVCPlaceholder];
-  }
-}
-
-- (void)onChange {
-  if ([self.delegate
-       respondsToSelector:@selector(singleLineCardFormDidChange:)]) {
-    [self.delegate singleLineCardFormDidChange:self];
-  }
-  [self sendActionsForControlEvents:UIControlEventValueChanged];
-}
-
-#pragma mark UIKeyInput
-
-- (BOOL)hasText {
-  return self.numberField.hasText || self.expirationField.hasText ||
-  self.cvcField.hasText;
-}
-
-- (void)insertText:(NSString *)text {
-  [self.currentFirstResponderField insertText:text];
-}
-
-- (void)deleteBackward {
-  [self.currentFirstResponderField deleteBackward];
 }
 
 @end

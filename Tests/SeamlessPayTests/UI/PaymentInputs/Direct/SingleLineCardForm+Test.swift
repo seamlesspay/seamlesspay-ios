@@ -10,24 +10,24 @@ import XCTest
 @testable import SeamlessPay
 
 final class SingleLineCardFormTest: XCTestCase {
-  var view: SingleLineCardForm!
 
   override func setUp() {
     super.setUp()
-    view = SingleLineCardForm(
+  }
+
+  override func tearDown() {
+    super.tearDown()
+  }
+
+  func testInitWithAuthorization() {
+    // Given
+    // When
+    let view = SingleLineCardForm(
       authorization: .init(
         environment: .sandbox,
         secretKey: "test_secret_key"
       )
     )
-  }
-
-  override func tearDown() {
-    view = nil
-    super.tearDown()
-  }
-
-  func testInitWithAuthorization() {
     // Then
     XCTAssertNotNil(view.apiClient)
     XCTAssertEqual(view.apiClient?.environment, .sandbox)
@@ -36,15 +36,12 @@ final class SingleLineCardFormTest: XCTestCase {
 
   func testSetAuthorization() {
     // Given
-    let view = SingleLineCardForm()
-    let authorization = Authorization(
-      environment: .sandbox,
-      secretKey: "another_test_secret_key"
-    )
-
     // When
-    view.setAuthorization(
-      authorization
+    let view = SingleLineCardForm(
+      authorization: Authorization(
+        environment: .sandbox,
+        secretKey: "another_test_secret_key"
+      )
     )
 
     // Then
@@ -54,6 +51,13 @@ final class SingleLineCardFormTest: XCTestCase {
 
   func testAPIClientAssociationKey() {
     // Given
+    let view = SingleLineCardForm(
+      authorization: .init(
+        environment: .sandbox,
+        secretKey: "test_secret_key"
+      )
+    )
+
     // When
     let textField2 = SingleLineCardForm(authorization: .init(
       environment: .production,
@@ -75,6 +79,13 @@ final class SingleLineCardFormTest: XCTestCase {
   }
 
   func testViewModel() {
+    // Given
+    let view = SingleLineCardForm(
+      authorization: .init(
+        environment: .sandbox,
+        secretKey: "test_secret_key"
+      )
+    )
     // Then
     XCTAssertNotNil(view.viewModel)
   }
@@ -82,6 +93,13 @@ final class SingleLineCardFormTest: XCTestCase {
   func testViewModelDefaultInitialization() {
     // Given
     // When
+    let view = SingleLineCardForm(
+      authorization: .init(
+        environment: .sandbox,
+        secretKey: "test_secret_key"
+      )
+    )
+
     let viewModel = view.viewModel!
 
     // Then
@@ -93,15 +111,19 @@ final class SingleLineCardFormTest: XCTestCase {
 
   func testSetFieldOptionsRequired() {
     // Given
-    let viewModel = view.viewModel!
-
     // When
-    view.setFieldOptions(
-      .init(
+    let view = SingleLineCardForm(
+      authorization: Authorization(
+        environment: .sandbox,
+        secretKey: "another_test_secret_key"
+      ),
+      fieldOptions: .init(
         cvv: .init(display: .required),
         postalCode: .init(display: .required)
       )
     )
+
+    let viewModel = view.viewModel!
 
     // Then
     XCTAssert(viewModel.cvcRequired == true)
@@ -112,15 +134,19 @@ final class SingleLineCardFormTest: XCTestCase {
 
   func testSetFieldOptionsOptional() {
     // Given
-    let viewModel = view.viewModel!
-
     // When
-    view.setFieldOptions(
-      .init(
+    let view = SingleLineCardForm(
+      authorization: Authorization(
+        environment: .sandbox,
+        secretKey: "another_test_secret_key"
+      ),
+      fieldOptions: .init(
         cvv: .init(display: .optional),
         postalCode: .init(display: .optional)
       )
     )
+
+    let viewModel = view.viewModel!
 
     // Then
     XCTAssert(viewModel.cvcRequired == false)
@@ -131,15 +157,19 @@ final class SingleLineCardFormTest: XCTestCase {
 
   func testSetFieldOptionsNone() {
     // Given
-    let viewModel = view.viewModel!
-
     // When
-    view.setFieldOptions(
-      .init(
+    let view = SingleLineCardForm(
+      authorization: Authorization(
+        environment: .sandbox,
+        secretKey: "another_test_secret_key"
+      ),
+      fieldOptions: .init(
         cvv: .init(display: .none),
         postalCode: .init(display: .none)
       )
     )
+
+    let viewModel = view.viewModel!
 
     // Then
     XCTAssert(viewModel.cvcRequired == false)
@@ -150,14 +180,21 @@ final class SingleLineCardFormTest: XCTestCase {
 
   func testIsValidStateCVCAndPostalRequired() {
     // Given
-    let view = SingleLineCardForm()
+    // When
+    let view = SingleLineCardForm(
+      authorization: Authorization(
+        environment: .sandbox,
+        secretKey: "another_test_secret_key"
+      ),
+      fieldOptions: .init(
+        cvv: .init(display: .required),
+        postalCode: .init(display: .required)
+      )
+    )
+
     let viewModel = view.viewModel!
 
     // When
-    view.setFieldOptions(.init(
-      cvv: .init(display: .required),
-      postalCode: .init(display: .required)
-    ))
     viewModel.cardNumber = "4242424242424242"
 
     // Then
@@ -184,11 +221,17 @@ final class SingleLineCardFormTest: XCTestCase {
 
   func testIsValidStateCVCAndPostalNone() {
     // Given
-    let view = SingleLineCardForm()
+    let view = SingleLineCardForm(
+      authorization: Authorization(
+        environment: .sandbox,
+        secretKey: "another_test_secret_key"
+      ),
+      fieldOptions: .init(cvv: .init(display: .none), postalCode: .init(display: .none))
+    )
+
     let viewModel = view.viewModel!
 
     // When
-    view.setFieldOptions(.init(cvv: .init(display: .none), postalCode: .init(display: .none)))
     viewModel.cardNumber = "4242424242424242"
 
     // Then
@@ -203,14 +246,20 @@ final class SingleLineCardFormTest: XCTestCase {
 
   func testIsValidStateCVCAndPostalOptionalNoPostal() {
     // Given
-    let view = SingleLineCardForm()
+    // When
+    let view = SingleLineCardForm(
+      authorization: Authorization(
+        environment: .sandbox,
+        secretKey: "another_test_secret_key"
+      ),
+      fieldOptions: .init(
+        cvv: .init(display: .optional),
+        postalCode: .init(display: .optional)
+      )
+    )
+
     let viewModel = view.viewModel!
 
-    // When
-    view.setFieldOptions(.init(
-      cvv: .init(display: .optional),
-      postalCode: .init(display: .optional)
-    ))
     viewModel.cardNumber = "4242424242424242"
 
     // Then
@@ -231,14 +280,20 @@ final class SingleLineCardFormTest: XCTestCase {
 
   func testIsValidStateCVCAndPostalOptionalNoCVC() {
     // Given
-    let view = SingleLineCardForm()
+    // When
+    let view = SingleLineCardForm(
+      authorization: Authorization(
+        environment: .sandbox,
+        secretKey: "another_test_secret_key"
+      ),
+      fieldOptions: .init(
+        cvv: .init(display: .optional),
+        postalCode: .init(display: .optional)
+      )
+    )
+
     let viewModel = view.viewModel!
 
-    // When
-    view.setFieldOptions(.init(
-      cvv: .init(display: .optional),
-      postalCode: .init(display: .optional)
-    ))
     viewModel.cardNumber = "4242424242424242"
 
     // Then
@@ -259,14 +314,22 @@ final class SingleLineCardFormTest: XCTestCase {
 
   func testIsValidStateCVCAndPostalOptionalAndAbsent() {
     // Given
-    let view = SingleLineCardForm()
+    // When
+    let view = SingleLineCardForm(
+      authorization: Authorization(
+        environment: .sandbox,
+        secretKey: "another_test_secret_key"
+      ),
+      fieldOptions: .init(
+        cvv: .init(display: .optional),
+        postalCode: .init(display: .optional)
+      )
+    )
+
     let viewModel = view.viewModel!
 
     // When
-    view.setFieldOptions(.init(
-      cvv: .init(display: .optional),
-      postalCode: .init(display: .optional)
-    ))
+
     viewModel.cardNumber = "4242424242424242"
 
     // Then

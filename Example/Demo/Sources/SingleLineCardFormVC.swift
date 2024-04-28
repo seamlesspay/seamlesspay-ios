@@ -6,11 +6,9 @@
  */
 
 import UIKit
-
-import PassKit
 import SeamlessPay
 
-@objcMembers class SingleLineCardFormVC: UIViewController, SingleLineCardFormDelegate {
+@objcMembers class SingleLineCardFormVC: UIViewController, CardFormDelegate {
   lazy var singleLineCardFormView: SingleLineCardForm = {
     let view = SingleLineCardForm(
       authorization: sharedSPAuthorization,
@@ -19,6 +17,7 @@ import SeamlessPay
         postalCode: .init(display: .required)
       )
     )
+
     view.delegate = self
 
     return view
@@ -27,7 +26,7 @@ import SeamlessPay
   lazy var payButton: UIButton = {
     let button = UIButton(type: .custom)
     button.layer.cornerRadius = 5
-    button.backgroundColor = .systemBlue
+    button.backgroundColor = .gray
     button.titleLabel?.font = UIFont.systemFont(ofSize: 22)
     button.setTitle("Pay", for: .normal)
     button.addTarget(self, action: #selector(pay), for: .touchUpInside)
@@ -104,7 +103,8 @@ import SeamlessPay
     }
   }
 
-  func singleLineCardFormDidChange(_ view: SingleLineCardForm) {
+  func cardFormDidChange(_ view: CardForm) {
+    payButton.backgroundColor = view.isValid ? .systemBlue : .gray
     payButton.isEnabled = view.isValid
   }
 }

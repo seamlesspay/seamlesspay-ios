@@ -5,26 +5,27 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-#import "SingleLineCardFormViewModel.h"
+#import "CardFormViewModel.h"
 #import "NSString+Extras.h"
 #import "SPCardValidator+Extras.h"
 #import "SPPostalCodeValidator.h"
+#import "SPImageLibrary.h"
 
-@implementation SingleLineCardFormViewModel
+@implementation CardFormViewModel
 
 - (instancetype)init {
-    self = [super init];
-    if (self) {
+  self = [super init];
+  if (self) {
 
-      // Default display configuration
-      self.cvcDisplayed = YES;
-      self.cvcRequired = NO;
+    // Default display configuration
+    self.cvcDisplayed = YES;
+    self.cvcRequired = NO;
 
-      // Default display configuration
-      self.postalCodeDisplayed = YES;
-      self.postalCodeRequired = NO;
-    }
-    return self;
+    // Default display configuration
+    self.postalCodeDisplayed = YES;
+    self.postalCodeRequired = NO;
+  }
+  return self;
 }
 
 - (void)setCardNumber:(NSString *)cardNumber {
