@@ -118,6 +118,7 @@ private extension MultiLineCardForm {
     numberField.rightViewMode = .always
   }
 
+  // swiftlint:disable function_body_length
   func constraintViews() {
     let offset1: CGFloat = 10
     let offset2: CGFloat = 15
@@ -264,6 +265,7 @@ private extension MultiLineCardForm {
       ]
     )
   }
+  // swiftlint:enable function_body_length
 }
 
 private extension MultiLineCardForm {
