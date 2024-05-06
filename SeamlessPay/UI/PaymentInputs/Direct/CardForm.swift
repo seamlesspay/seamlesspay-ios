@@ -99,19 +99,60 @@ public extension CardForm {
                   id: $0.id,
                   paymentMethod: paymentMethod,
                   details: .init(
-                    accountType: $0.accountType,
                     amount: $0.amount,
-                    currency: $0.currency,
                     authCode: $0.authCode,
                     batchId: $0.batch,
-                    expDate: $0.expDate,
                     lastFour: $0.lastFour,
                     cardBrand: paymentMethod.details.paymentNetwork,
                     status: $0.status,
                     statusCode: $0.statusCode,
                     statusDescription: $0.statusDescription,
                     surchargeFeeAmount: $0.surchargeFeeAmount,
-                    tip: $0.tip,
+                    transactionDate: $0.transactionDate
+                  )
+                )
+              }
+            )
+          }
+        )
+      case let .failure(error):
+        completion?(.failure(error))
+      }
+    }
+  }
+}
+
+// MARK: - Refund
+public extension CardForm {
+  func refund(
+    _ request: RefundRequest,
+    completion: ((Result<RefundResponse, SeamlessPayError>) -> Void)?
+  ) {
+    tokenize { result in
+      switch result {
+      case let .success(paymentMethod):
+        self.apiClient?.createRefund(
+          token: paymentMethod.paymentToken,
+          amount: request.amount,
+          currency: request.currency,
+          descriptor: request.descriptor,
+          idempotencyKey: request.idempotencyKey,
+          metadata: request.metadata,
+          completion: { result in
+            completion?(
+              result.map {
+                .init(
+                  id: $0.id,
+                  paymentMethod: paymentMethod,
+                  details: .init(
+                    amount: $0.amount,
+                    authCode: $0.authCode,
+                    batchId: $0.batchID,
+                    lastFour: $0.lastFour,
+                    cardBrand: paymentMethod.details.paymentNetwork,
+                    status: $0.status,
+                    statusCode: $0.statusCode,
+                    statusDescription: $0.statusDescription,
                     transactionDate: $0.transactionDate
                   )
                 )

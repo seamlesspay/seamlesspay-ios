@@ -42,6 +42,15 @@ extension DetailViewController {
       let envSting = params[4]
       let env = environmentFromString(envSting)
 
+      sharedSPAuthorization = .init(
+        environment: env,
+        secretKey: secretKey
+      )
+
+      apiClient = .init(
+        authorization: sharedSPAuthorization
+      )
+
       let updateWebView: (String, Bool) -> Void = { message, success in
         let html = self.authContentHTML(
           resultMessage: message,
@@ -50,14 +59,9 @@ extension DetailViewController {
         )
         self.webView.loadHTMLString(html, baseURL: nil)
 
-        if success {
-          sharedSPAuthorization = .init(
-            environment: env,
-            secretKey: secretKey
-          )
-
+        if success == false {
           apiClient = .init(
-            authorization: sharedSPAuthorization
+            authorization: mockSPAuthorization
           )
         }
       }
