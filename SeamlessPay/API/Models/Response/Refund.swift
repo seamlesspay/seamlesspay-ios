@@ -9,7 +9,7 @@
 
 import Foundation
 
-public class Refund: APICodable {
+public struct Refund: APICodable {
   public let id: String
   public let accountType: AccountType?
   public let amount: String?
