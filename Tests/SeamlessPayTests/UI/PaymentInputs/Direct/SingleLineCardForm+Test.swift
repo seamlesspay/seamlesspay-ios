@@ -10,7 +10,6 @@ import XCTest
 @testable import SeamlessPay
 
 final class SingleLineCardFormTest: XCTestCase {
-
   override func setUp() {
     super.setUp()
   }

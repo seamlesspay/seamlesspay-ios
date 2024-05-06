@@ -17,7 +17,6 @@ typedef NS_ENUM(NSInteger, CardFieldDisplay) {
 @class CardForm;
 @protocol CardFormDelegate;
 
-IB_DESIGNABLE
 @interface CardForm : UIControl <UIKeyInput>
 
 /**

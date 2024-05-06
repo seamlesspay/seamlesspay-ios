@@ -25,23 +25,14 @@
 @property(nonatomic, readwrite, weak) SPFormTextField *postalCodeField;
 @property(nonatomic, readwrite, strong)CardFormViewModel *viewModel;
 @property(nonatomic, strong) NSArray<SPFormTextField *> *allFields;
-
-// Customisation
-@property(nonatomic, copy, null_resettable) UIFont *font;
-@property(nonatomic, copy, null_resettable) UIColor *textColor;
-@property(nonatomic, copy, null_resettable) UIColor *textErrorColor;
-@property(nonatomic, copy, null_resettable) UIColor *placeholderColor;
-@property(nonatomic, copy, nullable) IBInspectable NSString *numberPlaceholder;
-@property(nonatomic, copy, nullable) IBInspectable NSString *expirationPlaceholder;
-@property(nonatomic, copy, nullable) IBInspectable NSString *cvcPlaceholder;
-@property(nonatomic, copy, nullable) IBInspectable NSString *postalCodePlaceholder;
-@property(nonatomic, copy, null_resettable) UIColor *cursorColor;
-@property(nonatomic, copy, nullable) UIColor *borderColor;
-@property(nonatomic, assign) CGFloat borderWidth;
-@property(nonatomic, assign) CGFloat cornerRadius;
-@property(nonatomic, strong, nullable) UIView *inputView;
-@property(nonatomic, strong, nullable) UIView *inputAccessoryView;
-//
+@property(nonatomic, readonly, null_resettable) UIFont *font;
+@property(nonatomic, readonly, null_resettable) UIColor *textColor;
+@property(nonatomic, readonly, null_resettable) UIColor *textErrorColor;
+@property(nonatomic, readonly, null_resettable) UIColor *placeholderColor;
+@property(nonatomic, copy, nullable) NSString *numberPlaceholder;
+@property(nonatomic, copy, nullable) NSString *expirationPlaceholder;
+@property(nonatomic, copy, nullable) NSString *cvcPlaceholder;
+@property(nonatomic, copy, nullable) NSString *postalCodePlaceholder;
 
 @property(nonatomic, strong) CardLogoImageViewManager *cardLogoImageViewManager;
 
@@ -70,13 +61,6 @@
 
 @implementation CardForm
 
-@synthesize font = _font;
-@synthesize textColor = _textColor;
-@synthesize textErrorColor = _textErrorColor;
-@synthesize placeholderColor = _placeholderColor;
-@synthesize borderColor = _borderColor;
-@synthesize borderWidth = _borderWidth;
-@synthesize cornerRadius = _cornerRadius;
 @dynamic enabled;
 
 #pragma mark Initializers
@@ -98,14 +82,10 @@
 }
 
 - (void)commonInit {
-  // We're using ivars here because UIAppearance tracks when setters are
-  // called, and won't override properties that have already been customized
-  _borderColor = [self.class placeholderGrayColor];
-  _cornerRadius = 5.0f;
-  _borderWidth = 1.0f;
-  self.layer.borderColor = [[_borderColor copy] CGColor];
-  self.layer.cornerRadius = _cornerRadius;
-  self.layer.borderWidth = _borderWidth;
+
+  self.layer.borderColor = [[self.placeholderColor copy] CGColor];
+  self.layer.cornerRadius = 5.0f;
+  self.layer.borderWidth = 1.0f;
 
   self.clipsToBounds = YES;
 
@@ -188,16 +168,6 @@
 
 #pragma mark appearance properties
 
-+ (UIColor *)placeholderGrayColor {
-#ifdef __IPHONE_13_0
-  if (@available(iOS 13.0, *)) {
-    return [UIColor systemGray2Color];
-  }
-#endif
-
-  return [UIColor lightGrayColor];
-}
-
 - (void)setBackgroundColor:(UIColor *)backgroundColor {
   [super setBackgroundColor:[backgroundColor copy]];
   self.numberField.backgroundColor = self.backgroundColor;
@@ -214,24 +184,8 @@
   return [super backgroundColor] ?: defaultColor;
 }
 
-- (void)setFont:(UIFont *)font {
-  _font = [font copy];
-
-  for (UITextField *field in [self allFields]) {
-    field.font = _font;
-  }
-}
-
 - (UIFont *)font {
-  return _font ?: [UIFont systemFontOfSize:18];
-}
-
-- (void)setTextColor:(UIColor *)textColor {
-  _textColor = [textColor copy];
-
-  for (SPFormTextField *field in [self allFields]) {
-    field.defaultColor = _textColor;
-  }
+  return [UIFont systemFontOfSize:18];
 }
 
 - (void)setContentVerticalAlignment:
@@ -264,15 +218,7 @@
   }
 #endif
 
-  return _textColor ?: defaultColor;
-}
-
-- (void)setTextErrorColor:(UIColor *)textErrorColor {
-  _textErrorColor = [textErrorColor copy];
-
-  for (SPFormTextField *field in [self allFields]) {
-    field.errorColor = _textErrorColor;
-  }
+  return defaultColor;
 }
 
 - (UIColor *)textErrorColor {
@@ -283,20 +229,17 @@
   }
 #endif
 
-  return _textErrorColor ?: defaultColor;
-}
-
-- (void)setPlaceholderColor:(UIColor *)placeholderColor {
-  _placeholderColor = [placeholderColor copy];
-  self.brandImageView.tintColor = placeholderColor;
-
-  for (SPFormTextField *field in [self allFields]) {
-    field.placeholderColor = _placeholderColor;
-  }
+  return defaultColor;
 }
 
 - (UIColor *)placeholderColor {
-  return _placeholderColor ?: [self.class placeholderGrayColor];
+#ifdef __IPHONE_13_0
+  if (@available(iOS 13.0, *)) {
+    return [UIColor systemGray2Color];
+  }
+#endif
+
+  return [UIColor lightGrayColor];
 }
 
 - (void)setNumberPlaceholder:(NSString *__nullable)numberPlaceholder {
@@ -368,61 +311,6 @@
     return @"ZIP";
   } else {
     return @"Postal";
-  }
-}
-
-- (void)setCursorColor:(UIColor *)cursorColor {
-  self.tintColor = cursorColor;
-}
-
-- (UIColor *)cursorColor {
-  return self.tintColor;
-}
-
-- (void)setBorderColor:(UIColor *__nullable)borderColor {
-  _borderColor = borderColor;
-  if (borderColor) {
-    self.layer.borderColor = [[borderColor copy] CGColor];
-  } else {
-    self.layer.borderColor = [[UIColor clearColor] CGColor];
-  }
-}
-
-- (UIColor *__nullable)borderColor {
-  return _borderColor;
-}
-
-- (void)setCornerRadius:(CGFloat)cornerRadius {
-  _cornerRadius = cornerRadius;
-  self.layer.cornerRadius = cornerRadius;
-}
-
-- (CGFloat)cornerRadius {
-  return _cornerRadius;
-}
-
-- (void)setBorderWidth:(CGFloat)borderWidth {
-  _borderWidth = borderWidth;
-  self.layer.borderWidth = borderWidth;
-}
-
-- (CGFloat)borderWidth {
-  return _borderWidth;
-}
-
-- (void)setInputView:(UIView *)inputView {
-  _inputView = inputView;
-
-  for (SPFormTextField *field in [self allFields]) {
-    field.inputView = inputView;
-  }
-}
-
-- (void)setInputAccessoryView:(UIView *)inputAccessoryView {
-  _inputAccessoryView = inputAccessoryView;
-
-  for (SPFormTextField *field in [self allFields]) {
-    field.inputAccessoryView = inputAccessoryView;
   }
 }
 
