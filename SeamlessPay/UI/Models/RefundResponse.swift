@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct PaymentResponse: Identifiable, Equatable {
+public struct RefundResponse: Identifiable, Equatable {
   public struct Details: Equatable {
     public let amount: String?
     public let authCode: String?
@@ -17,7 +17,6 @@ public struct PaymentResponse: Identifiable, Equatable {
     public let status: TransactionStatus?
     public let statusCode: String?
     public let statusDescription: String?
-    public let surchargeFeeAmount: String?
     public let transactionDate: String?
   }
 

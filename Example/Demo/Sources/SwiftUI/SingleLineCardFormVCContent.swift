@@ -17,6 +17,7 @@ struct SingleLineCardFormVCContent: View {
 
       Button {
         cardFormUI.submit(.init(amount: "101")) { _ in
+
         }
       } label: {
         Text("Pay with Single line card form")
@@ -34,7 +35,7 @@ struct SingleLineCardFormVCContent: View {
 struct SingleLineCardFormUI: UIViewRepresentable {
   let cardForm = SingleLineCardForm(
     authorization: sharedSPAuthorization,
-    fieldOptions: .init(cvv: .init(display: .required), postalCode: .init(display: .required))
+    fieldOptions: .init(cvv: .init(display: .required), postalCode: .init(display: .none))
   )
 
   func makeUIView(context: Context) -> SingleLineCardForm {
@@ -48,5 +49,12 @@ struct SingleLineCardFormUI: UIViewRepresentable {
     completion: ((Result<PaymentResponse, SeamlessPayError>) -> Void)?
   ) {
     cardForm.submit(request, completion: completion)
+  }
+
+  func refund(
+    _ request: RefundRequest,
+    completion: ((Result<RefundResponse, SeamlessPayError>) -> Void)?
+  ) {
+    cardForm.refund(request, completion: completion)
   }
 }

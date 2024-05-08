@@ -47,7 +47,6 @@ class SingleLineCardFormRequestsTest: XCTestCase {
   }
 
   // MARK: - Submit Tests
-
   func testSubmit_SuccessfulSubmission() {
     // Given
     let apiClientMock = APIClientMock()
@@ -62,20 +61,45 @@ class SingleLineCardFormRequestsTest: XCTestCase {
         XCTAssertEqual(payment.id, "mockedChargeID")
         XCTAssertNotNil(payment.paymentMethod)
         XCTAssertEqual(payment.details.amount, "99")
-        XCTAssertEqual(payment.details.currency, .usd)
         XCTAssertEqual(payment.details.status, .captured)
         XCTAssertEqual(payment.details.statusCode, "mocked_statusCode")
         XCTAssertEqual(payment.details.statusDescription, "mocked_statusDescription")
         XCTAssertEqual(payment.details.authCode, "mocked_authCode")
-        XCTAssertEqual(payment.details.accountType, .credit)
         XCTAssertEqual(payment.details.batchId, "mocked_batch")
-        XCTAssertEqual(payment.details.expDate, "mocked_expDate")
-        XCTAssertEqual(payment.details.tip, "mocked_tip")
         XCTAssertEqual(payment.details.transactionDate, "mocked_transactionDate")
         XCTAssertEqual(payment.details.surchargeFeeAmount, "mocked_surchargeFeeAmount")
         XCTAssertEqual(payment.details.cardBrand, .masterCard)
         XCTAssertEqual(payment.details.lastFour, "mocked_lastFour")
 
+      case .failure:
+        XCTFail("Submission should succeed")
+      }
+    }
+  }
+
+  // MARK: - Refund Tests
+  func testRefund_SuccessfulResult() {
+    // Given
+    let apiClientMock = APIClientMock()
+    sut.apiClient = apiClientMock
+    let request = RefundRequest(amount: "1")
+
+    // When
+    sut.refund(request) { result in
+      // Then
+      switch result {
+      case let .success(payment):
+        XCTAssertEqual(payment.id, "refund_id")
+        XCTAssertNotNil(payment.paymentMethod)
+        XCTAssertEqual(payment.details.amount, "refund_amount")
+        XCTAssertEqual(payment.details.status, .authorized)
+        XCTAssertEqual(payment.details.statusCode, "refund_statusCode")
+        XCTAssertEqual(payment.details.statusDescription, "refund_statusDescription")
+        XCTAssertEqual(payment.details.authCode, "refund_aute_code")
+        XCTAssertEqual(payment.details.batchId, "refund_batch_id")
+        XCTAssertEqual(payment.details.transactionDate, "refund_transactionDate")
+        XCTAssertEqual(payment.details.cardBrand, .masterCard)
+        XCTAssertEqual(payment.details.lastFour, "refund_lastFour")
       case .failure:
         XCTFail("Submission should succeed")
       }
@@ -186,5 +210,42 @@ private class APIClientMock: APIClient {
       updatedAt: "mocked_updatedAt"
     )
     completion?(.success(charge))
+  }
+
+  override func createRefund(
+    token: String,
+    amount: String,
+    currency: String? = nil,
+    descriptor: String? = nil,
+    idempotencyKey: String? = nil,
+    metadata: String? = nil,
+    completion: ((Result<Refund, SeamlessPayError>) -> Void)?
+  ) {
+    completion?(
+      .success(
+        Refund(
+          id: "refund_id",
+          accountType: .credit,
+          amount: "refund_amount",
+          authCode: "refund_aute_code",
+          batchID: "refund_batch_id",
+          createdAt: "refund_created_at",
+          currency: .cad,
+          events: [],
+          idempotencyKey: "refund_idempotencyKey",
+          ipAddress: "refund_ipAddress",
+          lastFour: "refund_lastFour",
+          metadata: "refund_metadata",
+          method: .refund,
+          paymentNetwork: .americanExpress,
+          status: .authorized,
+          statusCode: "refund_statusCode",
+          statusDescription: "refund_statusDescription",
+          token: "refund_token",
+          transactionDate: "refund_transactionDate",
+          updatedAt: "refund_updatedAt"
+        )
+      )
+    )
   }
 }

@@ -9,7 +9,7 @@
 
 import Foundation
 
-public class Refund: APICodable {
+public struct Refund: APICodable {
   public let id: String
   public let accountType: AccountType?
   public let amount: String?
@@ -28,7 +28,7 @@ public class Refund: APICodable {
   public let statusCode: String?
   public let statusDescription: String?
   public let token: String?
-  public let transactionDate: Date?
+  public let transactionDate: String?
   public let updatedAt: String?
 
   enum CodingKeys: String, CodingKey {
