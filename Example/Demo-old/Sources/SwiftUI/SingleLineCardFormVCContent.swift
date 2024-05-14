@@ -17,7 +17,6 @@ struct SingleLineCardFormVCContent: View {
 
       Button {
         cardFormUI.submit(.init(amount: "101")) { _ in
-
         }
       } label: {
         Text("Pay with Single line card form")
