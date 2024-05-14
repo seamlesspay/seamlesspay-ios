@@ -55,9 +55,6 @@
 #import "SPPaymentMethodCard.h"
 #import "CardForm.h"
 
-@class SingleLineCardForm;
-@protocol SingleLineCardFormDelegate;
-
 /**
  SingleLineCardForm is a text field with similar properties to UITextField,
  but specialized for collecting credit/debit card information. It manages
