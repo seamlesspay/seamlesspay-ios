@@ -10,7 +10,6 @@
 
 @interface CardLogoImageViewManager : NSObject
 
-- (instancetype)initWithViewModel:(id)viewModel;
 - (void)updateImageView:(UIImageView *)brandImageView
           fieldType:(SPCardFieldType)fieldType
               brand:(SPCardBrand)brand
