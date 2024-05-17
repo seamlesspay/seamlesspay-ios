@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct PaymentRequest {
+public struct ChargeRequest {
   public let amount: String
   public let capture: Bool
   public let currency: String?

@@ -68,8 +68,8 @@ public extension CardForm {
 // MARK: - Submit
 public extension CardForm {
   func submit(
-    _ request: PaymentRequest,
-    completion: ((Result<PaymentResponse, SeamlessPayError>) -> Void)?
+    _ request: ChargeRequest,
+    completion: ((Result<ChargeResponse, SeamlessPayError>) -> Void)?
   ) {
     tokenize { result in
       switch result {

@@ -48,8 +48,8 @@ struct MultiLineCardFormUI: UIViewRepresentable {
   }
 
   func submit(
-    _ request: PaymentRequest,
-    completion: ((Result<PaymentResponse, SeamlessPayError>) -> Void)?
+    _ request: ChargeRequest,
+    completion: ((Result<ChargeResponse, SeamlessPayError>) -> Void)?
   ) {
     cardForm.submit(request, completion: completion)
   }

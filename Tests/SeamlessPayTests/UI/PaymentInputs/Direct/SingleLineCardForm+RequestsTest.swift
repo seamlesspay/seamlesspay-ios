@@ -51,7 +51,7 @@ class SingleLineCardFormRequestsTest: XCTestCase {
     // Given
     let apiClientMock = APIClientMock()
     sut.apiClient = apiClientMock
-    let request = PaymentRequest(amount: "1")
+    let request = ChargeRequest(amount: "1")
 
     // When
     sut.submit(request) { result in
