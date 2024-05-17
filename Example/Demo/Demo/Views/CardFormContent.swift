@@ -19,7 +19,7 @@ struct CardFormContent: View {
     let payload: String
   }
 
-  let cardForm: CardForm
+  private let cardForm: CardForm
   @State var displayResult: DisplayResult = .init(header: "RESULT", payload: "")
   @State var inProgress: Bool = false
 
