@@ -42,7 +42,7 @@ extension RefundResponse: CustomDebugStringConvertible {
   }
 }
 
-extension PaymentResponse: CustomDebugStringConvertible {
+extension ChargeResponse: CustomDebugStringConvertible {
   public var debugDescription: String {
     """
     Payment Response:
