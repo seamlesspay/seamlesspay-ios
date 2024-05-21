@@ -9,13 +9,26 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Build the Demo application
+          no_output_timeout: 5m
+          command: |
+            cd Example/Demo
+            xcodebuild clean
+            xcodebuild \
+              -project Demo.xcodeproj \
+              -scheme Demo \
+              -sdk iphonesimulator \
+              -destination 'platform=iOS Simulator,name=iPhone 15' \
+              CODE_SIGN_IDENTITY="" \
+              CODE_SIGNING_REQUIRED=NO
+      - run:
           name: Run tests for the Package
           no_output_timeout: 5m
           command: |
             xcodebuild \
               -scheme SeamlessPay \
               -sdk iphonesimulator \
-              -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.4' \
+              -destination 'platform=iOS Simulator,name=iPhone 15' \
               -enableCodeCoverage YES \
               CODE_SIGN_IDENTITY="" \
               CODE_SIGNING_REQUIRED=NO \
@@ -35,21 +48,8 @@ jobs:
               -workspace PodsDemo.xcworkspace \
               -scheme PodsDemo \
               -sdk iphonesimulator \
-              -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.4' \
+              -destination 'platform=iOS Simulator,name=iPhone 15' \
               -enableCodeCoverage YES \
               CODE_SIGN_IDENTITY="" \
               CODE_SIGNING_REQUIRED=NO \
               test
-      - run:
-          name: Build the Demo application
-          no_output_timeout: 5m
-          command: |
-            cd Example/Demo
-            xcodebuild clean
-            xcodebuild \
-              -project Demo.xcodeproj \
-              -scheme Demo \
-              -sdk iphonesimulator \
-              -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.4' \
-              CODE_SIGN_IDENTITY="" \
-              CODE_SIGNING_REQUIRED=NO
