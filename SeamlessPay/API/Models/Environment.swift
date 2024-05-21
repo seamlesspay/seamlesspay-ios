@@ -14,7 +14,7 @@ public enum Environment: Int {
   case qat
 }
 
-extension Environment {
+public extension Environment {
   var name: String {
     switch self {
     case .sandbox:
@@ -27,7 +27,9 @@ extension Environment {
       return "qat"
     }
   }
+}
 
+extension Environment {
   var mainHost: String {
     switch self {
     case .sandbox:

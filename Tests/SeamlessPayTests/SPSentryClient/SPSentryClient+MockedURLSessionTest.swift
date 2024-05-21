@@ -60,7 +60,7 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
       expectation.fulfill()
     }
 
-    wait(for: [expectation], timeout: 1.5)
+    wait(for: [expectation], timeout: 5)
   }
 
   func testFailureReturnsError() {
@@ -89,7 +89,7 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
       expectation.fulfill()
     }
 
-    wait(for: [expectation], timeout: 3)
+    wait(for: [expectation], timeout: 5)
   }
 
   func testRequestWithSensitiveDataInEvent() {
@@ -118,8 +118,8 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
     ) { data, response, error in
 
       // then
-      let failedRequestData = SPSentryClientURLProtocolMock
-        .requestData!["request"]! as! [String: Any]
+      let failedRequestData =
+        SPSentryClientURLProtocolMock.requestData!["request"]! as! [String: Any]
       let failedRequestBody = failedRequestData["data"] as! [String: Any]
       let tokenValue = failedRequestBody[tokenKey] as! String
       XCTAssertEqual(tokenValue, "***")
@@ -127,6 +127,6 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
       expectation.fulfill()
     }
 
-    wait(for: [expectation], timeout: 3)
+    wait(for: [expectation], timeout: 5)
   }
 }

@@ -1,9 +1,9 @@
 {
-  "data" : [
+  "images" : [
     {
-      "filename" : "add-gift-card.html",
       "idiom" : "universal",
-      "universal-type-identifier" : "public.html"
+      "platform" : "ios",
+      "size" : "1024x1024"
     }
   ],
   "info" : {
