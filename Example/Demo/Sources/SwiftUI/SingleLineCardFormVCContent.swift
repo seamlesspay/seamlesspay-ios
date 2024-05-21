@@ -45,8 +45,8 @@ struct SingleLineCardFormUI: UIViewRepresentable {
   func updateUIView(_ uiView: SingleLineCardForm, context: Context) {}
 
   func submit(
-    _ request: PaymentRequest,
-    completion: ((Result<PaymentResponse, SeamlessPayError>) -> Void)?
+    _ request: ChargeRequest,
+    completion: ((Result<ChargeResponse, SeamlessPayError>) -> Void)?
   ) {
     cardForm.submit(request, completion: completion)
   }
