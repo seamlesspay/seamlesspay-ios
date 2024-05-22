@@ -22,4 +22,5 @@ Pod::Spec.new do |s|
   s.exclude_files = 'SeamlessPayCore/Sources/SeamlessPayCore+ExportedImports.swift'
 
   s.resources = ['SeamlessPayCoreObjC/Resources/Assets']
+  s.deprecated_in_favor_of = 'SeamlessPay'
 end
