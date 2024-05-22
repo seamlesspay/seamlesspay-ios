@@ -56,8 +56,9 @@ struct CardFormContent: View {
 
             Button {
               startProgress()
-              cardForm.submit(.init(amount: "101")) {
-                processResult($0)
+              Task {
+                let result = await cardForm.submit(.init(amount: "101"))
+                processResult(result)
               }
             } label: {
               Text("Pay")
