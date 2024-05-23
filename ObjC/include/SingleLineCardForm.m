@@ -17,6 +17,7 @@
 @interface CardForm (Private)
 @property(nonatomic, readwrite, strong) UIImageView *brandImageView;
 @property(nonatomic, readwrite, strong) UIView *fieldsView;
+@property(nonatomic, readwrite, strong) UIView *boundedView;
 @property(nonatomic, readwrite, weak) SPFormTextField *numberField;
 @property(nonatomic, readwrite, weak) SPFormTextField *expirationField;
 @property(nonatomic, readwrite, weak) SPFormTextField *cvcField;
@@ -72,6 +73,7 @@ NS_INLINE CGFloat sp_ceilCGFloat(CGFloat x) {
 CGFloat const SingleLineCardFormDefaultPadding = 13;
 CGFloat const SingleLineCardFormDefaultInsets = 13;
 CGFloat const SingleLineCardFormMinimumPadding = 10;
+CGFloat const SingleLineCardFormBoundsMaximumHeight = 44;
 
 #pragma mark Initializers
 
@@ -92,13 +94,15 @@ CGFloat const SingleLineCardFormMinimumPadding = 10;
 }
 
 - (void)singleLineCardFormCommonInit {
-  [self addSubview:self.fieldsView];
-  
+  [self addSubview:self.boundedView];
+
+  [self.boundedView addSubview:self.fieldsView];
+
   for (SPFormTextField *field in self.allFields) {
     [self.fieldsView addSubview:field];
   }
 
-  [self addSubview:self.brandImageView];
+  [self.boundedView addSubview:self.brandImageView];
 
   self.expirationField.alpha = 0;
   self.cvcField.alpha = 0;
@@ -323,15 +327,25 @@ typedef NS_ENUM(NSInteger, SingleLineCardFormState) {
 }
 
 - (CGRect)brandImageRectForBounds:(CGRect)bounds {
-  return CGRectMake(SingleLineCardFormDefaultPadding, -1,
-                    self.brandImageView.image.size.width, bounds.size.height);
+  return CGRectMake(SingleLineCardFormDefaultPadding, 
+                    -1,
+                    self.brandImageView.image.size.width, 
+                    bounds.size.height);
 }
 
 - (CGRect)fieldsRectForBounds:(CGRect)bounds {
   CGRect brandImageRect = [self brandImageRectForBounds:bounds];
-  return CGRectMake(CGRectGetMaxX(brandImageRect), 0,
+  return CGRectMake(CGRectGetMaxX(brandImageRect), 
+                    0,
                     CGRectGetWidth(bounds) - CGRectGetMaxX(brandImageRect),
                     CGRectGetHeight(bounds));
+}
+
+- (CGRect)boundedViewRectForBounds {
+  return CGRectMake(0,
+                    (CGRectGetHeight(self.bounds) - SingleLineCardFormBoundsMaximumHeight) / 2,
+                    CGRectGetWidth(self.bounds),
+                    SingleLineCardFormBoundsMaximumHeight);
 }
 
 - (void)layoutSubviews {
@@ -343,8 +357,10 @@ typedef NS_ENUM(NSInteger, SingleLineCardFormState) {
 
   CGRect bounds = self.bounds;
 
-  self.brandImageView.frame = [self brandImageRectForBounds:bounds];
-  CGRect fieldsViewRect = [self fieldsRectForBounds:bounds];
+  self.boundedView.frame = [self boundedViewRectForBounds];
+
+  self.brandImageView.frame = [self brandImageRectForBounds:self.boundedView.bounds];
+  CGRect fieldsViewRect = [self fieldsRectForBounds:self.boundedView.bounds];
   self.fieldsView.frame = fieldsViewRect;
 
   CGFloat availableFieldsWidth = CGRectGetWidth(fieldsViewRect) -
