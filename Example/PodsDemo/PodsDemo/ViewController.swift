@@ -11,7 +11,8 @@ import SeamlessPay
 class ViewController: UIViewController {
   lazy var singleLineCardFormView: SingleLineCardForm = {
     let singleLineCardFormView = SingleLineCardForm(
-      authorization: .init(environment: .sandbox, secretKey: "")
+      authorization: .init(environment: .sandbox, secretKey: ""),
+      fieldOptions: .init(cvv: .init(display: .required), postalCode: .init(display: .none))
     )
     return singleLineCardFormView
   }()

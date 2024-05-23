@@ -19,6 +19,7 @@
 
 @property(nonatomic, readwrite, strong) UIImageView *brandImageView;
 @property(nonatomic, readwrite, strong) UIView *fieldsView;
+@property(nonatomic, readwrite, strong) UIView *boundedView;
 @property(nonatomic, readwrite, weak) SPFormTextField *numberField;
 @property(nonatomic, readwrite, weak) SPFormTextField *expirationField;
 @property(nonatomic, readwrite, weak) SPFormTextField *cvcField;
@@ -83,10 +84,6 @@
 
 - (void)commonInit {
 
-  self.layer.borderColor = [[self.placeholderColor copy] CGColor];
-  self.layer.cornerRadius = 5.0f;
-  self.layer.borderWidth = 1.0f;
-
   self.clipsToBounds = YES;
 
   _viewModel = [CardFormViewModel new];
@@ -132,6 +129,14 @@
   self.postalCodeField = postalCodeField;
   // Placeholder and appropriate keyboard typeare set by country code setter
 
+  UIView *boundedView = [[UIView alloc] init];
+  boundedView.clipsToBounds = YES;
+  boundedView.backgroundColor = [UIColor clearColor];
+  boundedView.layer.borderColor = [[self.placeholderColor copy] CGColor];
+  boundedView.layer.cornerRadius = 5.0f;
+  boundedView.layer.borderWidth = 1.0f;
+  self.boundedView = boundedView;
+
   UIView *fieldsView = [[UIView alloc] init];
   fieldsView.clipsToBounds = YES;
   fieldsView.backgroundColor = [UIColor clearColor];
@@ -167,11 +172,6 @@
 }
 
 #pragma mark appearance properties
-
-- (void)setBackgroundColor:(UIColor *)backgroundColor {
-  [super setBackgroundColor:[backgroundColor copy]];
-  self.numberField.backgroundColor = self.backgroundColor;
-}
 
 - (UIColor *)backgroundColor {
   UIColor *defaultColor = [UIColor whiteColor];

@@ -40,6 +40,7 @@ struct CardFormContent: View {
         Section(header: Text("Card Form")) {
           CardFormUI(cardForm: cardForm)
             .frame(height: 300)
+            .frame(maxWidth: .infinity)
         }
 
         Section(header: Text("Capabilities")) {
