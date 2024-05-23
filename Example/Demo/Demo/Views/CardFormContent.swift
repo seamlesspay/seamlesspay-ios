@@ -30,7 +30,10 @@ struct CardFormContent: View {
     case .single:
       cardForm = SingleLineCardForm(authorization: authorization, fieldOptions: fieldOptions)
     case .multi:
-      cardForm = MultiLineCardForm(authorization: authorization, fieldOptions: fieldOptions)
+      cardForm = MultiLineCardForm(
+        authorization: authorization,
+        fieldOptions: .init(cvv: .init(display: .required), postalCode: .init(display: .required))
+      )
     }
   }
 

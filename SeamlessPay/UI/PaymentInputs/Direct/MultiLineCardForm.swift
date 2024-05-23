@@ -29,6 +29,10 @@ public class MultiLineCardForm: CardForm {
     getInstanceVariable("_fieldsView")!
   }
 
+  private var boundedView: UIView {
+    getInstanceVariable("_boundedView")!
+  }
+
   private var brandImageView: UIImageView {
     getInstanceVariable("_brandImageView")!
   }
@@ -91,7 +95,10 @@ public class MultiLineCardForm: CardForm {
 
   // MARK: Private
   private func commonInit() {
-    addSubview(fieldsView)
+    addSubview(boundedView)
+
+    boundedView.addSubview(fieldsView)
+
     fieldsView.addSubview(numberField)
     fieldsView.addSubview(expirationField)
     fieldsView.addSubview(cvcField)
@@ -122,13 +129,33 @@ private extension MultiLineCardForm {
   func constraintViews() {
     let offset1: CGFloat = 10
     let offset2: CGFloat = 15
+    let offset3: CGFloat = 30
+
+    boundedView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate(
+      [
+        boundedView.centerYAnchor.constraint(equalTo: centerYAnchor),
+        boundedView.centerXAnchor.constraint(equalTo: centerXAnchor),
+        boundedView.heightAnchor.constraint(equalTo: fieldsView.heightAnchor, constant: offset3),
+      ]
+    )
+
+    let equalWidthConstraint = boundedView.widthAnchor.constraint(equalTo: widthAnchor)
+    equalWidthConstraint.priority = .defaultHigh
+    equalWidthConstraint.isActive = true
+
+    let minWidthConstraint = boundedView.widthAnchor.constraint(
+      greaterThanOrEqualTo: fieldsView.widthAnchor,
+      constant: offset3
+    )
+    minWidthConstraint.priority = .required
+    minWidthConstraint.isActive = true
 
     fieldsView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate(
       [
-        fieldsView.centerYAnchor.constraint(equalTo: centerYAnchor),
-        fieldsView.centerXAnchor.constraint(equalTo: centerXAnchor),
-        fieldsView.widthAnchor.constraint(equalTo: widthAnchor),
+        fieldsView.centerXAnchor.constraint(equalTo: boundedView.centerXAnchor),
+        fieldsView.centerYAnchor.constraint(equalTo: boundedView.centerYAnchor),
       ]
     )
 
