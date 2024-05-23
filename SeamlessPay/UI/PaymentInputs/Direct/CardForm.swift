@@ -63,6 +63,14 @@ public extension CardForm {
       }
     )
   }
+
+  func tokenize() async -> Result<PaymentMethodResponse, SeamlessPayError> {
+    await withCheckedContinuation { continuation in
+      tokenize { result in
+        continuation.resume(returning: result)
+      }
+    }
+  }
 }
 
 // MARK: - Submit
@@ -120,6 +128,16 @@ public extension CardForm {
       }
     }
   }
+
+  func submit(
+    _ request: ChargeRequest
+  ) async -> Result<ChargeResponse, SeamlessPayError> {
+    await withCheckedContinuation { continuation in
+      submit(request) { result in
+        continuation.resume(returning: result)
+      }
+    }
+  }
 }
 
 // MARK: - Refund
@@ -162,6 +180,16 @@ public extension CardForm {
         )
       case let .failure(error):
         completion?(.failure(error))
+      }
+    }
+  }
+
+  func refund(
+    _ request: RefundRequest
+  ) async -> Result<RefundResponse, SeamlessPayError> {
+    await withCheckedContinuation { continuation in
+      refund(request) { result in
+        continuation.resume(returning: result)
       }
     }
   }
