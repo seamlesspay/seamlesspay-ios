@@ -7,8 +7,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SPFormEncodable.h"
-
 
 @interface SPCardParams : NSObject
 
