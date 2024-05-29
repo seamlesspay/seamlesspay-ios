@@ -540,12 +540,7 @@ typedef NS_ENUM(NSInteger, SingleLineCardFormState) {
       UIView *maskView = [[UIView alloc]
                           initWithFrame:CGRectMake(hiddenWidth, 0, (width - hiddenWidth),
                                                    fieldsHeight)];
-      maskView.backgroundColor = [UIColor blackColor];
-#ifdef __IPHONE_13_0
-      if (@available(iOS 13.0, *)) {
-        maskView.backgroundColor = [UIColor labelColor];
-      }
-#endif
+      maskView.backgroundColor = [UIColor labelColor];
       maskView.opaque = YES;
       maskView.userInteractionEnabled = NO;
       [UIView performWithoutAnimation:^{
