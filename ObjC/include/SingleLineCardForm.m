@@ -355,8 +355,6 @@ typedef NS_ENUM(NSInteger, SingleLineCardFormState) {
 
 - (void)recalculateSubviewLayout {
 
-  CGRect bounds = self.bounds;
-
   self.boundedView.frame = [self boundedViewRectForBounds];
 
   self.brandImageView.frame = [self brandImageRectForBounds:self.boundedView.bounds];
@@ -540,7 +538,7 @@ typedef NS_ENUM(NSInteger, SingleLineCardFormState) {
       UIView *maskView = [[UIView alloc]
                           initWithFrame:CGRectMake(hiddenWidth, 0, (width - hiddenWidth),
                                                    fieldsHeight)];
-      maskView.backgroundColor = [UIColor labelColor];
+      maskView.backgroundColor = self.textColor;
       maskView.opaque = YES;
       maskView.userInteractionEnabled = NO;
       [UIView performWithoutAnimation:^{

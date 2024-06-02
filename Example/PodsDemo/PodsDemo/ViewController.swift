@@ -9,13 +9,15 @@ import UIKit
 import SeamlessPay
 
 class ViewController: UIViewController {
-  lazy var singleLineCardFormView: SingleLineCardForm = {
-    let singleLineCardFormView = SingleLineCardForm(
-      authorization: .init(environment: .sandbox, secretKey: ""),
-      fieldOptions: .init(cvv: .init(display: .required), postalCode: .init(display: .none))
-    )
-    return singleLineCardFormView
-  }()
+  lazy var singleLineCardFormView: SingleLineCardForm = .init(
+    authorization: .init(environment: .sandbox, secretKey: ""),
+    fieldOptions: .init(cvv: .init(display: .required), postalCode: .init(display: .none))
+  )
+
+  lazy var multiLineCardFormView: MultiLineCardForm = .init(
+    authorization: .init(environment: .sandbox, secretKey: ""),
+    fieldOptions: .init(cvv: .init(display: .required), postalCode: .init(display: .required))
+  )
 
   lazy var resultLabel: UILabel = {
     // Create Result Label
@@ -35,8 +37,13 @@ class ViewController: UIViewController {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
 
+    NSLayoutConstraint.activate(
+      [
+        multiLineCardFormView.heightAnchor.constraint(equalToConstant: 400),
+      ]
+    )
     view.backgroundColor = .white
-    let stackView = UIStackView(arrangedSubviews: [singleLineCardFormView])
+    let stackView = UIStackView(arrangedSubviews: [singleLineCardFormView, multiLineCardFormView])
     stackView.axis = .vertical
     stackView.spacing = 20
     stackView.translatesAutoresizingMaskIntoConstraints = false

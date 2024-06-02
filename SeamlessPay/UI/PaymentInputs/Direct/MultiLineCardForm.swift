@@ -302,6 +302,7 @@ private extension MultiLineCardForm {
     label.textAlignment = .left
     label.font = UIFont.systemFont(ofSize: 14)
     label.translatesAutoresizingMaskIntoConstraints = false
+    label.textColor = .systemGray
     return label
   }
 }

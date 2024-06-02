@@ -131,7 +131,7 @@
 
   UIView *boundedView = [[UIView alloc] init];
   boundedView.clipsToBounds = YES;
-  boundedView.backgroundColor = [UIColor clearColor];
+  boundedView.backgroundColor = [UIColor whiteColor];
   boundedView.layer.borderColor = [[self.placeholderColor copy] CGColor];
   boundedView.layer.cornerRadius = 5.0f;
   boundedView.layer.borderWidth = 1.0f;
@@ -204,7 +204,7 @@
 }
 
 - (UIColor *)textColor {
-  return [UIColor labelColor];;
+  return [UIColor darkTextColor];
 }
 
 - (UIColor *)textErrorColor {
