@@ -29,8 +29,8 @@ final class SingleLineCardFormTest: XCTestCase {
     )
     // Then
     XCTAssertNotNil(view.apiClient)
-    XCTAssertEqual(view.apiClient?.environment, .sandbox)
-    XCTAssertEqual(view.apiClient?.secretKey, "test_secret_key")
+    XCTAssertEqual(view.apiClient?.authorization.environment, .sandbox)
+    XCTAssertEqual(view.apiClient?.authorization.secretKey, "test_secret_key")
   }
 
   func testSetAuthorization() {
@@ -45,7 +45,7 @@ final class SingleLineCardFormTest: XCTestCase {
 
     // Then
     XCTAssertNotNil(view.apiClient)
-    XCTAssertEqual(view.apiClient?.secretKey, "another_test_secret_key")
+    XCTAssertEqual(view.apiClient?.authorization.secretKey, "another_test_secret_key")
   }
 
   func testAPIClientAssociationKey() {
@@ -68,12 +68,12 @@ final class SingleLineCardFormTest: XCTestCase {
     XCTAssertNotNil(textField2.apiClient)
     XCTAssertFalse(view.apiClient === textField2.apiClient)
     XCTAssertNotEqual(
-      view.apiClient?.environment,
-      textField2.apiClient?.environment
+      view.apiClient?.authorization.environment,
+      textField2.apiClient?.authorization.environment
     )
     XCTAssertNotEqual(
-      view.apiClient?.secretKey,
-      textField2.apiClient?.secretKey
+      view.apiClient?.authorization.secretKey,
+      textField2.apiClient?.authorization.secretKey
     )
   }
 

@@ -37,8 +37,8 @@ struct ContentView: View {
         NavigationStack {
           CardFormContent(
             authorization: .init(
-              environment: DemoAuth.environment,
-              secretKey: DemoAuth.secretKey
+              secretKey: DemoAuth.secretKey,
+              environment: DemoAuth.environment
             ),
             type: .single
           )
@@ -53,8 +53,8 @@ struct ContentView: View {
         NavigationStack {
           CardFormContent(
             authorization: .init(
-              environment: DemoAuth.environment,
-              secretKey: DemoAuth.secretKey
+              secretKey: DemoAuth.secretKey,
+              environment: DemoAuth.environment
             ),
             type: .multi
           )

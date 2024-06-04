@@ -24,8 +24,7 @@ public class APIClient {
   private var sentryClient: SPSentryClient?
 
   // MARK: - Public Interface
-  public let secretKey: String
-  public let environment: Environment
+  public let authorization: Authorization
 
   // MARK: Init
   // TODO: Move under SPI
@@ -37,11 +36,10 @@ public class APIClient {
   }
 
   init(authorization: Authorization, session: URLSession) {
-    secretKey = authorization.secretKey
-    environment = authorization.environment
+    self.authorization = authorization
     self.session = session
 
-    sentryClient = Self.makeClient(environment: environment)
+    sentryClient = Self.makeClient(environment: authorization.environment)
     initDate = Date()
   }
 
@@ -270,7 +268,6 @@ private extension APIClient {
     completion: ((Result<ModelClass, SeamlessPayError>) -> Void)?
   ) {
     do {
-      let parameters = parameters?.compactMapValues { $0 }
       let request = try request(
         operation: operation,
         parameters: parameters
@@ -420,49 +417,35 @@ private extension APIClient {
 private extension APIClient {
   func request(
     operation: APIOperation,
-    parameters: [String: Any]?
+    parameters: [String: Any?]?
   ) throws -> URLRequest {
-    let host: String
-    let authorization: String
+    let parameters = parameters?.compactMapValues { $0 }
+    let path = operation.path
+    let method = operation.method
 
+    let host: String
+    let authToken: String
     switch operation {
     case .createToken:
-      host = environment.panVaultHost
-      authorization = secretKey
+      host = authorization.environment.panVaultHost
+      authToken = authorization.secretKey
     default:
-      host = environment.mainHost
-      authorization = secretKey
+      host = authorization.environment.mainHost
+      authToken = authorization.secretKey
     }
 
-    return try request(
-      method: operation.method,
-      path: operation.path,
-      host: host,
-      authorization: authorization,
-      parameters: parameters
-    )
-  }
+    let proxyAccountId: String?
+    switch operation {
+    case .createCharge,
+         .createRefund,
+         .createToken,
+         .voidCharge:
+      proxyAccountId = authorization.proxyAccountId
+    default:
+      proxyAccountId = .none
+    }
 
-  func request(
-    method: HTTPMethod,
-    path: String,
-    host: String?,
-    authorization: String?,
-    parameters: [String: Any]?
-  ) throws -> URLRequest {
-    let url = try url(
-      host: host,
-      path: path
-    )
-    var request = URLRequest(
-      url: url,
-      cachePolicy: .reloadIgnoringLocalCacheData,
-      timeoutInterval: 15.0
-    )
-
-    request.httpMethod = method.rawValue
-
-    var postBody: Data?
+    let postBody: Data?
     switch method {
     case .post,
          .put:
@@ -471,11 +454,23 @@ private extension APIClient {
       postBody = nil
     }
 
-    request.httpBody = postBody
+    let url = try url(
+      host: host,
+      path: path
+    )
 
+    var request = URLRequest(
+      url: url,
+      cachePolicy: .reloadIgnoringLocalCacheData,
+      timeoutInterval: 15.0
+    )
+
+    request.httpMethod = method.rawValue
+    request.httpBody = postBody
     request.allHTTPHeaderFields = headers(
-      authorization: authorization,
-      contentLength: postBody?.count
+      authorization: authToken,
+      contentLength: postBody?.count,
+      proxyAccountId: proxyAccountId
     )
 
     return request
@@ -496,7 +491,8 @@ private extension APIClient {
 
   func headers(
     authorization: String?,
-    contentLength: Int?
+    contentLength: Int?,
+    proxyAccountId: String?
   ) -> [String: String] {
     let authHeaderValue = authorization.flatMap { "Bearer " + $0 }
     let contentLength = contentLength.flatMap { String($0) }
@@ -508,6 +504,7 @@ private extension APIClient {
       "Authorization": authHeaderValue,
       "User-Agent": "seamlesspay_ios",
       "Content-Length": contentLength,
+      "SeamlessPay-Account": proxyAccountId,
     ]
     .compactMapValues { $0 }
   }

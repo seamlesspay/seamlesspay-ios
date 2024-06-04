@@ -8,11 +8,13 @@
 import Foundation
 
 public struct Authorization {
-  public let environment: Environment
   public let secretKey: String
+  public let proxyAccountId: String?
+  public let environment: Environment
 
-  public init(environment: Environment, secretKey: String) {
-    self.environment = environment
+  public init(secretKey: String, proxyAccountId: String? = nil, environment: Environment) {
     self.secretKey = secretKey
+    self.proxyAccountId = proxyAccountId
+    self.environment = environment
   }
 }
