@@ -26,12 +26,7 @@ shouldChangeCharactersInRange:(NSRange)range
 replacementString:(NSString *)string {
   BOOL insertingIntoEmptyField =
   (textField.text.length == 0 && range.location == 0 && range.length == 0);
-  BOOL hasTextContentType = NO;
-  if (@available(iOS 11.0, *)) {
-    // This property is available starting in 10.0, but didn't offer in-app
-    // suggestions till 11.0
-    hasTextContentType = textField.textContentType != nil;
-  }
+  BOOL hasTextContentType = textField.textContentType != nil;
 
   if (hasTextContentType && insertingIntoEmptyField &&
       [string isEqualToString:@" "]) {
@@ -263,13 +258,9 @@ typedef NSAttributedString * (^SPFormTextTransformationBlock)(
 - (NSAttributedString *)accessibilityAttributedValue {
   NSMutableAttributedString *attributedString =
   [self.attributedText mutableCopy];
-#ifdef __IPHONE_13_0
-  if (@available(iOS 13.0, *)) {
-    [attributedString addAttribute:UIAccessibilitySpeechAttributeSpellOut
-                             value:@(YES)
-                             range:NSMakeRange(0, [attributedString length])];
-  }
-#endif
+  [attributedString addAttribute:UIAccessibilitySpeechAttributeSpellOut
+                           value:@(YES)
+                           range:NSMakeRange(0, [attributedString length])];
   if (!self.validText) {
     NSString *invalidData = @"Invalid data.";
     NSMutableAttributedString *failedString = [[NSMutableAttributedString alloc]

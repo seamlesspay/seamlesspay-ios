@@ -131,7 +131,7 @@
 
   UIView *boundedView = [[UIView alloc] init];
   boundedView.clipsToBounds = YES;
-  boundedView.backgroundColor = [UIColor clearColor];
+  boundedView.backgroundColor = [UIColor whiteColor];
   boundedView.layer.borderColor = [[self.placeholderColor copy] CGColor];
   boundedView.layer.cornerRadius = 5.0f;
   boundedView.layer.borderWidth = 1.0f;
@@ -174,14 +174,7 @@
 #pragma mark appearance properties
 
 - (UIColor *)backgroundColor {
-  UIColor *defaultColor = [UIColor whiteColor];
-#ifdef __IPHONE_13_0
-  if (@available(iOS 13.0, *)) {
-    defaultColor = [UIColor systemBackgroundColor];
-  }
-#endif
-
-  return [super backgroundColor] ?: defaultColor;
+  return [super backgroundColor] ?: [UIColor systemBackgroundColor];
 }
 
 - (UIFont *)font {
@@ -211,35 +204,15 @@
 }
 
 - (UIColor *)textColor {
-  UIColor *defaultColor = [UIColor blackColor];
-#ifdef __IPHONE_13_0
-  if (@available(iOS 13.0, *)) {
-    defaultColor = [UIColor labelColor];
-  }
-#endif
-
-  return defaultColor;
+  return [UIColor darkTextColor];
 }
 
 - (UIColor *)textErrorColor {
-  UIColor *defaultColor = [UIColor redColor];
-#ifdef __IPHONE_13_0
-  if (@available(iOS 13.0, *)) {
-    defaultColor = [UIColor systemRedColor];
-  }
-#endif
-
-  return defaultColor;
+  return [UIColor systemRedColor];;
 }
 
 - (UIColor *)placeholderColor {
-#ifdef __IPHONE_13_0
-  if (@available(iOS 13.0, *)) {
-    return [UIColor systemGray2Color];
-  }
-#endif
-
-  return [UIColor lightGrayColor];
+  return [UIColor systemGray2Color];
 }
 
 - (void)setNumberPlaceholder:(NSString *__nullable)numberPlaceholder {

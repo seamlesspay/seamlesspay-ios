@@ -6,7 +6,6 @@
  */
 
 #import <UIKit/UIKit.h>
-#import "SPPaymentMethodCard.h"
 
 typedef NS_ENUM(NSInteger, CardFieldDisplay) {
   CardFieldDisplayNone,

@@ -52,7 +52,6 @@
  */
 
 #import <UIKit/UIKit.h>
-#import "SPPaymentMethodCard.h"
 #import "CardForm.h"
 
 /**
