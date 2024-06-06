@@ -10,12 +10,12 @@ import SeamlessPay
 
 class ViewController: UIViewController {
   lazy var singleLineCardFormView: SingleLineCardForm = .init(
-    authorization: .init(environment: .sandbox, secretKey: ""),
+    authorization: .init(secretKey: "", environment: .sandbox),
     fieldOptions: .init(cvv: .init(display: .required), postalCode: .init(display: .none))
   )
 
   lazy var multiLineCardFormView: MultiLineCardForm = .init(
-    authorization: .init(environment: .sandbox, secretKey: ""),
+    authorization: .init(secretKey: "", environment: .sandbox),
     fieldOptions: .init(cvv: .init(display: .required), postalCode: .init(display: .required))
   )
 

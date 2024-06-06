@@ -23,14 +23,14 @@ final class SingleLineCardFormTest: XCTestCase {
     // When
     let view = SingleLineCardForm(
       authorization: .init(
-        environment: .sandbox,
-        secretKey: "test_secret_key"
+        secretKey: "test_secret_key",
+        environment: .sandbox
       )
     )
     // Then
     XCTAssertNotNil(view.apiClient)
-    XCTAssertEqual(view.apiClient?.environment, .sandbox)
-    XCTAssertEqual(view.apiClient?.secretKey, "test_secret_key")
+    XCTAssertEqual(view.apiClient?.authorization.environment, .sandbox)
+    XCTAssertEqual(view.apiClient?.authorization.secretKey, "test_secret_key")
   }
 
   func testSetAuthorization() {
@@ -38,29 +38,27 @@ final class SingleLineCardFormTest: XCTestCase {
     // When
     let view = SingleLineCardForm(
       authorization: Authorization(
-        environment: .sandbox,
-        secretKey: "another_test_secret_key"
+        secretKey: "another_test_secret_key",
+        environment: .sandbox
       )
     )
 
     // Then
     XCTAssertNotNil(view.apiClient)
-    XCTAssertEqual(view.apiClient?.secretKey, "another_test_secret_key")
+    XCTAssertEqual(view.apiClient?.authorization.secretKey, "another_test_secret_key")
   }
 
   func testAPIClientAssociationKey() {
     // Given
     let view = SingleLineCardForm(
       authorization: .init(
-        environment: .sandbox,
-        secretKey: "test_secret_key"
+        secretKey: "test_secret_key", environment: .sandbox
       )
     )
 
     // When
     let textField2 = SingleLineCardForm(authorization: .init(
-      environment: .production,
-      secretKey: "another_test_secret_key"
+      secretKey: "another_test_secret_key", environment: .production
     ))
 
     // Then
@@ -68,12 +66,12 @@ final class SingleLineCardFormTest: XCTestCase {
     XCTAssertNotNil(textField2.apiClient)
     XCTAssertFalse(view.apiClient === textField2.apiClient)
     XCTAssertNotEqual(
-      view.apiClient?.environment,
-      textField2.apiClient?.environment
+      view.apiClient?.authorization.environment,
+      textField2.apiClient?.authorization.environment
     )
     XCTAssertNotEqual(
-      view.apiClient?.secretKey,
-      textField2.apiClient?.secretKey
+      view.apiClient?.authorization.secretKey,
+      textField2.apiClient?.authorization.secretKey
     )
   }
 
@@ -81,8 +79,7 @@ final class SingleLineCardFormTest: XCTestCase {
     // Given
     let view = SingleLineCardForm(
       authorization: .init(
-        environment: .sandbox,
-        secretKey: "test_secret_key"
+        secretKey: "test_secret_key", environment: .sandbox
       )
     )
     // Then
@@ -94,8 +91,7 @@ final class SingleLineCardFormTest: XCTestCase {
     // When
     let view = SingleLineCardForm(
       authorization: .init(
-        environment: .sandbox,
-        secretKey: "test_secret_key"
+        secretKey: "test_secret_key", environment: .sandbox
       )
     )
 
@@ -113,8 +109,7 @@ final class SingleLineCardFormTest: XCTestCase {
     // When
     let view = SingleLineCardForm(
       authorization: Authorization(
-        environment: .sandbox,
-        secretKey: "another_test_secret_key"
+        secretKey: "another_test_secret_key", environment: .sandbox
       ),
       fieldOptions: .init(
         cvv: .init(display: .required),
@@ -136,8 +131,7 @@ final class SingleLineCardFormTest: XCTestCase {
     // When
     let view = SingleLineCardForm(
       authorization: Authorization(
-        environment: .sandbox,
-        secretKey: "another_test_secret_key"
+        secretKey: "another_test_secret_key", environment: .sandbox
       ),
       fieldOptions: .init(
         cvv: .init(display: .optional),
@@ -159,8 +153,7 @@ final class SingleLineCardFormTest: XCTestCase {
     // When
     let view = SingleLineCardForm(
       authorization: Authorization(
-        environment: .sandbox,
-        secretKey: "another_test_secret_key"
+        secretKey: "another_test_secret_key", environment: .sandbox
       ),
       fieldOptions: .init(
         cvv: .init(display: .none),
@@ -182,8 +175,7 @@ final class SingleLineCardFormTest: XCTestCase {
     // When
     let view = SingleLineCardForm(
       authorization: Authorization(
-        environment: .sandbox,
-        secretKey: "another_test_secret_key"
+        secretKey: "another_test_secret_key", environment: .sandbox
       ),
       fieldOptions: .init(
         cvv: .init(display: .required),
@@ -222,8 +214,7 @@ final class SingleLineCardFormTest: XCTestCase {
     // Given
     let view = SingleLineCardForm(
       authorization: Authorization(
-        environment: .sandbox,
-        secretKey: "another_test_secret_key"
+        secretKey: "another_test_secret_key", environment: .sandbox
       ),
       fieldOptions: .init(cvv: .init(display: .none), postalCode: .init(display: .none))
     )
@@ -248,8 +239,7 @@ final class SingleLineCardFormTest: XCTestCase {
     // When
     let view = SingleLineCardForm(
       authorization: Authorization(
-        environment: .sandbox,
-        secretKey: "another_test_secret_key"
+        secretKey: "another_test_secret_key", environment: .sandbox
       ),
       fieldOptions: .init(
         cvv: .init(display: .optional),
@@ -282,8 +272,7 @@ final class SingleLineCardFormTest: XCTestCase {
     // When
     let view = SingleLineCardForm(
       authorization: Authorization(
-        environment: .sandbox,
-        secretKey: "another_test_secret_key"
+        secretKey: "another_test_secret_key", environment: .sandbox
       ),
       fieldOptions: .init(
         cvv: .init(display: .optional),
@@ -316,8 +305,7 @@ final class SingleLineCardFormTest: XCTestCase {
     // When
     let view = SingleLineCardForm(
       authorization: Authorization(
-        environment: .sandbox,
-        secretKey: "another_test_secret_key"
+        secretKey: "another_test_secret_key", environment: .sandbox
       ),
       fieldOptions: .init(
         cvv: .init(display: .optional),

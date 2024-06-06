@@ -8,11 +8,15 @@
 import SwiftUI
 import SeamlessPay
 
-struct CardFormContent: View {
-  enum CardFormContentType {
-    case single
-    case multi
+enum CardFormContentType: String, Identifiable {
+  var id: String {
+    self.rawValue
   }
+  case single
+  case multi
+}
+
+struct CardFormContent: View {
 
   struct DisplayResult {
     let header: String
