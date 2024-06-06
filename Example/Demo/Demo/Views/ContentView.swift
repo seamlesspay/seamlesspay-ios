@@ -14,8 +14,7 @@ enum DemoAuth {
 }
 
 struct ContentView: View {
-  @State private var isSheet1Presented = false
-  @State private var isSheet2Presented = false
+  @State private var cardFormContentType: CardFormContentType?
 
   var body: some View {
     NavigationView {
@@ -23,44 +22,28 @@ struct ContentView: View {
         Section {
           Text("Singleline Card Form")
             .onTapGesture {
-              self.isSheet1Presented = true
+              self.cardFormContentType = .single
             }
           Text("Multiline Card Form")
             .onTapGesture {
-              self.isSheet2Presented = true
+              self.cardFormContentType = .multi
             }
         } header: {
           Text("UI Components")
         }
       }
-      .sheet(isPresented: $isSheet1Presented) {
+      .sheet(item: $cardFormContentType) { contentType in
         NavigationStack {
           CardFormContent(
             authorization: .init(
               secretKey: DemoAuth.secretKey,
               environment: DemoAuth.environment
             ),
-            type: .single
+            type: contentType
           )
           .navigationBarItems(
             trailing: Button("Done") {
-              self.isSheet1Presented = false
-            }
-          )
-        }
-      }
-      .sheet(isPresented: $isSheet2Presented) {
-        NavigationStack {
-          CardFormContent(
-            authorization: .init(
-              secretKey: DemoAuth.secretKey,
-              environment: DemoAuth.environment
-            ),
-            type: .multi
-          )
-          .navigationBarItems(
-            trailing: Button("Done") {
-              self.isSheet2Presented = false
+              self.cardFormContentType = .none
             }
           )
         }
