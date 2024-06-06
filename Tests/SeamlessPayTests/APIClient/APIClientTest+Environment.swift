@@ -13,7 +13,7 @@ final class APIClientTestEnvironment: XCTestCase {
 
   override func setUp() {
     client = APIClient(
-      authorization: .init(environment: .sandbox, secretKey: "sk_TEST"),
+      authorization: .init(secretKey: "sk_TEST", environment: .sandbox),
       session: {
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = [APIClientURLProtocolMock.self]
@@ -32,7 +32,7 @@ final class APIClientTestEnvironment: XCTestCase {
 
     // given
     let client = APIClient(
-      authorization: .init(environment: environment, secretKey: ""),
+      authorization: .init(secretKey: "", environment: environment),
       session: {
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = [APIClientURLProtocolMock.self]

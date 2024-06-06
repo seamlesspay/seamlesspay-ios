@@ -12,7 +12,7 @@ import SeamlessPay
 final class PodsDemoTests: XCTestCase {
   func testSeamlessPaySDKSetup() {
     let client = APIClient(
-      authorization: .init(environment: .sandbox, secretKey: "secret_key")
+      authorization: .init(secretKey: "secret_key", environment: .sandbox)
     )
   }
 

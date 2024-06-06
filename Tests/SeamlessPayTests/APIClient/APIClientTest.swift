@@ -14,14 +14,11 @@ final class APIClientTest: XCTestCase {
   override func setUp() {
     let configuration = URLSessionConfiguration.default
     configuration.protocolClasses = [APIClientURLProtocolMock.self]
+    let session = URLSession(configuration: configuration)
 
     client = APIClient(
-      authorization: .init(environment: .sandbox, secretKey: "sk_TEST"),
-      session: {
-        let configuration = URLSessionConfiguration.default
-        configuration.protocolClasses = [APIClientURLProtocolMock.self]
-        return .init(configuration: configuration)
-      }()
+      authorization: .init(secretKey: "sk_TEST", proxyAccountId: .none, environment: .sandbox),
+      session: session
     )
 
     APIClientURLProtocolMock.testingRequest = nil
