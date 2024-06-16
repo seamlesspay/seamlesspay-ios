@@ -1,203 +1,48 @@
-# SeamlessPay
-
-*The Seamless Payments iOS SDK makes it quick and easy to build an excellent payment experience in your iOS app.*
-
-Our framework provides elements that can be used out-of-the-box to collect your users' payment details. We also expose the low-level APIs that power those UIs so that you can build fully custom experiences. Additionally, a low-level `APIClient` is included which corresponds to resources and methods in the Seamless Payments API, so that you can build any custom functionality on top of this layer while still taking advantage of utilities from the `SeamlessPay` framework.
-
-## Native UI Elements
-
-`SingleLineCardForm` is a text field with similar properties to `UITextField`, but it is specialized for collecting credit/debit card information. It manages multiple `UITextFields` under the hood in order to collect this information seamlessly from users. It's designed to fit on a single line, and from a design perspective can be used anywhere a `UITextField` would be appropriate.
-
-#### Example UI
+# SeamlessPay iOS
 
 ![image](card-field.gif)
 
-*Requirements: The SeamlessPay iOS SDK requires Xcode 10.1 or later and is compatible with apps targeting iOS 11 or above.*
+## Overview
 
-## Demo
+SeamlessPay iOS provides ready-to-use UI components for collecting user payment details and processing payments. It also gives access to the underlying APIs that power these interfaces, allowing the development of completely customized experiences.`SeamlessPay` framework.
 
-To run the demo project, clone the repository, and open `Demo.xcodeproj` from the `./Example/Demo` directory.
+Start with the [📚 integration guide](https://docs.seamlesspay.com/ios-sdk).
 
-## Installation
+## Prepare Development Environment
 
-### CocoaPods
-To install, add the following line to your Podfile:
+Install the necessary dependencies using Brew
 
-```ruby
-pod 'SeamlessPay'
-```
+`brew bundle`
 
-### Swift Package Manager
-Add the package to your Xcode project:
-```ruby
-https://github.com/seamlesspay/seamlesspay-ios.git
-```
+## Switching SeamlessPay SDK Dependency Package Version from Remote to Local
 
-## Authentication
+In our iOS Example application, we use the Swift Package Manager (SPM) for managing dependencies. Sometimes, you might want to switch a dependency from a remote version to a local version for development and debugging purposes. Here’s how you can achieve this in our Example application.
 
-When your app starts, configure the SDK with your SeamlessPay publishable (you can get it on the API Keys page), so that it can make requests to the SeamlessPay API.
+### Steps to Switch to a Local Version
 
-Using only Publishable Key for a single page apps without their own backend. In this case you will be able to do /charge only.
-Using a Secret Key allows you using all transaction's methods (e.g. /charge, /refund, /void).
+#### Open Example app in Xcode
 
-```swift
-import SeamlessPay
-    
-@UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-    func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+- Open the Demo.xcodeproj file of the Example application in Xcode.
 
-    APIClient.shared.set(
-      secretKey: "sk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
-      publishableKey: "pk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
-      environment: .sandbox
-    )
+#### Navigate to Package Dependencies
 
-    return true
-  }
-}
-```
+- In the project navigator, select your project file to open the project settings.
 
-## Create Payment Form
+- Go to the Package Dependencies tab to view the list of currently integrated packages.
 
-Securely collect card information on the client with SingleLineCardForm, a drop-in UI component provided by the SDK. Create an instance of the card component and a Pay button with the following code:
+#### Remove reference to the Remote Location
 
-```swift
-import SeamlessPay
-    
-class ViewController: UIViewController {
-  lazy var singleLineCardFormView: SingleLineCardForm = {
-    let singleLineCardFormView = SingleLineCardForm()
-    return singleLineCardFormView
-  }()
+- Select the SeamlessPay package. Click the - button and confirm that you want to remove the package.
 
-  lazy var payButton: UIButton = {
-    let button = UIButton(type: .custom)
-    button.layer.cornerRadius = 5
-    button.backgroundColor = .systemBlue
-    button.titleLabel?.font = UIFont.systemFont(ofSize: 22)
-    button.setTitle("Pay", for: .normal)
-    button.addTarget(self, action: #selector(pay), for: .touchUpInside)
-    return button
-  }()
+#### Add the Local Package
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    // Do any additional setup after loading the view.
+- Click the + button at the bottom of the Package Dependencies tab.
 
-    view.backgroundColor = .white
-    let stackView = UIStackView(arrangedSubviews: [singleLineCardFormView, payButton])
-    stackView.axis = .vertical
-    stackView.spacing = 20
-    stackView.translatesAutoresizingMaskIntoConstraints = false
-    view.addSubview(stackView)
-    NSLayoutConstraint.activate([
-      stackView.leftAnchor.constraint(
-        equalToSystemSpacingAfter: view.leftAnchor,
-        multiplier: 2
-      ),
-      view.rightAnchor.constraint(
-        equalToSystemSpacingAfter: stackView.rightAnchor,
-        multiplier: 2
-      ),
-      stackView.topAnchor.constraint(
-        equalToSystemSpacingBelow: view.topAnchor,
-        multiplier: 20
-      ),
-    ])
-  }
+- In the dialog that appears, click Add Local...
 
-  @objc
-  func pay() {
-    // ...
-  }
-}
-```
+- Navigate to the local path where you cloned the package repository, and select the package directory.
 
-## Create Payment Method and Charge
+#### Build and Run
 
-When the user taps the pay button, convert the card information collected by SingleLineCardForm into a PaymentMethod token. Tokenization ensures that no sensitive card data ever needs to touch your server, so that your integration remains PCI compliant.
-After the client passes the token, pass its identifier as the source to create a charge with one `APIClient` function `createCharge(token:cvv:...`
-
-```swift
-  func pay() {
-    let billingAddress = Address(
-      line1: nil,
-      line2: nil,
-      country: nil,
-      state: nil,
-      city: nil,
-      postalCode: singleLineCardFormView.postalCode
-    )
-
-    APIClient.shared.tokenize(
-      paymentType: .creditCard,
-      accountNumber: singleLineCardFormView.cardNumber ?? .init(),
-      expDate: .init(
-        month: singleLineCardFormView.expirationMonth,
-        year: singleLineCardFormView.expirationYear
-      ),
-      cvv: singleLineCardFormView.cvc,
-      billingAddress: billingAddress,
-      name: "Michael Smith"
-    ) { result in
-      switch result {
-      case let .success(paymentMethod):
-        let token = paymentMethod.token
-
-        APIClient.shared.createCharge(
-          token: token!,
-          cvv: self.singleLineCardFormView.cvc,
-          capture: true,
-          amount: "1",
-          taxExempt: false
-        ) { result in
-          switch result {
-          case let .success(charge):
-            // Success Charge:
-            print(charge.id)
-          case let .failure(error):
-            // Handle the error
-            print(error.localizedDescription)
-            return
-          }
-        }
-      case let .failure(error):
-        // Handle the error
-        print(error.localizedDescription)
-      }
-    }
-  }
-```
-
-## Swift Concurrency
-
-The SeamlessPay iOS SDK API client now supports new Swift concurrency. Swift's concurrency, released in Swift 5.5, refers to a collection of features and tools aimed at simplifying and managing concurrent and asynchronous programming tasks. These include the async/await syntax, structured concurrency, and actors. The SeamlessPay iOS SDK provides the `APIClient` extension, allowing you to make API calls with Swift's concurrency features.
-
-```swift
-  let result = await APIClient.shared.tokenize(
-    paymentType: .creditCard,
-    accountNumber: singleLineCardFormView.cardNumber ?? .init(),
-    expDate: .init(month: singleLineCardFormView.expirationMonth, year: singleLineCardFormView.expirationYear),
-    cvv: singleLineCardFormView.cvc,
-    billingAddress: billingAddress,
-    name: "Michael Smith"
-  )
-```
-
-```swift
-  let result = await APIClient.shared.createCharge(
-    token: token,
-    cvv: singleLineCardFormView.cvc,
-    capture: true,
-    amount: "1",
-    taxExempt: false
-  )
-```
-
-Start with [**'Demo APP'**](https://github.com/seamlesspay/seamlesspay-ios/tree/dev/Example/Demo) for sample on basic setup and usage.
-
-
-## License
-
-SeamlessPay is available under the MIT license. See the LICENSE file for more info.
+- Xcode will resolve the package and add it to your project.
+- Build and run your project to ensure that the local version of the package is being used.
