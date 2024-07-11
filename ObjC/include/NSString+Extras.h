@@ -9,7 +9,6 @@
 
 - (NSString *)sp_safeSubstringToIndex:(NSUInteger)index;
 - (NSString *)sp_safeSubstringFromIndex:(NSUInteger)index;
-- (NSString *)sp_reversedString;
 - (NSString *)sp_stringByRemovingSuffix:(NSString *)suffix;
 
 @end

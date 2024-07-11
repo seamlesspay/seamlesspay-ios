@@ -6,7 +6,6 @@
  */
 
 #import "SPImageLibrary.h"
-#import "SPImageLibrary+Extras.h"
 
 // Dummy class for locating the framework bundle
 
@@ -87,38 +86,6 @@
   return [self safeImageNamed:@"sp_fpx_logo" templateIfAvailable:NO];
 }
 
-@end
-
-@implementation SPImageLibrary (Extras)
-
-+ (UIImage *)addIcon {
-  return [self safeImageNamed:@"sp_icon_add" templateIfAvailable:YES];
-}
-
-+ (UIImage *)bankIcon {
-  return [self safeImageNamed:@"sp_icon_bank" templateIfAvailable:YES];
-}
-
-+ (UIImage *)checkmarkIcon {
-  return [self safeImageNamed:@"sp_icon_checkmark" templateIfAvailable:YES];
-}
-
-+ (UIImage *)largeCardFrontImage {
-  return [self safeImageNamed:@"sp_card_form_front" templateIfAvailable:YES];
-}
-
-+ (UIImage *)largeCardBackImage {
-  return [self safeImageNamed:@"sp_card_form_back" templateIfAvailable:YES];
-}
-
-+ (UIImage *)largeCardAmexCVCImage {
-  return [self safeImageNamed:@"sp_card_form_amex_cvc" templateIfAvailable:YES];
-}
-
-+ (UIImage *)largeShippingImage {
-  return [self safeImageNamed:@"sp_shipping_form" templateIfAvailable:YES];
-}
-
 + (UIImage *)safeImageNamed:(NSString *)imageName
         templateIfAvailable:(BOOL)templateIfAvailable {
 
@@ -190,19 +157,6 @@
   UIImage *image = [self safeImageNamed:imageName
                     templateIfAvailable:shouldUseTemplate];
   return image;
-}
-
-+ (UIImage *)imageWithTintColor:(UIColor *)color forImage:(UIImage *)image {
-  UIImage *newImage;
-  UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
-  [color set];
-  UIImage *templateImage =
-  [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-  [templateImage drawInRect:CGRectMake(0, 0, templateImage.size.width,
-                                       templateImage.size.height)];
-  newImage = UIGraphicsGetImageFromCurrentImageContext();
-  UIGraphicsEndImageContext();
-  return newImage;
 }
 
 @end

@@ -12,7 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface NSArray (Extras)
 
 - (nullable id)sp_boundSafeObjectAtIndex:(NSInteger)index;
-- (NSArray *)sp_arrayByRemovingNulls;
 
 @end
 

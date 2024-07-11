@@ -42,8 +42,6 @@
 @property(nonatomic, readwrite, strong) SPFormTextField *sizingField;
 @property(nonatomic, readwrite, strong) UILabel *sizingLabel;
 
-//@property(nonatomic, strong) CardLogoImageViewManager *cardLogoImageViewManager;
-
 /**
  This is a number-wrapped SPCardFieldType (or nil) that layout uses
  to determine how it should move/animate its subviews so that the chosen

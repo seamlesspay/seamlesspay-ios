@@ -28,12 +28,6 @@
   XCTAssertEqualObjects([@"" sp_safeSubstringFromIndex:1], @"");
 }
 
-- (void)testReversedString {
-  XCTAssertEqualObjects([@"foo" sp_reversedString], @"oof");
-  XCTAssertEqualObjects([@"12345" sp_reversedString], @"54321");
-  XCTAssertEqualObjects([@"" sp_reversedString], @"");
-}
-
 - (void)testStringByRemovingSuffix {
   XCTAssertEqualObjects([@"foobar" sp_stringByRemovingSuffix:@"bar"], @"foo");
   XCTAssertEqualObjects([@"foobar" sp_stringByRemovingSuffix:@"baz"], @"foobar");

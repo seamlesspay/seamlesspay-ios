@@ -99,6 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (UIImage *)errorImageForCardBrand:(SPCardBrand)brand;
 
+
 @end
 
 NS_ASSUME_NONNULL_END
