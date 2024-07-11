@@ -52,5 +52,3 @@ typedef NS_ENUM(NSInteger, SPCardBrand) {
    */
   SPCardBrandUnknown,
 };
-
-NSString *SPStringFromCardBrand(SPCardBrand brand);
