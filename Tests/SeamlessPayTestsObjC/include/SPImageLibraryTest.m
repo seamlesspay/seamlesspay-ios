@@ -7,7 +7,6 @@
 #import <XCTest/XCTest.h>
 
 #import "SPImageLibrary.h"
-#import "SPImageLibrary+Extras.h"
 
 @interface SPImageLibraryTest : XCTestCase
 @property NSArray<NSNumber *> *cardBrands;
