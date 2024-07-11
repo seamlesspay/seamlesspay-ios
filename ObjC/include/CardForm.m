@@ -686,10 +686,10 @@ typedef NS_ENUM(NSInteger, SPFieldEditingTransitionCallSite) {
    SPFieldEditingTransitionCallSiteDidBegin];
 
   //TODO: Add to SingleLineCardForm
-//  [self layoutViewsToFocusField:@(textField.tag)
-//           becomeFirstResponder:YES
-//                       animated:YES
-//                     completion:nil];
+  //  [self layoutViewsToFocusField:@(textField.tag)
+  //           becomeFirstResponder:YES
+  //                       animated:YES
+  //                     completion:nil];
 
   if (!isMidSubviewEditingTransition) {
     if ([self.delegate respondsToSelector:@selector
@@ -698,33 +698,16 @@ typedef NS_ENUM(NSInteger, SPFieldEditingTransitionCallSite) {
     }
   }
 
-  switch ((SPCardFieldType)textField.tag) {
-    case SPCardFieldTypeNumber:
-      ((SPFormTextField *)textField).validText = YES;
-      if ([self.delegate respondsToSelector:@selector
-           (cardFormDidBeginEditingNumber:)]) {
-        [self.delegate cardFormDidBeginEditingNumber:self];
-      }
-      break;
-    case SPCardFieldTypeCVC:
-      if ([self.delegate respondsToSelector:@selector
-           (cardFormBeginEditingCVC:)]) {
-        [self.delegate cardFormBeginEditingCVC:self];
-      }
-      break;
-    case SPCardFieldTypeExpiration:
-      if ([self.delegate respondsToSelector:@selector
-           (cardFormDidBeginEditingExpiration:)]) {
-        [self.delegate cardFormDidBeginEditingExpiration:self];
-      }
-      break;
-    case SPCardFieldTypePostalCode:
-      if ([self.delegate respondsToSelector:@selector
-           (cardFormDidBeginEditingPostalCode:)]) {
-        [self.delegate cardFormDidBeginEditingPostalCode:self];
-      }
-      break;
+  SPCardFieldType fieldType = (SPCardFieldType)textField.tag;
+
+  if (fieldType == SPCardFieldTypeNumber) {
+    ((SPFormTextField *)textField).validText = YES;
   }
+
+  if ([self.delegate respondsToSelector:@selector(cardForm:didBeginEditingField:)]) {
+    [self.delegate cardForm:self didBeginEditingField:fieldType];
+  }
+
   [self updateImageForFieldType:textField.tag];
 }
 
@@ -737,49 +720,30 @@ typedef NS_ENUM(NSInteger, SPFieldEditingTransitionCallSite) {
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
   BOOL isMidSubviewEditingTransition =
-  [self getAndUpdateSubviewEditingTransitionStateFromCall:
-   SPFieldEditingTransitionCallSiteDidEnd];
+  [self getAndUpdateSubviewEditingTransitionStateFromCall:SPFieldEditingTransitionCallSiteDidEnd];
 
-  switch ((SPCardFieldType)textField.tag) {
-    case SPCardFieldTypeNumber:
-      if ([self.viewModel validationStateForField:SPCardFieldTypeNumber] ==
-          SPCardValidationStateIncomplete) {
-        ((SPFormTextField *)textField).validText = NO;
-      }
-      if ([self.delegate respondsToSelector:@selector
-           (cardFormDidEndEditingNumber:)]) {
-        [self.delegate cardFormDidEndEditingNumber:self];
-      }
-      break;
-    case SPCardFieldTypeCVC:
-      if ([self.delegate respondsToSelector:@selector
-           (cardFormDidEndEditingCVC:)]) {
-        [self.delegate cardFormDidEndEditingCVC:self];
-      }
-      break;
-    case SPCardFieldTypeExpiration:
-      if ([self.delegate respondsToSelector:@selector
-           (cardFormDidEndEditingExpiration:)]) {
-        [self.delegate cardFormDidEndEditingExpiration:self];
-      }
-      break;
-    case SPCardFieldTypePostalCode:
-      if ([self.delegate respondsToSelector:@selector
-           (cardFormDidEndEditingPostalCode:)]) {
-        [self.delegate cardFormDidEndEditingPostalCode:self];
-      }
-      break;
+  SPCardFieldType fieldType = (SPCardFieldType)textField.tag;
+
+  if (fieldType == SPCardFieldTypeNumber) {
+    SPCardValidationState validationState = [self.viewModel validationStateForField:SPCardFieldTypeNumber];
+
+    if (validationState == SPCardValidationStateIncomplete) {
+      ((SPFormTextField *)textField).validText = NO;
+    }
+  }
+
+  if ([self.delegate respondsToSelector:@selector(cardForm:didEndEditingField:)]) {
+    [self.delegate cardForm:self didEndEditingField:fieldType];
   }
 
   if (!isMidSubviewEditingTransition) {
     //TODO: Add to SingleLineCardForm
-//    [self layoutViewsToFocusField:nil
-//             becomeFirstResponder:NO
-//                         animated:YES
-//                       completion:nil];
+    //    [self layoutViewsToFocusField:nil
+    //             becomeFirstResponder:NO
+    //                         animated:YES
+    //                       completion:nil];
     [self updateImageForFieldType:SPCardFieldTypeNumber];
-    if ([self.delegate
-         respondsToSelector:@selector(cardFormDidEndEditing:)]) {
+    if ([self.delegate respondsToSelector:@selector(cardFormDidEndEditing:)]) {
       [self.delegate cardFormDidEndEditing:self];
     }
   }
