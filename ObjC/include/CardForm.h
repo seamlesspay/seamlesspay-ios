@@ -6,6 +6,7 @@
  */
 
 #import <UIKit/UIKit.h>
+#import "CardFormViewModel.h"
 
 typedef NS_ENUM(NSInteger, CardFieldDisplay) {
   CardFieldDisplayNone,
@@ -128,43 +129,13 @@ typedef NS_ENUM(NSInteger, CardFieldDisplay) {
 - (void)cardFormDidEndEditing:(nonnull CardForm *)view;
 
 /**
- Called when editing begins in the payment card field's number field.
+ Called when editing ends in the card field of a specific type.
  */
-- (void)cardFormDidBeginEditingNumber:(nonnull CardForm *)view;
+- (void)cardForm:(nonnull CardForm *)view didEndEditingField:(SPCardFieldType)field;
 
 /**
- Called when editing ends in the payment card field's number field.
+ Called when editing begins in the card field of a specific type.
  */
-- (void)cardFormDidEndEditingNumber:(nonnull CardForm *)view;
-
-/**
- Called when editing begins in the payment card field's CVC field.
- */
-- (void)cardFormBeginEditingCVC:(nonnull CardForm *)view;
-
-/**
- Called when editing ends in the payment card field's CVC field.
- */
-- (void)cardFormDidEndEditingCVC:(nonnull CardForm *)view;
-
-/**
- Called when editing begins in the payment card field's expiration field.
- */
-- (void)cardFormDidBeginEditingExpiration:(nonnull CardForm *)view;
-
-/**
- Called when editing ends in the payment card field's expiration field.
- */
-- (void)cardFormDidEndEditingExpiration:(nonnull CardForm *)view;
-
-/**
- Called when editing begins in the payment card field's ZIP/postal code field.
- */
-- (void)cardFormDidBeginEditingPostalCode:(nonnull CardForm *)view;
-
-/**
- Called when editing ends in the payment card field's ZIP/postal code field.
- */
-- (void)cardFormDidEndEditingPostalCode:(nonnull CardForm *)view;
+- (void)cardForm:(nonnull CardForm *)view didBeginEditingField:(SPCardFieldType)field;
 
 @end
