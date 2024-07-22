@@ -17,7 +17,7 @@ public struct FieldOptions {
   }
 
   public static var `default`: Self {
-    Self(cvv: .init(display: .optional), postalCode: .init(display: .optional))
+    Self(cvv: .init(display: .required), postalCode: .init(display: .required))
   }
 }
 
