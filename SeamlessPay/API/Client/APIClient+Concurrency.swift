@@ -111,9 +111,9 @@ public extension APIClient {
   func createCharge(
     token: String,
     cvv: String? = nil,
-    capture: Bool,
+    capture: Bool? = false,
     currency: String? = nil,
-    amount: String? = nil,
+    amount: String,
     taxAmount: String? = nil,
     taxExempt: Bool? = nil,
     tip: String? = nil,

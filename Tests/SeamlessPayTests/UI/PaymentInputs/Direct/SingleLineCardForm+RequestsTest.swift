@@ -153,7 +153,7 @@ private class APIClientMock: APIClient {
   override func createCharge(
     token: String,
     cvv: String? = nil,
-    capture: Bool,
+    capture: Bool? = false,
     currency: String? = nil,
     amount: String? = nil,
     taxAmount: String? = nil,

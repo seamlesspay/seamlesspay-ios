@@ -296,6 +296,7 @@ final class APIClientTest: XCTestCase {
       cvv: "test_cvv",
       capture: true,
       currency: "test_currency",
+      amount: "100",
       taxAmount: "test_taxAmount",
       taxExempt: false,
       tip: "test_tip",
