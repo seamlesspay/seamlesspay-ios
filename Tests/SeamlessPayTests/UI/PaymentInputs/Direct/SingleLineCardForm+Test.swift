@@ -104,9 +104,9 @@ final class SingleLineCardFormTest: XCTestCase {
     let viewModel = view.viewModel!
 
     // Then
-    XCTAssert(viewModel.cvcRequired == false)
+    XCTAssert(viewModel.cvcRequired == true)
     XCTAssert(viewModel.cvcDisplayed == true)
-    XCTAssert(viewModel.postalCodeRequired == false)
+    XCTAssert(viewModel.postalCodeRequired == true)
     XCTAssert(viewModel.postalCodeDisplayed == true)
   }
 

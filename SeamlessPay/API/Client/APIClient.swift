@@ -151,10 +151,10 @@ public class APIClient {
   // MARK: Charge
   public func createCharge(
     token: String,
+    amount: String,
     cvv: String? = nil,
     capture: Bool? = false,
     currency: String? = nil,
-    amount: String,
     taxAmount: String? = nil,
     taxExempt: Bool? = nil,
     tip: String? = nil,

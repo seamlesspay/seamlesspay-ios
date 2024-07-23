@@ -84,10 +84,10 @@ public extension CardForm {
       case let .success(paymentMethod):
         self.apiClient?.createCharge(
           token: paymentMethod.paymentToken,
+          amount: request.amount,
           cvv: self.viewModel?.cvc,
           capture: request.capture,
           currency: request.currency,
-          amount: request.amount,
           taxAmount: request.taxAmount,
           taxExempt: request.taxExempt,
           tip: request.tip,

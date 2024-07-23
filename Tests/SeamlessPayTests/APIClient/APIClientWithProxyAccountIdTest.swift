@@ -127,10 +127,10 @@ final class APIClientWithProxyAccountIdTest: XCTestCase {
     // when
     client.createCharge(
       token: "test_token",
+      amount: "100",
       cvv: "test_cvv",
       capture: true,
       currency: "test_currency",
-      amount: "100",
       taxAmount: "test_taxAmount",
       taxExempt: false,
       tip: "test_tip",
