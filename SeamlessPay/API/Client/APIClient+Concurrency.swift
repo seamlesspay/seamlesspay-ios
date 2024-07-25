@@ -111,9 +111,9 @@ public extension APIClient {
   func createCharge(
     token: String,
     cvv: String? = nil,
-    capture: Bool,
+    capture: Bool? = false,
     currency: String? = nil,
-    amount: String? = nil,
+    amount: String,
     taxAmount: String? = nil,
     taxExempt: Bool? = nil,
     tip: String? = nil,
@@ -130,10 +130,10 @@ public extension APIClient {
     await withCheckedContinuation { continuation in
       createCharge(
         token: token,
+        amount: amount,
         cvv: cvv,
         capture: capture,
         currency: currency,
-        amount: amount,
         taxAmount: taxAmount,
         taxExempt: taxExempt,
         tip: tip,

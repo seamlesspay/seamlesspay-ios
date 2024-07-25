@@ -111,7 +111,7 @@ class SingleLineCardFormRequestsTest: XCTestCase {
 private class APIClientMock: APIClient {
   convenience init() {
     self.init(
-      authorization: .init(secretKey: "test_secret_key", environment: .sandbox),
+      authorization: .init(environment: .sandbox, secretKey: "test_secret_key"),
       session: URLSession(configuration: .default)
     )
   }
@@ -152,10 +152,10 @@ private class APIClientMock: APIClient {
 
   override func createCharge(
     token: String,
+    amount: String?,
     cvv: String? = nil,
-    capture: Bool,
+    capture: Bool? = false,
     currency: String? = nil,
-    amount: String? = nil,
     taxAmount: String? = nil,
     taxExempt: Bool? = nil,
     tip: String? = nil,

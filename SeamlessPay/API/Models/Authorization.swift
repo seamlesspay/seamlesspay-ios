@@ -12,7 +12,7 @@ public struct Authorization {
   public let proxyAccountId: String?
   public let environment: Environment
 
-  public init(secretKey: String, proxyAccountId: String? = nil, environment: Environment) {
+  public init(environment: Environment, secretKey: String, proxyAccountId: String? = nil) {
     self.secretKey = secretKey
     self.proxyAccountId = proxyAccountId
     self.environment = environment

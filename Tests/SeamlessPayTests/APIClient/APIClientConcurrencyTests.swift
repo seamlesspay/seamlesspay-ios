@@ -13,7 +13,7 @@ final class APIClientConcurrencyTest: XCTestCase {
 
   override func setUp() {
     client = APIClient(
-      authorization: .init(secretKey: "sk_TEST", environment: .sandbox),
+      authorization: .init(environment: .sandbox, secretKey: "sk_TEST"),
       session: {
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = [APIClientURLProtocolMock.self]
@@ -91,7 +91,7 @@ final class APIClientConcurrencyTest: XCTestCase {
 
   func testAsyncCreateChargeRequest() async {
     // when
-    _ = await client.createCharge(token: "test_token", capture: true)
+    _ = await client.createCharge(token: "test_token", amount: "100")
 
     // then
     XCTAssertEqual(urlToBeTested, "https://sandbox.seamlesspay.com/charges")

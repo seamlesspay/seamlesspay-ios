@@ -17,7 +17,7 @@ final class APIClientTest: XCTestCase {
     let session = URLSession(configuration: configuration)
 
     client = APIClient(
-      authorization: .init(secretKey: "sk_TEST", proxyAccountId: .none, environment: .sandbox),
+      authorization: .init(environment: .sandbox, secretKey: "sk_TEST", proxyAccountId: .none),
       session: session
     )
 
@@ -293,6 +293,7 @@ final class APIClientTest: XCTestCase {
     // when
     client.createCharge(
       token: "test_token",
+      amount: "100",
       cvv: "test_cvv",
       capture: true,
       currency: "test_currency",
