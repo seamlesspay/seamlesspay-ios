@@ -111,7 +111,7 @@ class SingleLineCardFormRequestsTest: XCTestCase {
 private class APIClientMock: APIClient {
   convenience init() {
     self.init(
-      authorization: .init(environment: .sandbox, secretKey: "test_secret_key"),
+      config: .init(environment: .sandbox, secretKey: "test_secret_key"),
       session: URLSession(configuration: .default)
     )
   }

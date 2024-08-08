@@ -24,22 +24,22 @@ public class APIClient {
   private var sentryClient: SPSentryClient?
 
   // MARK: - Public Interface
-  public let authorization: Authorization
+  public let config: ClientConfiguration
 
   // MARK: Init
   // TODO: Move under SPI
-  public convenience init(authorization: Authorization) {
+  public convenience init(config: ClientConfiguration) {
     self.init(
-      authorization: authorization,
+      config: config,
       session: URLSession(configuration: .default)
     )
   }
 
-  init(authorization: Authorization, session: URLSession) {
-    self.authorization = authorization
+  init(config: ClientConfiguration, session: URLSession) {
+    self.config = config
     self.session = session
 
-    sentryClient = Self.makeClient(environment: authorization.environment)
+    sentryClient = Self.makeClient(environment: config.environment)
     initDate = Date()
   }
 
@@ -427,11 +427,11 @@ private extension APIClient {
     let authToken: String
     switch operation {
     case .createToken:
-      host = authorization.environment.panVaultHost
-      authToken = authorization.secretKey
+      host = config.environment.panVaultHost
+      authToken = config.secretKey
     default:
-      host = authorization.environment.mainHost
-      authToken = authorization.secretKey
+      host = config.environment.mainHost
+      authToken = config.secretKey
     }
 
     let proxyAccountId: String?
@@ -440,7 +440,7 @@ private extension APIClient {
          .createRefund,
          .createToken,
          .voidCharge:
-      proxyAccountId = authorization.proxyAccountId
+      proxyAccountId = config.proxyAccountId
     default:
       proxyAccountId = .none
     }

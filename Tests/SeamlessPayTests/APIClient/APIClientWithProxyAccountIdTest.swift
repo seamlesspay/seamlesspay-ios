@@ -17,7 +17,7 @@ final class APIClientWithProxyAccountIdTest: XCTestCase {
     let session = URLSession(configuration: configuration)
 
     client = APIClient(
-      authorization: .init(environment: .sandbox, secretKey: "sk_TEST", proxyAccountId: "MRT_TEST"),
+      config: .init(environment: .sandbox, secretKey: "sk_TEST", proxyAccountId: "MRT_TEST"),
       session: session
     )
 

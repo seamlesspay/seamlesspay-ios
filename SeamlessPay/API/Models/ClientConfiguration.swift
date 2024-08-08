@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Authorization {
+public struct ClientConfiguration {
   public let secretKey: String
   public let proxyAccountId: String?
   public let environment: Environment
