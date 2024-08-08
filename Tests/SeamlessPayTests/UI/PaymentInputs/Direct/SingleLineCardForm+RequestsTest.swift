@@ -46,15 +46,15 @@ class SingleLineCardFormRequestsTest: XCTestCase {
     }
   }
 
-  // MARK: - Submit Tests
-  func testSubmit_SuccessfulSubmission() {
+  // MARK: - Charge Tests
+  func testCharge_SuccessfulSubmission() {
     // Given
     let apiClientMock = APIClientMock()
     sut.apiClient = apiClientMock
     let request = ChargeRequest(amount: "1")
 
     // When
-    sut.submit(request) { result in
+    sut.charge(request) { result in
       // Then
       switch result {
       case let .success(payment):
