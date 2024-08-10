@@ -10,9 +10,9 @@ import UIKit
 // MARK: - Public
 // MARK: Init with Authorization model
 public extension CardForm {
-  convenience init(authorization: Authorization, fieldOptions: FieldOptions = .default) {
+  convenience init(config: ClientConfiguration, fieldOptions: FieldOptions = .default) {
     self.init()
-    apiClient = .init(authorization: authorization)
+    apiClient = .init(config: config)
     setFieldOptions(fieldOptions)
   }
 
