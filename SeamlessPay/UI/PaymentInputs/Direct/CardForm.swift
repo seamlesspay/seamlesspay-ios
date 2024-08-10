@@ -73,9 +73,9 @@ public extension CardForm {
   }
 }
 
-// MARK: - Submit
+// MARK: - Charge
 public extension CardForm {
-  func submit(
+  func charge(
     _ request: ChargeRequest,
     completion: ((Result<ChargeResponse, SeamlessPayError>) -> Void)?
   ) {
@@ -129,11 +129,11 @@ public extension CardForm {
     }
   }
 
-  func submit(
+  func charge(
     _ request: ChargeRequest
   ) async -> Result<ChargeResponse, SeamlessPayError> {
     await withCheckedContinuation { continuation in
-      submit(request) { result in
+      charge(request) { result in
         continuation.resume(returning: result)
       }
     }
