@@ -53,7 +53,10 @@ public extension CardForm {
                 expDate: $0.expDate,
                 lastFour: $0.lastFour,
                 name: $0.name,
-                paymentNetwork: $0.paymentNetwork
+                paymentNetwork: $0.paymentNetwork,
+                avsPostalCodeResult: $0.verificationResults?.avsPostalCode,
+                avsStreetAddressResult: $0.verificationResults?.avsStreetAddress,
+                cvvResult: $0.verificationResults?.cvv
               )
             )
           }
@@ -105,16 +108,24 @@ public extension CardForm {
                   id: $0.id,
                   paymentToken: paymentMethod.paymentToken,
                   details: .init(
+                    accountType: $0.accountType,
                     amount: $0.amount,
                     authCode: $0.authCode,
                     batchId: $0.batch,
                     cardBrand: $0.paymentNetwork,
+                    currency: $0.currency,
+                    expDate: $0.expDate,
                     lastFour: $0.lastFour,
                     status: $0.status,
                     statusCode: $0.statusCode,
                     statusDescription: $0.statusDescription,
                     surchargeFeeAmount: $0.surchargeFeeAmount,
-                    transactionDate: $0.transactionDate
+                    tip: $0.tip,
+                    transactionDate: $0.transactionDate,
+                    avsPostalCodeResult: $0.verificationResults?.avsPostalCode,
+                    avsStreetAddressResult: $0.verificationResults?.avsStreetAddress,
+                    cvvResult: $0.verificationResults?.cvv
+
                   )
                 )
               }
@@ -161,16 +172,23 @@ public extension CardForm {
                   id: $0.id,
                   paymentToken: paymentMethod.paymentToken,
                   details: .init(
+                    accountType: $0.accountType,
                     amount: $0.amount,
                     authCode: $0.authCode,
                     batchId: $0.batchID,
                     cardBrand: $0.paymentNetwork,
+                    currency: $0.currency,
+                    expDate: .none,
                     lastFour: $0.lastFour,
                     status: $0.status,
                     statusCode: $0.statusCode,
                     statusDescription: $0.statusDescription,
                     surchargeFeeAmount: .none,
-                    transactionDate: $0.transactionDate
+                    tip: .none,
+                    transactionDate: $0.transactionDate,
+                    avsPostalCodeResult: .none,
+                    avsStreetAddressResult: .none,
+                    cvvResult: .none
                   )
                 )
               }
