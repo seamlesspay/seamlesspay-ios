@@ -13,6 +13,7 @@ jobs:
           no_output_timeout: 5m
           command: |
             xcodebuild \
+              -workspace ./.swiftpm/xcode/package.xcworkspace \
               -scheme SeamlessPay \
               -sdk iphonesimulator \
               -destination 'platform=iOS Simulator,name=iPhone 15' \

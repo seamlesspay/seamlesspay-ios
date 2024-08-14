@@ -7,16 +7,15 @@
 
 import Foundation
 
-public struct PaymentMethodResponse: Identifiable, Equatable {
+public struct TokenizeResponse: Identifiable, Equatable {
   public struct Details: Equatable {
-    public let name: String?
+    public let expDate: String?
     public let lastFour: String?
-    public let expirationDate: String?
+    public let name: String?
     public let paymentNetwork: PaymentNetwork?
   }
 
   public let paymentToken: String
-  public let paymentType: PaymentType
   public let details: Details
 
   // MARK: Identifiable

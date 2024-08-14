@@ -33,13 +33,12 @@ class SingleLineCardFormRequestsTest: XCTestCase {
     sut.tokenize { result in
       // Then
       switch result {
-      case let .success(paymentMethod):
-        XCTAssertEqual(paymentMethod.paymentToken, "mockedToken")
-        XCTAssertEqual(paymentMethod.details.expirationDate, "01/25")
-        XCTAssertEqual(paymentMethod.details.lastFour, "1234")
-        XCTAssertEqual(paymentMethod.details.name, "John Doe")
-        XCTAssertEqual(paymentMethod.details.paymentNetwork, .masterCard)
-        XCTAssertEqual(paymentMethod.paymentType, .creditCard)
+      case let .success(tokenizeResponse):
+        XCTAssertEqual(tokenizeResponse.paymentToken, "mockedToken")
+        XCTAssertEqual(tokenizeResponse.details.expDate, "01/25")
+        XCTAssertEqual(tokenizeResponse.details.lastFour, "1234")
+        XCTAssertEqual(tokenizeResponse.details.name, "John Doe")
+        XCTAssertEqual(tokenizeResponse.details.paymentNetwork, .masterCard)
       case .failure:
         XCTFail("Tokenization should succeed")
       }
@@ -59,7 +58,6 @@ class SingleLineCardFormRequestsTest: XCTestCase {
       switch result {
       case let .success(payment):
         XCTAssertEqual(payment.id, "mockedChargeID")
-        XCTAssertNotNil(payment.paymentMethod)
         XCTAssertEqual(payment.details.amount, "99")
         XCTAssertEqual(payment.details.status, .captured)
         XCTAssertEqual(payment.details.statusCode, "mocked_statusCode")
@@ -70,6 +68,7 @@ class SingleLineCardFormRequestsTest: XCTestCase {
         XCTAssertEqual(payment.details.surchargeFeeAmount, "mocked_surchargeFeeAmount")
         XCTAssertEqual(payment.details.cardBrand, .masterCard)
         XCTAssertEqual(payment.details.lastFour, "mocked_lastFour")
+        XCTAssertEqual(payment.details.cardBrand, .masterCard)
 
       case .failure:
         XCTFail("Submission should succeed")
@@ -90,7 +89,6 @@ class SingleLineCardFormRequestsTest: XCTestCase {
       switch result {
       case let .success(payment):
         XCTAssertEqual(payment.id, "refund_id")
-        XCTAssertNotNil(payment.paymentMethod)
         XCTAssertEqual(payment.details.amount, "refund_amount")
         XCTAssertEqual(payment.details.status, .authorized)
         XCTAssertEqual(payment.details.statusCode, "refund_statusCode")
@@ -98,7 +96,7 @@ class SingleLineCardFormRequestsTest: XCTestCase {
         XCTAssertEqual(payment.details.authCode, "refund_aute_code")
         XCTAssertEqual(payment.details.batchId, "refund_batch_id")
         XCTAssertEqual(payment.details.transactionDate, "refund_transactionDate")
-        XCTAssertEqual(payment.details.cardBrand, .masterCard)
+        XCTAssertEqual(payment.details.cardBrand, .americanExpress)
         XCTAssertEqual(payment.details.lastFour, "refund_lastFour")
       case .failure:
         XCTFail("Submission should succeed")

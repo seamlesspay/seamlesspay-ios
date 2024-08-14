@@ -25,11 +25,10 @@ public extension CardForm {
 // MARK: Tokenize
 public extension CardForm {
   func tokenize(
-    completion: ((Result<PaymentMethodResponse, SeamlessPayError>) -> Void)?
+    completion: ((Result<TokenizeResponse, SeamlessPayError>) -> Void)?
   ) {
-    let paymentType: PaymentType = .creditCard
     apiClient?.tokenize(
-      paymentType: paymentType,
+      paymentType: .creditCard,
       accountNumber: viewModel?.cardNumber ?? .init(),
       expDate: expDate,
       cvv: viewModel?.cvc,
@@ -50,11 +49,10 @@ public extension CardForm {
           result.map {
             .init(
               paymentToken: $0.token,
-              paymentType: paymentType,
               details: .init(
-                name: $0.name,
+                expDate: $0.expDate,
                 lastFour: $0.lastFour,
-                expirationDate: $0.expDate,
+                name: $0.name,
                 paymentNetwork: $0.paymentNetwork
               )
             )
@@ -64,7 +62,7 @@ public extension CardForm {
     )
   }
 
-  func tokenize() async -> Result<PaymentMethodResponse, SeamlessPayError> {
+  func tokenize() async -> Result<TokenizeResponse, SeamlessPayError> {
     await withCheckedContinuation { continuation in
       tokenize { result in
         continuation.resume(returning: result)
@@ -77,7 +75,7 @@ public extension CardForm {
 public extension CardForm {
   func charge(
     _ request: ChargeRequest,
-    completion: ((Result<ChargeResponse, SeamlessPayError>) -> Void)?
+    completion: ((Result<PaymentResponse, SeamlessPayError>) -> Void)?
   ) {
     tokenize { result in
       switch result {
@@ -105,13 +103,13 @@ public extension CardForm {
               result.map {
                 .init(
                   id: $0.id,
-                  paymentMethod: paymentMethod,
+                  paymentToken: paymentMethod.paymentToken,
                   details: .init(
                     amount: $0.amount,
                     authCode: $0.authCode,
                     batchId: $0.batch,
+                    cardBrand: $0.paymentNetwork,
                     lastFour: $0.lastFour,
-                    cardBrand: paymentMethod.details.paymentNetwork,
                     status: $0.status,
                     statusCode: $0.statusCode,
                     statusDescription: $0.statusDescription,
@@ -131,7 +129,7 @@ public extension CardForm {
 
   func charge(
     _ request: ChargeRequest
-  ) async -> Result<ChargeResponse, SeamlessPayError> {
+  ) async -> Result<PaymentResponse, SeamlessPayError> {
     await withCheckedContinuation { continuation in
       charge(request) { result in
         continuation.resume(returning: result)
@@ -144,7 +142,7 @@ public extension CardForm {
 public extension CardForm {
   func refund(
     _ request: RefundRequest,
-    completion: ((Result<RefundResponse, SeamlessPayError>) -> Void)?
+    completion: ((Result<PaymentResponse, SeamlessPayError>) -> Void)?
   ) {
     tokenize { result in
       switch result {
@@ -161,16 +159,17 @@ public extension CardForm {
               result.map {
                 .init(
                   id: $0.id,
-                  paymentMethod: paymentMethod,
+                  paymentToken: paymentMethod.paymentToken,
                   details: .init(
                     amount: $0.amount,
                     authCode: $0.authCode,
                     batchId: $0.batchID,
+                    cardBrand: $0.paymentNetwork,
                     lastFour: $0.lastFour,
-                    cardBrand: paymentMethod.details.paymentNetwork,
                     status: $0.status,
                     statusCode: $0.statusCode,
                     statusDescription: $0.statusDescription,
+                    surchargeFeeAmount: .none,
                     transactionDate: $0.transactionDate
                   )
                 )
@@ -186,7 +185,7 @@ public extension CardForm {
 
   func refund(
     _ request: RefundRequest
-  ) async -> Result<RefundResponse, SeamlessPayError> {
+  ) async -> Result<PaymentResponse, SeamlessPayError> {
     await withCheckedContinuation { continuation in
       refund(request) { result in
         continuation.resume(returning: result)
