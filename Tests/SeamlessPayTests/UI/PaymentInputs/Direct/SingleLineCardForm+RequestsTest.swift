@@ -33,12 +33,16 @@ class SingleLineCardFormRequestsTest: XCTestCase {
     sut.tokenize { result in
       // Then
       switch result {
-      case let .success(tokenizeResponse):
-        XCTAssertEqual(tokenizeResponse.paymentToken, "mockedToken")
-        XCTAssertEqual(tokenizeResponse.details.expDate, "01/25")
-        XCTAssertEqual(tokenizeResponse.details.lastFour, "1234")
-        XCTAssertEqual(tokenizeResponse.details.name, "John Doe")
-        XCTAssertEqual(tokenizeResponse.details.paymentNetwork, .masterCard)
+      case let .success(payload):
+        XCTAssertEqual(payload.paymentToken, "mockedToken")
+        XCTAssertEqual(payload.details.expDate, "01/25")
+        XCTAssertEqual(payload.details.lastFour, "1234")
+        XCTAssertEqual(payload.details.name, "John Doe")
+        XCTAssertEqual(payload.details.paymentNetwork, .masterCard)
+        XCTAssertEqual(payload.details.avsPostalCodeResult, .retry)
+        XCTAssertEqual(payload.details.avsStreetAddressResult, .retry)
+        XCTAssertEqual(payload.details.cvvResult, .retry)
+
       case .failure:
         XCTFail("Tokenization should succeed")
       }
@@ -46,7 +50,7 @@ class SingleLineCardFormRequestsTest: XCTestCase {
   }
 
   // MARK: - Charge Tests
-  func testCharge_SuccessfulSubmission() {
+  func testCharge_SuccessfulCharge() {
     // Given
     let apiClientMock = APIClientMock()
     sut.apiClient = apiClientMock
@@ -56,22 +60,29 @@ class SingleLineCardFormRequestsTest: XCTestCase {
     sut.charge(request) { result in
       // Then
       switch result {
-      case let .success(payment):
-        XCTAssertEqual(payment.id, "mockedChargeID")
-        XCTAssertEqual(payment.details.amount, "99")
-        XCTAssertEqual(payment.details.status, .captured)
-        XCTAssertEqual(payment.details.statusCode, "mocked_statusCode")
-        XCTAssertEqual(payment.details.statusDescription, "mocked_statusDescription")
-        XCTAssertEqual(payment.details.authCode, "mocked_authCode")
-        XCTAssertEqual(payment.details.batchId, "mocked_batch")
-        XCTAssertEqual(payment.details.transactionDate, "mocked_transactionDate")
-        XCTAssertEqual(payment.details.surchargeFeeAmount, "mocked_surchargeFeeAmount")
-        XCTAssertEqual(payment.details.cardBrand, .masterCard)
-        XCTAssertEqual(payment.details.lastFour, "mocked_lastFour")
-        XCTAssertEqual(payment.details.cardBrand, .masterCard)
+      case let .success(payload):
+        XCTAssertEqual(payload.id, "mockedChargeID")
+        XCTAssertEqual(payload.details.amount, "99")
+        XCTAssertEqual(payload.details.status, .captured)
+        XCTAssertEqual(payload.details.statusCode, "mocked_statusCode")
+        XCTAssertEqual(payload.details.statusDescription, "mocked_statusDescription")
+        XCTAssertEqual(payload.details.authCode, "mocked_authCode")
+        XCTAssertEqual(payload.details.batchId, "mocked_batch")
+        XCTAssertEqual(payload.details.transactionDate, "mocked_transactionDate")
+        XCTAssertEqual(payload.details.surchargeFeeAmount, "mocked_surchargeFeeAmount")
+        XCTAssertEqual(payload.details.cardBrand, .masterCard)
+        XCTAssertEqual(payload.details.lastFour, "mocked_lastFour")
+        XCTAssertEqual(payload.details.cardBrand, .masterCard)
+        XCTAssertEqual(payload.details.accountType, .credit)
+        XCTAssertEqual(payload.details.currency, .usd)
+        XCTAssertEqual(payload.details.expDate, "mocked_expDate")
+        XCTAssertEqual(payload.details.tip, "mocked_tip")
+        XCTAssertEqual(payload.details.avsPostalCodeResult, .pass)
+        XCTAssertEqual(payload.details.avsStreetAddressResult, .pass)
+        XCTAssertEqual(payload.details.cvvResult, .pass)
 
       case .failure:
-        XCTFail("Submission should succeed")
+        XCTFail("Charge request should succeed")
       }
     }
   }
@@ -87,19 +98,26 @@ class SingleLineCardFormRequestsTest: XCTestCase {
     sut.refund(request) { result in
       // Then
       switch result {
-      case let .success(payment):
-        XCTAssertEqual(payment.id, "refund_id")
-        XCTAssertEqual(payment.details.amount, "refund_amount")
-        XCTAssertEqual(payment.details.status, .authorized)
-        XCTAssertEqual(payment.details.statusCode, "refund_statusCode")
-        XCTAssertEqual(payment.details.statusDescription, "refund_statusDescription")
-        XCTAssertEqual(payment.details.authCode, "refund_aute_code")
-        XCTAssertEqual(payment.details.batchId, "refund_batch_id")
-        XCTAssertEqual(payment.details.transactionDate, "refund_transactionDate")
-        XCTAssertEqual(payment.details.cardBrand, .americanExpress)
-        XCTAssertEqual(payment.details.lastFour, "refund_lastFour")
+      case let .success(payload):
+        XCTAssertEqual(payload.id, "refund_id")
+        XCTAssertEqual(payload.details.amount, "refund_amount")
+        XCTAssertEqual(payload.details.status, .authorized)
+        XCTAssertEqual(payload.details.statusCode, "refund_statusCode")
+        XCTAssertEqual(payload.details.statusDescription, "refund_statusDescription")
+        XCTAssertEqual(payload.details.authCode, "refund_aute_code")
+        XCTAssertEqual(payload.details.batchId, "refund_batch_id")
+        XCTAssertEqual(payload.details.transactionDate, "refund_transactionDate")
+        XCTAssertEqual(payload.details.cardBrand, .americanExpress)
+        XCTAssertEqual(payload.details.lastFour, "refund_lastFour")
+        XCTAssertEqual(payload.details.accountType, .credit)
+        XCTAssertEqual(payload.details.currency, .cad)
+        XCTAssertEqual(payload.details.expDate, .none)
+        XCTAssertEqual(payload.details.tip, .none)
+        XCTAssertEqual(payload.details.avsPostalCodeResult, .none)
+        XCTAssertEqual(payload.details.avsStreetAddressResult, .none)
+        XCTAssertEqual(payload.details.cvvResult, .none)
       case .failure:
-        XCTFail("Submission should succeed")
+        XCTFail("Charge request should succeed")
       }
     }
   }
@@ -135,7 +153,7 @@ private class APIClientMock: APIClient {
       paymentType: .creditCard,
       bankAccountType: "mocked_bankAccountType",
       routingNumber: "mocked_routingNumber",
-      verificationResults: .init(avsPostalCode: .pass, avsStreetAddress: .pass, cvv: .pass),
+      verificationResults: .init(avsPostalCode: .retry, avsStreetAddress: .retry, cvv: .retry),
       billingAddress: .init(
         line1: "mocked_line1",
         line2: "mocked_line2",

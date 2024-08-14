@@ -13,6 +13,9 @@ public struct TokenizeResponse: Identifiable, Equatable {
     public let lastFour: String?
     public let name: String?
     public let paymentNetwork: PaymentNetwork?
+    public let avsPostalCodeResult: AVSResult?
+    public let avsStreetAddressResult: AVSResult?
+    public let cvvResult: AVSResult?
   }
 
   public let paymentToken: String
