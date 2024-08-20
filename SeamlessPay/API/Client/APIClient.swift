@@ -9,7 +9,7 @@ import Foundation
 
 public class APIClient {
   // MARK: Private Constants
-  private let apiVersion = "v2020"
+  private let apiVersion = "v2"
 
   // MARK: Private
   private let session: URLSession
@@ -47,13 +47,13 @@ public class APIClient {
   public func tokenize(
     paymentType: PaymentType,
     accountNumber: String,
-    expDate: ExpirationDate? = nil,
-    cvv: String? = nil,
-    accountType: String? = nil,
-    routing: String? = nil,
-    pin: String? = nil,
-    billingAddress: Address? = nil,
-    name: String? = nil,
+    expDate: ExpirationDate? = .none,
+    cvv: String? = .none,
+    accountType: String? = .none,
+    routing: String? = .none,
+    pin: String? = .none,
+    billingAddress: Address? = .none,
+    name: String? = .none,
     completion: ((Result<PaymentMethod, SeamlessPayError>) -> Void)?
   ) {
     var parameters: [String: Any?] = [
@@ -89,13 +89,13 @@ public class APIClient {
   public func createCustomer(
     name: String,
     email: String,
-    address: Address? = nil,
-    companyName: String? = nil,
-    notes: String? = nil,
-    phone: String? = nil,
-    website: String? = nil,
-    paymentMethods: [PaymentMethod]? = nil,
-    metadata: String? = nil,
+    address: Address? = .none,
+    companyName: String? = .none,
+    notes: String? = .none,
+    phone: String? = .none,
+    website: String? = .none,
+    paymentMethods: [PaymentMethod]? = .none,
+    metadata: String? = .none,
     completion: ((Result<Customer, SeamlessPayError>) -> Void)?
   ) {
     customer(
@@ -117,13 +117,13 @@ public class APIClient {
     id: String,
     name: String,
     email: String,
-    address: Address? = nil,
-    companyName: String? = nil,
-    notes: String? = nil,
-    phone: String? = nil,
-    website: String? = nil,
-    paymentMethods: [PaymentMethod]? = nil,
-    metadata: String? = nil,
+    address: Address? = .none,
+    companyName: String? = .none,
+    notes: String? = .none,
+    phone: String? = .none,
+    website: String? = .none,
+    paymentMethods: [PaymentMethod]? = .none,
+    metadata: String? = .none,
     completion: ((Result<Customer, SeamlessPayError>) -> Void)?
   ) {
     customer(
@@ -151,22 +151,22 @@ public class APIClient {
   // MARK: Charge
   public func createCharge(
     token: String,
-    amount: String,
-    cvv: String? = nil,
+    amount: Int,
+    cvv: String? = .none,
     capture: Bool? = false,
-    currency: String? = nil,
-    taxAmount: String? = nil,
-    taxExempt: Bool? = nil,
-    tip: String? = nil,
-    surchargeFeeAmount: String? = nil,
-    description: String? = nil,
-    order: [String: String]? = nil,
-    orderID: String? = nil,
-    poNumber: String? = nil,
-    metadata: String? = nil,
-    descriptor: String? = nil,
-    entryType: String? = nil,
-    idempotencyKey: String? = nil,
+    currency: String? = .none,
+    taxAmount: Int? = .none,
+    taxExempt: Bool? = .none,
+    tip: String? = .none,
+    surchargeFeeAmount: Int? = .none,
+    description: String? = .none,
+    order: [String: String]? = .none,
+    orderID: String? = .none,
+    poNumber: String? = .none,
+    metadata: String? = .none,
+    descriptor: String? = .none,
+    entryType: String? = .none,
+    idempotencyKey: String? = .none,
     completion: ((Result<Charge, SeamlessPayError>) -> Void)?
   ) {
     charge(
@@ -231,11 +231,11 @@ public class APIClient {
   // MARK: Refunds
   public func createRefund(
     token: String,
-    amount: String,
-    currency: String? = nil,
-    descriptor: String? = nil,
-    idempotencyKey: String? = nil,
-    metadata: String? = nil,
+    amount: Int,
+    currency: String? = .none,
+    descriptor: String? = .none,
+    idempotencyKey: String? = .none,
+    metadata: String? = .none,
     completion: ((Result<Refund, SeamlessPayError>) -> Void)?
   ) {
     let parameters: [String: Any?] = [
@@ -273,9 +273,8 @@ private extension APIClient {
         parameters: parameters
       )
 
-      session.dataTask(
-        with: request
-      ) { [weak self] data, response, error in
+      session.dataTask(with: request) { [weak self] data, response, error in
+
         guard let self else {
           return
         }
@@ -322,15 +321,15 @@ private extension APIClient {
 // MARK: Helpers
 private extension APIClient {
   func customer(
-    name: String? = nil,
-    email: String? = nil,
-    address: Address? = nil,
-    companyName: String? = nil,
-    notes: String? = nil,
-    phone: String? = nil,
-    website: String? = nil,
-    paymentMethods: [PaymentMethod]? = nil,
-    metadata: String? = nil,
+    name: String? = .none,
+    email: String? = .none,
+    address: Address? = .none,
+    companyName: String? = .none,
+    notes: String? = .none,
+    phone: String? = .none,
+    website: String? = .none,
+    paymentMethods: [PaymentMethod]? = .none,
+    metadata: String? = .none,
     operation: APIOperation,
     completion: ((Result<Customer, SeamlessPayError>) -> Void)?
   ) {
@@ -359,23 +358,23 @@ private extension APIClient {
   }
 
   func charge(
-    token: String? = nil,
-    cvv: String? = nil,
-    capture: Bool? = nil,
-    currency: String? = nil,
-    amount: String? = nil,
-    taxAmount: String? = nil,
-    taxExempt: Bool? = nil,
-    tip: String? = nil,
-    surchargeFeeAmount: String? = nil,
-    description: String? = nil,
-    order: [String: String]? = nil,
-    orderID: String? = nil,
-    poNumber: String? = nil,
-    metadata: String? = nil,
-    descriptor: String? = nil,
-    entryType: String? = nil,
-    idempotencyKey: String? = nil,
+    token: String? = .none,
+    cvv: String? = .none,
+    capture: Bool? = .none,
+    currency: String? = .none,
+    amount: Int? = .none,
+    taxAmount: Int? = .none,
+    taxExempt: Bool? = .none,
+    tip: String? = .none,
+    surchargeFeeAmount: Int? = .none,
+    description: String? = .none,
+    order: [String: String]? = .none,
+    orderID: String? = .none,
+    poNumber: String? = .none,
+    metadata: String? = .none,
+    descriptor: String? = .none,
+    entryType: String? = .none,
+    idempotencyKey: String? = .none,
     operation: APIOperation,
     completion: ((Result<Charge, SeamlessPayError>) -> Void)?
   ) {
@@ -451,7 +450,7 @@ private extension APIClient {
          .put:
       postBody = try parameters.flatMap { try JSONSerialization.data(withJSONObject: $0) }
     default:
-      postBody = nil
+      postBody = .none
     }
 
     let url = try url(
@@ -476,11 +475,11 @@ private extension APIClient {
     return request
   }
 
-  func url(host: String?, path: String, queryItems: [String: String]? = nil) throws -> URL {
+  func url(host: String?, path: String, queryItems: [String: String]? = .none) throws -> URL {
     var urlComponents = URLComponents()
     urlComponents.scheme = "https"
     urlComponents.host = host
-    urlComponents.port = nil
+    urlComponents.port = .none
     urlComponents.path = path
     urlComponents.queryItems = queryItems?.map { URLQueryItem(name: $0, value: $1) }
     guard let url = urlComponents.url else {

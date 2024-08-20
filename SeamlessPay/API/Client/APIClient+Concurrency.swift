@@ -12,13 +12,13 @@ public extension APIClient {
   func tokenize(
     paymentType: PaymentType,
     accountNumber: String,
-    expDate: ExpirationDate? = nil,
-    cvv: String? = nil,
-    accountType: String? = nil,
-    routing: String? = nil,
-    pin: String? = nil,
-    billingAddress: Address? = nil,
-    name: String? = nil
+    expDate: ExpirationDate? = .none,
+    cvv: String? = .none,
+    accountType: String? = .none,
+    routing: String? = .none,
+    pin: String? = .none,
+    billingAddress: Address? = .none,
+    name: String? = .none
   ) async -> Result<PaymentMethod, SeamlessPayError> {
     await withCheckedContinuation { continuation in
       tokenize(
@@ -41,13 +41,13 @@ public extension APIClient {
   func createCustomer(
     name: String,
     email: String,
-    address: Address? = nil,
-    companyName: String? = nil,
-    notes: String? = nil,
-    phone: String? = nil,
-    website: String? = nil,
-    paymentMethods: [PaymentMethod]? = nil,
-    metadata: String? = nil
+    address: Address? = .none,
+    companyName: String? = .none,
+    notes: String? = .none,
+    phone: String? = .none,
+    website: String? = .none,
+    paymentMethods: [PaymentMethod]? = .none,
+    metadata: String? = .none
   ) async -> Result<Customer, SeamlessPayError> {
     await withCheckedContinuation { continuation in
       createCustomer(
@@ -70,13 +70,13 @@ public extension APIClient {
     id: String,
     name: String,
     email: String,
-    address: Address? = nil,
-    companyName: String? = nil,
-    notes: String? = nil,
-    phone: String? = nil,
-    website: String? = nil,
-    paymentMethods: [PaymentMethod]? = nil,
-    metadata: String? = nil
+    address: Address? = .none,
+    companyName: String? = .none,
+    notes: String? = .none,
+    phone: String? = .none,
+    website: String? = .none,
+    paymentMethods: [PaymentMethod]? = .none,
+    metadata: String? = .none
   ) async -> Result<Customer, SeamlessPayError> {
     await withCheckedContinuation { continuation in
       updateCustomer(
@@ -110,22 +110,22 @@ public extension APIClient {
   // MARK: Charge
   func createCharge(
     token: String,
-    cvv: String? = nil,
+    cvv: String? = .none,
     capture: Bool? = false,
-    currency: String? = nil,
-    amount: String,
-    taxAmount: String? = nil,
-    taxExempt: Bool? = nil,
-    tip: String? = nil,
-    surchargeFeeAmount: String? = nil,
-    description: String? = nil,
-    order: [String: String]? = nil,
-    orderID: String? = nil,
-    poNumber: String? = nil,
-    metadata: String? = nil,
-    descriptor: String? = nil,
-    entryType: String? = nil,
-    idempotencyKey: String? = nil
+    currency: String? = .none,
+    amount: Int,
+    taxAmount: Int? = .none,
+    taxExempt: Bool? = .none,
+    tip: String? = .none,
+    surchargeFeeAmount: Int? = .none,
+    description: String? = .none,
+    order: [String: String]? = .none,
+    orderID: String? = .none,
+    poNumber: String? = .none,
+    metadata: String? = .none,
+    descriptor: String? = .none,
+    entryType: String? = .none,
+    idempotencyKey: String? = .none
   ) async -> Result<Charge, SeamlessPayError> {
     await withCheckedContinuation { continuation in
       createCharge(
@@ -185,11 +185,11 @@ public extension APIClient {
   // MARK: Refunds
   func createRefund(
     token: String,
-    amount: String,
-    currency: String? = nil,
-    descriptor: String? = nil,
-    idempotencyKey: String? = nil,
-    metadata: String? = nil
+    amount: Int,
+    currency: String? = .none,
+    descriptor: String? = .none,
+    idempotencyKey: String? = .none,
+    metadata: String? = .none
   ) async -> Result<Refund, SeamlessPayError> {
     await withCheckedContinuation { continuation in
       createRefund(

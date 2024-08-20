@@ -21,7 +21,7 @@ public struct Charge: APICodable {
   /**
    * Amount to add to stored value account.
    */
-  public let amount: String?
+  public let amount: Int?
   /**
    * String with 2 decimal places e.g “25.00”.
    */
@@ -29,7 +29,7 @@ public struct Charge: APICodable {
   /**
    * Surcharge fee amount. String with 2 decimal places e.g “25.00”.
    */
-  public let surchargeFeeAmount: String?
+  public let surchargeFeeAmount: Int?
   /**
    * Order dictionary
    */
@@ -132,7 +132,7 @@ public struct Order: Codable {
 public struct Item: Codable {
   public let itemDescription, discountAmount, lineNumber, lineTotal: String?
   public let taxRate, unitCost, unitOfMeasure, upc: String?
-  public let quantity, taxAmount: String?
+  public let quantity, taxAmount: Int?
   public let taxExempt: Bool?
 
   enum CodingKeys: String, CodingKey {

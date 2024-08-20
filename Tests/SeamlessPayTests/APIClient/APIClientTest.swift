@@ -64,7 +64,7 @@ final class APIClientTest: XCTestCase {
       XCTAssertNotNil(headers["Content-Length"])
       XCTAssertEqual(headers["Content-Type"], "application/json")
       XCTAssertEqual(headers["Accept"], "application/json")
-      XCTAssertEqual(headers["API-Version"], "v2020")
+      XCTAssertEqual(headers["API-Version"], "v2")
       XCTAssertEqual(headers["User-Agent"], "seamlesspay_ios")
       XCTAssertEqual(headers["Authorization"], "Bearer sk_TEST")
 
@@ -217,7 +217,7 @@ final class APIClientTest: XCTestCase {
       XCTAssertNil(headers["Content-Length"])
       XCTAssertEqual(headers["Content-Type"], "application/json")
       XCTAssertEqual(headers["Accept"], "application/json")
-      XCTAssertEqual(headers["API-Version"], "v2020")
+      XCTAssertEqual(headers["API-Version"], "v2")
       XCTAssertEqual(headers["User-Agent"], "seamlesspay_ios")
       XCTAssertEqual(headers["Authorization"], "Bearer sk_TEST")
 
@@ -247,7 +247,7 @@ final class APIClientTest: XCTestCase {
       XCTAssertNil(headers["Content-Length"])
       XCTAssertEqual(headers["Content-Type"], "application/json")
       XCTAssertEqual(headers["Accept"], "application/json")
-      XCTAssertEqual(headers["API-Version"], "v2020")
+      XCTAssertEqual(headers["API-Version"], "v2")
       XCTAssertEqual(headers["User-Agent"], "seamlesspay_ios")
       XCTAssertEqual(headers["Authorization"], "Bearer sk_TEST")
 
@@ -277,7 +277,7 @@ final class APIClientTest: XCTestCase {
       XCTAssertNil(headers["Content-Length"])
       XCTAssertEqual(headers["Content-Type"], "application/json")
       XCTAssertEqual(headers["Accept"], "application/json")
-      XCTAssertEqual(headers["API-Version"], "v2020")
+      XCTAssertEqual(headers["API-Version"], "v2")
       XCTAssertEqual(headers["User-Agent"], "seamlesspay_ios")
       XCTAssertEqual(headers["Authorization"], "Bearer sk_TEST")
 
@@ -293,14 +293,14 @@ final class APIClientTest: XCTestCase {
     // when
     client.createCharge(
       token: "test_token",
-      amount: "100",
+      amount: 100,
       cvv: "test_cvv",
       capture: true,
       currency: "test_currency",
-      taxAmount: "test_taxAmount",
+      taxAmount: 1,
       taxExempt: false,
       tip: "test_tip",
-      surchargeFeeAmount: "test_surchargeFeeAmount",
+      surchargeFeeAmount: 12,
       description: "test_description",
       order: ["test_order_key": "test_order_value"],
       orderID: "test_orderID",
@@ -325,7 +325,7 @@ final class APIClientTest: XCTestCase {
       XCTAssertNotNil(headers["Content-Length"])
       XCTAssertEqual(headers["Content-Type"], "application/json")
       XCTAssertEqual(headers["Accept"], "application/json")
-      XCTAssertEqual(headers["API-Version"], "v2020")
+      XCTAssertEqual(headers["API-Version"], "v2")
       XCTAssertEqual(headers["User-Agent"], "seamlesspay_ios")
       XCTAssertEqual(headers["Authorization"], "Bearer sk_TEST")
 
@@ -333,10 +333,10 @@ final class APIClientTest: XCTestCase {
       let capture = body["capture"] as! Bool
       let cvv = body["cvv"] as! String
       let currency = body["currency"] as! String
-      let taxAmount = body["taxAmount"] as! String
+      let taxAmount = body["taxAmount"] as! Int
       let taxExempt = body["taxExempt"] as! Bool
       let tip = body["tip"] as! String
-      let surchargeFeeAmount = body["surchargeFeeAmount"] as! String
+      let surchargeFeeAmount = body["surchargeFeeAmount"] as! Int
       let description = body["description"] as! String
       let order = body["order"] as! [String: String]
 
@@ -353,10 +353,10 @@ final class APIClientTest: XCTestCase {
       XCTAssertEqual(capture, true)
       XCTAssertEqual(cvv, "test_cvv")
       XCTAssertEqual(currency, "test_currency")
-      XCTAssertEqual(taxAmount, "test_taxAmount")
+      XCTAssertEqual(taxAmount, 1)
       XCTAssertEqual(taxExempt, false)
       XCTAssertEqual(tip, "test_tip")
-      XCTAssertEqual(surchargeFeeAmount, "test_surchargeFeeAmount")
+      XCTAssertEqual(surchargeFeeAmount, 12)
       XCTAssertEqual(description, "test_description")
       XCTAssertEqual(order, ["test_order_key": "test_order_value"])
       XCTAssertEqual(orderId, "test_orderID")
@@ -379,7 +379,7 @@ final class APIClientTest: XCTestCase {
     // when
     client.createRefund(
       token: "test_token",
-      amount: "101"
+      amount: 101
     ) { result in
 
       // then
@@ -396,16 +396,16 @@ final class APIClientTest: XCTestCase {
       XCTAssertNotNil(headers["Content-Length"])
       XCTAssertEqual(headers["Content-Type"], "application/json")
       XCTAssertEqual(headers["Accept"], "application/json")
-      XCTAssertEqual(headers["API-Version"], "v2020")
+      XCTAssertEqual(headers["API-Version"], "v2")
       XCTAssertEqual(headers["User-Agent"], "seamlesspay_ios")
       XCTAssertEqual(headers["Authorization"], "Bearer sk_TEST")
 
       let token = body["token"] as! String
-      let amount = body["amount"] as! String
+      let amount = body["amount"] as! Int
 
       // parameters
       XCTAssertEqual(token, "test_token")
-      XCTAssertEqual(amount, "101")
+      XCTAssertEqual(amount, 101)
 
       expectation.fulfill()
     }

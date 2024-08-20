@@ -54,7 +54,7 @@ class SingleLineCardFormRequestsTest: XCTestCase {
     // Given
     let apiClientMock = APIClientMock()
     sut.apiClient = apiClientMock
-    let request = ChargeRequest(amount: "1")
+    let request = ChargeRequest(amount: 1)
 
     // When
     sut.charge(request) { result in
@@ -62,14 +62,14 @@ class SingleLineCardFormRequestsTest: XCTestCase {
       switch result {
       case let .success(payload):
         XCTAssertEqual(payload.id, "mockedChargeID")
-        XCTAssertEqual(payload.details.amount, "99")
+        XCTAssertEqual(payload.details.amount, 99)
         XCTAssertEqual(payload.details.status, .captured)
         XCTAssertEqual(payload.details.statusCode, "mocked_statusCode")
         XCTAssertEqual(payload.details.statusDescription, "mocked_statusDescription")
         XCTAssertEqual(payload.details.authCode, "mocked_authCode")
         XCTAssertEqual(payload.details.batchId, "mocked_batch")
         XCTAssertEqual(payload.details.transactionDate, "mocked_transactionDate")
-        XCTAssertEqual(payload.details.surchargeFeeAmount, "mocked_surchargeFeeAmount")
+        XCTAssertEqual(payload.details.surchargeFeeAmount, 101)
         XCTAssertEqual(payload.details.cardBrand, .masterCard)
         XCTAssertEqual(payload.details.lastFour, "mocked_lastFour")
         XCTAssertEqual(payload.details.cardBrand, .masterCard)
@@ -92,7 +92,7 @@ class SingleLineCardFormRequestsTest: XCTestCase {
     // Given
     let apiClientMock = APIClientMock()
     sut.apiClient = apiClientMock
-    let request = RefundRequest(amount: "1")
+    let request = RefundRequest(amount: 1)
 
     // When
     sut.refund(request) { result in
@@ -100,7 +100,7 @@ class SingleLineCardFormRequestsTest: XCTestCase {
       switch result {
       case let .success(payload):
         XCTAssertEqual(payload.id, "refund_id")
-        XCTAssertEqual(payload.details.amount, "refund_amount")
+        XCTAssertEqual(payload.details.amount, 10001)
         XCTAssertEqual(payload.details.status, .authorized)
         XCTAssertEqual(payload.details.statusCode, "refund_statusCode")
         XCTAssertEqual(payload.details.statusDescription, "refund_statusDescription")
@@ -168,14 +168,14 @@ private class APIClientMock: APIClient {
 
   override func createCharge(
     token: String,
-    amount: String?,
+    amount: Int?,
     cvv: String? = nil,
     capture: Bool? = false,
     currency: String? = nil,
-    taxAmount: String? = nil,
+    taxAmount: Int? = nil,
     taxExempt: Bool? = nil,
     tip: String? = nil,
-    surchargeFeeAmount: String? = nil,
+    surchargeFeeAmount: Int? = nil,
     description: String? = nil,
     order: [String: String]? = nil,
     orderID: String? = nil,
@@ -189,9 +189,9 @@ private class APIClientMock: APIClient {
     let charge = Charge(
       id: "mockedChargeID",
       method: .charge,
-      amount: "99",
+      amount: 99,
       tip: "mocked_tip",
-      surchargeFeeAmount: "mocked_surchargeFeeAmount",
+      surchargeFeeAmount: 101,
       order: .init(
         items: [],
         shipFromPostalCode: "mocked_shipFromPostalCode",
@@ -230,7 +230,7 @@ private class APIClientMock: APIClient {
 
   override func createRefund(
     token: String,
-    amount: String,
+    amount: Int,
     currency: String? = nil,
     descriptor: String? = nil,
     idempotencyKey: String? = nil,
@@ -242,7 +242,7 @@ private class APIClientMock: APIClient {
         Refund(
           id: "refund_id",
           accountType: .credit,
-          amount: "refund_amount",
+          amount: 10001,
           authCode: "refund_aute_code",
           batchID: "refund_batch_id",
           createdAt: "refund_created_at",
