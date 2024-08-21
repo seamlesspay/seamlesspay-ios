@@ -427,10 +427,10 @@ private extension APIClient {
     let authToken: String
     switch operation {
     case .createToken:
-      host = config.environment.panVaultHost
+      host = config.environment.panVault
       authToken = config.secretKey
     default:
-      host = config.environment.mainHost
+      host = config.environment.api
       authToken = config.secretKey
     }
 
