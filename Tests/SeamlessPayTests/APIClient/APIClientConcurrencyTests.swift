@@ -13,7 +13,7 @@ final class APIClientConcurrencyTest: XCTestCase {
 
   override func setUp() {
     client = APIClient(
-      config: .init(environment: .sandbox, secretKey: "sk_TEST"),
+      config: .init(environment: .production, secretKey: "sk_TEST"),
       session: {
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = [APIClientURLProtocolMock.self]
@@ -57,7 +57,7 @@ final class APIClientConcurrencyTest: XCTestCase {
     )
 
     // then
-    XCTAssertEqual(urlToBeTested, "https://sandbox-pan-vault.seamlesspay.com/tokens")
+    XCTAssertEqual(urlToBeTested, "https://pan-vault.seamlesspay.com/tokens")
     XCTAssertEqual(hTTPMethodToBeTested, "POST")
   }
 
@@ -67,7 +67,7 @@ final class APIClientConcurrencyTest: XCTestCase {
     _ = await client.listCharges()
 
     // then
-    XCTAssertEqual(urlToBeTested, "https://sandbox.seamlesspay.com/charges")
+    XCTAssertEqual(urlToBeTested, "https://api.seamlesspay.com/charges")
     XCTAssertEqual(hTTPMethodToBeTested, "GET")
   }
 
@@ -76,7 +76,7 @@ final class APIClientConcurrencyTest: XCTestCase {
     _ = await client.retrieveCharge(id: "test_charge_id")
 
     // then
-    XCTAssertEqual(urlToBeTested, "https://sandbox.seamlesspay.com/charges/test_charge_id")
+    XCTAssertEqual(urlToBeTested, "https://api.seamlesspay.com/charges/test_charge_id")
     XCTAssertEqual(hTTPMethodToBeTested, "GET")
   }
 
@@ -85,7 +85,7 @@ final class APIClientConcurrencyTest: XCTestCase {
     _ = await client.voidCharge(id: "test_charge_id")
 
     // then
-    XCTAssertEqual(urlToBeTested, "https://sandbox.seamlesspay.com/charges/test_charge_id")
+    XCTAssertEqual(urlToBeTested, "https://api.seamlesspay.com/charges/test_charge_id")
     XCTAssertEqual(hTTPMethodToBeTested, "DELETE")
   }
 
@@ -94,7 +94,7 @@ final class APIClientConcurrencyTest: XCTestCase {
     _ = await client.createCharge(token: "test_token", amount: "100")
 
     // then
-    XCTAssertEqual(urlToBeTested, "https://sandbox.seamlesspay.com/charges")
+    XCTAssertEqual(urlToBeTested, "https://api.seamlesspay.com/charges")
     XCTAssertEqual(hTTPMethodToBeTested, "POST")
   }
 
@@ -108,7 +108,7 @@ final class APIClientConcurrencyTest: XCTestCase {
     )
 
     // then
-    XCTAssertEqual(urlToBeTested, "https://sandbox.seamlesspay.com/refunds")
+    XCTAssertEqual(urlToBeTested, "https://api.seamlesspay.com/refunds")
     XCTAssertEqual(hTTPMethodToBeTested, "POST")
   }
 }

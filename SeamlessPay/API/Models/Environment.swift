@@ -12,47 +12,38 @@ public enum Environment: Int {
   case production
   case staging
   case qat
+
+  private enum SubDomain: String {
+    case api
+    case panVault = "pan-vault"
+  }
 }
 
 public extension Environment {
   var name: String {
-    switch self {
-    case .sandbox:
-      return "sandbox"
-    case .production:
-      return "production"
-    case .staging:
-      return "staging"
-    case .qat:
-      return "qat"
-    }
+    String(describing: self)
+  }
+
+  var api: String {
+    buildDomain(sub: .api)
+  }
+
+  var panVault: String {
+    buildDomain(sub: .panVault)
   }
 }
 
-extension Environment {
-  var mainHost: String {
+private extension Environment {
+  var baseDomain: String {
     switch self {
-    case .sandbox:
-      return "sandbox.seamlesspay.com"
-    case .production:
-      return "api.seamlesspay.com"
-    case .staging:
-      return "api.seamlesspay.dev"
-    case .qat:
-      return "api.seamlesspay.io"
+    case .sandbox: return "sandbox.seamlesspay.com"
+    case .production: return "seamlesspay.com"
+    case .staging: return "seamlesspay.dev"
+    case .qat: return "seamlesspay.io"
     }
   }
 
-  var panVaultHost: String {
-    switch self {
-    case .sandbox:
-      return "sandbox-pan-vault.seamlesspay.com"
-    case .production:
-      return "pan-vault.seamlesspay.com"
-    case .staging:
-      return "pan-vault.seamlesspay.dev"
-    case .qat:
-      return "pan-vault.seamlesspay.io"
-    }
+  private func buildDomain(sub: SubDomain) -> String {
+    "\(sub.rawValue).\(baseDomain)"
   }
 }

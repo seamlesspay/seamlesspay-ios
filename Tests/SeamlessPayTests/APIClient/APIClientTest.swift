@@ -17,7 +17,7 @@ final class APIClientTest: XCTestCase {
     let session = URLSession(configuration: configuration)
 
     client = APIClient(
-      config: .init(environment: .sandbox, secretKey: "sk_TEST", proxyAccountId: .none),
+      config: .init(environment: .production, secretKey: "sk_TEST", proxyAccountId: .none),
       session: session
     )
 
@@ -57,7 +57,7 @@ final class APIClientTest: XCTestCase {
       let url = request.url!.absoluteString
       let method = request.httpMethod!
 
-      XCTAssertEqual(url, "https://sandbox-pan-vault.seamlesspay.com/tokens")
+      XCTAssertEqual(url, "https://pan-vault.seamlesspay.com/tokens")
       XCTAssertEqual(method, "POST")
 
       // headers
@@ -210,7 +210,7 @@ final class APIClientTest: XCTestCase {
       let method = request.httpMethod!
 
       XCTAssertNil(request.httpBodyStream)
-      XCTAssertEqual(url, "https://sandbox.seamlesspay.com/charges")
+      XCTAssertEqual(url, "https://api.seamlesspay.com/charges")
       XCTAssertEqual(method, "GET")
 
       // headers
@@ -240,7 +240,7 @@ final class APIClientTest: XCTestCase {
       let method = request.httpMethod!
 
       XCTAssertNil(request.httpBodyStream)
-      XCTAssertEqual(url, "https://sandbox.seamlesspay.com/charges/test_charge_id")
+      XCTAssertEqual(url, "https://api.seamlesspay.com/charges/test_charge_id")
       XCTAssertEqual(method, "GET")
 
       // headers
@@ -270,7 +270,7 @@ final class APIClientTest: XCTestCase {
       let method = request.httpMethod!
 
       XCTAssertNil(request.httpBodyStream)
-      XCTAssertEqual(url, "https://sandbox.seamlesspay.com/charges/test_charge_id")
+      XCTAssertEqual(url, "https://api.seamlesspay.com/charges/test_charge_id")
       XCTAssertEqual(method, "DELETE")
 
       // headers
@@ -318,7 +318,7 @@ final class APIClientTest: XCTestCase {
       let url = request.url!.absoluteString
       let method = request.httpMethod!
 
-      XCTAssertEqual(url, "https://sandbox.seamlesspay.com/charges")
+      XCTAssertEqual(url, "https://api.seamlesspay.com/charges")
       XCTAssertEqual(method, "POST")
 
       // headers
@@ -389,7 +389,7 @@ final class APIClientTest: XCTestCase {
       let url = request.url!.absoluteString
       let method = request.httpMethod!
 
-      XCTAssertEqual(url, "https://sandbox.seamlesspay.com/refunds")
+      XCTAssertEqual(url, "https://api.seamlesspay.com/refunds")
       XCTAssertEqual(method, "POST")
 
       // headers

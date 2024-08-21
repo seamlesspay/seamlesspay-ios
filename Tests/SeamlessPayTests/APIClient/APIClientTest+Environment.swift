@@ -27,7 +27,7 @@ final class APIClientTestEnvironment: XCTestCase {
   }
 
   // MARK: - Tests
-  private func testMainHostEnvironmentSet(environment: Environment, expectedBaseURL: String) {
+  private func testAPIDomainEnvironmentSet(environment: Environment, expectedBaseURL: String) {
     let expectation = XCTestExpectation(description: "Request completed")
 
     // given
@@ -55,28 +55,28 @@ final class APIClientTestEnvironment: XCTestCase {
   }
 
   func testSandboxEnvSet() {
-    testMainHostEnvironmentSet(
+    testAPIDomainEnvironmentSet(
       environment: .sandbox,
-      expectedBaseURL: "https://sandbox.seamlesspay.com"
+      expectedBaseURL: "https://api.sandbox.seamlesspay.com"
     )
   }
 
   func testStagingEnvSet() {
-    testMainHostEnvironmentSet(
+    testAPIDomainEnvironmentSet(
       environment: .staging,
       expectedBaseURL: "https://api.seamlesspay.dev"
     )
   }
 
   func testProductionEnvSet() {
-    testMainHostEnvironmentSet(
+    testAPIDomainEnvironmentSet(
       environment: .production,
       expectedBaseURL: "https://api.seamlesspay.com"
     )
   }
 
   func testQatEnvSet() {
-    testMainHostEnvironmentSet(
+    testAPIDomainEnvironmentSet(
       environment: .qat,
       expectedBaseURL: "https://api.seamlesspay.io"
     )
