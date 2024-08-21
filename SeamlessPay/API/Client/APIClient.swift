@@ -502,7 +502,6 @@ private extension APIClient {
       "Accept": "application/json",
       "Authorization": authHeaderValue,
       "User-Agent": "seamlesspay_ios",
-      "Content-Length": contentLength,
       "SeamlessPay-Account": proxyAccountId,
     ]
     .compactMapValues { $0 }
