@@ -8,7 +8,7 @@
 import Foundation
 
 public struct ChargeRequest {
-  public let amount: String
+  public let amount: Int
   public let capture: Bool
   public let currency: String?
   public let description: String?
@@ -19,13 +19,13 @@ public struct ChargeRequest {
   public let order: [String: String]?
   public let orderID: String?
   public let poNumber: String?
-  public let surchargeFeeAmount: String?
-  public let taxAmount: String?
+  public let surchargeFeeAmount: Int?
+  public let taxAmount: Int?
   public let taxExempt: Bool?
   public let tip: String?
 
   public init(
-    amount: String,
+    amount: Int,
     capture: Bool = true,
     currency: String? = .none,
     description: String? = .none,
@@ -36,8 +36,8 @@ public struct ChargeRequest {
     order: [String: String]? = .none,
     orderID: String? = .none,
     poNumber: String? = .none,
-    surchargeFeeAmount: String? = .none,
-    taxAmount: String? = .none,
+    surchargeFeeAmount: Int? = .none,
+    taxAmount: Int? = .none,
     taxExempt: Bool? = .none,
     tip: String? = .none
   ) {

@@ -10,7 +10,7 @@ import Foundation
 public struct PaymentResponse: Identifiable, Equatable {
   public struct Details: Equatable {
     public let accountType: AccountType?
-    public let amount: String?
+    public let amount: Int?
     public let authCode: String?
     public let batchId: String?
     public let cardBrand: PaymentNetwork?
@@ -20,7 +20,7 @@ public struct PaymentResponse: Identifiable, Equatable {
     public let status: TransactionStatus?
     public let statusCode: String?
     public let statusDescription: String?
-    public let surchargeFeeAmount: String?
+    public let surchargeFeeAmount: Int?
     public let tip: String?
     public let transactionDate: String?
     public let avsPostalCodeResult: AVSResult?

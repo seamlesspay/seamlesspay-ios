@@ -91,7 +91,7 @@ final class APIClientConcurrencyTest: XCTestCase {
 
   func testAsyncCreateChargeRequest() async {
     // when
-    _ = await client.createCharge(token: "test_token", amount: "100")
+    _ = await client.createCharge(token: "test_token", amount: 100)
 
     // then
     XCTAssertEqual(urlToBeTested, "https://api.seamlesspay.com/charges")
@@ -104,7 +104,7 @@ final class APIClientConcurrencyTest: XCTestCase {
     // when
     _ = await client.createRefund(
       token: "test_token",
-      amount: "101"
+      amount: 101
     )
 
     // then

@@ -8,14 +8,14 @@
 import Foundation
 
 public struct RefundRequest {
-  public let amount: String
+  public let amount: Int
   public let currency: String?
   public let descriptor: String?
   public let idempotencyKey: String?
   public let metadata: String?
 
   public init(
-    amount: String,
+    amount: Int,
     currency: String? = .none,
     descriptor: String? = .none,
     idempotencyKey: String? = .none,

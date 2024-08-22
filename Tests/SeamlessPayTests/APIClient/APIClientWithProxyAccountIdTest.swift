@@ -127,14 +127,14 @@ final class APIClientWithProxyAccountIdTest: XCTestCase {
     // when
     client.createCharge(
       token: "test_token",
-      amount: "100",
+      amount: 100,
       cvv: "test_cvv",
       capture: true,
       currency: "test_currency",
-      taxAmount: "test_taxAmount",
+      taxAmount: 12,
       taxExempt: false,
       tip: "test_tip",
-      surchargeFeeAmount: "test_surchargeFeeAmount",
+      surchargeFeeAmount: 12,
       description: "test_description",
       order: ["test_order_key": "test_order_value"],
       orderID: "test_orderID",
@@ -165,7 +165,7 @@ final class APIClientWithProxyAccountIdTest: XCTestCase {
     // when
     client.createRefund(
       token: "test_token",
-      amount: "101"
+      amount: 101
     ) { result in
 
       // then

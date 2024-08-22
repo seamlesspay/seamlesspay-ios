@@ -12,7 +12,7 @@ import Foundation
 public struct Refund: APICodable {
   public let id: String
   public let accountType: AccountType?
-  public let amount: String?
+  public let amount: Int?
   public let authCode: String?
   public let batchID: String?
   public let createdAt: String?
