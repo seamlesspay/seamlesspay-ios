@@ -299,7 +299,7 @@ final class APIClientTest: XCTestCase {
       currency: "test_currency",
       taxAmount: 1,
       taxExempt: false,
-      tip: "test_tip",
+      tip: 3,
       surchargeFeeAmount: 12,
       description: "test_description",
       order: ["test_order_key": "test_order_value"],
@@ -335,7 +335,7 @@ final class APIClientTest: XCTestCase {
       let currency = body["currency"] as! String
       let taxAmount = body["taxAmount"] as! Int
       let taxExempt = body["taxExempt"] as! Bool
-      let tip = body["tip"] as! String
+      let tip = body["tip"] as! Int
       let surchargeFeeAmount = body["surchargeFeeAmount"] as! Int
       let description = body["description"] as! String
       let order = body["order"] as! [String: String]
@@ -355,7 +355,7 @@ final class APIClientTest: XCTestCase {
       XCTAssertEqual(currency, "test_currency")
       XCTAssertEqual(taxAmount, 1)
       XCTAssertEqual(taxExempt, false)
-      XCTAssertEqual(tip, "test_tip")
+      XCTAssertEqual(tip, 3)
       XCTAssertEqual(surchargeFeeAmount, 12)
       XCTAssertEqual(description, "test_description")
       XCTAssertEqual(order, ["test_order_key": "test_order_value"])

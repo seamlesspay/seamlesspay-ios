@@ -133,7 +133,7 @@ final class APIClientWithProxyAccountIdTest: XCTestCase {
       currency: "test_currency",
       taxAmount: 12,
       taxExempt: false,
-      tip: "test_tip",
+      tip: 3,
       surchargeFeeAmount: 12,
       description: "test_description",
       order: ["test_order_key": "test_order_value"],

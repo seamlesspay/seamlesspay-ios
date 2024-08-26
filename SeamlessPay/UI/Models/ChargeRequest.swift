@@ -22,7 +22,7 @@ public struct ChargeRequest {
   public let surchargeFeeAmount: Int?
   public let taxAmount: Int?
   public let taxExempt: Bool?
-  public let tip: String?
+  public let tip: Int?
 
   public init(
     amount: Int,
@@ -39,7 +39,7 @@ public struct ChargeRequest {
     surchargeFeeAmount: Int? = .none,
     taxAmount: Int? = .none,
     taxExempt: Bool? = .none,
-    tip: String? = .none
+    tip: Int? = .none
   ) {
     self.amount = amount
     self.capture = capture

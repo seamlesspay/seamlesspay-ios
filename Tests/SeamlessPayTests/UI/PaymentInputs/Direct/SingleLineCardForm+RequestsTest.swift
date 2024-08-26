@@ -76,7 +76,7 @@ class SingleLineCardFormRequestsTest: XCTestCase {
         XCTAssertEqual(payload.details.accountType, .credit)
         XCTAssertEqual(payload.details.currency, .usd)
         XCTAssertEqual(payload.details.expDate, "mocked_expDate")
-        XCTAssertEqual(payload.details.tip, "mocked_tip")
+        XCTAssertEqual(payload.details.tip, 3)
         XCTAssertEqual(payload.details.avsPostalCodeResult, .pass)
         XCTAssertEqual(payload.details.avsStreetAddressResult, .pass)
         XCTAssertEqual(payload.details.cvvResult, .pass)
@@ -174,7 +174,7 @@ private class APIClientMock: APIClient {
     currency: String? = nil,
     taxAmount: Int? = nil,
     taxExempt: Bool? = nil,
-    tip: String? = nil,
+    tip: Int? = nil,
     surchargeFeeAmount: Int? = nil,
     description: String? = nil,
     order: [String: String]? = nil,
@@ -190,7 +190,7 @@ private class APIClientMock: APIClient {
       id: "mockedChargeID",
       method: .charge,
       amount: 99,
-      tip: "mocked_tip",
+      tip: 3,
       surchargeFeeAmount: 101,
       order: .init(
         items: [],

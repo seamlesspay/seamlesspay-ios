@@ -116,7 +116,7 @@ public extension APIClient {
     amount: Int,
     taxAmount: Int? = .none,
     taxExempt: Bool? = .none,
-    tip: String? = .none,
+    tip: Int? = .none,
     surchargeFeeAmount: Int? = .none,
     description: String? = .none,
     order: [String: String]? = .none,
