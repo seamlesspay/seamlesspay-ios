@@ -21,7 +21,7 @@ public struct PaymentResponse: Identifiable, Equatable {
     public let statusCode: String?
     public let statusDescription: String?
     public let surchargeFeeAmount: Int?
-    public let tip: String?
+    public let tip: Int?
     public let transactionDate: String?
     public let avsPostalCodeResult: AVSResult?
     public let avsStreetAddressResult: AVSResult?

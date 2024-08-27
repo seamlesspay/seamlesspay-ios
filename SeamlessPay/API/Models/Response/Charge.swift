@@ -25,7 +25,7 @@ public struct Charge: APICodable {
   /**
    * String with 2 decimal places e.g “25.00”.
    */
-  public let tip: String?
+  public let tip: Int?
   /**
    * Surcharge fee amount. String with 2 decimal places e.g “25.00”.
    */
