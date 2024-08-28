@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'SeamlessPay'
-  s.version          = '2.0.1'
+  s.version          = '2.1.0'
   s.summary          = 'There are three demo apps included with the framework.'
 
   s.description      = <<~DESC
