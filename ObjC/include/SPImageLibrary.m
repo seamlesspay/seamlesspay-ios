@@ -86,21 +86,26 @@
   return [self safeImageNamed:@"sp_fpx_logo" templateIfAvailable:NO];
 }
 
+// MARK: - Private Methods
+
++ (NSString *)pathForImageWithName:(NSString *)imageName {
+    NSString *path = nil;
+#if SWIFT_PACKAGE
+    path = [SWIFTPM_MODULE_BUNDLE pathForResource:imageName ofType:@"png"];
+#else
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *resourceBundleURL = [bundle pathForResource:@"SeamlessPay" ofType:@"bundle"];
+    NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundleURL];
+    NSURL *imageURL = [resourceBundle URLForResource:imageName withExtension:@"png"];
+    path = [imageURL path];
+#endif
+    return path;
+}
+
 + (UIImage *)safeImageNamed:(NSString *)imageName
         templateIfAvailable:(BOOL)templateIfAvailable {
 
-#if SWIFT_PACKAGE
-  NSString *path = [SWIFTPM_MODULE_BUNDLE pathForResource:imageName ofType:@"png"];
-#else
-  NSBundle *mainBundle = [NSBundle mainBundle];
-
-  NSURL *imageURL = [mainBundle URLForResource:imageName
-                                 withExtension:@"png"
-                                  subdirectory:@"Frameworks/SeamlessPay.framework/Assets"
-                                  localization:nil];
-
-  NSString *path = [imageURL path];
-#endif
+  NSString *path = [self pathForImageWithName:imageName];
 
   UIImage *image = [UIImage imageWithContentsOfFile:path];
 
