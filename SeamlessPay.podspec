@@ -21,7 +21,9 @@ Pod::Spec.new do |s|
   ]
   s.exclude_files = 'SeamlessPay/SeamlessPay+ExportedImports.swift'
 
-  s.resources = ['ObjC/Resources/Assets']
+  s.resource_bundles = {
+    'SeamlessPay' => ['ObjC/Resources/Assets/**/*']
+  }
 
   s.pod_target_xcconfig = {
       'SWIFT_INSTALL_OBJC_HEADER' => 'NO'
