@@ -14,7 +14,7 @@ class CardFormTests: XCTestCase {
     cvv: .init(display: .required),
     postalCode: .init(display: .required)
   )
-  func testTextFieldsOfSingleLineCardFormHaveSecureTextEntryEnabled() {
+  func testTextFieldsOfSingleLineCardFormHaveAutocorrectionTypeNo() {
     checkSecureTextEntryCheck(
       of: SingleLineCardForm(
         config: clientConfig,
@@ -23,7 +23,7 @@ class CardFormTests: XCTestCase {
     )
   }
 
-  func testTextFieldsOfMultiLineCardFormHaveSecureTextEntryEnabled() {
+  func testTextFieldsOfMultiLineCardFormHaveAutocorrectionTypeNo() {
     checkSecureTextEntryCheck(
       of: MultiLineCardForm(
         config: clientConfig,
@@ -38,21 +38,28 @@ class CardFormTests: XCTestCase {
     let cvcField: SPFormTextField = cardForm.getInstanceVariable("_cvcField")!
     let postalCodeField: SPFormTextField = cardForm.getInstanceVariable("_postalCodeField")!
 
-    XCTAssertTrue(
-      numberField.isSecureTextEntry,
-      "The secureTextEntry option is not activated for number text field"
+    XCTAssertEqual(
+      numberField.autocorrectionType,
+      .no,
+      "The autocorrectionType is not No for number text field"
     )
-    XCTAssertTrue(
-      expirationField.isSecureTextEntry,
-      "The secureTextEntry option is not activated for expiration date text field"
+
+    XCTAssertEqual(
+      expirationField.autocorrectionType,
+      .no,
+      "The autocorrectionType is not No for expiration text field"
     )
-    XCTAssertTrue(
-      cvcField.isSecureTextEntry,
-      "The secureTextEntry option is not activated for the cvc text field"
+
+    XCTAssertEqual(
+      cvcField.autocorrectionType,
+      .no,
+      "The autocorrectionType is not No for cvc text field"
     )
-    XCTAssertTrue(
-      postalCodeField.isSecureTextEntry,
-      "The secureTextEntry option is not activated for the postal code text field"
+
+    XCTAssertEqual(
+      postalCodeField.autocorrectionType,
+      .no,
+      "The autocorrectionType is not No for postal code text field"
     )
   }
 }
