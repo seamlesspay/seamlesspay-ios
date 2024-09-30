@@ -506,7 +506,7 @@
   textField.placeholderColor = self.placeholderColor;
   textField.formDelegate = self;
   textField.validText = true;
-  textField.secureTextEntry = YES;
+  textField.autocorrectionType = UITextAutocorrectionTypeNo;
   return textField;
 }
 
