@@ -14,6 +14,7 @@
 #import "SingleLineCardForm.h"
 #import "CardFormViewModel.h"
 #import "CardLogoImageViewManager.h"
+#import "SPCardFormFieldEditingTransitionManager.h"
 
 @interface SingleLineCardForm ()
 
@@ -38,27 +39,7 @@
 @property(nonatomic, readwrite, strong) UILabel *sizingLabel;
 
 @property(nonatomic, strong) CardLogoImageViewManager *cardLogoImageViewManager;
-
-/**
- These bits lets us track beginEditing and endEditing for payment text field
- as a whole (instead of on a per-subview basis).
-
- DO NOT read this values directly. Use the return value from
- `getAndUpdateSubviewEditingTransitionStateFromCall:` which updates them all
- and returns you the correct current state for the method you are in.
-
- The state transitons in the should/did begin/end editing callbacks for all
- our subfields. If we get a shouldEnd AND a shouldBegin before getting either's
- matching didEnd/didBegin, then we are transitioning focus between our subviews
- (and so we ourselves should not consider us to have begun or ended editing).
-
- But if we get a should and did called on their own without a matching opposite
- pair (shouldBegin/didBegin or shouldEnd/didEnd) then we are transitioning
- into/out of our subviews from/to outside of ourselves
- */
-@property(nonatomic, assign) BOOL isMidSubviewEditingTransitionInternal;
-@property(nonatomic, assign) BOOL receivedUnmatchedShouldBeginEditing;
-@property(nonatomic, assign) BOOL receivedUnmatchedShouldEndEditing;
+@property(nonatomic, strong) SPCardFormFieldEditingTransitionManager *fieldEditingTransitionManager;
 
 /**
  This is a number-wrapped SPCardFieldType (or nil) that layout uses
@@ -182,7 +163,7 @@ CGFloat const SingleLineCardFormBoundsMaximumHeight = 44;
                                         action:@selector(becomeFirstResponder)]];
 
   [self updateCVCPlaceholder];
-  [self resetSubviewEditingTransitionState];
+  [self.fieldEditingTransitionManager resetSubviewEditingTransitionState];
   self.countryCode = [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];
 
   [self addSubview:self.boundedView];
@@ -221,6 +202,13 @@ CGFloat const SingleLineCardFormBoundsMaximumHeight = 44;
     _cardLogoImageViewManager = [[CardLogoImageViewManager alloc] init];
   }
   return _cardLogoImageViewManager;
+}
+
+- (SPCardFormFieldEditingTransitionManager *)fieldEditingTransitionManager {
+  if (_fieldEditingTransitionManager == nil) {
+    _fieldEditingTransitionManager = [[SPCardFormFieldEditingTransitionManager alloc] init];
+  }
+  return _fieldEditingTransitionManager;
 }
 
 #pragma mark appearance properties
@@ -1131,54 +1119,6 @@ typedef void (^SPLayoutAnimationCompletionBlock)(BOOL completed);
   return (CGFloat)[cachedValue doubleValue];
 }
 
-typedef NS_ENUM(NSInteger, SPFieldEditingTransitionCallSite) {
-  SPFieldEditingTransitionCallSiteShouldBegin,
-  SPFieldEditingTransitionCallSiteShouldEnd,
-  SPFieldEditingTransitionCallSiteDidBegin,
-  SPFieldEditingTransitionCallSiteDidEnd,
-};
-
-// Explanation of the logic here is with the definition of these properties
-// at the top of this file
-- (BOOL)getAndUpdateSubviewEditingTransitionStateFromCall:(SPFieldEditingTransitionCallSite)sendingMethod {
-
-  BOOL stateToReturn;
-  switch (sendingMethod) {
-    case SPFieldEditingTransitionCallSiteShouldBegin:
-      self.receivedUnmatchedShouldBeginEditing = YES;
-      if (self.receivedUnmatchedShouldEndEditing) {
-        self.isMidSubviewEditingTransitionInternal = YES;
-      }
-      stateToReturn = self.isMidSubviewEditingTransitionInternal;
-      break;
-    case SPFieldEditingTransitionCallSiteShouldEnd:
-      self.receivedUnmatchedShouldEndEditing = YES;
-      if (self.receivedUnmatchedShouldBeginEditing) {
-        self.isMidSubviewEditingTransitionInternal = YES;
-      }
-      stateToReturn = self.isMidSubviewEditingTransitionInternal;
-      break;
-    case SPFieldEditingTransitionCallSiteDidBegin:
-      stateToReturn = self.isMidSubviewEditingTransitionInternal;
-      self.receivedUnmatchedShouldBeginEditing = NO;
-
-      if (self.receivedUnmatchedShouldEndEditing == NO) {
-        self.isMidSubviewEditingTransitionInternal = NO;
-      }
-      break;
-    case SPFieldEditingTransitionCallSiteDidEnd:
-      stateToReturn = self.isMidSubviewEditingTransitionInternal;
-      self.receivedUnmatchedShouldEndEditing = NO;
-
-      if (self.receivedUnmatchedShouldBeginEditing == NO) {
-        self.isMidSubviewEditingTransitionInternal = NO;
-      }
-      break;
-  }
-
-  return stateToReturn;
-}
-
 #pragma mark SPFormTextFieldDelegate
 
 - (void)formTextFieldDidBackspaceOnEmpty:(__unused SPFormTextField *)formTextField {
@@ -1287,22 +1227,14 @@ typedef NS_ENUM(NSInteger, SPFieldEditingTransitionCallSite) {
   [self onChange];
 }
 
-- (void)resetSubviewEditingTransitionState {
-  self.isMidSubviewEditingTransitionInternal = NO;
-  self.receivedUnmatchedShouldBeginEditing = NO;
-  self.receivedUnmatchedShouldEndEditing = NO;
-}
-
 - (BOOL)textFieldShouldBeginEditing:(__unused UITextField *)textField {
-  [self getAndUpdateSubviewEditingTransitionStateFromCall:
-   SPFieldEditingTransitionCallSiteShouldBegin];
+  [self.fieldEditingTransitionManager getAndUpdateStateFromCall:SPFieldEditingTransitionCallSiteShouldBegin];
   return YES;
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
   BOOL isMidSubviewEditingTransition =
-  [self getAndUpdateSubviewEditingTransitionStateFromCall:
-   SPFieldEditingTransitionCallSiteDidBegin];
+  [self.fieldEditingTransitionManager getAndUpdateStateFromCall:SPFieldEditingTransitionCallSiteDidBegin];
 
   [self layoutViewsToFocusField:@(textField.tag)
            becomeFirstResponder:YES
@@ -1310,8 +1242,7 @@ typedef NS_ENUM(NSInteger, SPFieldEditingTransitionCallSite) {
                      completion:nil];
 
   if (!isMidSubviewEditingTransition) {
-    if ([self.delegate respondsToSelector:@selector
-         (cardFormDidBeginEditing:)]) {
+    if ([self.delegate respondsToSelector:@selector(cardFormDidBeginEditing:)]) {
       [self.delegate cardFormDidBeginEditing:self];
     }
   }
@@ -1330,7 +1261,7 @@ typedef NS_ENUM(NSInteger, SPFieldEditingTransitionCallSite) {
 }
 
 - (BOOL)textFieldShouldEndEditing:(__unused UITextField *)textField {
-  [self getAndUpdateSubviewEditingTransitionStateFromCall:
+  [self.fieldEditingTransitionManager getAndUpdateStateFromCall:
    SPFieldEditingTransitionCallSiteShouldEnd];
   [self updateImageForFieldType:SPCardFieldTypeNumber];
   return YES;
@@ -1338,7 +1269,7 @@ typedef NS_ENUM(NSInteger, SPFieldEditingTransitionCallSite) {
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
   BOOL isMidSubviewEditingTransition =
-  [self getAndUpdateSubviewEditingTransitionStateFromCall:SPFieldEditingTransitionCallSiteDidEnd];
+  [self.fieldEditingTransitionManager getAndUpdateStateFromCall:SPFieldEditingTransitionCallSiteDidEnd];
 
   SPCardFieldType fieldType = (SPCardFieldType)textField.tag;
 

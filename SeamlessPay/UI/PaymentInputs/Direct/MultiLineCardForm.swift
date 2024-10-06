@@ -7,7 +7,7 @@
 
 import UIKit
 
-public class MultiLineCardForm: UIControl {
+public class MultiLineCardForm: UIControl, CardFormProtocol, UIKeyInput {
   // MARK: Public
   public var delegate: CardFormDelegate? = .none
   public var brandImage: UIImage? {
@@ -66,8 +66,17 @@ public class MultiLineCardForm: UIControl {
   }
 
   // MARK: UIKeyInput
-  // TODO: Complete
-  public var hasText: Bool = false
+  public var hasText: Bool {
+    return numberField.hasText || expirationField.hasText || cvcField.hasText
+  }
+
+  public func insertText(_ text: String) {
+    currentFirstResponderField?.insertText(text)
+  }
+
+  public func deleteBackward() {
+    currentFirstResponderField?.deleteBackward()
+  }
 
   // MARK: CardFormProtocol
   public var isValid: Bool {
@@ -150,8 +159,9 @@ public class MultiLineCardForm: UIControl {
 
   // MARK: Private variables
   private var fieldsViewBottomConstraint: NSLayoutConstraint?
+  private let fieldEditingTransitionManager = SPCardFormFieldEditingTransitionManager()
 
-  // MARK: Override
+  // MARK: Interface
   override public init(frame: CGRect) {
     viewModel = .init()
     super.init(frame: frame)
@@ -189,7 +199,6 @@ public class MultiLineCardForm: UIControl {
   }
 
   // MARK: Private
-  private func commonInit() {}
 
   private func setUpSubViews() {
     addSubview(boundedView)
@@ -380,21 +389,108 @@ private extension MultiLineCardForm {
     }
     sendActions(for: .valueChanged)
   }
+
+  func onDidBeginEditing() {
+    let selector = NSSelectorFromString("cardFormDidBeginEditing:")
+    if let delegate, delegate.responds(to: selector) {
+      delegate.cardFormDidBeginEditing?(self)
+    }
+  }
+
+  func onDidBeginEditing(fieldType: SPCardFieldType) {
+    let selector = NSSelectorFromString("cardForm:didBeginEditingField:")
+    if let delegate, delegate.responds(to: selector) {
+      delegate.cardForm?(self, didBeginEditing: fieldType)
+    }
+  }
+
+  func onDidEndEditingField(fieldType: SPCardFieldType) {
+    let selector = NSSelectorFromString("cardForm:didEndEditingField:")
+    if let delegate, delegate.responds(to: selector) {
+      delegate.cardForm?(self, didEndEditing: fieldType)
+    }
+  }
+
+  func onDidEndEditing() {
+    let selector = NSSelectorFromString("cardFormDidEndEditing:")
+    if let delegate, delegate.responds(to: selector) {
+      delegate.cardFormDidEndEditing?(self)
+    }
+  }
+
+  func onWillEndEditingForReturn() {
+    let selector = NSSelectorFromString("cardFormWillEndEditingForReturn:")
+    if let delegate, delegate.responds(to: selector) {
+      delegate.cardFormWillEndEditing?(forReturn: self)
+    }
+  }
 }
 
-// TODO: Complete
-extension MultiLineCardForm: UIKeyInput {
-  public func insertText(_ text: String) {}
-
-  public func deleteBackward() {}
-}
-
-// TODO: Complete
-extension MultiLineCardForm: CardFormProtocol {}
-
-// TODO: Complete
+// MARK: SPFormTextFieldDelegate
 extension MultiLineCardForm: SPFormTextFieldDelegate {
+  public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+    fieldEditingTransitionManager.getAndUpdateState(fromCall: .shouldBegin)
+    return true
+  }
+
+  public func textFieldDidBeginEditing(_ textField: UITextField) {
+    let isMidEditingTransition = fieldEditingTransitionManager
+      .getAndUpdateState(fromCall: .didBegin)
+
+    if !isMidEditingTransition {
+      onDidBeginEditing()
+    }
+
+    if let fieldType = SPCardFieldType(rawValue: textField.tag) {
+      onDidBeginEditing(fieldType: fieldType)
+    }
+  }
+
+  public func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+    let _ = fieldEditingTransitionManager.getAndUpdateState(fromCall: .shouldEnd)
+    updateImageForFieldType(.number)
+
+    return true
+  }
+
+  public func textFieldDidEndEditing(_ textField: UITextField) {
+    guard let fieldType = SPCardFieldType(rawValue: textField.tag) else {
+      return
+    }
+
+    let isMidEditingTransition = fieldEditingTransitionManager.getAndUpdateState(fromCall: .didEnd)
+
+    if fieldType == .number {
+      let validationState = viewModel.validationState(for: .number)
+
+      if validationState == .incomplete {
+        (textField as? SPFormTextField)?.validText = false
+      }
+    }
+
+    onDidEndEditingField(fieldType: fieldType)
+
+    if !isMidEditingTransition {
+      updateImageForFieldType(.number)
+      onDidEndEditing()
+    }
+  }
+
+  public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    if textField == lastSubField && firstInvalidSubField == .none {
+      // User pressed return in the last field, and all fields are valid
+      onWillEndEditingForReturn()
+      resignFirstResponder()
+    } else {
+      // Otherwise, move to the next field
+      nextFirstResponderField.becomeFirstResponder()
+    }
+
+    return false
+  }
+
   public func formTextFieldTextDidChange(_ textField: SPFormTextField) {
+    defer { onChange() }
     guard let fieldType = SPCardFieldType(rawValue: textField.tag) else {
       return
     }
