@@ -135,8 +135,8 @@ typedef NSAttributedString * (^SPFormTextTransformationBlock)(
   self.delegateProxy.selectionEnabled = selectionEnabled;
 }
 
-- (void)setAutoFormattingBehavior:
-(SPFormTextFieldAutoFormattingBehavior)autoFormattingBehavior {
+- (void)setAutoFormattingBehavior:(SPFormTextFieldAutoFormattingBehavior)autoFormattingBehavior {
+
   _autoFormattingBehavior = autoFormattingBehavior;
   self.delegateProxy.autoformattingBehavior = autoFormattingBehavior;
   switch (autoFormattingBehavior) {

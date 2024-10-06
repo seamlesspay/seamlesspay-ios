@@ -15,29 +15,6 @@
 #import "CardFormViewModel.h"
 #import "CardLogoImageViewManager.h"
 
-//@interface CardForm (Private)
-//@property(nonatomic, readwrite, strong) UIImageView *brandImageView;
-//@property(nonatomic, readwrite, strong) UIView *fieldsView;
-//@property(nonatomic, readwrite, strong) UIView *boundedView;
-//@property(nonatomic, readwrite, weak) SPFormTextField *numberField;
-//@property(nonatomic, readwrite, weak) SPFormTextField *expirationField;
-//@property(nonatomic, readwrite, weak) SPFormTextField *cvcField;
-//@property(nonatomic, readwrite, weak) SPFormTextField *postalCodeField;
-//@property(nonatomic, readwrite, strong)CardFormViewModel *viewModel;
-//@property(nonatomic, strong) NSArray<SPFormTextField *> *allFields;
-//@property(nonatomic, readonly, null_resettable) UIFont *font;
-//@property(nonatomic, readonly, null_resettable) UIColor *textColor;
-//@property(nonatomic, readonly, null_resettable) UIColor *textErrorColor;
-//@property(nonatomic, readonly, null_resettable) UIColor *placeholderColor;
-//@property(nonatomic, readonly, nullable) NSString *numberPlaceholder;
-//@property(nonatomic, readonly, nullable) NSString *expirationPlaceholder;
-//@property(nonatomic, readonly, nullable) NSString *cvcPlaceholder;
-//@property(nonatomic, readonly, nullable) NSString *postalCodePlaceholder;
-//
-//- (NSString *)defaultPostalFieldPlaceholderForCountryCode:(NSString *)countryCode;
-//
-//@end
-
 @interface SingleLineCardForm ()
 
 @property(nonatomic, readwrite, strong) UIImageView *brandImageView;
@@ -370,14 +347,12 @@ CGFloat const SingleLineCardFormBoundsMaximumHeight = 44;
 }
 
 - (BOOL)canBecomeFirstResponder {
-  SPFormTextField *firstResponder =
-  [self currentFirstResponderField] ?: [self nextFirstResponderField];
+  SPFormTextField *firstResponder = [self currentFirstResponderField] ?: [self nextFirstResponderField];
   return [firstResponder canBecomeFirstResponder];
 }
 
 - (BOOL)becomeFirstResponder {
-  SPFormTextField *firstResponder =
-  [self currentFirstResponderField] ?: [self nextFirstResponderField];
+  SPFormTextField *firstResponder = [self currentFirstResponderField] ?: [self nextFirstResponderField];
   return [firstResponder becomeFirstResponder];
 }
 
@@ -518,7 +493,12 @@ CGFloat const SingleLineCardFormBoundsMaximumHeight = 44;
   for (SPFormTextField *field in [self allFields]) {
     field.text = @"";
   }
-  self.viewModel = [CardFormViewModel new];
+
+  self.viewModel.cardNumber = nil;
+  self.viewModel.rawExpiration = nil;
+  self.viewModel.cvc = nil;
+  self.viewModel.postalCode = nil;
+
   [self onChange];
   [self updateImageForFieldType:SPCardFieldTypeNumber];
   [self updateCVCPlaceholder];
@@ -1160,8 +1140,8 @@ typedef NS_ENUM(NSInteger, SPFieldEditingTransitionCallSite) {
 
 // Explanation of the logic here is with the definition of these properties
 // at the top of this file
-- (BOOL)getAndUpdateSubviewEditingTransitionStateFromCall:
-(SPFieldEditingTransitionCallSite)sendingMethod {
+- (BOOL)getAndUpdateSubviewEditingTransitionStateFromCall:(SPFieldEditingTransitionCallSite)sendingMethod {
+
   BOOL stateToReturn;
   switch (sendingMethod) {
     case SPFieldEditingTransitionCallSiteShouldBegin:
@@ -1201,12 +1181,12 @@ typedef NS_ENUM(NSInteger, SPFieldEditingTransitionCallSite) {
 
 #pragma mark SPFormTextFieldDelegate
 
-- (void)formTextFieldDidBackspaceOnEmpty:
-(__unused SPFormTextField *)formTextField {
+- (void)formTextFieldDidBackspaceOnEmpty:(__unused SPFormTextField *)formTextField {
   SPFormTextField *previous = [self previousField];
   [previous becomeFirstResponder];
-  UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification,
-                                  nil);
+
+  UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
+  
   if (previous.hasText) {
     [previous deleteBackward];
   }
@@ -1254,18 +1234,17 @@ typedef NS_ENUM(NSInteger, SPFieldEditingTransitionCallSite) {
 
 - (void)formTextFieldTextDidChange:(SPFormTextField *)formTextField {
   SPCardFieldType fieldType = formTextField.tag;
+
   if (fieldType == SPCardFieldTypeNumber) {
     [self updateImageForFieldType:fieldType];
     [self updateCVCPlaceholder];
     // Changing the card number field can invalidate the cvc, e.g. going from 4
     // digit Amex cvc to 3 digit Visa
     self.cvcField.validText =
-    [self.viewModel validationStateForField:SPCardFieldTypeCVC] !=
-    SPCardValidationStateInvalid;
+    [self.viewModel validationStateForField:SPCardFieldTypeCVC] != SPCardValidationStateInvalid;
   }
 
-  SPCardValidationState state =
-  [self.viewModel validationStateForField:fieldType];
+  SPCardValidationState state = [self.viewModel validationStateForField:fieldType];
   formTextField.validText = YES;
   switch (state) {
     case SPCardValidationStateInvalid:
@@ -1282,10 +1261,8 @@ typedef NS_ENUM(NSInteger, SPFieldEditingTransitionCallSite) {
          postal code is showing, you can't easily enter CVCs longer than
          the minimum.
          */
-        NSString *sanitizedCvc =
-        [SPCardValidator sanitizedNumericStringForString:formTextField.text];
-        if (sanitizedCvc.length <
-            [SPCardValidator maxCVCLengthForCardBrand:self.viewModel.brand]) {
+        NSString *sanitizedCvc = [SPCardValidator sanitizedNumericStringForString:formTextField.text];
+        if (sanitizedCvc.length < [SPCardValidator maxCVCLengthForCardBrand:self.viewModel.brand]) {
           break;
         }
       } else if (fieldType == SPCardFieldTypePostalCode) {
@@ -1300,8 +1277,8 @@ typedef NS_ENUM(NSInteger, SPFieldEditingTransitionCallSite) {
 
       // This is a no-op if this is the last field & they're all valid
       [[self nextFirstResponderField] becomeFirstResponder];
-      UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification,
-                                      nil);
+
+      UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
 
       break;
     }
@@ -1382,7 +1359,9 @@ typedef NS_ENUM(NSInteger, SPFieldEditingTransitionCallSite) {
              becomeFirstResponder:NO
                          animated:YES
                        completion:nil];
+
     [self updateImageForFieldType:SPCardFieldTypeNumber];
+    
     if ([self.delegate respondsToSelector:@selector(cardFormDidEndEditing:)]) {
       [self.delegate cardFormDidEndEditing:self];
     }

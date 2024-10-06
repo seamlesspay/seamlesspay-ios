@@ -120,6 +120,7 @@
  */
 - (void)clear;
 
+//TODO: Make internal/private
 - (void)setCVCDisplayConfig:(CardFieldDisplay)displayConfig;
 - (void)setPostalCodeDisplayConfig:(CardFieldDisplay)displayConfig;
 

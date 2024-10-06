@@ -624,8 +624,7 @@ typedef NS_ENUM(NSInteger, SPFieldEditingTransitionCallSite) {
     SPCardValidationStateInvalid;
   }
 
-  SPCardValidationState state =
-  [self.viewModel validationStateForField:fieldType];
+  SPCardValidationState state = [self.viewModel validationStateForField:fieldType];
   formTextField.validText = YES;
   switch (state) {
     case SPCardValidationStateInvalid:
