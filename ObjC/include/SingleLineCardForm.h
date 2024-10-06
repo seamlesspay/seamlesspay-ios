@@ -52,7 +52,8 @@
  */
 
 #import <UIKit/UIKit.h>
-#import "CardForm.h"
+#import "CardFieldDisplay.h"
+#import "CardFormDelegate.h"
 
 /**
  SingleLineCardForm is a text field with similar properties to UITextField,
@@ -61,8 +62,66 @@
  designed to fit on a single line, and from a design perspective can be used
  anywhere a UITextField would be appropriate.
  */
-@interface SingleLineCardForm : CardForm
+@interface SingleLineCardForm : UIControl <UIKeyInput, CardFormProtocol>
 
+/**
+ @see CardFormDelegate
+ */
+@property(nonatomic, weak, nullable) IBOutlet id<CardFormDelegate> delegate;
+
+/**
+ The curent brand image displayed in the receiver.
+ */
+@property(nonatomic, nullable, readonly) UIImage *brandImage;
+
+/**
+ Whether or not the form currently contains a valid card number,
+ expiration date, CVC, and postal code (if required).
+
+ @see SPCardValidator
+ */
+@property(nonatomic, readonly) BOOL isValid;
+
+/**
+ Enable/disable
+ */
+@property(nonatomic, getter=isEnabled) BOOL enabled;
+
+/**
+ The two-letter ISO country code that corresponds to the user's billing address.
+
+ If set to nil and postal code entry is enabled, the country from the user's
+ current locale will be filled in. Otherwise the specific country code set will
+ be used.
+
+ By default this will fetch the user's current country code from NSLocale.
+ */
+@property(nonatomic, copy, nullable) NSString *countryCode;
+
+/**
+ Causes the text field to begin editing. Presents the keyboard.
+
+ @return Whether or not the text field successfully began editing.
+ @see UIResponder
+ */
+- (BOOL)becomeFirstResponder;
+
+/**
+ Causes the text field to stop editing. Dismisses the keyboard.
+
+ @return Whether or not the field successfully stopped editing.
+ @see UIResponder
+ */
+- (BOOL)resignFirstResponder;
+
+/**
+ Resets all of the contents of all of the fields. If the field is currently
+ being edited, the number field will become selected.
+ */
+- (void)clear;
+
+- (void)setCVCDisplayConfig:(CardFieldDisplay)displayConfig;
+- (void)setPostalCodeDisplayConfig:(CardFieldDisplay)displayConfig;
 
 /**
  Returns the rectangle in which the receiver draws the text fields.

@@ -7,31 +7,17 @@
 
 import UIKit
 
-// MARK: - Public
-// MARK: Init with Authorization model
-public extension CardForm {
-  convenience init(config: ClientConfiguration, fieldOptions: FieldOptions = .default) {
-    self.init()
-    apiClient = .init(config: config)
-    setFieldOptions(fieldOptions)
-  }
-
-  private func setFieldOptions(_ fieldOptions: FieldOptions) {
-    setCVCDisplayConfig(fieldOptions.cvv.display)
-    setPostalCodeDisplayConfig(fieldOptions.postalCode.display)
-  }
-}
-
-// MARK: Tokenize
-public extension CardForm {
+// MARK: - API Client Calls
+extension CardFormViewModel {
+  // MARK: Tokenize
   func tokenize(
     completion: ((Result<TokenizeResponse, SeamlessPayError>) -> Void)?
   ) {
     apiClient?.tokenize(
       paymentType: .creditCard,
-      accountNumber: viewModel?.cardNumber ?? .init(),
+      accountNumber: cardNumber ?? .init(),
       expDate: expDate,
-      cvv: viewModel?.cvc,
+      cvv: cvc,
       accountType: .none,
       routing: .none,
       pin: .none,
@@ -41,7 +27,7 @@ public extension CardForm {
         country: .none,
         state: .none,
         city: .none,
-        postalCode: viewModel?.postalCode
+        postalCode: postalCode
       ),
       name: .none,
       completion: { result in
@@ -72,10 +58,8 @@ public extension CardForm {
       }
     }
   }
-}
 
-// MARK: - Charge
-public extension CardForm {
+  // MARK: Charge
   func charge(
     _ request: ChargeRequest,
     completion: ((Result<PaymentResponse, SeamlessPayError>) -> Void)?
@@ -86,7 +70,7 @@ public extension CardForm {
         self.apiClient?.createCharge(
           token: paymentMethod.paymentToken,
           amount: request.amount,
-          cvv: self.viewModel?.cvc,
+          cvv: self.cvc,
           capture: request.capture,
           currency: request.currency,
           taxAmount: request.taxAmount,
@@ -125,7 +109,6 @@ public extension CardForm {
                     avsPostalCodeResult: $0.verificationResults?.avsPostalCode,
                     avsStreetAddressResult: $0.verificationResults?.avsStreetAddress,
                     cvvResult: $0.verificationResults?.cvv
-
                   )
                 )
               }
@@ -147,10 +130,8 @@ public extension CardForm {
       }
     }
   }
-}
 
-// MARK: - Refund
-public extension CardForm {
+  // MARK: Refund
   func refund(
     _ request: RefundRequest,
     completion: ((Result<PaymentResponse, SeamlessPayError>) -> Void)?
@@ -212,9 +193,8 @@ public extension CardForm {
   }
 }
 
-// MARK: - Internal
-// MARK: APIClient instance
-extension CardForm {
+// MARK: - APIClient instance
+extension CardFormViewModel {
   static var apiClientAssociationKey: Void?
 
   var apiClient: APIClient? {
@@ -235,27 +215,11 @@ extension CardForm {
   }
 }
 
-// MARK: - SingleLineCardForm ViewModel
-extension CardForm {
-  var viewModel: CardFormViewModel? {
-    class_getInstanceVariable(
-      type(of: self),
-      "_viewModel"
-    )
-    .flatMap {
-      object_getIvar(self, $0)
-    }
-    .flatMap {
-      $0 as? CardFormViewModel
-    }
-  }
-}
-
 // MARK: - Private
-private extension CardForm {
+private extension CardFormViewModel {
   var expDate: ExpirationDate? {
-    let expirationMonth = viewModel?.expirationMonth.flatMap { UInt($0) }
-    let expirationYear = viewModel?.expirationYear.flatMap { UInt($0) }
+    let expirationMonth = expirationMonth.flatMap { UInt($0) }
+    let expirationYear = expirationYear.flatMap { UInt($0) }
     if let expirationMonth, let expirationYear {
       return .init(month: expirationMonth, year: expirationYear)
     } else {

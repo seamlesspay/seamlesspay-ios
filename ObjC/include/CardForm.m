@@ -14,6 +14,7 @@
 #import "CardForm.h"
 #import "CardFormViewModel.h"
 #import "CardLogoImageViewManager.h"
+#import "CardFormDelegate.h"
 
 @interface CardForm () <SPFormTextFieldDelegate>
 

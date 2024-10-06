@@ -37,18 +37,23 @@ public class MultiLineCardForm: CardForm {
     getInstanceVariable("_brandImageView")!
   }
 
+  // MARK: Internal
+  let viewModel: CardFormViewModel
+
   // MARK: Private variables
   private var fieldsViewBottomConstraint: NSLayoutConstraint?
 
   // MARK: Override
   override public init(frame: CGRect) {
+    self.viewModel = .init()
     super.init(frame: frame)
-    commonInit()
+    setUpSubViews()
   }
 
   required init?(coder: NSCoder) {
+    self.viewModel = .init()
     super.init(coder: coder)
-    commonInit()
+    setUpSubViews()
   }
 
   override public func setCVCDisplayConfig(_ displayConfig: CardFieldDisplay) {
@@ -74,6 +79,8 @@ public class MultiLineCardForm: CardForm {
 
   // MARK: Private
   private func commonInit() {
+  }
+  private func setUpSubViews() {
     addSubview(boundedView)
 
     boundedView.addSubview(fieldsView)
