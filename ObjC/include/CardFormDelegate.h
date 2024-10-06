@@ -6,7 +6,7 @@
  */
 
 #import <UIKit/UIKit.h>
-#import "CardForm.h"
+#import "SPCardFieldType.h"
 
 @protocol CardFormProtocol <NSObject>
 @required
