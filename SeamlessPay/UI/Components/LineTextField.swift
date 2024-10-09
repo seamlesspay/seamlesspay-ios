@@ -10,30 +10,24 @@ import Foundation
 
 public class LineTextField: SPFormTextField {
   private var floatingPlaceholderLabel: UILabel = .init()
+
   private var floatingPlaceholderColor: UIColor = .systemGray2
   private var floatingPlaceholderActiveColor: UIColor = .systemGray2
-  private var floatingLabelShowAnimationDuration = 0.3
+  private var floatingPlaceholderFont: UIFont = .systemFont(ofSize: 16)
 
-  private let paddingX: CGFloat = 5.0
-  private let paddingHeight: CGFloat = 10.0
+  private let paddingX: CGFloat = 10.0
+  private let paddingYText: CGFloat = 3.0
 
   private var borderColor: UIColor = .systemGray2
-  private var borderLayer: CALayer = .init()
   private var borderWidth: CGFloat = 2
 
-  private var internalLayer: CALayer = .init()
+  private var borderLayer: CALayer = .init()
 
-  private var animateFloatPlaceholder: Bool = true
-
-  private var paddingYFloatLabel: CGFloat = 3.0 {
-    didSet {
-      invalidateIntrinsicContentSize()
-    }
-  }
+  private var paddingYFloatLabel: CGFloat = 5.0
 
   private var originX: CGFloat {
     if let leftView = leftView {
-      return leftView.frame.origin.x + leftView.bounds.size.width - paddingX
+      return leftView.frame.origin.x + leftView.bounds.size.width + paddingX
     }
 
     return paddingX
@@ -58,7 +52,16 @@ public class LineTextField: SPFormTextField {
     return width - (originX * 2)
   }
 
-  private var isFloatLabelShowing: Bool = false
+  private var isFirsResponderTransition: Bool = false
+
+  public var floatingPlaceholder: String? {
+    set {
+      floatingPlaceholderLabel.text = newValue
+    }
+    get {
+      return floatingPlaceholderLabel.text
+    }
+  }
 
   override public var borderStyle: UITextField.BorderStyle {
     didSet {
@@ -76,12 +79,6 @@ public class LineTextField: SPFormTextField {
     }
   }
 
-  override public var placeholder: String? {
-    didSet {
-      floatingPlaceholderLabel.text = placeholder
-    }
-  }
-
   override public init(frame: CGRect) {
     super.init(frame: frame)
     commonInit()
@@ -95,133 +92,98 @@ public class LineTextField: SPFormTextField {
   private func commonInit() {
     textAlignment = .left
 
-    internalLayer.cornerRadius = 7
-    internalLayer.borderWidth = borderWidth
-    internalLayer.borderColor = borderColor.cgColor
+    borderLayer.cornerRadius = 7
+    borderLayer.borderWidth = borderWidth
+    borderLayer.borderColor = borderColor.cgColor
 
     floatingPlaceholderLabel.frame = CGRect.zero
     floatingPlaceholderLabel.alpha = 0.0
-    floatingPlaceholderLabel.font = UIFont.systemFont(ofSize: 14.0)
-    floatingPlaceholderLabel.text = placeholder
+    floatingPlaceholderLabel.font = floatingPlaceholderFont
+    floatingPlaceholderLabel.text = floatingPlaceholder
 
     addSubview(floatingPlaceholderLabel)
 
-    layer.insertSublayer(internalLayer, at: 0)
+    layer.insertSublayer(borderLayer, at: 0)
   }
 
-  func setFloatLabelAlignment() {
-    floatingPlaceholderLabel.frame.origin.x = paddingX
+  private func floatingPlaceholderHeight() -> CGFloat {
+    floatingPlaceholderLabel.textRect(
+      forBounds: CGRect(
+        x: 0,
+        y: 0,
+        width: CGFloat.greatestFiniteMagnitude,
+        height: CGFloat.greatestFiniteMagnitude
+      ),
+      limitedToNumberOfLines: 1
+    ).height
   }
 
-  private func showFloatingLabel(_ animated: Bool) {
-    let animations: (() -> Void) = {
-      self.floatingPlaceholderLabel.alpha = 1.0
-
-      self.floatingPlaceholderLabel.frame = CGRect(
-        x: self.floatingPlaceholderLabel.frame.origin.x,
-        y: self.paddingYFloatLabel,
-        width: self.floatingPlaceholderLabel.bounds.size.width,
-        height: self.floatingPlaceholderLabel.bounds.size.height
-      )
+  private func updatePlaceholder(animated: Bool) {
+    guard placeholder == .none || placeholder?.isEmpty == true else {
+      return
     }
 
-    if animated && animateFloatPlaceholder {
+    let toFloat = isEditing || text?.isEmpty == false
+
+    toggleFloatingLabel(toFloat: toFloat, animated: animated)
+  }
+
+  private func toggleFloatingLabel(toFloat: Bool, animated: Bool) {
+    floatingPlaceholderLabel.alpha = 1.0
+
+    let transformations: (() -> Void) = {
+      if toFloat {
+        self.floatingPlaceholderLabel.frame = CGRect(
+          x: self.originX,
+          y: self.paddingYFloatLabel,
+          width: self.floatLabelWidth,
+          height: self.floatingPlaceholderHeight()
+        )
+
+      } else {
+        self.floatingPlaceholderLabel.frame = CGRect(
+          x: self.originX,
+          y: self.frame.height / 2 - self.floatingPlaceholderHeight() / 2,
+          width: self.floatLabelWidth,
+          height: self.floatingPlaceholderHeight()
+        )
+      }
+    }
+
+    if animated {
       UIView.animate(
-        withDuration: floatingLabelShowAnimationDuration,
+        withDuration: 0.2,
         delay: 0.0,
         options: [
           .beginFromCurrentState,
-          .curveEaseOut,
+          .curveEaseIn,
         ],
-        animations: animations
+        animations: transformations
       ) { status in
         DispatchQueue.main.async {
           self.layoutIfNeeded()
         }
       }
     } else {
-      animations()
+      transformations()
     }
-  }
-
-  private func hideFloatingLabel(_ animated: Bool) {
-    let animations: (() -> Void) = {
-      self.floatingPlaceholderLabel.alpha = 0.0
-
-      self.floatingPlaceholderLabel.frame = CGRect(
-        x: self.floatingPlaceholderLabel.frame.origin.x,
-        y: self.floatingPlaceholderLabel.font.lineHeight,
-        width: self.floatingPlaceholderLabel.bounds.size.width,
-        height: self.floatingPlaceholderLabel.bounds.size.height
-      )
-    }
-
-    if animated && animateFloatPlaceholder {
-      UIView.animate(
-        withDuration: floatingLabelShowAnimationDuration,
-        delay: 0.0,
-        options: [
-          .beginFromCurrentState,
-          .curveEaseOut,
-        ],
-        animations: animations
-      ) { status in
-        DispatchQueue.main.async {
-          self.layoutIfNeeded()
-        }
-      }
-    } else {
-      animations()
-    }
-  }
-
-  private func insetRectForEmptyBounds(rect: CGRect) -> CGRect {
-    let newX = originX
-
-    return CGRect(
-      x: newX,
-      y: 0,
-      width: rect.width - newX - paddingX,
-      height: rect.height
-    )
   }
 
   private func insetRectForBounds(rect: CGRect) -> CGRect {
-    guard let placeholderText = floatingPlaceholderLabel.text, !placeholderText.isEmpty else {
-      return insetRectForEmptyBounds(rect: rect)
+    let topInset =
+      paddingYFloatLabel + floatingPlaceholderHeight() + paddingYText
+    let textOriginalY = (rect.height - fontHeight) / 2.0
+    var textY = topInset - textOriginalY
+
+    if textY < 0 {
+      textY = topInset
     }
 
-    if let text = text, text.isEmpty {
-      return insetRectForEmptyBounds(rect: rect)
-    } else {
-      let topInset =
-        paddingYFloatLabel + floatingPlaceholderLabel.bounds.size.height + (paddingHeight / 2.0)
-      let textOriginalY = (rect.height - fontHeight) / 2.0
-      var textY = topInset - textOriginalY
-
-      if textY < 0 {
-        textY = topInset
-      }
-      let newX = originX
-
-      return CGRect(
-        x: newX,
-        y: ceil(textY),
-        width: rect.size.width - newX - paddingX,
-        height: rect.height
-      )
-    }
-  }
-
-  override public var intrinsicContentSize: CGSize {
-    self.layoutIfNeeded()
-
-    let textFieldIntrinsicContentSize = super.intrinsicContentSize
-
-    return CGSize(
-      width: textFieldIntrinsicContentSize.width,
-      height: textFieldIntrinsicContentSize.height + paddingYFloatLabel + floatingPlaceholderLabel
-        .bounds.size.height + paddingHeight
+    return CGRect(
+      x: originX,
+      y: ceil(textY),
+      width: rect.size.width - originX - paddingX,
+      height: rect.height
     )
   }
 
@@ -235,22 +197,19 @@ public class LineTextField: SPFormTextField {
     return insetRectForBounds(rect: rect)
   }
 
-  private func insetForSideView(forBounds bounds: CGRect) -> CGRect {
-    var rect = bounds
-    rect.origin.y = 0
-    rect.size.height = bounds.height
+  override public func leftViewRect(forBounds bounds: CGRect) -> CGRect {
+    var rect = super.leftViewRect(forBounds: bounds)
+    rect.origin.y = (bounds.height - rect.size.height) / 2
+    rect.origin.x = rect.origin.x + paddingX
     return rect
   }
 
-//  override public func leftViewRect(forBounds bounds: CGRect) -> CGRect {
-//    let rect = super.leftViewRect(forBounds: bounds)
-//    return insetForSideView(forBounds: rect)
-//  }
-
-//  override public func rightViewRect(forBounds bounds: CGRect) -> CGRect {
-//    let rect = super.rightViewRect(forBounds: bounds)
-//    return insetForSideView(forBounds: rect)
-//  }
+  override public func rightViewRect(forBounds bounds: CGRect) -> CGRect {
+    var rect = super.rightViewRect(forBounds: bounds)
+    rect.origin.y = (bounds.height - rect.size.height) / 2
+    rect.origin.x = rect.origin.x - paddingX
+    return rect
+  }
 
   override public func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
     var rect = super.clearButtonRect(forBounds: bounds)
@@ -258,40 +217,47 @@ public class LineTextField: SPFormTextField {
     return rect
   }
 
-  override public func layoutSubviews() {
+  @objc override public func layoutSubviews() {
     super.layoutSubviews()
 
-    CATransaction.begin()
-    CATransaction.setDisableActions(true)
-
-    internalLayer.frame = CGRect(
+    borderLayer.frame = CGRect(
       x: bounds.origin.x,
       y: bounds.origin.y,
       width: bounds.width,
       height: bounds.height
     )
 
-    CATransaction.commit()
-
-    let floatingLabelSize = floatingPlaceholderLabel.sizeThatFits(bounds.size)
-
-    floatingPlaceholderLabel.frame = CGRect(
-      x: originX,
-      y: floatingPlaceholderLabel.frame.origin.y,
-      width: floatingLabelSize.width,
-      height: floatingLabelSize.height
-    )
-
-    setFloatLabelAlignment()
+//    let floatingLabelSize = floatingPlaceholderLabel.sizeThatFits(bounds.size)
+//
+//    floatingPlaceholderLabel.frame = CGRect(
+//      x: paddingX,
+//      y: floatingPlaceholderLabel.frame.origin.y,
+//      width: floatingLabelSize.width,
+//      height: floatingLabelSize.height
+//    )
 
     floatingPlaceholderLabel.textColor = isFirstResponder
       ? floatingPlaceholderActiveColor
       : floatingPlaceholderColor
 
-    if let enteredText = text, !enteredText.isEmpty {
-      showFloatingLabel(isFirstResponder)
-    } else {
-      hideFloatingLabel(isFirstResponder)
+    if !isFirsResponderTransition {
+      updatePlaceholder(animated: false)
     }
+  }
+
+  @objc override public func becomeFirstResponder() -> Bool {
+    let result = super.becomeFirstResponder()
+    isFirsResponderTransition = true
+    updatePlaceholder(animated: true)
+    isFirsResponderTransition = false
+    return result
+  }
+
+  @objc override public func resignFirstResponder() -> Bool {
+    let result = super.resignFirstResponder()
+    isFirsResponderTransition = true
+    updatePlaceholder(animated: true)
+    isFirsResponderTransition = false
+    return result
   }
 }

@@ -221,11 +221,10 @@ public class MultiLineCardForm: UIControl, CardFormProtocol, UIKeyInput {
 private extension MultiLineCardForm {
   func configureViews() {
     // Set placeholders for the fields
-    numberField.placeholder = "Card number"
-
-    expirationField.placeholder = "Expiry date"
-    cvcField.placeholder = "CVC"
-    postalCodeField.placeholder = "Postal code"
+    numberField.floatingPlaceholder = "Card number"
+    expirationField.floatingPlaceholder = "Expiry date"
+    cvcField.floatingPlaceholder = "CVC"
+    postalCodeField.floatingPlaceholder = "Postal code"
 
     numberField.rightView = brandImageView
     numberField.rightViewMode = .always
