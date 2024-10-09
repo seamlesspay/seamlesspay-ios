@@ -32,50 +32,36 @@ class CardFormTests: XCTestCase {
     )
   }
 
-  private func checkSecureTextEntryCheck(of cardForm: CardForm) {
-    let numberField: SPFormTextField = cardForm.getInstanceVariable("_numberField")!
-    let expirationField: SPFormTextField = cardForm.getInstanceVariable("_expirationField")!
-    let cvcField: SPFormTextField = cardForm.getInstanceVariable("_cvcField")!
-    let postalCodeField: SPFormTextField = cardForm.getInstanceVariable("_postalCodeField")!
+  private func checkSecureTextEntryCheck(of cardForm: UIView) {
+    let textFields = cardForm.allTextFields()
 
-    XCTAssertEqual(
-      numberField.autocorrectionType,
-      .no,
-      "The autocorrectionType is not No for number text field"
+    XCTAssertFalse(
+      textFields.isEmpty,
+      "No text fields found in the card form - \(cardForm.debugDescription)"
     )
 
-    XCTAssertEqual(
-      expirationField.autocorrectionType,
-      .no,
-      "The autocorrectionType is not No for expiration text field"
-    )
-
-    XCTAssertEqual(
-      cvcField.autocorrectionType,
-      .no,
-      "The autocorrectionType is not No for cvc text field"
-    )
-
-    XCTAssertEqual(
-      postalCodeField.autocorrectionType,
-      .no,
-      "The autocorrectionType is not No for postal code text field"
-    )
+    textFields.forEach { textField in
+      XCTAssertEqual(
+        textField.autocorrectionType,
+        .no,
+        "The autocorrectionType is not No for text field \(textField.debugDescription)"
+      )
+    }
   }
 }
 
-// MARK: Get Instance Variable
-private extension CardForm {
-  func getInstanceVariable<T>(_ propertyName: String) -> T? {
-    class_getInstanceVariable(
-      type(of: self),
-      propertyName
-    )
-    .flatMap {
-      object_getIvar(self, $0)
+private extension UIView {
+  func allTextFields() -> [UITextField] {
+    var textFields = [UITextField]()
+
+    if let textField = self as? UITextField {
+      textFields.append(textField)
     }
-    .flatMap {
-      $0 as? T
+
+    for subview in subviews {
+      textFields.append(contentsOf: subview.allTextFields())
     }
+
+    return textFields
   }
 }

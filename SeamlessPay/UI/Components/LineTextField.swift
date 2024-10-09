@@ -9,12 +9,13 @@ import UIKit
 import Foundation
 
 public class LineTextField: SPFormTextField {
+
   // MARK: - Properties
-  private var floatingPlaceholderLabel: UILabel = .init()
+  private let floatingPlaceholderLabel: UILabel = .init()
 
   private let paddingX: CGFloat = 10.0
   private let paddingYText: CGFloat = 3.0
-  private var paddingYFloatLabel: CGFloat = 5.0
+  private let paddingYFloatLabel: CGFloat = 5.0
 
   private var isFirsResponderTransition: Bool = false
 

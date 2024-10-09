@@ -28,9 +28,9 @@ final class SingleLineCardFormTest: XCTestCase {
       )
     )
     // Then
-    XCTAssertNotNil(view.apiClient)
-    XCTAssertEqual(view.apiClient?.config.environment, .sandbox)
-    XCTAssertEqual(view.apiClient?.config.secretKey, "test_secret_key")
+    XCTAssertNotNil(view.viewModel.apiClient)
+    XCTAssertEqual(view.viewModel.apiClient?.config.environment, .sandbox)
+    XCTAssertEqual(view.viewModel.apiClient?.config.secretKey, "test_secret_key")
   }
 
   func testSetAuthorization() {
@@ -44,8 +44,8 @@ final class SingleLineCardFormTest: XCTestCase {
     )
 
     // Then
-    XCTAssertNotNil(view.apiClient)
-    XCTAssertEqual(view.apiClient?.config.secretKey, "another_test_secret_key")
+    XCTAssertNotNil(view.viewModel.apiClient)
+    XCTAssertEqual(view.viewModel.apiClient?.config.secretKey, "another_test_secret_key")
   }
 
   func testAPIClientAssociationKey() {
@@ -66,16 +66,16 @@ final class SingleLineCardFormTest: XCTestCase {
     )
 
     // Then
-    XCTAssertNotNil(view.apiClient)
-    XCTAssertNotNil(textField2.apiClient)
-    XCTAssertFalse(view.apiClient === textField2.apiClient)
+    XCTAssertNotNil(view.viewModel.apiClient)
+    XCTAssertNotNil(textField2.viewModel.apiClient)
+    XCTAssertFalse(view.viewModel.apiClient === textField2.viewModel.apiClient)
     XCTAssertNotEqual(
-      view.apiClient?.config.environment,
-      textField2.apiClient?.config.environment
+      view.viewModel.apiClient?.config.environment,
+      textField2.viewModel.apiClient?.config.environment
     )
     XCTAssertNotEqual(
-      view.apiClient?.config.secretKey,
-      textField2.apiClient?.config.secretKey
+      view.viewModel.apiClient?.config.secretKey,
+      textField2.viewModel.apiClient?.config.secretKey
     )
   }
 
@@ -101,7 +101,7 @@ final class SingleLineCardFormTest: XCTestCase {
       )
     )
 
-    let viewModel = view.viewModel!
+    let viewModel = view.viewModel
 
     // Then
     XCTAssert(viewModel.cvcRequired == true)
@@ -124,7 +124,7 @@ final class SingleLineCardFormTest: XCTestCase {
       )
     )
 
-    let viewModel = view.viewModel!
+    let viewModel = view.viewModel
 
     // Then
     XCTAssert(viewModel.cvcRequired == true)
@@ -147,7 +147,7 @@ final class SingleLineCardFormTest: XCTestCase {
       )
     )
 
-    let viewModel = view.viewModel!
+    let viewModel = view.viewModel
 
     // Then
     XCTAssert(viewModel.cvcRequired == false)
@@ -170,7 +170,7 @@ final class SingleLineCardFormTest: XCTestCase {
       )
     )
 
-    let viewModel = view.viewModel!
+    let viewModel = view.viewModel
 
     // Then
     XCTAssert(viewModel.cvcRequired == false)
@@ -193,7 +193,7 @@ final class SingleLineCardFormTest: XCTestCase {
       )
     )
 
-    let viewModel = view.viewModel!
+    let viewModel = view.viewModel
 
     // When
     viewModel.cardNumber = "4242424242424242"
@@ -230,7 +230,7 @@ final class SingleLineCardFormTest: XCTestCase {
       fieldOptions: .init(cvv: .init(display: .none), postalCode: .init(display: .none))
     )
 
-    let viewModel = view.viewModel!
+    let viewModel = view.viewModel
 
     // When
     viewModel.cardNumber = "4242424242424242"
@@ -259,7 +259,7 @@ final class SingleLineCardFormTest: XCTestCase {
       )
     )
 
-    let viewModel = view.viewModel!
+    let viewModel = view.viewModel
 
     viewModel.cardNumber = "4242424242424242"
 
@@ -293,7 +293,7 @@ final class SingleLineCardFormTest: XCTestCase {
       )
     )
 
-    let viewModel = view.viewModel!
+    let viewModel = view.viewModel
 
     viewModel.cardNumber = "4242424242424242"
 
@@ -327,10 +327,9 @@ final class SingleLineCardFormTest: XCTestCase {
       )
     )
 
-    let viewModel = view.viewModel!
+    let viewModel = view.viewModel
 
     // When
-
     viewModel.cardNumber = "4242424242424242"
 
     // Then
