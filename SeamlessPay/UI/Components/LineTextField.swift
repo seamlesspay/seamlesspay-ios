@@ -9,13 +9,10 @@ import UIKit
 import Foundation
 
 public class LineTextField: SPFormTextField {
-
   private var floatingPlaceholderLabel: UILabel = .init()
   private var floatingPlaceholderColor: UIColor = .systemGray2
   private var floatingPlaceholderActiveColor: UIColor = .systemGray2
   private var floatingLabelShowAnimationDuration = 0.3
-
-  private var errorLabel: UILabel = .init()
 
   private let paddingX: CGFloat = 5.0
   private let paddingHeight: CGFloat = 10.0
@@ -26,30 +23,9 @@ public class LineTextField: SPFormTextField {
 
   private var internalLayer: CALayer = .init()
 
-
-  private var errorMessage: String = "" {
-    didSet {
-      errorLabel.text = errorMessage
-    }
-  }
-
   private var animateFloatPlaceholder: Bool = true
-  private var hideErrorWhenEditing: Bool = true
-
-  private var errorFont = UIFont.systemFont(ofSize: 14.0) {
-    didSet {
-      errorLabel.font = errorFont
-      invalidateIntrinsicContentSize()
-    }
-  }
 
   private var paddingYFloatLabel: CGFloat = 3.0 {
-    didSet {
-      invalidateIntrinsicContentSize()
-    }
-  }
-
-  private var paddingYErrorLabel: CGFloat = 3.0 {
     didSet {
       invalidateIntrinsicContentSize()
     }
@@ -68,12 +44,6 @@ public class LineTextField: SPFormTextField {
     return ceil(font.lineHeight)
   }
 
-  private var internalLayerHeight: CGFloat {
-    return showErrorLabel
-      ? floor(bounds.height - errorLabel.bounds.size.height - paddingYErrorLabel)
-      : bounds.height
-  }
-
   private var floatLabelWidth: CGFloat {
     var width = bounds.size.width
 
@@ -90,22 +60,6 @@ public class LineTextField: SPFormTextField {
 
   private var isFloatLabelShowing: Bool = false
 
-  private var showErrorLabel: Bool = false {
-    didSet {
-      guard showErrorLabel != oldValue else { return }
-
-      guard showErrorLabel else {
-        hideErrorMessage()
-        return
-      }
-
-      guard !errorMessage.isEmpty else {
-        return
-      }
-      showErrorMessage()
-    }
-  }
-
   override public var borderStyle: UITextField.BorderStyle {
     didSet {
       guard borderStyle != oldValue else { return }
@@ -119,12 +73,6 @@ public class LineTextField: SPFormTextField {
     }
     set {
       super.textAlignment = .left
-    }
-  }
-
-  override public var text: String? {
-    didSet {
-      self.textFieldTextChanged()
     }
   }
 
@@ -144,17 +92,6 @@ public class LineTextField: SPFormTextField {
     commonInit()
   }
 
-  private func showError(message: String? = nil) {
-    if let msg = message {
-      errorMessage = msg
-    }
-    showErrorLabel = true
-  }
-
-  private func hideError() {
-    showErrorLabel = false
-  }
-
   private func commonInit() {
     textAlignment = .left
 
@@ -169,47 +106,11 @@ public class LineTextField: SPFormTextField {
 
     addSubview(floatingPlaceholderLabel)
 
-    errorLabel.frame = CGRect.zero
-    errorLabel.font = errorFont
-    errorLabel.textColor = .systemRed
-    errorLabel.numberOfLines = 0
-    errorLabel.isHidden = true
-
-    addTarget(self, action: #selector(textFieldTextChanged), for: .editingChanged)
-
-    addSubview(errorLabel)
-
     layer.insertSublayer(internalLayer, at: 0)
-  }
-
-  private func showErrorMessage() {
-    errorLabel.text = errorMessage
-    errorLabel.isHidden = false
-    let boundWithPadding = CGSize(width: bounds.width - (paddingX * 2), height: bounds.height)
-    errorLabel.frame = CGRect(
-      x: paddingX,
-      y: 0,
-      width: boundWithPadding.width,
-      height: boundWithPadding.height
-    )
-    errorLabel.sizeToFit()
-
-    invalidateIntrinsicContentSize()
-  }
-
-  func setErrorLabelAlignment() {
-    errorLabel.frame.origin.x = paddingX
   }
 
   func setFloatLabelAlignment() {
     floatingPlaceholderLabel.frame.origin.x = paddingX
-  }
-
-  private func hideErrorMessage() {
-    errorLabel.text = ""
-    errorLabel.isHidden = true
-    errorLabel.frame = CGRect.zero
-    invalidateIntrinsicContentSize()
   }
 
   private func showFloatingLabel(_ animated: Bool) {
@@ -276,25 +177,12 @@ public class LineTextField: SPFormTextField {
 
   private func insetRectForEmptyBounds(rect: CGRect) -> CGRect {
     let newX = originX
-    guard showErrorLabel else {
-      return CGRect(
-        x: newX,
-        y: 0,
-        width: rect.width - newX - paddingX,
-        height: rect.height
-      )
-    }
-
-    let topInset = (
-      rect.size.height - errorLabel.bounds.size.height - paddingYErrorLabel - fontHeight
-    ) / 2.0
-    let textY = topInset - ((rect.height - fontHeight) / 2.0)
 
     return CGRect(
       x: newX,
-      y: floor(textY),
-      width: rect.size.width - newX - paddingX,
-      height: rect.size.height
+      y: 0,
+      width: rect.width - newX - paddingX,
+      height: rect.height
     )
   }
 
@@ -311,7 +199,9 @@ public class LineTextField: SPFormTextField {
       let textOriginalY = (rect.height - fontHeight) / 2.0
       var textY = topInset - textOriginalY
 
-      if textY < 0 && !showErrorLabel { textY = topInset }
+      if textY < 0 {
+        textY = topInset
+      }
       let newX = originX
 
       return CGRect(
@@ -323,31 +213,16 @@ public class LineTextField: SPFormTextField {
     }
   }
 
-  @objc private func textFieldTextChanged() {
-    guard hideErrorWhenEditing && showErrorLabel else { return }
-    showErrorLabel = false
-  }
-
   override public var intrinsicContentSize: CGSize {
     self.layoutIfNeeded()
 
     let textFieldIntrinsicContentSize = super.intrinsicContentSize
 
-    if showErrorLabel {
-      floatingPlaceholderLabel.sizeToFit()
-      return CGSize(
-        width: textFieldIntrinsicContentSize.width,
-        height: textFieldIntrinsicContentSize.height + paddingYFloatLabel + paddingYErrorLabel +
-          floatingPlaceholderLabel.bounds.size.height + errorLabel.bounds.size
-          .height + paddingHeight
-      )
-    } else {
-      return CGSize(
-        width: textFieldIntrinsicContentSize.width,
-        height: textFieldIntrinsicContentSize.height + paddingYFloatLabel + floatingPlaceholderLabel
-          .bounds.size.height + paddingHeight
-      )
-    }
+    return CGSize(
+      width: textFieldIntrinsicContentSize.width,
+      height: textFieldIntrinsicContentSize.height + paddingYFloatLabel + floatingPlaceholderLabel
+        .bounds.size.height + paddingHeight
+    )
   }
 
   override public func textRect(forBounds bounds: CGRect) -> CGRect {
@@ -363,23 +238,23 @@ public class LineTextField: SPFormTextField {
   private func insetForSideView(forBounds bounds: CGRect) -> CGRect {
     var rect = bounds
     rect.origin.y = 0
-    rect.size.height = internalLayerHeight
+    rect.size.height = bounds.height
     return rect
   }
 
-  override public func leftViewRect(forBounds bounds: CGRect) -> CGRect {
-    let rect = super.leftViewRect(forBounds: bounds)
-    return insetForSideView(forBounds: rect)
-  }
+//  override public func leftViewRect(forBounds bounds: CGRect) -> CGRect {
+//    let rect = super.leftViewRect(forBounds: bounds)
+//    return insetForSideView(forBounds: rect)
+//  }
 
-  override public func rightViewRect(forBounds bounds: CGRect) -> CGRect {
-    let rect = super.rightViewRect(forBounds: bounds)
-    return insetForSideView(forBounds: rect)
-  }
+//  override public func rightViewRect(forBounds bounds: CGRect) -> CGRect {
+//    let rect = super.rightViewRect(forBounds: bounds)
+//    return insetForSideView(forBounds: rect)
+//  }
 
   override public func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
     var rect = super.clearButtonRect(forBounds: bounds)
-    rect.origin.y = (internalLayerHeight - rect.size.height) / 2
+    rect.origin.y = (bounds.height - rect.size.height) / 2
     return rect
   }
 
@@ -393,15 +268,10 @@ public class LineTextField: SPFormTextField {
       x: bounds.origin.x,
       y: bounds.origin.y,
       width: bounds.width,
-      height: internalLayerHeight
+      height: bounds.height
     )
 
     CATransaction.commit()
-
-    if showErrorLabel {
-      errorLabel.frame.origin.y =
-        internalLayer.frame.origin.y + internalLayer.frame.size.height + paddingYErrorLabel
-    }
 
     let floatingLabelSize = floatingPlaceholderLabel.sizeThatFits(bounds.size)
 
@@ -412,7 +282,6 @@ public class LineTextField: SPFormTextField {
       height: floatingLabelSize.height
     )
 
-    setErrorLabelAlignment()
     setFloatLabelAlignment()
 
     floatingPlaceholderLabel.textColor = isFirstResponder

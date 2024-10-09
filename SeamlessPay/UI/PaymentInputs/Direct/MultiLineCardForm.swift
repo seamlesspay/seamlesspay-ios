@@ -93,7 +93,7 @@ public class MultiLineCardForm: UIControl, CardFormProtocol, UIKeyInput {
   }
 
   // MARK: Subviews
-  private lazy var numberField: SPFormTextField = {
+  private lazy var numberField: LineTextField = {
     let textField = buildTextField()
     textField.textContentType = .creditCardNumber
     textField.autoFormattingBehavior = .cardNumbers
@@ -102,7 +102,7 @@ public class MultiLineCardForm: UIControl, CardFormProtocol, UIKeyInput {
     return textField
   }()
 
-  private lazy var expirationField: SPFormTextField = {
+  private lazy var expirationField: LineTextField = {
     let textField = buildTextField()
     textField.autoFormattingBehavior = .expiration
     textField.tag = SPCardFieldType.expiration.rawValue
@@ -110,14 +110,14 @@ public class MultiLineCardForm: UIControl, CardFormProtocol, UIKeyInput {
     return textField
   }()
 
-  private lazy var cvcField: SPFormTextField = {
+  private lazy var cvcField: LineTextField = {
     let textField = buildTextField()
     textField.tag = SPCardFieldType.CVC.rawValue
 
     return textField
   }()
 
-  private lazy var postalCodeField: SPFormTextField = {
+  private lazy var postalCodeField: LineTextField = {
     let textField = buildTextField()
     textField.textContentType = .postalCode
     textField.tag = SPCardFieldType.postalCode.rawValue
@@ -222,6 +222,7 @@ private extension MultiLineCardForm {
   func configureViews() {
     // Set placeholders for the fields
     numberField.placeholder = "Card number"
+
     expirationField.placeholder = "Expiry date"
     cvcField.placeholder = "CVC"
     postalCodeField.placeholder = "Postal code"
@@ -345,7 +346,7 @@ private extension MultiLineCardForm {
     fieldsViewBottomConstraint?.isActive = true
   }
 
-  func buildTextField() -> SPFormTextField {
+  func buildTextField() -> LineTextField {
     let textField = LineTextField(frame: .zero)
     textField.backgroundColor = .clear
     textField.keyboardType = .asciiCapableNumberPad
@@ -356,6 +357,8 @@ private extension MultiLineCardForm {
     textField.formDelegate = self
     textField.validText = true
     textField.autocorrectionType = .no
+    textField.clearButtonMode = .never
+
     return textField
   }
 
