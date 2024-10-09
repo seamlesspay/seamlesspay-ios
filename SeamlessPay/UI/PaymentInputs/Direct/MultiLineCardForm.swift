@@ -220,15 +220,11 @@ public class MultiLineCardForm: UIControl, CardFormProtocol, UIKeyInput {
 // MARK: Set Up Views
 private extension MultiLineCardForm {
   func configureViews() {
-    numberField.borderStyle = .roundedRect
-    expirationField.borderStyle = .roundedRect
-    cvcField.borderStyle = .roundedRect
-    postalCodeField.borderStyle = .roundedRect
-
-    numberField.placeholder = "1234 1234 1234 1234"
-    expirationField.placeholder = "MM/YY"
-    cvcField.placeholder = "***"
-    postalCodeField.placeholder = "12345"
+    // Set placeholders for the fields
+    numberField.placeholder = "Card number"
+    expirationField.placeholder = "Expiry date"
+    cvcField.placeholder = "CVC"
+    postalCodeField.placeholder = "Postal code"
 
     numberField.rightView = brandImageView
     numberField.rightViewMode = .always
@@ -242,33 +238,24 @@ private extension MultiLineCardForm {
     let offset1: CGFloat = 10
     let offset2: CGFloat = 15
     let offset3: CGFloat = 30
-    let textFieldHeight: CGFloat = 44
+    let textFieldHeight: CGFloat = 60
 
     boundedView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate(
       [
         boundedView.centerYAnchor.constraint(equalTo: centerYAnchor),
         boundedView.centerXAnchor.constraint(equalTo: centerXAnchor),
-        boundedView.heightAnchor.constraint(equalTo: fieldsView.heightAnchor, constant: offset3),
+        boundedView.widthAnchor.constraint(equalTo: widthAnchor),
+        boundedView.heightAnchor.constraint(equalTo: heightAnchor),
       ]
     )
-
-    let equalWidthConstraint = boundedView.widthAnchor.constraint(equalTo: widthAnchor)
-    equalWidthConstraint.priority = .defaultHigh
-    equalWidthConstraint.isActive = true
-
-    let minWidthConstraint = boundedView.widthAnchor.constraint(
-      greaterThanOrEqualTo: fieldsView.widthAnchor,
-      constant: offset3
-    )
-    minWidthConstraint.priority = .required
-    minWidthConstraint.isActive = true
 
     fieldsView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate(
       [
         fieldsView.centerXAnchor.constraint(equalTo: boundedView.centerXAnchor),
         fieldsView.centerYAnchor.constraint(equalTo: boundedView.centerYAnchor),
+        fieldsView.widthAnchor.constraint(equalTo: boundedView.widthAnchor, constant: -offset3),
       ]
     )
 
@@ -359,10 +346,9 @@ private extension MultiLineCardForm {
   }
 
   func buildTextField() -> SPFormTextField {
-    let textField = SPFormTextField(frame: .zero)
+    let textField = LineTextField(frame: .zero)
     textField.backgroundColor = .clear
     textField.keyboardType = .asciiCapableNumberPad
-    textField.textAlignment = .left
     textField.font = .systemFont(ofSize: 18)
     textField.defaultColor = .darkText
     textField.errorColor = .systemRed
