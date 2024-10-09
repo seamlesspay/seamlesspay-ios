@@ -156,8 +156,8 @@ public class LineTextField: SPFormTextField {
     textAlignment = .left
     borderStyle = .none
 
-    layer.cornerRadius = 5
-    layer.borderWidth = 2
+    layer.cornerRadius = 5.0
+    layer.borderWidth = 1.0
     layer.borderColor = UIColor.systemGray2.cgColor
 
     floatingPlaceholderLabel.frame = CGRect.zero
