@@ -7,7 +7,7 @@
 
 import UIKit
 
-public class MultiLineCardForm: UIControl, CardFormProtocol, UIKeyInput {
+public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
   // MARK: Public
   public var delegate: CardFormDelegate? = .none
   public var brandImage: UIImage? {
@@ -31,7 +31,7 @@ public class MultiLineCardForm: UIControl, CardFormProtocol, UIKeyInput {
       viewModel.postalCodeCountryCode
     }
     set {
-      viewModel.postalCodeCountryCode = countryCode
+      viewModel.postalCodeCountryCode = newValue
 
       if countryCode == "US" {
         postalCodeField.keyboardType = .phonePad
@@ -52,7 +52,7 @@ public class MultiLineCardForm: UIControl, CardFormProtocol, UIKeyInput {
     viewModel.postalCode = .none
     onChange()
 
-    numberField.becomeFirstResponder()
+    _ = numberField.becomeFirstResponder()
   }
 
   override public func becomeFirstResponder() -> Bool {
@@ -78,7 +78,7 @@ public class MultiLineCardForm: UIControl, CardFormProtocol, UIKeyInput {
     currentFirstResponderField?.deleteBackward()
   }
 
-  // MARK: CardFormProtocol
+  // MARK: CardForm
   public var isValid: Bool {
     viewModel.isValid
   }
@@ -236,8 +236,6 @@ private extension MultiLineCardForm {
   // swiftlint:disable function_body_length
   func constraintViews() {
     let offset1: CGFloat = 10
-    let offset2: CGFloat = 15
-    let offset3: CGFloat = 30
     let textFieldHeight: CGFloat = 60
 
     boundedView.translatesAutoresizingMaskIntoConstraints = false
@@ -255,7 +253,7 @@ private extension MultiLineCardForm {
       [
         fieldsView.centerXAnchor.constraint(equalTo: boundedView.centerXAnchor),
         fieldsView.centerYAnchor.constraint(equalTo: boundedView.centerYAnchor),
-        fieldsView.widthAnchor.constraint(equalTo: boundedView.widthAnchor, constant: -offset3),
+        fieldsView.widthAnchor.constraint(equalTo: boundedView.widthAnchor, constant: -30),
       ]
     )
 
@@ -468,7 +466,7 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
     if textField == lastSubField && firstInvalidSubField == .none {
       // User pressed return in the last field, and all fields are valid
       onWillEndEditingForReturn()
-      resignFirstResponder()
+      _ = resignFirstResponder()
     } else {
       // Otherwise, move to the next field
       nextFirstResponderField.becomeFirstResponder()
@@ -524,6 +522,8 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
 
       // This is a no-op if this is the last field & they're all valid
       nextFirstResponderField.becomeFirstResponder()
+    @unknown default:
+      break
     }
   }
 
@@ -550,6 +550,8 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
     case .postalCode:
       viewModel.postalCode = input.string
       text = viewModel.postalCode
+    @unknown default:
+      text = .none
     }
 
     return NSAttributedString(string: text ?? .init(), attributes: attributes)

@@ -8,7 +8,7 @@
 import XCTest
 @testable import SeamlessPay
 
-class CardFormTests: XCTestCase {
+class CardFormsTextFieldsSecurityTests: XCTestCase {
   let clientConfig = ClientConfiguration(environment: .production, secretKey: "")
   let fieldOptions = FieldOptions(
     cvv: .init(display: .required),

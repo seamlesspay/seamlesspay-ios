@@ -494,7 +494,6 @@ private extension APIClient {
     proxyAccountId: String?
   ) -> [String: String] {
     let authHeaderValue = authorization.flatMap { "Bearer " + $0 }
-    let contentLength = contentLength.flatMap { String($0) }
 
     return [
       "API-Version": apiVersion,

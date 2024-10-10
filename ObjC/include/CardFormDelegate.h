@@ -7,13 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SPCardFieldType.h"
-
-@protocol CardFormProtocol <NSObject>
-@required
-
-@property(nonatomic, readonly) BOOL isValid;
-
-@end
+#import "CardForm.h"
 
 /**
  This protocol allows a delegate to be notified when a payment text field's
@@ -33,7 +27,7 @@
 
  @param view the CardForm that has changed
  */
-- (void)cardFormDidChange:(nonnull id<CardFormProtocol>)form;
+- (void)cardFormDidChange:(nonnull id<CardForm>)form;
 
 /**
  Called when editing begins in the text field as a whole.
@@ -41,7 +35,7 @@
  After receiving this callback, you will always also receive a callback for
  which specific subfield of the view began editing.
  */
-- (void)cardFormDidBeginEditing:(nonnull id<CardFormProtocol>)form;
+- (void)cardFormDidBeginEditing:(nonnull id<CardForm>)form;
 
 /**
  Notification that the user pressed the `return` key after completely filling
@@ -53,7 +47,7 @@
  @param view The CardForm that was being edited when the user
  pressed return
  */
-- (void)cardFormWillEndEditingForReturn:(nonnull id<CardFormProtocol>)form;
+- (void)cardFormWillEndEditingForReturn:(nonnull id<CardForm>)form;
 
 /**
  Called when editing ends in the text field as a whole.
@@ -61,16 +55,16 @@
  This callback is always preceded by an callback for which
  specific subfield of the view ended its editing.
  */
-- (void)cardFormDidEndEditing:(nonnull id<CardFormProtocol>)form;
+- (void)cardFormDidEndEditing:(nonnull id<CardForm>)form;
 
 /**
  Called when editing ends in the card field of a specific type.
  */
-- (void)cardForm:(nonnull id<CardFormProtocol>)form didEndEditingField:(SPCardFieldType)field;
+- (void)cardForm:(nonnull id<CardForm>)form didEndEditingField:(SPCardFieldType)field;
 
 /**
  Called when editing begins in the card field of a specific type.
  */
-- (void)cardForm:(nonnull id<CardFormProtocol>)form didBeginEditingField:(SPCardFieldType)field;
+- (void)cardForm:(nonnull id<CardForm>)form didBeginEditingField:(SPCardFieldType)field;
 
 @end
