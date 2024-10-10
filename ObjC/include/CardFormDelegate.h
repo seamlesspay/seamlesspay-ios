@@ -21,11 +21,11 @@
  one can call `isValid` on the text field to determine, for example,
  whether or not to enable a button to submit the form. Example:
 
- - (void)cardFormDidChange:(CardForm *)view {
- self.paymentButton.enabled = view.isValid;
+ - (void)cardFormDidChange:(CardForm *)form {
+ self.paymentButton.enabled = form.isValid;
  }
 
- @param view the CardForm that has changed
+ @param form the CardForm that has changed
  */
 - (void)cardFormDidChange:(nonnull id<CardForm>)form;
 
@@ -44,7 +44,7 @@
  This is delivered *before* the corresponding
  `cardFormDidEndEditing:`
 
- @param view The CardForm that was being edited when the user
+ @param form The CardForm that was being edited when the user
  pressed return
  */
 - (void)cardFormWillEndEditingForReturn:(nonnull id<CardForm>)form;
