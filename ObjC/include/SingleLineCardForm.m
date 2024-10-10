@@ -13,7 +13,7 @@
 #import "SPFormTextField.h"
 #import "SingleLineCardForm.h"
 #import "CardFormViewModel.h"
-#import "CardLogoImageViewManager.h"
+#import "CardFromImageManager.h"
 #import "SPCardFormFieldEditingTransitionManager.h"
 
 @interface SingleLineCardForm ()
@@ -38,7 +38,7 @@
 @property(nonatomic, readwrite, strong) SPFormTextField *sizingField;
 @property(nonatomic, readwrite, strong) UILabel *sizingLabel;
 
-@property(nonatomic, strong) CardLogoImageViewManager *cardLogoImageViewManager;
+@property(nonatomic, strong) SingleLineCardImageManager *imageManager;
 @property(nonatomic, strong) SPCardFormFieldEditingTransitionManager *fieldEditingTransitionManager;
 
 /**
@@ -197,11 +197,11 @@ CGFloat const SingleLineCardFormBoundsMaximumHeight = 44;
   return _viewModel;
 }
 
-- (CardLogoImageViewManager *)cardLogoImageViewManager {
-  if (_cardLogoImageViewManager == nil) {
-    _cardLogoImageViewManager = [[CardLogoImageViewManager alloc] init];
+- (SingleLineCardImageManager *)imageManager {
+  if (_imageManager == nil) {
+    _imageManager = [[SingleLineCardImageManager alloc] init];
   }
-  return _cardLogoImageViewManager;
+  return _imageManager;
 }
 
 - (SPCardFormFieldEditingTransitionManager *)fieldEditingTransitionManager {
@@ -1322,7 +1322,7 @@ typedef void (^SPLayoutAnimationCompletionBlock)(BOOL completed);
 }
 
 - (void)updateImageForFieldType:(SPCardFieldType)fieldType {
-  [self.cardLogoImageViewManager updateImageView:self.brandImageView
+  [self.imageManager updateImageView:self.brandImageView
                                     fieldType:fieldType
                                         brand:self.viewModel.brand
                                    validation:[self.viewModel validationStateForField:fieldType]];

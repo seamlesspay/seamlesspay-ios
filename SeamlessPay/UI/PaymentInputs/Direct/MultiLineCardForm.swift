@@ -84,7 +84,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
   }
 
   // MARK: Private
-  private let cardLogoManager = CardLogoImageViewManager()
+  private let cardImageManager = BaseCardImageManager()
   private var allFields = [SPFormTextField]()
 
   // MARK: Appearance
@@ -145,6 +145,16 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
   }()
 
   private lazy var brandImageView: UIImageView = {
+    let imageView = UIImageView(image: nil)
+    imageView.contentMode = .center
+    imageView.backgroundColor = .clear
+    imageView.tintColor = placeholderColor
+    imageView.isUserInteractionEnabled = false
+
+    return imageView
+  }()
+
+  private lazy var cvcFieldImageView: UIImageView = {
     let imageView = UIImageView(image: nil)
     imageView.contentMode = .center
     imageView.backgroundColor = .clear
@@ -229,7 +239,11 @@ private extension MultiLineCardForm {
     numberField.rightView = brandImageView
     numberField.rightViewMode = .always
 
-    updateImageForFieldType(.number)
+    cvcField.rightView = cvcFieldImageView
+    cvcField.rightViewMode = .always
+
+    updateImageViews()
+
     countryCode = Locale.autoupdatingCurrent.identifier
   }
 
@@ -359,15 +373,6 @@ private extension MultiLineCardForm {
     return textField
   }
 
-  func updateImageForFieldType(_ fieldType: SPCardFieldType) {
-    cardLogoManager.update(
-      brandImageView,
-      fieldType: fieldType,
-      brand: viewModel.brand,
-      validation: viewModel.validationState(for: fieldType)
-    )
-  }
-
   func onChange() {
     let selector = NSSelectorFromString("cardFormDidChange:")
     if let delegate, delegate.responds(to: selector) {
@@ -412,6 +417,25 @@ private extension MultiLineCardForm {
   }
 }
 
+// MARK: Icon management
+private extension MultiLineCardForm {
+  func updateImageViews() {
+    cardImageManager.update(
+      brandImageView,
+      fieldType: .number,
+      brand: viewModel.brand,
+      validation: viewModel.validationState(for: .number)
+    )
+
+    cardImageManager.update(
+      cvcFieldImageView,
+      fieldType: .CVC,
+      brand: viewModel.brand,
+      validation: viewModel.validationState(for: .CVC)
+    )
+  }
+}
+
 // MARK: SPFormTextFieldDelegate
 extension MultiLineCardForm: SPFormTextFieldDelegate {
   public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
@@ -434,7 +458,7 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
 
   public func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
     let _ = fieldEditingTransitionManager.getAndUpdateState(fromCall: .shouldEnd)
-    updateImageForFieldType(.number)
+    updateImageViews()
 
     return true
   }
@@ -457,7 +481,7 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
     onDidEndEditingField(fieldType: fieldType)
 
     if !isMidEditingTransition {
-      updateImageForFieldType(.number)
+      updateImageViews()
       onDidEndEditing()
     }
   }
@@ -482,8 +506,6 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
     }
 
     if fieldType == .number {
-      updateImageForFieldType(.number)
-
       // Changing the card number field can invalidate the CVC, e.g., going from 4
       // digit Amex CVC to 3 digit Visa
       cvcField.validText = viewModel.validationState(for: .CVC) != .invalid
@@ -525,6 +547,8 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
     @unknown default:
       break
     }
+
+    updateImageViews()
   }
 
   public func formTextField(
