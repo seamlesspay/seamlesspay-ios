@@ -5,11 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@protocol CardForm <NSObject>
-@required
-
-@property(nonatomic, readonly) BOOL isValid;
-
-@end
+typedef NS_ENUM(NSInteger, SPCardFieldType) {
+  SPCardFieldTypeNumber,
+  SPCardFieldTypeExpiration,
+  SPCardFieldTypeCVC,
+  SPCardFieldTypePostalCode,
+};

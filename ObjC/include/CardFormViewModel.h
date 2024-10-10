@@ -8,16 +8,9 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-//#import "SPCard.h"
 #import "SPCardValidator.h"
 #import "SPPostalCodeValidator.h"
-
-typedef NS_ENUM(NSInteger, SPCardFieldType) {
-  SPCardFieldTypeNumber,
-  SPCardFieldTypeExpiration,
-  SPCardFieldTypeCVC,
-  SPCardFieldTypePostalCode,
-};
+#import "SPCardFieldType.h"
 
 @interface CardFormViewModel : NSObject
 

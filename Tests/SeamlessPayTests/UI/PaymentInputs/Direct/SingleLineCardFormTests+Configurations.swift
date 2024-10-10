@@ -9,88 +9,7 @@ import XCTest
 @testable import SeamlessPayObjC
 @testable import SeamlessPay
 
-final class SingleLineCardFormTest: XCTestCase {
-  override func setUp() {
-    super.setUp()
-  }
-
-  override func tearDown() {
-    super.tearDown()
-  }
-
-  func testInitWithAuthorization() {
-    // Given
-    // When
-    let view = SingleLineCardForm(
-      config: .init(
-        environment: .sandbox,
-        secretKey: "test_secret_key"
-      )
-    )
-    // Then
-    XCTAssertNotNil(view.apiClient)
-    XCTAssertEqual(view.apiClient?.config.environment, .sandbox)
-    XCTAssertEqual(view.apiClient?.config.secretKey, "test_secret_key")
-  }
-
-  func testSetAuthorization() {
-    // Given
-    // When
-    let view = SingleLineCardForm(
-      config: ClientConfiguration(
-        environment: .sandbox,
-        secretKey: "another_test_secret_key"
-      )
-    )
-
-    // Then
-    XCTAssertNotNil(view.apiClient)
-    XCTAssertEqual(view.apiClient?.config.secretKey, "another_test_secret_key")
-  }
-
-  func testAPIClientAssociationKey() {
-    // Given
-    let view = SingleLineCardForm(
-      config: .init(
-        environment: .sandbox,
-        secretKey: "test_secret_key"
-      )
-    )
-
-    // When
-    let textField2 = SingleLineCardForm(
-      config: .init(
-        environment: .production,
-        secretKey: "another_test_secret_key"
-      )
-    )
-
-    // Then
-    XCTAssertNotNil(view.apiClient)
-    XCTAssertNotNil(textField2.apiClient)
-    XCTAssertFalse(view.apiClient === textField2.apiClient)
-    XCTAssertNotEqual(
-      view.apiClient?.config.environment,
-      textField2.apiClient?.config.environment
-    )
-    XCTAssertNotEqual(
-      view.apiClient?.config.secretKey,
-      textField2.apiClient?.config.secretKey
-    )
-  }
-
-  func testViewModel() {
-    // Given
-    let view = SingleLineCardForm(
-      config: .init(
-        environment: .sandbox,
-        secretKey: "test_secret_key"
-      )
-    )
-    // Then
-    XCTAssertNotNil(view.viewModel)
-  }
-
+final class SingleLineCardFormTests_Configurations: XCTestCase {
   func testViewModelDefaultInitialization() {
     // Given
     // When
@@ -101,7 +20,7 @@ final class SingleLineCardFormTest: XCTestCase {
       )
     )
 
-    let viewModel = view.viewModel!
+    let viewModel = view.viewModel
 
     // Then
     XCTAssert(viewModel.cvcRequired == true)
@@ -124,7 +43,7 @@ final class SingleLineCardFormTest: XCTestCase {
       )
     )
 
-    let viewModel = view.viewModel!
+    let viewModel = view.viewModel
 
     // Then
     XCTAssert(viewModel.cvcRequired == true)
@@ -147,7 +66,7 @@ final class SingleLineCardFormTest: XCTestCase {
       )
     )
 
-    let viewModel = view.viewModel!
+    let viewModel = view.viewModel
 
     // Then
     XCTAssert(viewModel.cvcRequired == false)
@@ -170,7 +89,7 @@ final class SingleLineCardFormTest: XCTestCase {
       )
     )
 
-    let viewModel = view.viewModel!
+    let viewModel = view.viewModel
 
     // Then
     XCTAssert(viewModel.cvcRequired == false)
@@ -193,7 +112,7 @@ final class SingleLineCardFormTest: XCTestCase {
       )
     )
 
-    let viewModel = view.viewModel!
+    let viewModel = view.viewModel
 
     // When
     viewModel.cardNumber = "4242424242424242"
@@ -227,10 +146,13 @@ final class SingleLineCardFormTest: XCTestCase {
         environment: .sandbox,
         secretKey: "another_test_secret_key"
       ),
-      fieldOptions: .init(cvv: .init(display: .none), postalCode: .init(display: .none))
+      fieldOptions: .init(
+        cvv: .init(display: .none),
+        postalCode: .init(display: .none)
+      )
     )
 
-    let viewModel = view.viewModel!
+    let viewModel = view.viewModel
 
     // When
     viewModel.cardNumber = "4242424242424242"
@@ -259,7 +181,7 @@ final class SingleLineCardFormTest: XCTestCase {
       )
     )
 
-    let viewModel = view.viewModel!
+    let viewModel = view.viewModel
 
     viewModel.cardNumber = "4242424242424242"
 
@@ -293,7 +215,7 @@ final class SingleLineCardFormTest: XCTestCase {
       )
     )
 
-    let viewModel = view.viewModel!
+    let viewModel = view.viewModel
 
     viewModel.cardNumber = "4242424242424242"
 
@@ -327,10 +249,9 @@ final class SingleLineCardFormTest: XCTestCase {
       )
     )
 
-    let viewModel = view.viewModel!
+    let viewModel = view.viewModel
 
     // When
-
     viewModel.cardNumber = "4242424242424242"
 
     // Then

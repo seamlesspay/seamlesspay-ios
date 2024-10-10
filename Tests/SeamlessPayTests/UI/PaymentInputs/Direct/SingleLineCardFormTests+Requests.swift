@@ -9,7 +9,7 @@ import XCTest
 
 @testable import SeamlessPay
 
-class SingleLineCardFormRequestsTest: XCTestCase {
+class SingleLineCardFormTests_Requests: XCTestCase {
   var sut: SingleLineCardForm!
 
   override func setUp() {
@@ -27,7 +27,7 @@ class SingleLineCardFormRequestsTest: XCTestCase {
   func testTokenize_SuccessfulTokenization() {
     // Given
     let apiClientMock = APIClientMock()
-    sut.apiClient = apiClientMock
+    sut.viewModel.apiClient = apiClientMock
 
     // When
     sut.tokenize { result in
@@ -53,7 +53,7 @@ class SingleLineCardFormRequestsTest: XCTestCase {
   func testCharge_SuccessfulCharge() {
     // Given
     let apiClientMock = APIClientMock()
-    sut.apiClient = apiClientMock
+    sut.viewModel.apiClient = apiClientMock
     let request = ChargeRequest(amount: 1)
 
     // When
@@ -91,7 +91,7 @@ class SingleLineCardFormRequestsTest: XCTestCase {
   func testRefund_SuccessfulResult() {
     // Given
     let apiClientMock = APIClientMock()
-    sut.apiClient = apiClientMock
+    sut.viewModel.apiClient = apiClientMock
     let request = RefundRequest(amount: 1)
 
     // When

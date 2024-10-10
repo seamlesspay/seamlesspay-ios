@@ -53,8 +53,7 @@
 }
 
 - (NSDictionary *)placeholderTextAttributes {
-  NSMutableDictionary *defaultAttributes =
-  [[self defaultTextAttributes] mutableCopy];
+  NSMutableDictionary *defaultAttributes = [[self defaultTextAttributes] mutableCopy];
   if (self.placeholderColor) {
     defaultAttributes[NSForegroundColorAttributeName] = self.placeholderColor;
   }

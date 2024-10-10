@@ -7,9 +7,8 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol CardForm <NSObject>
-@required
-
-@property(nonatomic, readonly) BOOL isValid;
-
-@end
+typedef NS_ENUM(NSInteger, CardFieldDisplay) {
+  CardFieldDisplayNone,
+  CardFieldDisplayOptional,
+  CardFieldDisplayRequired,
+};
