@@ -8,6 +8,7 @@
 #import <UIKit/UIKit.h>
 #import "CardFieldDisplay.h"
 #import "CardFormDelegate.h"
+#import "SPFormTextField.h"
 
 /**
  SingleLineCardForm is a text field with similar properties to UITextField,
