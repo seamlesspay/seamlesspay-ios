@@ -120,17 +120,6 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
     return view
   }()
 
-  private lazy var boundedView: UIView = {
-    let view = UIView()
-    view.clipsToBounds = true
-    view.backgroundColor = .white
-    view.layer.borderColor = placeholderColor.cgColor
-    view.layer.cornerRadius = 5.0
-    view.layer.borderWidth = 1.0
-
-    return view
-  }()
-
   private lazy var brandImageView: UIImageView = {
     let imageView = UIImageView(image: nil)
     imageView.contentMode = .center
@@ -199,9 +188,8 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
 // MARK: Set Up Views
 private extension MultiLineCardForm {
   private func setUpSubViews() {
-    addSubview(boundedView)
 
-    boundedView.addSubview(fieldsView)
+    addSubview(fieldsView)
 
     fieldsView.addSubview(numberField)
     fieldsView.addSubview(expirationField)
@@ -237,22 +225,13 @@ private extension MultiLineCardForm {
     let offset1: CGFloat = 10
     let textFieldHeight: CGFloat = 60
 
-    boundedView.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate(
-      [
-        boundedView.centerYAnchor.constraint(equalTo: centerYAnchor),
-        boundedView.centerXAnchor.constraint(equalTo: centerXAnchor),
-        boundedView.widthAnchor.constraint(equalTo: widthAnchor),
-        boundedView.heightAnchor.constraint(equalTo: heightAnchor),
-      ]
-    )
-
     fieldsView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate(
       [
-        fieldsView.centerXAnchor.constraint(equalTo: boundedView.centerXAnchor),
-        fieldsView.centerYAnchor.constraint(equalTo: boundedView.centerYAnchor),
-        fieldsView.widthAnchor.constraint(equalTo: boundedView.widthAnchor, constant: -30),
+        fieldsView.centerYAnchor.constraint(equalTo: centerYAnchor),
+        fieldsView.centerXAnchor.constraint(equalTo: centerXAnchor),
+        fieldsView.widthAnchor.constraint(equalTo: widthAnchor),
+        fieldsView.heightAnchor.constraint(equalTo: heightAnchor),
       ]
     )
 
