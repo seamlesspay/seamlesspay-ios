@@ -31,7 +31,9 @@
 
 @interface BaseCardImageManager : NSObject <CardImageManager>
 
-- (void)updateImageView:(UIImageView *)imageView withImage:(UIImage *)image;
+- (void)updateImageView:(UIImageView *)imageView
+              withImage:(UIImage *)image
+       withAnimationOptions:(UIViewAnimationOptions) animationOptions;
 
 @end
 

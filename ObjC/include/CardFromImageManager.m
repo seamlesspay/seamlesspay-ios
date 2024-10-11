@@ -62,15 +62,19 @@
   UIImage *image = [self brandImageForFieldType:fieldType brand:brand validation:validation];
 
   if (![imageView.image isEqual:image]) {
-    [self updateImageView:imageView withImage:image];
+    [self updateImageView:imageView
+                withImage:image
+     withAnimationOptions:UIViewAnimationOptionTransitionCrossDissolve | UIViewAnimationOptionCurveEaseInOut];
   }
 }
 
-- (void)updateImageView:(UIImageView *)imageView withImage:(UIImage *)image {
+- (void)updateImageView:(UIImageView *)imageView
+              withImage:(UIImage *)image
+   withAnimationOptions:(UIViewAnimationOptions) animationOptions {
 
   [UIView transitionWithView:imageView
                     duration:0.2
-                     options:UIViewAnimationOptionTransitionCrossDissolve | UIViewAnimationOptionCurveEaseInOut
+                     options:animationOptions
                   animations:^{ imageView.image = image; }
                   completion:nil];
 }
@@ -102,11 +106,7 @@
     self.currentFieldType = fieldType;
     self.currentBrand = brand;
 
-    [UIView transitionWithView:imageView
-                      duration:0.2
-                       options:animationOptions
-                    animations:^{ imageView.image = image; }
-                    completion:nil];
+    [self updateImageView:imageView withImage:image withAnimationOptions:animationOptions];
   }
 }
 
