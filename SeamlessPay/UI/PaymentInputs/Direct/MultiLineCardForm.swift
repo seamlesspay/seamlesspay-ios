@@ -65,19 +65,6 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
     return currentFirstResponderField?.resignFirstResponder() ?? false
   }
 
-  // MARK: UIKeyInput
-  public var hasText: Bool {
-    return numberField.hasText || expirationField.hasText || cvcField.hasText
-  }
-
-  public func insertText(_ text: String) {
-    currentFirstResponderField?.insertText(text)
-  }
-
-  public func deleteBackward() {
-    currentFirstResponderField?.deleteBackward()
-  }
-
   // MARK: CardForm
   public var isValid: Bool {
     viewModel.isValid
@@ -207,9 +194,10 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
 
     layoutIfNeeded()
   }
+}
 
-  // MARK: Private
-
+// MARK: Set Up Views
+private extension MultiLineCardForm {
   private func setUpSubViews() {
     addSubview(boundedView)
 
@@ -225,10 +213,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
     configureViews()
     constraintViews()
   }
-}
 
-// MARK: Set Up Views
-private extension MultiLineCardForm {
   func configureViews() {
     // Set placeholders for the fields
     numberField.floatingPlaceholder = "Card number"
@@ -648,5 +633,20 @@ private extension MultiLineCardForm {
     } else {
       return expirationField
     }
+  }
+}
+
+// MARK: UIKeyInput
+public extension MultiLineCardForm {
+  var hasText: Bool {
+    return numberField.hasText || expirationField.hasText || cvcField.hasText
+  }
+
+  func insertText(_ text: String) {
+    currentFirstResponderField?.insertText(text)
+  }
+
+  func deleteBackward() {
+    currentFirstResponderField?.deleteBackward()
   }
 }
