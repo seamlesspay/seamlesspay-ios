@@ -119,7 +119,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
   private lazy var expirationAndCvcStackView: UIStackView = {
     let stackView = UIStackView(arrangedSubviews: [expirationField, cvcField])
     stackView.axis = .horizontal
-    stackView.spacing = 10
+    stackView.spacing = 12
     stackView.distribution = .fillEqually
     stackView.alignment = .fill
 
@@ -138,7 +138,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
   private lazy var postalCodeStackView: UIStackView = {
     let stackView = UIStackView(arrangedSubviews: [postalCodeTitleLabel, postalCodeField])
     stackView.axis = .vertical
-    stackView.spacing = 5
+    stackView.spacing = 8
     stackView.distribution = .fill
     stackView.alignment = .fill
 
@@ -155,7 +155,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
   }()
 
   private lazy var cardInformationStackView: UIStackView = {
-    let stackView = UIStackView(arrangedSubviews: [cardInformationTitleLabel, numberField, expirationAndCvcStackView])
+    let stackView = UIStackView(arrangedSubviews: [cardInformationTitleLabel, numberField])
     stackView.axis = .vertical
     stackView.spacing = 5
     stackView.distribution = .fill
@@ -169,10 +169,11 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
   private lazy var stackView: UIStackView = {
     let stackView = UIStackView(arrangedSubviews: [
       cardInformationStackView,
+      expirationAndCvcStackView,
       postalCodeStackView,
     ])
     stackView.axis = .vertical
-    stackView.spacing = 10
+    stackView.spacing = 12
     stackView.distribution = .fill
     stackView.alignment = .fill
 
@@ -238,7 +239,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
 
     viewModel.postalCodeDisplayed = !isPostalCodeHidden
     viewModel.postalCodeRequired = isPostalCodeRequired
-    postalCodeField.isHidden = isPostalCodeHidden
+    postalCodeStackView.isHidden = isPostalCodeHidden
 
     layoutIfNeeded()
   }
@@ -258,6 +259,7 @@ private extension MultiLineCardForm {
   func configureViews() {
     // Set placeholders for the fields
 
+
     numberField.rightView = brandImageView
     numberField.rightViewMode = .always
 
@@ -272,22 +274,12 @@ private extension MultiLineCardForm {
   // swiftlint:disable function_body_length
   func constraintViews() {
     let textFieldHeight: CGFloat = 60
-    let titleLabelHeight: CGFloat = 44
-
-    backgroundColor = .red
-    stackView.backgroundColor = .blue
 
     var constraints: [NSLayoutConstraint] = [
       stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-      trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
+      stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
       stackView.topAnchor.constraint(equalTo: topAnchor),
     ]
-
-    // the initial layout of a SectionView will log constraint errors if it has a row with
-    // multiple
-    // inputs because the non-zero spacing conflicts with the default 0 horizontal size. Mark
-    // the
-    // constraints as priority required-1 to avoid those unhelpful logs
     constraints.forEach {
       $0.priority = UILayoutPriority(rawValue: UILayoutPriority.required.rawValue - 1)
     }
@@ -298,8 +290,6 @@ private extension MultiLineCardForm {
       expirationField.heightAnchor.constraint(equalToConstant: textFieldHeight),
       cvcField.heightAnchor.constraint(equalToConstant: textFieldHeight),
       postalCodeField.heightAnchor.constraint(equalToConstant: textFieldHeight),
-      postalCodeTitleLabel.heightAnchor.constraint(equalToConstant: titleLabelHeight),
-      cardInformationTitleLabel.heightAnchor.constraint(equalToConstant: titleLabelHeight),
     ])
   }
 
