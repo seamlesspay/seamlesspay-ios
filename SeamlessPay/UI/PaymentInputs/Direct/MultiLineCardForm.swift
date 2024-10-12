@@ -85,7 +85,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
     textField.textContentType = .creditCardNumber
     textField.autoFormattingBehavior = .cardNumbers
     textField.tag = SPCardFieldType.number.rawValue
-    textField.translatesAutoresizingMaskIntoConstraints = false
+    textField.floatingPlaceholder = "Card number"
 
     return textField
   }()
@@ -94,7 +94,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
     let textField = buildTextField()
     textField.autoFormattingBehavior = .expiration
     textField.tag = SPCardFieldType.expiration.rawValue
-    textField.translatesAutoresizingMaskIntoConstraints = false
+    textField.floatingPlaceholder = "Expiration date"
 
     return textField
   }()
@@ -102,7 +102,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
   private lazy var cvcField: LineTextField = {
     let textField = buildTextField()
     textField.tag = SPCardFieldType.CVC.rawValue
-    textField.translatesAutoresizingMaskIntoConstraints = false
+    textField.floatingPlaceholder = "CVC"
 
     return textField
   }()
@@ -111,7 +111,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
     let textField = buildTextField()
     textField.textContentType = .postalCode
     textField.tag = SPCardFieldType.postalCode.rawValue
-    textField.translatesAutoresizingMaskIntoConstraints = false
+    textField.floatingPlaceholder = "Postal code"
 
     return textField
   }()
@@ -128,15 +128,52 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
     return stackView
   }()
 
+  private lazy var postalCodeTitleLabel: UILabel = {
+    let label = buildTitleLabel()
+    label.text = "BILLLING ADDRESS"
+
+    return label
+  }()
+
+  private lazy var postalCodeStackView: UIStackView = {
+    let stackView = UIStackView(arrangedSubviews: [postalCodeTitleLabel, postalCodeField])
+    stackView.axis = .vertical
+    stackView.spacing = 5
+    stackView.distribution = .fill
+    stackView.alignment = .fill
+
+    stackView.translatesAutoresizingMaskIntoConstraints = false
+
+    return stackView
+  }()
+
+  private lazy var cardInformationTitleLabel: UILabel = {
+    let label = buildTitleLabel()
+    label.text = "CARD INFORMATION"
+
+    return label
+  }()
+
+  private lazy var cardInformationStackView: UIStackView = {
+    let stackView = UIStackView(arrangedSubviews: [cardInformationTitleLabel, numberField, expirationAndCvcStackView])
+    stackView.axis = .vertical
+    stackView.spacing = 5
+    stackView.distribution = .fill
+    stackView.alignment = .fill
+
+    stackView.translatesAutoresizingMaskIntoConstraints = false
+
+    return stackView
+  }()
+
   private lazy var stackView: UIStackView = {
     let stackView = UIStackView(arrangedSubviews: [
-      numberField,
-      expirationAndCvcStackView,
-      postalCodeField,
+      cardInformationStackView,
+      postalCodeStackView,
     ])
     stackView.axis = .vertical
     stackView.spacing = 10
-    stackView.distribution = .fillEqually
+    stackView.distribution = .fill
     stackView.alignment = .fill
 
     stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -220,10 +257,6 @@ private extension MultiLineCardForm {
 
   func configureViews() {
     // Set placeholders for the fields
-    numberField.floatingPlaceholder = "Card number"
-    expirationField.floatingPlaceholder = "Expiry date"
-    cvcField.floatingPlaceholder = "CVC"
-    postalCodeField.floatingPlaceholder = "Postal code"
 
     numberField.rightView = brandImageView
     numberField.rightViewMode = .always
@@ -239,6 +272,7 @@ private extension MultiLineCardForm {
   // swiftlint:disable function_body_length
   func constraintViews() {
     let textFieldHeight: CGFloat = 60
+    let titleLabelHeight: CGFloat = 44
 
     backgroundColor = .red
     stackView.backgroundColor = .blue
@@ -264,6 +298,8 @@ private extension MultiLineCardForm {
       expirationField.heightAnchor.constraint(equalToConstant: textFieldHeight),
       cvcField.heightAnchor.constraint(equalToConstant: textFieldHeight),
       postalCodeField.heightAnchor.constraint(equalToConstant: textFieldHeight),
+      postalCodeTitleLabel.heightAnchor.constraint(equalToConstant: titleLabelHeight),
+      cardInformationTitleLabel.heightAnchor.constraint(equalToConstant: titleLabelHeight),
     ])
   }
 
@@ -272,6 +308,7 @@ private extension MultiLineCardForm {
   func buildTextField() -> LineTextField {
     let textField = LineTextField(frame: .zero)
     textField.backgroundColor = .clear
+    textField.translatesAutoresizingMaskIntoConstraints = false
     textField.keyboardType = .asciiCapableNumberPad
     textField.font = .systemFont(ofSize: 18)
     textField.defaultColor = .darkText
@@ -281,8 +318,20 @@ private extension MultiLineCardForm {
     textField.validText = true
     textField.autocorrectionType = .no
     textField.clearButtonMode = .never
+    
 
     return textField
+  }
+
+  func buildTitleLabel() -> UILabel {
+    let label = UILabel()
+    label.translatesAutoresizingMaskIntoConstraints = false
+    label.font = .systemFont(ofSize: 16)
+    label.textColor = .systemGray2
+    label.numberOfLines = 0
+    label.textAlignment = .left
+
+    return label
   }
 
   func onChange() {
