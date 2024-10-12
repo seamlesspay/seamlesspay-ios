@@ -85,6 +85,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
     textField.textContentType = .creditCardNumber
     textField.autoFormattingBehavior = .cardNumbers
     textField.tag = SPCardFieldType.number.rawValue
+    textField.translatesAutoresizingMaskIntoConstraints = false
 
     return textField
   }()
@@ -93,6 +94,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
     let textField = buildTextField()
     textField.autoFormattingBehavior = .expiration
     textField.tag = SPCardFieldType.expiration.rawValue
+    textField.translatesAutoresizingMaskIntoConstraints = false
 
     return textField
   }()
@@ -100,6 +102,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
   private lazy var cvcField: LineTextField = {
     let textField = buildTextField()
     textField.tag = SPCardFieldType.CVC.rawValue
+    textField.translatesAutoresizingMaskIntoConstraints = false
 
     return textField
   }()
@@ -108,16 +111,37 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
     let textField = buildTextField()
     textField.textContentType = .postalCode
     textField.tag = SPCardFieldType.postalCode.rawValue
+    textField.translatesAutoresizingMaskIntoConstraints = false
 
     return textField
   }()
 
-  private lazy var fieldsView: UIView = {
-    let view = UIView()
-    view.clipsToBounds = true
-    view.backgroundColor = .clear
+  private lazy var expirationAndCvcStackView: UIStackView = {
+    let stackView = UIStackView(arrangedSubviews: [expirationField, cvcField])
+    stackView.axis = .horizontal
+    stackView.spacing = 10
+    stackView.distribution = .fillEqually
+    stackView.alignment = .fill
 
-    return view
+    stackView.translatesAutoresizingMaskIntoConstraints = false
+
+    return stackView
+  }()
+
+  private lazy var stackView: UIStackView = {
+    let stackView = UIStackView(arrangedSubviews: [
+      numberField,
+      expirationAndCvcStackView,
+      postalCodeField,
+    ])
+    stackView.axis = .vertical
+    stackView.spacing = 10
+    stackView.distribution = .fillEqually
+    stackView.alignment = .fill
+
+    stackView.translatesAutoresizingMaskIntoConstraints = false
+
+    return stackView
   }()
 
   private lazy var brandImageView: UIImageView = {
@@ -144,7 +168,6 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
   let viewModel: CardFormViewModel
 
   // MARK: Private variables
-  private var fieldsViewBottomConstraint: NSLayoutConstraint?
   private let fieldEditingTransitionManager = SPCardFormFieldEditingTransitionManager()
 
   // MARK: Interface
@@ -178,7 +201,6 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
 
     viewModel.postalCodeDisplayed = !isPostalCodeHidden
     viewModel.postalCodeRequired = isPostalCodeRequired
-    updateFieldsViewBottomConstraint(isPostalCodeHidden: isPostalCodeHidden)
     postalCodeField.isHidden = isPostalCodeHidden
 
     layoutIfNeeded()
@@ -188,13 +210,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
 // MARK: Set Up Views
 private extension MultiLineCardForm {
   private func setUpSubViews() {
-
-    addSubview(fieldsView)
-
-    fieldsView.addSubview(numberField)
-    fieldsView.addSubview(expirationField)
-    fieldsView.addSubview(cvcField)
-    fieldsView.addSubview(postalCodeField)
+    addSubview(stackView)
 
     allFields = [numberField, expirationField, cvcField, postalCodeField]
 
@@ -222,104 +238,36 @@ private extension MultiLineCardForm {
 
   // swiftlint:disable function_body_length
   func constraintViews() {
-    let offset1: CGFloat = 10
     let textFieldHeight: CGFloat = 60
 
-    fieldsView.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate(
-      [
-        fieldsView.centerYAnchor.constraint(equalTo: centerYAnchor),
-        fieldsView.centerXAnchor.constraint(equalTo: centerXAnchor),
-        fieldsView.widthAnchor.constraint(equalTo: widthAnchor),
-        fieldsView.heightAnchor.constraint(equalTo: heightAnchor),
-      ]
-    )
+    backgroundColor = .red
+    stackView.backgroundColor = .blue
 
-    fieldsViewBottomConstraint = fieldsView.bottomAnchor.constraint(
-      equalTo: postalCodeField.bottomAnchor,
-      constant: -0
-    )
+    var constraints: [NSLayoutConstraint] = [
+      stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
+      stackView.topAnchor.constraint(equalTo: topAnchor),
+    ]
 
-    updateFieldsViewBottomConstraint(isPostalCodeHidden: false)
+    // the initial layout of a SectionView will log constraint errors if it has a row with
+    // multiple
+    // inputs because the non-zero spacing conflicts with the default 0 horizontal size. Mark
+    // the
+    // constraints as priority required-1 to avoid those unhelpful logs
+    constraints.forEach {
+      $0.priority = UILayoutPriority(rawValue: UILayoutPriority.required.rawValue - 1)
+    }
+    NSLayoutConstraint.activate(constraints)
 
-    numberField.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate(
-      [
-        numberField.topAnchor.constraint(equalTo: fieldsView.topAnchor, constant: 0),
-        numberField.leadingAnchor.constraint(
-          equalTo: fieldsView.leadingAnchor,
-          constant: offset1
-        ),
-        numberField.trailingAnchor.constraint(
-          equalTo: fieldsView.trailingAnchor,
-          constant: -offset1
-        ),
-        numberField.heightAnchor.constraint(equalToConstant: textFieldHeight),
-      ]
-    )
-
-    expirationField.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate(
-      [
-        expirationField.topAnchor.constraint(
-          equalTo: numberField.bottomAnchor,
-          constant: offset1
-        ),
-        expirationField.leadingAnchor.constraint(
-          equalTo: fieldsView.leadingAnchor,
-          constant: offset1
-        ),
-        expirationField.trailingAnchor.constraint(
-          equalTo: cvcField.leadingAnchor,
-          constant: -offset1
-        ),
-        expirationField.widthAnchor.constraint(equalTo: cvcField.widthAnchor, multiplier: 1.5),
-        expirationField.heightAnchor.constraint(equalToConstant: textFieldHeight),
-      ]
-    )
-
-    cvcField.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate(
-      [
-        cvcField.centerYAnchor.constraint(equalTo: expirationField.centerYAnchor),
-        cvcField.trailingAnchor.constraint(equalTo: fieldsView.trailingAnchor, constant: -offset1),
-        cvcField.heightAnchor.constraint(equalToConstant: textFieldHeight),
-      ]
-    )
-
-    postalCodeField.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate(
-      [
-        postalCodeField.topAnchor.constraint(
-          equalTo: cvcField.bottomAnchor,
-          constant: offset1
-        ),
-        postalCodeField.leadingAnchor.constraint(
-          equalTo: fieldsView.leadingAnchor,
-          constant: offset1
-        ),
-        postalCodeField.heightAnchor.constraint(equalToConstant: textFieldHeight),
-        postalCodeField.widthAnchor.constraint(equalTo: expirationField.widthAnchor),
-      ]
-    )
+    NSLayoutConstraint.activate([
+      numberField.heightAnchor.constraint(equalToConstant: textFieldHeight),
+      expirationField.heightAnchor.constraint(equalToConstant: textFieldHeight),
+      cvcField.heightAnchor.constraint(equalToConstant: textFieldHeight),
+      postalCodeField.heightAnchor.constraint(equalToConstant: textFieldHeight),
+    ])
   }
 
   // swiftlint:enable function_body_length
-
-  func updateFieldsViewBottomConstraint(isPostalCodeHidden: Bool) {
-    fieldsViewBottomConstraint?.isActive = false
-
-    let bottomAnchor = isPostalCodeHidden
-      ? expirationField.bottomAnchor
-      : postalCodeField.bottomAnchor
-
-    fieldsViewBottomConstraint = fieldsView.bottomAnchor.constraint(
-      equalTo: bottomAnchor,
-      constant: -0
-    )
-
-    fieldsViewBottomConstraint?.isActive = true
-  }
 
   func buildTextField() -> LineTextField {
     let textField = LineTextField(frame: .zero)
@@ -432,7 +380,8 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
       return
     }
 
-    let isMidEditingTransition = fieldEditingTransitionManager.getAndUpdateState(fromCall: .didEnd)
+    let isMidEditingTransition = fieldEditingTransitionManager
+      .getAndUpdateState(fromCall: .didEnd)
 
     if fieldType == .number {
       let validationState = viewModel.validationState(for: .number)

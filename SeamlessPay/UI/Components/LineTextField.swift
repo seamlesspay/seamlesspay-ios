@@ -9,7 +9,6 @@ import UIKit
 import Foundation
 
 public class LineTextField: SPFormTextField {
-
   // MARK: - Properties
   private let floatingPlaceholderLabel: UILabel = .init()
 
@@ -106,6 +105,16 @@ public class LineTextField: SPFormTextField {
     rect.origin.y = (bounds.height - rect.size.height) / 2
     return rect
   }
+
+  // override public var intrinsicContentSize: CGSize {
+//   let leftViewWidth = leftView?.bounds.width ?? 0
+//   let rightViewWidth = rightView?.bounds.width ?? 0
+//   let width = floatingPlaceholderLabel.intrinsicContentSize.width + paddingX * 2 + leftViewWidth
+//   + rightViewWidth + originX * 2
+//   return CGSize(
+//     width: width,
+//     height: floatingPlaceholderHeight + paddingYFloatLabel * 2)
+  // }
 
   @objc override public func layoutSubviews() {
     super.layoutSubviews()
