@@ -50,11 +50,13 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
     viewModel.rawExpiration = .none
     viewModel.cvc = .none
     viewModel.postalCode = .none
+    
     onChange()
 
     _ = numberField.becomeFirstResponder()
   }
 
+  // MARK: UIResponder
   override public func becomeFirstResponder() -> Bool {
     let firstResponder = currentFirstResponderField ?? nextFirstResponderField
     return firstResponder.becomeFirstResponder()
@@ -208,7 +210,10 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
   // MARK: Private variables
   private let fieldEditingTransitionManager = SPCardFormFieldEditingTransitionManager()
 
-  // MARK: Interface
+  // MARK: Constants
+  private let textFieldHeight: CGFloat = 60
+
+  // MARK: Initializers
   override public init(frame: CGRect) {
     viewModel = .init()
     super.init(frame: frame)
@@ -221,6 +226,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
     setUpSubViews()
   }
 
+  // MARK: Internal interface
   func setCVCDisplayConfig(_ displayConfig: CardFieldDisplay) {
     let isCVCHidden = displayConfig == .none
     let isCVCRequired = displayConfig == .required
@@ -273,9 +279,8 @@ private extension MultiLineCardForm {
 
   // swiftlint:disable function_body_length
   func constraintViews() {
-    let textFieldHeight: CGFloat = 60
 
-    var constraints: [NSLayoutConstraint] = [
+    let constraints: [NSLayoutConstraint] = [
       stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
       stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
       stackView.topAnchor.constraint(equalTo: topAnchor),
@@ -395,8 +400,7 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
   }
 
   public func textFieldDidBeginEditing(_ textField: UITextField) {
-    let isMidEditingTransition = fieldEditingTransitionManager
-      .getAndUpdateState(fromCall: .didBegin)
+    let isMidEditingTransition = fieldEditingTransitionManager.getAndUpdateState(fromCall: .didBegin)
 
     if !isMidEditingTransition {
       onDidBeginEditing()
@@ -452,7 +456,6 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
   }
 
   public func formTextFieldTextDidChange(_ textField: SPFormTextField) {
-    defer { onChange() }
     guard let fieldType = SPCardFieldType(rawValue: textField.tag) else {
       return
     }
@@ -501,6 +504,7 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
     }
 
     updateImageViews()
+    onChange()
   }
 
   public func formTextField(

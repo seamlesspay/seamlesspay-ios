@@ -9,13 +9,15 @@ import UIKit
 import Foundation
 
 public class LineTextField: SPFormTextField {
-  // MARK: - Properties
+  // MARK: Views
   private let floatingPlaceholderLabel: UILabel = .init()
 
+  // MARK: Constants
   private let paddingX: CGFloat = 10.0
   private let paddingYText: CGFloat = 3.0
   private let paddingYFloatLabel: CGFloat = 5.0
 
+  // MARK: Variables
   private var isFirsResponderTransition: Bool = false
 
   private var originX: CGFloat {
@@ -56,7 +58,17 @@ public class LineTextField: SPFormTextField {
     return width - (originX * 2)
   }
 
-  // MARK: - Overrides
+  // MARK: Overrides
+
+  override public var validText: Bool {
+    get {
+      return super.validText
+    }
+    set {
+      super.validText = newValue
+      updateAppearance()
+    }
+  }
 
   override public var borderStyle: UITextField.BorderStyle {
     get {
@@ -117,6 +129,7 @@ public class LineTextField: SPFormTextField {
     let result = super.becomeFirstResponder()
     isFirsResponderTransition = true
     updatePlaceholder(animated: true)
+    updateAppearance()
     isFirsResponderTransition = false
     return result
   }
@@ -125,6 +138,7 @@ public class LineTextField: SPFormTextField {
     let result = super.resignFirstResponder()
     isFirsResponderTransition = true
     updatePlaceholder(animated: true)
+    updateAppearance()
     isFirsResponderTransition = false
     return result
   }
@@ -152,18 +166,17 @@ public class LineTextField: SPFormTextField {
 
   // MARK: - Private Methods
   private func commonInit() {
+    validText = true
     textAlignment = .left
     borderStyle = .none
 
     layer.cornerRadius = 5.0
-    layer.borderWidth = 1.0
-    layer.borderColor = UIColor.systemGray2.cgColor
+    layer.borderWidth = 2.0
 
     floatingPlaceholderLabel.frame = CGRect.zero
     floatingPlaceholderLabel.alpha = 0.0
     floatingPlaceholderLabel.font = .systemFont(ofSize: 16)
     floatingPlaceholderLabel.text = floatingPlaceholder
-    floatingPlaceholderLabel.textColor = .systemGray2
 
     addSubview(floatingPlaceholderLabel)
   }
@@ -225,5 +238,41 @@ public class LineTextField: SPFormTextField {
       width: rect.size.width - originX - paddingX,
       height: rect.height
     )
+  }
+}
+
+private extension LineTextField {
+  func updateAppearance() {
+    let errorColor = errorColor ?? UIColor.red
+    let defaultColor = defaultColor ?? UIColor.darkText
+    let placeholderColor = placeholderColor ?? UIColor.systemGray2
+    let focusColor = UIApplication.shared.windows.first?.tintColor ?? UIColor.systemBlue
+
+    switch (isFirstResponder, validText) {
+    case (true, true): // focus and valid
+      layer.borderColor = focusColor.cgColor
+      layer.backgroundColor = UIColor.clear.cgColor
+
+      floatingPlaceholderLabel.textColor = focusColor
+      textColor = defaultColor
+    case (true, false): // focus and invalid
+      layer.borderColor = errorColor.cgColor
+      layer.backgroundColor = errorColor.withAlphaComponent(0.5).cgColor
+
+      floatingPlaceholderLabel.textColor = errorColor
+      textColor = errorColor
+    case (false, true): // not focus and valid
+      layer.borderColor = UIColor.clear.cgColor
+      layer.backgroundColor = placeholderColor.withAlphaComponent(0.5).cgColor
+
+      floatingPlaceholderLabel.textColor = placeholderColor
+      textColor = defaultColor
+    case(false, false): // not focus and invalid
+      layer.borderColor = UIColor.clear.cgColor
+      layer.backgroundColor = errorColor.withAlphaComponent(0.5).cgColor
+
+      floatingPlaceholderLabel.textColor = errorColor
+      textColor = errorColor
+    }
   }
 }

@@ -905,8 +905,7 @@ typedef NS_ENUM(NSInteger, SingleLineCardFormState) {
     [(hasEnteredCardNumber ? self.cardNumber : self.numberPlaceholder)
      sp_stringByRemovingSuffix:compressedCardNumber];
 
-    if (cardNumberToHide.length > 0 &&
-        [SPCardValidator stringIsNumeric:cardNumberToHide]) {
+    if (cardNumberToHide.length > 0 && [SPCardValidator stringIsNumeric:cardNumberToHide]) {
       width = hasEnteredCardNumber ? [self widthForCardNumber:self.cardNumber]
       : [self numberFieldFullWidth];
 

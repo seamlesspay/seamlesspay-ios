@@ -76,8 +76,8 @@ countOfCharactersFromSetInString(NSString *_Nonnull string,
     return SPCardValidationStateValid;
   } else {
     // ZIP+4 territory
-    NSUInteger numberOfDigits = countOfCharactersFromSetInString(
-                                                                 postalCode, [NSCharacterSet sp_asciiDigitCharacterSet]);
+    NSUInteger numberOfDigits = countOfCharactersFromSetInString(postalCode,
+                                                                 [NSCharacterSet sp_asciiDigitCharacterSet]);
 
     if (numberOfDigits > 9) {
       // Too many digits
@@ -96,9 +96,8 @@ countOfCharactersFromSetInString(NSString *_Nonnull string,
 
       NSString *separatorCharacter =
       [postalCode substringWithRange:NSMakeRange(5, 1)];
-      if (countOfCharactersFromSetInString(
-                                           separatorCharacter, [NSCharacterSet sp_asciiDigitCharacterSet]) ==
-          0) {
+      if (countOfCharactersFromSetInString(separatorCharacter,
+                                           [NSCharacterSet sp_asciiDigitCharacterSet]) == 0) {
         // Non-digit is in right position to be separator
         if (numberOfDigits == 9) {
           return SPCardValidationStateValid;

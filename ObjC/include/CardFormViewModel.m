@@ -29,10 +29,10 @@
 }
 
 - (void)setCardNumber:(NSString *)cardNumber {
-  NSString *sanitizedNumber =
-  [SPCardValidator sanitizedNumericStringForString:cardNumber];
+  NSString *sanitizedNumber = [SPCardValidator sanitizedNumericStringForString:cardNumber];
   SPCardBrand brand = [SPCardValidator brandForNumber:sanitizedNumber];
   NSInteger maxLength = [SPCardValidator maxLengthForCardBrand:brand];
+
   _cardNumber = [sanitizedNumber sp_safeSubstringToIndex:maxLength];
 }
 
@@ -131,18 +131,16 @@
 - (SPCardValidationState)validationStateForField:(SPCardFieldType)fieldType {
   switch (fieldType) {
     case SPCardFieldTypeNumber:
-      return [SPCardValidator validationStateForNumber:self.cardNumber
-                                   validatingCardBrand:YES];
+      return [SPCardValidator validationStateForNumber:self.cardNumber validatingCardBrand:YES];
       break;
     case SPCardFieldTypeExpiration: {
       SPCardValidationState monthState = [SPCardValidator validationStateForExpirationMonth:self.expirationMonth];
       SPCardValidationState yearState = [SPCardValidator validationStateForExpirationYear:self.expirationYear
                                                                                   inMonth:self.expirationMonth];
-      if (monthState == SPCardValidationStateValid &&
-          yearState == SPCardValidationStateValid) {
+
+      if (monthState == SPCardValidationStateValid && yearState == SPCardValidationStateValid) {
         return SPCardValidationStateValid;
-      } else if (monthState == SPCardValidationStateInvalid ||
-                 yearState == SPCardValidationStateInvalid) {
+      } else if (monthState == SPCardValidationStateInvalid || yearState == SPCardValidationStateInvalid) {
         return SPCardValidationStateInvalid;
       } else {
         return SPCardValidationStateIncomplete;
@@ -150,8 +148,7 @@
       break;
     }
     case SPCardFieldTypeCVC:
-      return [SPCardValidator validationStateForCVC:self.cvc
-                                          cardBrand:self.brand];
+      return [SPCardValidator validationStateForCVC:self.cvc cardBrand:self.brand];
     case SPCardFieldTypePostalCode:
       return [SPPostalCodeValidator validationStateForPostalCode:self.postalCode
                                                      countryCode:self.postalCodeCountryCode];
