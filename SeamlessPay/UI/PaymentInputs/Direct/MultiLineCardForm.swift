@@ -11,7 +11,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
   // MARK: Public
   public var delegate: CardFormDelegate? = .none
   public var brandImage: UIImage? {
-    brandImageView.image
+    numberField.rightImageView.image
   }
 
   override public var isEnabled: Bool {
@@ -50,7 +50,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
     viewModel.rawExpiration = .none
     viewModel.cvc = .none
     viewModel.postalCode = .none
-    
+
     onChange()
 
     _ = numberField.becomeFirstResponder()
@@ -73,7 +73,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
   }
 
   // MARK: Private
-  private let cardImageManager = BaseCardImageManager()
+  private let cardImageManager = MultiLineCardImageManager()
   private var allFields = [SPFormTextField]()
 
   // MARK: Appearance
@@ -184,25 +184,25 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
     return stackView
   }()
 
-  private lazy var brandImageView: UIImageView = {
-    let imageView = UIImageView(image: nil)
-    imageView.contentMode = .center
-    imageView.backgroundColor = .clear
-    imageView.tintColor = placeholderColor
-    imageView.isUserInteractionEnabled = false
-
-    return imageView
-  }()
-
-  private lazy var cvcFieldImageView: UIImageView = {
-    let imageView = UIImageView(image: nil)
-    imageView.contentMode = .center
-    imageView.backgroundColor = .clear
-    imageView.tintColor = placeholderColor
-    imageView.isUserInteractionEnabled = false
-
-    return imageView
-  }()
+//  private lazy var brandImageView: UIImageView = {
+//    let imageView = UIImageView(image: nil)
+//    imageView.contentMode = .center
+//    imageView.backgroundColor = .clear
+//    imageView.tintColor = .clear
+//    imageView.isUserInteractionEnabled = false
+//
+//    return imageView
+//  }()
+//
+//  private lazy var cvcFieldImageView: UIImageView = {
+//    let imageView = UIImageView(image: nil)
+//    imageView.contentMode = .center
+//    imageView.backgroundColor = .clear
+//    imageView.tintColor = .clear
+//    imageView.isUserInteractionEnabled = false
+//
+//    return imageView
+//  }()
 
   // MARK: Internal
   let viewModel: CardFormViewModel
@@ -265,11 +265,8 @@ private extension MultiLineCardForm {
   func configureViews() {
     // Set placeholders for the fields
 
-
-    numberField.rightView = brandImageView
     numberField.rightViewMode = .always
 
-    cvcField.rightView = cvcFieldImageView
     cvcField.rightViewMode = .always
 
     updateImageViews()
@@ -279,7 +276,6 @@ private extension MultiLineCardForm {
 
   // swiftlint:disable function_body_length
   func constraintViews() {
-
     let constraints: [NSLayoutConstraint] = [
       stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
       stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -313,7 +309,6 @@ private extension MultiLineCardForm {
     textField.validText = true
     textField.autocorrectionType = .no
     textField.clearButtonMode = .never
-    
 
     return textField
   }
@@ -376,16 +371,14 @@ private extension MultiLineCardForm {
 // MARK: Icon management
 private extension MultiLineCardForm {
   func updateImageViews() {
-    cardImageManager.update(
-      brandImageView,
-      fieldType: .number,
+    cardImageManager.updateCardNumberImageView(
+      numberField.rightImageView,
       brand: viewModel.brand,
       validation: viewModel.validationState(for: .number)
     )
 
-    cardImageManager.update(
-      cvcFieldImageView,
-      fieldType: .CVC,
+    cardImageManager.updateCVCImageView(
+      cvcField.rightImageView,
       brand: viewModel.brand,
       validation: viewModel.validationState(for: .CVC)
     )
@@ -400,7 +393,8 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
   }
 
   public func textFieldDidBeginEditing(_ textField: UITextField) {
-    let isMidEditingTransition = fieldEditingTransitionManager.getAndUpdateState(fromCall: .didBegin)
+    let isMidEditingTransition = fieldEditingTransitionManager
+      .getAndUpdateState(fromCall: .didBegin)
 
     if !isMidEditingTransition {
       onDidBeginEditing()

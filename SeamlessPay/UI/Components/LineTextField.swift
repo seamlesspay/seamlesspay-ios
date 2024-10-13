@@ -164,11 +164,31 @@ public class LineTextField: SPFormTextField {
     }
   }
 
+  public lazy var rightImageView: UIImageView = {
+    let imageView = UIImageView(image: nil)
+    imageView.contentMode = .center
+    imageView.backgroundColor = .clear
+    imageView.tintColor = placeholderColor
+    imageView.isUserInteractionEnabled = false
+
+    return imageView
+  }()
+
+  public override var rightView: UIView? {
+    set {
+      super.rightView = rightImageView
+    }
+    get {
+      return super.rightView
+    }
+  }
+
   // MARK: - Private Methods
   private func commonInit() {
     validText = true
     textAlignment = .left
     borderStyle = .none
+    rightView = rightImageView
 
     layer.cornerRadius = 5.0
     layer.borderWidth = 2.0
@@ -246,7 +266,7 @@ private extension LineTextField {
     let errorColor = errorColor ?? UIColor.red
     let defaultColor = defaultColor ?? UIColor.darkText
     let placeholderColor = placeholderColor ?? UIColor.systemGray2
-    let focusColor = UIApplication.shared.windows.first?.tintColor ?? UIColor.systemBlue
+    let focusColor = UIColor.systemBlue
 
     switch (isFirstResponder, validText) {
     case (true, true): // focus and valid
@@ -255,24 +275,32 @@ private extension LineTextField {
 
       floatingPlaceholderLabel.textColor = focusColor
       textColor = defaultColor
+
+      rightImageView.tintColor = focusColor
     case (true, false): // focus and invalid
       layer.borderColor = errorColor.cgColor
       layer.backgroundColor = errorColor.withAlphaComponent(0.5).cgColor
 
       floatingPlaceholderLabel.textColor = errorColor
       textColor = errorColor
+
+      rightImageView.tintColor = .clear
     case (false, true): // not focus and valid
       layer.borderColor = UIColor.clear.cgColor
       layer.backgroundColor = placeholderColor.withAlphaComponent(0.5).cgColor
 
       floatingPlaceholderLabel.textColor = placeholderColor
       textColor = defaultColor
+
+      rightImageView.tintColor = placeholderColor
     case(false, false): // not focus and invalid
       layer.borderColor = UIColor.clear.cgColor
       layer.backgroundColor = errorColor.withAlphaComponent(0.5).cgColor
 
       floatingPlaceholderLabel.textColor = errorColor
       textColor = errorColor
+
+      rightImageView.tintColor = .clear
     }
   }
 }

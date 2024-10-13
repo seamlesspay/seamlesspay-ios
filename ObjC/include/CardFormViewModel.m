@@ -9,7 +9,6 @@
 #import "NSString+Extras.h"
 #import "SPCardValidator+Extras.h"
 #import "SPPostalCodeValidator.h"
-#import "SPImageLibrary.h"
 
 @implementation CardFormViewModel
 

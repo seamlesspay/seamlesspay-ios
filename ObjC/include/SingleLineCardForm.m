@@ -13,7 +13,7 @@
 #import "SPFormTextField.h"
 #import "SingleLineCardForm.h"
 #import "CardFormViewModel.h"
-#import "CardFromImageManager.h"
+#import "SingleLineCardImageManager.h"
 #import "SPCardFormFieldEditingTransitionManager.h"
 
 @interface SingleLineCardForm ()

@@ -72,4 +72,30 @@
   }
 }
 
+- (void)testRenewedBrandImageForCardBrand {
+
+  for (NSNumber *brandNumber in self.cardBrands) {
+    SPCardBrand brand = (SPCardBrand)[brandNumber integerValue];
+    UIImage *image = [SPImageLibrary renewed_brandImageForCardBrand:brand];
+    XCTAssertNotNil(image);
+  }
+}
+
+- (void)testRenewedCVCImageTemplateForCardBrand {
+    UIImage *amexCVCImage = [SPImageLibrary renewed_cvcImageTemplateForCardBrand:SPCardBrandAmex];
+    XCTAssertNotNil(amexCVCImage);
+    XCTAssertEqual(amexCVCImage.renderingMode, UIImageRenderingModeAlwaysTemplate);
+
+
+    UIImage *otherCVCImage = [SPImageLibrary renewed_cvcImageTemplateForCardBrand:SPCardBrandVisa];
+    XCTAssertNotNil(otherCVCImage);
+    XCTAssertEqual(otherCVCImage.renderingMode, UIImageRenderingModeAlwaysTemplate);
+}
+
+- (void)testRenewedErrorImage {
+    UIImage *errorImage = [SPImageLibrary renewed_errorImage];
+    XCTAssertNotNil(errorImage);
+}
+
 @end
+

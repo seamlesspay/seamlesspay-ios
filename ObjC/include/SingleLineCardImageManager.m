@@ -7,79 +7,8 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "CardFromImageManager.h"
+#import "SingleLineCardImageManager.h"
 #import "SPImageLibrary.h"
-
-@implementation DefaultCardImageProvider
-
-- (UIImage *)brandImageForFieldType:(SPCardFieldType)fieldType
-                              brand:(SPCardBrand)brand
-                         validation:(SPCardValidationState)validation {
-
-  switch (fieldType) {
-    case SPCardFieldTypeNumber:
-      return (validation == SPCardValidationStateInvalid)
-      ? [SPImageLibrary errorImageForCardBrand:brand]
-      : [SPImageLibrary brandImageForCardBrand:brand];
-    case SPCardFieldTypeCVC:
-      return [SPImageLibrary cvcImageForCardBrand:brand];
-    case SPCardFieldTypeExpiration:
-    case SPCardFieldTypePostalCode:
-      return [SPImageLibrary brandImageForCardBrand:brand];
-  }
-}
-
-@end
-
-@interface BaseCardImageManager ()
-
-@property (nonatomic, strong) id<CardImageProvider> imageProvider;
-
-@end
-
-@implementation BaseCardImageManager
-
-- (instancetype)init {
-  self = [super init];
-  if (self) {
-    _imageProvider = [[DefaultCardImageProvider alloc] init];
-  }
-  return self;
-}
-
-- (UIImage *)brandImageForFieldType:(SPCardFieldType)fieldType
-                              brand:(SPCardBrand)brand
-                         validation:(SPCardValidationState)validation {
-
-  return [self.imageProvider brandImageForFieldType:fieldType brand:brand validation:validation];
-}
-
-- (void)updateImageView:(UIImageView *)imageView
-              fieldType:(SPCardFieldType)fieldType
-                  brand:(SPCardBrand)brand
-             validation:(SPCardValidationState)validation {
-
-  UIImage *image = [self brandImageForFieldType:fieldType brand:brand validation:validation];
-
-  if (![imageView.image isEqual:image]) {
-    [self updateImageView:imageView
-                withImage:image
-     withAnimationOptions:UIViewAnimationOptionTransitionCrossDissolve | UIViewAnimationOptionCurveEaseInOut];
-  }
-}
-
-- (void)updateImageView:(UIImageView *)imageView
-              withImage:(UIImage *)image
-   withAnimationOptions:(UIViewAnimationOptions) animationOptions {
-
-  [UIView transitionWithView:imageView
-                    duration:0.2
-                     options:animationOptions
-                  animations:^{ imageView.image = image; }
-                  completion:nil];
-}
-
-@end
 
 @interface SingleLineCardImageManager ()
 
@@ -89,6 +18,22 @@
 @end
 
 @implementation SingleLineCardImageManager
+
+- (UIImage *)brandImageForFieldType:(SPCardFieldType)fieldType
+                              brand:(SPCardBrand)brand
+                         validation:(SPCardValidationState)validation {
+    switch (fieldType) {
+        case SPCardFieldTypeNumber:
+            return (validation == SPCardValidationStateInvalid)
+                ? [SPImageLibrary errorImageForCardBrand:brand]
+                : [SPImageLibrary brandImageForCardBrand:brand];
+        case SPCardFieldTypeCVC:
+            return [SPImageLibrary cvcImageForCardBrand:brand];
+        case SPCardFieldTypeExpiration:
+        case SPCardFieldTypePostalCode:
+            return [SPImageLibrary brandImageForCardBrand:brand];
+    }
+}
 
 - (void)updateImageView:(UIImageView *)imageView
               fieldType:(SPCardFieldType)fieldType
@@ -106,7 +51,11 @@
     self.currentFieldType = fieldType;
     self.currentBrand = brand;
 
-    [self updateImageView:imageView withImage:image withAnimationOptions:animationOptions];
+    [UIView transitionWithView:imageView
+                      duration:0.2
+                       options:animationOptions
+                    animations:^{ imageView.image = image; }
+                    completion:nil];
   }
 }
 
