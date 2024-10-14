@@ -116,8 +116,7 @@ countOfCharactersFromSetInString(NSString *_Nonnull string,
 }
 + (NSString *)formattedSanitizedPostalCodeFromString:(NSString *)postalCode
                                          countryCode:(NSString *)countryCode
-                                               usage:(SPPostalCodeIntendedUsage)
-usage {
+                                               usage:(SPPostalCodeIntendedUsage)usage {
   if (countryCode == nil) {
     return postalCode;
   }
@@ -131,8 +130,7 @@ usage {
 }
 
 + (NSString *)formattedSanitizedUSZipCodeFromString:(NSString *)zipCode
-                                              usage:(SPPostalCodeIntendedUsage)
-usage {
+                                              usage:(SPPostalCodeIntendedUsage)usage {
   NSUInteger maxLength = 0;
   switch (usage) {
     case SPPostalCodeIntendedUsageBillingAddress:
@@ -143,8 +141,7 @@ usage {
   }
 
   NSString *formattedString =
-  [[SPCardValidator sanitizedNumericStringForString:zipCode]
-   sp_safeSubstringToIndex:maxLength];
+  [[SPCardValidator sanitizedNumericStringForString:zipCode] sp_safeSubstringToIndex:maxLength];
 
   /*
    If the string is >5 numbers or == 5 and the last char of the unformatted

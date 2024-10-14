@@ -105,6 +105,10 @@
 + (UIImage *)safeImageNamed:(NSString *)imageName
         templateIfAvailable:(BOOL)templateIfAvailable {
 
+  if (!imageName) {
+    return nil;
+  }
+  
   NSString *path = [self pathForImageWithName:imageName];
 
   UIImage *image = [UIImage imageWithContentsOfFile:path];
@@ -178,6 +182,12 @@
       break;
     case SPCardBrandVisa:
       imageName = @"logo_visa_light";
+      break;
+    case SPCardBrandDinersClub:
+      imageName = @"logo_diners_club_light";
+      break;
+    case SPCardBrandJCB:
+      imageName = @"logo_jcb_light";
       break;
     default:
       imageName = @"sp_card_unknown";

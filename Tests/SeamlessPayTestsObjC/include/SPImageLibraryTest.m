@@ -73,7 +73,6 @@
 }
 
 - (void)testRenewedBrandImageForCardBrand {
-
   for (NSNumber *brandNumber in self.cardBrands) {
     SPCardBrand brand = (SPCardBrand)[brandNumber integerValue];
     UIImage *image = [SPImageLibrary renewed_brandImageForCardBrand:brand];
