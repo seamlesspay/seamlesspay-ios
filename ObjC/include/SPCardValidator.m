@@ -14,8 +14,7 @@
 @implementation SPCardValidator
 
 + (NSString *)sanitizedNumericStringForString:(NSString *)string {
-  return stringByRemovingCharactersFromSet(
-                                           string, [NSCharacterSet sp_invertedAsciiDigitCharacterSet]);
+  return stringByRemovingCharactersFromSet(string, [NSCharacterSet sp_invertedAsciiDigitCharacterSet]);
 }
 
 + (NSString *)stringByRemovingSpacesFromString:(NSString *)string {
@@ -23,8 +22,8 @@
   return stringByRemovingCharactersFromSet(string, set);
 }
 
-static NSString *_Nonnull stringByRemovingCharactersFromSet(
-                                                            NSString *_Nonnull string, NSCharacterSet *_Nonnull cs) {
+static NSString *_Nonnull stringByRemovingCharactersFromSet(NSString *_Nonnull string,
+                                                            NSCharacterSet *_Nonnull cs) {
   NSRange range = [string rangeOfCharacterFromSet:cs];
   if (range.location != NSNotFound) {
     NSMutableString *newString = [[string
@@ -61,17 +60,22 @@ static NSString *_Nonnull stringByRemovingCharactersFromSet(
   }
 }
 
-+ (BOOL)stringIsNumeric:(NSString *)string {
-  return [string rangeOfCharacterFromSet:[NSCharacterSet
-                                          sp_invertedAsciiDigitCharacterSet]]
++ (BOOL)stringIsNumeric:(NSString * __nullable)string {
+  // The entire concept of this method needs to be reviewed and possibly changed.
+  // Currently, stringIsNumeric considers empty strings as numeric.
+  // To maintain consistency with this logic for nil strings, the following quick fix has been added.
+
+  if (string == nil) {
+    return YES;
+  }
+
+  return [string rangeOfCharacterFromSet:[NSCharacterSet sp_invertedAsciiDigitCharacterSet]]
     .location == NSNotFound;
 }
 
-+ (SPCardValidationState)validationStateForExpirationMonth:
-(NSString *)expirationMonth {
++ (SPCardValidationState)validationStateForExpirationMonth:(NSString *)expirationMonth {
 
-  NSString *sanitizedExpiration =
-  [self stringByRemovingSpacesFromString:expirationMonth];
+  NSString *sanitizedExpiration = [self stringByRemovingSpacesFromString:expirationMonth];
 
   if (![self stringIsNumeric:sanitizedExpiration]) {
     return SPCardValidationStateInvalid;
@@ -95,23 +99,19 @@ static NSString *_Nonnull stringByRemovingCharactersFromSet(
   }
 }
 
-+ (SPCardValidationState)
-validationStateForExpirationYear:(NSString *)expirationYear
-inMonth:(NSString *)expirationMonth
-inCurrentYear:(NSInteger)currentYear
-currentMonth:(NSInteger)currentMonth {
++ (SPCardValidationState)validationStateForExpirationYear:(NSString *)expirationYear
+                                                  inMonth:(NSString *)expirationMonth
+                                            inCurrentYear:(NSInteger)currentYear
+                                             currentMonth:(NSInteger)currentMonth {
 
   NSInteger moddedYear = currentYear % 100;
 
-  if (![self stringIsNumeric:expirationMonth] ||
-      ![self stringIsNumeric:expirationYear]) {
+  if (![self stringIsNumeric:expirationMonth] || ![self stringIsNumeric:expirationYear]) {
     return SPCardValidationStateInvalid;
   }
 
-  NSString *sanitizedMonth =
-  [self sanitizedNumericStringForString:expirationMonth];
-  NSString *sanitizedYear =
-  [self sanitizedNumericStringForString:expirationYear];
+  NSString *sanitizedMonth = [self sanitizedNumericStringForString:expirationMonth];
+  NSString *sanitizedYear = [self sanitizedNumericStringForString:expirationYear];
 
   switch (sanitizedYear.length) {
     case 0:

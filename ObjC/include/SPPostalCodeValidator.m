@@ -76,8 +76,8 @@ countOfCharactersFromSetInString(NSString *_Nonnull string,
     return SPCardValidationStateValid;
   } else {
     // ZIP+4 territory
-    NSUInteger numberOfDigits = countOfCharactersFromSetInString(
-                                                                 postalCode, [NSCharacterSet sp_asciiDigitCharacterSet]);
+    NSUInteger numberOfDigits = countOfCharactersFromSetInString(postalCode,
+                                                                 [NSCharacterSet sp_asciiDigitCharacterSet]);
 
     if (numberOfDigits > 9) {
       // Too many digits
@@ -96,9 +96,8 @@ countOfCharactersFromSetInString(NSString *_Nonnull string,
 
       NSString *separatorCharacter =
       [postalCode substringWithRange:NSMakeRange(5, 1)];
-      if (countOfCharactersFromSetInString(
-                                           separatorCharacter, [NSCharacterSet sp_asciiDigitCharacterSet]) ==
-          0) {
+      if (countOfCharactersFromSetInString(separatorCharacter,
+                                           [NSCharacterSet sp_asciiDigitCharacterSet]) == 0) {
         // Non-digit is in right position to be separator
         if (numberOfDigits == 9) {
           return SPCardValidationStateValid;
@@ -117,8 +116,7 @@ countOfCharactersFromSetInString(NSString *_Nonnull string,
 }
 + (NSString *)formattedSanitizedPostalCodeFromString:(NSString *)postalCode
                                          countryCode:(NSString *)countryCode
-                                               usage:(SPPostalCodeIntendedUsage)
-usage {
+                                               usage:(SPPostalCodeIntendedUsage)usage {
   if (countryCode == nil) {
     return postalCode;
   }
@@ -132,8 +130,7 @@ usage {
 }
 
 + (NSString *)formattedSanitizedUSZipCodeFromString:(NSString *)zipCode
-                                              usage:(SPPostalCodeIntendedUsage)
-usage {
+                                              usage:(SPPostalCodeIntendedUsage)usage {
   NSUInteger maxLength = 0;
   switch (usage) {
     case SPPostalCodeIntendedUsageBillingAddress:
@@ -144,8 +141,7 @@ usage {
   }
 
   NSString *formattedString =
-  [[SPCardValidator sanitizedNumericStringForString:zipCode]
-   sp_safeSubstringToIndex:maxLength];
+  [[SPCardValidator sanitizedNumericStringForString:zipCode] sp_safeSubstringToIndex:maxLength];
 
   /*
    If the string is >5 numbers or == 5 and the last char of the unformatted

@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Whether or not the target string contains only numeric characters.
  */
-+ (BOOL)stringIsNumeric:(NSString *)string;
++ (BOOL)stringIsNumeric:(NSString * __nullable)string;
 
 /**
  Validates a card number, passed as a string. This will return

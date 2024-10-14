@@ -99,6 +99,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (UIImage *)errorImageForCardBrand:(SPCardBrand)brand;
 
+// Renewed images currently used by multiline card form
++ (UIImage *)renewed_brandImageForCardBrand:(SPCardBrand)brand;
++ (UIImage *)renewed_cvcImageTemplateForCardBrand:(SPCardBrand)brand;
++ (UIImage *)renewed_errorImage;
 
 @end
 

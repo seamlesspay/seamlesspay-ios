@@ -89,22 +89,26 @@
 // MARK: - Private Methods
 
 + (NSString *)pathForImageWithName:(NSString *)imageName {
-    NSString *path = nil;
+  NSString *path = nil;
 #if SWIFT_PACKAGE
-    path = [SWIFTPM_MODULE_BUNDLE pathForResource:imageName ofType:@"png"];
+  path = [SWIFTPM_MODULE_BUNDLE pathForResource:imageName ofType:@"png"];
 #else
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    NSString *resourceBundleURL = [bundle pathForResource:@"SeamlessPay" ofType:@"bundle"];
-    NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundleURL];
-    NSURL *imageURL = [resourceBundle URLForResource:imageName withExtension:@"png"];
-    path = [imageURL path];
+  NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+  NSString *resourceBundleURL = [bundle pathForResource:@"SeamlessPay" ofType:@"bundle"];
+  NSBundle *resourceBundle = [NSBundle bundleWithPath:resourceBundleURL];
+  NSURL *imageURL = [resourceBundle URLForResource:imageName withExtension:@"png"];
+  path = [imageURL path];
 #endif
-    return path;
+  return path;
 }
 
 + (UIImage *)safeImageNamed:(NSString *)imageName
         templateIfAvailable:(BOOL)templateIfAvailable {
 
+  if (!imageName) {
+    return nil;
+  }
+  
   NSString *path = [self pathForImageWithName:imageName];
 
   UIImage *image = [UIImage imageWithContentsOfFile:path];
@@ -162,6 +166,45 @@
   UIImage *image = [self safeImageNamed:imageName
                     templateIfAvailable:shouldUseTemplate];
   return image;
+}
+
++ (UIImage *)renewed_brandImageForCardBrand:(SPCardBrand)brand {
+  NSString *imageName;
+  switch (brand) {
+    case SPCardBrandAmex:
+      imageName = @"logo_amex_light";
+      break;
+    case SPCardBrandDiscover:
+      imageName = @"logo_discover_light";
+      break;
+    case SPCardBrandMasterCard:
+      imageName = @"logo_mastercard_light";
+      break;
+    case SPCardBrandVisa:
+      imageName = @"logo_visa_light";
+      break;
+    case SPCardBrandDinersClub:
+      imageName = @"logo_diners_club_light";
+      break;
+    case SPCardBrandJCB:
+      imageName = @"logo_jcb_light";
+      break;
+    default:
+      imageName = @"sp_card_unknown";
+      break;
+  }
+  UIImage *image = [self safeImageNamed:imageName templateIfAvailable:NO];
+  return image;
+}
+
++ (UIImage *)renewed_cvcImageTemplateForCardBrand:(SPCardBrand)brand {
+  NSString *imageName = brand == SPCardBrandAmex ? @"amex_cvc_icon" : @"cvc_icon";
+  UIImage *image = [self safeImageNamed:imageName];
+  return [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+}
+
++ (UIImage *)renewed_errorImage {
+  return [self safeImageNamed:@"error_sign"];
 }
 
 @end

@@ -34,12 +34,10 @@
 
 + (BOOL)stringIsValidPartialPhoneNumber:(NSString *)string
                          forCountryCode:(nullable NSString *)nillableCode {
-  NSString *countryCode =
-  [self countryCodeOrCurrentLocaleCountryFromString:nillableCode];
+  NSString *countryCode = [self countryCodeOrCurrentLocaleCountryFromString:nillableCode];
 
   if ([countryCode isEqualToString:@"US"]) {
-    return
-    [SPCardValidator sanitizedNumericStringForString:string].length <= 10;
+    return [SPCardValidator sanitizedNumericStringForString:string].length <= 10;
   } else {
     return YES;
   }
