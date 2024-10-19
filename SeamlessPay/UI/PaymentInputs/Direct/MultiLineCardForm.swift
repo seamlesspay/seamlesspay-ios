@@ -11,7 +11,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
   // MARK: Public
   public var delegate: CardFormDelegate? = .none
   public var brandImage: UIImage? {
-    brandImageView.image
+    numberField.rightImageView.image
   }
 
   override public var isEnabled: Bool {
@@ -50,11 +50,13 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
     viewModel.rawExpiration = .none
     viewModel.cvc = .none
     viewModel.postalCode = .none
+
     onChange()
 
     _ = numberField.becomeFirstResponder()
   }
 
+  // MARK: UIResponder
   override public func becomeFirstResponder() -> Bool {
     let firstResponder = currentFirstResponderField ?? nextFirstResponderField
     return firstResponder.becomeFirstResponder()
@@ -65,26 +67,13 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
     return currentFirstResponderField?.resignFirstResponder() ?? false
   }
 
-  // MARK: UIKeyInput
-  public var hasText: Bool {
-    return numberField.hasText || expirationField.hasText || cvcField.hasText
-  }
-
-  public func insertText(_ text: String) {
-    currentFirstResponderField?.insertText(text)
-  }
-
-  public func deleteBackward() {
-    currentFirstResponderField?.deleteBackward()
-  }
-
   // MARK: CardForm
   public var isValid: Bool {
     viewModel.isValid
   }
 
   // MARK: Private
-  private let cardLogoManager = CardLogoImageViewManager()
+  private let cardImageManager = MultiLineCardImageManager()
   private var allFields = [SPFormTextField]()
 
   // MARK: Appearance
@@ -98,6 +87,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
     textField.textContentType = .creditCardNumber
     textField.autoFormattingBehavior = .cardNumbers
     textField.tag = SPCardFieldType.number.rawValue
+    textField.floatingPlaceholder = "Card number"
 
     return textField
   }()
@@ -106,6 +96,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
     let textField = buildTextField()
     textField.autoFormattingBehavior = .expiration
     textField.tag = SPCardFieldType.expiration.rawValue
+    textField.floatingPlaceholder = "Expiration date"
 
     return textField
   }()
@@ -113,6 +104,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
   private lazy var cvcField: LineTextField = {
     let textField = buildTextField()
     textField.tag = SPCardFieldType.CVC.rawValue
+    textField.floatingPlaceholder = "CVC"
 
     return textField
   }()
@@ -121,47 +113,107 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
     let textField = buildTextField()
     textField.textContentType = .postalCode
     textField.tag = SPCardFieldType.postalCode.rawValue
+    textField.floatingPlaceholder = "Postal code"
 
     return textField
   }()
 
-  private lazy var fieldsView: UIView = {
-    let view = UIView()
-    view.clipsToBounds = true
-    view.backgroundColor = .clear
+  private lazy var expirationAndCvcStackView: UIStackView = {
+    let stackView = UIStackView(arrangedSubviews: [expirationField, cvcField])
+    stackView.axis = .horizontal
+    stackView.spacing = 12
+    stackView.distribution = .fillEqually
+    stackView.alignment = .fill
 
-    return view
+    stackView.translatesAutoresizingMaskIntoConstraints = false
+
+    return stackView
   }()
 
-  private lazy var boundedView: UIView = {
-    let view = UIView()
-    view.clipsToBounds = true
-    view.backgroundColor = .white
-    view.layer.borderColor = placeholderColor.cgColor
-    view.layer.cornerRadius = 5.0
-    view.layer.borderWidth = 1.0
+  private lazy var postalCodeTitleLabel: UILabel = {
+    let label = buildTitleLabel()
+    label.text = "BILLLING ADDRESS"
 
-    return view
+    return label
   }()
 
-  private lazy var brandImageView: UIImageView = {
-    let imageView = UIImageView(image: nil)
-    imageView.contentMode = .center
-    imageView.backgroundColor = .clear
-    imageView.tintColor = placeholderColor
-    imageView.isUserInteractionEnabled = false
+  private lazy var postalCodeStackView: UIStackView = {
+    let stackView = UIStackView(arrangedSubviews: [postalCodeTitleLabel, postalCodeField])
+    stackView.axis = .vertical
+    stackView.spacing = 8
+    stackView.distribution = .fill
+    stackView.alignment = .fill
 
-    return imageView
+    stackView.translatesAutoresizingMaskIntoConstraints = false
+
+    return stackView
   }()
+
+  private lazy var cardInformationTitleLabel: UILabel = {
+    let label = buildTitleLabel()
+    label.text = "CARD INFORMATION"
+
+    return label
+  }()
+
+  private lazy var cardInformationStackView: UIStackView = {
+    let stackView = UIStackView(arrangedSubviews: [cardInformationTitleLabel, numberField])
+    stackView.axis = .vertical
+    stackView.spacing = 5
+    stackView.distribution = .fill
+    stackView.alignment = .fill
+
+    stackView.translatesAutoresizingMaskIntoConstraints = false
+
+    return stackView
+  }()
+
+  private lazy var stackView: UIStackView = {
+    let stackView = UIStackView(arrangedSubviews: [
+      cardInformationStackView,
+      expirationAndCvcStackView,
+      postalCodeStackView,
+    ])
+    stackView.axis = .vertical
+    stackView.spacing = 12
+    stackView.distribution = .fill
+    stackView.alignment = .fill
+
+    stackView.translatesAutoresizingMaskIntoConstraints = false
+
+    return stackView
+  }()
+
+//  private lazy var brandImageView: UIImageView = {
+//    let imageView = UIImageView(image: nil)
+//    imageView.contentMode = .center
+//    imageView.backgroundColor = .clear
+//    imageView.tintColor = .clear
+//    imageView.isUserInteractionEnabled = false
+//
+//    return imageView
+//  }()
+//
+//  private lazy var cvcFieldImageView: UIImageView = {
+//    let imageView = UIImageView(image: nil)
+//    imageView.contentMode = .center
+//    imageView.backgroundColor = .clear
+//    imageView.tintColor = .clear
+//    imageView.isUserInteractionEnabled = false
+//
+//    return imageView
+//  }()
 
   // MARK: Internal
   let viewModel: CardFormViewModel
 
   // MARK: Private variables
-  private var fieldsViewBottomConstraint: NSLayoutConstraint?
   private let fieldEditingTransitionManager = SPCardFormFieldEditingTransitionManager()
 
-  // MARK: Interface
+  // MARK: Constants
+  private let textFieldHeight: CGFloat = 60
+
+  // MARK: Initializers
   override public init(frame: CGRect) {
     viewModel = .init()
     super.init(frame: frame)
@@ -174,6 +226,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
     setUpSubViews()
   }
 
+  // MARK: Internal interface
   func setCVCDisplayConfig(_ displayConfig: CardFieldDisplay) {
     let isCVCHidden = displayConfig == .none
     let isCVCRequired = displayConfig == .required
@@ -192,160 +245,61 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
 
     viewModel.postalCodeDisplayed = !isPostalCodeHidden
     viewModel.postalCodeRequired = isPostalCodeRequired
-    updateFieldsViewBottomConstraint(isPostalCodeHidden: isPostalCodeHidden)
-    postalCodeField.isHidden = isPostalCodeHidden
+    postalCodeStackView.isHidden = isPostalCodeHidden
 
     layoutIfNeeded()
   }
+}
 
-  // MARK: Private
-
+// MARK: Set Up Views
+private extension MultiLineCardForm {
   private func setUpSubViews() {
-    addSubview(boundedView)
-
-    boundedView.addSubview(fieldsView)
-
-    fieldsView.addSubview(numberField)
-    fieldsView.addSubview(expirationField)
-    fieldsView.addSubview(cvcField)
-    fieldsView.addSubview(postalCodeField)
+    addSubview(stackView)
 
     allFields = [numberField, expirationField, cvcField, postalCodeField]
 
     configureViews()
     constraintViews()
   }
-}
 
-// MARK: Set Up Views
-private extension MultiLineCardForm {
   func configureViews() {
     // Set placeholders for the fields
-    numberField.floatingPlaceholder = "Card number"
-    expirationField.floatingPlaceholder = "Expiry date"
-    cvcField.floatingPlaceholder = "CVC"
-    postalCodeField.floatingPlaceholder = "Postal code"
 
-    numberField.rightView = brandImageView
     numberField.rightViewMode = .always
 
-    updateImageForFieldType(.number)
+    cvcField.rightViewMode = .always
+
+    updateImageViews()
+
     countryCode = Locale.autoupdatingCurrent.identifier
   }
 
   // swiftlint:disable function_body_length
   func constraintViews() {
-    let offset1: CGFloat = 10
-    let textFieldHeight: CGFloat = 60
+    let constraints: [NSLayoutConstraint] = [
+      stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+      stackView.topAnchor.constraint(equalTo: topAnchor),
+    ]
+    constraints.forEach {
+      $0.priority = UILayoutPriority(rawValue: UILayoutPriority.required.rawValue - 1)
+    }
+    NSLayoutConstraint.activate(constraints)
 
-    boundedView.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate(
-      [
-        boundedView.centerYAnchor.constraint(equalTo: centerYAnchor),
-        boundedView.centerXAnchor.constraint(equalTo: centerXAnchor),
-        boundedView.widthAnchor.constraint(equalTo: widthAnchor),
-        boundedView.heightAnchor.constraint(equalTo: heightAnchor),
-      ]
-    )
-
-    fieldsView.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate(
-      [
-        fieldsView.centerXAnchor.constraint(equalTo: boundedView.centerXAnchor),
-        fieldsView.centerYAnchor.constraint(equalTo: boundedView.centerYAnchor),
-        fieldsView.widthAnchor.constraint(equalTo: boundedView.widthAnchor, constant: -30),
-      ]
-    )
-
-    fieldsViewBottomConstraint = fieldsView.bottomAnchor.constraint(
-      equalTo: postalCodeField.bottomAnchor,
-      constant: -0
-    )
-
-    updateFieldsViewBottomConstraint(isPostalCodeHidden: false)
-
-    numberField.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate(
-      [
-        numberField.topAnchor.constraint(equalTo: fieldsView.topAnchor, constant: 0),
-        numberField.leadingAnchor.constraint(
-          equalTo: fieldsView.leadingAnchor,
-          constant: offset1
-        ),
-        numberField.trailingAnchor.constraint(
-          equalTo: fieldsView.trailingAnchor,
-          constant: -offset1
-        ),
-        numberField.heightAnchor.constraint(equalToConstant: textFieldHeight),
-      ]
-    )
-
-    expirationField.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate(
-      [
-        expirationField.topAnchor.constraint(
-          equalTo: numberField.bottomAnchor,
-          constant: offset1
-        ),
-        expirationField.leadingAnchor.constraint(
-          equalTo: fieldsView.leadingAnchor,
-          constant: offset1
-        ),
-        expirationField.trailingAnchor.constraint(
-          equalTo: cvcField.leadingAnchor,
-          constant: -offset1
-        ),
-        expirationField.widthAnchor.constraint(equalTo: cvcField.widthAnchor, multiplier: 1.5),
-        expirationField.heightAnchor.constraint(equalToConstant: textFieldHeight),
-      ]
-    )
-
-    cvcField.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate(
-      [
-        cvcField.centerYAnchor.constraint(equalTo: expirationField.centerYAnchor),
-        cvcField.trailingAnchor.constraint(equalTo: fieldsView.trailingAnchor, constant: -offset1),
-        cvcField.heightAnchor.constraint(equalToConstant: textFieldHeight),
-      ]
-    )
-
-    postalCodeField.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate(
-      [
-        postalCodeField.topAnchor.constraint(
-          equalTo: cvcField.bottomAnchor,
-          constant: offset1
-        ),
-        postalCodeField.leadingAnchor.constraint(
-          equalTo: fieldsView.leadingAnchor,
-          constant: offset1
-        ),
-        postalCodeField.heightAnchor.constraint(equalToConstant: textFieldHeight),
-        postalCodeField.widthAnchor.constraint(equalTo: expirationField.widthAnchor),
-      ]
-    )
+    NSLayoutConstraint.activate([
+      numberField.heightAnchor.constraint(equalToConstant: textFieldHeight),
+      expirationField.heightAnchor.constraint(equalToConstant: textFieldHeight),
+      cvcField.heightAnchor.constraint(equalToConstant: textFieldHeight),
+      postalCodeField.heightAnchor.constraint(equalToConstant: textFieldHeight),
+    ])
   }
 
   // swiftlint:enable function_body_length
 
-  func updateFieldsViewBottomConstraint(isPostalCodeHidden: Bool) {
-    fieldsViewBottomConstraint?.isActive = false
-
-    let bottomAnchor = isPostalCodeHidden
-      ? expirationField.bottomAnchor
-      : postalCodeField.bottomAnchor
-
-    fieldsViewBottomConstraint = fieldsView.bottomAnchor.constraint(
-      equalTo: bottomAnchor,
-      constant: -0
-    )
-
-    fieldsViewBottomConstraint?.isActive = true
-  }
-
   func buildTextField() -> LineTextField {
     let textField = LineTextField(frame: .zero)
     textField.backgroundColor = .clear
+    textField.translatesAutoresizingMaskIntoConstraints = false
     textField.keyboardType = .asciiCapableNumberPad
     textField.font = .systemFont(ofSize: 18)
     textField.defaultColor = .darkText
@@ -359,13 +313,15 @@ private extension MultiLineCardForm {
     return textField
   }
 
-  func updateImageForFieldType(_ fieldType: SPCardFieldType) {
-    cardLogoManager.update(
-      brandImageView,
-      fieldType: fieldType,
-      brand: viewModel.brand,
-      validation: viewModel.validationState(for: fieldType)
-    )
+  func buildTitleLabel() -> UILabel {
+    let label = UILabel()
+    label.translatesAutoresizingMaskIntoConstraints = false
+    label.font = .systemFont(ofSize: 16)
+    label.textColor = .systemGray2
+    label.numberOfLines = 0
+    label.textAlignment = .left
+
+    return label
   }
 
   func onChange() {
@@ -412,6 +368,23 @@ private extension MultiLineCardForm {
   }
 }
 
+// MARK: Icon management
+private extension MultiLineCardForm {
+  func updateImageViews() {
+    cardImageManager.updateCardNumberImageView(
+      numberField.rightImageView,
+      brand: viewModel.brand,
+      validation: viewModel.validationState(for: .number)
+    )
+
+    cardImageManager.updateCVCImageView(
+      cvcField.rightImageView,
+      brand: viewModel.brand,
+      validation: viewModel.validationState(for: .CVC)
+    )
+  }
+}
+
 // MARK: SPFormTextFieldDelegate
 extension MultiLineCardForm: SPFormTextFieldDelegate {
   public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
@@ -434,7 +407,7 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
 
   public func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
     let _ = fieldEditingTransitionManager.getAndUpdateState(fromCall: .shouldEnd)
-    updateImageForFieldType(.number)
+    updateImageViews()
 
     return true
   }
@@ -444,7 +417,8 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
       return
     }
 
-    let isMidEditingTransition = fieldEditingTransitionManager.getAndUpdateState(fromCall: .didEnd)
+    let isMidEditingTransition = fieldEditingTransitionManager
+      .getAndUpdateState(fromCall: .didEnd)
 
     if fieldType == .number {
       let validationState = viewModel.validationState(for: .number)
@@ -457,7 +431,7 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
     onDidEndEditingField(fieldType: fieldType)
 
     if !isMidEditingTransition {
-      updateImageForFieldType(.number)
+      updateImageViews()
       onDidEndEditing()
     }
   }
@@ -476,14 +450,11 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
   }
 
   public func formTextFieldTextDidChange(_ textField: SPFormTextField) {
-    defer { onChange() }
     guard let fieldType = SPCardFieldType(rawValue: textField.tag) else {
       return
     }
 
     if fieldType == .number {
-      updateImageForFieldType(.number)
-
       // Changing the card number field can invalidate the CVC, e.g., going from 4
       // digit Amex CVC to 3 digit Visa
       cvcField.validText = viewModel.validationState(for: .CVC) != .invalid
@@ -525,6 +496,9 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
     @unknown default:
       break
     }
+
+    updateImageViews()
+    onChange()
   }
 
   public func formTextField(
@@ -624,5 +598,20 @@ private extension MultiLineCardForm {
     } else {
       return expirationField
     }
+  }
+}
+
+// MARK: UIKeyInput
+public extension MultiLineCardForm {
+  var hasText: Bool {
+    return numberField.hasText || expirationField.hasText || cvcField.hasText
+  }
+
+  func insertText(_ text: String) {
+    currentFirstResponderField?.insertText(text)
+  }
+
+  func deleteBackward() {
+    currentFirstResponderField?.deleteBackward()
   }
 }
