@@ -132,15 +132,15 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
 
   private lazy var postalCodeTitleLabel: UILabel = {
     let label = buildTitleLabel()
-    label.text = "BILLLING ADDRESS"
-
+    label.text = "BILLING ADDRESS"
+      
     return label
   }()
 
   private lazy var postalCodeStackView: UIStackView = {
     let stackView = UIStackView(arrangedSubviews: [postalCodeTitleLabel, postalCodeField])
     stackView.axis = .vertical
-    stackView.spacing = 8
+    stackView.spacing = 6
     stackView.distribution = .fill
     stackView.alignment = .fill
 
@@ -159,7 +159,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
   private lazy var cardInformationStackView: UIStackView = {
     let stackView = UIStackView(arrangedSubviews: [cardInformationTitleLabel, numberField])
     stackView.axis = .vertical
-    stackView.spacing = 5
+    stackView.spacing = 6
     stackView.distribution = .fill
     stackView.alignment = .fill
 
@@ -175,7 +175,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
       postalCodeStackView,
     ])
     stackView.axis = .vertical
-    stackView.spacing = 12
+    stackView.spacing = 14
     stackView.distribution = .fill
     stackView.alignment = .fill
 
@@ -184,26 +184,6 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
     return stackView
   }()
 
-//  private lazy var brandImageView: UIImageView = {
-//    let imageView = UIImageView(image: nil)
-//    imageView.contentMode = .center
-//    imageView.backgroundColor = .clear
-//    imageView.tintColor = .clear
-//    imageView.isUserInteractionEnabled = false
-//
-//    return imageView
-//  }()
-//
-//  private lazy var cvcFieldImageView: UIImageView = {
-//    let imageView = UIImageView(image: nil)
-//    imageView.contentMode = .center
-//    imageView.backgroundColor = .clear
-//    imageView.tintColor = .clear
-//    imageView.isUserInteractionEnabled = false
-//
-//    return imageView
-//  }()
-
   // MARK: Internal
   let viewModel: CardFormViewModel
 
@@ -211,7 +191,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
   private let fieldEditingTransitionManager = SPCardFormFieldEditingTransitionManager()
 
   // MARK: Constants
-  private let textFieldHeight: CGFloat = 60
+  private let textFieldHeight: CGFloat = 84
 
   // MARK: Initializers
   override public init(frame: CGRect) {
