@@ -22,9 +22,9 @@ public struct FieldOptions {
 }
 
 public struct FieldConfiguration {
-  public let display: CardFieldDisplay
+  public let display: DisplayConfiguration
 
-  public init(display: CardFieldDisplay) {
+  public init(display: DisplayConfiguration) {
     self.display = display
   }
 }

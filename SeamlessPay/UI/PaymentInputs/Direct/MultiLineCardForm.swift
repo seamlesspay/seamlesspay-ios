@@ -204,25 +204,16 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
   }
 
   // MARK: Internal interface
-  func setCVCDisplayConfig(_ displayConfig: CardFieldDisplay) {
-    let isCVCHidden = displayConfig == .none
-    let isCVCRequired = displayConfig == .required
-
-    viewModel.cvcDisplayed = !isCVCHidden
-    viewModel.cvcRequired = isCVCRequired
-
-    cvcField.isHidden = isCVCHidden
+  func setCVCDisplayConfig(_ displayConfig: DisplayConfiguration) {
+    viewModel.cvcDisplayConfig = displayConfig
+    cvcField.isHidden = !viewModel.cvcDisplayed
 
     layoutIfNeeded()
   }
 
-  func setPostalCodeDisplayConfig(_ displayConfig: CardFieldDisplay) {
-    let isPostalCodeHidden = displayConfig == .none
-    let isPostalCodeRequired = displayConfig == .required
-
-    viewModel.postalCodeDisplayed = !isPostalCodeHidden
-    viewModel.postalCodeRequired = isPostalCodeRequired
-    postalCodeStackView.isHidden = isPostalCodeHidden
+  func setPostalCodeDisplayConfig(_ displayConfig: DisplayConfiguration) {
+    viewModel.postalCodeDisplayConfig = displayConfig
+    postalCodeStackView.isHidden = !viewModel.postalCodeDisplayed
 
     layoutIfNeeded()
   }

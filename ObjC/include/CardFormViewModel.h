@@ -11,6 +11,7 @@
 #import "SPCardValidator.h"
 #import "SPPostalCodeValidator.h"
 #import "SPCardFieldType.h"
+#import "DisplayConfiguration.h"
 
 @interface CardFormViewModel : NSObject
 
@@ -19,15 +20,15 @@
 @property(nonatomic, readwrite, copy, nullable) NSString *rawExpiration;
 @property(nonatomic, readonly, nullable) NSString *expirationMonth;
 @property(nonatomic, readonly, nullable) NSString *expirationYear;
-@property(nonatomic, readwrite, assign) BOOL cvcDisplayed;
-@property(nonatomic, readwrite, assign) BOOL cvcRequired;
 @property(nonatomic, readwrite, copy, nullable) NSString *cvc;
-@property(nonatomic, readwrite, assign) BOOL postalCodeDisplayed;
-@property(nonatomic, readwrite, assign) BOOL postalCodeRequired;
 @property(nonatomic, readwrite, copy, nullable) NSString *postalCode;
 @property(nonatomic, readwrite, copy, nullable) NSString *postalCodeCountryCode;
 @property(nonatomic, readonly) SPCardBrand brand;
 @property(nonatomic, readonly) BOOL isValid;
+
+@property(nonatomic, assign) DisplayConfiguration cvcDisplayConfig;
+@property(nonatomic, assign) DisplayConfiguration postalCodeDisplayConfig;
+
 
 - (nonnull NSString *)defaultPlaceholder;
 - (SPCardValidationState)validationStateForField:(SPCardFieldType)fieldType;
