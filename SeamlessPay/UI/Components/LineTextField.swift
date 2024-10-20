@@ -9,26 +9,47 @@ import UIKit
 import Foundation
 
 public class LineTextField: SPFormTextField {
-  // MARK: Views
-  private let floatingPlaceholderLabel: UILabel = .init()
-  private let errorLabel: UILabel = .init()
+  // MARK: - UI Components
+  private let floatingPlaceholderLabel = UILabel()
+  private let errorLabel = UILabel()
+  private let backgroundFrameLayer = CALayer()
 
-  // MARK: Layers
-  private let backgroundFrameLayer: CALayer = .init()
+  // MARK: - Constants
+  private enum Constants {
+    static let paddingX: CGFloat = 10.0
+    static let paddingYElements: CGFloat = 3.0
+    static let paddingYFloatLabel: CGFloat = 5.0
+    static let cornerRadius: CGFloat = 5.0
+    static let borderWidth: CGFloat = 2.0
+    static let floatingPlaceholderFontSize: CGFloat = 16.0
+    static let errorLabelFontSize: CGFloat = 14.0
+    static let animationDuration: TimeInterval = 0.2
+  }
 
-  // MARK: Constants
-  private let paddingX: CGFloat = 10.0
-  private let paddingYElements: CGFloat = 3.0
-  private let paddingYFloatLabel: CGFloat = 5.0
+  // MARK: - Properties
+  var floatingPlaceholder: String? {
+    get { floatingPlaceholderLabel.text }
+    set { floatingPlaceholderLabel.text = newValue }
+  }
 
-  // MARK: Variables
-  private var isFirsResponderTransition: Bool = false
+  var errorMessage: String? {
+    get { errorLabel.text }
+    set {
+      errorLabel.text = newValue
+      updateErrorLabel()
+    }
+  }
+
+  private var isFirsResponderTransition = false
 
   private var originX: CGFloat {
-    guard let leftView = leftView else {
-      return paddingX
+    var originX = Constants.paddingX
+
+    if let leftView = leftView {
+      originX += leftView.frame.maxX
     }
-    return leftView.frame.maxX + paddingX
+
+    return originX
   }
 
   private var fontHeight: CGFloat {
@@ -53,112 +74,36 @@ public class LineTextField: SPFormTextField {
     return ceil(font.lineHeight)
   }
 
-  private var errorHeight: CGFloat {
-    errorFontHeight
-  }
-
   private var floatingPlaceholderWidth: CGFloat {
     var width = bounds.width
-
     if let leftViewWidth = leftView?.bounds.width {
       width -= leftViewWidth
     }
-
     if let rightViewWidth = rightView?.bounds.width {
       width -= rightViewWidth
     }
 
-    return width - (originX * 2)
+    width -= (originX * 2)
+
+    return width
   }
 
-  // MARK: Overrides
+  // MARK: - Overrides
   override public var validText: Bool {
-    get {
-      return super.validText
-    }
-    set {
-      super.validText = newValue
-      updateAppearance()
-    }
+    didSet { updateAppearance() }
   }
 
   override public var borderStyle: UITextField.BorderStyle {
-    get {
-      return super.borderStyle
-    }
-    set {
-      super.borderStyle = .none
-    }
+    get { .none }
+    set { super.borderStyle = .none }
   }
 
   override public var textAlignment: NSTextAlignment {
-    get {
-      return super.textAlignment
-    }
-    set {
-      super.textAlignment = .left
-    }
+    get { .left }
+    set { super.textAlignment = .left }
   }
 
-  override public func textRect(forBounds bounds: CGRect) -> CGRect {
-    let rect = super.textRect(forBounds: bounds)
-    return insetRectForBounds(rect: rect)
-  }
-
-  override public func editingRect(forBounds bounds: CGRect) -> CGRect {
-    let rect = super.editingRect(forBounds: bounds)
-    return insetRectForBounds(rect: rect)
-  }
-
-  override public func leftViewRect(forBounds bounds: CGRect) -> CGRect {
-    var rect = super.leftViewRect(forBounds: bounds)
-    rect.origin.y = (bounds.height - rect.size.height - errorHeight - paddingYElements) / 2
-    rect.origin.x = rect.origin.x + paddingX
-    return rect
-  }
-
-  override public func rightViewRect(forBounds bounds: CGRect) -> CGRect {
-    var rect = super.rightViewRect(forBounds: bounds)
-    rect.origin.y = (bounds.height - rect.size.height - errorHeight - paddingYElements) / 2
-    rect.origin.x = rect.origin.x - paddingX
-    return rect
-  }
-
-  override public func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
-    var rect = super.clearButtonRect(forBounds: bounds)
-    rect.origin.y = (bounds.height - rect.size.height) / 2
-    return rect
-  }
-
-  @objc override public func layoutSubviews() {
-    super.layoutSubviews()
-    if !isFirsResponderTransition {
-      updatePlaceholder(animated: false)
-    }
-
-    updateErrorLabel()
-    updateBackgroundLayer()
-  }
-
-  @objc override public func becomeFirstResponder() -> Bool {
-    let result = super.becomeFirstResponder()
-    isFirsResponderTransition = true
-    updatePlaceholder(animated: true)
-    updateAppearance()
-    isFirsResponderTransition = false
-    return result
-  }
-
-  @objc override public func resignFirstResponder() -> Bool {
-    let result = super.resignFirstResponder()
-    isFirsResponderTransition = true
-    updatePlaceholder(animated: true)
-    updateAppearance()
-    isFirsResponderTransition = false
-    return result
-  }
-
-  // MARK: - Initializers
+  // MARK: - Initialization
   public required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
     commonInit()
@@ -169,150 +114,187 @@ public class LineTextField: SPFormTextField {
     commonInit()
   }
 
-  // MARK: - Public Methods
-  public var floatingPlaceholder: String? {
-    set {
-      floatingPlaceholderLabel.text = newValue
-    }
-    get {
-      return floatingPlaceholderLabel.text
-    }
-  }
-
-  public var errorMessage: String? {
-    didSet {
-      errorLabel.text = errorMessage
-      toggleErrorLabel()
-    }
-  }
-
-  public lazy var rightImageView: UIImageView = {
-    let imageView = UIImageView(image: nil)
-    imageView.contentMode = .center
-    imageView.backgroundColor = .clear
-    imageView.tintColor = placeholderColor
-    imageView.isUserInteractionEnabled = false
-
-    return imageView
-  }()
-
-  override public var rightView: UIView? {
-    set {
-      super.rightView = rightImageView
-    }
-    get {
-      return super.rightView
-    }
-  }
-
-  // MARK: - Private Methods
   private func commonInit() {
+    setupTextField()
+    setupBackgroundLayer()
+    setupFloatingPlaceholder()
+    setupErrorLabel()
+    updateAppearance()
+  }
+
+  // MARK: - Setup Methods
+  private func setupTextField() {
     validText = true
     textAlignment = .left
     borderStyle = .none
     rightView = rightImageView
+  }
 
-    backgroundFrameLayer.cornerRadius = 5.0
-    backgroundFrameLayer.borderWidth = 2.0
-
+  private func setupBackgroundLayer() {
+    backgroundFrameLayer.cornerRadius = Constants.cornerRadius
+    backgroundFrameLayer.borderWidth = Constants.borderWidth
     layer.insertSublayer(backgroundFrameLayer, at: 0)
+  }
 
+  private func setupFloatingPlaceholder() {
     floatingPlaceholderLabel.alpha = 0.0
-    floatingPlaceholderLabel.font = .systemFont(ofSize: 16)
-    floatingPlaceholderLabel.text = floatingPlaceholder
+    floatingPlaceholderLabel.font = .systemFont(ofSize: Constants.floatingPlaceholderFontSize)
     floatingPlaceholderLabel.numberOfLines = 1
     addSubview(floatingPlaceholderLabel)
+  }
 
-    errorLabel.font = .systemFont(ofSize: 14)
-    errorLabel.text = errorMessage
+  private func setupErrorLabel() {
+    errorLabel.font = .systemFont(ofSize: Constants.errorLabelFontSize)
     errorLabel.numberOfLines = 1
     addSubview(errorLabel)
+  }
 
+  // MARK: - Layout
+  override public func layoutSubviews() {
+    super.layoutSubviews()
+    if !isFirsResponderTransition {
+      updatePlaceholder(animated: false)
+    }
+    updateErrorLabel()
+    updateBackgroundLayer()
+  }
+
+  // MARK: - UIResponder
+  override public func becomeFirstResponder() -> Bool {
+    let result = super.becomeFirstResponder()
+    handleResponderTransition()
+    return result
+  }
+
+  override public func resignFirstResponder() -> Bool {
+    let result = super.resignFirstResponder()
+    handleResponderTransition()
+    return result
+  }
+
+  private func handleResponderTransition() {
+    isFirsResponderTransition = true
+    updatePlaceholder(animated: true)
     updateAppearance()
+    isFirsResponderTransition = false
   }
 
-  private func toggleErrorLabel() {
-    errorLabel.isHidden = errorMessage?.isEmpty == true
+  // MARK: - Custom UI
+  lazy var rightImageView: UIImageView = {
+    let imageView = UIImageView()
+    imageView.contentMode = .center
+    imageView.backgroundColor = .clear
+    imageView.tintColor = placeholderColor
+    imageView.isUserInteractionEnabled = false
+    return imageView
+  }()
+
+  override public var rightView: UIView? {
+    get { rightImageView }
+    set { super.rightView = rightImageView }
   }
 
+  // MARK: - Private Methods
   private func updateErrorLabel() {
-    errorLabel.frame = .init(
+    errorLabel.frame = CGRect(
       x: 0,
-      y: frame.height - errorHeight,
+      y: frame.height - errorFontHeight,
       width: floatingPlaceholderWidth,
-      height: errorHeight
+      height: errorFontHeight
     )
-    toggleErrorLabel()
   }
 
   private func updateBackgroundLayer() {
-    backgroundFrameLayer.frame = .init(
+    backgroundFrameLayer.frame = CGRect(
       x: 0,
       y: 0,
       width: frame.width,
-      height: frame.height - errorHeight - paddingYElements
+      height: frame.height - errorFontHeight - Constants.paddingYElements
     )
   }
 
   private func updatePlaceholder(animated: Bool) {
-    guard placeholder == .none || placeholder?.isEmpty == true else {
-      return
-    }
-
-    let toFloat = isEditing || text?.isEmpty == false
-
-    toggleFloatingPlaceholder(toFloat: toFloat, animated: animated)
+    guard placeholder?.isEmpty ?? true else { return }
+    let shouldFloat = isEditing || !(text?.isEmpty ?? true)
+    toggleFloatingPlaceholder(toFloat: shouldFloat, animated: animated)
   }
 
   private func toggleFloatingPlaceholder(toFloat: Bool, animated: Bool) {
     floatingPlaceholderLabel.alpha = 1.0
-
-    let floatingPlaceholderNewFrame = CGRect(
+    let newFrame = CGRect(
       x: originX,
       y: toFloat
-        ? paddingYFloatLabel
-        : (frame.height - floatingPlaceholderHeight - errorHeight - paddingYElements) / 2,
+        ? Constants.paddingYFloatLabel
+        :
+        (frame.height - floatingPlaceholderHeight - errorFontHeight - Constants.paddingYElements) /
+        2,
       width: floatingPlaceholderWidth,
       height: floatingPlaceholderHeight
     )
-    let transformations: (() -> Void) = {
-      self.floatingPlaceholderLabel.frame = floatingPlaceholderNewFrame
-    }
+
+    let updateFrame = { self.floatingPlaceholderLabel.frame = newFrame }
 
     if animated {
       UIView.animate(
-        withDuration: 0.2,
-        delay: 0.0,
-        options: [
-          .beginFromCurrentState,
-          .curveEaseIn,
-        ],
-        animations: transformations
-      ) { status in
-        DispatchQueue.main.async {
-          self.layoutIfNeeded()
-        }
+        withDuration: Constants.animationDuration,
+        delay: 0,
+        options: [.beginFromCurrentState, .curveEaseIn],
+        animations: updateFrame
+      ) { _ in
+        self.layoutIfNeeded()
       }
     } else {
-      transformations()
+      updateFrame()
     }
   }
 
+  // MARK: - Overridden UITextField methods
+  override public func textRect(forBounds bounds: CGRect) -> CGRect {
+    insetRectForBounds(rect: super.textRect(forBounds: bounds))
+  }
+
+  override public func editingRect(forBounds bounds: CGRect) -> CGRect {
+    insetRectForBounds(rect: super.editingRect(forBounds: bounds))
+  }
+
+  override public func leftViewRect(forBounds bounds: CGRect) -> CGRect {
+    var rect = super.leftViewRect(forBounds: bounds)
+    rect.origin.y
+      = (bounds.height - rect.size.height - errorFontHeight - Constants.paddingYElements) / 2
+    rect.origin.x += Constants.paddingX
+    return rect
+  }
+
+  override public func rightViewRect(forBounds bounds: CGRect) -> CGRect {
+    var rect = super.rightViewRect(forBounds: bounds)
+    rect.origin.y
+      = (bounds.height - rect.size.height - errorFontHeight - Constants.paddingYElements) / 2
+    rect.origin.x -= Constants.paddingX
+    return rect
+  }
+
+  override public func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
+    var rect = super.clearButtonRect(forBounds: bounds)
+    rect.origin.y = (bounds.height - rect.size.height) / 2
+    return rect
+  }
+
   private func insetRectForBounds(rect: CGRect) -> CGRect {
-    return CGRect(
+    CGRect(
       x: originX,
       y: 0,
-      width: rect.size.width - originX - paddingX,
+      width: rect.size.width - originX - Constants.paddingX,
       height: rect.height
     )
   }
 }
 
+// MARK: - Appearance
 private extension LineTextField {
   func updateAppearance() {
-    let errorColor = errorColor ?? UIColor.red
-    let defaultColor = defaultColor ?? UIColor.darkText
-    let placeholderColor = placeholderColor ?? UIColor.systemGray2
+    let errorColor = errorColor ?? .red
+    let defaultColor = defaultColor ?? .darkText
+    let placeholderColor = placeholderColor ?? .systemGray2
     let focusColor = UIColor.systemBlue
 
     errorLabel.textColor = errorColor
@@ -321,34 +303,26 @@ private extension LineTextField {
     case (true, true): // focus and valid
       backgroundFrameLayer.borderColor = focusColor.cgColor
       backgroundFrameLayer.backgroundColor = UIColor.clear.cgColor
-
       floatingPlaceholderLabel.textColor = focusColor
       textColor = defaultColor
-
       rightImageView.tintColor = focusColor
     case (true, false): // focus and invalid
       backgroundFrameLayer.borderColor = errorColor.cgColor
       backgroundFrameLayer.backgroundColor = errorColor.withAlphaComponent(0.5).cgColor
-
       floatingPlaceholderLabel.textColor = errorColor
       textColor = errorColor
-
       rightImageView.tintColor = .clear
     case (false, true): // not focus and valid
       backgroundFrameLayer.borderColor = UIColor.clear.cgColor
       backgroundFrameLayer.backgroundColor = placeholderColor.withAlphaComponent(0.5).cgColor
-
       floatingPlaceholderLabel.textColor = placeholderColor
       textColor = defaultColor
-
       rightImageView.tintColor = placeholderColor
-    case(false, false): // not focus and invalid
+    case (false, false): // not focus and invalid
       backgroundFrameLayer.borderColor = UIColor.clear.cgColor
       backgroundFrameLayer.backgroundColor = errorColor.withAlphaComponent(0.5).cgColor
-
       floatingPlaceholderLabel.textColor = errorColor
       textColor = errorColor
-
       rightImageView.tintColor = .clear
     }
   }

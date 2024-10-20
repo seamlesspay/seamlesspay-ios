@@ -10,9 +10,6 @@ import UIKit
 public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
   // MARK: Public
   public var delegate: CardFormDelegate? = .none
-  public var brandImage: UIImage? {
-    numberField.rightImageView.image
-  }
 
   override public var isEnabled: Bool {
     get {
@@ -74,7 +71,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
 
   // MARK: Private
   private let cardImageManager = MultiLineCardImageManager()
-  private var allFields = [SPFormTextField]()
+  private var allFields = [LineTextField]()
 
   // MARK: Appearance
   private var placeholderColor: UIColor {
@@ -133,7 +130,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
   private lazy var postalCodeTitleLabel: UILabel = {
     let label = buildTitleLabel()
     label.text = "BILLING ADDRESS"
-      
+
     return label
   }()
 
@@ -524,11 +521,11 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
 
 // MARK: First responder manager
 private extension MultiLineCardForm {
-  var currentFirstResponderField: SPFormTextField? {
+  var currentFirstResponderField: LineTextField? {
     allFields.first { $0.isFirstResponder }
   }
 
-  var firstInvalidSubField: SPFormTextField? {
+  var firstInvalidSubField: LineTextField? {
     if !viewModel.isFieldValid(.number) {
       return numberField
     } else if !viewModel.isFieldValid(.expiration) {
@@ -542,7 +539,7 @@ private extension MultiLineCardForm {
     }
   }
 
-  var nextFirstResponderField: SPFormTextField {
+  var nextFirstResponderField: LineTextField {
     if let currentFirstResponderField,
        let currentIndex = allFields.firstIndex(of: currentFirstResponderField),
        currentIndex + 1 < allFields.count {
@@ -561,7 +558,7 @@ private extension MultiLineCardForm {
     return firstInvalidSubField ?? lastSubField
   }
 
-  var previousField: SPFormTextField? {
+  var previousField: LineTextField? {
     if let currentFirstResponderField,
        let index = allFields.firstIndex(of: currentFirstResponderField),
        index > 0 {
@@ -570,7 +567,7 @@ private extension MultiLineCardForm {
     return .none
   }
 
-  var lastSubField: SPFormTextField {
+  var lastSubField: LineTextField {
     if viewModel.postalCodeDisplayed {
       return postalCodeField
     } else if viewModel.cvcDisplayed {
