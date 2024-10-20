@@ -71,7 +71,22 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
 
   // MARK: Private
   private let cardImageManager = MultiLineCardImageManager()
-  private var allFields = [LineTextField]()
+  private var allFields: [LineTextField] {
+    [numberField, expirationField, cvcField, postalCodeField]
+  }
+
+  private var requiredFields: [LineTextField] {
+    var fields = [numberField, expirationField]
+    if viewModel.cvcRequired {
+      fields.append(cvcField)
+    }
+
+    if viewModel.postalCodeRequired {
+      fields.append(postalCodeField)
+    }
+
+    return fields
+  }
 
   // MARK: Appearance
   private var placeholderColor: UIColor {
@@ -223,8 +238,6 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
 private extension MultiLineCardForm {
   private func setUpSubViews() {
     addSubview(stackView)
-
-    allFields = [numberField, expirationField, cvcField, postalCodeField]
 
     configureViews()
     constraintViews()
@@ -388,6 +401,7 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
     let isMidEditingTransition = fieldEditingTransitionManager
       .getAndUpdateState(fromCall: .didEnd)
 
+
     if fieldType == .number {
       let validationState = viewModel.validationState(for: .number)
 
@@ -405,7 +419,7 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
   }
 
   public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-    if textField == lastSubField && firstInvalidSubField == .none {
+    if textField == lastSubField && firstNotValidField == .none {
       // User pressed return in the last field, and all fields are valid
       onWillEndEditingForReturn()
       _ = resignFirstResponder()
@@ -516,7 +530,7 @@ private extension MultiLineCardForm {
     allFields.first { $0.isFirstResponder }
   }
 
-  var firstInvalidSubField: LineTextField? {
+  var firstNotValidField: LineTextField? {
     if !viewModel.isFieldValid(.number) {
       return numberField
     } else if !viewModel.isFieldValid(.expiration) {
@@ -546,7 +560,7 @@ private extension MultiLineCardForm {
       }
     }
 
-    return firstInvalidSubField ?? lastSubField
+    return firstNotValidField ?? lastSubField
   }
 
   var previousField: LineTextField? {
