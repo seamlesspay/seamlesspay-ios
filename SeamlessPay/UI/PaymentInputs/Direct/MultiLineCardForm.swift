@@ -75,19 +75,6 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
     [numberField, expirationField, cvcField, postalCodeField]
   }
 
-  private var requiredFields: [LineTextField] {
-    var fields = [numberField, expirationField]
-    if viewModel.cvcRequired {
-      fields.append(cvcField)
-    }
-
-    if viewModel.postalCodeRequired {
-      fields.append(postalCodeField)
-    }
-
-    return fields
-  }
-
   // MARK: Appearance
   private var placeholderColor: UIColor {
     return UIColor.systemGray2
@@ -374,8 +361,8 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
   }
 
   public func textFieldDidBeginEditing(_ textField: UITextField) {
-    let isMidEditingTransition = fieldEditingTransitionManager
-      .getAndUpdateState(fromCall: .didBegin)
+    let isMidEditingTransition =
+      fieldEditingTransitionManager.getAndUpdateState(fromCall: .didBegin)
 
     if !isMidEditingTransition {
       onDidBeginEditing()
@@ -398,17 +385,8 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
       return
     }
 
-    let isMidEditingTransition = fieldEditingTransitionManager
-      .getAndUpdateState(fromCall: .didEnd)
-
-
-    if fieldType == .number {
-      let validationState = viewModel.validationState(for: .number)
-
-      if validationState == .incomplete {
-        (textField as? SPFormTextField)?.validText = false
-      }
-    }
+    let isMidEditingTransition =
+      fieldEditingTransitionManager.getAndUpdateState(fromCall: .didEnd)
 
     onDidEndEditingField(fieldType: fieldType)
 
@@ -419,7 +397,7 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
   }
 
   public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-    if textField == lastSubField && firstNotValidField == .none {
+    if textField == lastSubField && firstInvalidSubField == .none {
       // User pressed return in the last field, and all fields are valid
       onWillEndEditingForReturn()
       _ = resignFirstResponder()
@@ -530,37 +508,19 @@ private extension MultiLineCardForm {
     allFields.first { $0.isFirstResponder }
   }
 
-  var firstNotValidField: LineTextField? {
-    if !viewModel.isFieldValid(.number) {
-      return numberField
-    } else if !viewModel.isFieldValid(.expiration) {
-      return expirationField
-    } else if viewModel.cvcRequired, !viewModel.isFieldValid(.CVC) {
-      return cvcField
-    } else if viewModel.postalCodeRequired, !viewModel.isFieldValid(.postalCode) {
-      return postalCodeField
-    } else {
-      return .none
-    }
-  }
-
   var nextFirstResponderField: LineTextField {
     if let currentFirstResponderField,
        let currentIndex = allFields.firstIndex(of: currentFirstResponderField),
        currentIndex + 1 < allFields.count {
       let potentialNextField = allFields[currentIndex + 1]
 
-      if potentialNextField == postalCodeField && viewModel.postalCodeDisplayed {
-        return potentialNextField
-      } else if potentialNextField == cvcField && viewModel.cvcDisplayed {
-        return potentialNextField
-
-      } else {
+      if let fieldType = SPCardFieldType(rawValue: potentialNextField.tag),
+         viewModel.isFieldDisplayed(fieldType) {
         return potentialNextField
       }
     }
 
-    return firstNotValidField ?? lastSubField
+    return firstInvalidSubField ?? lastSubField
   }
 
   var previousField: LineTextField? {
@@ -579,6 +539,24 @@ private extension MultiLineCardForm {
       return cvcField
     } else {
       return expirationField
+    }
+  }
+}
+
+// MARK: Invalid field management
+extension MultiLineCardForm {
+  var firstInvalidSubField: LineTextField? {
+    firstNotValidFieldFrom(allFields)
+  }
+
+  func firstNotValidFieldFrom(_ fields: [LineTextField]) -> LineTextField? {
+    fields.first { field in
+      guard let fieldType = SPCardFieldType(rawValue: field.tag),
+            viewModel.isFieldRequired(fieldType),
+            !viewModel.isFieldValid(fieldType) else {
+        return false
+      }
+      return true
     }
   }
 }
