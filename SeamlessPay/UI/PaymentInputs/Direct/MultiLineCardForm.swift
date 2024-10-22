@@ -546,17 +546,56 @@ private extension MultiLineCardForm {
 // MARK: Invalid field management
 extension MultiLineCardForm {
   var firstInvalidSubField: LineTextField? {
-    firstNotValidFieldFrom(allFields)
+    allFields.first { field in
+      guard let fieldType = SPCardFieldType(rawValue: field.tag) else { return false }
+      return viewModel.isFieldRequired(fieldType) && !viewModel.isFieldValid(fieldType)
+    }
+  }
+}
+
+// MARK: Validate submission
+extension MultiLineCardForm {
+  func validateSubmission() -> Bool {
+    if let error = onSubmitValidation() {
+      handleOnSubmitValidationError(error)
+      return false
+    }
+    return true
   }
 
-  func firstNotValidFieldFrom(_ fields: [LineTextField]) -> LineTextField? {
-    fields.first { field in
-      guard let fieldType = SPCardFieldType(rawValue: field.tag),
-            viewModel.isFieldRequired(fieldType),
-            !viewModel.isFieldValid(fieldType) else {
-        return false
-      }
-      return true
+  private func onSubmitValidation() -> CardFormError? {
+    for field in allFields {
+      guard let fieldType = SPCardFieldType(rawValue: field.tag) else { continue }
+      return viewModel.onSubmitValidationForField(fieldType)
+    }
+
+    return .none
+  }
+
+  private func handleOnSubmitValidationError(_ error: CardFormError) {
+    let field: LineTextField?
+
+    switch error {
+    case .numberInvalid,
+         .numberRequired:
+      field = numberField
+    case .expirationInvalid,
+         .expirationInvalidDate,
+         .expirationRequired:
+      field = expirationField
+    case .cvcInvalid,
+         .cvcRequired:
+      field = cvcField
+    case .postalCodeInvalid,
+         .postalCodeRequired:
+      field = postalCodeField
+    case .clientError:
+      field = .none
+    }
+
+    if let field {
+      field.validText = false
+      field.errorMessage = error.localizedDescription
     }
   }
 }

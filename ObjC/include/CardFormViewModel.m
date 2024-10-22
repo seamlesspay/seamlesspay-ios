@@ -161,10 +161,12 @@
 }
 
 - (BOOL)isValid {
-  return ([self isFieldValid:SPCardFieldTypeNumber] &&
-          [self isFieldValid:SPCardFieldTypeExpiration] &&
-          (!self.cvcDisplayConfig == DisplayConfigurationRequired || [self isFieldValid:SPCardFieldTypeCVC]) &&
-          (!self.postalCodeDisplayConfig == DisplayConfigurationRequired || [self isFieldValid:SPCardFieldTypePostalCode]));
+  BOOL isNumberValid = [self isFieldValid:SPCardFieldTypeNumber];
+  BOOL isExpirationValid = [self isFieldValid:SPCardFieldTypeExpiration];
+  BOOL isCvcValid = !self.cvcRequired || [self isFieldValid:SPCardFieldTypeCVC];
+  BOOL isPostalCodeValid = !self.postalCodeRequired || [self isFieldValid:SPCardFieldTypePostalCode];
+
+  return isNumberValid && isExpirationValid && isCvcValid && isPostalCodeValid;
 }
 
 - (NSString *)defaultPlaceholder {
