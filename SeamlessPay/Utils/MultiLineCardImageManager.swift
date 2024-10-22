@@ -19,13 +19,13 @@ class MultiLineCardImageManager {
   }
 
   func updateImageView(
-    _ imageView: UIImageView,
+    _ lineTextField: LineTextField,
     for field: MultiLineCardImageManager.Field,
     brand: SPCardBrand,
     isValid: Bool
   ) {
     let image = image(for: field, brand: brand, isValid: isValid)
-    updateImageViewIfNeeded(imageView, image: image)
+    updateImageViewIfNeeded(lineTextField, image: image)
   }
 
   // MARK: Private
@@ -51,17 +51,18 @@ class MultiLineCardImageManager {
     }
   }
 
-  private func updateImageViewIfNeeded(_ imageView: UIImageView, image: UIImage?) {
-    guard imageView.image != image else {
+  private func updateImageViewIfNeeded(_ lineTextField: LineTextField, image: UIImage?) {
+    guard lineTextField.rightImageView.image != image else {
       return
     }
 
     UIView.transition(
-      with: imageView,
+      with: lineTextField,
       duration: 0.2,
       options: [.curveEaseInOut, .transitionCrossDissolve],
-      animations: { imageView.image = image },
-      completion: nil
+      animations: { lineTextField.rightImageView.image = image },
+      completion: .none
     )
+    lineTextField.layoutSubviews()
   }
 }

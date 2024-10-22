@@ -7,7 +7,7 @@
 
 import UIKit
 
-public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
+public class MultiLineCardForm: UIControl, CardForm {
   // MARK: Public
   public var delegate: CardFormDelegate? = .none
 
@@ -355,7 +355,7 @@ private extension MultiLineCardForm {
     isValid: Bool
   ) {
     cardImageManager.updateImageView(
-      numberField.rightImageView,
+      numberField,
       for: .number,
       brand: viewModel.brand,
       isValid: isValid
@@ -366,7 +366,7 @@ private extension MultiLineCardForm {
     isValid: Bool
   ) {
     cardImageManager.updateImageView(
-      cvcField.rightImageView,
+      cvcField,
       for: .cvc,
       brand: viewModel.brand,
       isValid: isValid
@@ -603,6 +603,14 @@ extension MultiLineCardForm {
   }
 
   private func handleOnSubmitValidationError(_ error: CardFormError) {
+
+    // Reset all fields to valid
+    allFields.forEach { field in
+      field.validText = true
+      field.errorMessage = .none
+    }
+
+    // Look up for the field that failed
     let failedField: LineTextField?
 
     switch error {
@@ -630,6 +638,7 @@ extension MultiLineCardForm {
     failedField.validText = false
     failedField.errorMessage = error.localizedDescription
 
+    // Update the images to show the error state after stricter validation
     switch failedFieldType {
     case .number:
       updateCardNumberImage(isValid: false)
@@ -638,20 +647,5 @@ extension MultiLineCardForm {
     default:
       break
     }
-  }
-}
-
-// MARK: UIKeyInput
-public extension MultiLineCardForm {
-  var hasText: Bool {
-    return numberField.hasText || expirationField.hasText || cvcField.hasText
-  }
-
-  func insertText(_ text: String) {
-    currentFirstResponderField?.insertText(text)
-  }
-
-  func deleteBackward() {
-    currentFirstResponderField?.deleteBackward()
   }
 }

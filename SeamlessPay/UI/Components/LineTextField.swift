@@ -103,6 +103,11 @@ public class LineTextField: SPFormTextField {
     set { super.textAlignment = .left }
   }
 
+  public override var clearButtonMode: UITextField.ViewMode {
+    get { .never }
+    set { super.clearButtonMode = .never }
+  }
+
   // MARK: - Initialization
   public required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
