@@ -11,35 +11,30 @@ import UIKit
 import Foundation
 
 class MultiLineCardImageManager {
-  private enum ImagedField {
+
+  // MARK: Interface
+  enum Field {
     case number
     case cvc
   }
 
-  func updateCardNumberImageView(
-    _ imageView: UIImageView,
+  func updateImageView(
+    _ lineTextField: LineTextField,
+    for field: MultiLineCardImageManager.Field,
     brand: SPCardBrand,
-    validation: SPCardValidationState
+    isValid: Bool
   ) {
-    let image = image(for: .number, brand: brand, validation: validation)
-    updateImageViewIfNeeded(imageView, image: image)
+    let image = image(for: field, brand: brand, isValid: isValid)
+    updateImageViewIfNeeded(lineTextField, image: image)
   }
 
-  func updateCVCImageView(
-    _ imageView: UIImageView,
-    brand: SPCardBrand,
-    validation: SPCardValidationState
-  ) {
-    let image = image(for: .cvc, brand: brand, validation: validation)
-    updateImageViewIfNeeded(imageView, image: image)
-  }
-
+  // MARK: Private
   private func image(
-    for field: ImagedField,
+    for field: MultiLineCardImageManager.Field,
     brand: SPCardBrand,
-    validation: SPCardValidationState
+    isValid: Bool
   ) -> UIImage? {
-    guard validation != .invalid else {
+    guard isValid else {
       return SPImageLibrary.renewed_errorImage()
     }
 
@@ -56,17 +51,18 @@ class MultiLineCardImageManager {
     }
   }
 
-  private func updateImageViewIfNeeded(_ imageView: UIImageView, image: UIImage?) {
-    guard imageView.image != image else {
+  private func updateImageViewIfNeeded(_ lineTextField: LineTextField, image: UIImage?) {
+    guard lineTextField.rightImageView.image != image else {
       return
     }
 
     UIView.transition(
-      with: imageView,
+      with: lineTextField,
       duration: 0.2,
       options: [.curveEaseInOut, .transitionCrossDissolve],
-      animations: { imageView.image = image },
-      completion: nil
+      animations: { lineTextField.rightImageView.image = image },
+      completion: .none
     )
+    lineTextField.layoutSubviews()
   }
 }

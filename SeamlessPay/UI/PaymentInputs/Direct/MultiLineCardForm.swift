@@ -7,12 +7,9 @@
 
 import UIKit
 
-public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
+public class MultiLineCardForm: UIControl, CardForm {
   // MARK: Public
   public var delegate: CardFormDelegate? = .none
-  public var brandImage: UIImage? {
-    numberField.rightImageView.image
-  }
 
   override public var isEnabled: Bool {
     get {
@@ -74,7 +71,9 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
 
   // MARK: Private
   private let cardImageManager = MultiLineCardImageManager()
-  private var allFields = [SPFormTextField]()
+  private var allFields: [LineTextField] {
+    [numberField, expirationField, cvcField, postalCodeField]
+  }
 
   // MARK: Appearance
   private var placeholderColor: UIColor {
@@ -132,7 +131,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
 
   private lazy var postalCodeTitleLabel: UILabel = {
     let label = buildTitleLabel()
-    label.text = "BILLLING ADDRESS"
+    label.text = "BILLING ADDRESS"
 
     return label
   }()
@@ -140,7 +139,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
   private lazy var postalCodeStackView: UIStackView = {
     let stackView = UIStackView(arrangedSubviews: [postalCodeTitleLabel, postalCodeField])
     stackView.axis = .vertical
-    stackView.spacing = 8
+    stackView.spacing = 6
     stackView.distribution = .fill
     stackView.alignment = .fill
 
@@ -159,7 +158,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
   private lazy var cardInformationStackView: UIStackView = {
     let stackView = UIStackView(arrangedSubviews: [cardInformationTitleLabel, numberField])
     stackView.axis = .vertical
-    stackView.spacing = 5
+    stackView.spacing = 6
     stackView.distribution = .fill
     stackView.alignment = .fill
 
@@ -175,7 +174,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
       postalCodeStackView,
     ])
     stackView.axis = .vertical
-    stackView.spacing = 12
+    stackView.spacing = 14
     stackView.distribution = .fill
     stackView.alignment = .fill
 
@@ -184,26 +183,6 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
     return stackView
   }()
 
-//  private lazy var brandImageView: UIImageView = {
-//    let imageView = UIImageView(image: nil)
-//    imageView.contentMode = .center
-//    imageView.backgroundColor = .clear
-//    imageView.tintColor = .clear
-//    imageView.isUserInteractionEnabled = false
-//
-//    return imageView
-//  }()
-//
-//  private lazy var cvcFieldImageView: UIImageView = {
-//    let imageView = UIImageView(image: nil)
-//    imageView.contentMode = .center
-//    imageView.backgroundColor = .clear
-//    imageView.tintColor = .clear
-//    imageView.isUserInteractionEnabled = false
-//
-//    return imageView
-//  }()
-
   // MARK: Internal
   let viewModel: CardFormViewModel
 
@@ -211,7 +190,7 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
   private let fieldEditingTransitionManager = SPCardFormFieldEditingTransitionManager()
 
   // MARK: Constants
-  private let textFieldHeight: CGFloat = 60
+  private let textFieldHeight: CGFloat = 84
 
   // MARK: Initializers
   override public init(frame: CGRect) {
@@ -227,25 +206,16 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
   }
 
   // MARK: Internal interface
-  func setCVCDisplayConfig(_ displayConfig: CardFieldDisplay) {
-    let isCVCHidden = displayConfig == .none
-    let isCVCRequired = displayConfig == .required
-
-    viewModel.cvcDisplayed = !isCVCHidden
-    viewModel.cvcRequired = isCVCRequired
-
-    cvcField.isHidden = isCVCHidden
+  func setCVCDisplayConfig(_ displayConfig: DisplayConfiguration) {
+    viewModel.cvcDisplayConfig = displayConfig
+    cvcField.isHidden = !viewModel.cvcDisplayed
 
     layoutIfNeeded()
   }
 
-  func setPostalCodeDisplayConfig(_ displayConfig: CardFieldDisplay) {
-    let isPostalCodeHidden = displayConfig == .none
-    let isPostalCodeRequired = displayConfig == .required
-
-    viewModel.postalCodeDisplayed = !isPostalCodeHidden
-    viewModel.postalCodeRequired = isPostalCodeRequired
-    postalCodeStackView.isHidden = isPostalCodeHidden
+  func setPostalCodeDisplayConfig(_ displayConfig: DisplayConfiguration) {
+    viewModel.postalCodeDisplayConfig = displayConfig
+    postalCodeStackView.isHidden = !viewModel.postalCodeDisplayed
 
     layoutIfNeeded()
   }
@@ -255,8 +225,6 @@ public class MultiLineCardForm: UIControl, CardForm, UIKeyInput {
 private extension MultiLineCardForm {
   private func setUpSubViews() {
     addSubview(stackView)
-
-    allFields = [numberField, expirationField, cvcField, postalCodeField]
 
     configureViews()
     constraintViews()
@@ -269,7 +237,7 @@ private extension MultiLineCardForm {
 
     cvcField.rightViewMode = .always
 
-    updateImageViews()
+    updateImages()
 
     countryCode = Locale.autoupdatingCurrent.identifier
   }
@@ -323,7 +291,10 @@ private extension MultiLineCardForm {
 
     return label
   }
+}
 
+// MARK: CardFormDelegate Calls
+private extension MultiLineCardForm {
   func onChange() {
     let selector = NSSelectorFromString("cardFormDidChange:")
     if let delegate, delegate.responds(to: selector) {
@@ -370,17 +341,35 @@ private extension MultiLineCardForm {
 
 // MARK: Icon management
 private extension MultiLineCardForm {
-  func updateImageViews() {
-    cardImageManager.updateCardNumberImageView(
-      numberField.rightImageView,
-      brand: viewModel.brand,
-      validation: viewModel.validationState(for: .number)
+  func updateImages() {
+    updateCardNumberImage(
+      isValid: viewModel.validationState(for: .number) != .invalid
     )
 
-    cardImageManager.updateCVCImageView(
-      cvcField.rightImageView,
+    updateCVCImage(
+      isValid: viewModel.validationState(for: .CVC) != .invalid
+    )
+  }
+
+  func updateCardNumberImage(
+    isValid: Bool
+  ) {
+    cardImageManager.updateImageView(
+      numberField,
+      for: .number,
       brand: viewModel.brand,
-      validation: viewModel.validationState(for: .CVC)
+      isValid: isValid
+    )
+  }
+
+  func updateCVCImage(
+    isValid: Bool
+  ) {
+    cardImageManager.updateImageView(
+      cvcField,
+      for: .cvc,
+      brand: viewModel.brand,
+      isValid: isValid
     )
   }
 }
@@ -393,8 +382,8 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
   }
 
   public func textFieldDidBeginEditing(_ textField: UITextField) {
-    let isMidEditingTransition = fieldEditingTransitionManager
-      .getAndUpdateState(fromCall: .didBegin)
+    let isMidEditingTransition =
+      fieldEditingTransitionManager.getAndUpdateState(fromCall: .didBegin)
 
     if !isMidEditingTransition {
       onDidBeginEditing()
@@ -407,7 +396,7 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
 
   public func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
     let _ = fieldEditingTransitionManager.getAndUpdateState(fromCall: .shouldEnd)
-    updateImageViews()
+    updateImages()
 
     return true
   }
@@ -417,21 +406,13 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
       return
     }
 
-    let isMidEditingTransition = fieldEditingTransitionManager
-      .getAndUpdateState(fromCall: .didEnd)
-
-    if fieldType == .number {
-      let validationState = viewModel.validationState(for: .number)
-
-      if validationState == .incomplete {
-        (textField as? SPFormTextField)?.validText = false
-      }
-    }
+    let isMidEditingTransition =
+      fieldEditingTransitionManager.getAndUpdateState(fromCall: .didEnd)
 
     onDidEndEditingField(fieldType: fieldType)
 
     if !isMidEditingTransition {
-      updateImageViews()
+      updateImages()
       onDidEndEditing()
     }
   }
@@ -443,16 +424,21 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
       _ = resignFirstResponder()
     } else {
       // Otherwise, move to the next field
-      nextFirstResponderField.becomeFirstResponder()
+      _ = nextFirstResponderField.becomeFirstResponder()
     }
 
     return false
   }
 
   public func formTextFieldTextDidChange(_ textField: SPFormTextField) {
-    guard let fieldType = SPCardFieldType(rawValue: textField.tag) else {
+    guard let fieldType = SPCardFieldType(rawValue: textField.tag),
+          let textField = textField as? LineTextField else {
       return
     }
+
+    // Reset the error message set during on submit validation
+    // when the user starts changing the input
+    textField.errorMessage = .none
 
     if fieldType == .number {
       // Changing the card number field can invalidate the CVC, e.g., going from 4
@@ -492,12 +478,12 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
       }
 
       // This is a no-op if this is the last field & they're all valid
-      nextFirstResponderField.becomeFirstResponder()
+      _ = nextFirstResponderField.becomeFirstResponder()
     @unknown default:
       break
     }
 
-    updateImageViews()
+    updateImages()
     onChange()
   }
 
@@ -534,7 +520,7 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
   public func formTextFieldDidBackspace(onEmpty formTextField: SPFormTextField) {
     guard let previousField else { return }
 
-    previousField.becomeFirstResponder()
+    _ = previousField.becomeFirstResponder()
 
     if previousField.hasText {
       previousField.deleteBackward()
@@ -544,36 +530,18 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
 
 // MARK: First responder manager
 private extension MultiLineCardForm {
-  var currentFirstResponderField: SPFormTextField? {
+  var currentFirstResponderField: LineTextField? {
     allFields.first { $0.isFirstResponder }
   }
 
-  var firstInvalidSubField: SPFormTextField? {
-    if !viewModel.isFieldValid(.number) {
-      return numberField
-    } else if !viewModel.isFieldValid(.expiration) {
-      return expirationField
-    } else if viewModel.cvcRequired, !viewModel.isFieldValid(.CVC) {
-      return cvcField
-    } else if viewModel.postalCodeRequired, !viewModel.isFieldValid(.postalCode) {
-      return postalCodeField
-    } else {
-      return .none
-    }
-  }
-
-  var nextFirstResponderField: SPFormTextField {
+  var nextFirstResponderField: LineTextField {
     if let currentFirstResponderField,
        let currentIndex = allFields.firstIndex(of: currentFirstResponderField),
        currentIndex + 1 < allFields.count {
       let potentialNextField = allFields[currentIndex + 1]
 
-      if potentialNextField == postalCodeField && viewModel.postalCodeDisplayed {
-        return potentialNextField
-      } else if potentialNextField == cvcField && viewModel.cvcDisplayed {
-        return potentialNextField
-
-      } else {
+      if let fieldType = SPCardFieldType(rawValue: potentialNextField.tag),
+         viewModel.isFieldDisplayed(fieldType) {
         return potentialNextField
       }
     }
@@ -581,7 +549,7 @@ private extension MultiLineCardForm {
     return firstInvalidSubField ?? lastSubField
   }
 
-  var previousField: SPFormTextField? {
+  var previousField: LineTextField? {
     if let currentFirstResponderField,
        let index = allFields.firstIndex(of: currentFirstResponderField),
        index > 0 {
@@ -590,7 +558,7 @@ private extension MultiLineCardForm {
     return .none
   }
 
-  var lastSubField: SPFormTextField {
+  var lastSubField: LineTextField {
     if viewModel.postalCodeDisplayed {
       return postalCodeField
     } else if viewModel.cvcDisplayed {
@@ -601,17 +569,84 @@ private extension MultiLineCardForm {
   }
 }
 
-// MARK: UIKeyInput
-public extension MultiLineCardForm {
-  var hasText: Bool {
-    return numberField.hasText || expirationField.hasText || cvcField.hasText
-  }
-
-  func insertText(_ text: String) {
-    currentFirstResponderField?.insertText(text)
-  }
-
-  func deleteBackward() {
-    currentFirstResponderField?.deleteBackward()
+// MARK: Invalid field management
+extension MultiLineCardForm {
+  var firstInvalidSubField: LineTextField? {
+    allFields.first { field in
+      guard let fieldType = SPCardFieldType(rawValue: field.tag) else { return false }
+      return viewModel.isFieldRequired(fieldType) && !viewModel.isFieldValid(fieldType)
+    }
   }
 }
+
+// MARK: On Submit Validation
+extension MultiLineCardForm {
+  func validateSubmission() -> Bool {
+    if let error = onSubmitValidation() {
+      handleOnSubmitValidationError(error)
+      return false
+    }
+    return true
+  }
+
+  private func onSubmitValidation() -> CardFormError? {
+    for field in allFields {
+      guard let fieldType = SPCardFieldType(rawValue: field.tag),
+            let error = viewModel.onSubmitValidationForField(fieldType) else {
+        continue
+      }
+
+      return error
+    }
+
+    return .none
+  }
+
+  private func handleOnSubmitValidationError(_ error: CardFormError) {
+
+    // Reset all fields to valid
+    allFields.forEach { field in
+      field.validText = true
+      field.errorMessage = .none
+    }
+
+    // Look up for the field that failed
+    let failedField: LineTextField?
+
+    switch error {
+    case .numberInvalid,
+         .numberRequired:
+      failedField = numberField
+    case .expirationInvalid,
+         .expirationInvalidDate,
+         .expirationRequired:
+      failedField = expirationField
+    case .cvcInvalid,
+         .cvcRequired:
+      failedField = cvcField
+    case .postalCodeInvalid,
+         .postalCodeRequired:
+      failedField = postalCodeField
+    case .clientError:
+      failedField = .none
+    }
+
+    guard let failedField, let failedFieldType = SPCardFieldType(rawValue: failedField.tag) else {
+      return
+    }
+
+    failedField.validText = false
+    failedField.errorMessage = error.localizedDescription
+
+    // Update the images to show the error state after stricter validation
+    switch failedFieldType {
+    case .number:
+      updateCardNumberImage(isValid: false)
+    case .CVC:
+      updateCVCImage(isValid: false)
+    default:
+      break
+    }
+  }
+}
+ 

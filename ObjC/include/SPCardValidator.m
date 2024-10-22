@@ -118,8 +118,7 @@ static NSString *_Nonnull stringByRemovingCharactersFromSet(NSString *_Nonnull s
     case 1:
       return SPCardValidationStateIncomplete;
     case 2: {
-      if ([self validationStateForExpirationMonth:sanitizedMonth] ==
-          SPCardValidationStateInvalid) {
+      if ([self validationStateForExpirationMonth:sanitizedMonth] == SPCardValidationStateInvalid) {
         return SPCardValidationStateInvalid;
       } else {
         if (sanitizedYear.integerValue == moddedYear) {
@@ -178,63 +177,20 @@ inMonth:(NSString *)expirationMonth {
   if (![self stringIsNumeric:sanitizedNumber]) {
     return SPCardValidationStateInvalid;
   }
-  SPBINRange *binRange =
-  [SPBINRange mostSpecificBINRangeForNumber:sanitizedNumber];
+
+  SPBINRange *binRange = [SPBINRange mostSpecificBINRangeForNumber:sanitizedNumber];
   if (binRange.brand == SPCardBrandUnknown && validatingCardBrand) {
     return SPCardValidationStateInvalid;
   }
+
   if (sanitizedNumber.length == binRange.length) {
     BOOL isValidLuhn = [self stringIsValidLuhn:sanitizedNumber];
-    return isValidLuhn ? SPCardValidationStateValid
-    : SPCardValidationStateInvalid;
+    return isValidLuhn ? SPCardValidationStateValid : SPCardValidationStateInvalid;
   } else if (sanitizedNumber.length > binRange.length) {
     return SPCardValidationStateInvalid;
   } else {
     return SPCardValidationStateIncomplete;
   }
-}
-
-+ (SPCardValidationState)validationStateForCard:(nonnull SPCardParams *)card
-                                  inCurrentYear:(NSInteger)currentYear
-                                   currentMonth:(NSInteger)currentMonth {
-  SPCardValidationState numberValidation =
-  [self validationStateForNumber:card.number validatingCardBrand:YES];
-  NSString *expMonthString =
-  [NSString stringWithFormat:@"%02lu", (unsigned long)card.expMonth];
-  SPCardValidationState expMonthValidation =
-  [self validationStateForExpirationMonth:expMonthString];
-  NSString *expYearString =
-  [NSString stringWithFormat:@"%02lu", (unsigned long)card.expYear % 100];
-  SPCardValidationState expYearValidation =
-  [self validationStateForExpirationYear:expYearString
-                                 inMonth:expMonthString
-                           inCurrentYear:currentYear
-                            currentMonth:currentMonth];
-  SPCardBrand brand = [self brandForNumber:card.number];
-  SPCardValidationState cvcValidation = [self validationStateForCVC:card.cvc
-                                                          cardBrand:brand];
-
-  NSArray<NSNumber *> *states = @[
-    @(numberValidation), @(expMonthValidation), @(expYearValidation),
-    @(cvcValidation)
-  ];
-  BOOL incomplete = NO;
-  for (NSNumber *boxedState in states) {
-    SPCardValidationState state = [boxedState integerValue];
-    if (state == SPCardValidationStateInvalid) {
-      return state;
-    } else if (state == SPCardValidationStateIncomplete) {
-      incomplete = YES;
-    }
-  }
-  return incomplete ? SPCardValidationStateIncomplete
-  : SPCardValidationStateValid;
-}
-
-+ (SPCardValidationState)validationStateForCard:(SPCardParams *)card {
-  return [self validationStateForCard:card
-                        inCurrentYear:[self currentYear]
-                         currentMonth:[self currentMonth]];
 }
 
 + (NSUInteger)minCVCLength {

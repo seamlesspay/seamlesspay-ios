@@ -13,6 +13,7 @@
 #import "SPFormTextField.h"
 #import "SingleLineCardForm.h"
 #import "CardFormViewModel.h"
+#import "CardFormViewModel+FieldConfigs.h"
 #import "SingleLineCardImageManager.h"
 #import "SPCardFormFieldEditingTransitionManager.h"
 
@@ -275,22 +276,6 @@ CGFloat const SingleLineCardFormBoundsMaximumHeight = 44;
   [self updatePostalFieldPlaceholder];
 }
 
-- (BOOL)postalCodeEntryDisplayed {
-  return self.viewModel.postalCodeDisplayed;
-}
-
-- (BOOL)postalCodeEntryRequired {
-  return self.viewModel.postalCodeRequired;
-}
-
-- (BOOL)cvcEntryDisplayed {
-  return self.viewModel.cvcDisplayed;
-}
-
-- (BOOL)cvcEntryRequired {
-  return self.viewModel.cvcRequired;
-}
-
 - (NSString *)countryCode {
   return self.viewModel.postalCodeCountryCode;
 }
@@ -348,7 +333,7 @@ CGFloat const SingleLineCardFormBoundsMaximumHeight = 44;
  Returns the next text field to be edited, in priority order:
 
  1. If we're currently in a text field, returns the next one (ignoring
- postalCodeField if postalCodeEntryDisplayed == NO and cvcField if cvcEntryDisplayed == NO)
+ postalCodeField if viewModel.postalCodeDisplayed == NO and cvcField if viewModel.cvcDisplayed == NO)
  2. Otherwise, returns the first invalid field (either cycling back from the end
  or as it gains 1st responder)
  3. As a final fallback, just returns the last field
@@ -365,8 +350,8 @@ CGFloat const SingleLineCardFormBoundsMaximumHeight = 44;
   }
 
   if (nextField &&
-      (self.postalCodeEntryDisplayed || nextField != self.postalCodeField) &&
-      (self.cvcEntryDisplayed || nextField != self.cvcField)) {
+      (self.viewModel.postalCodeDisplayed || nextField != self.postalCodeField) &&
+      (self.viewModel.cvcDisplayed || nextField != self.cvcField)) {
     return nextField;
   }
 
@@ -378,9 +363,9 @@ CGFloat const SingleLineCardFormBoundsMaximumHeight = 44;
     return self.numberField;
   } else if ([self.viewModel isFieldValid:SPCardFieldTypeExpiration] == NO) {
     return self.expirationField;
-  } else if (self.cvcEntryRequired && [self.viewModel isFieldValid:SPCardFieldTypeCVC] == NO) {
+  } else if (self.viewModel.cvcRequired && [self.viewModel isFieldValid:SPCardFieldTypeCVC] == NO) {
     return self.cvcField;
-  } else if (self.postalCodeEntryRequired && [self.viewModel isFieldValid:SPCardFieldTypePostalCode] == NO) {
+  } else if (self.viewModel.postalCodeRequired && [self.viewModel isFieldValid:SPCardFieldTypePostalCode] == NO) {
     return self.postalCodeField;
   } else {
     return nil;
@@ -388,9 +373,9 @@ CGFloat const SingleLineCardFormBoundsMaximumHeight = 44;
 }
 
 - (nonnull SPFormTextField *)lastSubField {
-  if (self.postalCodeEntryDisplayed) {
+  if (self.viewModel.postalCodeDisplayed) {
     return self.postalCodeField;
-  } else if (self.cvcEntryDisplayed) {
+  } else if (self.viewModel.cvcDisplayed) {
     return self.cvcField;;
   } else {
     return self.expirationField;
@@ -443,7 +428,7 @@ CGFloat const SingleLineCardFormBoundsMaximumHeight = 44;
 }
 
 - (NSString *)cvc {
-  if (self.cvcEntryDisplayed) {
+  if (self.viewModel.cvcDisplayed) {
     return self.viewModel.cvc;
   } else {
     return nil;
@@ -451,7 +436,7 @@ CGFloat const SingleLineCardFormBoundsMaximumHeight = 44;
 }
 
 - (NSString *)postalCode {
-  if (self.postalCodeEntryDisplayed) {
+  if (self.viewModel.postalCodeDisplayed) {
     return self.viewModel.postalCode;
   } else {
     return nil;
@@ -503,14 +488,12 @@ CGFloat const SingleLineCardFormBoundsMaximumHeight = 44;
   }];
 }
 
-- (void)setCVCDisplayConfig:(CardFieldDisplay)displayConfig {
-  self.viewModel.cvcDisplayed = displayConfig != CardFieldDisplayNone;
-  self.viewModel.cvcRequired = displayConfig == CardFieldDisplayRequired;
+- (void)setCVCDisplayConfig:(DisplayConfiguration)displayConfig {
+  self.viewModel.cvcDisplayConfig = displayConfig;
 }
 
-- (void)setPostalCodeDisplayConfig:(CardFieldDisplay)displayConfig {
-  self.viewModel.postalCodeDisplayed = displayConfig != CardFieldDisplayNone;
-  self.viewModel.postalCodeRequired = displayConfig == CardFieldDisplayRequired;
+- (void)setPostalCodeDisplayConfig:(DisplayConfiguration)displayConfig {
+  self.viewModel.postalCodeDisplayConfig = displayConfig;
 }
 
 - (BOOL)isValid {
@@ -684,12 +667,12 @@ typedef NS_ENUM(NSInteger, SingleLineCardFormState) {
     requiredWidth += [self expirationFieldWidth];
   }
 
-  if (cvcVisibility != SingleLineCardFormHidden && self.cvcEntryDisplayed) {
+  if (cvcVisibility != SingleLineCardFormHidden && self.viewModel.cvcDisplayed) {
     paddingsRequired += 1;
     requiredWidth += [self cvcFieldWidth];
   }
 
-  if (postalVisibility != SingleLineCardFormHidden && self.postalCodeEntryDisplayed) {
+  if (postalVisibility != SingleLineCardFormHidden && self.viewModel.postalCodeDisplayed) {
     paddingsRequired += 1;
     requiredWidth += (postalVisibility == SingleLineCardFormCompressed)
     ? [self postalCodeFieldCompressedWidth]
@@ -748,9 +731,9 @@ typedef NS_ENUM(NSInteger, SingleLineCardFormState) {
   __block SingleLineCardFormState panVisibility = SingleLineCardFormVisible;
   __block SingleLineCardFormState expiryVisibility = SingleLineCardFormVisible;
   __block SingleLineCardFormState cvcVisibility =
-  self.cvcEntryDisplayed ? SingleLineCardFormVisible : SingleLineCardFormHidden;
+  self.viewModel.cvcDisplayed ? SingleLineCardFormVisible : SingleLineCardFormHidden;
   __block SingleLineCardFormState postalVisibility =
-  self.postalCodeEntryDisplayed ? SingleLineCardFormVisible : SingleLineCardFormHidden;
+  self.viewModel.postalCodeDisplayed ? SingleLineCardFormVisible : SingleLineCardFormHidden;
 
   CGFloat (^calculateMinimumPaddingWithLocalVars)(void) = ^CGFloat() {
     return [self minimumPaddingForViewsWithWidth:availableFieldsWidth
@@ -947,14 +930,14 @@ typedef NS_ENUM(NSInteger, SingleLineCardFormState) {
   CGRectMake(xOffset, 0, width + additionalWidth, fieldsHeight);
   xOffset += width + hPadding;
 
-  if (self.cvcEntryDisplayed) {
+  if (self.viewModel.cvcDisplayed) {
     width = [self cvcFieldWidth];
     self.cvcField.frame =
     CGRectMake(xOffset, 0, width + additionalWidth, fieldsHeight);
     xOffset += width + hPadding;
   }
 
-  if (self.postalCodeEntryDisplayed) {
+  if (self.viewModel.postalCodeDisplayed) {
     width = self.fieldsView.frame.size.width - xOffset -
     SingleLineCardFormDefaultInsets;
     self.postalCodeField.frame =
@@ -974,10 +957,10 @@ typedef NS_ENUM(NSInteger, SingleLineCardFormState) {
 
   updateFieldVisibility(self.numberField, panVisibility);
   updateFieldVisibility(self.expirationField, expiryVisibility);
-  updateFieldVisibility(self.cvcField, self.cvcEntryDisplayed
+  updateFieldVisibility(self.cvcField, self.viewModel.cvcDisplayed
                         ? cvcVisibility
                         : SingleLineCardFormHidden);
-  updateFieldVisibility(self.postalCodeField, self.postalCodeEntryDisplayed
+  updateFieldVisibility(self.postalCodeField, self.viewModel.postalCodeDisplayed
                         ? postalVisibility
                         : SingleLineCardFormHidden);
 }

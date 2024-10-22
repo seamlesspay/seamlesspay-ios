@@ -6,7 +6,7 @@
  */
 
 #import <UIKit/UIKit.h>
-#import "CardFieldDisplay.h"
+#import "DisplayConfiguration.h"
 #import "CardFormDelegate.h"
 #import "SPFormTextField.h"
 
@@ -60,8 +60,8 @@
 - (void)clear;
 
 //TODO: Make internal/private
-- (void)setCVCDisplayConfig:(CardFieldDisplay)displayConfig;
-- (void)setPostalCodeDisplayConfig:(CardFieldDisplay)displayConfig;
+- (void)setCVCDisplayConfig:(DisplayConfiguration)displayConfig;
+- (void)setPostalCodeDisplayConfig:(DisplayConfiguration)displayConfig;
 
 /**
  Returns the rectangle in which the receiver draws the text fields.

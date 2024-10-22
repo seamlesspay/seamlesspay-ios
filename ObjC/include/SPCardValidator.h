@@ -8,7 +8,6 @@
 #import <Foundation/Foundation.h>
 
 #import "SPCardBrand.h"
-#import "SPCardParams.h"
 #import "SPCardValidationState.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -172,17 +171,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (SPCardValidationState)validationStateForCVC:(NSString *)cvc
                                      cardBrand:(SPCardBrand)brand;
-
-/**
- Validates the given card details.
-
- @param card The card details to validate.
-
- @return SPCardValidationStateValid if all fields are valid,
- SPCardValidationStateInvalid if any field is invalid, or
- SPCardValidationStateIncomplete if all fields are either incomplete or valid.
- */
-+ (SPCardValidationState)validationStateForCard:(SPCardParams *)card;
 
 @end
 

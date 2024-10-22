@@ -92,8 +92,9 @@
 }
 
 - (void)testRenewedErrorImage {
-    UIImage *errorImage = [SPImageLibrary renewed_errorImage];
-    XCTAssertNotNil(errorImage);
+    UIImage *image = [SPImageLibrary renewed_errorImage];
+    XCTAssertNotNil(image);
+    XCTAssertEqual(image.renderingMode, UIImageRenderingModeAlwaysTemplate);
 }
 
 @end

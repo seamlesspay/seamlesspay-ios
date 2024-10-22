@@ -7,8 +7,8 @@
 
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSInteger, CardFieldDisplay) {
-  CardFieldDisplayNone,
-  CardFieldDisplayOptional,
-  CardFieldDisplayRequired,
+typedef NS_ENUM(NSInteger, DisplayConfiguration) {
+  DisplayConfigurationNone,
+  DisplayConfigurationOptional,
+  DisplayConfigurationRequired,
 };
