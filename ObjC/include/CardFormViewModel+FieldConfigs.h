@@ -9,7 +9,6 @@
 @interface CardFormViewModel (FieldConfigs)
 
 // Properties for CVC field configuration
-
 @property(nonatomic, readonly, assign) BOOL cvcDisplayed;
 @property(nonatomic, readonly, assign) BOOL cvcRequired;
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum CardFormError: LocalizedError {
+enum CardFormError: LocalizedError {
   case clientError(SeamlessPayError)
   case numberRequired
   case numberInvalid
@@ -19,7 +19,7 @@ public enum CardFormError: LocalizedError {
   case postalCodeRequired
   case postalCodeInvalid
 
-  public var errorDescription: String? {
+  var errorDescription: String? {
     switch self {
     case let .clientError(error):
       return error.localizedDescription

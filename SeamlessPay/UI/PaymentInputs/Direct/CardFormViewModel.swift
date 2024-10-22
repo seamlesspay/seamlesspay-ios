@@ -17,6 +17,8 @@ extension CardFormViewModel {
       return cvcRequired
     case .postalCode:
       return postalCodeRequired
+    @unknown default:
+      return false
     }
   }
 
@@ -29,6 +31,8 @@ extension CardFormViewModel {
       return cvcDisplayed
     case .postalCode:
       return postalCodeDisplayed
+    @unknown default:
+      return true
     }
   }
 
@@ -42,6 +46,8 @@ extension CardFormViewModel {
       return cvc
     case .postalCode:
       return postalCode
+    @unknown default:
+      return .none
     }
   }
 }
@@ -59,7 +65,7 @@ extension CardFormViewModel {
     switch (fieldType, validationState, isFieldEmpty) {
     // No error
     case (_, .valid, _):
-      return nil
+      return .none
     // Number field errors
     case (.number, .incomplete, false),
          (.number, .invalid, _):
@@ -85,6 +91,8 @@ extension CardFormViewModel {
     case (.postalCode, .incomplete, false),
          (.postalCode, .invalid, _):
       return .postalCodeInvalid
+    default:
+      return .none
     }
   }
 }

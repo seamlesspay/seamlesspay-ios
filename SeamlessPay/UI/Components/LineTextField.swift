@@ -10,8 +10,8 @@ import Foundation
 
 public class LineTextField: SPFormTextField {
   // MARK: - UI Components
-  private let floatingPlaceholderLabel = UILabel()
-  private let errorLabel = UILabel()
+  let floatingPlaceholderLabel = UILabel()
+  let errorLabel = UILabel()
   private let backgroundFrameLayer = CALayer()
 
   // MARK: - Constants
@@ -142,7 +142,6 @@ public class LineTextField: SPFormTextField {
   }
 
   private func setupFloatingPlaceholder() {
-    floatingPlaceholderLabel.alpha = 0.0
     floatingPlaceholderLabel.font = .systemFont(ofSize: Constants.floatingPlaceholderFontSize)
     floatingPlaceholderLabel.numberOfLines = 1
     addSubview(floatingPlaceholderLabel)
@@ -225,7 +224,6 @@ public class LineTextField: SPFormTextField {
   }
 
   private func toggleFloatingPlaceholder(toFloat: Bool, animated: Bool) {
-    floatingPlaceholderLabel.alpha = 1.0
     let newFrame = CGRect(
       x: originX,
       y: toFloat
@@ -295,7 +293,7 @@ public class LineTextField: SPFormTextField {
 }
 
 // MARK: - Appearance
-private extension LineTextField {
+extension LineTextField {
   func updateAppearance() {
     let errorColor = errorColor ?? .red
     let defaultColor = defaultColor ?? .darkText

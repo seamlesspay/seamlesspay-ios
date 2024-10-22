@@ -424,7 +424,7 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
       _ = resignFirstResponder()
     } else {
       // Otherwise, move to the next field
-      nextFirstResponderField.becomeFirstResponder()
+      _ = nextFirstResponderField.becomeFirstResponder()
     }
 
     return false
@@ -478,7 +478,7 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
       }
 
       // This is a no-op if this is the last field & they're all valid
-      nextFirstResponderField.becomeFirstResponder()
+      _ = nextFirstResponderField.becomeFirstResponder()
     @unknown default:
       break
     }
@@ -520,7 +520,7 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
   public func formTextFieldDidBackspace(onEmpty formTextField: SPFormTextField) {
     guard let previousField else { return }
 
-    previousField.becomeFirstResponder()
+    _ = previousField.becomeFirstResponder()
 
     if previousField.hasText {
       previousField.deleteBackward()
@@ -649,3 +649,4 @@ extension MultiLineCardForm {
     }
   }
 }
+ 
