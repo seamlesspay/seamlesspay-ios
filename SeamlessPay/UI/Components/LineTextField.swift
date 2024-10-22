@@ -199,7 +199,7 @@ public class LineTextField: SPFormTextField {
     errorLabel.frame = CGRect(
       x: 0,
       y: frame.height - errorFontHeight,
-      width: floatingPlaceholderWidth,
+      width: bounds.width - originX,
       height: errorFontHeight
     )
   }
@@ -308,10 +308,10 @@ private extension LineTextField {
       rightImageView.tintColor = focusColor
     case (true, false): // focus and invalid
       backgroundFrameLayer.borderColor = errorColor.cgColor
-      backgroundFrameLayer.backgroundColor = errorColor.withAlphaComponent(0.5).cgColor
+      backgroundFrameLayer.backgroundColor = UIColor.clear.cgColor
       floatingPlaceholderLabel.textColor = errorColor
       textColor = errorColor
-      rightImageView.tintColor = .clear
+      rightImageView.tintColor = errorColor
     case (false, true): // not focus and valid
       backgroundFrameLayer.borderColor = UIColor.clear.cgColor
       backgroundFrameLayer.backgroundColor = placeholderColor.withAlphaComponent(0.5).cgColor

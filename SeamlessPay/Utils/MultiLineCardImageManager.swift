@@ -11,35 +11,30 @@ import UIKit
 import Foundation
 
 class MultiLineCardImageManager {
-  private enum ImagedField {
+
+  // MARK: Interface
+  enum Field {
     case number
     case cvc
   }
 
-  func updateCardNumberImageView(
+  func updateImageView(
     _ imageView: UIImageView,
+    for field: MultiLineCardImageManager.Field,
     brand: SPCardBrand,
-    validation: SPCardValidationState
+    isValid: Bool
   ) {
-    let image = image(for: .number, brand: brand, validation: validation)
+    let image = image(for: field, brand: brand, isValid: isValid)
     updateImageViewIfNeeded(imageView, image: image)
   }
 
-  func updateCVCImageView(
-    _ imageView: UIImageView,
-    brand: SPCardBrand,
-    validation: SPCardValidationState
-  ) {
-    let image = image(for: .cvc, brand: brand, validation: validation)
-    updateImageViewIfNeeded(imageView, image: image)
-  }
-
+  // MARK: Private
   private func image(
-    for field: ImagedField,
+    for field: MultiLineCardImageManager.Field,
     brand: SPCardBrand,
-    validation: SPCardValidationState
+    isValid: Bool
   ) -> UIImage? {
-    guard validation != .invalid else {
+    guard isValid else {
       return SPImageLibrary.renewed_errorImage()
     }
 

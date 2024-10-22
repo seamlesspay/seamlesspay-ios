@@ -237,7 +237,7 @@ private extension MultiLineCardForm {
 
     cvcField.rightViewMode = .always
 
-    updateImageViews()
+    updateImages()
 
     countryCode = Locale.autoupdatingCurrent.identifier
   }
@@ -291,7 +291,10 @@ private extension MultiLineCardForm {
 
     return label
   }
+}
 
+// MARK: CardFormDelegate Calls
+private extension MultiLineCardForm {
   func onChange() {
     let selector = NSSelectorFromString("cardFormDidChange:")
     if let delegate, delegate.responds(to: selector) {
@@ -338,17 +341,35 @@ private extension MultiLineCardForm {
 
 // MARK: Icon management
 private extension MultiLineCardForm {
-  func updateImageViews() {
-    cardImageManager.updateCardNumberImageView(
-      numberField.rightImageView,
-      brand: viewModel.brand,
-      validation: viewModel.validationState(for: .number)
+  func updateImages() {
+    updateCardNumberImage(
+      isValid: viewModel.validationState(for: .number) != .invalid
     )
 
-    cardImageManager.updateCVCImageView(
-      cvcField.rightImageView,
+    updateCVCImage(
+      isValid: viewModel.validationState(for: .CVC) != .invalid
+    )
+  }
+
+  func updateCardNumberImage(
+    isValid: Bool
+  ) {
+    cardImageManager.updateImageView(
+      numberField.rightImageView,
+      for: .number,
       brand: viewModel.brand,
-      validation: viewModel.validationState(for: .CVC)
+      isValid: isValid
+    )
+  }
+
+  func updateCVCImage(
+    isValid: Bool
+  ) {
+    cardImageManager.updateImageView(
+      cvcField.rightImageView,
+      for: .cvc,
+      brand: viewModel.brand,
+      isValid: isValid
     )
   }
 }
@@ -375,7 +396,7 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
 
   public func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
     let _ = fieldEditingTransitionManager.getAndUpdateState(fromCall: .shouldEnd)
-    updateImageViews()
+    updateImages()
 
     return true
   }
@@ -391,7 +412,7 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
     onDidEndEditingField(fieldType: fieldType)
 
     if !isMidEditingTransition {
-      updateImageViews()
+      updateImages()
       onDidEndEditing()
     }
   }
@@ -410,9 +431,14 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
   }
 
   public func formTextFieldTextDidChange(_ textField: SPFormTextField) {
-    guard let fieldType = SPCardFieldType(rawValue: textField.tag) else {
+    guard let fieldType = SPCardFieldType(rawValue: textField.tag),
+          let textField = textField as? LineTextField else {
       return
     }
+
+    // Reset the error message set during on submit validation
+    // when the user starts changing the input
+    textField.errorMessage = .none
 
     if fieldType == .number {
       // Changing the card number field can invalidate the CVC, e.g., going from 4
@@ -457,7 +483,7 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
       break
     }
 
-    updateImageViews()
+    updateImages()
     onChange()
   }
 
@@ -553,7 +579,7 @@ extension MultiLineCardForm {
   }
 }
 
-// MARK: Validate submission
+// MARK: On Submit Validation
 extension MultiLineCardForm {
   func validateSubmission() -> Bool {
     if let error = onSubmitValidation() {
@@ -565,37 +591,52 @@ extension MultiLineCardForm {
 
   private func onSubmitValidation() -> CardFormError? {
     for field in allFields {
-      guard let fieldType = SPCardFieldType(rawValue: field.tag) else { continue }
-      return viewModel.onSubmitValidationForField(fieldType)
+      guard let fieldType = SPCardFieldType(rawValue: field.tag),
+            let error = viewModel.onSubmitValidationForField(fieldType) else {
+        continue
+      }
+
+      return error
     }
 
     return .none
   }
 
   private func handleOnSubmitValidationError(_ error: CardFormError) {
-    let field: LineTextField?
+    let failedField: LineTextField?
 
     switch error {
     case .numberInvalid,
          .numberRequired:
-      field = numberField
+      failedField = numberField
     case .expirationInvalid,
          .expirationInvalidDate,
          .expirationRequired:
-      field = expirationField
+      failedField = expirationField
     case .cvcInvalid,
          .cvcRequired:
-      field = cvcField
+      failedField = cvcField
     case .postalCodeInvalid,
          .postalCodeRequired:
-      field = postalCodeField
+      failedField = postalCodeField
     case .clientError:
-      field = .none
+      failedField = .none
     }
 
-    if let field {
-      field.validText = false
-      field.errorMessage = error.localizedDescription
+    guard let failedField, let failedFieldType = SPCardFieldType(rawValue: failedField.tag) else {
+      return
+    }
+
+    failedField.validText = false
+    failedField.errorMessage = error.localizedDescription
+
+    switch failedFieldType {
+    case .number:
+      updateCardNumberImage(isValid: false)
+    case .CVC:
+      updateCVCImage(isValid: false)
+    default:
+      break
     }
   }
 }
