@@ -24,7 +24,7 @@ class MultiLineCardFormTests: XCTestCase {
   func testInitialization() {
     XCTAssertNotNil(multiLineCardForm)
     XCTAssertNil(multiLineCardForm.delegate)
-    XCTAssertNil(multiLineCardForm.brandImage)
+    XCTAssertNotNil(multiLineCardForm.viewModel)
     XCTAssertTrue(multiLineCardForm.isEnabled)
   }
 

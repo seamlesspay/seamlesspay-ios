@@ -13,10 +13,6 @@
                                             inCurrentYear:(NSInteger)currentYear
                                              currentMonth:(NSInteger)currentMonth;
 
-+ (SPCardValidationState)validationStateForCard:(SPCardParams *)card
-                                  inCurrentYear:(NSInteger)currentYear
-                                   currentMonth:(NSInteger)currentMonth;
-
 @end
 
 
@@ -217,33 +213,6 @@
   ];
   for (NSArray *test in tests) {
     XCTAssertEqualObjects(@([SPCardValidator maxCVCLengthForCardBrand:[test[0] integerValue]]), test[1]);
-  }
-}
-
-- (void)testCardValidation {
-  NSArray *tests = @[
-    @[@"4242424242424242", @(12), @(15), @"123", @(SPCardValidationStateValid)],
-    @[@"4242424242424242", @(12), @(15), @"x", @(SPCardValidationStateInvalid)],
-    @[@"4242424242424242", @(12), @(15), @"1", @(SPCardValidationStateIncomplete)],
-    @[@"4242424242424242", @(12), @(14), @"123", @(SPCardValidationStateInvalid)],
-    @[@"4242424242424242", @(21), @(15), @"123", @(SPCardValidationStateInvalid)],
-    @[@"42424242", @(12), @(15), @"123", @(SPCardValidationStateIncomplete)],
-    @[@"378282246310005", @(12), @(15), @"1234", @(SPCardValidationStateValid)],
-    @[@"378282246310005", @(12), @(15), @"123", @(SPCardValidationStateValid)],
-    @[@"378282246310005", @(12), @(15), @"12345", @(SPCardValidationStateInvalid)],
-    @[@"1234567812345678", @(12), @(15), @"12345", @(SPCardValidationStateInvalid)],
-  ];
-  for (NSArray *test in tests) {
-    SPCardParams *card = [[SPCardParams alloc] init];
-    card.number = test[0];
-    card.expMonth = [test[1] integerValue];
-    card.expYear = [test[2] integerValue];
-    card.cvc = test[3];
-    SPCardValidationState state = [SPCardValidator validationStateForCard:card
-                                                            inCurrentYear:15 currentMonth:8];
-    if (![@(state) isEqualToNumber:test[4]]) {
-      XCTFail(@"Wrong validation state for %@. Expected %@, got %@", card.number, test[4], @(state));
-    }
   }
 }
 

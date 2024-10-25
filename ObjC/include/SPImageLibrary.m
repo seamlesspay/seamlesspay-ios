@@ -204,7 +204,8 @@
 }
 
 + (UIImage *)renewed_errorImage {
-  return [self safeImageNamed:@"error_sign"];
+  UIImage *image = [self safeImageNamed:@"error_sign"];
+  return [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 }
 
 @end

@@ -6,23 +6,25 @@
  */
 
 #import "CardFormViewModel.h"
+#import "CardFormViewModel+FieldConfigs.h"
 #import "NSString+Extras.h"
 #import "SPCardValidator+Extras.h"
 #import "SPPostalCodeValidator.h"
 
 @implementation CardFormViewModel
 
+@synthesize cvcDisplayConfig;
+@synthesize postalCodeDisplayConfig;
+
 - (instancetype)init {
   self = [super init];
   if (self) {
 
     // Default display configuration
-    self.cvcDisplayed = YES;
-    self.cvcRequired = NO;
+    self.cvcDisplayConfig = DisplayConfigurationOptional;
 
     // Default display configuration
-    self.postalCodeDisplayed = YES;
-    self.postalCodeRequired = NO;
+    self.postalCodeDisplayConfig = DisplayConfigurationOptional;
   }
   return self;
 }
@@ -159,10 +161,12 @@
 }
 
 - (BOOL)isValid {
-  return ([self isFieldValid:SPCardFieldTypeNumber] &&
-          [self isFieldValid:SPCardFieldTypeExpiration] &&
-          (!self.cvcRequired || [self isFieldValid:SPCardFieldTypeCVC]) &&
-          (!self.postalCodeRequired || [self isFieldValid:SPCardFieldTypePostalCode]));
+  BOOL isNumberValid = [self isFieldValid:SPCardFieldTypeNumber];
+  BOOL isExpirationValid = [self isFieldValid:SPCardFieldTypeExpiration];
+  BOOL isCvcValid = !self.cvcRequired || [self isFieldValid:SPCardFieldTypeCVC];
+  BOOL isPostalCodeValid = !self.postalCodeRequired || [self isFieldValid:SPCardFieldTypePostalCode];
+
+  return isNumberValid && isExpirationValid && isCvcValid && isPostalCodeValid;
 }
 
 - (NSString *)defaultPlaceholder {
