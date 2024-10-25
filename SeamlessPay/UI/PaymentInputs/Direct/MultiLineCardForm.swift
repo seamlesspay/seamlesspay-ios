@@ -8,7 +8,7 @@
 import UIKit
 
 public class MultiLineCardForm: UIControl, CardForm {
-  // MARK: Public
+  // MARK: - Public
   public var delegate: CardFormDelegate? = .none
 
   override public var isEnabled: Bool {
@@ -53,7 +53,7 @@ public class MultiLineCardForm: UIControl, CardForm {
     _ = numberField.becomeFirstResponder()
   }
 
-  // MARK: UIResponder
+  // MARK: - UIResponder
   override public func becomeFirstResponder() -> Bool {
     let firstResponder = currentFirstResponderField ?? nextFirstResponderField
     return firstResponder.becomeFirstResponder()
@@ -64,23 +64,30 @@ public class MultiLineCardForm: UIControl, CardForm {
     return currentFirstResponderField?.resignFirstResponder() ?? false
   }
 
-  // MARK: CardForm
+  // MARK: - Trait Collections
+  override public func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    super.traitCollectionDidChange(previousTraitCollection)
+
+    if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+      updateAppearance()
+    }
+  }
+
+  // MARK: - CardForm
   public var isValid: Bool {
     viewModel.isValid
   }
 
-  // MARK: Private
+  // MARK: - Private
   private let cardImageManager = MultiLineCardImageManager()
+  private let fieldEditingTransitionManager = SPCardFormFieldEditingTransitionManager()
   private var allFields: [LineTextField] {
     [numberField, expirationField, cvcField, postalCodeField]
   }
 
-  // MARK: Appearance
-  private var placeholderColor: UIColor {
-    return UIColor.systemGray2
-  }
+  private let styleOptions: StyleOptions
 
-  // MARK: Subviews
+  // MARK: - Subviews
   private lazy var numberField: LineTextField = {
     let textField = buildTextField()
     textField.textContentType = .creditCardNumber
@@ -183,45 +190,42 @@ public class MultiLineCardForm: UIControl, CardForm {
     return stackView
   }()
 
-  // MARK: Internal
+  // MARK: - Internal
   let viewModel: CardFormViewModel
 
-  // MARK: Private variables
-  private let fieldEditingTransitionManager = SPCardFormFieldEditingTransitionManager()
-
-  // MARK: Constants
+  // MARK: - Constants
   private let textFieldHeight: CGFloat = 84
 
-  // MARK: Initializers
+  // MARK: - Initializers
   override public init(frame: CGRect) {
     viewModel = .init()
+    styleOptions = .default
     super.init(frame: frame)
     setUpSubViews()
   }
 
   required init?(coder: NSCoder) {
     viewModel = .init()
+    styleOptions = .default
     super.init(coder: coder)
     setUpSubViews()
   }
 
-  // MARK: Internal interface
-  func setCVCDisplayConfig(_ displayConfig: DisplayConfiguration) {
-    viewModel.cvcDisplayConfig = displayConfig
-    cvcField.isHidden = !viewModel.cvcDisplayed
-
-    layoutIfNeeded()
-  }
-
-  func setPostalCodeDisplayConfig(_ displayConfig: DisplayConfiguration) {
-    viewModel.postalCodeDisplayConfig = displayConfig
-    postalCodeStackView.isHidden = !viewModel.postalCodeDisplayed
+  public convenience init(
+    config: ClientConfiguration,
+    fieldOptions: FieldOptions = .default,
+    styleOptions: StyleOptions = .default
+  ) {
+    self.init()
+    viewModel.apiClient = .init(config: config)
+    viewModel.cvcDisplayConfig = fieldOptions.cvv.display
+    viewModel.postalCodeDisplayConfig = fieldOptions.postalCode.display
 
     layoutIfNeeded()
   }
 }
 
-// MARK: Set Up Views
+// MARK: - Set Up Views
 private extension MultiLineCardForm {
   private func setUpSubViews() {
     addSubview(stackView)
@@ -231,7 +235,8 @@ private extension MultiLineCardForm {
   }
 
   func configureViews() {
-    // Set placeholders for the fields
+    cvcField.isHidden = !viewModel.cvcDisplayed
+    postalCodeStackView.isHidden = !viewModel.postalCodeDisplayed
 
     numberField.rightViewMode = .always
 
@@ -266,17 +271,22 @@ private extension MultiLineCardForm {
 
   func buildTextField() -> LineTextField {
     let textField = LineTextField(frame: .zero)
-    textField.backgroundColor = .clear
     textField.translatesAutoresizingMaskIntoConstraints = false
     textField.keyboardType = .asciiCapableNumberPad
-    textField.font = .systemFont(ofSize: 18)
-    textField.defaultColor = .darkText
-    textField.errorColor = .systemRed
-    textField.placeholderColor = placeholderColor
     textField.formDelegate = self
     textField.validText = true
     textField.autocorrectionType = .no
     textField.clearButtonMode = .never
+
+    textField.backgroundColor = .clear
+    textField.font = .systemFont(ofSize: 18)
+    textField.defaultColor = .darkText
+    textField.errorColor = .systemRed
+
+    let currentPalette = styleOptions.colors.palette(for: traitCollection)
+    let theme = currentPalette.theme
+
+    textField.appearance = buildTextFieldAppearanceConfig()
 
     return textField
   }
@@ -285,15 +295,17 @@ private extension MultiLineCardForm {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
     label.font = .systemFont(ofSize: 16)
-    label.textColor = .systemGray2
     label.numberOfLines = 0
     label.textAlignment = .left
+
+    label.textColor = buildTitleLabelAppearanceConfig().textColor
+    label.font = buildTitleLabelAppearanceConfig().font
 
     return label
   }
 }
 
-// MARK: CardFormDelegate Calls
+// MARK: - CardFormDelegate Calls
 private extension MultiLineCardForm {
   func onChange() {
     let selector = NSSelectorFromString("cardFormDidChange:")
@@ -339,7 +351,7 @@ private extension MultiLineCardForm {
   }
 }
 
-// MARK: Icon management
+// MARK: - Icon management
 private extension MultiLineCardForm {
   func updateImages() {
     updateCardNumberImage(
@@ -374,7 +386,7 @@ private extension MultiLineCardForm {
   }
 }
 
-// MARK: SPFormTextFieldDelegate
+// MARK: - SPFormTextFieldDelegate
 extension MultiLineCardForm: SPFormTextFieldDelegate {
   public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
     fieldEditingTransitionManager.getAndUpdateState(fromCall: .shouldBegin)
@@ -528,7 +540,7 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
   }
 }
 
-// MARK: First responder manager
+// MARK: - First responder manager
 private extension MultiLineCardForm {
   var currentFirstResponderField: LineTextField? {
     allFields.first { $0.isFirstResponder }
@@ -569,7 +581,7 @@ private extension MultiLineCardForm {
   }
 }
 
-// MARK: Invalid field management
+// MARK: - Invalid field management
 extension MultiLineCardForm {
   var firstInvalidSubField: LineTextField? {
     allFields.first { field in
@@ -579,7 +591,7 @@ extension MultiLineCardForm {
   }
 }
 
-// MARK: On Submit Validation
+// MARK: - On Submit Validation
 extension MultiLineCardForm {
   func validateForm() -> Bool {
     let errors = formValidation()
@@ -650,5 +662,64 @@ extension MultiLineCardForm {
     default:
       break
     }
+  }
+}
+
+// MARK: - Appearance
+extension MultiLineCardForm {
+  func updateAppearance() {
+    allFields.forEach { field in
+      field.appearance = buildTextFieldAppearanceConfig()
+    }
+
+    [postalCodeTitleLabel, cardInformationTitleLabel].forEach { label in
+      let titleLabelAppearanceConfig = buildTitleLabelAppearanceConfig()
+      label.textColor = titleLabelAppearanceConfig.textColor
+      label.font = titleLabelAppearanceConfig.font
+    }
+  }
+
+  func buildTitleLabelAppearanceConfig() -> (textColor: UIColor, font: UIFont) {
+    (
+      styleOptions.colors.palette(for: traitCollection).theme.neutral.withAlphaComponent(0.75),
+      styleOptions.typography.scaledFont
+    )
+  }
+
+  func buildTextFieldAppearanceConfig() -> LineTextField.AppearanceConfiguration {
+    let currentPalette = styleOptions.colors.palette(for: traitCollection)
+    let theme = currentPalette.theme
+
+    return .init(
+      backgroundInactiveColor: theme.neutral.withAlphaComponent(0.03),
+      backgroundInvalidColor: theme.danger.withAlphaComponent(0.1),
+      backgroundFocusValidColor: .clear,
+      backgroundFocusInvalidColor: .clear,
+      borderInactiveColor: .clear,
+      borderInvalidColor: .clear,
+      borderFocusValidColor: theme.primary,
+      borderFocusInvalidColor: theme.danger,
+      floatingPlaceholderInactiveColor: theme.neutral.withAlphaComponent(0.5),
+      floatingPlaceholderInvalidColor: theme.danger,
+      floatingPlaceholderFocusValidColor: theme.primary,
+      floatingPlaceholderFocusInvalidColor: theme.danger,
+      textValidColor: theme.neutral,
+      textInvalidColor: theme.danger,
+      tintValidColor: theme.primary,
+      tintInvalidColor: theme.danger,
+      imageInactiveColor: theme.neutral,
+      imageInvalidColor: theme.danger,
+      imageFocusValidColor: theme.primary,
+      imageFocusInvalidColor: theme.danger,
+      cornerRadius: styleOptions.shapes.cornerRadius,
+      borderWidth: 2,
+      textFont: styleOptions.typography.scaledFont,
+      errorFont: styleOptions.typography.scaledFont(
+        for: styleOptions.typography.font.withSize(12)
+      ),
+      floatingPlaceholderFont: styleOptions.typography.scaledFont(
+        for: styleOptions.typography.font.withSize(16)
+      )
+    )
   }
 }
