@@ -668,11 +668,11 @@ extension MultiLineCardForm {
 // MARK: - Appearance
 extension MultiLineCardForm {
   func updateAppearance() {
-    allFields.forEach { field in
+    for field in allFields {
       field.appearance = buildTextFieldAppearanceConfig()
     }
 
-    [postalCodeTitleLabel, cardInformationTitleLabel].forEach { label in
+    for label in [postalCodeTitleLabel, cardInformationTitleLabel] {
       let titleLabelAppearanceConfig = buildTitleLabelAppearanceConfig()
       label.textColor = titleLabelAppearanceConfig.textColor
       label.font = titleLabelAppearanceConfig.font
@@ -719,7 +719,8 @@ extension MultiLineCardForm {
       ),
       floatingPlaceholderFont: styleOptions.typography.scaledFont(
         for: styleOptions.typography.font.withSize(16)
-      )
+      ),
+      elevation: styleOptions.shapes.fieldShadow.elevation
     )
   }
 }

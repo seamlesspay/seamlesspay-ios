@@ -50,24 +50,70 @@ class MultiLineCardFormTests: XCTestCase {
     XCTAssertEqual(multiLineCardForm.countryCode, "CA")
   }
 
-  func testSetCVCDisplayConfig() {
-    multiLineCardForm.setCVCDisplayConfig(.none)
-    XCTAssertFalse(multiLineCardForm.viewModel.cvcDisplayed)
-    XCTAssertFalse(multiLineCardForm.viewModel.cvcRequired)
+  func testRequiredFieldConfigurations() {
+    let config = ClientConfiguration(
+      environment: .production,
+      secretKey: "test_secret_key",
+      proxyAccountId: .none
+    )
+    let fieldOptions = FieldOptions(
+      cvv: .init(display: .required),
+      postalCode: .init(display: .required)
+    )
 
-    multiLineCardForm.setCVCDisplayConfig(.required)
+    let multiLineCardForm = MultiLineCardForm(
+      config: config,
+      fieldOptions: fieldOptions
+    )
+
+    XCTAssertTrue(multiLineCardForm.viewModel.postalCodeDisplayed)
+    XCTAssertTrue(multiLineCardForm.viewModel.postalCodeRequired)
     XCTAssertTrue(multiLineCardForm.viewModel.cvcDisplayed)
     XCTAssertTrue(multiLineCardForm.viewModel.cvcRequired)
   }
 
-  func testSetPostalCodeDisplayConfig() {
-    multiLineCardForm.setPostalCodeDisplayConfig(.none)
+  func testNoneFieldConfigurations() {
+    let config = ClientConfiguration(
+      environment: .production,
+      secretKey: "test_secret_key",
+      proxyAccountId: .none
+    )
+    let fieldOptions = FieldOptions(
+      cvv: .init(display: .none),
+      postalCode: .init(display: .none)
+    )
+
+    let multiLineCardForm = MultiLineCardForm(
+      config: config,
+      fieldOptions: fieldOptions
+    )
+
     XCTAssertFalse(multiLineCardForm.viewModel.postalCodeDisplayed)
     XCTAssertFalse(multiLineCardForm.viewModel.postalCodeRequired)
+    XCTAssertFalse(multiLineCardForm.viewModel.cvcDisplayed)
+    XCTAssertFalse(multiLineCardForm.viewModel.cvcRequired)
+  }
 
-    multiLineCardForm.setPostalCodeDisplayConfig(.required)
+  func testNoneOptionalConfigurations() {
+    let config = ClientConfiguration(
+      environment: .production,
+      secretKey: "test_secret_key",
+      proxyAccountId: .none
+    )
+    let fieldOptions = FieldOptions(
+      cvv: .init(display: .optional),
+      postalCode: .init(display: .optional)
+    )
+
+    let multiLineCardForm = MultiLineCardForm(
+      config: config,
+      fieldOptions: fieldOptions
+    )
+
     XCTAssertTrue(multiLineCardForm.viewModel.postalCodeDisplayed)
-    XCTAssertTrue(multiLineCardForm.viewModel.postalCodeRequired)
+    XCTAssertFalse(multiLineCardForm.viewModel.postalCodeRequired)
+    XCTAssertTrue(multiLineCardForm.viewModel.cvcDisplayed)
+    XCTAssertFalse(multiLineCardForm.viewModel.cvcRequired)
   }
 
   func testIsEnabled() {

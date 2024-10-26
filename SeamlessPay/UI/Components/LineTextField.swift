@@ -64,6 +64,10 @@ public class LineTextField: SPFormTextField {
     var textFont: UIFont = .systemFont(ofSize: 18)
     var errorFont: UIFont = .systemFont(ofSize: 12)
     var floatingPlaceholderFont: UIFont = .systemFont(ofSize: 16)
+
+    // Shadow
+
+    var elevation: ElevationLevel = .none
   }
 
   public var appearance: AppearanceConfiguration = .init() {
@@ -257,6 +261,12 @@ public class LineTextField: SPFormTextField {
       width: frame.width,
       height: frame.height - errorFontHeight - Constants.paddingYElements
     )
+
+    backgroundFrameLayer.setElevationLevel(
+      appearance.elevation,
+      rect: backgroundFrameLayer.bounds,
+      cornerRadius: backgroundFrameLayer.cornerRadius
+    )
   }
 
   private func updatePlaceholder(animated: Bool) {
@@ -270,9 +280,8 @@ public class LineTextField: SPFormTextField {
       x: originX,
       y: toFloat
         ? Constants.paddingYFloatLabel
-        :
-        (frame.height - floatingPlaceholderHeight - errorFontHeight - Constants.paddingYElements) /
-        2,
+        : (frame.height - floatingPlaceholderHeight - errorFontHeight
+          - Constants.paddingYElements) / 2,
       width: floatingPlaceholderWidth,
       height: floatingPlaceholderHeight
     )
