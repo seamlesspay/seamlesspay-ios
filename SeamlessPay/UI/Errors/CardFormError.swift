@@ -28,11 +28,11 @@ enum CardFormError: LocalizedError {
     case .numberInvalid:
       return "Card number is invalid"
     case .expirationRequired:
-      return "Expiration date is required"
+      return "Expiry date is required"
     case .expirationInvalid:
-      return "Expiration date is invalid"
+      return "Expiry date is invalid"
     case .expirationInvalidDate:
-      return "Expiration date is invalid"
+      return "Expiry date must not be in the past"
     case .cvcRequired:
       return "CVC is required"
     case .cvcInvalid:
