@@ -21,15 +21,18 @@ public extension MultiLineCardForm {
 // MARK: Tokenize
 public extension MultiLineCardForm {
   func tokenize(
-    completion: ((Result<TokenizeResponse, SeamlessPayError>) -> Void)?
+    completion: ((Result<TokenizeResponse, SeamlessPayError>?) -> Void)?
   ) {
-    guard validateSubmission() else { return }
+    guard validateForm() else {
+      completion?(.none)
+      return
+    }
 
     viewModel.tokenize(completion: completion)
   }
 
   func tokenize() async -> Result<TokenizeResponse, SeamlessPayError>? {
-    guard validateSubmission() else { return .none }
+    guard validateForm() else { return .none }
 
     return await viewModel.tokenize()
   }
@@ -39,9 +42,12 @@ public extension MultiLineCardForm {
 public extension MultiLineCardForm {
   func charge(
     _ request: ChargeRequest,
-    completion: ((Result<PaymentResponse, SeamlessPayError>) -> Void)?
+    completion: ((Result<PaymentResponse, SeamlessPayError>?) -> Void)?
   ) {
-    guard validateSubmission() else { return }
+    guard validateForm() else {
+      completion?(.none)
+      return
+    }
 
     viewModel.charge(request, completion: completion)
   }
@@ -49,7 +55,7 @@ public extension MultiLineCardForm {
   func charge(
     _ request: ChargeRequest
   ) async -> Result<PaymentResponse, SeamlessPayError>? {
-    guard validateSubmission() else { return .none }
+    guard validateForm() else { return .none }
 
     return await viewModel.charge(request)
   }
@@ -59,9 +65,12 @@ public extension MultiLineCardForm {
 public extension MultiLineCardForm {
   func refund(
     _ request: RefundRequest,
-    completion: ((Result<PaymentResponse, SeamlessPayError>) -> Void)?
+    completion: ((Result<PaymentResponse, SeamlessPayError>?) -> Void)?
   ) {
-    guard validateSubmission() else { return }
+    guard validateForm() else {
+      completion?(.none)
+      return
+    }
 
     viewModel.refund(request, completion: completion)
   }
@@ -69,7 +78,7 @@ public extension MultiLineCardForm {
   func refund(
     _ request: RefundRequest
   ) async -> Result<PaymentResponse, SeamlessPayError>? {
-    guard validateSubmission() else { return .none }
+    guard validateForm() else { return .none }
 
     return await viewModel.refund(request)
   }

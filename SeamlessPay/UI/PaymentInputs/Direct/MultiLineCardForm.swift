@@ -17,7 +17,7 @@ public class MultiLineCardForm: UIControl, CardForm {
     }
     set {
       super.isEnabled = newValue
-      allFields.forEach { field in
+      for field in allFields {
         field.isEnabled = newValue
       }
     }
@@ -39,7 +39,7 @@ public class MultiLineCardForm: UIControl, CardForm {
   }
 
   public func clear() {
-    allFields.forEach { field in
+    for field in allFields {
       field.text = .init()
     }
 
@@ -249,8 +249,8 @@ private extension MultiLineCardForm {
       stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
       stackView.topAnchor.constraint(equalTo: topAnchor),
     ]
-    constraints.forEach {
-      $0.priority = UILayoutPriority(rawValue: UILayoutPriority.required.rawValue - 1)
+    for constraint in constraints {
+      constraint.priority = UILayoutPriority(rawValue: UILayoutPriority.required.rawValue - 1)
     }
     NSLayoutConstraint.activate(constraints)
 
@@ -581,35 +581,38 @@ extension MultiLineCardForm {
 
 // MARK: On Submit Validation
 extension MultiLineCardForm {
-  func validateSubmission() -> Bool {
-    if let error = onSubmitValidation() {
-      handleOnSubmitValidationError(error)
-      return false
-    }
-    return true
-  }
+  func validateForm() -> Bool {
+    let errors = formValidation()
 
-  private func onSubmitValidation() -> CardFormError? {
-    for field in allFields {
-      guard let fieldType = SPCardFieldType(rawValue: field.tag),
-            let error = viewModel.onSubmitValidationForField(fieldType) else {
-        continue
+    if !errors.isEmpty {
+      // Reset all fields to valid
+      for field in allFields {
+        field.validText = true
+        field.errorMessage = .none
       }
 
-      return error
+      // Handle error
+      for error in errors {
+        handleFormValidationError(error)
+      }
     }
 
-    return .none
+    onWillEndEditingForReturn()
+    _ = resignFirstResponder()
+    return errors.isEmpty
   }
 
-  private func handleOnSubmitValidationError(_ error: CardFormError) {
-
-    // Reset all fields to valid
-    allFields.forEach { field in
-      field.validText = true
-      field.errorMessage = .none
+  private func formValidation() -> [CardFormError] {
+    allFields.compactMap { field in
+      guard let fieldType = SPCardFieldType(rawValue: field.tag),
+            let error = viewModel.formValidationForField(fieldType) else {
+        return .none
+      }
+      return error
     }
+  }
 
+  private func handleFormValidationError(_ error: CardFormError) {
     // Look up for the field that failed
     let failedField: LineTextField?
 
@@ -649,4 +652,3 @@ extension MultiLineCardForm {
     }
   }
 }
- 

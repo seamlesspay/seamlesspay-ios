@@ -256,14 +256,14 @@ final class CardFormViewModelTest: XCTestCase {
   }
 
   // MARK: On Submit Validation
-  func testOnSubmitValidationForField_NumberValid() {
+  func testFormValidationForField_NumberValid() {
     viewModel.cardNumber = "4242424242424242"
-    XCTAssertNil(viewModel.onSubmitValidationForField(.number))
+    XCTAssertNil(viewModel.formValidationForField(.number))
   }
 
-  func testOnSubmitValidationForField_NumberInvalid() {
+  func testFormValidationForField_NumberInvalid() {
     viewModel.cardNumber = "1234"
-    let output = viewModel.onSubmitValidationForField(.number)
+    let output = viewModel.formValidationForField(.number)
     switch output {
     case .numberInvalid:
       break
@@ -272,9 +272,9 @@ final class CardFormViewModelTest: XCTestCase {
     }
   }
 
-  func testOnSubmitValidationForField_NumberRequired() {
+  func testFormValidationForField_NumberRequired() {
     viewModel.cardNumber = ""
-    let output = viewModel.onSubmitValidationForField(.number)
+    let output = viewModel.formValidationForField(.number)
     switch output {
     case .numberRequired:
       break
@@ -283,14 +283,14 @@ final class CardFormViewModelTest: XCTestCase {
     }
   }
 
-  func testOnSubmitValidationForField_ExpirationValid() {
+  func testFormValidationForField_ExpirationValid() {
     viewModel.rawExpiration = "12/99"
-    XCTAssertNil(viewModel.onSubmitValidationForField(.expiration))
+    XCTAssertNil(viewModel.formValidationForField(.expiration))
   }
 
-  func testOnSubmitValidationForField_ExpirationInvalidDate() {
+  func testFormValidationForField_ExpirationInvalidDate() {
     viewModel.rawExpiration = "13/99"
-    let output = viewModel.onSubmitValidationForField(.expiration)
+    let output = viewModel.formValidationForField(.expiration)
     switch output {
     case .expirationInvalidDate:
       break
@@ -301,9 +301,9 @@ final class CardFormViewModelTest: XCTestCase {
     }
   }
 
-  func testOnSubmitValidationForField_ExpirationInvalid() {
+  func testFormValidationForField_ExpirationInvalid() {
     viewModel.rawExpiration = "12/9"
-    let output = viewModel.onSubmitValidationForField(.expiration)
+    let output = viewModel.formValidationForField(.expiration)
     switch output {
     case .expirationInvalid:
       break
@@ -314,9 +314,9 @@ final class CardFormViewModelTest: XCTestCase {
     }
   }
 
-  func testOnSubmitValidationForField_ExpirationRequired() {
+  func testFormValidationForField_ExpirationRequired() {
     viewModel.rawExpiration = ""
-    let output = viewModel.onSubmitValidationForField(.expiration)
+    let output = viewModel.formValidationForField(.expiration)
     switch output {
     case .expirationRequired:
       break
@@ -327,16 +327,16 @@ final class CardFormViewModelTest: XCTestCase {
     }
   }
 
-  func testOnSubmitValidationForField_CVCValid() {
+  func testFormValidationForField_CVCValid() {
     viewModel.cvc = "123"
     viewModel.cvcDisplayConfig = .required
-    XCTAssertNil(viewModel.onSubmitValidationForField(.CVC))
+    XCTAssertNil(viewModel.formValidationForField(.CVC))
   }
 
-  func testOnSubmitValidationForField_CVCInvalid() {
+  func testFormValidationForField_CVCInvalid() {
     viewModel.cvc = "12"
     viewModel.cvcDisplayConfig = .required
-    let output = viewModel.onSubmitValidationForField(.CVC)
+    let output = viewModel.formValidationForField(.CVC)
     switch output {
     case .cvcInvalid:
       break
@@ -345,10 +345,10 @@ final class CardFormViewModelTest: XCTestCase {
     }
   }
 
-  func testOnSubmitValidationForField_CVCRequired() {
+  func testFormValidationForField_CVCRequired() {
     viewModel.cvc = ""
     viewModel.cvcDisplayConfig = .required
-    let output = viewModel.onSubmitValidationForField(.CVC)
+    let output = viewModel.formValidationForField(.CVC)
     switch output {
     case .cvcRequired:
       break
@@ -357,10 +357,10 @@ final class CardFormViewModelTest: XCTestCase {
     }
   }
 
-  func testOnSubmitValidationForField_PostalCodeValid() {
+  func testFormValidationForField_PostalCodeValid() {
     viewModel.postalCode = "12345"
     viewModel.postalCodeDisplayConfig = .required
-    let output = viewModel.onSubmitValidationForField(.postalCode)
+    let output = viewModel.formValidationForField(.postalCode)
     switch output {
     case .none:
       break
@@ -369,10 +369,10 @@ final class CardFormViewModelTest: XCTestCase {
     }
   }
 
-  func testOnSubmitValidationForField_PostalCodeRequired() {
+  func testFormValidationForField_PostalCodeRequired() {
     viewModel.postalCode = ""
     viewModel.postalCodeDisplayConfig = .required
-    let output = viewModel.onSubmitValidationForField(.postalCode)
+    let output = viewModel.formValidationForField(.postalCode)
     switch output {
     case .postalCodeRequired:
       break
