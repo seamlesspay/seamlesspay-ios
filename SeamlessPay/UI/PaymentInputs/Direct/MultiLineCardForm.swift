@@ -719,8 +719,7 @@ extension MultiLineCardForm {
       ),
       floatingPlaceholderFont: styleOptions.typography.scaledFont(
         for: styleOptions.typography.font.withSize(16)
-      ),
-      elevation: styleOptions.shapes.fieldShadow.elevation
+      )
     )
   }
 }

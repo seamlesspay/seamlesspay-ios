@@ -67,10 +67,9 @@ public struct ThemeColors {
 
 public struct Shapes {
   public var cornerRadius: CGFloat
-  public var fieldShadow: Shadow
 
   public static var `default`: Shapes {
-    Shapes(cornerRadius: 8.0, fieldShadow: .default)
+    Shapes(cornerRadius: 8.0)
   }
 }
 
