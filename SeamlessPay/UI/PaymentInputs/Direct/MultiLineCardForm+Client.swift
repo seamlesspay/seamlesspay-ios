@@ -7,17 +7,6 @@
 
 import Foundation
 
-// MARK: - Public
-// MARK: Init with Authorization model
-public extension MultiLineCardForm {
-  convenience init(config: ClientConfiguration, fieldOptions: FieldOptions = .default) {
-    self.init()
-    viewModel.apiClient = .init(config: config)
-    setCVCDisplayConfig(fieldOptions.cvv.display)
-    setPostalCodeDisplayConfig(fieldOptions.postalCode.display)
-  }
-}
-
 // MARK: Tokenize
 public extension MultiLineCardForm {
   func tokenize(

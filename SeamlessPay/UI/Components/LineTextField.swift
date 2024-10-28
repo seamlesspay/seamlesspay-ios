@@ -9,21 +9,67 @@ import UIKit
 import Foundation
 
 public class LineTextField: SPFormTextField {
-  // MARK: - UI Components
-  let floatingPlaceholderLabel = UILabel()
-  let errorLabel = UILabel()
-  private let backgroundFrameLayer = CALayer()
-
   // MARK: - Constants
   private enum Constants {
     static let paddingX: CGFloat = 10.0
     static let paddingYElements: CGFloat = 3.0
     static let paddingYFloatLabel: CGFloat = 5.0
-    static let cornerRadius: CGFloat = 5.0
-    static let borderWidth: CGFloat = 2.0
-    static let floatingPlaceholderFontSize: CGFloat = 16.0
-    static let errorLabelFontSize: CGFloat = 14.0
     static let animationDuration: TimeInterval = 0.2
+  }
+
+  // MARK: - UI Components
+  let floatingPlaceholderLabel = UILabel()
+  let errorLabel = UILabel()
+  private let backgroundFrameLayer = CALayer()
+
+  // MARK: - Appearance Configuration
+  public struct AppearanceConfiguration {
+    // Background colors
+    var backgroundInactiveColor: UIColor = .systemGray.withAlphaComponent(0.3)
+    var backgroundInvalidColor: UIColor = .systemRed.withAlphaComponent(0.3)
+    var backgroundFocusValidColor: UIColor = .clear
+    var backgroundFocusInvalidColor: UIColor = .systemRed.withAlphaComponent(0.3)
+
+    // Border colors
+    var borderInactiveColor: UIColor = .clear
+    var borderInvalidColor: UIColor = .clear
+    var borderFocusValidColor: UIColor = .systemBlue
+    var borderFocusInvalidColor: UIColor = .systemRed
+
+    // Floating placeholder colors
+    var floatingPlaceholderInactiveColor: UIColor = .systemGray
+    var floatingPlaceholderInvalidColor: UIColor = .systemRed
+    var floatingPlaceholderFocusValidColor: UIColor = .systemBlue
+    var floatingPlaceholderFocusInvalidColor: UIColor = .systemRed
+
+    // Text colors
+    var textValidColor: UIColor = .darkText
+    var textInvalidColor: UIColor = .systemRed
+
+    // Tint colors
+    var tintValidColor: UIColor = .systemBlue
+    var tintInvalidColor: UIColor = .systemRed
+
+    // Image colors
+    var imageInactiveColor: UIColor = .systemGray
+    var imageInvalidColor: UIColor = .systemRed
+    var imageFocusValidColor: UIColor = .systemBlue
+    var imageFocusInvalidColor: UIColor = .systemRed
+
+    // Sizes
+    var cornerRadius: CGFloat = 5.0
+    var borderWidth: CGFloat = 2.0
+
+    // Font
+    var textFont: UIFont = .systemFont(ofSize: 18)
+    var errorFont: UIFont = .systemFont(ofSize: 12)
+    var floatingPlaceholderFont: UIFont = .systemFont(ofSize: 16)
+  }
+
+  public var appearance: AppearanceConfiguration = .init() {
+    didSet {
+      updateAppearance()
+    }
   }
 
   // MARK: - Properties
@@ -103,7 +149,7 @@ public class LineTextField: SPFormTextField {
     set { super.textAlignment = .left }
   }
 
-  public override var clearButtonMode: UITextField.ViewMode {
+  override public var clearButtonMode: UITextField.ViewMode {
     get { .never }
     set { super.clearButtonMode = .never }
   }
@@ -136,19 +182,15 @@ public class LineTextField: SPFormTextField {
   }
 
   private func setupBackgroundLayer() {
-    backgroundFrameLayer.cornerRadius = Constants.cornerRadius
-    backgroundFrameLayer.borderWidth = Constants.borderWidth
     layer.insertSublayer(backgroundFrameLayer, at: 0)
   }
 
   private func setupFloatingPlaceholder() {
-    floatingPlaceholderLabel.font = .systemFont(ofSize: Constants.floatingPlaceholderFontSize)
     floatingPlaceholderLabel.numberOfLines = 1
     addSubview(floatingPlaceholderLabel)
   }
 
   private func setupErrorLabel() {
-    errorLabel.font = .systemFont(ofSize: Constants.errorLabelFontSize)
     errorLabel.numberOfLines = 1
     addSubview(errorLabel)
   }
@@ -198,7 +240,7 @@ public class LineTextField: SPFormTextField {
     set { super.rightView = rightImageView }
   }
 
-  // MARK: - Private Methods
+  // MARK: - Private Interface
   private func updateErrorLabel() {
     errorLabel.frame = CGRect(
       x: 0,
@@ -228,9 +270,8 @@ public class LineTextField: SPFormTextField {
       x: originX,
       y: toFloat
         ? Constants.paddingYFloatLabel
-        :
-        (frame.height - floatingPlaceholderHeight - errorFontHeight - Constants.paddingYElements) /
-        2,
+        : (frame.height - floatingPlaceholderHeight - errorFontHeight
+          - Constants.paddingYElements) / 2,
       width: floatingPlaceholderWidth,
       height: floatingPlaceholderHeight
     )
@@ -294,39 +335,50 @@ public class LineTextField: SPFormTextField {
 
 // MARK: - Appearance
 extension LineTextField {
-  func updateAppearance() {
-    let errorColor = errorColor ?? .red
-    let defaultColor = defaultColor ?? .darkText
-    let placeholderColor = placeholderColor ?? .systemGray2
-    let focusColor = UIColor.systemBlue
-
-    errorLabel.textColor = errorColor
+  @objc func updateAppearance() {
+    errorColor = appearance.textInvalidColor
+    defaultColor = appearance.textValidColor
+    backgroundFrameLayer.cornerRadius = appearance.cornerRadius
+    backgroundFrameLayer.borderWidth = appearance.borderWidth
+    font = appearance.textFont
+    floatingPlaceholderLabel.font = appearance.floatingPlaceholderFont
+    errorLabel.font = appearance.errorFont
 
     switch (isFirstResponder, validText) {
     case (true, true): // focus and valid
-      backgroundFrameLayer.borderColor = focusColor.cgColor
-      backgroundFrameLayer.backgroundColor = UIColor.clear.cgColor
-      floatingPlaceholderLabel.textColor = focusColor
-      textColor = defaultColor
-      rightImageView.tintColor = focusColor
+      backgroundFrameLayer.borderColor = appearance.borderFocusValidColor.cgColor
+      backgroundFrameLayer.backgroundColor = appearance.backgroundFocusValidColor.cgColor
+      floatingPlaceholderLabel.textColor = appearance.floatingPlaceholderFocusValidColor
+
+      rightImageView.tintColor = appearance.imageFocusValidColor
+      tintColor = appearance.tintValidColor
+      errorLabel.textColor = appearance.tintValidColor
     case (true, false): // focus and invalid
-      backgroundFrameLayer.borderColor = errorColor.cgColor
-      backgroundFrameLayer.backgroundColor = UIColor.clear.cgColor
-      floatingPlaceholderLabel.textColor = errorColor
-      textColor = errorColor
-      rightImageView.tintColor = errorColor
+      backgroundFrameLayer.borderColor = appearance.borderFocusInvalidColor.cgColor
+      backgroundFrameLayer.backgroundColor = appearance.backgroundFocusInvalidColor.cgColor
+      floatingPlaceholderLabel.textColor = appearance.floatingPlaceholderFocusInvalidColor
+
+      rightImageView.tintColor = appearance.imageFocusInvalidColor
+      tintColor = appearance.tintInvalidColor
+      errorLabel.textColor = appearance.tintInvalidColor
     case (false, true): // not focus and valid
-      backgroundFrameLayer.borderColor = UIColor.clear.cgColor
-      backgroundFrameLayer.backgroundColor = placeholderColor.withAlphaComponent(0.5).cgColor
-      floatingPlaceholderLabel.textColor = placeholderColor
-      textColor = defaultColor
-      rightImageView.tintColor = placeholderColor
+      backgroundFrameLayer.borderColor = appearance.borderInactiveColor.cgColor
+      backgroundFrameLayer.backgroundColor = appearance.backgroundInactiveColor.cgColor
+      floatingPlaceholderLabel.textColor = appearance.floatingPlaceholderInactiveColor
+
+      rightImageView.tintColor = appearance.imageInactiveColor
+      tintColor = appearance.tintValidColor
+      errorLabel.textColor = appearance.tintValidColor
     case (false, false): // not focus and invalid
-      backgroundFrameLayer.borderColor = UIColor.clear.cgColor
-      backgroundFrameLayer.backgroundColor = errorColor.withAlphaComponent(0.5).cgColor
-      floatingPlaceholderLabel.textColor = errorColor
-      textColor = errorColor
-      rightImageView.tintColor = .clear
+      backgroundFrameLayer.borderColor = appearance.borderInvalidColor.cgColor
+      backgroundFrameLayer.backgroundColor = appearance.backgroundInvalidColor.cgColor
+      floatingPlaceholderLabel.textColor = appearance.floatingPlaceholderInvalidColor
+
+      rightImageView.tintColor = appearance.imageInvalidColor
+      tintColor = appearance.tintInvalidColor
+      errorLabel.textColor = appearance.tintInvalidColor
     }
+
+    layoutSubviews()
   }
 }
