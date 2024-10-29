@@ -13,7 +13,11 @@ class MultiLineCardFormTests: XCTestCase {
 
   override func setUp() {
     super.setUp()
-    multiLineCardForm = MultiLineCardForm(frame: .zero)
+    multiLineCardForm = MultiLineCardForm(
+      config: .init(environment: .production, secretKey: "secret_ket"),
+      fieldOptions: .init(cvv: .init(display: .required), postalCode: .init(display: .required)),
+      styleOptions: .default
+    )
   }
 
   override func tearDown() {
@@ -122,5 +126,43 @@ class MultiLineCardFormTests: XCTestCase {
 
     multiLineCardForm.isEnabled = true
     XCTAssertTrue(multiLineCardForm.isEnabled)
+  }
+
+  func testInitializerWithDefaultStyleOptions() {
+    let config = ClientConfiguration(
+      environment: .production,
+      secretKey: "test_secret_key",
+      proxyAccountId: .none
+    )
+
+    let multiLineCardForm = MultiLineCardForm(config: config)
+
+    XCTAssertNotNil(multiLineCardForm)
+    XCTAssertEqual(multiLineCardForm.styleOptions, .default)
+  }
+
+  func testInitializerWithCustomStyleOptions() {
+    let config = ClientConfiguration(
+      environment: .production,
+      secretKey: "test_secret_key",
+      proxyAccountId: .none
+    )
+
+    let styleOptions = StyleOptions(
+      colors: .init(
+        light: .init(theme: .init(neutral: .blue, primary: .green, danger: .red)),
+        dark: .init(theme: .init(neutral: .purple, primary: .yellow, danger: .cyan))
+      ),
+      shapes: .init(cornerRadius: 8),
+      typography: .init(font: .boldSystemFont(ofSize: 18), scale: 1.2)
+    )
+
+    let multiLineCardForm = MultiLineCardForm(
+      config: config,
+      styleOptions: styleOptions
+    )
+
+    XCTAssertNotNil(multiLineCardForm)
+    XCTAssertNotEqual(multiLineCardForm.styleOptions, .default)
   }
 }
