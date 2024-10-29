@@ -85,7 +85,7 @@ public class MultiLineCardForm: UIControl, CardForm {
     [numberField, expirationField, cvcField, postalCodeField]
   }
 
-  private let styleOptions: StyleOptions
+  let styleOptions: StyleOptions
 
   // MARK: - Subviews
   private lazy var numberField: LineTextField = {
@@ -191,35 +191,36 @@ public class MultiLineCardForm: UIControl, CardForm {
   }()
 
   // MARK: - Internal
-  let viewModel: CardFormViewModel
+  let viewModel: CardFormViewModel = .init()
 
   // MARK: - Constants
   private let textFieldHeight: CGFloat = 84
 
   // MARK: - Initializers
   override public init(frame: CGRect) {
-    viewModel = .init()
-    styleOptions = .default
+    self.styleOptions = .default
     super.init(frame: frame)
     setUpSubViews()
   }
 
   required init?(coder: NSCoder) {
-    viewModel = .init()
-    styleOptions = .default
+    self.styleOptions = .default
     super.init(coder: coder)
     setUpSubViews()
   }
 
-  public convenience init(
+
+  public init(
     config: ClientConfiguration,
     fieldOptions: FieldOptions = .default,
     styleOptions: StyleOptions = .default
   ) {
-    self.init()
+    self.styleOptions = styleOptions
     viewModel.apiClient = .init(config: config)
     viewModel.cvcDisplayConfig = fieldOptions.cvv.display
     viewModel.postalCodeDisplayConfig = fieldOptions.postalCode.display
+    super.init(frame: .zero)
+    setUpSubViews()
 
     layoutIfNeeded()
   }
