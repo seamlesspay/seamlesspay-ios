@@ -8,19 +8,30 @@
 import UIKit
 import Foundation
 
-public struct StyleOptions {
-  public var colors: Colors = .default
-  public var shapes: Shapes = .default
-  public var typography: Typography = .default
+public struct StyleOptions: Equatable {
+  public var colors: Colors
+  public var shapes: Shapes
+  public var typography: Typography
+
+  public init(colors: Colors, shapes: Shapes, typography: Typography) {
+    self.colors = colors
+    self.shapes = shapes
+    self.typography = typography
+  }
 
   public static var `default`: StyleOptions {
     StyleOptions(colors: .default, shapes: .default, typography: .default)
   }
 }
 
-public struct Colors {
+public struct Colors: Equatable {
   public var light: ColorPalette
   public var dark: ColorPalette
+
+  public init(light: ColorPalette, dark: ColorPalette) {
+    self.light = light
+    self.dark = dark
+  }
 
   public static var `default`: Colors {
     Colors(light: .init(theme: .light), dark: .init(theme: .dark))
@@ -31,18 +42,28 @@ public struct Colors {
   }
 }
 
-public struct ColorPalette {
+public struct ColorPalette: Equatable {
   public var theme: ThemeColors
+
+  public init(theme: ThemeColors) {
+    self.theme = theme
+  }
 
   public static var `default`: ColorPalette {
     ColorPalette(theme: .default)
   }
 }
 
-public struct ThemeColors {
+public struct ThemeColors: Equatable {
   public var neutral: UIColor
   public var primary: UIColor
   public var danger: UIColor
+
+  public init(neutral: UIColor, primary: UIColor, danger: UIColor) {
+    self.neutral = neutral
+    self.primary = primary
+    self.danger = danger
+  }
 
   public static var `default`: ThemeColors {
     .light
@@ -65,23 +86,31 @@ public struct ThemeColors {
   }
 }
 
-public struct Shapes {
+public struct Shapes: Equatable {
   public var cornerRadius: CGFloat
+
+  public init(cornerRadius: CGFloat) {
+    self.cornerRadius = cornerRadius
+  }
 
   public static var `default`: Shapes {
     Shapes(cornerRadius: 8.0)
   }
 }
 
-public struct Shadow {
+public struct Shadow: Equatable {
   public var elevation: ElevationLevel
+
+  public init(elevation: ElevationLevel) {
+    self.elevation = elevation
+  }
 
   public static var `default`: Shadow {
     Shadow(elevation: .none)
   }
 }
 
-public enum ElevationLevel {
+public enum ElevationLevel: Equatable {
   case none
   case level1
   case level2
@@ -90,7 +119,7 @@ public enum ElevationLevel {
   case level5
 }
 
-public struct Typography {
+public struct Typography: Equatable {
   public var font: UIFont
   public var scale: CGFloat {
     willSet {
@@ -98,6 +127,11 @@ public struct Typography {
         assertionFailure("scale must be a value greater than zero")
       }
     }
+  }
+
+  public init(font: UIFont, scale: CGFloat) {
+    self.font = font
+    self.scale = scale
   }
 
   public static var `default`: Typography {
