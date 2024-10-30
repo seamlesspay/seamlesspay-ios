@@ -284,9 +284,6 @@ private extension MultiLineCardForm {
     textField.defaultColor = .darkText
     textField.errorColor = .systemRed
 
-    let currentPalette = styleOptions.colors.palette(for: traitCollection)
-    let theme = currentPalette.theme
-
     textField.appearance = buildTextFieldAppearanceConfig()
 
     return textField
