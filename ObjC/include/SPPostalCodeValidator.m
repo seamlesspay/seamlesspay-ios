@@ -33,6 +33,28 @@ static NSString *const SPCountryCodeUnitedStates = @"US";
   }
 }
 
++ (SPCardValidationState)validationStateForPostalCode:(NSString *)postalCode {
+  // Check for nil or empty string
+  if (postalCode == nil || postalCode.length == 0) {
+      return SPCardValidationStateIncomplete;
+  }
+
+  // Check length (3-10 characters)
+  if (postalCode.length < 3 || postalCode.length > 10) {
+      return SPCardValidationStateInvalid;
+  }
+
+  // Check if string contains only allowed characters
+  NSCharacterSet *invalidChars = [[NSCharacterSet sp_postalCodeCharacterSet] invertedSet];
+  NSRange range = [postalCode rangeOfCharacterFromSet:invalidChars];
+
+  if (range.location != NSNotFound) {
+      return SPCardValidationStateInvalid;
+  }
+
+  return SPCardValidationStateValid;
+}
+
 static NSUInteger
 countOfCharactersFromSetInString(NSString *_Nonnull string,
                                  NSCharacterSet *_Nonnull cs) {

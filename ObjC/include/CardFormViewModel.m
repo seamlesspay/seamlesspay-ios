@@ -113,17 +113,15 @@
 }
 
 - (void)setPostalCode:(NSString *)postalCode {
-  _postalCode = [SPPostalCodeValidator formattedSanitizedPostalCodeFromString:postalCode
-                                                                  countryCode:self.postalCodeCountryCode
-                                                                        usage:SPPostalCodeIntendedUsageBillingAddress];
+  _postalCode = postalCode;
 }
 
-- (void)setPostalCodeCountryCode:(NSString *)postalCodeCountryCode {
-  _postalCodeCountryCode = postalCodeCountryCode;
-  _postalCode = [SPPostalCodeValidator formattedSanitizedPostalCodeFromString:self.postalCode
-                                                                  countryCode:postalCodeCountryCode
-                                                                        usage:SPPostalCodeIntendedUsageBillingAddress];
-}
+//- (void)setPostalCodeCountryCode:(NSString *)postalCodeCountryCode {
+//  _postalCodeCountryCode = postalCodeCountryCode;
+//  _postalCode = [SPPostalCodeValidator formattedSanitizedPostalCodeFromString:self.postalCode
+//                                                                  countryCode:postalCodeCountryCode
+//                                                                        usage:SPPostalCodeIntendedUsageBillingAddress];
+//}
 
 - (SPCardBrand)brand {
   return [SPCardValidator brandForNumber:self.cardNumber];
@@ -151,8 +149,7 @@
     case SPCardFieldTypeCVC:
       return [SPCardValidator validationStateForCVC:self.cvc cardBrand:self.brand];
     case SPCardFieldTypePostalCode:
-      return [SPPostalCodeValidator validationStateForPostalCode:self.postalCode
-                                                     countryCode:self.postalCodeCountryCode];
+      return [SPPostalCodeValidator validationStateForPostalCode:self.postalCode];
   }
 }
 

@@ -22,7 +22,7 @@
 @property(nonatomic, readonly, nullable) NSString *expirationYear;
 @property(nonatomic, readwrite, copy, nullable) NSString *cvc;
 @property(nonatomic, readwrite, copy, nullable) NSString *postalCode;
-@property(nonatomic, readwrite, copy, nullable) NSString *postalCodeCountryCode;
+//@property(nonatomic, readwrite, copy, nullable) NSString *postalCodeCountryCode;
 @property(nonatomic, readonly) SPCardBrand brand;
 @property(nonatomic, readonly) BOOL isValid;
 

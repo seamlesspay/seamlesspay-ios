@@ -22,4 +22,6 @@ typedef NS_ENUM(NSUInteger, SPPostalCodeIntendedUsage) {
                                                   countryCode:(nullable NSString *)countryCode
                                                         usage:(SPPostalCodeIntendedUsage)usage;
 
++ (SPCardValidationState)validationStateForPostalCode:(nullable NSString *)postalCode;
+
 @end

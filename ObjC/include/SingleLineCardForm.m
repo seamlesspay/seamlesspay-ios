@@ -135,6 +135,7 @@ CGFloat const SingleLineCardFormBoundsMaximumHeight = 44;
 
   SPFormTextField *postalCodeField = [self buildTextField];
   postalCodeField.textContentType = UITextContentTypePostalCode;
+  postalCodeField.keyboardType = UIKeyboardTypeDefault;
   postalCodeField.tag = SPCardFieldTypePostalCode;
   postalCodeField.isAccessibilityElement = NO;
   self.postalCodeField = postalCodeField;
@@ -165,7 +166,7 @@ CGFloat const SingleLineCardFormBoundsMaximumHeight = 44;
 
   [self updateCVCPlaceholder];
   [self.fieldEditingTransitionManager resetSubviewEditingTransitionState];
-  self.countryCode = [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];
+//  self.countryCode = [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];
 
   [self addSubview:self.boundedView];
 
@@ -276,29 +277,29 @@ CGFloat const SingleLineCardFormBoundsMaximumHeight = 44;
   [self updatePostalFieldPlaceholder];
 }
 
-- (NSString *)countryCode {
-  return self.viewModel.postalCodeCountryCode;
-}
+//- (NSString *)countryCode {
+//  return self.viewModel.postalCodeCountryCode;
+//}
 
-- (void)setCountryCode:(NSString *)cCode {
-  NSString *countryCode = cCode ?: [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];
-
-  self.viewModel.postalCodeCountryCode = countryCode;
-  [self updatePostalFieldPlaceholder];
-
-  if ([countryCode isEqualToString:@"US"]) {
-    self.postalCodeField.keyboardType = UIKeyboardTypePhonePad;
-  } else {
-    self.postalCodeField.keyboardType = UIKeyboardTypeDefault;
-  }
-
-  // This will revalidate and reformat
-  [self setText:self.postalCode inField:SPCardFieldTypePostalCode];
-}
+//- (void)setCountryCode:(NSString *)cCode {
+//  NSString *countryCode = cCode ?: [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];
+//
+//  self.viewModel.postalCodeCountryCode = countryCode;
+//  [self updatePostalFieldPlaceholder];
+//
+//  if ([countryCode isEqualToString:@"US"]) {
+//    self.postalCodeField.keyboardType = UIKeyboardTypePhonePad;
+//  } else {
+//    self.postalCodeField.keyboardType = UIKeyboardTypeDefault;
+//  }
+//
+//  // This will revalidate and reformat
+//  [self setText:self.postalCode inField:SPCardFieldTypePostalCode];
+//}
 
 - (void)updatePostalFieldPlaceholder {
   if (self.postalCodePlaceholder == nil) {
-    self.postalCodeField.placeholder = [self defaultPostalFieldPlaceholderForCountryCode:self.countryCode];
+    self.postalCodeField.placeholder = [self defaultPostalFieldPlaceholder];
   } else {
     self.postalCodeField.placeholder = _postalCodePlaceholder;
   }
@@ -593,29 +594,16 @@ CGFloat const SingleLineCardFormBoundsMaximumHeight = 44;
 
   if (currentTextWidth <= compressedWidth) {
     return compressedWidth;
-  } else if ([self.countryCode.uppercaseString isEqualToString:@"US"]) {
-    // This format matches ZIP+4 which is currently disabled since it is
-    // not used for billing, but could be useful for future shipping addr
-    // purposes
-    return [self widthForText:@"88888-8888"];
   } else {
-    // This format more closely matches the typical max UK/Canadian size which
-    // is our most common non-US market currently
-    return [self widthForText:@"888 8888"];
+    return [self widthForText:@"8888888888"];;
   }
 }
 
 - (CGFloat)postalCodeFieldCompressedWidth {
   CGFloat maxTextWidth = 0;
-  if ([self.countryCode.uppercaseString isEqualToString:@"US"]) {
-    maxTextWidth = [self widthForText:@"88888"];
-  } else {
-    // This format more closely matches the typical max UK/Canadian size which
-    // is our most common non-US market currently
-    maxTextWidth = [self widthForText:@"888 8888"];
-  }
+  maxTextWidth = [self widthForText:@"88888"];
 
-  CGFloat placeholderWidth = [self widthForText: [self defaultPostalFieldPlaceholderForCountryCode:self.countryCode]];
+  CGFloat placeholderWidth = [self widthForText: [self defaultPostalFieldPlaceholder]];
   return MAX(maxTextWidth, placeholderWidth);
 }
 
@@ -988,12 +976,8 @@ typedef NS_ENUM(NSInteger, SingleLineCardFormState) {
   self.numberToWidthCache = [NSMutableDictionary new];
 }
 
-- (NSString *)defaultPostalFieldPlaceholderForCountryCode:(NSString *)countryCode {
-  if ([countryCode.uppercaseString isEqualToString:@"US"]) {
-    return @"ZIP";
-  } else {
-    return @"Postal";
-  }
+- (NSString *)defaultPostalFieldPlaceholder {
+  return @"Postal";
 }
 
 - (SPFormTextField *)buildSizingTextField {
