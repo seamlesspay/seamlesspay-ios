@@ -27,6 +27,28 @@
   return cs;
 }
 
++ (instancetype)sp_letterCharacterSet {
+    static NSCharacterSet *cs;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        cs = [self characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"];
+    });
+    return cs;
+}
+
++ (instancetype)sp_postalCodeCharacterSet {
+    static NSCharacterSet *cs;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSMutableCharacterSet *mutableSet = [[NSMutableCharacterSet alloc] init];
+        [mutableSet formUnionWithCharacterSet:[self sp_asciiDigitCharacterSet]];
+        [mutableSet formUnionWithCharacterSet:[self sp_letterCharacterSet]];
+        [mutableSet addCharactersInString:@" "];
+        cs = [mutableSet copy];
+    });
+    return cs;
+}
+
 @end
 
 void linkNSCharacterSetCategory(void){}

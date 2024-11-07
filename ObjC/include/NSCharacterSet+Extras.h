@@ -11,6 +11,8 @@
 
 + (instancetype)sp_asciiDigitCharacterSet;
 + (instancetype)sp_invertedAsciiDigitCharacterSet;
++ (instancetype)sp_letterCharacterSet;
++ (instancetype)sp_postalCodeCharacterSet;
 
 @end
 

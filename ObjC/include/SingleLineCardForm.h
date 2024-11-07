@@ -51,7 +51,7 @@
 
  By default this will fetch the user's current country code from NSLocale.
  */
-@property(nonatomic, copy, nullable) NSString *countryCode;
+//@property(nonatomic, copy, nullable) NSString *countryCode;
 
 /**
  Resets all of the contents of all of the fields. If the field is currently
