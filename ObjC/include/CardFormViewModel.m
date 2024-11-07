@@ -9,7 +9,6 @@
 #import "CardFormViewModel+FieldConfigs.h"
 #import "NSString+Extras.h"
 #import "SPCardValidator+Extras.h"
-#import "SPPostalCodeValidator.h"
 
 @implementation CardFormViewModel
 
@@ -149,7 +148,7 @@
     case SPCardFieldTypeCVC:
       return [SPCardValidator validationStateForCVC:self.cvc cardBrand:self.brand];
     case SPCardFieldTypePostalCode:
-      return [SPPostalCodeValidator validationStateForPostalCode:self.postalCode];
+      return [SPCardValidator validationStateForPostalCode:self.postalCode];
   }
 }
 
