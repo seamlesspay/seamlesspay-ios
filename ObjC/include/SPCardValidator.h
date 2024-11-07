@@ -172,6 +172,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (SPCardValidationState)validationStateForCVC:(NSString *)cvc
                                      cardBrand:(SPCardBrand)brand;
 
+//TODO: Add documentation
++ (SPCardValidationState)validationStateForPostalCode:(nullable NSString *)postalCode;
+
 @end
 
 NS_ASSUME_NONNULL_END
