@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 #import "SPCardValidator.h"
-#import "SPPostalCodeValidator.h"
 #import "SPCardFieldType.h"
 #import "DisplayConfiguration.h"
 
