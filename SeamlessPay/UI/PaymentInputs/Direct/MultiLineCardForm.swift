@@ -23,20 +23,14 @@ public class MultiLineCardForm: UIControl, CardForm {
     }
   }
 
-  public var countryCode: String? {
-    get {
-      viewModel.postalCodeCountryCode
-    }
-    set {
-      viewModel.postalCodeCountryCode = newValue
-
-      if countryCode == "US" {
-        postalCodeField.keyboardType = .phonePad
-      } else {
-        postalCodeField.keyboardType = .default
-      }
-    }
-  }
+//  public var countryCode: String? {
+//    get {
+//      viewModel.postalCodeCountryCode
+//    }
+//    set {
+//      viewModel.postalCodeCountryCode = newValue
+//    }
+//  }
 
   public func clear() {
     for field in allFields {
@@ -118,6 +112,7 @@ public class MultiLineCardForm: UIControl, CardForm {
   private lazy var postalCodeField: LineTextField = {
     let textField = buildTextField()
     textField.textContentType = .postalCode
+    textField.keyboardType = .default
     textField.tag = SPCardFieldType.postalCode.rawValue
     textField.floatingPlaceholder = "Postal code"
 
@@ -244,7 +239,7 @@ private extension MultiLineCardForm {
 
     updateImages()
 
-    countryCode = Locale.autoupdatingCurrent.identifier
+//    countryCode = Locale.autoupdatingCurrent.identifier
   }
 
   // swiftlint:disable function_body_length
