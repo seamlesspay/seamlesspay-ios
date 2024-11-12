@@ -43,17 +43,6 @@
 @property(nonatomic, getter=isEnabled) BOOL enabled;
 
 /**
- The two-letter ISO country code that corresponds to the user's billing address.
-
- If set to nil and postal code entry is enabled, the country from the user's
- current locale will be filled in. Otherwise the specific country code set will
- be used.
-
- By default this will fetch the user's current country code from NSLocale.
- */
-//@property(nonatomic, copy, nullable) NSString *countryCode;
-
-/**
  Resets all of the contents of all of the fields. If the field is currently
  being edited, the number field will become selected.
  */

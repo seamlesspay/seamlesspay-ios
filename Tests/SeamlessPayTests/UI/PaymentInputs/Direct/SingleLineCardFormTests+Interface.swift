@@ -20,7 +20,6 @@ class SingleLineCardFormTests_Interface: XCTestCase, CardFormDelegate {
     XCTAssertNotNil(cardForm.brandImage)
     XCTAssertFalse(cardForm.isValid)
     XCTAssertTrue(cardForm.isEnabled)
-    XCTAssertNotNil(cardForm.countryCode)
   }
 
   func testClear() {
@@ -35,12 +34,6 @@ class SingleLineCardFormTests_Interface: XCTestCase, CardFormDelegate {
     XCTAssertEqual(cardForm.viewModel.rawExpiration, .init())
     XCTAssertEqual(cardForm.viewModel.cvc, .none)
     XCTAssertEqual(cardForm.viewModel.postalCode, .none)
-  }
-
-  func testSetCountryCode() {
-    let testCountryCode = "US"
-    cardForm.countryCode = testCountryCode
-    XCTAssertEqual(cardForm.countryCode, testCountryCode)
   }
 
   func testFieldsRectForBounds() {

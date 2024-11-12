@@ -172,8 +172,27 @@ NS_ASSUME_NONNULL_BEGIN
 + (SPCardValidationState)validationStateForCVC:(NSString *)cvc
                                      cardBrand:(SPCardBrand)brand;
 
-//TODO: Add documentation
+/**
+ Validates a postal code, passed as a string.
+
+ This method checks if the postal code is valid based on general postal code rules.
+ It does not validate against specific country formats.
+
+ @param postalCode The postal code to validate.
+
+ @return SPCardValidationStateValid if the postal code is valid,
+ SPCardValidationStateInvalid if the postal code is invalid, or
+ SPCardValidationStateIncomplete if the postal code is a substring of a valid
+ postal code.
+ */
 + (SPCardValidationState)validationStateForPostalCode:(nullable NSString *)postalCode;
+
+/**
+ The maximum length for a postal code.
+
+ @return The maximum length for a postal code.
+ */
++ (NSUInteger)postalCodeMaxLength;
 
 @end
 
