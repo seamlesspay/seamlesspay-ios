@@ -23,15 +23,6 @@ public class MultiLineCardForm: UIControl, CardForm {
     }
   }
 
-//  public var countryCode: String? {
-//    get {
-//      viewModel.postalCodeCountryCode
-//    }
-//    set {
-//      viewModel.postalCodeCountryCode = newValue
-//    }
-//  }
-
   public func clear() {
     for field in allFields {
       field.text = .init()
@@ -170,11 +161,13 @@ public class MultiLineCardForm: UIControl, CardForm {
   }()
 
   private lazy var stackView: UIStackView = {
-    let stackView = UIStackView(arrangedSubviews: [
-      cardInformationStackView,
-      expirationAndCvcStackView,
-      postalCodeStackView,
-    ])
+    let stackView = UIStackView(
+      arrangedSubviews: [
+        cardInformationStackView,
+        expirationAndCvcStackView,
+        postalCodeStackView,
+      ]
+    )
     stackView.axis = .vertical
     stackView.spacing = 14
     stackView.distribution = .fill
@@ -234,12 +227,9 @@ private extension MultiLineCardForm {
     postalCodeStackView.isHidden = !viewModel.postalCodeDisplayed
 
     numberField.rightViewMode = .always
-
     cvcField.rightViewMode = .always
 
     updateImages()
-
-//    countryCode = Locale.autoupdatingCurrent.identifier
   }
 
   // swiftlint:disable function_body_length
@@ -475,9 +465,7 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
       } else if fieldType == .postalCode {
         /*
          Similar to the UX problems on CVC, since our Postal Code validation
-         is pretty light, we want to block auto-advance here. In the US, this
-         allows users to enter 9 digit zips if they want, and as many as they
-         need in non-US countries (where >0 characters is "valid")
+         is pretty light, we want to block auto-advance here.
          */
         break
       }

@@ -112,15 +112,8 @@
 }
 
 - (void)setPostalCode:(NSString *)postalCode {
-  _postalCode = postalCode;
+  _postalCode = [postalCode sp_safeSubstringToIndex:SPCardValidator.postalCodeMaxLength];
 }
-
-//- (void)setPostalCodeCountryCode:(NSString *)postalCodeCountryCode {
-//  _postalCodeCountryCode = postalCodeCountryCode;
-//  _postalCode = [SPPostalCodeValidator formattedSanitizedPostalCodeFromString:self.postalCode
-//                                                                  countryCode:postalCodeCountryCode
-//                                                                        usage:SPPostalCodeIntendedUsageBillingAddress];
-//}
 
 - (SPCardBrand)brand {
   return [SPCardValidator brandForNumber:self.cardNumber];

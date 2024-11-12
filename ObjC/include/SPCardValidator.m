@@ -292,7 +292,7 @@ inMonth:(NSString *)expirationMonth {
   }
 
   // Check length (3-10 characters)
-  if (postalCode.length < 3 || postalCode.length > 10) {
+  if (postalCode.length < self.postalCodeMinLength || postalCode.length > self.postalCodeMaxLength) {
       return SPCardValidationStateInvalid;
   }
 
@@ -305,6 +305,14 @@ inMonth:(NSString *)expirationMonth {
   }
 
   return SPCardValidationStateValid;
+}
+
++ (NSUInteger)postalCodeMinLength {
+  return 3;
+}
+
++ (NSUInteger)postalCodeMaxLength {
+  return 10;
 }
 
 @end
