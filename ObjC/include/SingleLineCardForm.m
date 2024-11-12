@@ -139,6 +139,7 @@ CGFloat const SingleLineCardFormBoundsMaximumHeight = 44;
   postalCodeField.tag = SPCardFieldTypePostalCode;
   postalCodeField.isAccessibilityElement = NO;
   self.postalCodeField = postalCodeField;
+  self.postalCodePlaceholder = [self defaultPostalFieldPlaceholder];
   // Placeholder and appropriate keyboard typeare set by country code setter
 
   UIView *boundedView = [[UIView alloc] init];
@@ -166,7 +167,6 @@ CGFloat const SingleLineCardFormBoundsMaximumHeight = 44;
 
   [self updateCVCPlaceholder];
   [self.fieldEditingTransitionManager resetSubviewEditingTransitionState];
-//  self.countryCode = [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];
 
   [self addSubview:self.boundedView];
 
@@ -274,35 +274,7 @@ CGFloat const SingleLineCardFormBoundsMaximumHeight = 44;
 
 - (void)setPostalCodePlaceholder:(NSString *)postalCodePlaceholder {
   _postalCodePlaceholder = postalCodePlaceholder.copy;
-  [self updatePostalFieldPlaceholder];
-}
-
-//- (NSString *)countryCode {
-//  return self.viewModel.postalCodeCountryCode;
-//}
-
-//- (void)setCountryCode:(NSString *)cCode {
-//  NSString *countryCode = cCode ?: [[NSLocale autoupdatingCurrentLocale] objectForKey:NSLocaleCountryCode];
-//
-//  self.viewModel.postalCodeCountryCode = countryCode;
-//  [self updatePostalFieldPlaceholder];
-//
-//  if ([countryCode isEqualToString:@"US"]) {
-//    self.postalCodeField.keyboardType = UIKeyboardTypePhonePad;
-//  } else {
-//    self.postalCodeField.keyboardType = UIKeyboardTypeDefault;
-//  }
-//
-//  // This will revalidate and reformat
-//  [self setText:self.postalCode inField:SPCardFieldTypePostalCode];
-//}
-
-- (void)updatePostalFieldPlaceholder {
-  if (self.postalCodePlaceholder == nil) {
-    self.postalCodeField.placeholder = [self defaultPostalFieldPlaceholder];
-  } else {
-    self.postalCodeField.placeholder = _postalCodePlaceholder;
-  }
+  self.postalCodeField.placeholder = _postalCodePlaceholder;
 }
 
 #pragma mark UIControl
@@ -1174,9 +1146,7 @@ typedef void (^SPLayoutAnimationCompletionBlock)(BOOL completed);
       } else if (fieldType == SPCardFieldTypePostalCode) {
         /*
          Similar to the UX problems on CVC, since our Postal Code validation
-         is pretty light, we want to block auto-advance here. In the US, this
-         allows users to enter 9 digit zips if they want, and as many as they
-         need in non-US countries (where >0 characters is "valid")
+         is pretty light, we want to block auto-advance here.
          */
         break;
       }

@@ -46,14 +46,6 @@ class MultiLineCardFormTests: XCTestCase {
     XCTAssertEqual(multiLineCardForm.viewModel.postalCode, .none)
   }
 
-  func testSetCountryCode() {
-    multiLineCardForm.countryCode = "US"
-    XCTAssertEqual(multiLineCardForm.countryCode, "US")
-
-    multiLineCardForm.countryCode = "CA"
-    XCTAssertEqual(multiLineCardForm.countryCode, "CA")
-  }
-
   func testRequiredFieldConfigurations() {
     let config = ClientConfiguration(
       environment: .production,
