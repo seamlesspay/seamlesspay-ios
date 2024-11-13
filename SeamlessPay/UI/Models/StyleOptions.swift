@@ -12,15 +12,17 @@ public struct StyleOptions: Equatable {
   public var colors: Colors
   public var shapes: Shapes
   public var typography: Typography
+  public var iconSet: IconSet?
 
-  public init(colors: Colors, shapes: Shapes, typography: Typography) {
+  public init(colors: Colors, shapes: Shapes, typography: Typography, iconSet: IconSet?) {
     self.colors = colors
     self.shapes = shapes
     self.typography = typography
+    self.iconSet = iconSet
   }
 
   public static var `default`: StyleOptions {
-    StyleOptions(colors: .default, shapes: .default, typography: .default)
+    StyleOptions(colors: .default, shapes: .default, typography: .default, iconSet: .none)
   }
 }
 
@@ -145,5 +147,19 @@ public struct Typography: Equatable {
   public func scaledFont(for font: UIFont) -> UIFont {
     let customFont = font.withSize(font.pointSize * scale)
     return UIFontMetrics.default.scaledFont(for: customFont)
+  }
+}
+
+public enum IconSet: Equatable {
+  case light
+  case dark
+}
+
+public extension Optional where Wrapped == IconSet {
+  func iconSet(for traitCollection: UITraitCollection) -> IconSet {
+    if let iconSet = self {
+      return iconSet
+    }
+    return traitCollection.userInterfaceStyle == .dark ? .dark : .light
   }
 }

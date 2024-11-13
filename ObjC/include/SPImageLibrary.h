@@ -12,6 +12,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSInteger, SPCardBrandImageSet) {
+  SPCardBrandImageSetLight,
+  SPCardBrandImageSetDark,
+};
+
 /**
  This class lets you access card icons
  */
@@ -100,9 +105,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (UIImage *)errorImageForCardBrand:(SPCardBrand)brand;
 
 // Renewed images currently used by multiline card form
-+ (UIImage *)renewed_brandImageForCardBrand:(SPCardBrand)brand;
++ (UIImage *)renewed_brandImageForCardBrand:(SPCardBrand)brand imageSet:(SPCardBrandImageSet)imageSet;
 + (UIImage *)renewed_cvcImageTemplateForCardBrand:(SPCardBrand)brand;
-+ (UIImage *)renewed_errorImage;
++ (UIImage *)renewed_errorImageTemplate;
 
 @end
 

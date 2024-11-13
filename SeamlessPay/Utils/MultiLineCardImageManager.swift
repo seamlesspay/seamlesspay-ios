@@ -5,13 +5,9 @@
 // * LICENSE file in the root directory of this source tree.
 // *
 
-import Foundation
-
 import UIKit
-import Foundation
 
 class MultiLineCardImageManager {
-
   // MARK: Interface
   enum Field {
     case number
@@ -22,36 +18,54 @@ class MultiLineCardImageManager {
     _ lineTextField: LineTextField,
     for field: MultiLineCardImageManager.Field,
     brand: SPCardBrand,
+    brandImageSet: SPCardBrandImageSet,
     isValid: Bool
   ) {
-    let image = image(for: field, brand: brand, isValid: isValid)
+    let image = image(for: field, brand: brand, brandImageSet: brandImageSet, isValid: isValid)
     updateImageViewIfNeeded(lineTextField, image: image)
   }
 
   // MARK: Private
-  private func image(
+  func image(
     for field: MultiLineCardImageManager.Field,
     brand: SPCardBrand,
+    brandImageSet: SPCardBrandImageSet,
     isValid: Bool
   ) -> UIImage? {
-    guard isValid else {
-      return SPImageLibrary.renewed_errorImage()
-    }
-
-    switch field {
-    case .number:
-      switch brand {
-      case .unknown:
-        return nil
-      default:
-        return SPImageLibrary.renewed_brandImage(for: brand)
+    switch isValid {
+    case false:
+      return getErrorImage()
+    case true:
+      switch field {
+      case .number:
+        return getNumberFieldImage(brand: brand, brandImageSet: brandImageSet)
+      case .cvc:
+        return getCVCFieldImage(brand: brand)
       }
-    case .cvc:
-      return SPImageLibrary.renewed_cvcImageTemplate(for: brand)
     }
   }
+}
 
-  private func updateImageViewIfNeeded(_ lineTextField: LineTextField, image: UIImage?) {
+private extension MultiLineCardImageManager {
+  func getErrorImage() -> UIImage? {
+    SPImageLibrary.renewed_errorImageTemplate()
+  }
+
+  func getNumberFieldImage(
+    brand: SPCardBrand,
+    brandImageSet: SPCardBrandImageSet
+  ) -> UIImage? {
+    guard brand != .unknown else {
+      return nil
+    }
+    return SPImageLibrary.renewed_brandImage(for: brand, imageSet: brandImageSet)
+  }
+
+  func getCVCFieldImage(brand: SPCardBrand) -> UIImage? {
+    SPImageLibrary.renewed_cvcImageTemplate(for: brand)
+  }
+
+  func updateImageViewIfNeeded(_ lineTextField: LineTextField, image: UIImage?) {
     guard lineTextField.rightImageView.image != image else {
       return
     }
