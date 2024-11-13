@@ -108,7 +108,7 @@
   if (!imageName) {
     return nil;
   }
-  
+
   NSString *path = [self pathForImageWithName:imageName];
 
   UIImage *image = [UIImage imageWithContentsOfFile:path];
@@ -168,33 +168,36 @@
   return image;
 }
 
-+ (UIImage *)renewed_brandImageForCardBrand:(SPCardBrand)brand {
-  NSString *imageName;
++ (UIImage *)renewed_brandImageForCardBrand:(SPCardBrand)brand imageSet:(SPCardBrandImageSet)imageSet {
+  NSString *baseImageName;
+
   switch (brand) {
     case SPCardBrandAmex:
-      imageName = @"logo_amex_light";
+      baseImageName = @"logo_amex";
       break;
     case SPCardBrandDiscover:
-      imageName = @"logo_discover_light";
+      baseImageName = @"logo_discover";
       break;
     case SPCardBrandMasterCard:
-      imageName = @"logo_mastercard_light";
+      baseImageName = @"logo_mastercard";
       break;
     case SPCardBrandVisa:
-      imageName = @"logo_visa_light";
+      baseImageName = @"logo_visa";
       break;
     case SPCardBrandDinersClub:
-      imageName = @"logo_diners_club_light";
+      baseImageName = @"logo_diners_club";
       break;
     case SPCardBrandJCB:
-      imageName = @"logo_jcb_light";
+      baseImageName = @"logo_jcb";
       break;
     default:
-      imageName = @"sp_card_unknown";
-      break;
+      return [self safeImageNamed:@"sp_card_unknown" templateIfAvailable:NO];
   }
-  UIImage *image = [self safeImageNamed:imageName templateIfAvailable:NO];
-  return image;
+
+  NSString *suffix = (imageSet == SPCardBrandImageSetDark) ? @"_dark" : @"_light";
+  NSString *fullImageName = [baseImageName stringByAppendingString:suffix];
+
+  return [self safeImageNamed:fullImageName templateIfAvailable:NO];
 }
 
 + (UIImage *)renewed_cvcImageTemplateForCardBrand:(SPCardBrand)brand {
@@ -203,7 +206,7 @@
   return [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 }
 
-+ (UIImage *)renewed_errorImage {
++ (UIImage *)renewed_errorImageTemplate {
   UIImage *image = [self safeImageNamed:@"error_sign"];
   return [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 }

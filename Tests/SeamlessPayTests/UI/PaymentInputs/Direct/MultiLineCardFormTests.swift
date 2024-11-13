@@ -154,7 +154,8 @@ class MultiLineCardFormTests: XCTestCase {
         dark: .init(theme: .init(neutral: .purple, primary: .yellow, danger: .cyan))
       ),
       shapes: .init(cornerRadius: 8),
-      typography: .init(font: .boldSystemFont(ofSize: 18), scale: 1.2)
+      typography: .init(font: .boldSystemFont(ofSize: 18), scale: 1.2), 
+      iconSet: .none
     )
 
     let multiLineCardForm = MultiLineCardForm(

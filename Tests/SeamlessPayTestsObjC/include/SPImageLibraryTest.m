@@ -72,10 +72,18 @@
   }
 }
 
-- (void)testRenewedBrandImageForCardBrand {
+- (void)testRenewedBrandImageForCardBrandDark {
   for (NSNumber *brandNumber in self.cardBrands) {
     SPCardBrand brand = (SPCardBrand)[brandNumber integerValue];
-    UIImage *image = [SPImageLibrary renewed_brandImageForCardBrand:brand];
+    UIImage *image = [SPImageLibrary renewed_brandImageForCardBrand:brand imageSet:SPCardBrandImageSetDark];
+    XCTAssertNotNil(image);
+  }
+}
+
+- (void)testRenewedBrandImageForCardBrandLight {
+  for (NSNumber *brandNumber in self.cardBrands) {
+    SPCardBrand brand = (SPCardBrand)[brandNumber integerValue];
+    UIImage *image = [SPImageLibrary renewed_brandImageForCardBrand:brand imageSet:SPCardBrandImageSetLight];
     XCTAssertNotNil(image);
   }
 }
@@ -92,10 +100,12 @@
 }
 
 - (void)testRenewedErrorImage {
-    UIImage *image = [SPImageLibrary renewed_errorImage];
+    UIImage *image = [SPImageLibrary renewed_errorImageTemplate];
     XCTAssertNotNil(image);
     XCTAssertEqual(image.renderingMode, UIImageRenderingModeAlwaysTemplate);
 }
 
 @end
+
+
 

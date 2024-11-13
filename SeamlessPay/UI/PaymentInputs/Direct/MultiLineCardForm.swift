@@ -198,17 +198,16 @@ public class MultiLineCardForm: UIControl, CardForm {
 
   // MARK: - Initializers
   override public init(frame: CGRect) {
-    self.styleOptions = .default
+    styleOptions = .default
     super.init(frame: frame)
     setUpSubViews()
   }
 
   required init?(coder: NSCoder) {
-    self.styleOptions = .default
+    styleOptions = .default
     super.init(coder: coder)
     setUpSubViews()
   }
-
 
   public init(
     config: ClientConfiguration,
@@ -296,8 +295,7 @@ private extension MultiLineCardForm {
     label.numberOfLines = 0
     label.textAlignment = .left
 
-    label.textColor = buildTitleLabelAppearanceConfig().textColor
-    label.font = buildTitleLabelAppearanceConfig().font
+    applyTitleLabelAppearanceConfig(on: label)
 
     return label
   }
@@ -368,6 +366,7 @@ private extension MultiLineCardForm {
       numberField,
       for: .number,
       brand: viewModel.brand,
+      brandImageSet: styleOptions.iconSet.iconSet(for: traitCollection) == .dark ? .dark : .light,
       isValid: isValid
     )
   }
@@ -379,6 +378,7 @@ private extension MultiLineCardForm {
       cvcField,
       for: .cvc,
       brand: viewModel.brand,
+      brandImageSet: .light,
       isValid: isValid
     )
   }
@@ -671,17 +671,20 @@ extension MultiLineCardForm {
     }
 
     for label in [postalCodeTitleLabel, cardInformationTitleLabel] {
-      let titleLabelAppearanceConfig = buildTitleLabelAppearanceConfig()
-      label.textColor = titleLabelAppearanceConfig.textColor
-      label.font = titleLabelAppearanceConfig.font
+      applyTitleLabelAppearanceConfig(on: label)
     }
+
+    updateImages()
   }
 
-  func buildTitleLabelAppearanceConfig() -> (textColor: UIColor, font: UIFont) {
-    (
-      styleOptions.colors.palette(for: traitCollection).theme.neutral.withAlphaComponent(0.75),
-      styleOptions.typography.scaledFont
-    )
+  func applyTitleLabelAppearanceConfig(on label: UILabel) {
+    let textColor = styleOptions.colors.palette(
+      for: traitCollection
+    ).theme.neutral.withAlphaComponent(0.75)
+    let font = styleOptions.typography.scaledFont
+
+    label.textColor = textColor
+    label.font = font
   }
 
   func buildTextFieldAppearanceConfig() -> LineTextField.AppearanceConfiguration {
