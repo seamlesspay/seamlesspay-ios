@@ -96,7 +96,7 @@ public struct Shapes: Equatable {
   }
 
   public static var `default`: Shapes {
-    Shapes(cornerRadius: 8.0)
+    Shapes(cornerRadius: 5.0)
   }
 }
 

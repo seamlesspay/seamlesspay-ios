@@ -11,10 +11,12 @@ import Foundation
 public class LineTextField: SPFormTextField {
   // MARK: - Constants
   private enum Constants {
-    static let paddingX: CGFloat = 10.0
+    static let textOriginY: CGFloat = 12.5
+    static let paddingX: CGFloat = 15.0
     static let paddingYElements: CGFloat = 3.0
-    static let paddingYFloatLabel: CGFloat = 5.0
+    static let paddingYFloatLabel: CGFloat = 10.0
     static let animationDuration: TimeInterval = 0.2
+    static let textInputFieldHeight: CGFloat = 70.0
   }
 
   // MARK: - UI Components
@@ -82,7 +84,7 @@ public class LineTextField: SPFormTextField {
     get { errorLabel.text }
     set {
       errorLabel.text = newValue
-      updateErrorLabel()
+      updateAppearance()
     }
   }
 
@@ -98,11 +100,6 @@ public class LineTextField: SPFormTextField {
     return originX
   }
 
-  private var fontHeight: CGFloat {
-    let font = font ?? .systemFont(ofSize: 18)
-    return ceil(font.lineHeight)
-  }
-
   private var floatingPlaceholderHeight: CGFloat {
     floatingPlaceholderLabel.textRect(
       forBounds: CGRect(
@@ -115,9 +112,16 @@ public class LineTextField: SPFormTextField {
     ).height
   }
 
-  private var errorFontHeight: CGFloat {
-    let font = errorLabel.font ?? .systemFont(ofSize: 14)
-    return ceil(font.lineHeight)
+  private var errorMessageHeight: CGFloat {
+    let height: CGFloat
+    if errorMessage?.isEmpty ?? true {
+      height = 0
+    } else {
+      height = appearance.errorFont.lineHeight
+    }
+
+    return height
+
   }
 
   private var floatingPlaceholderWidth: CGFloat {
@@ -244,9 +248,9 @@ public class LineTextField: SPFormTextField {
   private func updateErrorLabel() {
     errorLabel.frame = CGRect(
       x: 0,
-      y: frame.height - errorFontHeight,
-      width: bounds.width - originX,
-      height: errorFontHeight
+      y: frame.height - errorMessageHeight,
+      width: bounds.width,
+      height: errorMessageHeight
     )
   }
 
@@ -255,7 +259,7 @@ public class LineTextField: SPFormTextField {
       x: 0,
       y: 0,
       width: frame.width,
-      height: frame.height - errorFontHeight - Constants.paddingYElements
+      height: frame.height - errorMessageHeight - Constants.paddingYElements
     )
   }
 
@@ -270,8 +274,9 @@ public class LineTextField: SPFormTextField {
       x: originX,
       y: toFloat
         ? Constants.paddingYFloatLabel
-        : (frame.height - floatingPlaceholderHeight - errorFontHeight
-          - Constants.paddingYElements) / 2,
+        : (
+          frame.height - floatingPlaceholderHeight - errorMessageHeight - Constants.paddingYElements
+        ) / 2,
       width: floatingPlaceholderWidth,
       height: floatingPlaceholderHeight
     )
@@ -304,7 +309,7 @@ public class LineTextField: SPFormTextField {
   override public func leftViewRect(forBounds bounds: CGRect) -> CGRect {
     var rect = super.leftViewRect(forBounds: bounds)
     rect.origin.y
-      = (bounds.height - rect.size.height - errorFontHeight - Constants.paddingYElements) / 2
+      = (bounds.height - rect.size.height - errorMessageHeight - Constants.paddingYElements) / 2
     rect.origin.x += Constants.paddingX
     return rect
   }
@@ -312,7 +317,7 @@ public class LineTextField: SPFormTextField {
   override public func rightViewRect(forBounds bounds: CGRect) -> CGRect {
     var rect = super.rightViewRect(forBounds: bounds)
     rect.origin.y
-      = (bounds.height - rect.size.height - errorFontHeight - Constants.paddingYElements) / 2
+      = (bounds.height - rect.size.height - errorMessageHeight - Constants.paddingYElements) / 2
     rect.origin.x -= Constants.paddingX
     return rect
   }
@@ -324,11 +329,20 @@ public class LineTextField: SPFormTextField {
   }
 
   private func insetRectForBounds(rect: CGRect) -> CGRect {
-    CGRect(
+    let rect = CGRect(
       x: originX,
-      y: 0,
-      width: rect.size.width - originX - Constants.paddingX,
-      height: rect.height
+      y: Constants.textOriginY,
+      width: rect.width - originX - Constants.paddingX,
+      height: rect.height - errorMessageHeight
+    )
+
+    return rect
+  }
+
+  override public var intrinsicContentSize: CGSize {
+    return CGSize(
+      width: UIView.noIntrinsicMetric,
+      height: Constants.textInputFieldHeight + errorMessageHeight + Constants.paddingYElements
     )
   }
 }
@@ -352,7 +366,7 @@ extension LineTextField {
 
       rightImageView.tintColor = appearance.imageFocusValidColor
       tintColor = appearance.tintValidColor
-      errorLabel.textColor = appearance.tintValidColor
+      errorLabel.textColor = errorColor
     case (true, false): // focus and invalid
       backgroundFrameLayer.borderColor = appearance.borderFocusInvalidColor.cgColor
       backgroundFrameLayer.backgroundColor = appearance.backgroundFocusInvalidColor.cgColor
@@ -360,7 +374,7 @@ extension LineTextField {
 
       rightImageView.tintColor = appearance.imageFocusInvalidColor
       tintColor = appearance.tintInvalidColor
-      errorLabel.textColor = appearance.tintInvalidColor
+      errorLabel.textColor = errorColor
     case (false, true): // not focus and valid
       backgroundFrameLayer.borderColor = appearance.borderInactiveColor.cgColor
       backgroundFrameLayer.backgroundColor = appearance.backgroundInactiveColor.cgColor
@@ -368,7 +382,7 @@ extension LineTextField {
 
       rightImageView.tintColor = appearance.imageInactiveColor
       tintColor = appearance.tintValidColor
-      errorLabel.textColor = appearance.tintValidColor
+      errorLabel.textColor = errorColor
     case (false, false): // not focus and invalid
       backgroundFrameLayer.borderColor = appearance.borderInvalidColor.cgColor
       backgroundFrameLayer.backgroundColor = appearance.backgroundInvalidColor.cgColor
@@ -376,9 +390,11 @@ extension LineTextField {
 
       rightImageView.tintColor = appearance.imageInvalidColor
       tintColor = appearance.tintInvalidColor
-      errorLabel.textColor = appearance.tintInvalidColor
+      errorLabel.textColor = errorColor
     }
 
-    layoutSubviews()
+    invalidateIntrinsicContentSize()
+    setNeedsLayout()
+    layoutIfNeeded()
   }
 }
