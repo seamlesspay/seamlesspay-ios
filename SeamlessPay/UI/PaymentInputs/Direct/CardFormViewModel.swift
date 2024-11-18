@@ -53,7 +53,7 @@ extension CardFormViewModel {
 }
 
 extension CardFormViewModel {
-  func formValidationForField(_ fieldType: SPCardFieldType) -> CardFormError? {
+  func formValidationForField(_ fieldType: SPCardFieldType) -> FormValidationError? {
     guard isFieldRequired(fieldType) else {
       return nil
     }

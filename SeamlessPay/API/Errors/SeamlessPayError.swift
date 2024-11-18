@@ -12,6 +12,7 @@ public enum SeamlessPayError: LocalizedError {
   case sessionTaskError(Error)
   case apiError(APIError)
   case responseSerializationError
+  case unknown
 
   public var errorDescription: String? {
     switch self {
@@ -22,6 +23,8 @@ public enum SeamlessPayError: LocalizedError {
       return error.localizedDescription
     case .responseSerializationError:
       return "Response Serialization Error"
+    case .unknown:
+      return "Unknown Error"
     }
   }
 }
@@ -30,18 +33,10 @@ extension SeamlessPayError {
   static func fromFailedSessionTask(data: Data?, error: Error?) -> Self {
     if let error {
       return .sessionTaskError(error)
-    } else if let data, let error = APIError.apiError(data) {
-      return .apiError(error)
+    } else if let data {
+      return .apiError(.init(data: data))
     } else {
-      return .apiError(
-        .init(
-          domain: "api.seamlesspay.com",
-          code: 29,
-          userInfo: [
-            NSLocalizedDescriptionKey: "Unknown Error",
-          ]
-        )
-      )
+      return .unknown
     }
   }
 }

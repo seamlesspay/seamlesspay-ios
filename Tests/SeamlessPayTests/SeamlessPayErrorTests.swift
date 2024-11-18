@@ -17,15 +17,12 @@ final class SeamlessPayErrorTests: XCTestCase {
     )
 
     // when
-    guard case let .apiError(apiError) = error else {
-      XCTAssert(false, "Wrong seamless pay error subtype")
-      return
+    switch error {
+    case .unknown:
+      break
+    default:
+      XCTFail("Wrong seamless pay error type")
     }
-
-    // then
-    XCTAssertEqual(apiError.code, 29)
-    XCTAssertEqual(apiError.domain, "api.seamlesspay.com")
-    XCTAssertEqual(apiError.localizedDescription, "Unknown Error")
   }
 
   func testErrorWithErrorAsInput() {

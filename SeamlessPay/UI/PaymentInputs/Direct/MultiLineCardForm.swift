@@ -198,17 +198,16 @@ public class MultiLineCardForm: UIControl, CardForm {
 
   // MARK: - Initializers
   override public init(frame: CGRect) {
-    self.styleOptions = .default
+    styleOptions = .default
     super.init(frame: frame)
     setUpSubViews()
   }
 
   required init?(coder: NSCoder) {
-    self.styleOptions = .default
+    styleOptions = .default
     super.init(coder: coder)
     setUpSubViews()
   }
-
 
   public init(
     config: ClientConfiguration,
@@ -596,10 +595,7 @@ extension MultiLineCardForm {
 
     if !errors.isEmpty {
       // Reset all fields to valid
-      for field in allFields {
-        field.validText = true
-        field.errorMessage = .none
-      }
+      resetAllFieldsToValid()
 
       // Handle error
       for error in errors {
@@ -609,10 +605,11 @@ extension MultiLineCardForm {
 
     onWillEndEditingForReturn()
     _ = resignFirstResponder()
+
     return errors.isEmpty
   }
 
-  private func formValidation() -> [CardFormError] {
+  private func formValidation() -> [FormValidationError] {
     allFields.compactMap { field in
       guard let fieldType = SPCardFieldType(rawValue: field.tag),
             let error = viewModel.formValidationForField(fieldType) else {
@@ -622,9 +619,9 @@ extension MultiLineCardForm {
     }
   }
 
-  private func handleFormValidationError(_ error: CardFormError) {
+  private func handleFormValidationError(_ error: FormValidationError) {
     // Look up for the field that failed
-    let failedField: LineTextField?
+    let failedField: LineTextField
 
     switch error {
     case .numberInvalid,
@@ -640,16 +637,58 @@ extension MultiLineCardForm {
     case .postalCodeInvalid,
          .postalCodeRequired:
       failedField = postalCodeField
-    case .clientError:
+    }
+
+    handleFailedField(failedField, errorMessage: error.localizedDescription)
+  }
+}
+
+// MARK: - API Error handling
+extension MultiLineCardForm {
+  func handleAPIError(_ error: APIError) {
+    let fieldErrors = error.fieldErrors
+
+    if !fieldErrors.isEmpty {
+      // Reset all fields to valid
+      resetAllFieldsToValid()
+
+      // Handle error
+      for error in fieldErrors {
+        handleFailedAPIError(error)
+      }
+    }
+  }
+
+  private func handleFailedAPIError(_ fieldError: APIError.FieldError) {
+    let failedField: LineTextField?
+
+    switch fieldError.fieldName {
+    case "accountNumber":
+      failedField = numberField
+    case "cvv":
+      failedField = cvcField
+    case "expDate":
+      failedField = expirationField
+    case "billingAddress.postalCode":
+      failedField = postalCodeField
+    default:
       failedField = .none
     }
 
-    guard let failedField, let failedFieldType = SPCardFieldType(rawValue: failedField.tag) else {
+    guard let failedField, let errorMessages = fieldError.message else {
+      return
+    }
+
+    handleFailedField(failedField, errorMessage: errorMessages)
+  }
+
+  private func handleFailedField(_ failedField: LineTextField, errorMessage: String) {
+    guard let failedFieldType = SPCardFieldType(rawValue: failedField.tag) else {
       return
     }
 
     failedField.validText = false
-    failedField.errorMessage = error.localizedDescription
+    failedField.errorMessage = errorMessage
 
     // Update the images to show the error state after stricter validation
     switch failedFieldType {
@@ -659,6 +698,13 @@ extension MultiLineCardForm {
       updateCVCImage(isValid: false)
     default:
       break
+    }
+  }
+
+  private func resetAllFieldsToValid() {
+    for field in allFields {
+      field.validText = true
+      field.errorMessage = .none
     }
   }
 }
