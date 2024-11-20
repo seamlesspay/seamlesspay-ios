@@ -79,6 +79,7 @@ public class MultiLineCardForm: UIControl, CardForm {
     textField.autoFormattingBehavior = .cardNumbers
     textField.tag = SPCardFieldType.number.rawValue
     textField.floatingPlaceholder = "Card number"
+    textField.rightViewMode = .always
 
     return textField
   }()
@@ -87,7 +88,7 @@ public class MultiLineCardForm: UIControl, CardForm {
     let textField = buildTextField()
     textField.autoFormattingBehavior = .expiration
     textField.tag = SPCardFieldType.expiration.rawValue
-    textField.floatingPlaceholder = "Expiration date"
+    textField.floatingPlaceholder = "Expiry date"
 
     return textField
   }()
@@ -96,6 +97,7 @@ public class MultiLineCardForm: UIControl, CardForm {
     let textField = buildTextField()
     textField.tag = SPCardFieldType.CVC.rawValue
     textField.floatingPlaceholder = "CVC"
+    textField.rightViewMode = .always
 
     return textField
   }()
@@ -115,7 +117,7 @@ public class MultiLineCardForm: UIControl, CardForm {
     stackView.axis = .horizontal
     stackView.spacing = 12
     stackView.distribution = .fillEqually
-    stackView.alignment = .fill
+    stackView.alignment = .top
 
     stackView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -129,18 +131,6 @@ public class MultiLineCardForm: UIControl, CardForm {
     return label
   }()
 
-  private lazy var postalCodeStackView: UIStackView = {
-    let stackView = UIStackView(arrangedSubviews: [postalCodeTitleLabel, postalCodeField])
-    stackView.axis = .vertical
-    stackView.spacing = 6
-    stackView.distribution = .fill
-    stackView.alignment = .fill
-
-    stackView.translatesAutoresizingMaskIntoConstraints = false
-
-    return stackView
-  }()
-
   private lazy var cardInformationTitleLabel: UILabel = {
     let label = buildTitleLabel()
     label.text = "CARD INFORMATION"
@@ -148,30 +138,22 @@ public class MultiLineCardForm: UIControl, CardForm {
     return label
   }()
 
-  private lazy var cardInformationStackView: UIStackView = {
-    let stackView = UIStackView(arrangedSubviews: [cardInformationTitleLabel, numberField])
-    stackView.axis = .vertical
-    stackView.spacing = 6
-    stackView.distribution = .fill
-    stackView.alignment = .fill
-
-    stackView.translatesAutoresizingMaskIntoConstraints = false
-
-    return stackView
-  }()
-
   private lazy var stackView: UIStackView = {
     let stackView = UIStackView(
       arrangedSubviews: [
-        cardInformationStackView,
+        cardInformationTitleLabel,
+        numberField,
         expirationAndCvcStackView,
-        postalCodeStackView,
+        postalCodeTitleLabel,
+        postalCodeField
       ]
     )
     stackView.axis = .vertical
-    stackView.spacing = 14
+    stackView.spacing = 10
     stackView.distribution = .fill
     stackView.alignment = .fill
+    stackView.setCustomSpacing(12, after: numberField)
+    stackView.setCustomSpacing(28, after: expirationAndCvcStackView)
 
     stackView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -180,9 +162,6 @@ public class MultiLineCardForm: UIControl, CardForm {
 
   // MARK: - Internal
   let viewModel: CardFormViewModel = .init()
-
-  // MARK: - Constants
-  private let textFieldHeight: CGFloat = 84
 
   // MARK: - Initializers
   override public init(frame: CGRect) {
@@ -224,10 +203,9 @@ private extension MultiLineCardForm {
 
   func configureViews() {
     cvcField.isHidden = !viewModel.cvcDisplayed
-    postalCodeStackView.isHidden = !viewModel.postalCodeDisplayed
-
-    numberField.rightViewMode = .always
-    cvcField.rightViewMode = .always
+    [postalCodeTitleLabel, postalCodeField].forEach { view in
+      view.isHidden = !viewModel.postalCodeDisplayed
+    }
 
     updateImages()
   }
@@ -243,13 +221,6 @@ private extension MultiLineCardForm {
       constraint.priority = UILayoutPriority(rawValue: UILayoutPriority.required.rawValue - 1)
     }
     NSLayoutConstraint.activate(constraints)
-
-    NSLayoutConstraint.activate([
-      numberField.heightAnchor.constraint(equalToConstant: textFieldHeight),
-      expirationField.heightAnchor.constraint(equalToConstant: textFieldHeight),
-      cvcField.heightAnchor.constraint(equalToConstant: textFieldHeight),
-      postalCodeField.heightAnchor.constraint(equalToConstant: textFieldHeight),
-    ])
   }
 
   // swiftlint:enable function_body_length
@@ -264,7 +235,6 @@ private extension MultiLineCardForm {
     textField.clearButtonMode = .never
 
     textField.backgroundColor = .clear
-    textField.font = .systemFont(ofSize: 18)
     textField.defaultColor = .darkText
     textField.errorColor = .systemRed
 
@@ -276,7 +246,6 @@ private extension MultiLineCardForm {
   func buildTitleLabel() -> UILabel {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
-    label.font = .systemFont(ofSize: 16)
     label.numberOfLines = 0
     label.textAlignment = .left
 
@@ -738,7 +707,7 @@ extension MultiLineCardForm {
       textInvalidColor: theme.danger,
       tintValidColor: theme.primary,
       tintInvalidColor: theme.danger,
-      imageInactiveColor: theme.neutral,
+      imageInactiveColor: theme.neutral.withAlphaComponent(0.1),
       imageInvalidColor: theme.danger,
       imageFocusValidColor: theme.primary,
       imageFocusInvalidColor: theme.danger,
