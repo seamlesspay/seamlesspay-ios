@@ -17,13 +17,23 @@ public extension MultiLineCardForm {
       return
     }
 
-    viewModel.tokenize(completion: completion)
+    viewModel.tokenize { result in
+      if case let .failure(.apiError(error)) = result {
+        DispatchQueue.main.async { [weak self] in
+          self?.handleAPIError(error)
+        }
+      }
+
+      completion?(result)
+    }
   }
 
   func tokenize() async -> Result<TokenizeResponse, SeamlessPayError>? {
-    guard validateForm() else { return .none }
-
-    return await viewModel.tokenize()
+    await withCheckedContinuation { continuation in
+      tokenize { result in
+        continuation.resume(returning: result)
+      }
+    }
   }
 }
 

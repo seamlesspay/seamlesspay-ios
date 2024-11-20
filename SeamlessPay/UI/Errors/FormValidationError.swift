@@ -7,8 +7,7 @@
 
 import Foundation
 
-enum CardFormError: LocalizedError {
-  case clientError(SeamlessPayError)
+enum FormValidationError: LocalizedError {
   case numberRequired
   case numberInvalid
   case expirationRequired
@@ -21,8 +20,6 @@ enum CardFormError: LocalizedError {
 
   var errorDescription: String? {
     switch self {
-    case let .clientError(error):
-      return error.localizedDescription
     case .numberRequired:
       return "Card number is required"
     case .numberInvalid:
