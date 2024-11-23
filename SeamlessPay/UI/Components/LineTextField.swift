@@ -84,6 +84,7 @@ public class LineTextField: SPFormTextField {
     get { errorLabel.text }
     set {
       errorLabel.text = newValue
+      validText = newValue?.isEmpty ?? true
       updateAppearance()
     }
   }
@@ -139,10 +140,6 @@ public class LineTextField: SPFormTextField {
   }
 
   // MARK: - Overrides
-  override public var validText: Bool {
-    didSet { updateAppearance() }
-  }
-
   override public var borderStyle: UITextField.BorderStyle {
     get { .none }
     set { super.borderStyle = .none }
@@ -358,7 +355,9 @@ extension LineTextField {
     floatingPlaceholderLabel.font = appearance.floatingPlaceholderFont
     errorLabel.font = appearance.errorFont
 
-    switch (isFirstResponder, validText) {
+    let isFieldValid = errorMessage?.isEmpty ?? true
+
+    switch (isFirstResponder, isFieldValid) {
     case (true, true): // focus and valid
       backgroundFrameLayer.borderColor = appearance.borderFocusValidColor.cgColor
       backgroundFrameLayer.backgroundColor = appearance.backgroundFocusValidColor.cgColor

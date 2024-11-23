@@ -54,15 +54,50 @@ extension CardFormViewModel {
 
 extension CardFormViewModel {
   func formValidationForField(_ fieldType: SPCardFieldType) -> FormValidationError? {
+    // Return early if field is not required
     guard isFieldRequired(fieldType) else {
       return nil
     }
 
     let validationState = validationState(for: fieldType)
-    let value = valueForField(fieldType)
-    let isFieldEmpty = value?.isEmpty ?? true
+    let isFieldEmpty = valueForField(fieldType)?.isEmpty ?? true
 
-    switch (fieldType, validationState, isFieldEmpty) {
+    return getValidationError(for: fieldType, state: validationState, isEmpty: isFieldEmpty)
+  }
+
+  func realTimeValidationForField(
+    _ fieldType: SPCardFieldType,
+    isFocused: Bool
+  ) -> FormValidationError? {
+    // Return early if field is not required
+    guard isFieldRequired(fieldType) else {
+      return .none
+    }
+
+    let validationState = validationState(for: fieldType)
+    let isFieldEmpty = valueForField(fieldType)?.isEmpty ?? true
+
+    // Return nil for incomplete empty fields
+    if validationState == .incomplete {
+      // Return nil for empty fields if not focused
+      if isFocused {
+        return .none
+      }
+      // Return nil for empty fields if not focused
+      if isFieldEmpty {
+        return .none
+      }
+    }
+
+    return getValidationError(for: fieldType, state: validationState, isEmpty: isFieldEmpty)
+  }
+
+  private func getValidationError(
+    for fieldType: SPCardFieldType,
+    state: SPCardValidationState,
+    isEmpty: Bool
+  ) -> FormValidationError? {
+    switch (fieldType, state, isEmpty) {
     // No error
     case (_, .valid, _):
       return .none
