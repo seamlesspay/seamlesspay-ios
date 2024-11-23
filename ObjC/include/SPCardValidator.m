@@ -293,7 +293,7 @@ inMonth:(NSString *)expirationMonth {
 
   // Check length (3-10 characters)
   if (postalCode.length < self.postalCodeMinLength || postalCode.length > self.postalCodeMaxLength) {
-      return SPCardValidationStateInvalid;
+      return SPCardValidationStateIncomplete;
   }
 
   // Check if string contains only allowed characters
