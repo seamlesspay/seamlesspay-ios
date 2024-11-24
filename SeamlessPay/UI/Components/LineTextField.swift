@@ -114,15 +114,16 @@ public class LineTextField: SPFormTextField {
   }
 
   private var errorMessageHeight: CGFloat {
-    let height: CGFloat
-    if errorMessage?.isEmpty ?? true {
-      height = 0
-    } else {
-      height = appearance.errorFont.lineHeight
-    }
-
-    return height
-
+    errorLabel.textRect(
+      forBounds: CGRect(
+        x: 0,
+        y: 0,
+        width: errorLabel.frame.width,
+        height: CGFloat.greatestFiniteMagnitude
+      ),
+      limitedToNumberOfLines: 0
+    )
+    .height
   }
 
   private var floatingPlaceholderWidth: CGFloat {
@@ -176,7 +177,6 @@ public class LineTextField: SPFormTextField {
 
   // MARK: - Setup Methods
   private func setupTextField() {
-    validText = true
     textAlignment = .left
     borderStyle = .none
     rightView = rightImageView
@@ -192,7 +192,7 @@ public class LineTextField: SPFormTextField {
   }
 
   private func setupErrorLabel() {
-    errorLabel.numberOfLines = 1
+    errorLabel.numberOfLines = 0
     addSubview(errorLabel)
   }
 
@@ -346,7 +346,7 @@ public class LineTextField: SPFormTextField {
 
 // MARK: - Appearance
 extension LineTextField {
-  @objc func updateAppearance() {
+  func updateAppearance() {
     errorColor = appearance.textInvalidColor
     defaultColor = appearance.textValidColor
     backgroundFrameLayer.cornerRadius = appearance.cornerRadius

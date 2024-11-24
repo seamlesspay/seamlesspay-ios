@@ -286,14 +286,14 @@ inMonth:(NSString *)expirationMonth {
 }
 
 + (SPCardValidationState)validationStateForPostalCode:(NSString *)postalCode {
-  // Check for nil or empty string
-  if (postalCode == nil || postalCode.length == 0) {
+  // Check length less than minimum
+  if (postalCode == nil || postalCode.length < self.postalCodeMinLength) {
       return SPCardValidationStateIncomplete;
   }
 
-  // Check length (3-10 characters)
-  if (postalCode.length < self.postalCodeMinLength || postalCode.length > self.postalCodeMaxLength) {
-      return SPCardValidationStateIncomplete;
+  // Check length greater than maximum
+  if (postalCode.length > self.postalCodeMaxLength) {
+      return SPCardValidationStateInvalid;
   }
 
   // Check if string contains only allowed characters

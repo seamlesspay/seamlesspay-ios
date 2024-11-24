@@ -403,11 +403,11 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
       return
     }
 
-    if fieldType == .number {
-      // Changing the card number field can invalidate the CVC, e.g., going from 4
-      // digit Amex CVC to 3 digit Visa
-      realTimeValidationForField(.CVC, isFocused: false)
-    }
+//    if fieldType == .number {
+//      // Changing the card number field can invalidate the CVC, e.g., going from 4
+//      // digit Amex CVC to 3 digit Visa
+//      realTimeValidationForField(.CVC, isFocused: false)
+//    }
 
     realTimeValidationForField(fieldType, isFocused: true)
 
