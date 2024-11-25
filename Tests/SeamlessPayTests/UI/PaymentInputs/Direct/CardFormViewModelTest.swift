@@ -254,8 +254,10 @@ final class CardFormViewModelTest: XCTestCase {
       "The card form should be valid with optional postal code."
     )
   }
+}
 
-  // MARK: On Submit Validation
+// MARK: Form Validation
+extension CardFormViewModelTest {
   func testFormValidationForField_NumberValid() {
     viewModel.cardNumber = "4242424242424242"
     XCTAssertNil(viewModel.formValidationForField(.number))
@@ -264,23 +266,21 @@ final class CardFormViewModelTest: XCTestCase {
   func testFormValidationForField_NumberInvalid() {
     viewModel.cardNumber = "1234"
     let output = viewModel.formValidationForField(.number)
-    switch output {
-    case .numberInvalid:
-      break
-    default:
-      XCTFail("Expected .numberInvalid, got \(output?.localizedDescription ?? "none")")
-    }
+    XCTAssertEqual(
+      output,
+      .numberInvalid,
+      "Expected .numberInvalid error, got - \(output?.localizedDescription ?? "none")"
+    )
   }
 
   func testFormValidationForField_NumberRequired() {
     viewModel.cardNumber = ""
     let output = viewModel.formValidationForField(.number)
-    switch output {
-    case .numberRequired:
-      break
-    default:
-      XCTFail("Expected .numberRequired, got \(output?.localizedDescription ?? "none")")
-    }
+    XCTAssertEqual(
+      output,
+      .numberRequired,
+      "Expected .numberRequired error, got - \(output?.localizedDescription ?? "none")"
+    )
   }
 
   func testFormValidationForField_ExpirationValid() {
@@ -291,40 +291,31 @@ final class CardFormViewModelTest: XCTestCase {
   func testFormValidationForField_ExpirationInvalidDate() {
     viewModel.rawExpiration = "13/99"
     let output = viewModel.formValidationForField(.expiration)
-    switch output {
-    case .expirationInvalidDate:
-      break
-    default:
-      XCTFail(
-        "Expected .expirationInvalidDate, got \(output?.localizedDescription ?? "none")"
-      )
-    }
+    XCTAssertEqual(
+      output,
+      .expirationInvalidDate,
+      "Expected .expirationInvalidDate error, got - \(output?.localizedDescription ?? "none")"
+    )
   }
 
   func testFormValidationForField_ExpirationInvalid() {
     viewModel.rawExpiration = "12/9"
     let output = viewModel.formValidationForField(.expiration)
-    switch output {
-    case .expirationInvalid:
-      break
-    default:
-      XCTFail(
-        "Expected .expirationInvalid, got \(output?.localizedDescription ?? "none")"
-      )
-    }
+    XCTAssertEqual(
+      output,
+      .expirationInvalid,
+      "Expected .expirationInvalid error, got - \(output?.localizedDescription ?? "none")"
+    )
   }
 
   func testFormValidationForField_ExpirationRequired() {
     viewModel.rawExpiration = ""
     let output = viewModel.formValidationForField(.expiration)
-    switch output {
-    case .expirationRequired:
-      break
-    default:
-      XCTFail(
-        "Expected .expirationRequired, got \(output?.localizedDescription ?? "none")"
-      )
-    }
+    XCTAssertEqual(
+      output,
+      .expirationRequired,
+      "Expected .expirationRequired error, got - \(output?.localizedDescription ?? "none")"
+    )
   }
 
   func testFormValidationForField_CVCValid() {
@@ -337,49 +328,112 @@ final class CardFormViewModelTest: XCTestCase {
     viewModel.cvc = "12"
     viewModel.cvcDisplayConfig = .required
     let output = viewModel.formValidationForField(.CVC)
-    switch output {
-    case .cvcInvalid:
-      break
-    default:
-      XCTFail("Expected .cvcInvalid, got \(output?.localizedDescription ?? "none")")
-    }
+    XCTAssertEqual(
+      output,
+      .cvcInvalid,
+      "Expected .cvcInvalid error, got - \(output?.localizedDescription ?? "none")"
+    )
   }
 
   func testFormValidationForField_CVCRequired() {
     viewModel.cvc = ""
     viewModel.cvcDisplayConfig = .required
     let output = viewModel.formValidationForField(.CVC)
-    switch output {
-    case .cvcRequired:
-      break
-    default:
-      XCTFail("Expected .cvcRequired, got \(output?.localizedDescription ?? "none")")
-    }
+    XCTAssertEqual(
+      output,
+      .cvcRequired,
+      "Expected .cvcRequired error, got - \(output?.localizedDescription ?? "none")"
+    )
   }
 
   func testFormValidationForField_PostalCodeValid() {
     viewModel.postalCode = "12345"
     viewModel.postalCodeDisplayConfig = .required
     let output = viewModel.formValidationForField(.postalCode)
-    switch output {
-    case .none:
-      break
-    default:
-      XCTFail("Expected .none, got \(output?.localizedDescription ?? "none")")
-    }
+    XCTAssertNil(output, "Expected nil error, got - \(output?.localizedDescription ?? "none")")
   }
 
   func testFormValidationForField_PostalCodeRequired() {
     viewModel.postalCode = ""
     viewModel.postalCodeDisplayConfig = .required
     let output = viewModel.formValidationForField(.postalCode)
-    switch output {
-    case .postalCodeRequired:
-      break
-    default:
-      XCTFail(
-        "Expected .postalCodeRequired, got \(output?.localizedDescription ?? "none")"
-      )
-    }
+    XCTAssertEqual(
+      output,
+      .postalCodeRequired,
+      "Expected .postalCodeRequired error, got - \(output?.localizedDescription ?? "none")"
+    )
+  }
+}
+
+// MARK: Real-time Validation
+extension CardFormViewModelTest {
+  func testRealTimeValidationForField_NumberRequired() {
+    viewModel.cardNumber = ""
+    XCTAssertNil(
+      viewModel.realTimeValidationForField(.number, isFocused: false),
+      "Expected nil real-time validation error for empty card number"
+    )
+  }
+
+  func testRealTimeValidationForField_NumberInvalid() {
+    viewModel.cardNumber = "1234"
+    XCTAssertEqual(
+      viewModel.realTimeValidationForField(.number, isFocused: true),
+      .numberInvalid,
+      "Expected numberInvalid real-time validation error for invalid card number"
+    )
+  }
+
+  func testRealTimeValidationForField_ExpirationRequired() {
+    viewModel.rawExpiration = ""
+    XCTAssertNil(
+      viewModel.realTimeValidationForField(.expiration, isFocused: false),
+      "Expected nil real-time validation error for empty expiration date"
+    )
+  }
+
+  func testRealTimeValidationForField_ExpirationInvalid() {
+    viewModel.rawExpiration = "13/25"
+    XCTAssertEqual(
+      viewModel.realTimeValidationForField(.expiration, isFocused: true),
+      .expirationInvalidDate,
+      "Expected expirationInvalidDate real-time validation error for invalid expiration date"
+    )
+  }
+
+  func testRealTimeValidationForField_CVCRequired() {
+    viewModel.cvcDisplayConfig = .required
+    viewModel.cvc = ""
+    XCTAssertNil(
+      viewModel.realTimeValidationForField(.CVC, isFocused: false),
+      "Expected nil real-time validation error for empty CVC"
+    )
+  }
+
+  func testRealTimeValidationForField_CVCInvalid() {
+    viewModel.cvcDisplayConfig = .required
+    viewModel.cvc = "12"
+    XCTAssertNil(
+      viewModel.realTimeValidationForField(.CVC, isFocused: true),
+      "Expected nil real-time validation error for invalid CVC"
+    )
+  }
+
+  func testRealTimeValidationForField_PostalCodeRequired() {
+    viewModel.postalCodeDisplayConfig = .required
+    viewModel.postalCode = ""
+    XCTAssertNil(
+      viewModel.realTimeValidationForField(.postalCode, isFocused: false),
+      "Expected nil real-time validation error for empty postal code"
+    )
+  }
+
+  func testRealTimeValidationForField_PostalCodeInvalid() {
+    viewModel.postalCodeDisplayConfig = .required
+    viewModel.postalCode = "123"
+    XCTAssertNil(
+      viewModel.realTimeValidationForField(.postalCode, isFocused: true),
+      "Expected nil real-time validation error for invalid postal code"
+    )
   }
 }

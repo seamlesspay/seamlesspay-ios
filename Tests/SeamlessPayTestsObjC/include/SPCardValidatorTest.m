@@ -216,4 +216,62 @@
   }
 }
 
+- (void)testValidationStateForPostalCode {
+  // Test nil postal code
+  XCTAssertEqual([SPCardValidator validationStateForPostalCode:nil], 
+                 SPCardValidationStateIncomplete,
+                 @"Nil postal code should return Incomplete");
+
+  // Test empty postal code
+  XCTAssertEqual([SPCardValidator validationStateForPostalCode:@""], 
+                 SPCardValidationStateIncomplete,
+                 @"Empty postal code should return Incomplete");
+
+  // Test postal code shorter than minimum length
+  XCTAssertEqual([SPCardValidator validationStateForPostalCode:@"12"], 
+                 SPCardValidationStateIncomplete,
+                 @"Postal code shorter than minimum length should return Incomplete");
+
+  // Test postal code longer than maximum length
+  XCTAssertEqual([SPCardValidator validationStateForPostalCode:@"12345678901"], 
+                 SPCardValidationStateInvalid,
+                 @"Postal code longer than maximum length should return Invalid");
+
+  // Test valid postal code at minimum length
+  XCTAssertEqual([SPCardValidator validationStateForPostalCode:@"123"], 
+                 SPCardValidationStateValid,
+                 @"Postal code with minimum valid length should return Valid");
+
+  // Test valid postal code at maximum length
+  XCTAssertEqual([SPCardValidator validationStateForPostalCode:@"1234567890"], 
+                 SPCardValidationStateValid,
+                 @"Postal code with maximum valid length should return Valid");
+
+  // Test valid postal code within range
+  XCTAssertEqual([SPCardValidator validationStateForPostalCode:@"12345"], 
+                 SPCardValidationStateValid,
+                 @"Postal code within valid range should return Valid");
+
+  // Test postal code with invalid characters
+  XCTAssertEqual([SPCardValidator validationStateForPostalCode:@"123@#%"], 
+                 SPCardValidationStateInvalid,
+                 @"Postal code with special characters should return Invalid");
+
+  // Test postal code with spaces
+  XCTAssertEqual([SPCardValidator validationStateForPostalCode:@"123 45"], 
+                 SPCardValidationStateValid,
+                 @"Postal code with spaces should return Valid");
+
+  // Test postal code with numbers and letters
+  XCTAssertEqual([SPCardValidator validationStateForPostalCode:@"1234a"],
+                  SPCardValidationStateValid,
+                  @"Postal code with letters should return Valid");
+  // Test postal code with dashes
+  XCTAssertEqual([SPCardValidator validationStateForPostalCode:@"12345-6789"],
+                  SPCardValidationStateInvalid,
+                  @"Postal code with dashes should return Invalid");
+}
+
 @end
+
+

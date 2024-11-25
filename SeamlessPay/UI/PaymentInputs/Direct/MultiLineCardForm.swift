@@ -145,7 +145,7 @@ public class MultiLineCardForm: UIControl, CardForm {
         numberField,
         expirationAndCvcStackView,
         postalCodeTitleLabel,
-        postalCodeField
+        postalCodeField,
       ]
     )
     stackView.axis = .vertical
@@ -203,7 +203,7 @@ private extension MultiLineCardForm {
 
   func configureViews() {
     cvcField.isHidden = !viewModel.cvcDisplayed
-    [postalCodeTitleLabel, postalCodeField].forEach { view in
+    for view in [postalCodeTitleLabel, postalCodeField] {
       view.isHidden = !viewModel.postalCodeDisplayed
     }
 
@@ -230,7 +230,7 @@ private extension MultiLineCardForm {
     textField.translatesAutoresizingMaskIntoConstraints = false
     textField.keyboardType = .asciiCapableNumberPad
     textField.formDelegate = self
-    textField.validText = true
+    textField.errorMessage = .none
     textField.autocorrectionType = .no
     textField.clearButtonMode = .never
 
@@ -366,7 +366,8 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
   }
 
   public func textFieldDidEndEditing(_ textField: UITextField) {
-    guard let fieldType = SPCardFieldType(rawValue: textField.tag) else {
+    guard let fieldType = SPCardFieldType(rawValue: textField.tag),
+          let textField = textField as? LineTextField else {
       return
     }
 
@@ -379,6 +380,8 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
       updateImages()
       onDidEndEditing()
     }
+
+    realTimeValidationForField(fieldType, isFocused: false)
   }
 
   public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -400,23 +403,19 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
       return
     }
 
-    // Reset the error message set during on submit validation
-    // when the user starts changing the input
-    textField.errorMessage = .none
+//    if fieldType == .number {
+//      // Changing the card number field can invalidate the CVC, e.g., going from 4
+//      // digit Amex CVC to 3 digit Visa
+//      realTimeValidationForField(.CVC, isFocused: false)
+//    }
 
-    if fieldType == .number {
-      // Changing the card number field can invalidate the CVC, e.g., going from 4
-      // digit Amex CVC to 3 digit Visa
-      cvcField.validText = viewModel.validationState(for: .CVC) != .invalid
-    }
+    realTimeValidationForField(fieldType, isFocused: true)
 
     let state = viewModel.validationState(for: fieldType)
-    textField.validText = true
 
     switch state {
-    case .invalid:
-      textField.validText = false
-    case .incomplete:
+    case .incomplete,
+         .invalid:
       break
     case .valid:
       if fieldType == .CVC {
@@ -541,38 +540,49 @@ extension MultiLineCardForm {
   }
 }
 
+// MARK: - Realtime Validation
+extension MultiLineCardForm {
+  func realTimeValidationForField(_ fieldType: SPCardFieldType, isFocused: Bool) {
+    if let error = viewModel.realTimeValidationForField(fieldType, isFocused: isFocused) {
+      handleValidationError(error)
+    } else {
+      let field = allFields.first { $0.tag == fieldType.rawValue }
+      field?.errorMessage = .none
+    }
+  }
+}
+
 // MARK: - On Submit Validation
 extension MultiLineCardForm {
   func validateForm() -> Bool {
-    let errors = formValidation()
-
-    if !errors.isEmpty {
-      // Reset all fields to valid
-      resetAllFieldsToValid()
-
-      // Handle error
-      for error in errors {
-        handleFormValidationError(error)
-      }
-    }
-
     onWillEndEditingForReturn()
     _ = resignFirstResponder()
+
+    let errors = formValidation()
+
+    // Reset all fields to valid
+    resetAllFieldsToValid()
+
+    // Handle errors
+    for error in errors {
+      handleValidationError(error)
+    }
+
+    becomeFirstResponder()
 
     return errors.isEmpty
   }
 
   private func formValidation() -> [FormValidationError] {
     allFields.compactMap { field in
-      guard let fieldType = SPCardFieldType(rawValue: field.tag),
-            let error = viewModel.formValidationForField(fieldType) else {
+      guard let fieldType = SPCardFieldType(rawValue: field.tag) else {
         return .none
       }
-      return error
+      return viewModel.formValidationForField(fieldType)
     }
   }
 
-  private func handleFormValidationError(_ error: FormValidationError) {
+  private func handleValidationError(_ error: FormValidationError) {
     // Look up for the field that failed
     let failedField: LineTextField
 
@@ -640,7 +650,6 @@ extension MultiLineCardForm {
       return
     }
 
-    failedField.validText = false
     failedField.errorMessage = errorMessage
 
     // Update the images to show the error state after stricter validation
@@ -656,7 +665,6 @@ extension MultiLineCardForm {
 
   private func resetAllFieldsToValid() {
     for field in allFields {
-      field.validText = true
       field.errorMessage = .none
     }
   }
