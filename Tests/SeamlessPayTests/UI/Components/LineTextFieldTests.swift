@@ -46,6 +46,15 @@ class LineTextFieldTests: XCTestCase {
   }
 
   func testSetupErrorLabel() {
-    XCTAssertEqual(lineTextField.errorLabel.numberOfLines, 1)
+    XCTAssertEqual(lineTextField.errorLabel.numberOfLines, 0)
+  }
+
+  func testErrorMessageUpdatesValidText() {
+    // Test setting error message updates validText
+    lineTextField.errorMessage = "Test Error"
+    XCTAssertFalse(lineTextField.validText)
+
+    lineTextField.errorMessage = ""
+    XCTAssertTrue(lineTextField.validText)
   }
 }

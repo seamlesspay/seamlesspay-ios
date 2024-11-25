@@ -84,6 +84,7 @@ public class LineTextField: SPFormTextField {
     get { errorLabel.text }
     set {
       errorLabel.text = newValue
+      validText = newValue?.isEmpty ?? true
       updateAppearance()
     }
   }
@@ -113,15 +114,16 @@ public class LineTextField: SPFormTextField {
   }
 
   private var errorMessageHeight: CGFloat {
-    let height: CGFloat
-    if errorMessage?.isEmpty ?? true {
-      height = 0
-    } else {
-      height = appearance.errorFont.lineHeight
-    }
-
-    return height
-
+    errorLabel.textRect(
+      forBounds: CGRect(
+        x: 0,
+        y: 0,
+        width: errorLabel.frame.width,
+        height: CGFloat.greatestFiniteMagnitude
+      ),
+      limitedToNumberOfLines: 0
+    )
+    .height
   }
 
   private var floatingPlaceholderWidth: CGFloat {
@@ -139,10 +141,6 @@ public class LineTextField: SPFormTextField {
   }
 
   // MARK: - Overrides
-  override public var validText: Bool {
-    didSet { updateAppearance() }
-  }
-
   override public var borderStyle: UITextField.BorderStyle {
     get { .none }
     set { super.borderStyle = .none }
@@ -179,7 +177,6 @@ public class LineTextField: SPFormTextField {
 
   // MARK: - Setup Methods
   private func setupTextField() {
-    validText = true
     textAlignment = .left
     borderStyle = .none
     rightView = rightImageView
@@ -195,7 +192,7 @@ public class LineTextField: SPFormTextField {
   }
 
   private func setupErrorLabel() {
-    errorLabel.numberOfLines = 1
+    errorLabel.numberOfLines = 0
     addSubview(errorLabel)
   }
 
@@ -349,7 +346,7 @@ public class LineTextField: SPFormTextField {
 
 // MARK: - Appearance
 extension LineTextField {
-  @objc func updateAppearance() {
+  func updateAppearance() {
     errorColor = appearance.textInvalidColor
     defaultColor = appearance.textValidColor
     backgroundFrameLayer.cornerRadius = appearance.cornerRadius
@@ -358,7 +355,9 @@ extension LineTextField {
     floatingPlaceholderLabel.font = appearance.floatingPlaceholderFont
     errorLabel.font = appearance.errorFont
 
-    switch (isFirstResponder, validText) {
+    let isFieldValid = errorMessage?.isEmpty ?? true
+
+    switch (isFirstResponder, isFieldValid) {
     case (true, true): // focus and valid
       backgroundFrameLayer.borderColor = appearance.borderFocusValidColor.cgColor
       backgroundFrameLayer.backgroundColor = appearance.backgroundFocusValidColor.cgColor
