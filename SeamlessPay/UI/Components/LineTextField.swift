@@ -45,8 +45,10 @@ public class LineTextField: SPFormTextField {
     var floatingPlaceholderFocusInvalidColor: UIColor = .systemRed
 
     // Text colors
-    var textValidColor: UIColor = .darkText
+    var textInactiveColor: UIColor = .darkText
     var textInvalidColor: UIColor = .systemRed
+    var textFocusValidColor: UIColor = .darkText
+    var textFocusInvalidColor: UIColor = .systemRed
 
     // Tint colors
     var tintValidColor: UIColor = .systemBlue
@@ -84,7 +86,6 @@ public class LineTextField: SPFormTextField {
     get { errorLabel.text }
     set {
       errorLabel.text = newValue
-      validText = newValue?.isEmpty ?? true
       updateAppearance()
     }
   }
@@ -347,8 +348,6 @@ public class LineTextField: SPFormTextField {
 // MARK: - Appearance
 extension LineTextField {
   func updateAppearance() {
-    errorColor = appearance.textInvalidColor
-    defaultColor = appearance.textValidColor
     backgroundFrameLayer.cornerRadius = appearance.cornerRadius
     backgroundFrameLayer.borderWidth = appearance.borderWidth
     font = appearance.textFont
@@ -365,7 +364,8 @@ extension LineTextField {
 
       rightImageView.tintColor = appearance.imageFocusValidColor
       tintColor = appearance.tintValidColor
-      errorLabel.textColor = errorColor
+      errorLabel.textColor = appearance.textInvalidColor
+      textColor = appearance.textFocusValidColor
     case (true, false): // focus and invalid
       backgroundFrameLayer.borderColor = appearance.borderFocusInvalidColor.cgColor
       backgroundFrameLayer.backgroundColor = appearance.backgroundFocusInvalidColor.cgColor
@@ -373,7 +373,8 @@ extension LineTextField {
 
       rightImageView.tintColor = appearance.imageFocusInvalidColor
       tintColor = appearance.tintInvalidColor
-      errorLabel.textColor = errorColor
+      errorLabel.textColor = appearance.textInvalidColor
+      textColor = appearance.textFocusInvalidColor
     case (false, true): // not focus and valid
       backgroundFrameLayer.borderColor = appearance.borderInactiveColor.cgColor
       backgroundFrameLayer.backgroundColor = appearance.backgroundInactiveColor.cgColor
@@ -381,7 +382,8 @@ extension LineTextField {
 
       rightImageView.tintColor = appearance.imageInactiveColor
       tintColor = appearance.tintValidColor
-      errorLabel.textColor = errorColor
+      errorLabel.textColor = appearance.textInvalidColor
+      textColor = appearance.textInactiveColor
     case (false, false): // not focus and invalid
       backgroundFrameLayer.borderColor = appearance.borderInvalidColor.cgColor
       backgroundFrameLayer.backgroundColor = appearance.backgroundInvalidColor.cgColor
@@ -389,7 +391,8 @@ extension LineTextField {
 
       rightImageView.tintColor = appearance.imageInvalidColor
       tintColor = appearance.tintInvalidColor
-      errorLabel.textColor = errorColor
+      errorLabel.textColor = appearance.textInvalidColor
+      textColor = appearance.textInvalidColor
     }
 
     invalidateIntrinsicContentSize()
