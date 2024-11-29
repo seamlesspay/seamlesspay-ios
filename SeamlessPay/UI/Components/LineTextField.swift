@@ -60,6 +60,9 @@ public class LineTextField: SPFormTextField {
     var imageFocusValidColor: UIColor = .systemBlue
     var imageFocusInvalidColor: UIColor = .systemRed
 
+    // Error color
+    var errorColor: UIColor = .systemRed
+
     // Sizes
     var cornerRadius: CGFloat = 5.0
     var borderWidth: CGFloat = 2.0
@@ -356,6 +359,7 @@ extension LineTextField {
 
     let isFieldValid = errorMessage?.isEmpty ?? true
 
+    errorLabel.textColor = appearance.errorColor
     switch (isFirstResponder, isFieldValid) {
     case (true, true): // focus and valid
       backgroundFrameLayer.borderColor = appearance.borderFocusValidColor.cgColor
@@ -364,7 +368,6 @@ extension LineTextField {
 
       rightImageView.tintColor = appearance.imageFocusValidColor
       tintColor = appearance.tintValidColor
-      errorLabel.textColor = appearance.textInvalidColor
       textColor = appearance.textFocusValidColor
     case (true, false): // focus and invalid
       backgroundFrameLayer.borderColor = appearance.borderFocusInvalidColor.cgColor
@@ -373,7 +376,6 @@ extension LineTextField {
 
       rightImageView.tintColor = appearance.imageFocusInvalidColor
       tintColor = appearance.tintInvalidColor
-      errorLabel.textColor = appearance.textInvalidColor
       textColor = appearance.textFocusInvalidColor
     case (false, true): // not focus and valid
       backgroundFrameLayer.borderColor = appearance.borderInactiveColor.cgColor
@@ -382,7 +384,6 @@ extension LineTextField {
 
       rightImageView.tintColor = appearance.imageInactiveColor
       tintColor = appearance.tintValidColor
-      errorLabel.textColor = appearance.textInvalidColor
       textColor = appearance.textInactiveColor
     case (false, false): // not focus and invalid
       backgroundFrameLayer.borderColor = appearance.borderInvalidColor.cgColor
@@ -391,7 +392,6 @@ extension LineTextField {
 
       rightImageView.tintColor = appearance.imageInvalidColor
       tintColor = appearance.tintInvalidColor
-      errorLabel.textColor = appearance.textInvalidColor
       textColor = appearance.textInvalidColor
     }
 

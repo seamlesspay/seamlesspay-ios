@@ -10,10 +10,10 @@ import Foundation
 
 // MARK: - StyleOptions
 public struct StyleOptions: Equatable {
-  public var colors: Colors
-  public var shapes: Shapes
-  public var typography: Typography
-  public var iconSet: IconSet?
+  public let colors: Colors
+  public let shapes: Shapes
+  public let typography: Typography
+  public let iconSet: IconSet?
 
   public init(colors: Colors, shapes: Shapes, typography: Typography, iconSet: IconSet?) {
     self.colors = colors
@@ -29,8 +29,8 @@ public struct StyleOptions: Equatable {
 
 // MARK: - Colors
 public struct Colors: Equatable {
-  public var light: ColorPalette
-  public var dark: ColorPalette
+  public let light: ColorPalette
+  public let dark: ColorPalette
 
   public init(light: ColorPalette, dark: ColorPalette) {
     self.light = light
@@ -48,12 +48,21 @@ public struct Colors: Equatable {
 
 // MARK: - ColorPalette
 public struct ColorPalette: Equatable {
-  public var theme: ThemeColors
-  public var fieldColors: FieldColors?
+  public let theme: ThemeColors
+  public let fieldColors: FieldColors?
+  public let errorMessage: UIColor?
+  public let header: UIColor?
 
-  public init(theme: ThemeColors, fieldColors: FieldColors? = .none) {
+  public init(
+    theme: ThemeColors,
+    fieldColors: FieldColors? = .none,
+    errorMessage: UIColor? = .none,
+    header: UIColor? = .none
+  ) {
     self.theme = theme
     self.fieldColors = fieldColors
+    self.errorMessage = errorMessage
+    self.header = header
   }
 
   public static var `default`: ColorPalette {
@@ -151,13 +160,21 @@ public extension ColorPalette {
   var fieldTextInactiveColor: UIColor {
     fieldColors?.text?.inactive ?? theme.neutral
   }
+
+  var errorMessageColor: UIColor {
+    errorMessage ?? theme.danger
+  }
+
+  var headerColor: UIColor {
+    header ?? theme.neutral.withAlphaComponent(0.75)
+  }
 }
 
 // MARK: - ThemeColors
 public struct ThemeColors: Equatable {
-  public var neutral: UIColor
-  public var primary: UIColor
-  public var danger: UIColor
+  public let neutral: UIColor
+  public let primary: UIColor
+  public let danger: UIColor
 
   public init(neutral: UIColor, primary: UIColor, danger: UIColor) {
     self.neutral = neutral
@@ -188,7 +205,7 @@ public struct ThemeColors: Equatable {
 
 // MARK: - Shapes
 public struct Shapes: Equatable {
-  public var cornerRadius: CGFloat
+  public let cornerRadius: CGFloat
 
   public init(cornerRadius: CGFloat) {
     self.cornerRadius = cornerRadius
@@ -201,7 +218,7 @@ public struct Shapes: Equatable {
 
 // MARK: - Shadow
 public struct Shadow: Equatable {
-  public var elevation: ElevationLevel
+  public let elevation: ElevationLevel
 
   public init(elevation: ElevationLevel) {
     self.elevation = elevation
@@ -224,7 +241,7 @@ public enum ElevationLevel: Equatable {
 
 // MARK: - Typography
 public struct Typography: Equatable {
-  public var font: UIFont
+  public let font: UIFont
   public var scale: CGFloat {
     willSet {
       if newValue <= 0.0 {

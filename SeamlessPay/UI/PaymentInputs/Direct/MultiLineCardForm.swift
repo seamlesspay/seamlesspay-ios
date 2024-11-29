@@ -687,7 +687,7 @@ extension MultiLineCardForm {
   func applyTitleLabelAppearanceConfig(on label: UILabel) {
     let textColor = styleOptions.colors.palette(
       for: traitCollection
-    ).theme.neutral.withAlphaComponent(0.75)
+    ).headerColor
     let font = styleOptions.typography.scaledFont
 
     label.textColor = textColor
@@ -721,6 +721,7 @@ extension MultiLineCardForm {
       imageInvalidColor: currentPalette.fieldIconInvalidColor,
       imageFocusValidColor: currentPalette.fieldIconFocusValidColor,
       imageFocusInvalidColor: currentPalette.fieldIconFocusInvalidColor,
+      errorColor: currentPalette.errorMessageColor,
       cornerRadius: styleOptions.shapes.cornerRadius,
       borderWidth: 2,
       textFont: styleOptions.typography.scaledFont,

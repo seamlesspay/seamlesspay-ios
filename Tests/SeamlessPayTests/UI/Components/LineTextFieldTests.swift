@@ -49,12 +49,15 @@ class LineTextFieldTests: XCTestCase {
     XCTAssertEqual(lineTextField.errorLabel.numberOfLines, 0)
   }
 
+  // The `validText' property of the LineTextField should ignore any error message values.
   func testErrorMessageUpdatesValidText() {
-    // Test setting error message updates validText
     lineTextField.errorMessage = "Test Error"
     XCTAssertFalse(lineTextField.validText)
 
     lineTextField.errorMessage = ""
-    XCTAssertTrue(lineTextField.validText)
+    XCTAssertFalse(lineTextField.validText)
+
+    lineTextField.errorMessage = .none
+    XCTAssertFalse(lineTextField.validText)
   }
 }
