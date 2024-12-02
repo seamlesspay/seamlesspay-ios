@@ -687,7 +687,7 @@ extension MultiLineCardForm {
   func applyTitleLabelAppearanceConfig(on label: UILabel) {
     let textColor = styleOptions.colors.palette(
       for: traitCollection
-    ).theme.neutral.withAlphaComponent(0.75)
+    ).headerColor
     let font = styleOptions.typography.scaledFont
 
     label.textColor = textColor
@@ -699,26 +699,29 @@ extension MultiLineCardForm {
     let theme = currentPalette.theme
 
     return .init(
-      backgroundInactiveColor: theme.neutral.withAlphaComponent(0.03),
-      backgroundInvalidColor: theme.danger.withAlphaComponent(0.1),
-      backgroundFocusValidColor: .clear,
-      backgroundFocusInvalidColor: .clear,
-      borderInactiveColor: .clear,
-      borderInvalidColor: .clear,
-      borderFocusValidColor: theme.primary,
-      borderFocusInvalidColor: theme.danger,
-      floatingPlaceholderInactiveColor: theme.neutral.withAlphaComponent(0.5),
-      floatingPlaceholderInvalidColor: theme.danger,
-      floatingPlaceholderFocusValidColor: theme.primary,
-      floatingPlaceholderFocusInvalidColor: theme.danger,
-      textValidColor: theme.neutral,
-      textInvalidColor: theme.danger,
+      backgroundInactiveColor: currentPalette.fieldBackgroundInactiveColor,
+      backgroundInvalidColor: currentPalette.fieldBackgroundInvalidColor,
+      backgroundFocusValidColor: currentPalette.fieldBackgroundFocusValidColor,
+      backgroundFocusInvalidColor: currentPalette.fieldBackgroundFocusInvalidColor,
+      borderInactiveColor: currentPalette.fieldOutlineInactiveColor,
+      borderInvalidColor: currentPalette.fieldOutlineInvalidColor,
+      borderFocusValidColor: currentPalette.fieldOutlineFocusValidColor,
+      borderFocusInvalidColor: currentPalette.fieldOutlineFocusInvalidColor,
+      floatingPlaceholderInactiveColor: currentPalette.fieldLabelInactiveColor,
+      floatingPlaceholderInvalidColor: currentPalette.fieldLabelInvalidColor,
+      floatingPlaceholderFocusValidColor: currentPalette.fieldLabelFocusValidColor,
+      floatingPlaceholderFocusInvalidColor: currentPalette.fieldLabelFocusInvalidColor,
+      textInactiveColor: currentPalette.fieldTextInactiveColor,
+      textInvalidColor: currentPalette.fieldTextFocusInvalidColor,
+      textFocusValidColor: currentPalette.fieldTextFocusValidColor,
+      textFocusInvalidColor: currentPalette.fieldTextFocusInvalidColor,
       tintValidColor: theme.primary,
       tintInvalidColor: theme.danger,
-      imageInactiveColor: theme.neutral.withAlphaComponent(0.1),
-      imageInvalidColor: theme.danger,
-      imageFocusValidColor: theme.primary,
-      imageFocusInvalidColor: theme.danger,
+      imageInactiveColor: currentPalette.fieldIconInactiveColor,
+      imageInvalidColor: currentPalette.fieldIconInvalidColor,
+      imageFocusValidColor: currentPalette.fieldIconFocusValidColor,
+      imageFocusInvalidColor: currentPalette.fieldIconFocusInvalidColor,
+      errorColor: currentPalette.errorMessageColor,
       cornerRadius: styleOptions.shapes.cornerRadius,
       borderWidth: 2,
       textFont: styleOptions.typography.scaledFont,

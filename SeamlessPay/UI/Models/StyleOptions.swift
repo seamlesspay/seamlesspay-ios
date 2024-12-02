@@ -8,11 +8,12 @@
 import UIKit
 import Foundation
 
+// MARK: - StyleOptions
 public struct StyleOptions: Equatable {
-  public var colors: Colors
-  public var shapes: Shapes
-  public var typography: Typography
-  public var iconSet: IconSet?
+  public let colors: Colors
+  public let shapes: Shapes
+  public let typography: Typography
+  public let iconSet: IconSet?
 
   public init(colors: Colors, shapes: Shapes, typography: Typography, iconSet: IconSet?) {
     self.colors = colors
@@ -26,9 +27,10 @@ public struct StyleOptions: Equatable {
   }
 }
 
+// MARK: - Colors
 public struct Colors: Equatable {
-  public var light: ColorPalette
-  public var dark: ColorPalette
+  public let light: ColorPalette
+  public let dark: ColorPalette
 
   public init(light: ColorPalette, dark: ColorPalette) {
     self.light = light
@@ -44,22 +46,135 @@ public struct Colors: Equatable {
   }
 }
 
+// MARK: - ColorPalette
 public struct ColorPalette: Equatable {
-  public var theme: ThemeColors
+  public let theme: ThemeColors
+  public let fieldColors: FieldColors?
+  public let errorMessage: UIColor?
+  public let header: UIColor?
 
-  public init(theme: ThemeColors) {
+  public init(
+    theme: ThemeColors,
+    fieldColors: FieldColors? = .none,
+    errorMessage: UIColor? = .none,
+    header: UIColor? = .none
+  ) {
     self.theme = theme
+    self.fieldColors = fieldColors
+    self.errorMessage = errorMessage
+    self.header = header
   }
 
   public static var `default`: ColorPalette {
-    ColorPalette(theme: .default)
+    ColorPalette(theme: .default, fieldColors: .none)
   }
 }
 
+// MARK: - Field Colors
+public extension ColorPalette {
+  var fieldBackgroundInactiveColor: UIColor {
+    fieldColors?.background?.inactive ?? theme.neutral.withAlphaComponent(0.03)
+  }
+
+  var fieldBackgroundFocusValidColor: UIColor {
+    fieldColors?.background?.focusValid ?? .clear
+  }
+
+  var fieldBackgroundFocusInvalidColor: UIColor {
+    fieldColors?.background?.focusInvalid ?? .clear
+  }
+
+  var fieldBackgroundInvalidColor: UIColor {
+    fieldColors?.background?.invalid ?? theme.danger.withAlphaComponent(0.1)
+  }
+
+  // NOTE: hint colors currently not used because of absence of hint label
+  var fieldHintFocusValidColor: UIColor {
+    fieldColors?.hint?.focusValid ?? theme.neutral.withAlphaComponent(0.25)
+  }
+
+  var fieldHintFocusInvalidColor: UIColor {
+    fieldColors?.hint?.focusInvalid ?? theme.neutral.withAlphaComponent(0.25)
+  }
+
+  var fieldIconInactiveColor: UIColor {
+    fieldColors?.icon?.inactive ?? theme.neutral.withAlphaComponent(0.1)
+  }
+
+  var fieldIconFocusValidColor: UIColor {
+    fieldColors?.icon?.focusValid ?? theme.primary
+  }
+
+  var fieldIconFocusInvalidColor: UIColor {
+    fieldColors?.icon?.focusInvalid ?? theme.danger
+  }
+
+  var fieldIconInvalidColor: UIColor {
+    fieldColors?.icon?.invalid ?? theme.danger
+  }
+
+  var fieldLabelInactiveColor: UIColor {
+    fieldColors?.label?.inactive ?? theme.neutral.withAlphaComponent(0.5)
+  }
+
+  var fieldLabelFocusValidColor: UIColor {
+    fieldColors?.label?.focusValid ?? theme.primary
+  }
+
+  var fieldLabelFocusInvalidColor: UIColor {
+    fieldColors?.label?.focusInvalid ?? theme.danger
+  }
+
+  var fieldLabelInvalidColor: UIColor {
+    fieldColors?.label?.invalid ?? theme.danger
+  }
+
+  var fieldOutlineInactiveColor: UIColor {
+    fieldColors?.outline?.inactive ?? .clear
+  }
+
+  var fieldOutlineInvalidColor: UIColor {
+    fieldColors?.outline?.invalid ?? theme.danger
+  }
+
+  var fieldOutlineFocusValidColor: UIColor {
+    fieldColors?.outline?.focusValid ?? theme.primary
+  }
+
+  var fieldOutlineFocusInvalidColor: UIColor {
+    fieldColors?.outline?.focusInvalid ?? theme.danger
+  }
+
+  var fieldTextFocusValidColor: UIColor {
+    fieldColors?.text?.focusValid ?? theme.neutral
+  }
+
+  var fieldTextFocusInvalidColor: UIColor {
+    fieldColors?.text?.focusInvalid ?? theme.danger
+  }
+
+  var fieldTextInvalidColor: UIColor {
+    fieldColors?.text?.invalid ?? theme.danger
+  }
+
+  var fieldTextInactiveColor: UIColor {
+    fieldColors?.text?.inactive ?? theme.neutral
+  }
+
+  var errorMessageColor: UIColor {
+    errorMessage ?? theme.danger
+  }
+
+  var headerColor: UIColor {
+    header ?? theme.neutral.withAlphaComponent(0.75)
+  }
+}
+
+// MARK: - ThemeColors
 public struct ThemeColors: Equatable {
-  public var neutral: UIColor
-  public var primary: UIColor
-  public var danger: UIColor
+  public let neutral: UIColor
+  public let primary: UIColor
+  public let danger: UIColor
 
   public init(neutral: UIColor, primary: UIColor, danger: UIColor) {
     self.neutral = neutral
@@ -88,8 +203,9 @@ public struct ThemeColors: Equatable {
   }
 }
 
+// MARK: - Shapes
 public struct Shapes: Equatable {
-  public var cornerRadius: CGFloat
+  public let cornerRadius: CGFloat
 
   public init(cornerRadius: CGFloat) {
     self.cornerRadius = cornerRadius
@@ -100,8 +216,9 @@ public struct Shapes: Equatable {
   }
 }
 
+// MARK: - Shadow
 public struct Shadow: Equatable {
-  public var elevation: ElevationLevel
+  public let elevation: ElevationLevel
 
   public init(elevation: ElevationLevel) {
     self.elevation = elevation
@@ -112,6 +229,7 @@ public struct Shadow: Equatable {
   }
 }
 
+// MARK: - ElevationLevel
 public enum ElevationLevel: Equatable {
   case none
   case level1
@@ -121,8 +239,9 @@ public enum ElevationLevel: Equatable {
   case level5
 }
 
+// MARK: - Typography
 public struct Typography: Equatable {
-  public var font: UIFont
+  public let font: UIFont
   public var scale: CGFloat {
     willSet {
       if newValue <= 0.0 {
@@ -150,16 +269,59 @@ public struct Typography: Equatable {
   }
 }
 
+// MARK: - IconSet
 public enum IconSet: Equatable {
   case light
   case dark
 }
 
+// MARK: - IconSet Extension
 public extension Optional where Wrapped == IconSet {
   func iconSet(for traitCollection: UITraitCollection) -> IconSet {
     if let iconSet = self {
       return iconSet
     }
     return traitCollection.userInterfaceStyle == .dark ? .dark : .light
+  }
+}
+
+// MARK: - FieldColors
+public struct FieldColors: Equatable {
+  public let background: FieldColor?
+  public let hint: FieldColor?
+  public let icon: FieldColor?
+  public let label: FieldColor?
+  public let outline: FieldColor?
+  public let text: FieldColor?
+
+  public init(
+    background: FieldColor?,
+    hint: FieldColor?,
+    icon: FieldColor?,
+    label: FieldColor?,
+    outline: FieldColor?,
+    text: FieldColor?
+  ) {
+    self.background = background
+    self.hint = hint
+    self.icon = icon
+    self.label = label
+    self.outline = outline
+    self.text = text
+  }
+}
+
+// MARK: - FieldColor
+public struct FieldColor: Equatable {
+  public let inactive: UIColor
+  public let focusValid: UIColor
+  public let focusInvalid: UIColor
+  public let invalid: UIColor
+
+  public init(inactive: UIColor, focusValid: UIColor, focusInvalid: UIColor, invalid: UIColor) {
+    self.inactive = inactive
+    self.focusValid = focusValid
+    self.focusInvalid = focusInvalid
+    self.invalid = invalid
   }
 }
