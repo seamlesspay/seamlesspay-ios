@@ -70,9 +70,9 @@ extension APIError {
       if let errors = data["errors"] as? [[String: Any]] {
         output.append("Errors:")
         for (index, error) in errors.enumerated() {
-          error.stringFor("message")
-          output
-            .append("#\(index + 1): \(error.stringFor("fieldName")) \(error.stringFor("message"))")
+          output.append(
+            "#\(index + 1): \(error.stringFor("fieldName")) \(error.stringFor("message"))"
+          )
         }
       }
     }
