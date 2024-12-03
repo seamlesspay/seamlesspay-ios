@@ -366,13 +366,14 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
   }
 
   public func textFieldDidEndEditing(_ textField: UITextField) {
-    guard let fieldType = SPCardFieldType(rawValue: textField.tag),
-          let textField = textField as? LineTextField else {
+    guard let fieldType = SPCardFieldType(rawValue: textField.tag) else {
       return
     }
 
     let isMidEditingTransition =
-      fieldEditingTransitionManager.getAndUpdateState(fromCall: .didEnd)
+      fieldEditingTransitionManager.getAndUpdateState(
+        fromCall: .didEnd
+      )
 
     onDidEndEditingField(fieldType: fieldType)
 
@@ -568,7 +569,7 @@ extension MultiLineCardForm {
       handleValidationError(error)
     }
 
-    becomeFirstResponder()
+    _ = becomeFirstResponder()
 
     return errors.isEmpty
   }
