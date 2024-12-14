@@ -8,9 +8,9 @@
 import Foundation
 
 public struct ClientConfiguration {
+  public let environment: Environment
   public let secretKey: String
   public let proxyAccountId: String?
-  public let environment: Environment
 
   public init(environment: Environment, secretKey: String, proxyAccountId: String? = nil) {
     self.secretKey = secretKey
