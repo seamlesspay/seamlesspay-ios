@@ -85,6 +85,25 @@ public class APIClient {
     )
   }
 
+  func tokenize(
+    digitalWallet: DigitalWallet? = .none,
+    completion: ((Result<PaymentMethod, SeamlessPayError>) -> Void)?
+  ) {
+    var parameters: [String: Any?] = [
+      "paymentType": PaymentType.creditCard.rawValue,
+      "digitalWallet": digitalWallet?.asParameter(),
+    ]
+
+    execute(
+      operation: .createToken,
+      parameters: parameters,
+      map: { data in
+        data.flatMap { try? PaymentMethod.decode($0) }
+      },
+      completion: completion
+    )
+  }
+
   // MARK: Customer
   public func createCustomer(
     name: String,
@@ -255,6 +274,37 @@ public class APIClient {
       },
       completion: completion
     )
+  }
+}
+
+// MARK: - Internal
+// MARK: Configure SDK
+extension APIClient {
+  func sdkData(completion: ((Result<SDKData, SeamlessPayError>) -> Void)?) {
+    DispatchQueue.global().asyncAfter(deadline: .now() + 2.0) {
+      let success = true
+
+      if success {
+        let mockData = SDKData(
+          applePay: .init(merchantId: "merchant.com.seamlesspay.wallet-stg"),
+          googlePay: .none,
+          seamlessPay: .init(merchantName: "Test Merchant Please Ignore")
+        )
+        completion?(.success(mockData))
+      } else {
+        let error: SeamlessPayError = .unknown
+        completion?(.failure(error))
+      }
+    }
+
+//    execute(
+//      operation: .sdkData,
+//      parameters: .none,
+//      map: { data in
+//        data.flatMap { try? SDKData.decode($0) }
+//      },
+//      completion: completion
+//    )
   }
 }
 

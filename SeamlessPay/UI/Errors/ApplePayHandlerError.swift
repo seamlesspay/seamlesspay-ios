@@ -7,7 +7,19 @@
 
 import Foundation
 
-public enum ApplePayHandlerError: Error {
-    case seamlessPayError(SeamlessPayError) // Errors returned by SeamlessPay
-    case passKitError(Error) // Errors returned by Apple
+public enum ApplePayHandlerError: LocalizedError {
+  case seamlessPayError(SeamlessPayError) // Errors returned by SeamlessPay
+  case missingMerchantIdentifier
+  case passKitError(Error) // Errors returned by Apple
+
+  public var errorDescription: String? {
+    switch self {
+    case let .seamlessPayError(error):
+      return error.errorDescription
+    case let .missingMerchantIdentifier:
+      return "Missing merchant identifier"
+    case let .passKitError(error):
+      return error.localizedDescription
+    }
+  }
 }
