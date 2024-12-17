@@ -13,65 +13,76 @@ public protocol ApplePayHandlerDelegate {
 }
 
 public class ApplePayHandler: NSObject {
-  enum AuthState {
+  private enum PaymentStatus {
     case notStarted
-    case finished
+    case authorized
   }
 
-  let apiClient: APIClient
+  private let apiClient: APIClient
+  private var paymentStatus: PaymentStatus?
+  private static var sdkConfiguration: SDKConfiguration?
 
-  static var sdkConfiguration: SDKConfiguration?
-  var authState: AuthState = .notStarted
-
-  let supportedNetworks: [PKPaymentNetwork] = [
+  private let countryCode = "US"
+  private let currencyCode = "USD"
+  private let supportedNetworks: [PKPaymentNetwork] = [
     .amex,
     .discover,
     .masterCard,
     .visa,
   ]
 
-  let merchantCapabilities: PKMerchantCapability = .capability3DS
+  private let merchantCapabilities: PKMerchantCapability = .capability3DS
+  private var chargeRequest: ChargeRequest?
+
   var paymentCompletion: ((ApplePayHandlerResult<PaymentResponse, ApplePayHandlerError>) -> Void)?
-  var chargeRequest: ChargeRequest?
+  
+  var merchantIdentifier: String? {
+    Self.sdkConfiguration?.data?.applePay?.merchantId
+  }
+
+  var merchantName: String? {
+    Self.sdkConfiguration?.data?.seamlessPay.merchantName
+  }
 
   public var delegate: ApplePayHandlerDelegate?
-  var merchantIdentifier: String? {
-    Self.sdkConfiguration?.applePayMerchantId
-  }
-
-  public init(
-    config: ClientConfiguration
-  ) {
-    apiClient = APIClient(config: config)
-    Task(priority: .userInitiated) {
-      Self.sdkConfiguration = await SDKConfiguration(clientConfiguration: config)
+  public var canPerformPayments: Bool {
+      PKPaymentAuthorizationController.canMakePayments() && merchantIdentifier != .none
     }
+
+  public init(sdkConfiguration: SDKConfiguration) {
+    apiClient = APIClient(config: sdkConfiguration.clientConfiguration)
+    Self.sdkConfiguration = sdkConfiguration
     super.init()
   }
 
-  public init(
-    awaitConfig: ClientConfiguration
-  ) async {
-    apiClient = APIClient(config: awaitConfig)
-    Self.sdkConfiguration = await SDKConfiguration(clientConfiguration: awaitConfig)
+  public init(config: ClientConfiguration) async {
+    apiClient = APIClient(config: config)
+    Self.sdkConfiguration = await SDKConfiguration(clientConfiguration: config)
     super.init()
   }
 
-  public func charge(
+  public func presentApplePayFor(
     _ chargeRequest: ChargeRequest,
-    completion: ((ApplePayHandlerResult<PaymentResponse, ApplePayHandlerError>) -> Void)?
+    completion: @escaping ((ApplePayHandlerResult<PaymentResponse, ApplePayHandlerError>) -> Void)
   ) {
-    guard let merchantIdentifier else {
-      completion?(.failure(.missingMerchantIdentifier))
+    guard let merchantIdentifier, let merchantName else {
+      completion(.failure(.missingMerchantIdentifier))
       return
     }
+
+    guard paymentStatus == .none else {
+      completion(.failure(.paymentProcessingInProgress))
+      return
+    }
+
+    paymentStatus = .notStarted
 
     paymentCompletion = completion
     self.chargeRequest = chargeRequest
 
     let request = PKPaymentRequest()
-    request.countryCode = "US"
-    request.currencyCode = "USD"
+    request.countryCode = countryCode
+    request.currencyCode = currencyCode
 
     request.supportedNetworks = supportedNetworks
 
@@ -80,7 +91,7 @@ public class ApplePayHandler: NSObject {
 
     request.paymentSummaryItems = [
       PKPaymentSummaryItem(
-        label: "Total",
+        label: merchantName,
         amount: NSDecimalNumber(string: chargeRequest.amount.amountDescription)
       ),
     ]
@@ -90,18 +101,19 @@ public class ApplePayHandler: NSObject {
     )
 
     applePayController.delegate = self
-    applePayController.present { result in
-//      DispatchQueue.main.async {}
-    }
+    applePayController.present { _ in }
+  }
+
+  func handlePaymentCompletion(
+    _ result: ApplePayHandlerResult<PaymentResponse, ApplePayHandlerError>
+  ) {
+    paymentStatus = .none
+    paymentCompletion?(result)
   }
 }
 
-public extension ApplePayHandler {
-  var canPerformPayments: Bool {
-    return PKPaymentAuthorizationController.canMakePayments() && merchantIdentifier != .none
-  }
-}
 
+// MARK: - PKPaymentAuthorizationControllerDelegate
 extension ApplePayHandler: PKPaymentAuthorizationControllerDelegate {
   public func paymentAuthorizationControllerDidFinish(
     _ controller: PKPaymentAuthorizationController
@@ -110,8 +122,8 @@ extension ApplePayHandler: PKPaymentAuthorizationControllerDelegate {
       dispatchToMainThread {
         delegate?.applePaySheetDidClose(self)
 
-        if self.authState == .notStarted {
-          self.paymentCompletion?(.canceled)
+        if self.paymentStatus == .notStarted {
+          self.handlePaymentCompletion(.canceled)
         }
       }
     }
@@ -122,16 +134,18 @@ extension ApplePayHandler: PKPaymentAuthorizationControllerDelegate {
     didAuthorizePayment payment: PKPayment,
     handler completion: @escaping (PKPaymentAuthorizationResult) -> Void
   ) {
-    authState = .finished
+    paymentStatus = .authorized
 
     guard let chargeRequest, let paymentCompletion else {
+      paymentStatus = .none
       completion(.init(status: .failure, errors: nil))
       return
     }
+
     completion(.init(status: .success, errors: nil))
 
     let digitalWallet = DigitalWallet(
-      merchantId: "merchant.com.seamlesspay.wallet-stg",
+      merchantId: merchantIdentifier,
       token: DigitalWallet.Token(
         paymentData: try? DigitalWallet.Token.PaymentData.decode(payment.token.paymentData),
         paymentMethod: .init(
@@ -142,6 +156,7 @@ extension ApplePayHandler: PKPaymentAuthorizationControllerDelegate {
         transactionIdentifier: payment.token.transactionIdentifier
       )
     )
+
     apiClient.tokenize(
       digitalWallet: digitalWallet,
       completion: { result in
@@ -153,24 +168,21 @@ extension ApplePayHandler: PKPaymentAuthorizationControllerDelegate {
             completion: { result in
               switch result {
               case let .success(paymentResponse):
-//                completion(.init(status: .success, errors: nil))
-                self.paymentCompletion?(.success(paymentResponse))
+                self.handlePaymentCompletion(.success(paymentResponse))
               case let .failure(error):
-//                completion(.init(status: .failure, errors: [error]))
-                self.paymentCompletion?(.failure(.seamlessPayError(error)))
+                self.handlePaymentCompletion(.failure(.seamlessPayError(error)))
               }
             }
           )
         case let .failure(error):
-//          completion(.init(status: .failure, errors: [error]))
-          self.paymentCompletion?(.failure(.seamlessPayError(error)))
+          self.handlePaymentCompletion(.failure(.seamlessPayError(error)))
         }
       }
     )
   }
 }
 
-extension Int {
+private extension Int {
   var amountDescription: String {
     let subunits = 100
     let mainUnits = self / subunits
@@ -179,7 +191,7 @@ extension Int {
   }
 }
 
-extension PKPaymentMethodType {
+private extension PKPaymentMethodType {
   var spName: String {
     switch self {
     case .credit:

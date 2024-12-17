@@ -205,3 +205,14 @@ public extension APIClient {
     }
   }
 }
+
+extension APIClient {
+  // MARK: SDK Data
+  func retrieveSDKData() async -> Result<SDKData, SeamlessPayError> {
+    await withCheckedContinuation { continuation in
+      retrieveSDKData { result in
+        continuation.resume(returning: result)
+      }
+    }
+  }
+}

@@ -10,9 +10,9 @@ import Foundation
 import Foundation
 
 public struct DigitalWallet: APICodable, APIReqParameterable {
-  public let merchantId: String? // Used for Apple Pay BYO merchant
-  public let token: Token // The payment token created by the integrated payment provider
-  public let type: String = "apple_pay" // Always set to "apple_pay"
+  public let merchantId: String?
+  public let token: Token
+  public let type: String = "apple_pay"
 
   public struct Token: APICodable {
     public let paymentData: PaymentData?

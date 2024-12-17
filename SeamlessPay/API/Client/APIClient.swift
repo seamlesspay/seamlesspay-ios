@@ -280,31 +280,15 @@ public class APIClient {
 // MARK: - Internal
 // MARK: Configure SDK
 extension APIClient {
-  func sdkData(completion: ((Result<SDKData, SeamlessPayError>) -> Void)?) {
-    DispatchQueue.global().asyncAfter(deadline: .now() + 2.0) {
-      let success = true
-
-      if success {
-        let mockData = SDKData(
-          applePay: .init(merchantId: "merchant.com.seamlesspay.wallet-stg"),
-          googlePay: .none,
-          seamlessPay: .init(merchantName: "Test Merchant Please Ignore")
-        )
-        completion?(.success(mockData))
-      } else {
-        let error: SeamlessPayError = .unknown
-        completion?(.failure(error))
-      }
-    }
-
-//    execute(
-//      operation: .sdkData,
-//      parameters: .none,
-//      map: { data in
-//        data.flatMap { try? SDKData.decode($0) }
-//      },
-//      completion: completion
-//    )
+  func retrieveSDKData(completion: ((Result<SDKData, SeamlessPayError>) -> Void)?) {
+    execute(
+      operation: .sdkData,
+      parameters: .none,
+      map: { data in
+        data.flatMap { try? SDKData.decode($0) }
+      },
+      completion: completion
+    )
   }
 }
 

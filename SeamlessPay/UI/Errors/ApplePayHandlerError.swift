@@ -10,7 +10,7 @@ import Foundation
 public enum ApplePayHandlerError: LocalizedError {
   case seamlessPayError(SeamlessPayError) // Errors returned by SeamlessPay
   case missingMerchantIdentifier
-  case passKitError(Error) // Errors returned by Apple
+  case paymentProcessingInProgress
 
   public var errorDescription: String? {
     switch self {
@@ -18,8 +18,8 @@ public enum ApplePayHandlerError: LocalizedError {
       return error.errorDescription
     case let .missingMerchantIdentifier:
       return "Missing merchant identifier"
-    case let .passKitError(error):
-      return error.localizedDescription
+    case .paymentProcessingInProgress:
+      return "Payment processing is in progress"
     }
   }
 }
