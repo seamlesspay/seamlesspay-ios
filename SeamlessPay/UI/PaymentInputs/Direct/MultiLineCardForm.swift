@@ -713,7 +713,7 @@ extension MultiLineCardForm {
       floatingPlaceholderFocusValidColor: currentPalette.fieldLabelFocusValidColor,
       floatingPlaceholderFocusInvalidColor: currentPalette.fieldLabelFocusInvalidColor,
       textInactiveColor: currentPalette.fieldTextInactiveColor,
-      textInvalidColor: currentPalette.fieldTextFocusInvalidColor,
+      textInvalidColor: currentPalette.fieldTextInactiveColor,
       textFocusValidColor: currentPalette.fieldTextFocusValidColor,
       textFocusInvalidColor: currentPalette.fieldTextFocusInvalidColor,
       tintValidColor: theme.primary,
