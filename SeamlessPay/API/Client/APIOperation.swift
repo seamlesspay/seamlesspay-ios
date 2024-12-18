@@ -17,6 +17,7 @@ enum APIOperation {
   case listCharges
   case createRefund
   case voidCharge(id: String)
+  case sdkData
 
   private var pathBase: String {
     switch self {
@@ -33,6 +34,8 @@ enum APIOperation {
       return "charges"
     case .createRefund:
       return "refunds"
+    case .sdkData:
+      return "sdk-data"
     }
   }
 
@@ -62,7 +65,8 @@ enum APIOperation {
       return .put
     case .listCharges,
          .retrieveCharge,
-         .retrieveCustomer:
+         .retrieveCustomer,
+         .sdkData:
       return .get
     case .voidCharge:
       return .delete

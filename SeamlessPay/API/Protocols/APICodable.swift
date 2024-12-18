@@ -30,13 +30,13 @@ public extension APIEncodable {
 }
 
 public protocol APIReqParameterable: APIEncodable {
-  func asParameter() -> [String: String]?
+  func asParameter() -> [String: Any]?
 }
 
 public extension APIReqParameterable {
-  func asParameter() -> [String: String]? {
+  func asParameter() -> [String: Any]? {
     if let data = try? encode() {
-      return try? JSONSerialization.jsonObject(with: data, options: []) as? [String: String]
+      return try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
     }
     return nil
   }

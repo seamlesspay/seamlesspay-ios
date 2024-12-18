@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - Address
-public struct Address {
+public struct Address: APICodable, APIReqParameterable {
   public let line1: String?
   public let line2: String?
   public let country: String?
@@ -32,5 +32,3 @@ public struct Address {
     self.postalCode = postalCode
   }
 }
-
-extension Address: APICodable, APIReqParameterable {}

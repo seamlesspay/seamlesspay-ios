@@ -85,6 +85,25 @@ public class APIClient {
     )
   }
 
+  func tokenize(
+    digitalWallet: DigitalWallet? = .none,
+    completion: ((Result<PaymentMethod, SeamlessPayError>) -> Void)?
+  ) {
+    var parameters: [String: Any?] = [
+      "paymentType": PaymentType.creditCard.rawValue,
+      "digitalWallet": digitalWallet?.asParameter(),
+    ]
+
+    execute(
+      operation: .createToken,
+      parameters: parameters,
+      map: { data in
+        data.flatMap { try? PaymentMethod.decode($0) }
+      },
+      completion: completion
+    )
+  }
+
   // MARK: Customer
   public func createCustomer(
     name: String,
@@ -252,6 +271,21 @@ public class APIClient {
       parameters: parameters,
       map: { data in
         data.flatMap { try? Refund.decode($0) }
+      },
+      completion: completion
+    )
+  }
+}
+
+// MARK: - Internal
+// MARK: Configure SDK
+extension APIClient {
+  func retrieveSDKData(completion: ((Result<SDKData, SeamlessPayError>) -> Void)?) {
+    execute(
+      operation: .sdkData,
+      parameters: .none,
+      map: { data in
+        data.flatMap { try? SDKData.decode($0) }
       },
       completion: completion
     )
