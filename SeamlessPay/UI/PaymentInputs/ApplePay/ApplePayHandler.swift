@@ -136,7 +136,7 @@ extension ApplePayHandler: PKPaymentAuthorizationControllerDelegate {
   ) {
     paymentStatus = .authorized
 
-    guard let chargeRequest, let paymentCompletion else {
+    guard let chargeRequest else {
       paymentStatus = .none
       completion(.init(status: .failure, errors: nil))
       return
