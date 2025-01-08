@@ -412,4 +412,143 @@ final class APIClientTest: XCTestCase {
 
     wait(for: [expectation], timeout: 1.5)
   }
+
+  // MARK: SDK Data
+  func testRetrieveSDKDataFailure() {
+    let expectation = XCTestExpectation(description: "Request completed")
+
+    client.retrieveSDKData { result in
+
+      // then
+      let request = APIClientURLProtocolMock.testingRequest!
+
+      let headers = request.allHTTPHeaderFields!
+      let url = request.url!.absoluteString
+      let method = request.httpMethod!
+
+      XCTAssertEqual(url, "https://api.seamlesspay.com/sdk-data")
+      XCTAssertEqual(method, "GET")
+
+      // headers
+      XCTAssertEqual(headers["Content-Type"], "application/json")
+      XCTAssertEqual(headers["Accept"], "application/json")
+      XCTAssertEqual(headers["API-Version"], "v2")
+      XCTAssertEqual(headers["User-Agent"], "seamlesspay_ios")
+      XCTAssertEqual(headers["Authorization"], "Bearer sk_TEST")
+
+      expectation.fulfill()
+    }
+
+    wait(for: [expectation], timeout: 1.5)
+  }
+
+  func testCreateChargeWithRequest() {
+    let expectation = self.expectation(description: "CreateChargeSuccess")
+
+    let token = "testToken"
+    let cvv = "999testCVC"
+    let request = ChargeRequest(
+      amount: 100,
+      capture: true,
+      currency: "USD",
+      description: "Test charge",
+      descriptor: "descriptor",
+      entryType: "entryType",
+      idempotencyKey: "idempotencyKey",
+      metadata: "metadata",
+      order: ["order123": "order123Value"],
+      orderID: "orderID123",
+      poNumber: "po123",
+      surchargeFeeAmount: 2,
+      taxAmount: 10,
+      taxExempt: false,
+      tip: 5
+    )
+
+    let paymentResponse = PaymentResponse(
+      id: "responseID",
+      paymentToken: "token",
+      details: .init(
+        accountType: .none,
+        amount: .none,
+        authCode: .none,
+        batchId: .none,
+        cardBrand: .none,
+        currency: .none,
+        expDate: .none,
+        lastFour: .none,
+        status: .none,
+        statusCode: .none,
+        statusDescription: .none,
+        surchargeFeeAmount: .none,
+        tip: .none,
+        transactionDate: .none,
+        avsPostalCodeResult: .none,
+        avsStreetAddressResult: .none,
+        cvvResult: .none
+      )
+    )
+
+    client.createCharge(token: token, cvv: cvv, request: request) { result in
+
+      // then
+      let request = APIClientURLProtocolMock.testingRequest!
+      let body = request.bodyStreamAsJSON()!
+      let headers = request.allHTTPHeaderFields!
+      let url = request.url!.absoluteString
+      let method = request.httpMethod!
+
+      XCTAssertEqual(url, "https://api.seamlesspay.com/charges")
+      XCTAssertEqual(method, "POST")
+
+      // headers
+      XCTAssertNotNil(headers["Content-Length"])
+      XCTAssertEqual(headers["Content-Type"], "application/json")
+      XCTAssertEqual(headers["Accept"], "application/json")
+      XCTAssertEqual(headers["API-Version"], "v2")
+      XCTAssertEqual(headers["User-Agent"], "seamlesspay_ios")
+      XCTAssertEqual(headers["Authorization"], "Bearer sk_TEST")
+
+      let token = body["token"] as! String
+      let capture = body["capture"] as! Bool
+      let cvv = body["cvv"] as! String
+      let currency = body["currency"] as! String
+      let taxAmount = body["taxAmount"] as! Int
+      let taxExempt = body["taxExempt"] as! Bool
+      let tip = body["tip"] as! Int
+      let surchargeFeeAmount = body["surchargeFeeAmount"] as! Int
+      let description = body["description"] as! String
+      let order = body["order"] as! [String: String]
+
+      let orderId = body["orderID"] as! String
+      let poNumber = body["poNumber"] as! String
+      let metadata = body["metadata"] as! String
+      let descriptor = body["descriptor"] as! String
+      let entryType = body["entryType"] as! String
+      let idempotencyKey = body["idempotencyKey"] as! String
+
+      // parameters
+      XCTAssertNotNil(body["deviceFingerprint"])
+      XCTAssertEqual(token, "testToken")
+      XCTAssertEqual(capture, true)
+      XCTAssertEqual(cvv, "999testCVC")
+      XCTAssertEqual(currency, "USD")
+      XCTAssertEqual(taxAmount, 10)
+      XCTAssertEqual(taxExempt, false)
+      XCTAssertEqual(tip, 5)
+      XCTAssertEqual(surchargeFeeAmount, 2)
+      XCTAssertEqual(description, "Test charge")
+      XCTAssertEqual(order, ["order123": "order123Value"])
+      XCTAssertEqual(orderId, "orderID123")
+      XCTAssertEqual(poNumber, "po123")
+      XCTAssertEqual(metadata, "metadata")
+      XCTAssertEqual(descriptor, "descriptor")
+      XCTAssertEqual(entryType, "entryType")
+      XCTAssertEqual(idempotencyKey, "idempotencyKey")
+
+      expectation.fulfill()
+    }
+
+    wait(for: [expectation], timeout: 1.5)
+  }
 }
