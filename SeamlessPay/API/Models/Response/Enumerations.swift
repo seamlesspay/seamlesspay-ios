@@ -38,7 +38,7 @@ public enum TransactionMethod: String, APICodable {
 public enum PaymentNetwork: String, APICodable {
   case visa = "Visa"
   case masterCard = "MasterCard"
-  case americanExpress = "American Express"
+  case americanExpress = "Amex"
   case discover = "Discover"
 }
 
