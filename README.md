@@ -1,7 +1,5 @@
 # SeamlessPay iOS
 
-![image](card-field.gif)
-
 ## Overview
 
 SeamlessPay iOS provides ready-to-use UI components for collecting user payment details and processing payments. It also gives access to the underlying APIs that power these interfaces, allowing the development of completely customized experiences.`SeamlessPay` framework.
@@ -22,7 +20,7 @@ In our iOS Example application, we use the Swift Package Manager (SPM) for manag
 
 #### Open Example app in Xcode
 
-- Open the Demo.xcodeproj file of the Example application in Xcode.
+- Open the **ios-sdk-example.xcodeproj** file of the Example application in Xcode.
 
 #### Navigate to Package Dependencies
 
