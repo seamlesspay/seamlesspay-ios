@@ -89,7 +89,7 @@ public class APIClient {
     digitalWallet: DigitalWallet? = .none,
     completion: ((Result<PaymentMethod, SeamlessPayError>) -> Void)?
   ) {
-    var parameters: [String: Any?] = [
+    let parameters: [String: Any?] = [
       "paymentType": PaymentType.creditCard.rawValue,
       "digitalWallet": digitalWallet?.asParameter(),
     ]

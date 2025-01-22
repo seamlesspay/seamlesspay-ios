@@ -16,7 +16,7 @@ public enum ApplePayHandlerError: LocalizedError {
     switch self {
     case let .seamlessPayError(error):
       return error.errorDescription
-    case let .missingMerchantIdentifier:
+    case .missingMerchantIdentifier:
       return "Missing merchant identifier"
     case .paymentProcessingInProgress:
       return "Payment processing is in progress"
