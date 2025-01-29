@@ -8,7 +8,6 @@
 import Foundation
 
 public struct SDKConfiguration {
-
   let clientConfiguration: ClientConfiguration
   var data: SDKData? { try? result?.get() }
 
@@ -16,6 +15,6 @@ public struct SDKConfiguration {
 
   public init(clientConfiguration: ClientConfiguration) async {
     self.clientConfiguration = clientConfiguration
-    result = await try? APIClient(config: clientConfiguration).retrieveSDKData()
+    result = await APIClient(config: clientConfiguration).retrieveSDKData()
   }
 }

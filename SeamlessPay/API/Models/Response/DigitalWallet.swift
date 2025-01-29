@@ -12,7 +12,13 @@ import Foundation
 public struct DigitalWallet: APICodable, APIReqParameterable {
   public let merchantId: String?
   public let token: Token
-  public let type: String = "apple_pay"
+  public let type: String
+
+  public init(merchantId: String?, token: Token) {
+    self.merchantId = merchantId
+    self.token = token
+    self.type = "apple_pay"
+  }
 
   public struct Token: APICodable {
     public let paymentData: PaymentData?

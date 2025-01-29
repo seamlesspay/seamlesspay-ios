@@ -35,7 +35,7 @@ public class ApplePayHandler: NSObject {
   private var chargeRequest: ChargeRequest?
 
   var paymentCompletion: ((ApplePayHandlerResult<PaymentResponse, ApplePayHandlerError>) -> Void)?
-  
+
   var merchantIdentifier: String? {
     Self.sdkConfiguration?.data?.applePay?.merchantId
   }
@@ -46,8 +46,8 @@ public class ApplePayHandler: NSObject {
 
   public var delegate: ApplePayHandlerDelegate?
   public var canPerformPayments: Bool {
-      PKPaymentAuthorizationController.canMakePayments() && merchantIdentifier != .none
-    }
+    PKPaymentAuthorizationController.canMakePayments() && merchantIdentifier != .none
+  }
 
   public init(sdkConfiguration: SDKConfiguration) {
     apiClient = APIClient(config: sdkConfiguration.clientConfiguration)
@@ -63,7 +63,8 @@ public class ApplePayHandler: NSObject {
 
   public func presentApplePayFor(
     _ chargeRequest: ChargeRequest,
-    completion: @escaping ((ApplePayHandlerResult<PaymentResponse, ApplePayHandlerError>) -> Void)
+    completion: @escaping ((ApplePayHandlerResult<PaymentResponse, ApplePayHandlerError>)
+      -> Void)
   ) {
     guard let merchantIdentifier, let merchantName else {
       completion(.failure(.missingMerchantIdentifier))
@@ -111,7 +112,6 @@ public class ApplePayHandler: NSObject {
     paymentCompletion?(result)
   }
 }
-
 
 // MARK: - PKPaymentAuthorizationControllerDelegate
 extension ApplePayHandler: PKPaymentAuthorizationControllerDelegate {
@@ -202,6 +202,8 @@ private extension PKPaymentMethodType {
       return "prepaid"
     case .store:
       return "store"
+    case .eMoney:
+      return "eMoney"
     case .unknown:
       return "unknown"
     @unknown default:
