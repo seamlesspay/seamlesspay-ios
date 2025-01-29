@@ -23,8 +23,6 @@
 
 - (void)setPlaceholderColor:(UIColor *)placeholderColor {
   _placeholderColor = placeholderColor;
-  // explicitly rebuild attributed placeholder to pick up new color
-  [self setPlaceholder:self.placeholder];
 }
 
 - (void)setValidText:(BOOL)validText {
