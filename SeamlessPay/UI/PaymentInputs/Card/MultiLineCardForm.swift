@@ -89,6 +89,7 @@ public class MultiLineCardForm: UIControl, CardForm {
     textField.autoFormattingBehavior = .expiration
     textField.tag = SPCardFieldType.expiration.rawValue
     textField.floatingPlaceholder = "Expiry date"
+    textField.placeholder = "MM/YY"
 
     return textField
   }()
@@ -708,10 +709,10 @@ extension MultiLineCardForm {
       borderInvalidColor: currentPalette.fieldOutlineInvalidColor,
       borderFocusValidColor: currentPalette.fieldOutlineFocusValidColor,
       borderFocusInvalidColor: currentPalette.fieldOutlineFocusInvalidColor,
-      floatingPlaceholderInactiveColor: currentPalette.fieldLabelInactiveColor,
-      floatingPlaceholderInvalidColor: currentPalette.fieldLabelInvalidColor,
-      floatingPlaceholderFocusValidColor: currentPalette.fieldLabelFocusValidColor,
-      floatingPlaceholderFocusInvalidColor: currentPalette.fieldLabelFocusInvalidColor,
+      placeholderInactiveColor: currentPalette.fieldLabelInactiveColor,
+      placeholderInvalidColor: currentPalette.fieldLabelInvalidColor,
+      placeholderFocusValidColor: currentPalette.fieldLabelFocusValidColor,
+      placeholderFocusInvalidColor: currentPalette.fieldLabelFocusInvalidColor,
       textInactiveColor: currentPalette.fieldTextInactiveColor,
       textInvalidColor: currentPalette.fieldTextInactiveColor,
       textFocusValidColor: currentPalette.fieldTextFocusValidColor,
