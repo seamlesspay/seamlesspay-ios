@@ -93,7 +93,7 @@ public class ApplePayHandler: NSObject {
     request.paymentSummaryItems = [
       PKPaymentSummaryItem(
         label: merchantName,
-        amount: NSDecimalNumber(string: chargeRequest.amount.amountDescription)
+        amount: .fromUnits(chargeRequest.amount)
       ),
     ]
 
@@ -179,15 +179,6 @@ extension ApplePayHandler: PKPaymentAuthorizationControllerDelegate {
         }
       }
     )
-  }
-}
-
-private extension Int {
-  var amountDescription: String {
-    let subunits = 100
-    let mainUnits = self / subunits
-    let subUnits = self % subunits
-    return "\(mainUnits).\(subUnits)"
   }
 }
 
