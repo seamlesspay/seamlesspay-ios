@@ -472,6 +472,7 @@ private extension APIClient {
     case .createCharge,
          .createRefund,
          .createToken,
+         .sdkData,
          .voidCharge:
       proxyAccountId = config.proxyAccountId
     default:

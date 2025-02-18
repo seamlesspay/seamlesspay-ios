@@ -413,35 +413,6 @@ final class APIClientTest: XCTestCase {
     wait(for: [expectation], timeout: 1.5)
   }
 
-  // MARK: SDK Data
-  func testRetrieveSDKDataFailure() {
-    let expectation = XCTestExpectation(description: "Request completed")
-
-    client.retrieveSDKData { result in
-
-      // then
-      let request = APIClientURLProtocolMock.testingRequest!
-
-      let headers = request.allHTTPHeaderFields!
-      let url = request.url!.absoluteString
-      let method = request.httpMethod!
-
-      XCTAssertEqual(url, "https://api.seamlesspay.com/sdk-data")
-      XCTAssertEqual(method, "GET")
-
-      // headers
-      XCTAssertEqual(headers["Content-Type"], "application/json")
-      XCTAssertEqual(headers["Accept"], "application/json")
-      XCTAssertEqual(headers["API-Version"], "v2")
-      XCTAssertEqual(headers["User-Agent"], "seamlesspay_ios")
-      XCTAssertEqual(headers["Authorization"], "Bearer sk_TEST")
-
-      expectation.fulfill()
-    }
-
-    wait(for: [expectation], timeout: 1.5)
-  }
-
   func testCreateChargeWithRequest() {
     let expectation = self.expectation(description: "CreateChargeSuccess")
 
@@ -463,30 +434,6 @@ final class APIClientTest: XCTestCase {
       taxAmount: 10,
       taxExempt: false,
       tip: 5
-    )
-
-    let paymentResponse = PaymentResponse(
-      id: "responseID",
-      paymentToken: "token",
-      details: .init(
-        accountType: .none,
-        amount: .none,
-        authCode: .none,
-        batchId: .none,
-        cardBrand: .none,
-        currency: .none,
-        expDate: .none,
-        lastFour: .none,
-        status: .none,
-        statusCode: .none,
-        statusDescription: .none,
-        surchargeFeeAmount: .none,
-        tip: .none,
-        transactionDate: .none,
-        avsPostalCodeResult: .none,
-        avsStreetAddressResult: .none,
-        cvvResult: .none
-      )
     )
 
     client.createCharge(token: token, cvv: cvv, request: request) { result in
@@ -545,6 +492,81 @@ final class APIClientTest: XCTestCase {
       XCTAssertEqual(descriptor, "descriptor")
       XCTAssertEqual(entryType, "entryType")
       XCTAssertEqual(idempotencyKey, "idempotencyKey")
+
+      expectation.fulfill()
+    }
+
+    wait(for: [expectation], timeout: 1.5)
+  }
+
+  // MARK: SDK Data
+  func testRetrieveSDKDataWithoutProxyAccountId() {
+    let expectation = XCTestExpectation(description: "Request completed")
+
+    let configuration = URLSessionConfiguration.default
+    configuration.protocolClasses = [APIClientURLProtocolMock.self]
+    let session = URLSession(configuration: configuration)
+
+    let client = APIClient(
+      config: .init(
+        environment: .production,
+        secretKey: "sk_TEST",
+        proxyAccountId: .none
+      ),
+      session: session
+    )
+
+    client.retrieveSDKData { result in
+
+      // then
+      let request = APIClientURLProtocolMock.testingRequest!
+
+      let headers = request.allHTTPHeaderFields!
+      let url = request.url!.absoluteString
+      let method = request.httpMethod!
+
+      XCTAssertEqual(url, "https://api.seamlesspay.com/sdk-data")
+      XCTAssertEqual(method, "GET")
+
+      // headers
+      XCTAssertEqual(headers["Content-Type"], "application/json")
+      XCTAssertEqual(headers["Accept"], "application/json")
+      XCTAssertEqual(headers["API-Version"], "v2")
+      XCTAssertEqual(headers["User-Agent"], "seamlesspay_ios")
+      XCTAssertEqual(headers["Authorization"], "Bearer sk_TEST")
+      XCTAssertNil(headers["SeamlessPay-Account"])
+
+      expectation.fulfill()
+    }
+
+    wait(for: [expectation], timeout: 1.5)
+  }
+
+  func testRetrieveSDKDataWithProxyAccountId() {
+    let expectation = XCTestExpectation(description: "Request completed")
+
+    let configuration = URLSessionConfiguration.default
+    configuration.protocolClasses = [APIClientURLProtocolMock.self]
+    let session = URLSession(configuration: configuration)
+
+    let client = APIClient(
+      config: .init(
+        environment: .production,
+        secretKey: "sk_TEST",
+        proxyAccountId: "proxyAccountId_TEST"
+      ),
+      session: session
+    )
+
+    client.retrieveSDKData { result in
+
+      // then
+      let request = APIClientURLProtocolMock.testingRequest!
+
+      let headers = request.allHTTPHeaderFields!
+
+      // headers
+      XCTAssertEqual(headers["SeamlessPay-Account"], "proxyAccountId_TEST")
 
       expectation.fulfill()
     }
