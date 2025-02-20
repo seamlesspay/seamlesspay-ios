@@ -190,6 +190,9 @@
     case SPCardBrandJCB:
       baseImageName = @"logo_jcb";
       break;
+    case SPCardBrandUnionPay:
+      baseImageName = @"logo_unionpay";
+      break;
     default:
       return [self safeImageNamed:@"sp_card_unknown" templateIfAvailable:NO];
   }
