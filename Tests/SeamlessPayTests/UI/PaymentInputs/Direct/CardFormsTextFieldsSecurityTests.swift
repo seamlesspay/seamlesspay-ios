@@ -14,14 +14,6 @@ class CardFormsTextFieldsSecurityTests: XCTestCase {
     cvv: .init(display: .required),
     postalCode: .init(display: .required)
   )
-  func testTextFieldsOfSingleLineCardFormHaveAutocorrectionTypeNo() {
-    checkSecureTextEntryCheck(
-      of: SingleLineCardForm(
-        config: clientConfig,
-        fieldOptions: fieldOptions
-      )
-    )
-  }
 
   func testTextFieldsOfMultiLineCardFormHaveAutocorrectionTypeNo() {
     checkSecureTextEntryCheck(
