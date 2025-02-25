@@ -9,8 +9,8 @@ import Foundation
 
 public struct APIError: LocalizedError {
   public struct FieldError {
-    let message: String?
-    let fieldName: String?
+    public let message: String?
+    public let fieldName: String?
   }
 
   public let domain: String
