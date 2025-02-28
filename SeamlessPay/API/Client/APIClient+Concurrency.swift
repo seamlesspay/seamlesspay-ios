@@ -19,7 +19,7 @@ public extension APIClient {
     pin: String? = .none,
     billingAddress: Address? = .none,
     name: String? = .none
-  ) async -> Result<PaymentMethod, SeamlessPayError> {
+  ) async -> Result<PaymentMethod, APIError> {
     await withCheckedContinuation { continuation in
       tokenize(
         paymentType: paymentType,
@@ -48,7 +48,7 @@ public extension APIClient {
     website: String? = .none,
     paymentMethods: [PaymentMethod]? = .none,
     metadata: String? = .none
-  ) async -> Result<Customer, SeamlessPayError> {
+  ) async -> Result<Customer, APIError> {
     await withCheckedContinuation { continuation in
       createCustomer(
         name: name,
@@ -77,7 +77,7 @@ public extension APIClient {
     website: String? = .none,
     paymentMethods: [PaymentMethod]? = .none,
     metadata: String? = .none
-  ) async -> Result<Customer, SeamlessPayError> {
+  ) async -> Result<Customer, APIError> {
     await withCheckedContinuation { continuation in
       updateCustomer(
         id: id,
@@ -97,7 +97,7 @@ public extension APIClient {
 
   func retrieveCustomer(
     id: String
-  ) async -> Result<Customer, SeamlessPayError> {
+  ) async -> Result<Customer, APIError> {
     await withCheckedContinuation { continuation in
       retrieveCustomer(
         id: id
@@ -126,7 +126,7 @@ public extension APIClient {
     descriptor: String? = .none,
     entryType: String? = .none,
     idempotencyKey: String? = .none
-  ) async -> Result<Charge, SeamlessPayError> {
+  ) async -> Result<Charge, APIError> {
     await withCheckedContinuation { continuation in
       createCharge(
         token: token,
@@ -154,7 +154,7 @@ public extension APIClient {
 
   func retrieveCharge(
     id: String
-  ) async -> Result<Charge, SeamlessPayError> {
+  ) async -> Result<Charge, APIError> {
     await withCheckedContinuation { continuation in
       retrieveCharge(
         id: id
@@ -164,7 +164,7 @@ public extension APIClient {
     }
   }
 
-  func listCharges() async -> Result<ChargePage, SeamlessPayError> {
+  func listCharges() async -> Result<ChargePage, APIError> {
     await withCheckedContinuation { continuation in
       listCharges { result in
         continuation.resume(returning: result)
@@ -174,7 +174,7 @@ public extension APIClient {
 
   func voidCharge(
     id: String
-  ) async -> Result<Charge, SeamlessPayError> {
+  ) async -> Result<Charge, APIError> {
     await withCheckedContinuation { continuation in
       voidCharge(id: id) { result in
         continuation.resume(returning: result)
@@ -190,7 +190,7 @@ public extension APIClient {
     descriptor: String? = .none,
     idempotencyKey: String? = .none,
     metadata: String? = .none
-  ) async -> Result<Refund, SeamlessPayError> {
+  ) async -> Result<Refund, APIError> {
     await withCheckedContinuation { continuation in
       createRefund(
         token: token,
@@ -208,7 +208,7 @@ public extension APIClient {
 
 extension APIClient {
   // MARK: SDK Data
-  func retrieveSDKData() async -> Result<SDKData, SeamlessPayError> {
+  func retrieveSDKData() async -> Result<SDKData, APIError> {
     await withCheckedContinuation { continuation in
       retrieveSDKData { result in
         continuation.resume(returning: result)

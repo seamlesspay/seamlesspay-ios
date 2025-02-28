@@ -611,9 +611,9 @@ extension MultiLineCardForm {
 // MARK: - API Error handling
 extension MultiLineCardForm {
   func handleAPIError(_ error: APIError) {
-    let fieldErrors = error.fieldErrors
+    let fieldErrors = error.errors
 
-    if !fieldErrors.isEmpty {
+    if let fieldErrors, !fieldErrors.isEmpty {
       // Reset all fields to valid
       resetAllFieldsToValid()
 
@@ -624,7 +624,7 @@ extension MultiLineCardForm {
     }
   }
 
-  private func handleFailedAPIError(_ fieldError: APIError.FieldError) {
+  private func handleFailedAPIError(_ fieldError: APIError.ErrorDetail) {
     let failedField: LineTextField?
 
     switch fieldError.fieldName {
@@ -640,11 +640,11 @@ extension MultiLineCardForm {
       failedField = .none
     }
 
-    guard let failedField, let errorMessages = fieldError.message else {
+    guard let failedField else {
       return
     }
 
-    handleFailedField(failedField, errorMessage: errorMessages)
+    handleFailedField(failedField, errorMessage: fieldError.message)
   }
 
   private func handleFailedField(_ failedField: LineTextField, errorMessage: String) {
