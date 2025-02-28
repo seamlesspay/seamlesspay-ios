@@ -54,7 +54,7 @@ public class APIClient {
     pin: String? = .none,
     billingAddress: Address? = .none,
     name: String? = .none,
-    completion: ((Result<PaymentMethod, SeamlessPayError>) -> Void)?
+    completion: ((Result<PaymentMethod, APIError>) -> Void)?
   ) {
     var parameters: [String: Any?] = [
       "paymentType": paymentType.rawValue,
@@ -87,7 +87,7 @@ public class APIClient {
 
   func tokenize(
     digitalWallet: DigitalWallet? = .none,
-    completion: ((Result<PaymentMethod, SeamlessPayError>) -> Void)?
+    completion: ((Result<PaymentMethod, APIError>) -> Void)?
   ) {
     let parameters: [String: Any?] = [
       "paymentType": PaymentType.creditCard.rawValue,
@@ -115,7 +115,7 @@ public class APIClient {
     website: String? = .none,
     paymentMethods: [PaymentMethod]? = .none,
     metadata: String? = .none,
-    completion: ((Result<Customer, SeamlessPayError>) -> Void)?
+    completion: ((Result<Customer, APIError>) -> Void)?
   ) {
     customer(
       name: name,
@@ -143,7 +143,7 @@ public class APIClient {
     website: String? = .none,
     paymentMethods: [PaymentMethod]? = .none,
     metadata: String? = .none,
-    completion: ((Result<Customer, SeamlessPayError>) -> Void)?
+    completion: ((Result<Customer, APIError>) -> Void)?
   ) {
     customer(
       name: name,
@@ -162,7 +162,7 @@ public class APIClient {
 
   public func retrieveCustomer(
     id: String,
-    completion: ((Result<Customer, SeamlessPayError>) -> Void)?
+    completion: ((Result<Customer, APIError>) -> Void)?
   ) {
     customer(operation: .retrieveCharge(id: id), completion: completion)
   }
@@ -186,7 +186,7 @@ public class APIClient {
     descriptor: String? = .none,
     entryType: String? = .none,
     idempotencyKey: String? = .none,
-    completion: ((Result<Charge, SeamlessPayError>) -> Void)?
+    completion: ((Result<Charge, APIError>) -> Void)?
   ) {
     charge(
       token: token,
@@ -213,13 +213,13 @@ public class APIClient {
 
   public func retrieveCharge(
     id: String,
-    completion: ((Result<Charge, SeamlessPayError>) -> Void)?
+    completion: ((Result<Charge, APIError>) -> Void)?
   ) {
     charge(operation: .retrieveCharge(id: id), completion: completion)
   }
 
   public func listCharges(
-    completion: ((Result<ChargePage, SeamlessPayError>) -> Void)?
+    completion: ((Result<ChargePage, APIError>) -> Void)?
   ) {
     execute(
       operation: .listCharges,
@@ -233,7 +233,7 @@ public class APIClient {
 
   public func voidCharge(
     id: String,
-    completion: ((Result<Charge, SeamlessPayError>) -> Void)?
+    completion: ((Result<Charge, APIError>) -> Void)?
   ) {
     execute(
       operation: .voidCharge(id: id),
@@ -255,7 +255,7 @@ public class APIClient {
     descriptor: String? = .none,
     idempotencyKey: String? = .none,
     metadata: String? = .none,
-    completion: ((Result<Refund, SeamlessPayError>) -> Void)?
+    completion: ((Result<Refund, APIError>) -> Void)?
   ) {
     let parameters: [String: Any?] = [
       "token": token,
@@ -280,7 +280,7 @@ public class APIClient {
 // MARK: - Internal
 // MARK: Configure SDK
 extension APIClient {
-  func retrieveSDKData(completion: ((Result<SDKData, SeamlessPayError>) -> Void)?) {
+  func retrieveSDKData(completion: ((Result<SDKData, APIError>) -> Void)?) {
     execute(
       operation: .sdkData,
       parameters: .none,
@@ -299,7 +299,7 @@ private extension APIClient {
     operation: APIOperation,
     parameters: [String: Any?]?,
     map: @escaping (Data?) -> ModelClass?,
-    completion: ((Result<ModelClass, SeamlessPayError>) -> Void)?
+    completion: ((Result<ModelClass, APIError>) -> Void)?
   ) {
     do {
       let request = try request(
@@ -315,16 +315,14 @@ private extension APIClient {
 
         trackFailedRequest(request, response: response, responseData: data)
 
-        let result: Result<ModelClass, SeamlessPayError>
+        let result: Result<ModelClass, APIError>
 
-        if error != nil || self.isResponseSuccessful(response) == false {
-          result = .failure(
-            .fromFailedSessionTask(data: data, error: error)
-          )
-        } else if let model = map(data) {
+        if self.isResponseSuccessful(response), let model = map(data) {
           result = .success(model)
+        } else if let data, let apiError = try? APIError.decode(data) {
+          result = .failure(apiError)
         } else {
-          result = .failure(.responseSerializationError)
+          result = .failure(.unknown)
         }
 
         DispatchQueue.main.async {
@@ -335,11 +333,7 @@ private extension APIClient {
 
     } catch {
       DispatchQueue.main.async {
-        completion?(
-          .failure(
-            .requestCreationError(error)
-          )
-        )
+        completion?(.failure(.unknown))
       }
     }
   }
@@ -365,7 +359,7 @@ private extension APIClient {
     paymentMethods: [PaymentMethod]? = .none,
     metadata: String? = .none,
     operation: APIOperation,
-    completion: ((Result<Customer, SeamlessPayError>) -> Void)?
+    completion: ((Result<Customer, APIError>) -> Void)?
   ) {
     let parameters: [String: Any?] = [
       "name": name,
@@ -410,7 +404,7 @@ private extension APIClient {
     entryType: String? = .none,
     idempotencyKey: String? = .none,
     operation: APIOperation,
-    completion: ((Result<Charge, SeamlessPayError>) -> Void)?
+    completion: ((Result<Charge, APIError>) -> Void)?
   ) {
     let parameters: [String: Any?] = [
       "token": token,
@@ -518,7 +512,7 @@ private extension APIClient {
     urlComponents.path = path
     urlComponents.queryItems = queryItems?.map { URLQueryItem(name: $0, value: $1) }
     guard let url = urlComponents.url else {
-      throw SeamlessPayInvalidURLError()
+      throw APIError.unknown
     }
     return url
   }

@@ -11,7 +11,7 @@ public struct SDKConfiguration {
   let clientConfiguration: ClientConfiguration
   var data: SDKData? { try? result?.get() }
 
-  private let result: Result<SDKData, SeamlessPayError>?
+  private let result: Result<SDKData, APIError>?
 
   public init(clientConfiguration: ClientConfiguration) async {
     self.clientConfiguration = clientConfiguration

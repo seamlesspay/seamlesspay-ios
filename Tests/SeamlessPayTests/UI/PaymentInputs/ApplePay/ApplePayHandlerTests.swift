@@ -37,21 +37,13 @@ class ApplePayHandlerTests: XCTestCase {
     let expectation = self.expectation(description: "Completion called")
 
     applePayHandler.presentApplePayFor(chargeRequest) { result in
-      switch result {
-      case let .failure(error):
-        switch error {
-        case .missingMerchantIdentifier:
-          break
-        default:
-          XCTFail("Expected missingMerchantIdentifier error in failure")
-        }
-      default:
-        XCTFail("Expected failure with missingMerchantIdentifier error")
+      guard case let .failure(error) = result, error.kind == .unknown else {
+        return XCTFail("Expected APIError.unknown in failure")
       }
       expectation.fulfill()
     }
 
-    waitForExpectations(timeout: 1, handler: nil)
+    waitForExpectations(timeout: 1)
   }
 
   func testHandlePaymentCompletion() {
@@ -81,11 +73,8 @@ class ApplePayHandlerTests: XCTestCase {
     )
 
     applePayHandler.paymentCompletion = { result in
-      switch result {
-      case .success:
-        break
-      default:
-        XCTFail("Expected success with paymentResponse")
+      guard case .success = result else {
+        return XCTFail("Expected success with paymentResponse")
       }
       expectation.fulfill()
     }

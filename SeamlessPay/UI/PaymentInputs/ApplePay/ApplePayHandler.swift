@@ -34,7 +34,7 @@ public class ApplePayHandler: NSObject {
   private let merchantCapabilities: PKMerchantCapability = .capability3DS
   private var chargeRequest: ChargeRequest?
 
-  var paymentCompletion: ((ApplePayHandlerResult<PaymentResponse, ApplePayHandlerError>) -> Void)?
+  var paymentCompletion: ((ApplePayHandlerResult<PaymentResponse, APIError>) -> Void)?
 
   var merchantIdentifier: String? {
     Self.sdkConfiguration?.data?.applePay?.merchantId
@@ -63,16 +63,16 @@ public class ApplePayHandler: NSObject {
 
   public func presentApplePayFor(
     _ chargeRequest: ChargeRequest,
-    completion: @escaping ((ApplePayHandlerResult<PaymentResponse, ApplePayHandlerError>)
+    completion: @escaping ((ApplePayHandlerResult<PaymentResponse, APIError>)
       -> Void)
   ) {
     guard let merchantIdentifier, let merchantName else {
-      completion(.failure(.missingMerchantIdentifier))
+      completion(.failure(.unknown))
       return
     }
 
     guard paymentStatus == .none else {
-      completion(.failure(.paymentProcessingInProgress))
+      completion(.failure(.unknown))
       return
     }
 
@@ -106,7 +106,7 @@ public class ApplePayHandler: NSObject {
   }
 
   func handlePaymentCompletion(
-    _ result: ApplePayHandlerResult<PaymentResponse, ApplePayHandlerError>
+    _ result: ApplePayHandlerResult<PaymentResponse, APIError>
   ) {
     paymentStatus = .none
     paymentCompletion?(result)
@@ -170,12 +170,12 @@ extension ApplePayHandler: PKPaymentAuthorizationControllerDelegate {
               case let .success(paymentResponse):
                 self.handlePaymentCompletion(.success(paymentResponse))
               case let .failure(error):
-                self.handlePaymentCompletion(.failure(.seamlessPayError(error)))
+                self.handlePaymentCompletion(.failure(error))
               }
             }
           )
         case let .failure(error):
-          self.handlePaymentCompletion(.failure(.seamlessPayError(error)))
+          self.handlePaymentCompletion(.failure(error))
         }
       }
     )

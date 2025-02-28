@@ -11,7 +11,7 @@ import UIKit
 extension CardFormViewModel {
   // MARK: Tokenize
   func tokenize(
-    completion: ((Result<TokenizeResponse, SeamlessPayError>) -> Void)?
+    completion: ((Result<TokenizeResponse, APIError>) -> Void)?
   ) {
     apiClient?.tokenize(
       paymentType: .creditCard,
@@ -51,7 +51,7 @@ extension CardFormViewModel {
     )
   }
 
-  func tokenize() async -> Result<TokenizeResponse, SeamlessPayError> {
+  func tokenize() async -> Result<TokenizeResponse, APIError> {
     await withCheckedContinuation { continuation in
       tokenize { result in
         continuation.resume(returning: result)
@@ -62,7 +62,7 @@ extension CardFormViewModel {
   // MARK: Charge
   func charge(
     _ request: ChargeRequest,
-    completion: ((Result<PaymentResponse, SeamlessPayError>) -> Void)?
+    completion: ((Result<PaymentResponse, APIError>) -> Void)?
   ) {
     tokenize { result in
       switch result {
@@ -123,7 +123,7 @@ extension CardFormViewModel {
 
   func charge(
     _ request: ChargeRequest
-  ) async -> Result<PaymentResponse, SeamlessPayError> {
+  ) async -> Result<PaymentResponse, APIError> {
     await withCheckedContinuation { continuation in
       charge(request) { result in
         continuation.resume(returning: result)
@@ -134,7 +134,7 @@ extension CardFormViewModel {
   // MARK: Refund
   func refund(
     _ request: RefundRequest,
-    completion: ((Result<PaymentResponse, SeamlessPayError>) -> Void)?
+    completion: ((Result<PaymentResponse, APIError>) -> Void)?
   ) {
     tokenize { result in
       switch result {
@@ -184,7 +184,7 @@ extension CardFormViewModel {
 
   func refund(
     _ request: RefundRequest
-  ) async -> Result<PaymentResponse, SeamlessPayError> {
+  ) async -> Result<PaymentResponse, APIError> {
     await withCheckedContinuation { continuation in
       refund(request) { result in
         continuation.resume(returning: result)

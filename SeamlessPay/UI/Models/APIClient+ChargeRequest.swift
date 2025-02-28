@@ -12,7 +12,7 @@ extension APIClient {
     token: String,
     cvv: String? = .none,
     request: ChargeRequest,
-    completion: ((Result<PaymentResponse, SeamlessPayError>) -> Void)?
+    completion: ((Result<PaymentResponse, APIError>) -> Void)?
   ) {
     createCharge(
       token: token,
