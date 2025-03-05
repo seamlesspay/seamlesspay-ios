@@ -104,7 +104,7 @@ typedef NS_ENUM(NSInteger, SPCardBrandImageSet) {
  */
 + (UIImage *)errorImageForCardBrand:(SPCardBrand)brand;
 
-// Renewed images currently used by multiline card form
+// Renewed images currently used by card form
 + (UIImage *)renewed_brandImageForCardBrand:(SPCardBrand)brand imageSet:(SPCardBrandImageSet)imageSet;
 + (UIImage *)renewed_cvcImageTemplateForCardBrand:(SPCardBrand)brand;
 + (UIImage *)renewed_errorImageTemplate;

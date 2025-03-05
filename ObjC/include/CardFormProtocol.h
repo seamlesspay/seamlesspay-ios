@@ -7,7 +7,7 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol CardForm <NSObject>
+@protocol CardFormProtocol <NSObject>
 @required
 
 @property(nonatomic, readonly) BOOL isValid;

@@ -8,12 +8,12 @@
 import XCTest
 @testable import SeamlessPay
 
-class MultiLineCardFormTests: XCTestCase {
-  var multiLineCardForm: MultiLineCardForm!
+class CardFormTests: XCTestCase {
+  var cardForm: CardForm!
 
   override func setUp() {
     super.setUp()
-    multiLineCardForm = MultiLineCardForm(
+    cardForm = CardForm(
       config: .init(environment: .production, secretKey: "secret_ket"),
       fieldOptions: .init(cvv: .init(display: .required), postalCode: .init(display: .required)),
       styleOptions: .default
@@ -21,29 +21,29 @@ class MultiLineCardFormTests: XCTestCase {
   }
 
   override func tearDown() {
-    multiLineCardForm = nil
+    cardForm = nil
     super.tearDown()
   }
 
   func testInitialization() {
-    XCTAssertNotNil(multiLineCardForm)
-    XCTAssertNil(multiLineCardForm.delegate)
-    XCTAssertNotNil(multiLineCardForm.viewModel)
-    XCTAssertTrue(multiLineCardForm.isEnabled)
+    XCTAssertNotNil(cardForm)
+    XCTAssertNil(cardForm.delegate)
+    XCTAssertNotNil(cardForm.viewModel)
+    XCTAssertTrue(cardForm.isEnabled)
   }
 
   func testClearMethod() {
-    multiLineCardForm.viewModel.cardNumber = "4111111111111111"
-    multiLineCardForm.viewModel.rawExpiration = "12/25"
-    multiLineCardForm.viewModel.cvc = "123"
-    multiLineCardForm.viewModel.postalCode = "1234"
+    cardForm.viewModel.cardNumber = "4111111111111111"
+    cardForm.viewModel.rawExpiration = "12/25"
+    cardForm.viewModel.cvc = "123"
+    cardForm.viewModel.postalCode = "1234"
 
-    multiLineCardForm.clear()
+    cardForm.clear()
 
-    XCTAssertEqual(multiLineCardForm.viewModel.cardNumber, .none)
-    XCTAssertEqual(multiLineCardForm.viewModel.rawExpiration, .init())
-    XCTAssertEqual(multiLineCardForm.viewModel.cvc, .none)
-    XCTAssertEqual(multiLineCardForm.viewModel.postalCode, .none)
+    XCTAssertEqual(cardForm.viewModel.cardNumber, .none)
+    XCTAssertEqual(cardForm.viewModel.rawExpiration, .init())
+    XCTAssertEqual(cardForm.viewModel.cvc, .none)
+    XCTAssertEqual(cardForm.viewModel.postalCode, .none)
   }
 
   func testRequiredFieldConfigurations() {
@@ -57,15 +57,15 @@ class MultiLineCardFormTests: XCTestCase {
       postalCode: .init(display: .required)
     )
 
-    let multiLineCardForm = MultiLineCardForm(
+    let cardForm = CardForm(
       config: config,
       fieldOptions: fieldOptions
     )
 
-    XCTAssertTrue(multiLineCardForm.viewModel.postalCodeDisplayed)
-    XCTAssertTrue(multiLineCardForm.viewModel.postalCodeRequired)
-    XCTAssertTrue(multiLineCardForm.viewModel.cvcDisplayed)
-    XCTAssertTrue(multiLineCardForm.viewModel.cvcRequired)
+    XCTAssertTrue(cardForm.viewModel.postalCodeDisplayed)
+    XCTAssertTrue(cardForm.viewModel.postalCodeRequired)
+    XCTAssertTrue(cardForm.viewModel.cvcDisplayed)
+    XCTAssertTrue(cardForm.viewModel.cvcRequired)
   }
 
   func testNoneFieldConfigurations() {
@@ -79,15 +79,15 @@ class MultiLineCardFormTests: XCTestCase {
       postalCode: .init(display: .none)
     )
 
-    let multiLineCardForm = MultiLineCardForm(
+    let cardForm = CardForm(
       config: config,
       fieldOptions: fieldOptions
     )
 
-    XCTAssertFalse(multiLineCardForm.viewModel.postalCodeDisplayed)
-    XCTAssertFalse(multiLineCardForm.viewModel.postalCodeRequired)
-    XCTAssertFalse(multiLineCardForm.viewModel.cvcDisplayed)
-    XCTAssertFalse(multiLineCardForm.viewModel.cvcRequired)
+    XCTAssertFalse(cardForm.viewModel.postalCodeDisplayed)
+    XCTAssertFalse(cardForm.viewModel.postalCodeRequired)
+    XCTAssertFalse(cardForm.viewModel.cvcDisplayed)
+    XCTAssertFalse(cardForm.viewModel.cvcRequired)
   }
 
   func testNoneOptionalConfigurations() {
@@ -101,23 +101,23 @@ class MultiLineCardFormTests: XCTestCase {
       postalCode: .init(display: .optional)
     )
 
-    let multiLineCardForm = MultiLineCardForm(
+    let cardForm = CardForm(
       config: config,
       fieldOptions: fieldOptions
     )
 
-    XCTAssertTrue(multiLineCardForm.viewModel.postalCodeDisplayed)
-    XCTAssertFalse(multiLineCardForm.viewModel.postalCodeRequired)
-    XCTAssertTrue(multiLineCardForm.viewModel.cvcDisplayed)
-    XCTAssertFalse(multiLineCardForm.viewModel.cvcRequired)
+    XCTAssertTrue(cardForm.viewModel.postalCodeDisplayed)
+    XCTAssertFalse(cardForm.viewModel.postalCodeRequired)
+    XCTAssertTrue(cardForm.viewModel.cvcDisplayed)
+    XCTAssertFalse(cardForm.viewModel.cvcRequired)
   }
 
   func testIsEnabled() {
-    multiLineCardForm.isEnabled = false
-    XCTAssertFalse(multiLineCardForm.isEnabled)
+    cardForm.isEnabled = false
+    XCTAssertFalse(cardForm.isEnabled)
 
-    multiLineCardForm.isEnabled = true
-    XCTAssertTrue(multiLineCardForm.isEnabled)
+    cardForm.isEnabled = true
+    XCTAssertTrue(cardForm.isEnabled)
   }
 
   func testInitializerWithDefaultStyleOptions() {
@@ -127,10 +127,10 @@ class MultiLineCardFormTests: XCTestCase {
       proxyAccountId: .none
     )
 
-    let multiLineCardForm = MultiLineCardForm(config: config)
+    let cardForm = CardForm(config: config)
 
-    XCTAssertNotNil(multiLineCardForm)
-    XCTAssertEqual(multiLineCardForm.styleOptions, .default)
+    XCTAssertNotNil(cardForm)
+    XCTAssertEqual(cardForm.styleOptions, .default)
   }
 
   func testInitializerWithCustomStyleOptions() {
@@ -150,12 +150,12 @@ class MultiLineCardFormTests: XCTestCase {
       iconSet: .none
     )
 
-    let multiLineCardForm = MultiLineCardForm(
+    let cardForm = CardForm(
       config: config,
       styleOptions: styleOptions
     )
 
-    XCTAssertNotNil(multiLineCardForm)
-    XCTAssertNotEqual(multiLineCardForm.styleOptions, .default)
+    XCTAssertNotNil(cardForm)
+    XCTAssertNotEqual(cardForm.styleOptions, .default)
   }
 }

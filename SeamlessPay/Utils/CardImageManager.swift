@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MultiLineCardImageManager {
+class CardImageManager {
   // MARK: Interface
   enum Field {
     case number
@@ -16,7 +16,7 @@ class MultiLineCardImageManager {
 
   func updateImageView(
     _ lineTextField: LineTextField,
-    for field: MultiLineCardImageManager.Field,
+    for field: CardImageManager.Field,
     brand: SPCardBrand,
     brandImageSet: SPCardBrandImageSet,
     isValid: Bool
@@ -27,7 +27,7 @@ class MultiLineCardImageManager {
 
   // MARK: Private
   func image(
-    for field: MultiLineCardImageManager.Field,
+    for field: CardImageManager.Field,
     brand: SPCardBrand,
     brandImageSet: SPCardBrandImageSet,
     isValid: Bool
@@ -46,7 +46,7 @@ class MultiLineCardImageManager {
   }
 }
 
-private extension MultiLineCardImageManager {
+private extension CardImageManager {
   func getErrorImage() -> UIImage? {
     SPImageLibrary.renewed_errorImageTemplate()
   }
