@@ -7,7 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SPCardFieldType.h"
-#import "CardForm.h"
+#import "CardFormProtocol.h"
 
 /**
  This protocol allows a delegate to be notified when a payment text field's
@@ -21,13 +21,13 @@
  one can call `isValid` on the text field to determine, for example,
  whether or not to enable a button to submit the form. Example:
 
- - (void)cardFormDidChange:(CardForm *)form {
+ - (void)cardFormDidChange:(CardFormProtocol *)form {
  self.paymentButton.enabled = form.isValid;
  }
 
  @param form the CardForm that has changed
  */
-- (void)cardFormDidChange:(nonnull id<CardForm>)form;
+- (void)cardFormDidChange:(nonnull id<CardFormProtocol>)form;
 
 /**
  Called when editing begins in the text field as a whole.
@@ -35,7 +35,7 @@
  After receiving this callback, you will always also receive a callback for
  which specific subfield of the view began editing.
  */
-- (void)cardFormDidBeginEditing:(nonnull id<CardForm>)form;
+- (void)cardFormDidBeginEditing:(nonnull id<CardFormProtocol>)form;
 
 /**
  Notification that the user pressed the `return` key after completely filling
@@ -47,7 +47,7 @@
  @param form The CardForm that was being edited when the user
  pressed return
  */
-- (void)cardFormWillEndEditingForReturn:(nonnull id<CardForm>)form;
+- (void)cardFormWillEndEditingForReturn:(nonnull id<CardFormProtocol>)form;
 
 /**
  Called when editing ends in the text field as a whole.
@@ -55,16 +55,16 @@
  This callback is always preceded by an callback for which
  specific subfield of the view ended its editing.
  */
-- (void)cardFormDidEndEditing:(nonnull id<CardForm>)form;
+- (void)cardFormDidEndEditing:(nonnull id<CardFormProtocol>)form;
 
 /**
  Called when editing ends in the card field of a specific type.
  */
-- (void)cardForm:(nonnull id<CardForm>)form didEndEditingField:(SPCardFieldType)field;
+- (void)cardForm:(nonnull id<CardFormProtocol>)form didEndEditingField:(SPCardFieldType)field;
 
 /**
  Called when editing begins in the card field of a specific type.
  */
-- (void)cardForm:(nonnull id<CardForm>)form didBeginEditingField:(SPCardFieldType)field;
+- (void)cardForm:(nonnull id<CardFormProtocol>)form didBeginEditingField:(SPCardFieldType)field;
 
 @end

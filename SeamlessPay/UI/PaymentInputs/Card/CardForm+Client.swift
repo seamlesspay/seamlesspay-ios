@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: Tokenize
-public extension MultiLineCardForm {
+public extension CardForm {
   func tokenize(
     completion: ((Result<TokenizeResponse, APIError>?) -> Void)?
   ) {
@@ -38,7 +38,7 @@ public extension MultiLineCardForm {
 }
 
 // MARK: - Charge
-public extension MultiLineCardForm {
+public extension CardForm {
   func charge(
     _ request: ChargeRequest,
     completion: ((Result<PaymentResponse, APIError>?) -> Void)?
@@ -61,7 +61,7 @@ public extension MultiLineCardForm {
 }
 
 // MARK: - Refund
-public extension MultiLineCardForm {
+public extension CardForm {
   func refund(
     _ request: RefundRequest,
     completion: ((Result<PaymentResponse, APIError>?) -> Void)?
