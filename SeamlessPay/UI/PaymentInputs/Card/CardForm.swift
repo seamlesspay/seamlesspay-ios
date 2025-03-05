@@ -7,9 +7,14 @@
 
 import UIKit
 
-public class MultiLineCardForm: UIControl, CardForm {
+public class CardForm: UIControl, CardFormProtocol {
   // MARK: - Public
   public var delegate: CardFormDelegate? = .none
+  
+  // MARK: - CardFormProtocol
+  public var isValid: Bool {
+    viewModel.isValid
+  }
 
   override public var isEnabled: Bool {
     get {
@@ -58,13 +63,8 @@ public class MultiLineCardForm: UIControl, CardForm {
     }
   }
 
-  // MARK: - CardForm
-  public var isValid: Bool {
-    viewModel.isValid
-  }
-
   // MARK: - Private
-  private let cardImageManager = MultiLineCardImageManager()
+  private let cardImageManager = CardImageManager()
   private let fieldEditingTransitionManager = SPCardFormFieldEditingTransitionManager()
   private var allFields: [LineTextField] {
     [numberField, expirationField, cvcField, postalCodeField]
@@ -194,7 +194,7 @@ public class MultiLineCardForm: UIControl, CardForm {
 }
 
 // MARK: - Set Up Views
-private extension MultiLineCardForm {
+private extension CardForm {
   private func setUpSubViews() {
     addSubview(stackView)
 
@@ -257,7 +257,7 @@ private extension MultiLineCardForm {
 }
 
 // MARK: - CardFormDelegate Calls
-private extension MultiLineCardForm {
+private extension CardForm {
   func onChange() {
     let selector = NSSelectorFromString("cardFormDidChange:")
     if let delegate, delegate.responds(to: selector) {
@@ -303,7 +303,7 @@ private extension MultiLineCardForm {
 }
 
 // MARK: - Icon management
-private extension MultiLineCardForm {
+private extension CardForm {
   func updateImages() {
     updateCardNumberImage(
       isValid: viewModel.validationState(for: .number) != .invalid
@@ -340,7 +340,7 @@ private extension MultiLineCardForm {
 }
 
 // MARK: - SPFormTextFieldDelegate
-extension MultiLineCardForm: SPFormTextFieldDelegate {
+extension CardForm: SPFormTextFieldDelegate {
   public func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
     fieldEditingTransitionManager.getAndUpdateState(fromCall: .shouldBegin)
     return true
@@ -492,7 +492,7 @@ extension MultiLineCardForm: SPFormTextFieldDelegate {
 }
 
 // MARK: - First responder manager
-private extension MultiLineCardForm {
+private extension CardForm {
   var currentFirstResponderField: LineTextField? {
     allFields.first { $0.isFirstResponder }
   }
@@ -533,7 +533,7 @@ private extension MultiLineCardForm {
 }
 
 // MARK: - Invalid field management
-extension MultiLineCardForm {
+extension CardForm {
   var firstInvalidSubField: LineTextField? {
     allFields.first { field in
       guard let fieldType = SPCardFieldType(rawValue: field.tag) else { return false }
@@ -543,7 +543,7 @@ extension MultiLineCardForm {
 }
 
 // MARK: - Realtime Validation
-extension MultiLineCardForm {
+extension CardForm {
   func realTimeValidationForField(_ fieldType: SPCardFieldType, isFocused: Bool) {
     if let error = viewModel.realTimeValidationForField(fieldType, isFocused: isFocused) {
       handleValidationError(error)
@@ -555,7 +555,7 @@ extension MultiLineCardForm {
 }
 
 // MARK: - On Submit Validation
-extension MultiLineCardForm {
+extension CardForm {
   func validateForm() -> Bool {
     onWillEndEditingForReturn()
     _ = resignFirstResponder()
@@ -609,7 +609,7 @@ extension MultiLineCardForm {
 }
 
 // MARK: - API Error handling
-extension MultiLineCardForm {
+extension CardForm {
   func handleAPIError(_ error: APIError) {
     let fieldErrors = error.errors
 
@@ -673,7 +673,7 @@ extension MultiLineCardForm {
 }
 
 // MARK: - Appearance
-extension MultiLineCardForm {
+extension CardForm {
   func updateAppearance() {
     for field in allFields {
       field.appearance = buildTextFieldAppearanceConfig()

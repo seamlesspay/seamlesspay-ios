@@ -15,9 +15,9 @@ class CardFormsTextFieldsSecurityTests: XCTestCase {
     postalCode: .init(display: .required)
   )
 
-  func testTextFieldsOfMultiLineCardFormHaveAutocorrectionTypeNo() {
+  func testTextFieldsOfCardFormHaveAutocorrectionTypeNo() {
     checkSecureTextEntryCheck(
-      of: MultiLineCardForm(
+      of: CardForm(
         config: clientConfig,
         fieldOptions: fieldOptions
       )
