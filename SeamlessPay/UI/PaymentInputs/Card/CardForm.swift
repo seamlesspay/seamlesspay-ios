@@ -10,7 +10,7 @@ import UIKit
 public class CardForm: UIControl, CardFormProtocol {
   // MARK: - Public
   public var delegate: CardFormDelegate? = .none
-  
+
   // MARK: - CardFormProtocol
   public var isValid: Bool {
     viewModel.isValid
@@ -127,14 +127,14 @@ public class CardForm: UIControl, CardFormProtocol {
 
   private lazy var postalCodeTitleLabel: UILabel = {
     let label = buildTitleLabel()
-    label.text = "BILLING ADDRESS"
+    label.text = "Billing address"
 
     return label
   }()
 
   private lazy var cardInformationTitleLabel: UILabel = {
     let label = buildTitleLabel()
-    label.text = "CARD INFORMATION"
+    label.text = "Card information"
 
     return label
   }()
@@ -723,13 +723,16 @@ extension CardForm {
       imageFocusInvalidColor: currentPalette.fieldIconFocusInvalidColor,
       errorColor: currentPalette.errorMessageColor,
       cornerRadius: styleOptions.shapes.cornerRadius,
-      borderWidth: 2,
+      borderWidth: 1,
       textFont: styleOptions.typography.scaledFont,
       errorFont: styleOptions.typography.scaledFont(
-        for: styleOptions.typography.font.withSize(12)
+        for: styleOptions.typography.font.withSize(11)
+      ),
+      placeholderFont: styleOptions.typography.scaledFont(
+        for: styleOptions.typography.font.withSize(16)
       ),
       floatingPlaceholderFont: styleOptions.typography.scaledFont(
-        for: styleOptions.typography.font.withSize(16)
+        for: styleOptions.typography.font.withSize(11)
       )
     )
   }

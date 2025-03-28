@@ -73,7 +73,7 @@ public struct ColorPalette: Equatable {
 // MARK: - Field Colors
 public extension ColorPalette {
   var fieldBackgroundInactiveColor: UIColor {
-    fieldColors?.background?.inactive ?? theme.neutral.withAlphaComponent(0.03)
+    fieldColors?.background?.inactive ?? .clear
   }
 
   var fieldBackgroundFocusValidColor: UIColor {
@@ -98,7 +98,7 @@ public extension ColorPalette {
   }
 
   var fieldIconInactiveColor: UIColor {
-    fieldColors?.icon?.inactive ?? theme.neutral.withAlphaComponent(0.1)
+    fieldColors?.icon?.inactive ?? theme.neutral.withAlphaComponent(0.25)
   }
 
   var fieldIconFocusValidColor: UIColor {
@@ -130,7 +130,7 @@ public extension ColorPalette {
   }
 
   var fieldOutlineInactiveColor: UIColor {
-    fieldColors?.outline?.inactive ?? .clear
+    fieldColors?.outline?.inactive ?? theme.neutral.withAlphaComponent(0.25)
   }
 
   var fieldOutlineInvalidColor: UIColor {
@@ -256,7 +256,7 @@ public struct Typography: Equatable {
   }
 
   public static var `default`: Typography {
-    Typography(font: UIFont.systemFont(ofSize: 18), scale: 1.0)
+    Typography(font: UIFont.systemFont(ofSize: 16, weight: .medium), scale: 1.0)
   }
 
   public var scaledFont: UIFont {
