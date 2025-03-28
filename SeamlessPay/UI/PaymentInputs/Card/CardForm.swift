@@ -150,11 +150,11 @@ public class CardForm: UIControl, CardFormProtocol {
       ]
     )
     stackView.axis = .vertical
-    stackView.spacing = 10
+    stackView.spacing = 4
     stackView.distribution = .fill
     stackView.alignment = .fill
     stackView.setCustomSpacing(12, after: numberField)
-    stackView.setCustomSpacing(28, after: expirationAndCvcStackView)
+    stackView.setCustomSpacing(16, after: expirationAndCvcStackView)
 
     stackView.translatesAutoresizingMaskIntoConstraints = false
 
