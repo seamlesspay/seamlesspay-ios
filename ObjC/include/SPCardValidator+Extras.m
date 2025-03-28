@@ -6,16 +6,20 @@
  */
 
 #import "SPCardValidator+Extras.h"
+#import "SPBINRange.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SPCardValidator (Extras)
 
-+ (NSArray<NSNumber *> *)cardNumberFormatForBrand:(SPCardBrand)brand {
-  switch (brand) {
-    case SPCardBrandAmex:
++ (NSArray<NSNumber *> *)cardNumberFormatCardNumber:(NSString *)cardNumber {
+  NSString *sanitizedNumber = [self sanitizedNumericStringForString:cardNumber];
+  SPBINRange *definedBINRangeForNumber = [SPBINRange definedBINRangeForNumber:sanitizedNumber];
+  
+  switch (definedBINRangeForNumber.length) {
+    case 15:
       return @[ @4, @6, @5 ];
-    case SPCardBrandDinersClub:
+    case 14:
       return @[ @4, @6, @4 ];
     default:
       return @[ @4, @4, @4, @4 ];

@@ -43,10 +43,6 @@
   return [self brandImageForCardBrand:SPCardBrandVisa];
 }
 
-+ (UIImage *)unknownCardCardImage {
-  return [self brandImageForCardBrand:SPCardBrandUnknown];
-}
-
 + (UIImage *)brandImageForCardBrand:(SPCardBrand)brand {
   return [self brandImageForCardBrand:brand template:NO];
 }
@@ -156,8 +152,7 @@
       }
       break;
     case SPCardBrandUnknown:
-      shouldUseTemplate = YES;
-      imageName = @"sp_card_unknown";
+      imageName = nil;
       break;
     case SPCardBrandVisa:
       imageName = shouldUseTemplate ? @"sp_card_visa_template" : @"sp_card_visa";
@@ -194,7 +189,8 @@
       baseImageName = @"logo_unionpay";
       break;
     default:
-      return [self safeImageNamed:@"sp_card_unknown" templateIfAvailable:NO];
+      baseImageName = nil;
+      break;
   }
 
   NSString *suffix = (imageSet == SPCardBrandImageSetDark) ? @"_dark" : @"_light";

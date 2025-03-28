@@ -57,17 +57,18 @@
   }
 }
 
-- (void)testNumberValidation {
-  NSMutableArray *tests = [@[] mutableCopy];
-
+- (void)testValidCardNumbers {
   for (NSArray *card in [self.class cardData]) {
-    [tests addObject:@[card[2], card[1]]];
+    NSString *cardNumber = card[1];
+    SPCardValidationState expectedState = [card[2] integerValue];
+    XCTAssertEqual([SPCardValidator validationStateForNumber:cardNumber],
+                   expectedState,
+                   @"Expected %@ for card %@", @(expectedState), cardNumber);
   }
+}
 
-  [tests addObject:@[@(SPCardValidationStateValid), @"4242 4242 4242 4242"]];
-  [tests addObject:@[@(SPCardValidationStateValid), @"4136000000008"]];
-
-  NSArray *badCardNumbers = @[
+- (void)testInvalidCardNumbers {
+  NSArray *invalidCardNumbers = @[
     @"0000000000000000",
     @"9999999999999995",
     @"1",
@@ -75,14 +76,18 @@
     @"xxx",
     @"9999999999999999999999",
     @"42424242424242424242",
-    @"4242-4242-4242-4242",
+    @"4242-4242-4242-4242"
   ];
-
-  for (NSString *card in badCardNumbers) {
-    [tests addObject:@[@(SPCardValidationStateInvalid), card]];
+  
+  for (NSString *card in invalidCardNumbers) {
+    XCTAssertEqual([SPCardValidator validationStateForNumber:card],
+                   SPCardValidationStateInvalid,
+                   @"Expected invalid state for card %@", card);
   }
+}
 
-  NSArray *possibleCardNumbers = @[
+- (void)testIncompleteCardNumbers {
+  NSArray *incompleteCardNumbers = @[
     @"4242",
     @"5",
     @"3",
@@ -91,26 +96,27 @@
     @"6011",
     @"4012888888881"
   ];
-
-  for (NSString *card in possibleCardNumbers) {
-    [tests addObject:@[@(SPCardValidationStateIncomplete), card]];
+  
+  for (NSString *card in incompleteCardNumbers) {
+    XCTAssertEqual([SPCardValidator validationStateForNumber:card],
+                   SPCardValidationStateIncomplete,
+                   @"Expected incomplete state for card %@", card);
   }
-
-  for (NSArray *test in tests) {
-    NSString *card = test[1];
-    NSNumber *validationState = @([SPCardValidator validationStateForNumber:card validatingCardBrand:YES]);
-    NSNumber *expected = test[0];
-    if (![validationState isEqual:expected]) {
-      XCTFail(@"Expected %@, got %@ for number %@", expected, validationState, card);
-    }
-  }
-
-  XCTAssertEqual(SPCardValidationStateIncomplete, [SPCardValidator validationStateForNumber:@"1" validatingCardBrand:NO]);
-  XCTAssertEqual(SPCardValidationStateValid, [SPCardValidator validationStateForNumber:@"0000000000000000" validatingCardBrand:NO]);
-  XCTAssertEqual(SPCardValidationStateValid, [SPCardValidator validationStateForNumber:@"9999999999999995" validatingCardBrand:NO]);
-  XCTAssertEqual(SPCardValidationStateIncomplete, [SPCardValidator validationStateForNumber:@"4242424242424" validatingCardBrand:YES]);
-  XCTAssertEqual(SPCardValidationStateIncomplete, [SPCardValidator validationStateForNumber:nil validatingCardBrand:YES]);
 }
+
+- (void)testEdgeCases {
+  XCTAssertEqual([SPCardValidator validationStateForNumber:@"1"],
+                 SPCardValidationStateInvalid);
+  XCTAssertEqual([SPCardValidator validationStateForNumber:@"0000000000000000"],
+                 SPCardValidationStateInvalid);
+  XCTAssertEqual([SPCardValidator validationStateForNumber:@"9999999999999995"],
+                 SPCardValidationStateInvalid);
+  XCTAssertEqual([SPCardValidator validationStateForNumber:@"4242424242424"],
+                 SPCardValidationStateIncomplete);
+  XCTAssertEqual([SPCardValidator validationStateForNumber:nil],
+                 SPCardValidationStateIncomplete);
+}
+
 
 - (void)testBrand {
   for (NSArray *test in [self.class cardData]) {
@@ -120,37 +126,21 @@
 
 - (void)testLengthsForCardBrand {
   NSArray *tests = @[
-    @[@(SPCardBrandVisa), @[@13, @16]],
+    @[@(SPCardBrandVisa), @[@16]],
     @[@(SPCardBrandMasterCard), @[@16]],
     @[@(SPCardBrandAmex), @[@15]],
     @[@(SPCardBrandDiscover), @[@16]],
-    @[@(SPCardBrandDinersClub), @[@14]],
+    @[@(SPCardBrandDinersClub), @[@14, @16]],
     @[@(SPCardBrandJCB), @[@16]],
     @[@(SPCardBrandUnionPay), @[@16]],
-    @[@(SPCardBrandUnknown), @[@16]],
   ];
+  
   for (NSArray *test in tests) {
     NSSet *lengths = [SPCardValidator lengthsForCardBrand:[test[0] integerValue]];
     NSSet *expected = [NSSet setWithArray:test[1]];
     if (![lengths isEqualToSet:expected]) {
       XCTFail(@"Invalid lengths for brand %@: expected %@, got %@", test[0], expected, lengths);
     }
-  }
-}
-
-- (void)testFragmentLength {
-  NSArray *tests = @[
-    @[@(SPCardBrandVisa), @4],
-    @[@(SPCardBrandMasterCard), @4],
-    @[@(SPCardBrandAmex), @5],
-    @[@(SPCardBrandDiscover), @4],
-    @[@(SPCardBrandDinersClub), @4],
-    @[@(SPCardBrandJCB), @4],
-    @[@(SPCardBrandUnionPay), @4],
-    @[@(SPCardBrandUnknown), @4],
-  ];
-  for (NSArray *test in tests) {
-    XCTAssertEqualObjects(@([SPCardValidator fragmentLengthForCardBrand:[test[0] integerValue]]), test[1]);
   }
 }
 
@@ -193,7 +183,7 @@
     @[@"12", @"1", @(SPCardValidationStateIncomplete)],
     @[@"12", @"0", @(SPCardValidationStateIncomplete)],
   ];
-
+  
   for (NSArray *test in tests) {
     SPCardValidationState state = [SPCardValidator validationStateForExpirationYear:test[1] inMonth:test[0] inCurrentYear:15 currentMonth:8];
     XCTAssertEqualObjects(@(state), test[2]);
@@ -202,74 +192,81 @@
 
 - (void)testCVCLength {
   NSArray *tests = @[
+    @[@(SPCardBrandAmex), @4],
     @[@(SPCardBrandVisa), @3],
     @[@(SPCardBrandMasterCard), @3],
-    @[@(SPCardBrandAmex), @4],
     @[@(SPCardBrandDiscover), @3],
     @[@(SPCardBrandDinersClub), @3],
     @[@(SPCardBrandJCB), @3],
     @[@(SPCardBrandUnionPay), @3],
-    @[@(SPCardBrandUnknown), @4],
+    @[@(SPCardBrandUnknown), @3],
   ];
+  
   for (NSArray *test in tests) {
-    XCTAssertEqualObjects(@([SPCardValidator maxCVCLengthForCardBrand:[test[0] integerValue]]), test[1]);
+    SPCardBrand brand = [test[0] integerValue];
+    NSNumber *expectedLength = test[1];
+    NSNumber *actualLength = @([SPCardValidator maxCVCLengthForCardBrand:brand]);
+    
+    XCTAssertEqualObjects(actualLength, expectedLength,
+                          @"Unexpected CVC length for card brand %ld: expected %@, got %@",
+                          (long)brand, expectedLength, actualLength);
   }
 }
 
 - (void)testValidationStateForPostalCode {
   // Test nil postal code
-  XCTAssertEqual([SPCardValidator validationStateForPostalCode:nil], 
+  XCTAssertEqual([SPCardValidator validationStateForPostalCode:nil],
                  SPCardValidationStateIncomplete,
                  @"Nil postal code should return Incomplete");
-
+  
   // Test empty postal code
-  XCTAssertEqual([SPCardValidator validationStateForPostalCode:@""], 
+  XCTAssertEqual([SPCardValidator validationStateForPostalCode:@""],
                  SPCardValidationStateIncomplete,
                  @"Empty postal code should return Incomplete");
-
+  
   // Test postal code shorter than minimum length
-  XCTAssertEqual([SPCardValidator validationStateForPostalCode:@"12"], 
+  XCTAssertEqual([SPCardValidator validationStateForPostalCode:@"12"],
                  SPCardValidationStateIncomplete,
                  @"Postal code shorter than minimum length should return Incomplete");
-
+  
   // Test postal code longer than maximum length
-  XCTAssertEqual([SPCardValidator validationStateForPostalCode:@"12345678901"], 
+  XCTAssertEqual([SPCardValidator validationStateForPostalCode:@"12345678901"],
                  SPCardValidationStateInvalid,
                  @"Postal code longer than maximum length should return Invalid");
-
+  
   // Test valid postal code at minimum length
-  XCTAssertEqual([SPCardValidator validationStateForPostalCode:@"123"], 
+  XCTAssertEqual([SPCardValidator validationStateForPostalCode:@"123"],
                  SPCardValidationStateValid,
                  @"Postal code with minimum valid length should return Valid");
-
+  
   // Test valid postal code at maximum length
-  XCTAssertEqual([SPCardValidator validationStateForPostalCode:@"1234567890"], 
+  XCTAssertEqual([SPCardValidator validationStateForPostalCode:@"1234567890"],
                  SPCardValidationStateValid,
                  @"Postal code with maximum valid length should return Valid");
-
+  
   // Test valid postal code within range
-  XCTAssertEqual([SPCardValidator validationStateForPostalCode:@"12345"], 
+  XCTAssertEqual([SPCardValidator validationStateForPostalCode:@"12345"],
                  SPCardValidationStateValid,
                  @"Postal code within valid range should return Valid");
-
+  
   // Test postal code with invalid characters
-  XCTAssertEqual([SPCardValidator validationStateForPostalCode:@"123@#%"], 
+  XCTAssertEqual([SPCardValidator validationStateForPostalCode:@"123@#%"],
                  SPCardValidationStateInvalid,
                  @"Postal code with special characters should return Invalid");
-
+  
   // Test postal code with spaces
-  XCTAssertEqual([SPCardValidator validationStateForPostalCode:@"123 45"], 
+  XCTAssertEqual([SPCardValidator validationStateForPostalCode:@"123 45"],
                  SPCardValidationStateValid,
                  @"Postal code with spaces should return Valid");
-
+  
   // Test postal code with numbers and letters
   XCTAssertEqual([SPCardValidator validationStateForPostalCode:@"1234a"],
-                  SPCardValidationStateValid,
-                  @"Postal code with letters should return Valid");
+                 SPCardValidationStateValid,
+                 @"Postal code with letters should return Valid");
   // Test postal code with dashes
   XCTAssertEqual([SPCardValidator validationStateForPostalCode:@"12345-6789"],
-                  SPCardValidationStateInvalid,
-                  @"Postal code with dashes should return Invalid");
+                 SPCardValidationStateInvalid,
+                 @"Postal code with dashes should return Invalid");
 }
 
 @end

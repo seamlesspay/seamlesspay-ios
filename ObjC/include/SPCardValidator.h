@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Whether or not the target string contains only numeric characters.
  */
-+ (BOOL)stringIsNumeric:(NSString * __nullable)string;
++ (BOOL)stringIsNumeric:(NSString *__nullable)string;
 
 /**
  Validates a card number, passed as a string. This will return
@@ -35,22 +35,13 @@ NS_ASSUME_NONNULL_BEGIN
  a number format issued by a major card brand.
 
  @param cardNumber The card number to validate. Ex. @"4242424242424242"
- @param validatingCardBrand Whether or not to enforce that the number appears to
- be issued by a major card brand (or could be). For example, no issuing card
- network currently issues card numbers beginning with the digit 9; if an
- otherwise correct-length and luhn-valid card number beginning with 9
- (example: 9999999999999995) were passed to this method, it would return
- SPCardValidationStateInvalid if this parameter were YES and
- SPCardValidationStateValid if this parameter were NO. If unsure, you should
- use YES for this value.
 
  @return SPCardValidationStateValid if the number is valid,
  SPCardValidationStateInvalid if the number is invalid, or
  SPCardValidationStateIncomplete if the number is a substring of a valid
  card (e.g. @"4242").
  */
-+ (SPCardValidationState)validationStateForNumber:(nullable NSString *)cardNumber
-                              validatingCardBrand:(BOOL)validatingCardBrand;
++ (SPCardValidationState)validationStateForNumber:(nullable NSString *)cardNumber;
 
 /**
  The card brand for a card number or substring thereof.
@@ -58,9 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param cardNumber A card number, or partial card number. For
  example, @"4242", @"5555555555554444", or @"123".
 
- @return The brand for that card number. The example parameters would
- return SPCardBrandVisa, SPCardBrandMasterCard, and
- SPCardBrandUnknown, respectively.
+ @return The brand for that card number. Returns `SPCardBrandVisa`, `SPCardBrandMasterCard`, or others if the brand has been identified, `SPCardBrandUnknown` if multiple options are still possible and the brand can't be determined yet, and `nil` if the brand isn't supported.
  */
 + (SPCardBrand)brandForNumber:(NSString *)cardNumber;
 
@@ -76,31 +65,14 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSSet<NSNumber *> *)lengthsForCardBrand:(SPCardBrand)brand;
 
 /**
- The maximum possible length the number of a card associated with the specified
- brand could be.
+ The length of the number of a card associated with the specified
+ brand and BIN/IIN range. If the range can't be determined, this will return 16.
 
- For example, Visa cards could be either 13 or 16 characters, so this method
- would return 16 for the that card brand.
-
- @param brand The brand to return the max length for.
+ @param cardNumber The card number to check the length of.
 
  @return The maximum length card numbers associated with that brand could be.
  */
-+ (NSInteger)maxLengthForCardBrand:(SPCardBrand)brand;
-
-/**
- The length of the final grouping of digits to use when formatting a card number
- for display.
-
- For example, Visa cards display their final 4 numbers, e.g. "4242", while
- American Express cards display their final 5 digits, e.g. "10005".
-
-
- @param brand The brand to return the fragment length for.
-
- @return The final fragment length card numbers associated with that brand use.
- */
-+ (NSInteger)fragmentLengthForCardBrand:(SPCardBrand)brand;
++ (NSInteger)lengthForCardNumber:(NSString *)cardNumber;
 
 /**
  Validates an expiration month, passed as an (optionally 0-padded) string.

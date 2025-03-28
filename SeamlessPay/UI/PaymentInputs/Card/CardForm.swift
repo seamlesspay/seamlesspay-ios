@@ -314,9 +314,7 @@ private extension CardForm {
     )
   }
 
-  func updateCardNumberImage(
-    isValid: Bool
-  ) {
+  func updateCardNumberImage(isValid: Bool) {
     cardImageManager.updateImageView(
       numberField,
       for: .number,

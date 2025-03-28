@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SPCardValidator (Extras)
 
-+ (NSArray<NSNumber *> *)cardNumberFormatForBrand:(SPCardBrand)brand;
++ (NSArray<NSNumber *> *)cardNumberFormatCardNumber:(NSString *)cardNumber;
 
 @end
 

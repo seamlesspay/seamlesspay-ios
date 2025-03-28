@@ -15,10 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, readonly) NSUInteger length;
 @property(nonatomic, readonly) SPCardBrand brand;
 
-+ (NSArray<SPBINRange *> *)allRanges;
-+ (NSArray<SPBINRange *> *)binRangesForNumber:(NSString *)number;
 + (NSArray<SPBINRange *> *)binRangesForBrand:(SPCardBrand)brand;
-+ (instancetype)mostSpecificBINRangeForNumber:(NSString *)number;
++ (instancetype)definedBINRangeForNumber:(NSString *)number;
++ (BOOL)isPotentialBINRangesExistForNumber:(NSString *)number;
 
 @end
 
