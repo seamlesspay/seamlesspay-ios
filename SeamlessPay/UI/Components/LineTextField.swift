@@ -11,12 +11,12 @@ import Foundation
 public class LineTextField: SPFormTextField {
   // MARK: - Constants
   private enum Constants {
-    static let textOriginY: CGFloat = 12.5
+    static let textOriginY: CGFloat = 8
     static let paddingX: CGFloat = 15.0
-    static let paddingYElements: CGFloat = 3.0
+    static let paddingYElements: CGFloat = 2.0
     static let paddingYFloatLabel: CGFloat = 10.0
     static let animationDuration: TimeInterval = 0.2
-    static let textInputFieldHeight: CGFloat = 70.0
+    static let textInputFieldHeight: CGFloat = 62.0
   }
 
   // MARK: - UI Components
@@ -68,10 +68,10 @@ public class LineTextField: SPFormTextField {
     var borderWidth: CGFloat = 1.0
 
     // Font
-    var textFont: UIFont = .systemFont(ofSize: 16)
-    var errorFont: UIFont = .systemFont(ofSize: 11)
-    var placeholderFont: UIFont = .systemFont(ofSize: 16, weight: .medium)
-    var floatingPlaceholderFont: UIFont = .systemFont(ofSize: 11, weight: .regular)
+    var textFont: UIFont = .systemFont(ofSize: 16, weight: .regular)
+    var errorFont: UIFont = .systemFont(ofSize: 11, weight: .medium)
+    var placeholderFont: UIFont = .systemFont(ofSize: 16, weight: .regular)
+    var floatingPlaceholderFont: UIFont = .systemFont(ofSize: 11, weight: .medium)
   }
 
   public var appearance: AppearanceConfiguration = .init() {
@@ -85,7 +85,7 @@ public class LineTextField: SPFormTextField {
     get { floatingPlaceholderLabel.text }
     set { floatingPlaceholderLabel.text = newValue }
   }
-  
+
   private var placeholderShouldFloat: Bool {
     isEditing || !(text?.isEmpty ?? true)
   }
@@ -108,18 +108,6 @@ public class LineTextField: SPFormTextField {
     }
 
     return originX
-  }
-
-  private var floatingPlaceholderHeight: CGFloat {
-    floatingPlaceholderLabel.textRect(
-      forBounds: CGRect(
-        x: 0,
-        y: 0,
-        width: CGFloat.greatestFiniteMagnitude,
-        height: CGFloat.greatestFiniteMagnitude
-      ),
-      limitedToNumberOfLines: 1
-    ).height
   }
 
   private var errorMessageHeight: CGFloat {
@@ -232,18 +220,18 @@ public class LineTextField: SPFormTextField {
 
   override public func leftViewRect(forBounds bounds: CGRect) -> CGRect {
     var rect = super.leftViewRect(forBounds: bounds)
-    rect.origin.y
-      = (bounds.height - rect.size.height - errorMessageHeight - Constants.paddingYElements) /
-      2
+    rect.origin.y = (
+      bounds.height - rect.size.height - errorMessageHeight - Constants.paddingYElements
+    ) / 2
     rect.origin.x += Constants.paddingX
     return rect
   }
 
   override public func rightViewRect(forBounds bounds: CGRect) -> CGRect {
     var rect = super.rightViewRect(forBounds: bounds)
-    rect.origin.y
-      = (bounds.height - rect.size.height - errorMessageHeight - Constants.paddingYElements) /
-      2
+    rect.origin.y = (
+      bounds.height - rect.size.height - errorMessageHeight - Constants.paddingYElements
+    ) / 2
     rect.origin.x -= Constants.paddingX
     return rect
   }
@@ -351,23 +339,44 @@ public class LineTextField: SPFormTextField {
     super.placeholder = showPlaceholder ? _placeholder : .none
   }
 
+  private func calculatePlaceholderHeightForStateChange() -> CGFloat {
+    // Create a label with the same properties as the floating placeholder label after the state change
+    let label = UILabel()
+    label.numberOfLines = floatingPlaceholderLabel.numberOfLines
+    label.text = floatingPlaceholderLabel.text
+    label.font = placeholderShouldFloat
+      ? appearance.floatingPlaceholderFont
+      : appearance.placeholderFont
+
+    let maxSize = CGSize(
+      width: CGFloat.greatestFiniteMagnitude,
+      height: CGFloat.greatestFiniteMagnitude
+    )
+
+    return label.textRect(
+      forBounds: CGRect(origin: .zero, size: maxSize),
+      limitedToNumberOfLines: 1
+    )
+    .height
+  }
+  
   private func toggleFloatingPlaceholder(toFloat: Bool) {
     let originY: CGFloat
-    
+    let height = calculatePlaceholderHeightForStateChange()
+
     if toFloat {
       originY = Constants.paddingYFloatLabel
     } else {
       originY = (
-        frame.height - floatingPlaceholderHeight - errorMessageHeight - Constants
-          .paddingYElements
+        frame.height - height - errorMessageHeight - Constants.paddingYElements
       ) / 2
     }
-    
+
     let newFrame = CGRect(
       x: originX,
       y: originY,
       width: floatingPlaceholderWidth,
-      height: floatingPlaceholderHeight
+      height: height
     )
 
     UIView.animate(
@@ -395,7 +404,7 @@ extension LineTextField {
 
     errorLabel.textColor = appearance.errorColor
     placeholderColor = appearance.placeholderInactiveColor
-    
+
     if placeholderShouldFloat {
       floatingPlaceholderLabel.font = appearance.floatingPlaceholderFont
     } else {
@@ -406,7 +415,7 @@ extension LineTextField {
     case (true, true): // focus and valid
       backgroundFrameLayer.borderColor = appearance.borderFocusValidColor.cgColor
       backgroundFrameLayer.backgroundColor = appearance.backgroundFocusValidColor.cgColor
-      
+
       floatingPlaceholderLabel.textColor = appearance.placeholderFocusValidColor
 
       rightImageView.tintColor = appearance.imageFocusValidColor
@@ -415,7 +424,7 @@ extension LineTextField {
     case (true, false): // focus and invalid
       backgroundFrameLayer.borderColor = appearance.borderFocusInvalidColor.cgColor
       backgroundFrameLayer.backgroundColor = appearance.backgroundFocusInvalidColor.cgColor
-      
+
       floatingPlaceholderLabel.textColor = appearance.placeholderFocusInvalidColor
 
       rightImageView.tintColor = appearance.imageFocusInvalidColor
@@ -424,7 +433,7 @@ extension LineTextField {
     case (false, true): // not focus and valid
       backgroundFrameLayer.borderColor = appearance.borderInactiveColor.cgColor
       backgroundFrameLayer.backgroundColor = appearance.backgroundInactiveColor.cgColor
-      
+
       floatingPlaceholderLabel.textColor = appearance.placeholderInactiveColor
 
       rightImageView.tintColor = appearance.imageInactiveColor
@@ -433,7 +442,7 @@ extension LineTextField {
     case (false, false): // not focus and invalid
       backgroundFrameLayer.borderColor = appearance.borderInvalidColor.cgColor
       backgroundFrameLayer.backgroundColor = appearance.backgroundInvalidColor.cgColor
-      
+
       floatingPlaceholderLabel.textColor = appearance.placeholderInvalidColor
 
       rightImageView.tintColor = appearance.imageInvalidColor

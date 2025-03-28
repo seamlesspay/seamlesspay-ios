@@ -256,7 +256,7 @@ public struct Typography: Equatable {
   }
 
   public static var `default`: Typography {
-    Typography(font: UIFont.systemFont(ofSize: 16, weight: .medium), scale: 1.0)
+    Typography(font: UIFont.systemFont(ofSize: 16, weight: .regular), scale: 1.0)
   }
 
   public var scaledFont: UIFont {
