@@ -151,10 +151,7 @@ typedef NSAttributedString * (^SPFormTextTransformationBlock)(
           return [inputString copy];
         }
         NSMutableAttributedString *attributedString = [inputString mutableCopy];
-        SPCardBrand currentBrand =
-        [SPCardValidator brandForNumber:attributedString.string];
-        NSArray<NSNumber *> *cardNumberFormat =
-        [SPCardValidator cardNumberFormatForBrand:currentBrand];
+        NSArray<NSNumber *> *cardNumberFormat = [SPCardValidator cardNumberFormatCardNumber:attributedString.string];
 
         NSUInteger index = 0;
         for (NSNumber *segmentLength in cardNumberFormat) {

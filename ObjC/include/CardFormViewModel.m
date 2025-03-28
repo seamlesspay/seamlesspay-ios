@@ -29,45 +29,10 @@
 }
 
 - (void)setCardNumber:(NSString *)cardNumber {
+  NSInteger maxLength = [SPCardValidator lengthForCardNumber:cardNumber];
   NSString *sanitizedNumber = [SPCardValidator sanitizedNumericStringForString:cardNumber];
-  SPCardBrand brand = [SPCardValidator brandForNumber:sanitizedNumber];
-  NSInteger maxLength = [SPCardValidator maxLengthForCardBrand:brand];
-
+  
   _cardNumber = [sanitizedNumber sp_safeSubstringToIndex:maxLength];
-}
-
-- (NSString *)compressedCardNumber {
-  NSString *cardNumber = self.cardNumber;
-  if (cardNumber.length == 0) {
-    cardNumber = self.defaultPlaceholder;
-  }
-
-  SPCardBrand currentBrand = [SPCardValidator brandForNumber:cardNumber];
-  if ([self validationStateForField:SPCardFieldTypeNumber] == SPCardValidationStateValid) {
-    // Use fragment length
-    NSUInteger length =
-    [SPCardValidator fragmentLengthForCardBrand:currentBrand];
-    NSUInteger index = cardNumber.length - length;
-
-    if (index < cardNumber.length) {
-      return [cardNumber sp_safeSubstringFromIndex:index];
-    }
-  } else {
-    // use the card number format
-    NSArray<NSNumber *> *cardNumberFormat =
-    [SPCardValidator cardNumberFormatForBrand:currentBrand];
-
-    NSUInteger index = 0;
-    for (NSNumber *segment in cardNumberFormat) {
-      NSUInteger segmentLength = [segment unsignedIntegerValue];
-      if (index + segmentLength >= cardNumber.length) {
-        return [cardNumber sp_safeSubstringFromIndex:index];
-      }
-      index += segmentLength;
-    }
-  }
-
-  return nil;
 }
 
 // This might contain slashes.
@@ -122,7 +87,7 @@
 - (SPCardValidationState)validationStateForField:(SPCardFieldType)fieldType {
   switch (fieldType) {
     case SPCardFieldTypeNumber:
-      return [SPCardValidator validationStateForNumber:self.cardNumber validatingCardBrand:YES];
+      return [SPCardValidator validationStateForNumber:self.cardNumber];
       break;
     case SPCardFieldTypeExpiration: {
       SPCardValidationState monthState = [SPCardValidator validationStateForExpirationMonth:self.expirationMonth];

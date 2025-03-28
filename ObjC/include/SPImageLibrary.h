@@ -63,11 +63,6 @@ typedef NS_ENUM(NSInteger, SPCardBrandImageSet) {
 + (UIImage *)visaCardImage;
 
 /**
- An icon to use when the type of the card is unknown.
- */
-+ (UIImage *)unknownCardCardImage;
-
-/**
  This returns the appropriate icon for the specified card brand.
  */
 + (UIImage *)brandImageForCardBrand:(SPCardBrand)brand;

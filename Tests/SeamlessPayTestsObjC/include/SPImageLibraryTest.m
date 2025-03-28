@@ -23,7 +23,6 @@
     @(SPCardBrandJCB),
     @(SPCardBrandMasterCard),
     @(SPCardBrandUnionPay),
-    @(SPCardBrandUnknown),
     @(SPCardBrandVisa),
   ];
 }
@@ -37,7 +36,6 @@
   XCTAssertNotNil([SPImageLibrary masterCardCardImage]);
   XCTAssertNotNil([SPImageLibrary unionPayCardImage]);
   XCTAssertNotNil([SPImageLibrary visaCardImage]);
-  XCTAssertNotNil([SPImageLibrary unknownCardCardImage]);
 }
 
 - (void)testBrandImageForCardBrand {
@@ -103,6 +101,28 @@
     UIImage *image = [SPImageLibrary renewed_errorImageTemplate];
     XCTAssertNotNil(image);
     XCTAssertEqual(image.renderingMode, UIImageRenderingModeAlwaysTemplate);
+}
+
+// MARK: - Images for SPCardBrandUnknown
+- (void)testImagesForUnknownBrandNotExist {
+  UIImage *image = [SPImageLibrary brandImageForCardBrand:SPCardBrandUnknown];
+  UIImage *templatedImage = [SPImageLibrary templatedBrandImageForCardBrand:SPCardBrandUnknown];
+  UIImage *renewedImageDark = [SPImageLibrary renewed_brandImageForCardBrand:SPCardBrandUnknown imageSet:SPCardBrandImageSetDark];
+  UIImage *renewedImageLight = [SPImageLibrary renewed_brandImageForCardBrand:SPCardBrandUnknown imageSet:SPCardBrandImageSetLight];
+  XCTAssertNil(image);
+  XCTAssertNil(templatedImage);
+  XCTAssertNil(renewedImageDark);
+  XCTAssertNil(renewedImageLight);
+}
+
+- (void)testCVCImageForUnknownBrand {
+  UIImage *image = [SPImageLibrary cvcImageForCardBrand:SPCardBrandUnknown];
+  XCTAssertNotNil(image);
+}
+
+- (void)testErrorImageForUnknownBrand {
+  UIImage *image = [SPImageLibrary errorImageForCardBrand:SPCardBrandUnknown];
+  XCTAssertNotNil(image);
 }
 
 @end

@@ -64,23 +64,23 @@ static NSString *_Nonnull stringByRemovingCharactersFromSet(NSString *_Nonnull s
   // The entire concept of this method needs to be reviewed and possibly changed.
   // Currently, stringIsNumeric considers empty strings as numeric.
   // To maintain consistency with this logic for nil strings, the following quick fix has been added.
-
+  
   if (string == nil) {
     return YES;
   }
-
+  
   return [string rangeOfCharacterFromSet:[NSCharacterSet sp_invertedAsciiDigitCharacterSet]]
     .location == NSNotFound;
 }
 
 + (SPCardValidationState)validationStateForExpirationMonth:(NSString *)expirationMonth {
-
+  
   NSString *sanitizedExpiration = [self stringByRemovingSpacesFromString:expirationMonth];
-
+  
   if (![self stringIsNumeric:sanitizedExpiration]) {
     return SPCardValidationStateInvalid;
   }
-
+  
   switch (sanitizedExpiration.length) {
     case 0:
       return SPCardValidationStateIncomplete;
@@ -103,16 +103,16 @@ static NSString *_Nonnull stringByRemovingCharactersFromSet(NSString *_Nonnull s
                                                   inMonth:(NSString *)expirationMonth
                                             inCurrentYear:(NSInteger)currentYear
                                              currentMonth:(NSInteger)currentMonth {
-
+  
   NSInteger moddedYear = currentYear % 100;
-
+  
   if (![self stringIsNumeric:expirationMonth] || ![self stringIsNumeric:expirationYear]) {
     return SPCardValidationStateInvalid;
   }
-
+  
   NSString *sanitizedMonth = [self sanitizedNumericStringForString:expirationMonth];
   NSString *sanitizedYear = [self sanitizedNumericStringForString:expirationYear];
-
+  
   switch (sanitizedYear.length) {
     case 0:
     case 1:
@@ -148,13 +148,13 @@ inMonth:(NSString *)expirationMonth {
 
 + (SPCardValidationState)validationStateForCVC:(NSString *)cvc
                                      cardBrand:(SPCardBrand)brand {
-
+  
   if (![self stringIsNumeric:cvc]) {
     return SPCardValidationStateInvalid;
   }
-
+  
   NSString *sanitizedCvc = [self sanitizedNumericStringForString:cvc];
-
+  
   NSUInteger minLength = [self minCVCLength];
   NSUInteger maxLength = [self maxCVCLengthForCardBrand:brand];
   if (sanitizedCvc.length < minLength) {
@@ -166,30 +166,37 @@ inMonth:(NSString *)expirationMonth {
   }
 }
 
-+ (SPCardValidationState)validationStateForNumber:(NSString *)cardNumber
-                              validatingCardBrand:(BOOL)validatingCardBrand {
-
-  NSString *sanitizedNumber =
-  [self stringByRemovingSpacesFromString:cardNumber];
++ (SPCardValidationState)validationStateForNumber:(NSString *)cardNumber {
+  NSString *sanitizedNumber = [self stringByRemovingSpacesFromString:cardNumber];
+  
+  // Check input number length
   if (sanitizedNumber.length == 0) {
     return SPCardValidationStateIncomplete;
   }
+  
+  // Check input number string is numeric
   if (![self stringIsNumeric:sanitizedNumber]) {
     return SPCardValidationStateInvalid;
   }
-
-  SPBINRange *binRange = [SPBINRange mostSpecificBINRangeForNumber:sanitizedNumber];
-  if (binRange.brand == SPCardBrandUnknown && validatingCardBrand) {
-    return SPCardValidationStateInvalid;
+  
+  // Check BIN/IIN range can be defined by input number
+  SPBINRange *definedBINRange = [SPBINRange definedBINRangeForNumber:sanitizedNumber];
+  if (definedBINRange) {
+    if (sanitizedNumber.length == definedBINRange.length) {
+      BOOL isValidLuhn = [self stringIsValidLuhn:sanitizedNumber];
+      return isValidLuhn ? SPCardValidationStateValid : SPCardValidationStateInvalid;
+    } else if (sanitizedNumber.length > definedBINRange.length) {
+      return SPCardValidationStateInvalid;
+    } else {
+      return SPCardValidationStateIncomplete;
+    }
   }
-
-  if (sanitizedNumber.length == binRange.length) {
-    BOOL isValidLuhn = [self stringIsValidLuhn:sanitizedNumber];
-    return isValidLuhn ? SPCardValidationStateValid : SPCardValidationStateInvalid;
-  } else if (sanitizedNumber.length > binRange.length) {
-    return SPCardValidationStateInvalid;
-  } else {
+  
+  // Check if there are potential BIN/IIN ranges for input number
+  if ([SPBINRange isPotentialBINRangesExistForNumber:sanitizedNumber]) {
     return SPCardValidationStateIncomplete;
+  } else {
+    return SPCardValidationStateInvalid;
   }
 }
 
@@ -200,7 +207,6 @@ inMonth:(NSString *)expirationMonth {
 + (NSUInteger)maxCVCLengthForCardBrand:(SPCardBrand)brand {
   switch (brand) {
     case SPCardBrandAmex:
-    case SPCardBrandUnknown:
       return 4;
     default:
       return 3;
@@ -209,19 +215,13 @@ inMonth:(NSString *)expirationMonth {
 
 + (SPCardBrand)brandForNumber:(NSString *)cardNumber {
   NSString *sanitizedNumber = [self sanitizedNumericStringForString:cardNumber];
-  NSSet *brands = [self possibleBrandsForNumber:sanitizedNumber];
-  if (brands.count == 1) {
-    return (SPCardBrand)[brands.anyObject integerValue];
+  SPBINRange *definedBINRangeForNumber = [SPBINRange definedBINRangeForNumber:sanitizedNumber];
+  
+  if (definedBINRangeForNumber) {
+    return definedBINRangeForNumber.brand;
+  } else {
+    return SPCardBrandUnknown;
   }
-  return SPCardBrandUnknown;
-}
-
-+ (NSSet *)possibleBrandsForNumber:(NSString *)cardNumber {
-  NSArray<SPBINRange *> *binRanges = [SPBINRange binRangesForNumber:cardNumber];
-  NSMutableSet *possibleBrands =
-  [NSMutableSet setWithArray:[binRanges valueForKeyPath:@"brand"]];
-  [possibleBrands removeObject:@(SPCardBrandUnknown)];
-  return [possibleBrands copy];
 }
 
 + (NSSet<NSNumber *> *)lengthsForCardBrand:(SPCardBrand)brand {
@@ -233,30 +233,25 @@ inMonth:(NSString *)expirationMonth {
   return [set copy];
 }
 
-+ (NSInteger)maxLengthForCardBrand:(SPCardBrand)brand {
-  NSInteger maxLength = -1;
-  for (NSNumber *length in [self lengthsForCardBrand:brand]) {
-    if (length.integerValue > maxLength) {
-      maxLength = length.integerValue;
-    }
++ (NSInteger)lengthForCardNumber:(NSString *)cardNumber {
+  NSString *sanitizedNumber = [SPCardValidator sanitizedNumericStringForString:cardNumber];
+  SPBINRange *definedBINRangeForNumber = [SPBINRange definedBINRangeForNumber:sanitizedNumber];
+  if (definedBINRangeForNumber) {
+    return definedBINRangeForNumber.length;
+  } else {
+    return 16;
   }
-  return maxLength;
-}
-
-+ (NSInteger)fragmentLengthForCardBrand:(SPCardBrand)brand {
-  return
-  [[[self cardNumberFormatForBrand:brand] lastObject] unsignedIntegerValue];
 }
 
 + (BOOL)stringIsValidLuhn:(NSString *)number {
   BOOL odd = true;
   int sum = 0;
   NSMutableArray *digits = [NSMutableArray arrayWithCapacity:number.length];
-
+  
   for (int i = 0; i < (NSInteger)number.length; i++) {
     [digits addObject:[number substringWithRange:NSMakeRange(i, 1)]];
   }
-
+  
   for (NSString *digitStr in [digits reverseObjectEnumerator]) {
     int digit = [digitStr intValue];
     if ((odd = !odd))
@@ -265,7 +260,7 @@ inMonth:(NSString *)expirationMonth {
       digit -= 9;
     sum += digit;
   }
-
+  
   return sum % 10 == 0;
 }
 
@@ -288,22 +283,22 @@ inMonth:(NSString *)expirationMonth {
 + (SPCardValidationState)validationStateForPostalCode:(NSString *)postalCode {
   // Check length less than minimum
   if (postalCode == nil || postalCode.length < self.postalCodeMinLength) {
-      return SPCardValidationStateIncomplete;
+    return SPCardValidationStateIncomplete;
   }
-
+  
   // Check length greater than maximum
   if (postalCode.length > self.postalCodeMaxLength) {
-      return SPCardValidationStateInvalid;
+    return SPCardValidationStateInvalid;
   }
-
+  
   // Check if string contains only allowed characters
   NSCharacterSet *invalidChars = [[NSCharacterSet sp_postalCodeCharacterSet] invertedSet];
   NSRange range = [postalCode rangeOfCharacterFromSet:invalidChars];
-
+  
   if (range.location != NSNotFound) {
-      return SPCardValidationStateInvalid;
+    return SPCardValidationStateInvalid;
   }
-
+  
   return SPCardValidationStateValid;
 }
 
