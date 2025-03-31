@@ -114,7 +114,7 @@ public extension ColorPalette {
   }
 
   var fieldLabelInactiveColor: UIColor {
-    fieldColors?.label?.inactive ?? theme.neutral.withAlphaComponent(0.5)
+    fieldColors?.label?.inactive ?? theme.neutral.withAlphaComponent(0.75)
   }
 
   var fieldLabelFocusValidColor: UIColor {
@@ -212,7 +212,7 @@ public struct Shapes: Equatable {
   }
 
   public static var `default`: Shapes {
-    Shapes(cornerRadius: 5.0)
+    Shapes(cornerRadius: 4.0)
   }
 }
 
