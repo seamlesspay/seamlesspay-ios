@@ -263,9 +263,17 @@ public struct Typography: Equatable {
     scaledFont(for: font)
   }
 
-  public func scaledFont(for font: UIFont) -> UIFont {
+  func scaledFont(for font: UIFont) -> UIFont {
     let customFont = font.withSize(font.pointSize * scale)
     return UIFontMetrics.default.scaledFont(for: customFont)
+  }
+
+  func modifiedFont(size: CGFloat, weight: UIFont.Weight) -> UIFont {
+    let traits: [UIFontDescriptor.TraitKey: Any] = [.weight: weight]
+
+    let descriptor = font.fontDescriptor.addingAttributes([.traits: traits])
+
+    return UIFont(descriptor: descriptor, size: size)
   }
 }
 
