@@ -726,13 +726,22 @@ extension CardForm {
       borderWidth: 1,
       textFont: styleOptions.typography.scaledFont,
       errorFont: styleOptions.typography.scaledFont(
-        for: styleOptions.typography.font.withSize(11)
+        for: styleOptions.typography.modifiedFont(
+          size: 11,
+          weight: .medium
+        )
       ),
       placeholderFont: styleOptions.typography.scaledFont(
-        for: styleOptions.typography.font.withSize(16)
+        for: styleOptions.typography.modifiedFont(
+          size: 16,
+          weight: .regular
+        )
       ),
       floatingPlaceholderFont: styleOptions.typography.scaledFont(
-        for: styleOptions.typography.font.withSize(11)
+        for: styleOptions.typography.modifiedFont(
+          size: 11,
+          weight: .medium
+        )
       )
     )
   }
