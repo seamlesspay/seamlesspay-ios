@@ -688,7 +688,12 @@ extension CardForm {
     let textColor = styleOptions.colors.palette(
       for: traitCollection
     ).headerColor
-    let font = styleOptions.typography.scaledFont
+    let font = styleOptions.typography.scaledFont(
+      for: styleOptions.typography.modifiedFont(
+        size: 16,
+        weight: .medium
+      )
+    )
 
     label.textColor = textColor
     label.font = font
