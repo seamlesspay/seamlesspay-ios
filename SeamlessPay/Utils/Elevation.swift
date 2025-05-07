@@ -41,6 +41,7 @@ public extension CALayer {
     UIColor(red: 31 / 255, green: 40 / 255, blue: 51 / 255, alpha: 1)
   }
 
+  // swiftlint:disable function_parameter_count
   private func setShadow(
     with color: UIColor?,
     radius: CGFloat,
@@ -63,6 +64,7 @@ public extension CALayer {
         UIBezierPath(rect: rect).cgPath
     }
   }
+  // swiftlint:enable function_parameter_count
 
   func setElevationLevel(_ level: ElevationLevel, rect: CGRect, cornerRadius: CGFloat) {
     let elevationData = Elevation(elevationLevel: level)
