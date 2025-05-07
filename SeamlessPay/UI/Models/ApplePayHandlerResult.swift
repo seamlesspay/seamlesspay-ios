@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum ApplePayHandlerResult<Success, Failure> where Failure : Error {
+public enum ApplePayHandlerResult<Success, Failure> where Failure: Error {
   case success(Success)
   case failure(Failure)
   case canceled

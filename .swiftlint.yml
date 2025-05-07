@@ -1,10 +1,12 @@
 disabled_rules: # rule identifiers to exclude from running
+  - unused_closure_parameter
+  - unused_setter_value
+  - trailing_comma
+  - trailing_whitespace
   - large_tuple
   - todo
-  - trailing_comma
   - unused_optional_binding
   - file_length
-#  - type_body_length
 opt_in_rules:
   - overridden_super_call
 excluded:

@@ -8,7 +8,7 @@
 import UIKit
 import PassKit
 
-public protocol ApplePayHandlerDelegate {
+public protocol ApplePayHandlerDelegate: class {
   func applePaySheetDidClose(_ handler: ApplePayHandler)
 }
 

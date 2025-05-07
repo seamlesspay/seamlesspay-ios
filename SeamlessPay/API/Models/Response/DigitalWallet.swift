@@ -7,8 +7,6 @@
 
 import Foundation
 
-import Foundation
-
 public struct DigitalWallet: APICodable, APIReqParameterable {
   public let merchantId: String?
   public let token: Token

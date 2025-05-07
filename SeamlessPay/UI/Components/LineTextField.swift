@@ -340,7 +340,8 @@ public class LineTextField: SPFormTextField {
   }
 
   private func calculatePlaceholderHeightForStateChange() -> CGFloat {
-    // Create a label with the same properties as the floating placeholder label after the state change
+    // Create a label with the same properties as the floating placeholder label after the state
+    // change
     let label = UILabel()
     label.numberOfLines = floatingPlaceholderLabel.numberOfLines
     label.text = floatingPlaceholderLabel.text
@@ -385,10 +386,11 @@ public class LineTextField: SPFormTextField {
       options: [.beginFromCurrentState, .curveEaseIn],
       animations: {
         self.floatingPlaceholderLabel.frame = newFrame
+      },
+      completion: { _ in
+        self.layoutIfNeeded()
       }
-    ) { _ in
-      self.layoutIfNeeded()
-    }
+    )
   }
 }
 

@@ -211,7 +211,6 @@ private extension CardForm {
     updateImages()
   }
 
-  // swiftlint:disable function_body_length
   func constraintViews() {
     let constraints: [NSLayoutConstraint] = [
       stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -223,8 +222,6 @@ private extension CardForm {
     }
     NSLayoutConstraint.activate(constraints)
   }
-
-  // swiftlint:enable function_body_length
 
   func buildTextField() -> LineTextField {
     let textField = LineTextField(frame: .zero)
@@ -358,7 +355,7 @@ extension CardForm: SPFormTextFieldDelegate {
   }
 
   public func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-    let _ = fieldEditingTransitionManager.getAndUpdateState(fromCall: .shouldEnd)
+    _ = fieldEditingTransitionManager.getAndUpdateState(fromCall: .shouldEnd)
     updateImages()
 
     return true
