@@ -317,7 +317,7 @@ private extension APIClient {
 
         let result: Result<ModelClass, APIError>
 
-        if self.isResponseSuccessful(response), let model = map(data) {
+        if isResponseSuccessful(response), let model = map(data) {
           result = .success(model)
         } else if let data, let apiError = try? APIError.decode(data) {
           result = .failure(apiError)

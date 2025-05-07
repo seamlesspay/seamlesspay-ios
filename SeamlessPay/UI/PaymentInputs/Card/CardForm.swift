@@ -382,7 +382,7 @@ extension CardForm: SPFormTextFieldDelegate {
   }
 
   public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-    if textField == lastSubField && firstInvalidSubField == .none {
+    if textField == lastSubField, firstInvalidSubField == .none {
       // User pressed return in the last field, and all fields are valid
       onWillEndEditingForReturn()
       _ = resignFirstResponder()

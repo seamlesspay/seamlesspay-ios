@@ -414,7 +414,7 @@ final class APIClientTest: XCTestCase {
   }
 
   func testCreateChargeWithRequest() {
-    let expectation = self.expectation(description: "CreateChargeSuccess")
+    let expectation = expectation(description: "CreateChargeSuccess")
 
     let token = "testToken"
     let cvv = "999testCVC"

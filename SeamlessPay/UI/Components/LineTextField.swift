@@ -103,7 +103,7 @@ public class LineTextField: SPFormTextField {
   private var originX: CGFloat {
     var originX = Constants.paddingX
 
-    if let leftView = leftView {
+    if let leftView {
       originX += leftView.frame.maxX
     }
 

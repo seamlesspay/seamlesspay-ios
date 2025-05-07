@@ -64,6 +64,7 @@ public extension CALayer {
         UIBezierPath(rect: rect).cgPath
     }
   }
+
   // swiftlint:enable function_parameter_count
 
   func setElevationLevel(_ level: ElevationLevel, rect: CGRect, cornerRadius: CGFloat) {

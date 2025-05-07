@@ -34,7 +34,7 @@ class ApplePayHandlerTests: XCTestCase {
 
   func testPresentApplePayForMissingMerchantIdentifier() {
     let chargeRequest = ChargeRequest(amount: 100)
-    let expectation = self.expectation(description: "Completion called")
+    let expectation = expectation(description: "Completion called")
 
     applePayHandler.presentApplePayFor(chargeRequest) { result in
       guard case let .failure(error) = result, error.kind == .unknown else {
@@ -47,7 +47,7 @@ class ApplePayHandlerTests: XCTestCase {
   }
 
   func testHandlePaymentCompletion() {
-    let expectation = self.expectation(description: "Completion called")
+    let expectation = expectation(description: "Completion called")
     let paymentResponse = PaymentResponse(
       id: UUID().uuidString,
       paymentToken: UUID().uuidString,
@@ -95,7 +95,7 @@ class ApplePayHandlerTests: XCTestCase {
   func testChargeRequestMissed() {
     let controller = PKPaymentAuthorizationController(paymentRequest: PKPaymentRequest())
     let payment = PKPayment()
-    let expectation = self.expectation(description: "Completion called")
+    let expectation = expectation(description: "Completion called")
 
     applePayHandler.paymentAuthorizationController(
       controller,

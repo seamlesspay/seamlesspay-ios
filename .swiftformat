@@ -1,17 +1,23 @@
---swiftversion 5.7
 --acronyms ID,URL,UUID
 --allman false
+--anonymousforeach convert
 --assetliterals visual-width
---asynccapturing
---beforemarks
+--asynccapturing 
+--beforemarks 
 --binarygrouping 4,8
+--callsiteparen default
 --categorymark "MARK: %c"
 --classthreshold 0
 --closingparen balanced
 --closurevoid remove
 --commas always
+--complexattrs preserve
+--computedvarattrs preserve
+--condassignment after-property
 --conflictmarkers reject
+--dateformat system
 --decimalgrouping 3,6
+--doccomments before-declarations
 --elseposition same-line
 --emptybraces no-space
 --enumnamespaces always
@@ -24,7 +30,8 @@
 --fractiongrouping disabled
 --fragment false
 --funcattributes preserve
---generictypes
+--generictypes 
+--groupblanklines true
 --groupedextension "MARK: %c"
 --guardelse auto
 --header ignore
@@ -35,39 +42,56 @@
 --indent 2
 --indentcase false
 --indentstrings false
---lifecycle
+--inferredtypes always
+--initcodernil false
+--inlinedforeach ignore
+--languagemode 0
+--lifecycle 
 --lineaftermarks true
 --linebreaks lf
 --markcategories true
 --markextensions always
 --marktypes always
 --maxwidth 100
---modifierorder
---nevertrailing
---nospaceoperators
---nowrapoperators
+--modifierorder 
+--nevertrailing 
+--nilinit remove
+--noncomplexattrs 
+--nospaceoperators 
+--nowrapoperators 
 --octalgrouping 4,8
 --operatorfunc spaced
+--organizationmode visibility
 --organizetypes actor,class,enum,struct
 --patternlet hoist
+--preservedecls 
+--preservedsymbols Package
+--propertytypes infer-locals-only
 --ranges spaced
---redundanttype infer-locals-only
 --self remove
---selfrequired
+--selfrequired 
 --semicolons inline
 --shortoptionals always
 --smarttabs enabled
---someAny true
+--someany true
+--sortedpatterns 
+--storedvarattrs preserve
 --stripunusedargs always
 --structthreshold 0
+--swiftversion 5.8
 --tabwidth unspecified
---throwcapturing
---trailingclosures
---trimwhitespace always
+--throwcapturing 
+--timezone system
+--trailingclosures 
+--trimwhitespace nonblank-lines
 --typeattributes preserve
 --typeblanklines remove
+--typedelimiter space-after
 --typemark "MARK: - %t"
---varattributes preserve
+--typemarks 
+--typeorder 
+--visibilitymarks 
+--visibilityorder 
 --voidtype void
 --wraparguments preserve
 --wrapcollections preserve
@@ -80,5 +104,5 @@
 --wraptypealiases preserve
 --xcodeindentation disabled
 --yodaswap always
---disable blankLinesAroundMark,redundantReturn,unusedArguments,wrapMultilineStatementBraces
---enable blankLineAfterImports,isEmpty,sortSwitchCases,wrapEnumCases,wrapSwitchCases
+--disable blankLinesAroundMark,preferForLoop,redundantReturn,unusedArguments,wrapMultilineStatementBraces
+--enable isEmpty,sortSwitchCases,wrapEnumCases,wrapSwitchCases

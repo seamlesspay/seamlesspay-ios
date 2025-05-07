@@ -15,7 +15,7 @@ public struct DigitalWallet: APICodable, APIReqParameterable {
   public init(merchantId: String?, token: Token) {
     self.merchantId = merchantId
     self.token = token
-    self.type = "apple_pay"
+    type = "apple_pay"
   }
 
   public struct Token: APICodable {
