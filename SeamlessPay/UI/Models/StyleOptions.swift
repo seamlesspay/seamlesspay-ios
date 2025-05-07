@@ -284,7 +284,7 @@ public enum IconSet: Equatable {
 }
 
 // MARK: - IconSet Extension
-public extension Optional where Wrapped == IconSet {
+public extension IconSet? {
   func iconSet(for traitCollection: UITraitCollection) -> IconSet {
     if let iconSet = self {
       return iconSet
