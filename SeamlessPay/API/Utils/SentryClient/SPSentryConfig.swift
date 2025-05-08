@@ -8,10 +8,17 @@
 import Foundation
 
 public class SPSentryConfig: NSObject {
+  public enum Environment: String {
+    case SBX
+    case PRO
+    case STG
+    case QAT
+  }
+  
   let userId: String
-  let environment: String
+  let environment: SPSentryConfig.Environment
 
-  public init(userId: String, environment: String) {
+  public init(userId: String, environment: SPSentryConfig.Environment) {
     self.userId = userId
     self.environment = environment
   }

@@ -539,15 +539,29 @@ private extension APIClient {
 // MARK: Sentry Client
 private extension APIClient {
   static func makeClient(environment: Environment) -> SPSentryClient? {
+    func toSPSentryConfigEnvironment(environment: Environment) -> SPSentryConfig.Environment {
+      switch environment {
+      case .production:
+        return .PRO
+      case .sandbox:
+        return .SBX
+      case .staging:
+        return .STG
+      case .qat:
+        return .QAT
+      }
+    }
+    
     #if DEBUG // Initialize sentry client only for release builds
       return nil
-    #endif
-    return SPSentryClient.makeWith(
-      configuration: .init(
-        userId: SPInstallation.installationID,
-        environment: environment.name
+    #else
+      return SPSentryClient.makeWith(
+        configuration: .init(
+          userId: SPInstallation.installationID,
+          environment: toSPSentryConfigEnvironment(environment: environment)
+        )
       )
-    )
+    #endif
   }
 
   func trackFailedRequest(

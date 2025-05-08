@@ -75,7 +75,7 @@ enum SPSentryHTTPEventFactory {
       contexts: contexts,
       request: request,
       eventId: sentryEventId(),
-      environment: sentryClientConfig.environment,
+      environment: sentryClientConfig.environment.rawValue,
       user: .init(id: sentryClientConfig.userId)
     )
   }
