@@ -53,7 +53,7 @@ final class SPSentryHTTPEventFactoryTest: XCTestCase {
       responseData: "{}".data(using: .utf8),
       sentryClientConfig: SPSentryConfig(
         userId: "uiser.id",
-        environment: "production"
+        environment: .PRO
       )
     )
 
