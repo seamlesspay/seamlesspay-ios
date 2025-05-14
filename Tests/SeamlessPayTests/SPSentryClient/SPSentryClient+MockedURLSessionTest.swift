@@ -16,7 +16,7 @@ final class SPSentryClientWithMockedURLSessionTest: XCTestCase {
       dsn: "https://test.secretkey@test.host/test.projectid",
       config: .init(
         userId: "test.valid.userid",
-        environment: "test.valid.environment"
+        environment: .QAT
       ),
       session: .init(
         configuration: {
