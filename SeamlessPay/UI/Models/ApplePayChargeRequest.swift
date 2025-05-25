@@ -9,7 +9,7 @@ import Foundation
 
 public struct ApplePayChargeRequest {
   public let amount: Int
-  public let capture: Bool
+  public let capture: Bool?
   public let currency: String?
   public let description: String
   public let descriptor: String?
@@ -26,7 +26,7 @@ public struct ApplePayChargeRequest {
 
   public init(
     amount: Int,
-    capture: Bool = true,
+    capture: Bool? = .none,
     currency: String? = .none,
     description: String,
     descriptor: String? = .none,
