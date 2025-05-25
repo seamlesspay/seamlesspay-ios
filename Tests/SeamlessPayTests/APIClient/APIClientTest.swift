@@ -499,6 +499,40 @@ final class APIClientTest: XCTestCase {
     wait(for: [expectation], timeout: 1.5)
   }
 
+  func testCreateChargeWithRequest_captureNil() {
+    let expectation = expectation(description: "CreateChargeWithCaptureNil")
+
+    let token = "testToken"
+    let cvv = "999testCVC"
+    let request = ChargeRequest(
+      amount: 100,
+      capture: nil,
+      currency: "USD",
+      description: "Test charge",
+      descriptor: "descriptor",
+      entryType: "entryType",
+      idempotencyKey: "idempotencyKey",
+      metadata: "metadata",
+      order: ["order123": "order123Value"],
+      orderID: "orderID123",
+      poNumber: "po123",
+      surchargeFeeAmount: 2,
+      taxAmount: 10,
+      taxExempt: false,
+      tip: 5
+    )
+
+    client.createCharge(token: token, cvv: cvv, request: request) { result in
+      // then
+      let request = APIClientURLProtocolMock.testingRequest!
+      let body = request.bodyStreamAsJSON()!
+      XCTAssertNil(body["capture"], "'capture' key should not be present when capture is nil")
+      expectation.fulfill()
+    }
+
+    wait(for: [expectation], timeout: 1.5)
+  }
+
   // MARK: SDK Data
   func testRetrieveSDKDataWithoutProxyAccountId() {
     let expectation = XCTestExpectation(description: "Request completed")
