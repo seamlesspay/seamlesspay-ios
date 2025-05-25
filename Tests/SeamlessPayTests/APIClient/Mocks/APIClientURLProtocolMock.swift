@@ -50,19 +50,24 @@ extension APIClientURLProtocolMock {
   static func setFailureResponse() {
     responseType = .error(MockError.some)
   }
-
-  static func setCorrupterSuccessResponse() {
+  
+  static func setSuccessResponse(data: Data, statusCode: Int = 200) {
     let response = HTTPURLResponse(
-      url: URL(
-        string: "http://any.com"
-      )!,
-      statusCode: 200,
+      url: URL(string: "http://test.com")!,
+      statusCode: statusCode,
       httpVersion: nil,
-      headerFields: nil
+      headerFields: ["Content-Type": "application/json"]
     )!
-
-    let data = Data("Any data".utf8)
-
+    responseType = .success(data, response)
+  }
+  
+  static func setErrorResponse(data: Data, statusCode: Int) {
+    let response = HTTPURLResponse(
+      url: URL(string: "http://test.com")!,
+      statusCode: statusCode,
+      httpVersion: nil,
+      headerFields: ["Content-Type": "application/json"]
+    )!
     responseType = .success(data, response)
   }
 }
