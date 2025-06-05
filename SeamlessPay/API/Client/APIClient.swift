@@ -103,70 +103,7 @@ public class APIClient {
       completion: completion
     )
   }
-
-  // MARK: Customer
-  public func createCustomer(
-    name: String,
-    email: String,
-    address: Address? = .none,
-    companyName: String? = .none,
-    notes: String? = .none,
-    phone: String? = .none,
-    website: String? = .none,
-    paymentMethods: [PaymentMethod]? = .none,
-    metadata: String? = .none,
-    completion: ((Result<Customer, APIError>) -> Void)?
-  ) {
-    customer(
-      name: name,
-      email: email,
-      address: address,
-      companyName: companyName,
-      notes: notes,
-      phone: phone,
-      website: website,
-      paymentMethods: paymentMethods,
-      metadata: metadata,
-      operation: .createCustomer,
-      completion: completion
-    )
-  }
-
-  public func updateCustomer(
-    id: String,
-    name: String,
-    email: String,
-    address: Address? = .none,
-    companyName: String? = .none,
-    notes: String? = .none,
-    phone: String? = .none,
-    website: String? = .none,
-    paymentMethods: [PaymentMethod]? = .none,
-    metadata: String? = .none,
-    completion: ((Result<Customer, APIError>) -> Void)?
-  ) {
-    customer(
-      name: name,
-      email: email,
-      address: address,
-      companyName: companyName,
-      notes: notes,
-      phone: phone,
-      website: website,
-      paymentMethods: paymentMethods,
-      metadata: metadata,
-      operation: .updateCustomer(id: id),
-      completion: completion
-    )
-  }
-
-  public func retrieveCustomer(
-    id: String,
-    completion: ((Result<Customer, APIError>) -> Void)?
-  ) {
-    customer(operation: .retrieveCharge(id: id), completion: completion)
-  }
-
+  
   // MARK: Charge
   public func createCharge(
     token: String,
@@ -278,6 +215,71 @@ public class APIClient {
 }
 
 // MARK: - Internal
+// MARK: Customer
+extension APIClient {
+  func createCustomer(
+    name: String,
+    email: String,
+    address: Address? = .none,
+    companyName: String? = .none,
+    notes: String? = .none,
+    phone: String? = .none,
+    website: String? = .none,
+    paymentMethods: [PaymentMethod]? = .none,
+    metadata: String? = .none,
+    completion: ((Result<Customer, APIError>) -> Void)?
+  ) {
+    customer(
+      name: name,
+      email: email,
+      address: address,
+      companyName: companyName,
+      notes: notes,
+      phone: phone,
+      website: website,
+      paymentMethods: paymentMethods,
+      metadata: metadata,
+      operation: .createCustomer,
+      completion: completion
+    )
+  }
+
+  func updateCustomer(
+    id: String,
+    name: String,
+    email: String,
+    address: Address? = .none,
+    companyName: String? = .none,
+    notes: String? = .none,
+    phone: String? = .none,
+    website: String? = .none,
+    paymentMethods: [PaymentMethod]? = .none,
+    metadata: String? = .none,
+    completion: ((Result<Customer, APIError>) -> Void)?
+  ) {
+    customer(
+      name: name,
+      email: email,
+      address: address,
+      companyName: companyName,
+      notes: notes,
+      phone: phone,
+      website: website,
+      paymentMethods: paymentMethods,
+      metadata: metadata,
+      operation: .updateCustomer(id: id),
+      completion: completion
+    )
+  }
+
+  func retrieveCustomer(
+    id: String,
+    completion: ((Result<Customer, APIError>) -> Void)?
+  ) {
+    customer(operation: .retrieveCharge(id: id), completion: completion)
+  }
+}
+
 // MARK: Configure SDK
 extension APIClient {
   func retrieveSDKData(completion: ((Result<SDKData, APIError>) -> Void)?) {
