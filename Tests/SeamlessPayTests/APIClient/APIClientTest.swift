@@ -722,19 +722,25 @@ final class APIClientTest: XCTestCase {
     
   func testCreateChargeWithMinimalParameters() {
     let expectation = XCTestExpectation(description: "Request completed")
+    let testToken = "test_token"
+    let testAmount = 100
         
     client.createCharge(
-      token: "test_token",
-      amount: 100
+      token: testToken,
+      amount: testAmount
     ) { result in
       let request = APIClientURLProtocolMock.testingRequest!
       let body = request.bodyStreamAsJSON()!
             
-      XCTAssertEqual(body["token"] as! String, "test_token")
-      XCTAssertEqual(body["amount"] as! Int, 100)
-      XCTAssertNil(body["cvv"])
-      XCTAssertNil(body["currency"])
-      XCTAssertNil(body["description"])
+      // Number of parameters
+      XCTAssertEqual(body.count, 3)
+      
+      // Required parameters
+      XCTAssertEqual(body["token"] as! String, testToken)
+      XCTAssertEqual(body["amount"] as! Int, testAmount)
+
+      // Device fingerprint should be present
+      XCTAssertNotNil(body["deviceFingerprint"])
             
       expectation.fulfill()
     }

@@ -109,7 +109,7 @@ public class APIClient {
     token: String,
     amount: Int,
     cvv: String? = .none,
-    capture: Bool? = false,
+    capture: Bool? = .none,
     currency: String? = .none,
     taxAmount: Int? = .none,
     taxExempt: Bool? = .none,
