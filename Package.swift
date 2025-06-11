@@ -18,11 +18,15 @@ let package = Package(
     ),
   ],
   dependencies: [
+    .package(path: "../swift-sentry-client-release"),
   ],
   targets: [
     .target(
       name: "SeamlessPay",
-      dependencies: ["SeamlessPayObjC"],
+      dependencies: [
+        "SeamlessPayObjC",
+        .product(name: "SwiftSentryClient", package: "swift-sentry-client-release"),
+      ],
       path: "SeamlessPay"
     ),
     .target(

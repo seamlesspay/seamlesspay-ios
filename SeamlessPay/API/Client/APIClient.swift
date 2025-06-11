@@ -6,6 +6,7 @@
 // *
 
 import Foundation
+import SwiftSentryClient
 
 public class APIClient {
   // MARK: Private Constants
@@ -21,7 +22,7 @@ public class APIClient {
   }
 
   private var initDate: Date
-  private var sentryClient: SPSentryClient?
+  private var sentryClient: SentryClient?
 
   // MARK: - Public Interface
   public let config: ClientConfiguration
@@ -540,8 +541,8 @@ private extension APIClient {
 
 // MARK: Sentry Client
 private extension APIClient {
-  static func makeClient(environment: Environment) -> SPSentryClient? {
-    func toSPSentryConfigEnvironment(environment: Environment) -> SPSentryConfig.Environment {
+  static func makeClient(environment: Environment) -> SentryClient? {
+    func toSPSentryConfigEnvironment(environment: Environment) -> SentryConfig.Environment {
       switch environment {
       case .production:
         return .PRO
@@ -557,7 +558,7 @@ private extension APIClient {
     #if DEBUG // Initialize sentry client only for release builds
       return nil
     #else
-      return SPSentryClient.makeWith(
+      return SentryClient.makeWith(
         configuration: .init(
           userId: SPInstallation.installationID,
           environment: toSPSentryConfigEnvironment(environment: environment)
