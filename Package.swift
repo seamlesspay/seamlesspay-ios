@@ -17,15 +17,12 @@ let package = Package(
       ]
     ),
   ],
-  dependencies: [
-    .package(path: "../swift-sentry-client-release"),
-  ],
   targets: [
     .target(
       name: "SeamlessPay",
       dependencies: [
         "SeamlessPayObjC",
-        .product(name: "SwiftSentryClient", package: "swift-sentry-client-release"),
+        "SwiftSentryClient"
       ],
       path: "SeamlessPay"
     ),
@@ -40,6 +37,10 @@ let package = Package(
         .process("Resources/Assets"),
       ],
       publicHeadersPath: "include"
+    ),
+    .binaryTarget(
+      name: "SwiftSentryClient",
+      path: "SwiftSentryClient/SwiftSentryClient.xcframework"
     ),
     .testTarget(
       name: "SeamlessPayTests",

@@ -1,0 +1,904 @@
+{
+  "ABIRoot": {
+    "kind": "Root",
+    "name": "SwiftSentryClient",
+    "printedName": "SwiftSentryClient",
+    "children": [
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "SwiftSentryClient",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "SwiftSentryClient",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "SwiftSentryClient",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "SwiftSentryClient",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "SentryClient",
+        "printedName": "SentryClient",
+        "children": [
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "SentryClient",
+                "printedName": "SwiftSentryClient.SentryClient",
+                "usr": "c:@M@SwiftSentryClient@objc(cs)SentryClient"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "c:@M@SwiftSentryClient@objc(cs)SentryClient(im)init",
+            "mangledName": "$s17SwiftSentryClient0bC0CACycfc",
+            "moduleName": "SwiftSentryClient",
+            "overriding": true,
+            "implicit": true,
+            "objc_name": "init",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Override"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "makeWith",
+            "printedName": "makeWith(configuration:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "SwiftSentryClient.SentryClient?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "SentryClient",
+                    "printedName": "SwiftSentryClient.SentryClient",
+                    "usr": "c:@M@SwiftSentryClient@objc(cs)SentryClient"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "SentryConfig",
+                "printedName": "SwiftSentryClient.SentryConfig",
+                "usr": "c:@M@SwiftSentryClient@objc(cs)SentryConfig"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17SwiftSentryClient0bC0C8makeWith13configurationACSgAA0B6ConfigC_tFZ",
+            "mangledName": "$s17SwiftSentryClient0bC0C8makeWith13configurationACSgAA0B6ConfigC_tFZ",
+            "moduleName": "SwiftSentryClient",
+            "static": true,
+            "declAttributes": [
+              "Final"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "captureFailedRequest",
+            "printedName": "captureFailedRequest(_:response:responseData:completion:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "URLRequest",
+                "printedName": "Foundation.URLRequest",
+                "usr": "s:10Foundation10URLRequestV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Foundation.URLResponse?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "URLResponse",
+                    "printedName": "Foundation.URLResponse",
+                    "usr": "c:objc(cs)NSURLResponse"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "Foundation.Data?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Data",
+                    "printedName": "Foundation.Data",
+                    "usr": "s:10Foundation4DataV"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "((Foundation.Data?, Foundation.URLResponse?, (any Swift.Error)?) -> ())?",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(Foundation.Data?, Foundation.URLResponse?, (any Swift.Error)?) -> ()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Tuple",
+                        "printedName": "(Foundation.Data?, Foundation.URLResponse?, (any Swift.Error)?)",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Optional",
+                            "printedName": "Foundation.Data?",
+                            "children": [
+                              {
+                                "kind": "TypeNominal",
+                                "name": "Data",
+                                "printedName": "Foundation.Data",
+                                "usr": "s:10Foundation4DataV"
+                              }
+                            ],
+                            "usr": "s:Sq"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Optional",
+                            "printedName": "Foundation.URLResponse?",
+                            "children": [
+                              {
+                                "kind": "TypeNominal",
+                                "name": "URLResponse",
+                                "printedName": "Foundation.URLResponse",
+                                "usr": "c:objc(cs)NSURLResponse"
+                              }
+                            ],
+                            "usr": "s:Sq"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Optional",
+                            "printedName": "(any Swift.Error)?",
+                            "children": [
+                              {
+                                "kind": "TypeNominal",
+                                "name": "Error",
+                                "printedName": "any Swift.Error",
+                                "usr": "s:s5ErrorP"
+                              }
+                            ],
+                            "usr": "s:Sq"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:17SwiftSentryClient0bC0C20captureFailedRequest_8response0G4Data10completiony10Foundation10URLRequestV_So13NSURLResponseCSgAH0H0VSgyAP_AMs5Error_pSgtcSgtF",
+            "mangledName": "$s17SwiftSentryClient0bC0C20captureFailedRequest_8response0G4Data10completiony10Foundation10URLRequestV_So13NSURLResponseCSgAH0H0VSgyAP_AMs5Error_pSgtcSgtF",
+            "moduleName": "SwiftSentryClient",
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "c:@M@SwiftSentryClient@objc(cs)SentryClient",
+        "mangledName": "$s17SwiftSentryClient0bC0C",
+        "moduleName": "SwiftSentryClient",
+        "declAttributes": [
+          "AccessControl",
+          "ObjC"
+        ],
+        "superclassUsr": "c:objc(cs)NSObject",
+        "hasMissingDesignatedInitializers": true,
+        "superclassNames": [
+          "ObjectiveC.NSObject"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CVarArg",
+            "printedName": "CVarArg",
+            "usr": "s:s7CVarArgP",
+            "mangledName": "$ss7CVarArgP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObservingPublishing",
+            "printedName": "_KeyValueCodingAndObservingPublishing",
+            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
+            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObserving",
+            "printedName": "_KeyValueCodingAndObserving",
+            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
+            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomStringConvertible",
+            "printedName": "CustomStringConvertible",
+            "usr": "s:s23CustomStringConvertibleP",
+            "mangledName": "$ss23CustomStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomDebugStringConvertible",
+            "printedName": "CustomDebugStringConvertible",
+            "usr": "s:s28CustomDebugStringConvertibleP",
+            "mangledName": "$ss28CustomDebugStringConvertibleP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "SwiftSentryClient",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "SentryConfig",
+        "printedName": "SentryConfig",
+        "children": [
+          {
+            "kind": "TypeDecl",
+            "name": "Environment",
+            "printedName": "Environment",
+            "children": [
+              {
+                "kind": "Var",
+                "name": "SBX",
+                "printedName": "SBX",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(SwiftSentryClient.SentryConfig.Environment.Type) -> SwiftSentryClient.SentryConfig.Environment",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Environment",
+                        "printedName": "SwiftSentryClient.SentryConfig.Environment",
+                        "usr": "s:17SwiftSentryClient0B6ConfigC11EnvironmentO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Metatype",
+                        "printedName": "SwiftSentryClient.SentryConfig.Environment.Type",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Environment",
+                            "printedName": "SwiftSentryClient.SentryConfig.Environment",
+                            "usr": "s:17SwiftSentryClient0B6ConfigC11EnvironmentO"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "declKind": "EnumElement",
+                "usr": "s:17SwiftSentryClient0B6ConfigC11EnvironmentO3SBXyA2EmF",
+                "mangledName": "$s17SwiftSentryClient0B6ConfigC11EnvironmentO3SBXyA2EmF",
+                "moduleName": "SwiftSentryClient"
+              },
+              {
+                "kind": "Var",
+                "name": "PRO",
+                "printedName": "PRO",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(SwiftSentryClient.SentryConfig.Environment.Type) -> SwiftSentryClient.SentryConfig.Environment",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Environment",
+                        "printedName": "SwiftSentryClient.SentryConfig.Environment",
+                        "usr": "s:17SwiftSentryClient0B6ConfigC11EnvironmentO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Metatype",
+                        "printedName": "SwiftSentryClient.SentryConfig.Environment.Type",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Environment",
+                            "printedName": "SwiftSentryClient.SentryConfig.Environment",
+                            "usr": "s:17SwiftSentryClient0B6ConfigC11EnvironmentO"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "declKind": "EnumElement",
+                "usr": "s:17SwiftSentryClient0B6ConfigC11EnvironmentO3PROyA2EmF",
+                "mangledName": "$s17SwiftSentryClient0B6ConfigC11EnvironmentO3PROyA2EmF",
+                "moduleName": "SwiftSentryClient"
+              },
+              {
+                "kind": "Var",
+                "name": "STG",
+                "printedName": "STG",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(SwiftSentryClient.SentryConfig.Environment.Type) -> SwiftSentryClient.SentryConfig.Environment",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Environment",
+                        "printedName": "SwiftSentryClient.SentryConfig.Environment",
+                        "usr": "s:17SwiftSentryClient0B6ConfigC11EnvironmentO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Metatype",
+                        "printedName": "SwiftSentryClient.SentryConfig.Environment.Type",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Environment",
+                            "printedName": "SwiftSentryClient.SentryConfig.Environment",
+                            "usr": "s:17SwiftSentryClient0B6ConfigC11EnvironmentO"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "declKind": "EnumElement",
+                "usr": "s:17SwiftSentryClient0B6ConfigC11EnvironmentO3STGyA2EmF",
+                "mangledName": "$s17SwiftSentryClient0B6ConfigC11EnvironmentO3STGyA2EmF",
+                "moduleName": "SwiftSentryClient"
+              },
+              {
+                "kind": "Var",
+                "name": "QAT",
+                "printedName": "QAT",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(SwiftSentryClient.SentryConfig.Environment.Type) -> SwiftSentryClient.SentryConfig.Environment",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Environment",
+                        "printedName": "SwiftSentryClient.SentryConfig.Environment",
+                        "usr": "s:17SwiftSentryClient0B6ConfigC11EnvironmentO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Metatype",
+                        "printedName": "SwiftSentryClient.SentryConfig.Environment.Type",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Environment",
+                            "printedName": "SwiftSentryClient.SentryConfig.Environment",
+                            "usr": "s:17SwiftSentryClient0B6ConfigC11EnvironmentO"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "declKind": "EnumElement",
+                "usr": "s:17SwiftSentryClient0B6ConfigC11EnvironmentO3QATyA2EmF",
+                "mangledName": "$s17SwiftSentryClient0B6ConfigC11EnvironmentO3QATyA2EmF",
+                "moduleName": "SwiftSentryClient"
+              },
+              {
+                "kind": "Constructor",
+                "name": "init",
+                "printedName": "init(rawValue:)",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "SwiftSentryClient.SentryConfig.Environment?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Environment",
+                        "printedName": "SwiftSentryClient.SentryConfig.Environment",
+                        "usr": "s:17SwiftSentryClient0B6ConfigC11EnvironmentO"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Constructor",
+                "usr": "s:17SwiftSentryClient0B6ConfigC11EnvironmentO8rawValueAESgSS_tcfc",
+                "mangledName": "$s17SwiftSentryClient0B6ConfigC11EnvironmentO8rawValueAESgSS_tcfc",
+                "moduleName": "SwiftSentryClient",
+                "implicit": true,
+                "init_kind": "Designated"
+              },
+              {
+                "kind": "Var",
+                "name": "rawValue",
+                "printedName": "rawValue",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Var",
+                "usr": "s:17SwiftSentryClient0B6ConfigC11EnvironmentO8rawValueSSvp",
+                "mangledName": "$s17SwiftSentryClient0B6ConfigC11EnvironmentO8rawValueSSvp",
+                "moduleName": "SwiftSentryClient",
+                "implicit": true,
+                "accessors": [
+                  {
+                    "kind": "Accessor",
+                    "name": "Get",
+                    "printedName": "Get()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:17SwiftSentryClient0B6ConfigC11EnvironmentO8rawValueSSvg",
+                    "mangledName": "$s17SwiftSentryClient0B6ConfigC11EnvironmentO8rawValueSSvg",
+                    "moduleName": "SwiftSentryClient",
+                    "implicit": true,
+                    "accessorKind": "get"
+                  }
+                ]
+              }
+            ],
+            "declKind": "Enum",
+            "usr": "s:17SwiftSentryClient0B6ConfigC11EnvironmentO",
+            "mangledName": "$s17SwiftSentryClient0B6ConfigC11EnvironmentO",
+            "moduleName": "SwiftSentryClient",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "enumRawTypeName": "String",
+            "conformances": [
+              {
+                "kind": "Conformance",
+                "name": "Copyable",
+                "printedName": "Copyable",
+                "usr": "s:s8CopyableP",
+                "mangledName": "$ss8CopyableP"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Escapable",
+                "printedName": "Escapable",
+                "usr": "s:s9EscapableP",
+                "mangledName": "$ss9EscapableP"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Equatable",
+                "printedName": "Equatable",
+                "usr": "s:SQ",
+                "mangledName": "$sSQ"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Hashable",
+                "printedName": "Hashable",
+                "usr": "s:SH",
+                "mangledName": "$sSH"
+              },
+              {
+                "kind": "Conformance",
+                "name": "RawRepresentable",
+                "printedName": "RawRepresentable",
+                "children": [
+                  {
+                    "kind": "TypeWitness",
+                    "name": "RawValue",
+                    "printedName": "RawValue",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ]
+                  }
+                ],
+                "usr": "s:SY",
+                "mangledName": "$sSY"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(userId:environment:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "SentryConfig",
+                "printedName": "SwiftSentryClient.SentryConfig",
+                "usr": "c:@M@SwiftSentryClient@objc(cs)SentryConfig"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Environment",
+                "printedName": "SwiftSentryClient.SentryConfig.Environment",
+                "usr": "s:17SwiftSentryClient0B6ConfigC11EnvironmentO"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:17SwiftSentryClient0B6ConfigC6userId11environmentACSS_AC11EnvironmentOtcfc",
+            "mangledName": "$s17SwiftSentryClient0B6ConfigC6userId11environmentACSS_AC11EnvironmentOtcfc",
+            "moduleName": "SwiftSentryClient",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "SentryConfig",
+                "printedName": "SwiftSentryClient.SentryConfig",
+                "usr": "c:@M@SwiftSentryClient@objc(cs)SentryConfig"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "c:@M@SwiftSentryClient@objc(cs)SentryConfig(im)init",
+            "mangledName": "$s17SwiftSentryClient0B6ConfigCACycfc",
+            "moduleName": "SwiftSentryClient",
+            "overriding": true,
+            "implicit": true,
+            "objc_name": "init",
+            "declAttributes": [
+              "Dynamic",
+              "ObjC",
+              "Override"
+            ],
+            "init_kind": "Designated"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "c:@M@SwiftSentryClient@objc(cs)SentryConfig",
+        "mangledName": "$s17SwiftSentryClient0B6ConfigC",
+        "moduleName": "SwiftSentryClient",
+        "declAttributes": [
+          "AccessControl",
+          "ObjC"
+        ],
+        "superclassUsr": "c:objc(cs)NSObject",
+        "superclassNames": [
+          "ObjectiveC.NSObject"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CVarArg",
+            "printedName": "CVarArg",
+            "usr": "s:s7CVarArgP",
+            "mangledName": "$ss7CVarArgP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObservingPublishing",
+            "printedName": "_KeyValueCodingAndObservingPublishing",
+            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
+            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObserving",
+            "printedName": "_KeyValueCodingAndObserving",
+            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
+            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomStringConvertible",
+            "printedName": "CustomStringConvertible",
+            "usr": "s:s23CustomStringConvertibleP",
+            "mangledName": "$ss23CustomStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomDebugStringConvertible",
+            "printedName": "CustomDebugStringConvertible",
+            "usr": "s:s28CustomDebugStringConvertibleP",
+            "mangledName": "$ss28CustomDebugStringConvertibleP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "SwiftSentryClient",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "SwiftSentryClient",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "SwiftSentryClient",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "SwiftSentryClient"
+      }
+    ],
+    "json_format_version": 8
+  },
+  "ConstValues": [
+    {
+      "filePath": "\/Users\/pasashque\/Work\/Seam\/swift-sentry-client\/SwiftSentryClient\/Factories\/SPSentryURLRequestFactory.swift",
+      "kind": "IntegerLiteral",
+      "offset": 1190,
+      "length": 2,
+      "value": "15"
+    },
+    {
+      "filePath": "\/Users\/pasashque\/Work\/Seam\/swift-sentry-client\/SwiftSentryClient\/Factories\/SPSentryURLRequestFactory.swift",
+      "kind": "StringLiteral",
+      "offset": 1218,
+      "length": 31,
+      "value": "\"seamlesspay-ios-sentry-client\""
+    },
+    {
+      "filePath": "\/Users\/pasashque\/Work\/Seam\/swift-sentry-client\/SwiftSentryClient\/Factories\/SPSentryURLRequestFactory.swift",
+      "kind": "StringLiteral",
+      "offset": 1282,
+      "length": 5,
+      "value": "\"0.1\""
+    },
+    {
+      "filePath": "\/Users\/pasashque\/Work\/Seam\/swift-sentry-client\/SwiftSentryClient\/Factories\/SPSentryURLRequestFactory.swift",
+      "kind": "StringLiteral",
+      "offset": 1317,
+      "length": 3,
+      "value": "\"7\""
+    },
+    {
+      "filePath": "\/Users\/pasashque\/Work\/Seam\/swift-sentry-client\/SwiftSentryClient\/SentryClient.swift",
+      "kind": "StringLiteral",
+      "offset": 422,
+      "length": 51,
+      "value": "\"com.seamlesspay.sentryclient.\""
+    },
+    {
+      "filePath": "\/Users\/pasashque\/Work\/Seam\/swift-sentry-client\/SwiftSentryClient\/SentryClient.swift",
+      "kind": "StringLiteral",
+      "offset": 472,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/pasashque\/Work\/Seam\/swift-sentry-client\/SwiftSentryClient\/SentryClient.swift",
+      "kind": "StringLiteral",
+      "offset": 555,
+      "length": 51,
+      "value": "\"com.seamlesspay.sentryclient.\""
+    },
+    {
+      "filePath": "\/Users\/pasashque\/Work\/Seam\/swift-sentry-client\/SwiftSentryClient\/SentryClient.swift",
+      "kind": "StringLiteral",
+      "offset": 605,
+      "length": 2,
+      "value": "\"\""
+    },
+    {
+      "filePath": "\/Users\/pasashque\/Work\/Seam\/swift-sentry-client\/SwiftSentryClient\/SentryHTTPEvent.swift",
+      "kind": "StringLiteral",
+      "offset": 549,
+      "length": 13,
+      "value": "\"status_code\""
+    },
+    {
+      "filePath": "\/Users\/pasashque\/Work\/Seam\/swift-sentry-client\/SwiftSentryClient\/SentryHTTPEvent.swift",
+      "kind": "StringLiteral",
+      "offset": 823,
+      "length": 13,
+      "value": "\"app_version\""
+    },
+    {
+      "filePath": "\/Users\/pasashque\/Work\/Seam\/swift-sentry-client\/SwiftSentryClient\/SentryHTTPEvent.swift",
+      "kind": "StringLiteral",
+      "offset": 866,
+      "length": 16,
+      "value": "\"app_identifier\""
+    },
+    {
+      "filePath": "\/Users\/pasashque\/Work\/Seam\/swift-sentry-client\/SwiftSentryClient\/SentryHTTPEvent.swift",
+      "kind": "StringLiteral",
+      "offset": 907,
+      "length": 11,
+      "value": "\"app_build\""
+    },
+    {
+      "filePath": "\/Users\/pasashque\/Work\/Seam\/swift-sentry-client\/SwiftSentryClient\/SentryHTTPEvent.swift",
+      "kind": "StringLiteral",
+      "offset": 942,
+      "length": 10,
+      "value": "\"app_name\""
+    },
+    {
+      "filePath": "\/Users\/pasashque\/Work\/Seam\/swift-sentry-client\/SwiftSentryClient\/SentryHTTPEvent.swift",
+      "kind": "StringLiteral",
+      "offset": 1160,
+      "length": 10,
+      "value": "\"model_id\""
+    },
+    {
+      "filePath": "\/Users\/pasashque\/Work\/Seam\/swift-sentry-client\/SwiftSentryClient\/SentryHTTPEvent.swift",
+      "kind": "StringLiteral",
+      "offset": 2475,
+      "length": 10,
+      "value": "\"event_id\""
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.0.3 effective-5.10 (swiftlang-6.0.3.1.10 clang-1600.0.30.1)
+// swift-module-flags: -target arm64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name SwiftSentryClient
+import Foundation
+import Swift
+@_exported import SwiftSentryClient
+import UIKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+@objc @_hasMissingDesignatedInitializers public class SentryClient : ObjectiveC.NSObject {
+  @objc deinit
+}
+extension SwiftSentryClient.SentryClient {
+  public static func makeWith(configuration: SwiftSentryClient.SentryConfig) -> SwiftSentryClient.SentryClient?
+  public func captureFailedRequest(_ request: Foundation.URLRequest, response: Foundation.URLResponse?, responseData: Foundation.Data?, completion: ((Foundation.Data?, Foundation.URLResponse?, (any Swift.Error)?) -> Swift.Void)? = nil)
+}
+@objc public class SentryConfig : ObjectiveC.NSObject {
+  public enum Environment : Swift.String {
+    case SBX
+    case PRO
+    case STG
+    case QAT
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public init(userId: Swift.String, environment: SwiftSentryClient.SentryConfig.Environment)
+  @objc deinit
+}
+extension SwiftSentryClient.SentryConfig.Environment : Swift.Equatable {}
+extension SwiftSentryClient.SentryConfig.Environment : Swift.Hashable {}
+extension SwiftSentryClient.SentryConfig.Environment : Swift.RawRepresentable {}

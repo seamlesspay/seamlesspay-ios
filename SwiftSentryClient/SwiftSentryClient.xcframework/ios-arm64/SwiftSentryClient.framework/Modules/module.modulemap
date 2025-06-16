@@ -1,0 +1,6 @@
+framework module SwiftSentryClient {
+  umbrella header "SwiftSentryClient.h"
+  export *
+
+  module * { export * }
+}
