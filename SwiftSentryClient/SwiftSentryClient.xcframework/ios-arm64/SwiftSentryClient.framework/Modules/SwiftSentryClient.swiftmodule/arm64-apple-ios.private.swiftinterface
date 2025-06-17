@@ -8,28 +8,28 @@ import UIKit
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
-@objc @_hasMissingDesignatedInitializers public class SentryClient : ObjectiveC.NSObject {
-  @objc deinit
+@_spi(SeamlessPaySentry) @objc @_hasMissingDesignatedInitializers public class SentryClient : ObjectiveC.NSObject {
+  @_spi(SeamlessPaySentry) @objc deinit
 }
-extension SwiftSentryClient.SentryClient {
-  public static func makeWith(configuration: SwiftSentryClient.SentryConfig) -> SwiftSentryClient.SentryClient?
-  public func captureFailedRequest(_ request: Foundation.URLRequest, response: Foundation.URLResponse?, responseData: Foundation.Data?, completion: ((Foundation.Data?, Foundation.URLResponse?, (any Swift.Error)?) -> Swift.Void)? = nil)
+@_spi(SeamlessPaySentry) extension SwiftSentryClient.SentryClient {
+  @_spi(SeamlessPaySentry) public static func makeWith(configuration: SwiftSentryClient.SentryConfig) -> SwiftSentryClient.SentryClient?
+  @_spi(SeamlessPaySentry) public func captureFailedRequest(_ request: Foundation.URLRequest, response: Foundation.URLResponse?, responseData: Foundation.Data?, completion: ((Foundation.Data?, Foundation.URLResponse?, (any Swift.Error)?) -> Swift.Void)? = nil)
 }
-@objc public class SentryConfig : ObjectiveC.NSObject {
-  public enum Environment : Swift.String {
-    case SBX
-    case PRO
-    case STG
-    case QAT
-    public init?(rawValue: Swift.String)
-    public typealias RawValue = Swift.String
-    public var rawValue: Swift.String {
-      get
+@_spi(SeamlessPaySentry) @objc public class SentryConfig : ObjectiveC.NSObject {
+  @_spi(SeamlessPaySentry) public enum Environment : Swift.String {
+    @_spi(SeamlessPaySentry) case SBX
+    @_spi(SeamlessPaySentry) case PRO
+    @_spi(SeamlessPaySentry) case STG
+    @_spi(SeamlessPaySentry) case QAT
+    @_spi(SeamlessPaySentry) public init?(rawValue: Swift.String)
+    @_spi(SeamlessPaySentry) public typealias RawValue = Swift.String
+    @_spi(SeamlessPaySentry) public var rawValue: Swift.String {
+      @_spi(SeamlessPaySentry) get
     }
   }
-  public init(userId: Swift.String, environment: SwiftSentryClient.SentryConfig.Environment)
-  @objc deinit
+  @_spi(SeamlessPaySentry) public init(userId: Swift.String, environment: SwiftSentryClient.SentryConfig.Environment)
+  @_spi(SeamlessPaySentry) @objc deinit
 }
-extension SwiftSentryClient.SentryConfig.Environment : Swift.Equatable {}
-extension SwiftSentryClient.SentryConfig.Environment : Swift.Hashable {}
-extension SwiftSentryClient.SentryConfig.Environment : Swift.RawRepresentable {}
+@_spi(SeamlessPaySentry) extension SwiftSentryClient.SentryConfig.Environment : Swift.Equatable {}
+@_spi(SeamlessPaySentry) extension SwiftSentryClient.SentryConfig.Environment : Swift.Hashable {}
+@_spi(SeamlessPaySentry) extension SwiftSentryClient.SentryConfig.Environment : Swift.RawRepresentable {}

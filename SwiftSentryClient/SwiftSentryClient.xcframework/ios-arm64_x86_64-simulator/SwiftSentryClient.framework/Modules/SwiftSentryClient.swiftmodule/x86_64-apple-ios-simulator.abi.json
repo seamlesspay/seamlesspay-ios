@@ -73,6 +73,9 @@
               "ObjC",
               "Override"
             ],
+            "spi_group_names": [
+              "SeamlessPaySentry"
+            ],
             "init_kind": "Designated"
           },
           {
@@ -110,6 +113,9 @@
               "Final"
             ],
             "isFromExtension": true,
+            "spi_group_names": [
+              "SeamlessPaySentry"
+            ],
             "funcSelfKind": "NonMutating"
           },
           {
@@ -232,6 +238,9 @@
             "mangledName": "$s17SwiftSentryClient0bC0C20captureFailedRequest_8response0G4Data10completiony10Foundation10URLRequestV_So13NSURLResponseCSgAH0H0VSgyAP_AMs5Error_pSgtcSgtF",
             "moduleName": "SwiftSentryClient",
             "isFromExtension": true,
+            "spi_group_names": [
+              "SeamlessPaySentry"
+            ],
             "funcSelfKind": "NonMutating"
           }
         ],
@@ -241,7 +250,11 @@
         "moduleName": "SwiftSentryClient",
         "declAttributes": [
           "AccessControl",
+          "SPIAccessControl",
           "ObjC"
+        ],
+        "spi_group_names": [
+          "SeamlessPaySentry"
         ],
         "superclassUsr": "c:objc(cs)NSObject",
         "hasMissingDesignatedInitializers": true,
@@ -369,7 +382,10 @@
                 "declKind": "EnumElement",
                 "usr": "s:17SwiftSentryClient0B6ConfigC11EnvironmentO3SBXyA2EmF",
                 "mangledName": "$s17SwiftSentryClient0B6ConfigC11EnvironmentO3SBXyA2EmF",
-                "moduleName": "SwiftSentryClient"
+                "moduleName": "SwiftSentryClient",
+                "spi_group_names": [
+                  "SeamlessPaySentry"
+                ]
               },
               {
                 "kind": "Var",
@@ -406,7 +422,10 @@
                 "declKind": "EnumElement",
                 "usr": "s:17SwiftSentryClient0B6ConfigC11EnvironmentO3PROyA2EmF",
                 "mangledName": "$s17SwiftSentryClient0B6ConfigC11EnvironmentO3PROyA2EmF",
-                "moduleName": "SwiftSentryClient"
+                "moduleName": "SwiftSentryClient",
+                "spi_group_names": [
+                  "SeamlessPaySentry"
+                ]
               },
               {
                 "kind": "Var",
@@ -443,7 +462,10 @@
                 "declKind": "EnumElement",
                 "usr": "s:17SwiftSentryClient0B6ConfigC11EnvironmentO3STGyA2EmF",
                 "mangledName": "$s17SwiftSentryClient0B6ConfigC11EnvironmentO3STGyA2EmF",
-                "moduleName": "SwiftSentryClient"
+                "moduleName": "SwiftSentryClient",
+                "spi_group_names": [
+                  "SeamlessPaySentry"
+                ]
               },
               {
                 "kind": "Var",
@@ -480,7 +502,10 @@
                 "declKind": "EnumElement",
                 "usr": "s:17SwiftSentryClient0B6ConfigC11EnvironmentO3QATyA2EmF",
                 "mangledName": "$s17SwiftSentryClient0B6ConfigC11EnvironmentO3QATyA2EmF",
-                "moduleName": "SwiftSentryClient"
+                "moduleName": "SwiftSentryClient",
+                "spi_group_names": [
+                  "SeamlessPaySentry"
+                ]
               },
               {
                 "kind": "Constructor",
@@ -513,6 +538,9 @@
                 "mangledName": "$s17SwiftSentryClient0B6ConfigC11EnvironmentO8rawValueAESgSS_tcfc",
                 "moduleName": "SwiftSentryClient",
                 "implicit": true,
+                "spi_group_names": [
+                  "SeamlessPaySentry"
+                ],
                 "init_kind": "Designated"
               },
               {
@@ -532,6 +560,9 @@
                 "mangledName": "$s17SwiftSentryClient0B6ConfigC11EnvironmentO8rawValueSSvp",
                 "moduleName": "SwiftSentryClient",
                 "implicit": true,
+                "spi_group_names": [
+                  "SeamlessPaySentry"
+                ],
                 "accessors": [
                   {
                     "kind": "Accessor",
@@ -550,6 +581,9 @@
                     "mangledName": "$s17SwiftSentryClient0B6ConfigC11EnvironmentO8rawValueSSvg",
                     "moduleName": "SwiftSentryClient",
                     "implicit": true,
+                    "spi_group_names": [
+                      "SeamlessPaySentry"
+                    ],
                     "accessorKind": "get"
                   }
                 ]
@@ -561,6 +595,9 @@
             "moduleName": "SwiftSentryClient",
             "declAttributes": [
               "AccessControl"
+            ],
+            "spi_group_names": [
+              "SeamlessPaySentry"
             ],
             "enumRawTypeName": "String",
             "conformances": [
@@ -647,6 +684,9 @@
             "declAttributes": [
               "AccessControl"
             ],
+            "spi_group_names": [
+              "SeamlessPaySentry"
+            ],
             "init_kind": "Designated"
           },
           {
@@ -673,6 +713,9 @@
               "ObjC",
               "Override"
             ],
+            "spi_group_names": [
+              "SeamlessPaySentry"
+            ],
             "init_kind": "Designated"
           }
         ],
@@ -682,7 +725,11 @@
         "moduleName": "SwiftSentryClient",
         "declAttributes": [
           "AccessControl",
+          "SPIAccessControl",
           "ObjC"
+        ],
+        "spi_group_names": [
+          "SeamlessPaySentry"
         ],
         "superclassUsr": "c:objc(cs)NSObject",
         "superclassNames": [
@@ -826,28 +873,28 @@
     {
       "filePath": "\/Users\/pasashque\/Work\/Seam\/swift-sentry-client\/SwiftSentryClient\/SentryClient.swift",
       "kind": "StringLiteral",
-      "offset": 422,
+      "offset": 447,
       "length": 51,
       "value": "\"com.seamlesspay.sentryclient.\""
     },
     {
       "filePath": "\/Users\/pasashque\/Work\/Seam\/swift-sentry-client\/SwiftSentryClient\/SentryClient.swift",
       "kind": "StringLiteral",
-      "offset": 472,
+      "offset": 497,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/pasashque\/Work\/Seam\/swift-sentry-client\/SwiftSentryClient\/SentryClient.swift",
       "kind": "StringLiteral",
-      "offset": 555,
+      "offset": 580,
       "length": 51,
       "value": "\"com.seamlesspay.sentryclient.\""
     },
     {
       "filePath": "\/Users\/pasashque\/Work\/Seam\/swift-sentry-client\/SwiftSentryClient\/SentryClient.swift",
       "kind": "StringLiteral",
-      "offset": 605,
+      "offset": 630,
       "length": 2,
       "value": "\"\""
     },

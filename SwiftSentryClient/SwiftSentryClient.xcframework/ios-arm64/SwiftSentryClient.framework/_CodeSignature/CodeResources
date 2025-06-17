@@ -14,11 +14,11 @@
 		</data>
 		<key>Modules/SwiftSentryClient.swiftmodule/arm64-apple-ios.abi.json</key>
 		<data>
-		7OHSTX1ufU3KRtpfc7ehUXV6aCA=
+		CsTSmp1nqraLYy4Guqv/qCScZIY=
 		</data>
 		<key>Modules/SwiftSentryClient.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<data>
-		uEyNs81YeWCRfRAanbrSCTVP7yg=
+		W57Up0hjKaBP1f2BdH42EXGkPiw=
 		</data>
 		<key>Modules/SwiftSentryClient.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
@@ -26,11 +26,11 @@
 		</data>
 		<key>Modules/SwiftSentryClient.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<data>
-		uEyNs81YeWCRfRAanbrSCTVP7yg=
+		bkn1cPW6ueM8oVziTzbvoWKqZmo=
 		</data>
 		<key>Modules/SwiftSentryClient.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		M2Nq/DvY1mC0y0A2tDCypCZ6BNA=
+		Ab3W2d+L2tnOPNOzHg4IxlMBuTU=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -50,14 +50,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			FKnImAPzW7ErjCW/xQ4bsqIrByZXdjDJS3oXmwgDjys=
+			DVGbTjktr1RShj9YAj9UbZgtA64dxD5crIoxZrlgTY8=
 			</data>
 		</dict>
 		<key>Modules/SwiftSentryClient.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			QeIoNkMq7XJxY6/DKVoDV0YOOp+8ZYWCP09i8Xg7md0=
+			6rlWgk5ddoHPy/vdL3NrHt4tb8o4ueZejEnptxbK1J0=
 			</data>
 		</dict>
 		<key>Modules/SwiftSentryClient.swiftmodule/arm64-apple-ios.swiftdoc</key>
@@ -71,14 +71,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			QeIoNkMq7XJxY6/DKVoDV0YOOp+8ZYWCP09i8Xg7md0=
+			6IFRiju6ttJAiy/xP4MrqcS8j6om2zBncRH74bHuhV4=
 			</data>
 		</dict>
 		<key>Modules/SwiftSentryClient.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			X4mZBbgo7k5lAlvAjzSz2bWqcO/Lrii77WUfJx6SroU=
+			tADQIuG1/JcDJNzgXfJE4grTJwbTWNLdgY1k57Ueu58=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

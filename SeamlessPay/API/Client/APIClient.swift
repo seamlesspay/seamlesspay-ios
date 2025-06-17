@@ -6,7 +6,7 @@
 // *
 
 import Foundation
-import SwiftSentryClient
+@_spi(SeamlessPaySentry) import SwiftSentryClient
 
 public class APIClient {
   // MARK: Private Constants
@@ -555,16 +555,16 @@ private extension APIClient {
       }
     }
     
-    #if DEBUG // Initialize sentry client only for release builds
-      return nil
-    #else
+//    #if DEBUG // Initialize sentry client only for release builds
+//      return nil
+//    #else
       return SentryClient.makeWith(
         configuration: .init(
           userId: SPInstallation.installationID,
           environment: toSPSentryConfigEnvironment(environment: environment)
         )
       )
-    #endif
+//    #endif
   }
 
   func trackFailedRequest(
