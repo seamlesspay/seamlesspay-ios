@@ -22,7 +22,7 @@ public class LineTextField: SPFormTextField {
   // MARK: - UI Components
   let floatingPlaceholderLabel = UILabel()
   let errorLabel = UILabel()
-  private let backgroundFrameLayer = CALayer()
+  private let backgroundFrameLayer = CAShapeLayer()
 
   // MARK: - Appearance Configuration
   public struct AppearanceConfiguration {
@@ -65,7 +65,7 @@ public class LineTextField: SPFormTextField {
 
     // Sizes
     var cornerRadius: CGFloat = 5.0
-    var borderWidth: CGFloat = 1.0
+    var borderWidth: CGFloat = 0.5
 
     // Font
     var textFont: UIFont = .systemFont(ofSize: 16, weight: .regular)
@@ -276,6 +276,9 @@ public class LineTextField: SPFormTextField {
   }
 
   private func setupBackgroundLayer() {
+    backgroundFrameLayer.contentsScale = UIScreen.main.scale
+    backgroundFrameLayer.lineJoin = .round
+    backgroundFrameLayer.lineCap = .round
     layer.insertSublayer(backgroundFrameLayer, at: 0)
   }
 
@@ -320,9 +323,18 @@ public class LineTextField: SPFormTextField {
     backgroundFrameLayer.frame = CGRect(
       x: 0,
       y: 0,
-      width: frame.width,
-      height: frame.height - errorMessageHeight - Constants.paddingYElements
+      width: bounds.width,
+      height: bounds.height - errorMessageHeight - Constants.paddingYElements
     )
+
+    let lineWidth = appearance.borderWidth
+    let rect = backgroundFrameLayer.bounds.insetBy(dx: lineWidth / 2, dy: lineWidth / 2)
+    
+    backgroundFrameLayer.path = UIBezierPath(
+      roundedRect: rect,
+      cornerRadius: appearance.cornerRadius
+    ).cgPath
+    backgroundFrameLayer.lineWidth = lineWidth
   }
 
   private func updatePlaceholders() {
@@ -397,8 +409,9 @@ public class LineTextField: SPFormTextField {
 // MARK: - Appearance
 extension LineTextField {
   func updateAppearance() {
-    backgroundFrameLayer.cornerRadius = appearance.cornerRadius
-    backgroundFrameLayer.borderWidth = appearance.borderWidth
+    // Update background layer
+    updateBackgroundLayer()
+
     font = appearance.textFont
     errorLabel.font = appearance.errorFont
 
@@ -415,8 +428,8 @@ extension LineTextField {
 
     switch (isFirstResponder, isFieldValid) {
     case (true, true): // focus and valid
-      backgroundFrameLayer.borderColor = appearance.borderFocusValidColor.cgColor
-      backgroundFrameLayer.backgroundColor = appearance.backgroundFocusValidColor.cgColor
+      backgroundFrameLayer.strokeColor = appearance.borderFocusValidColor.cgColor
+      backgroundFrameLayer.fillColor = appearance.backgroundFocusValidColor.cgColor
 
       floatingPlaceholderLabel.textColor = appearance.placeholderFocusValidColor
 
@@ -424,8 +437,8 @@ extension LineTextField {
       tintColor = appearance.tintValidColor
       textColor = appearance.textFocusValidColor
     case (true, false): // focus and invalid
-      backgroundFrameLayer.borderColor = appearance.borderFocusInvalidColor.cgColor
-      backgroundFrameLayer.backgroundColor = appearance.backgroundFocusInvalidColor.cgColor
+      backgroundFrameLayer.strokeColor = appearance.borderFocusInvalidColor.cgColor
+      backgroundFrameLayer.fillColor = appearance.backgroundFocusInvalidColor.cgColor
 
       floatingPlaceholderLabel.textColor = appearance.placeholderFocusInvalidColor
 
@@ -433,8 +446,8 @@ extension LineTextField {
       tintColor = appearance.tintInvalidColor
       textColor = appearance.textFocusInvalidColor
     case (false, true): // not focus and valid
-      backgroundFrameLayer.borderColor = appearance.borderInactiveColor.cgColor
-      backgroundFrameLayer.backgroundColor = appearance.backgroundInactiveColor.cgColor
+      backgroundFrameLayer.strokeColor = appearance.borderInactiveColor.cgColor
+      backgroundFrameLayer.fillColor = appearance.backgroundInactiveColor.cgColor
 
       floatingPlaceholderLabel.textColor = appearance.placeholderInactiveColor
 
@@ -442,8 +455,8 @@ extension LineTextField {
       tintColor = appearance.tintValidColor
       textColor = appearance.textInactiveColor
     case (false, false): // not focus and invalid
-      backgroundFrameLayer.borderColor = appearance.borderInvalidColor.cgColor
-      backgroundFrameLayer.backgroundColor = appearance.backgroundInvalidColor.cgColor
+      backgroundFrameLayer.strokeColor = appearance.borderInvalidColor.cgColor
+      backgroundFrameLayer.fillColor = appearance.backgroundInvalidColor.cgColor
 
       floatingPlaceholderLabel.textColor = appearance.placeholderInvalidColor
 
