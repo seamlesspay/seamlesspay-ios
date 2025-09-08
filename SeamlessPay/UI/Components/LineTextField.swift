@@ -375,19 +375,21 @@ public class LineTextField: SPFormTextField {
       height: height
     )
     
-    let animationDuration = animated ? Constants.animationDuration : 0
-
-    UIView.animate(
-      withDuration: animationDuration,
-      delay: 0,
-      options: [.beginFromCurrentState, .curveEaseIn],
-      animations: {
-        self.floatingPlaceholderLabel.frame = newFrame
-      },
-      completion: { _ in
-        self.layoutIfNeeded()
-      }
-    )
+    if animated {
+      UIView.animate(
+        withDuration: Constants.animationDuration,
+        delay: 0,
+        options: [.beginFromCurrentState, .curveEaseIn],
+        animations: {
+          self.floatingPlaceholderLabel.frame = newFrame
+        },
+        completion: { _ in
+          self.layoutIfNeeded()
+        }
+      )
+    } else {
+      floatingPlaceholderLabel.frame = newFrame
+    }
   }
 
   private func updateStaticPlaceholder() {
