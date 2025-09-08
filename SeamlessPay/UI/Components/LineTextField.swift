@@ -173,7 +173,7 @@ public class LineTextField: SPFormTextField {
   override public func layoutSubviews() {
     super.layoutSubviews()
     if !isFirsResponderTransition {
-      updatePlaceholders()
+      updatePlaceholders(animated: false)
     }
     updateErrorLabel()
     updateBackgroundLayer()
@@ -294,7 +294,7 @@ public class LineTextField: SPFormTextField {
 
   private func handleResponderTransition() {
     isFirsResponderTransition = true
-    updatePlaceholders()
+    updatePlaceholders(animated: true)
     updateAppearance()
     isFirsResponderTransition = false
   }
@@ -337,13 +337,54 @@ public class LineTextField: SPFormTextField {
     backgroundFrameLayer.lineWidth = lineWidth
   }
 
-  private func updatePlaceholders() {
-    updateFloatingPlaceholder()
+  private func updatePlaceholders(animated: Bool) {
+    updateFloatingPlaceholder(animated: animated)
     updateStaticPlaceholder()
   }
 
-  private func updateFloatingPlaceholder() {
-    toggleFloatingPlaceholder(toFloat: placeholderShouldFloat)
+  private func updateFloatingPlaceholder(animated: Bool) {
+    // Update font
+    if placeholderShouldFloat {
+      floatingPlaceholderLabel.font = appearance.floatingPlaceholderFont
+    } else {
+      floatingPlaceholderLabel.font = appearance.placeholderFont
+    }
+    
+    // Update frame
+    let originY: CGFloat
+    
+    let height = calculatePlaceholderHeightForStateChange()
+
+    if placeholderShouldFloat {
+      originY = Constants.paddingYFloatLabel
+    } else {
+      originY = (
+        frame.height - height - errorMessageHeight - Constants.paddingYElements
+      ) / 2
+    }
+
+    let newFrame = CGRect(
+      x: originX,
+      y: originY,
+      width: floatingPlaceholderWidth,
+      height: height
+    )
+
+    if animated {
+      UIView.animate(
+        withDuration: Constants.animationDuration,
+        delay: 0,
+        options: [.beginFromCurrentState, .curveEaseIn],
+        animations: {
+          self.floatingPlaceholderLabel.frame = newFrame
+        },
+        completion: { _ in
+          self.layoutIfNeeded()
+        }
+      )
+    } else {
+      floatingPlaceholderLabel.frame = newFrame
+    }
   }
 
   private func updateStaticPlaceholder() {
@@ -371,38 +412,6 @@ public class LineTextField: SPFormTextField {
       limitedToNumberOfLines: 1
     )
     .height
-  }
-  
-  private func toggleFloatingPlaceholder(toFloat: Bool) {
-    let originY: CGFloat
-    let height = calculatePlaceholderHeightForStateChange()
-
-    if toFloat {
-      originY = Constants.paddingYFloatLabel
-    } else {
-      originY = (
-        frame.height - height - errorMessageHeight - Constants.paddingYElements
-      ) / 2
-    }
-
-    let newFrame = CGRect(
-      x: originX,
-      y: originY,
-      width: floatingPlaceholderWidth,
-      height: height
-    )
-
-    UIView.animate(
-      withDuration: Constants.animationDuration,
-      delay: 0,
-      options: [.beginFromCurrentState, .curveEaseIn],
-      animations: {
-        self.floatingPlaceholderLabel.frame = newFrame
-      },
-      completion: { _ in
-        self.layoutIfNeeded()
-      }
-    )
   }
 }
 
