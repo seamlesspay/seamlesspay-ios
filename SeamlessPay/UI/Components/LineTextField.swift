@@ -93,8 +93,11 @@ public class LineTextField: SPFormTextField {
   var errorMessage: String? {
     get { errorLabel.text }
     set {
-      errorLabel.text = newValue
-      updateAppearance()
+      // Changed error message and update appearance only if the error message is different
+      if errorLabel.text != newValue {
+        errorLabel.text = newValue
+        updateAppearance()
+      }
     }
   }
 
@@ -172,9 +175,7 @@ public class LineTextField: SPFormTextField {
   // MARK: Layout
   override public func layoutSubviews() {
     super.layoutSubviews()
-    if !isFirsResponderTransition {
-      updatePlaceholders(animated: false)
-    }
+    updatePlaceholders(animated: isFirsResponderTransition)
     updateErrorLabel()
     updateBackgroundLayer()
   }
@@ -301,7 +302,6 @@ public class LineTextField: SPFormTextField {
 
   private func handleResponderTransition() {
     isFirsResponderTransition = true
-    updatePlaceholders(animated: true)
     updateAppearance()
     isFirsResponderTransition = false
   }
@@ -356,18 +356,16 @@ public class LineTextField: SPFormTextField {
     } else {
       floatingPlaceholderLabel.font = appearance.placeholderFont
     }
-    
+
     // Update frame
     let originY: CGFloat
-    
-    let height = calculatePlaceholderHeightForStateChange()
+
+    let height = floatingPlaceholderLabel.font.lineHeight
 
     if placeholderShouldFloat {
       originY = Constants.paddingYFloatLabel
     } else {
-      originY = (
-        frame.height - height - errorMessageHeight - Constants.paddingYElements
-      ) / 2
+      originY = (frame.height - height - errorMessageHeight - Constants.paddingYElements) / 2
     }
 
     let newFrame = CGRect(
@@ -376,8 +374,9 @@ public class LineTextField: SPFormTextField {
       width: floatingPlaceholderWidth,
       height: height
     )
-    let animationDuration = animated ? Constants.animationDuration : 0
     
+    let animationDuration = animated ? Constants.animationDuration : 0
+
     UIView.animate(
       withDuration: animationDuration,
       delay: 0,
@@ -395,28 +394,6 @@ public class LineTextField: SPFormTextField {
     let showPlaceholder = isEditing && (text?.isEmpty ?? true)
     super.placeholder = showPlaceholder ? _placeholder : .none
   }
-
-  private func calculatePlaceholderHeightForStateChange() -> CGFloat {
-    // Create a label with the same properties as the floating placeholder label after the state
-    // change
-    let label = UILabel()
-    label.numberOfLines = floatingPlaceholderLabel.numberOfLines
-    label.text = floatingPlaceholderLabel.text
-    label.font = placeholderShouldFloat
-      ? appearance.floatingPlaceholderFont
-      : appearance.placeholderFont
-
-    let maxSize = CGSize(
-      width: CGFloat.greatestFiniteMagnitude,
-      height: CGFloat.greatestFiniteMagnitude
-    )
-
-    return label.textRect(
-      forBounds: CGRect(origin: .zero, size: maxSize),
-      limitedToNumberOfLines: 1
-    )
-    .height
-  }
 }
 
 // MARK: - Appearance
@@ -432,12 +409,6 @@ extension LineTextField {
 
     errorLabel.textColor = appearance.errorColor
     placeholderColor = appearance.placeholderInactiveColor
-
-    if placeholderShouldFloat {
-      floatingPlaceholderLabel.font = appearance.floatingPlaceholderFont
-    } else {
-      floatingPlaceholderLabel.font = appearance.placeholderFont
-    }
 
     switch (isFirstResponder, isFieldValid) {
     case (true, true): // focus and valid
