@@ -65,7 +65,7 @@ public class LineTextField: SPFormTextField {
 
     // Sizes
     var cornerRadius: CGFloat = 5.0
-    var borderWidth: CGFloat = 0.5
+    var borderWidth: CGFloat = 1.0
 
     // Font
     var textFont: UIFont = .systemFont(ofSize: 16, weight: .regular)
