@@ -249,12 +249,12 @@ public class LineTextField: SPFormTextField {
     )
   }
 
-   override public func caretRect(for position: UITextPosition) -> CGRect {
-     var rect = super.caretRect(for: position)
-     rect.origin.y += Constants.paddingYElements
-     rect.size.height -= Constants.paddingYElements * 2
-     return rect
-   }
+  override public func caretRect(for position: UITextPosition) -> CGRect {
+    var rect = super.caretRect(for: position)
+    rect.origin.y += Constants.paddingYElements
+    rect.size.height -= Constants.paddingYElements * 2
+    return rect
+  }
 
   // MARK: - Initialization
   public required init?(coder aDecoder: NSCoder) {
