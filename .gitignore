@@ -1,8 +1,16 @@
 
 .DS_Store
-
 build
+codecov
+*.xcuserdata
+.vscode/settings.json
+Brewfile.lock.json
 
-*.xcuserdatad
+/.build
+/Packages
+/*.xcodeproj
+xcuserdata/
+DerivedData/
+.netrc
 
-SeamlessPayCoreTests.xcscheme
+.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata

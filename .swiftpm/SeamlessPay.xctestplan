@@ -1,0 +1,33 @@
+{
+  "configurations" : [
+    {
+      "id" : "0E0DAE8C-2685-439A-BC5C-B73A70759485",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "SeamlessPayTests",
+        "name" : "SeamlessPayTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "SeamlessPayTestsObjC",
+        "name" : "SeamlessPayTestsObjC"
+      }
+    }
+  ],
+  "version" : 1
+}

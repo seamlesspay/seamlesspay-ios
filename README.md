@@ -1,344 +1,46 @@
-# SeamlessPayCore
+# SeamlessPay iOS
 
-*The Seamless Payments iOS SDK makes it quick and easy to build an excellent payment experience in your iOS app.*
+## Overview
 
-Our framework provides elements that can be used out-of-the-box to collect your users' payment details. We also expose the low-level APIs that power those UIs so that you can build fully custom experiences. Additionally, a low-level `SPAPIClient` is included which corresponds to resources and methods in the Seamless Payments API, so that you can build any custom functionality on top of this layer while still taking advantage of utilities from the `SeamlessPayCore` framework.
+SeamlessPay iOS provides ready-to-use UI components for collecting user payment details and processing payments. It also gives access to the underlying APIs that power these interfaces, allowing the development of completely customized experiences.`SeamlessPay` framework.
 
-## Native UI Elements
+Start with the [📚 integration guide](https://docs.seamlesspay.com/ios-sdk).
 
-`SPPaymentCardTextField` is a text field with similar properties to `UITextField`, but it is specialized for collecting credit/debit card information. It manages multiple `UITextFields` under the hood in order to collect this information seamlessly from users. It's designed to fit on a single line, and from a design perspective can be used anywhere a `UITextField` would be appropriate.
+## Prepare Development Environment
 
-#### Example UI
+Install the necessary dependencies using Brew
 
-![image](https://github.com/seamlesspay/seamlesspay-ios/blob/dev/files/card-field.gif)
+`brew bundle`
 
-*Requirements: The SeamlessPay iOS SDK requires Xcode 10.1 or later and is compatible with apps targeting iOS 11 or above.*
+## Switching SeamlessPay SDK Dependency Package Version from Remote to Local
 
-## Example
+In our iOS Example application, we use the Swift Package Manager (SPM) for managing dependencies. Sometimes, you might want to switch a dependency from a remote version to a local version for development and debugging purposes. Here’s how you can achieve this in our Example application.
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+### Steps to Switch to a Local Version
 
-## Installation
+#### Open Example app in Xcode
 
-SeamlessPayCore is available through [CocoaPods](https://cocoapods.org). To install, simply add the following line to your Podfile:
+- Open the **ios-sdk-example.xcodeproj** file of the Example application in Xcode.
 
-```ruby
-pod 'SeamlessPayCore'
-```
+#### Navigate to Package Dependencies
 
-## Authentication
+- In the project navigator, select your project file to open the project settings.
 
-When your app starts, configure the SDK with your SeamlessPay publishable (you can get it on the API Keys page), so that it can make requests to the SeamlessPay API.
+- Go to the Package Dependencies tab to view the list of currently integrated packages.
 
-Using only Publishable Key for a single page apps without their own backend. In this case you will be able to do /v1/charge only.
-Using a Secret Key allows you using all transaction's methods (e.g. /v1/charge, /v1/refund, /v1/void).
+#### Remove reference to the Remote Location
 
-Objective-C:
+- Select the SeamlessPay package. Click the - button and confirm that you want to remove the package.
 
-```objective-c
+#### Add the Local Package
 
-AppDelegate.m
-  #import "AppDelegate.h"
-  @import SeamlessPayCore;
-  
-  @implementation AppDelegate
-  - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-      [[SPAPIClient getSharedInstance]
-        setSecretKey:@"sk_XXXXXXXXXXXXXXXXXXXXXXXXXX" // can be nil
-        publicKey:@"pk_XXXXXXXXXXXXXXXXXXXXXXXXXX"
-        sandbox: TRUE];
-      // do any other necessary launch configuration
-      return YES;
-  }
-  @end
+- Click the + button at the bottom of the Package Dependencies tab.
 
-```
+- In the dialog that appears, click Add Local...
 
-Swift:
+- Navigate to the local path where you cloned the package repository, and select the package directory.
 
-```swift
-import SeamlessPayCore
+#### Build and Run
 
-@UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-    func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-
-        SPAPIClient.getSharedInstance()?.setSecretKey(@"sk_XXXXXXXXXXXXXXXXXXXXXXXXXX", // can be nil
-                                                      publishableKey: "pk_XXXXXXXXXXXXXXXXXXXXXXXXXX",
-                                                      sandbox: true)
-
-        return true
-    }
-}
-
-```
-
-## Create Payment Form
-
-Securely collect card information on the client with SPPaymentCardTextField, a drop-in UI component provided by the SDK. Create an instance of the card component and a Pay button with the following code:
-
-Objective-C:
-
-```objective-c
-CheckoutViewController.m
-
-#import "CheckoutViewController.h"
-@import SeamlessPayCore;
-
-@interface CheckoutViewController ()
-@property (weak) SPPaymentCardTextField *cardTextField;
-@property (weak) UIButton *payButton;
-@end
-
-@implementation CheckoutViewController
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
-    SPPaymentCardTextField *cardTextField = [[SPPaymentCardTextField alloc] init];
-    self.cardTextField = cardTextField;
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.layer.cornerRadius = 5;
-    button.backgroundColor = [UIColor systemBlueColor];
-    button.titleLabel.font = [UIFont systemFontOfSize:22];
-    [button setTitle:@"Pay" forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(pay) forControlEvents:UIControlEventTouchUpInside];
-    self.payButton = button;
-    UIStackView *stackView = [[UIStackView alloc] initWithArrangedSubviews:@[cardTextField, button]];
-    stackView.axis = UILayoutConstraintAxisVertical;
-    stackView.translatesAutoresizingMaskIntoConstraints = FALSE;
-    stackView.spacing = 20;
-    [self.view addSubview:stackView];
-    [NSLayoutConstraint activateConstraints:@[
-        [stackView.leftAnchor constraintEqualToSystemSpacingAfterAnchor:self.view.leftAnchor multiplier:2],
-        [self.view.rightAnchor constraintEqualToSystemSpacingAfterAnchor:stackView.rightAnchor multiplier:2],
-        [stackView.topAnchor constraintEqualToSystemSpacingBelowAnchor:self.view.topAnchor multiplier:20],
-    ]];
-}
-
-- (void)pay {
-
-    NSString *cardNumber = _cardTextField.cardNumber;
-    NSString *exp = _cardTextField.formattedExpirationDate;
-    NSString *cvc = _cardTextField.cvc;
-    NSString *zip = _cardTextField.postalCode;
-
-    NSLog(@"%@ %@ %@ %@",cardNumber,exp,cvc,zip);
-}
-@end
-```
-
-Swift:
-
-```swift
-CheckoutViewController.swift
-
-import UIKit
-
-import SeamlessPayCore
-
-class ViewController: UIViewController {
-    lazy var cardTextField: SPPaymentCardTextField = {
-        let cardTextField = SPPaymentCardTextField()
-        return cardTextField
-    }()
-
-    lazy var payButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.layer.cornerRadius = 5
-        button.backgroundColor = .systemBlue
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 22)
-        button.setTitle("Pay", for: .normal)
-        button.addTarget(self, action: #selector(pay), for: .touchUpInside)
-        return button
-    }()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-
-        view.backgroundColor = .white
-        let stackView = UIStackView(arrangedSubviews: [cardTextField, payButton])
-        stackView.axis = .vertical
-        stackView.spacing = 20
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(stackView)
-        NSLayoutConstraint.activate([
-            stackView.leftAnchor.constraint(equalToSystemSpacingAfter: view.leftAnchor, multiplier: 2),
-            view.rightAnchor.constraint(equalToSystemSpacingAfter: stackView.rightAnchor, multiplier: 2),
-            stackView.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 20),
-        ])
-    }
-
-    @objc
-    func pay() {
-        // ...
-    }
-}
-```
-
-## Create Payment Method and Charge
-
-When the user taps the pay button, convert the card information collected by STPPaymentCardTextField into a PaymentMethod token. Tokenization ensures that no sensitive card data ever needs to touch your server, so that your integration remains PCI compliant.
-After the client passes the token, pass its identifier as the source to create a charge with one SPAPIClient method -createChargeWithToken:
-
-Objective-C:
-
-```objective-c
-
-- (void)pay {
-
-  [[SPAPIClient getSharedInstance] createPaymentMethodWithType:@"CREDIT_CARD"
-      account:self.cardTextField.cardNumber
-      expDate:self.cardTextField.formattedExpirationDate
-      cvv:self.cardTextField.cvc
-      accountType:nil
-      routing:nil
-      pin:nil
-      address:nil
-      address2:nil
-      city:nil
-      country:nil
-      state:nil
-      zip:self.cardTextField.postalCode
-      company:nil
-      email:nil
-      phone:nil
-      name:@"IOS test"
-      nickname:nil
-      verification : TRUE
-      success:^(SPPaymentMethod *paymentMethod) {
-        [[SPAPIClient getSharedInstance]
-            createChargeWithToken:paymentMethod.token
-            cvv:self.cardTextField.cvc
-            capture: TRUE
-            currency:nil
-            amount:@"1"
-            taxAmount:nil
-            taxExempt: FALSE
-            tip:nil
-            surchargeFeeAmount:nil
-            scheduleIndicator:nil
-            description:@""
-            order:nil
-            orderId:nil
-            poNumber:nil
-            metadata:nil
-            descriptor:nil
-            txnEnv:nil
-            achType:nil
-            credentialIndicator:nil
-            transactionInitiation:nil
-            idempotencyKey:nil
-            needSendReceipt:false
-            success:^(SPCharge *charge) {
-         
-              // Success Charge:
-
-              NSString *success = [NSString
-                  stringWithFormat:@"Amount: $%@\nStatus: %@\nStatus message: "
-                                   @"%@\ntxnID #: %@",
-                                   charge.amount, charge.status,
-                                   charge.statusDescription, charge.chargeId];
-
-            }
-            failure:^(SPError *error) {
-
-             // Handle the error	
-      
-              NSString *err = [error localizedDescription];
-              
-            }];
-      }
-      failure:^(SPError *error) {
-      
-      	// Handle the error
-
-        NSString *err = [error localizedDescription];
-
-      }];
-}
-```
-
-Swift:
-
-```swift
-@objc
-    func pay() {
-        SPAPIClient.getSharedInstance()?.createPaymentMethod(
-            withType: "CREDIT_CARD",
-            account: cardTextField.cardNumber,
-            expDate: cardTextField.formattedExpirationDate,
-            cvv: self.cardTextField.cvc,
-            accountType: nil,
-            routing: nil,
-            pin: nil,
-            address: nil,
-            address2: nil,
-            city: nil,
-            country: nil,
-            state: nil,
-            zip: cardTextField.postalCode,
-            company: nil,
-            email: nil,
-            phone: nil,
-            name: nil,
-            nickname: nil,
-            verification: true,
-            success: { (paymentMethod: SPPaymentMethod?) in
-
-                let token = paymentMethod?.token
-
-                SPAPIClient.getSharedInstance()?.createCharge(
-                    withToken: token!,
-                    cvv: self.cardTextField.cvc,
-                    capture: true,
-                    currency: nil,
-                    amount: "1",
-                    taxAmount: nil,
-                    taxExempt: false,
-                    tip: nil,
-                    surchargeFeeAmount: nil,
-                    scheduleIndicator: nil,
-                    description: nil,
-                    order: nil,
-                    orderId: nil,
-                    poNumber: nil,
-                    metadata: nil,
-                    descriptor: nil,
-                    txnEnv: nil,
-                    achType: nil,
-                    credentialIndicator: nil,
-                    transactionInitiation: nil,
-                    idempotencyKey: nil,
-                    needSendReceipt: false,
-                    success: { (charge: SPCharge?) in
-
-                        // Success Charge:
-                        print(charge?.chargeId ?? "charge is nil")
-
-                    }, failure: { (error: SPError?) in
-
-                        // Handle the error
-                        print(error?.localizedDescription ?? "")
-                        return
-                    }
-                )
-
-            }, failure: { (error: SPError?) in
-
-                // Handle the error
-                print(error?.localizedDescription ?? "")
-                return
-            }
-        )
-    }
-```
-
-Start with [**'Demo APP'**](https://github.com/seamlesspay/seamlesspay-ios/tree/dev/Example) for sample on basic setup and usage.
-
-
-## License
-
-SeamlessPayCore is available under the MIT license. See the LICENSE file for more info.
+- Xcode will resolve the package and add it to your project.
+- Build and run your project to ensure that the local version of the package is being used.

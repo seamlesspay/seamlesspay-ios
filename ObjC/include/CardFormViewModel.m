@@ -1,0 +1,130 @@
+/**
+ * Copyright (c) Seamless Payments, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+#import "CardFormViewModel.h"
+#import "CardFormViewModel+FieldConfigs.h"
+#import "NSString+Extras.h"
+#import "SPCardValidator+Extras.h"
+
+@implementation CardFormViewModel
+
+@synthesize cvcDisplayConfig;
+@synthesize postalCodeDisplayConfig;
+
+- (instancetype)init {
+  self = [super init];
+  if (self) {
+
+    // Default display configuration
+    self.cvcDisplayConfig = DisplayConfigurationOptional;
+
+    // Default display configuration
+    self.postalCodeDisplayConfig = DisplayConfigurationOptional;
+  }
+  return self;
+}
+
+- (void)setCardNumber:(NSString *)cardNumber {
+  NSInteger maxLength = [SPCardValidator lengthForCardNumber:cardNumber];
+  NSString *sanitizedNumber = [SPCardValidator sanitizedNumericStringForString:cardNumber];
+  
+  _cardNumber = [sanitizedNumber sp_safeSubstringToIndex:maxLength];
+}
+
+// This might contain slashes.
+- (void)setRawExpiration:(NSString *)expiration {
+  NSString *sanitizedExpiration = [SPCardValidator sanitizedNumericStringForString:expiration];
+  self.expirationMonth = [sanitizedExpiration sp_safeSubstringToIndex:2];
+  self.expirationYear = [[sanitizedExpiration sp_safeSubstringFromIndex:2] sp_safeSubstringToIndex:2];
+}
+
+- (NSString *)rawExpiration {
+  NSMutableArray *array = [@[] mutableCopy];
+  if (self.expirationMonth && ![self.expirationMonth isEqualToString:@""]) {
+    [array addObject:self.expirationMonth];
+  }
+
+  if ([SPCardValidator validationStateForExpirationMonth:self.expirationMonth] == SPCardValidationStateValid) {
+    [array addObject:self.expirationYear];
+  }
+
+  return [array componentsJoinedByString:@"/"];
+}
+
+- (void)setExpirationMonth:(NSString *)expirationMonth {
+  NSString *sanitizedExpiration =
+  [SPCardValidator sanitizedNumericStringForString:expirationMonth];
+  if (sanitizedExpiration.length == 1 &&
+      ![sanitizedExpiration isEqualToString:@"0"] &&
+      ![sanitizedExpiration isEqualToString:@"1"]) {
+    sanitizedExpiration = [@"0" stringByAppendingString:sanitizedExpiration];
+  }
+  _expirationMonth = [sanitizedExpiration sp_safeSubstringToIndex:2];
+}
+
+- (void)setExpirationYear:(NSString *)expirationYear {
+  _expirationYear =
+  [[SPCardValidator sanitizedNumericStringForString:expirationYear] sp_safeSubstringToIndex:2];
+}
+
+- (void)setCvc:(NSString *)cvc {
+  NSInteger maxLength = [SPCardValidator maxCVCLengthForCardBrand:self.brand];
+  _cvc = [[SPCardValidator sanitizedNumericStringForString:cvc] sp_safeSubstringToIndex:maxLength];
+}
+
+- (void)setPostalCode:(NSString *)postalCode {
+  _postalCode = [postalCode sp_safeSubstringToIndex:SPCardValidator.postalCodeMaxLength];
+}
+
+- (SPCardBrand)brand {
+  return [SPCardValidator brandForNumber:self.cardNumber];
+}
+
+- (SPCardValidationState)validationStateForField:(SPCardFieldType)fieldType {
+  switch (fieldType) {
+    case SPCardFieldTypeNumber:
+      return [SPCardValidator validationStateForNumber:self.cardNumber];
+      break;
+    case SPCardFieldTypeExpiration: {
+      SPCardValidationState monthState = [SPCardValidator validationStateForExpirationMonth:self.expirationMonth];
+      SPCardValidationState yearState = [SPCardValidator validationStateForExpirationYear:self.expirationYear
+                                                                                  inMonth:self.expirationMonth];
+
+      if (monthState == SPCardValidationStateValid && yearState == SPCardValidationStateValid) {
+        return SPCardValidationStateValid;
+      } else if (monthState == SPCardValidationStateInvalid || yearState == SPCardValidationStateInvalid) {
+        return SPCardValidationStateInvalid;
+      } else {
+        return SPCardValidationStateIncomplete;
+      }
+      break;
+    }
+    case SPCardFieldTypeCVC:
+      return [SPCardValidator validationStateForCVC:self.cvc cardBrand:self.brand];
+    case SPCardFieldTypePostalCode:
+      return [SPCardValidator validationStateForPostalCode:self.postalCode];
+  }
+}
+
+- (BOOL)isFieldValid:(SPCardFieldType)fieldType {
+  return [self validationStateForField:fieldType] == SPCardValidationStateValid;
+}
+
+- (BOOL)isValid {
+  BOOL isNumberValid = [self isFieldValid:SPCardFieldTypeNumber];
+  BOOL isExpirationValid = [self isFieldValid:SPCardFieldTypeExpiration];
+  BOOL isCvcValid = !self.cvcRequired || [self isFieldValid:SPCardFieldTypeCVC];
+  BOOL isPostalCodeValid = !self.postalCodeRequired || [self isFieldValid:SPCardFieldTypePostalCode];
+
+  return isNumberValid && isExpirationValid && isCvcValid && isPostalCodeValid;
+}
+
+- (NSString *)defaultPlaceholder {
+  return @".... .... .... ....";
+}
+
+@end

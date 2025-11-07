@@ -1,20 +1,23 @@
+version: 2.1
+
 jobs:
-  build-and-test:
+  build:
     macos:
-      xcode: 11.3.1
-      working_directory: ~/seamlesspay-ios
+      xcode: 15.2.0
+    resource_class: macos.m1.medium.gen1
+    working_directory: ~/seamlesspay-ios
     steps:
       - checkout
       - run:
-        name: cd Example
-        comand: cd Example/
-      - run: 
-        name: Prepare schema
-        command: sed -i xcscheme 's/TEST_SECRET_KEY/${TEST_SECRET_KEY}/g' ./SeamlessPayCore.xcodeproj/xcshareddata/xcschemes/CISeamlessPayCoreTests.xcscheme
-      - run: sed -i xcscheme 's/TEST_PUBLIC_KEY/${TEST_PUBLIC_KEY}/g' ./SeamlessPayCore.xcodeproj/xcshareddata/xcschemes/CISeamlessPayCoreTests.xcscheme
-      - run:
-        name: Build app for testing 
-        command: xcodebuild build-for-testing -workspace SeamlessPayCore.xcworkspace -scheme CISeamlessPayCoreTests -destination 'platform=iOS Simulator,name=iPhone 8,OS=13.3'
-      - run: 
-        name: Run tests
-        command: xcodebuild test -workspace SeamlessPayCore.xcworkspace -scheme CISeamlessPayCoreTests -destination 'platform=iOS Simulator,name=iPhone 8,OS=13.3'  
+          name: Run tests for the Package
+          no_output_timeout: 5m
+          command: |
+            xcodebuild \
+              -workspace ./.swiftpm/xcode/package.xcworkspace \
+              -scheme SeamlessPay \
+              -sdk iphonesimulator \
+              -destination 'platform=iOS Simulator,name=iPhone 15' \
+              -enableCodeCoverage YES \
+              CODE_SIGN_IDENTITY="" \
+              CODE_SIGNING_REQUIRED=NO \
+              test

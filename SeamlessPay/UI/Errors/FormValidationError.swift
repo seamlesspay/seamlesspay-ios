@@ -1,0 +1,43 @@
+// **
+// * Copyright (c) Seamless Payments, Inc.
+// *
+// * This source code is licensed under the MIT license found in the
+// * LICENSE file in the root directory of this source tree.
+// *
+
+import Foundation
+
+enum FormValidationError: LocalizedError {
+  case numberRequired
+  case numberInvalid
+  case expirationRequired
+  case expirationInvalid
+  case expirationInvalidDate
+  case cvcRequired
+  case cvcInvalid
+  case postalCodeRequired
+  case postalCodeInvalid
+
+  var errorDescription: String? {
+    switch self {
+    case .numberRequired:
+      return "Card number is required"
+    case .numberInvalid:
+      return "Card number is invalid"
+    case .expirationRequired:
+      return "Expiry date is required"
+    case .expirationInvalid:
+      return "Expiry date is invalid"
+    case .expirationInvalidDate:
+      return "Expiry date must not be in the past"
+    case .cvcRequired:
+      return "CVC is required"
+    case .cvcInvalid:
+      return "CVC is invalid"
+    case .postalCodeRequired:
+      return "Postal code is required"
+    case .postalCodeInvalid:
+      return "Postal code is invalid"
+    }
+  }
+}

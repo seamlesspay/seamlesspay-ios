@@ -1,0 +1,31 @@
+disabled_rules: # rule identifiers to exclude from running
+  - unused_closure_parameter
+  - unused_setter_value
+  - trailing_comma
+  - trailing_whitespace
+  - large_tuple
+  - todo
+  - unused_optional_binding
+  - file_length
+opt_in_rules:
+  - overridden_super_call
+excluded:
+  - Tests
+
+type_body_length: 400
+line_length: 120
+function_body_length: 80
+nesting:
+  type_level: 3
+
+identifier_name:
+  allowed_symbols: "_"
+  excluded:
+    - id
+    - x
+    - y
+    - os
+type_name:
+  excluded:
+    - OS
+cyclomatic_complexity: 20
