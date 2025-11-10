@@ -188,17 +188,17 @@ public struct ThemeColors: Equatable {
 
   public static var light: ThemeColors {
     .init(
-      neutral: .init(red: 42 / 255, green: 42 / 255, blue: 42 / 255, alpha: 1),
-      primary: .init(red: 37 / 255, green: 99 / 255, blue: 235 / 255, alpha: 1),
-      danger: .init(red: 186 / 255, green: 32 / 255, blue: 60 / 255, alpha: 1)
+      neutral: .init(red255: 42, green255: 42, blue255: 42),
+      primary: .init(red255: 37, green255: 99, blue255: 235),
+      danger: .init(red255: 186, green255: 32, blue255: 60)
     )
   }
 
   public static var dark: ThemeColors {
     .init(
-      neutral: .init(red: 245 / 255, green: 245 / 255, blue: 245 / 255, alpha: 1),
-      primary: .init(red: 90 / 255, green: 151 / 255, blue: 242 / 255, alpha: 1),
-      danger: .init(red: 255 / 255, green: 94 / 255, blue: 105 / 255, alpha: 1)
+      neutral: .init(red255: 245, green255: 245, blue255: 245),
+      primary: .init(red255: 90, green255: 151, blue255: 242),
+      danger: .init(red255: 255, green255: 94, blue255: 105)
     )
   }
 }
@@ -271,7 +271,7 @@ public struct Typography: Equatable {
   func modifiedFont(size: CGFloat, weight: UIFont.Weight) -> UIFont {
     let traits: [UIFontDescriptor.TraitKey: Any] = [.weight: weight]
     let descriptor = font.fontDescriptor.addingAttributes([.traits: traits])
-    
+
     return .init(descriptor: descriptor, size: size)
   }
 }
@@ -330,5 +330,17 @@ public struct FieldColor: Equatable {
     self.focusValid = focusValid
     self.focusInvalid = focusInvalid
     self.invalid = invalid
+  }
+}
+
+// MARK: - UIColor Extension
+private extension UIColor {
+  convenience init(
+    red255 red: CGFloat,
+    green255 green: CGFloat,
+    blue255 blue: CGFloat,
+    alpha: CGFloat = 1
+  ) {
+    self.init(red: red / 255, green: green / 255, blue: blue / 255, alpha: alpha)
   }
 }
