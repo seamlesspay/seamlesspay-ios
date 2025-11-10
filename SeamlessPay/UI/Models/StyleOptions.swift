@@ -23,7 +23,7 @@ public struct StyleOptions: Equatable {
   }
 
   public static var `default`: StyleOptions {
-    StyleOptions(colors: .default, shapes: .default, typography: .default, iconSet: .none)
+    .init(colors: .default, shapes: .default, typography: .default, iconSet: .none)
   }
 }
 
@@ -38,7 +38,7 @@ public struct Colors: Equatable {
   }
 
   public static var `default`: Colors {
-    Colors(light: .init(theme: .light), dark: .init(theme: .dark))
+    .init(light: .init(theme: .light), dark: .init(theme: .dark))
   }
 
   public func palette(for traitCollection: UITraitCollection) -> ColorPalette {
@@ -66,7 +66,7 @@ public struct ColorPalette: Equatable {
   }
 
   public static var `default`: ColorPalette {
-    ColorPalette(theme: .default, fieldColors: .none)
+    .init(theme: .default, fieldColors: .none)
   }
 }
 
@@ -187,18 +187,18 @@ public struct ThemeColors: Equatable {
   }
 
   public static var light: ThemeColors {
-    ThemeColors(
-      neutral: UIColor(red: 42 / 255, green: 42 / 255, blue: 42 / 255, alpha: 1),
-      primary: UIColor(red: 37 / 255, green: 99 / 255, blue: 235 / 255, alpha: 1),
-      danger: UIColor(red: 186 / 255, green: 32 / 255, blue: 60 / 255, alpha: 1)
+    .init(
+      neutral: .init(red: 42 / 255, green: 42 / 255, blue: 42 / 255, alpha: 1),
+      primary: .init(red: 37 / 255, green: 99 / 255, blue: 235 / 255, alpha: 1),
+      danger: .init(red: 186 / 255, green: 32 / 255, blue: 60 / 255, alpha: 1)
     )
   }
 
   public static var dark: ThemeColors {
-    ThemeColors(
-      neutral: UIColor(red: 245 / 255, green: 245 / 255, blue: 245 / 255, alpha: 1),
-      primary: UIColor(red: 90 / 255, green: 151 / 255, blue: 242 / 255, alpha: 1),
-      danger: UIColor(red: 255 / 255, green: 94 / 255, blue: 105 / 255, alpha: 1)
+    .init(
+      neutral: .init(red: 245 / 255, green: 245 / 255, blue: 245 / 255, alpha: 1),
+      primary: .init(red: 90 / 255, green: 151 / 255, blue: 242 / 255, alpha: 1),
+      danger: .init(red: 255 / 255, green: 94 / 255, blue: 105 / 255, alpha: 1)
     )
   }
 }
@@ -212,7 +212,7 @@ public struct Shapes: Equatable {
   }
 
   public static var `default`: Shapes {
-    Shapes(cornerRadius: 4.0)
+    .init(cornerRadius: 4.0)
   }
 }
 
@@ -225,7 +225,7 @@ public struct Shadow: Equatable {
   }
 
   public static var `default`: Shadow {
-    Shadow(elevation: .none)
+    .init(elevation: .none)
   }
 }
 
@@ -256,7 +256,7 @@ public struct Typography: Equatable {
   }
 
   public static var `default`: Typography {
-    Typography(font: UIFont.systemFont(ofSize: 16, weight: .regular), scale: 1.0)
+    .init(font: UIFont.systemFont(ofSize: 16, weight: .regular), scale: 1.0)
   }
 
   public var scaledFont: UIFont {
@@ -270,10 +270,9 @@ public struct Typography: Equatable {
 
   func modifiedFont(size: CGFloat, weight: UIFont.Weight) -> UIFont {
     let traits: [UIFontDescriptor.TraitKey: Any] = [.weight: weight]
-
     let descriptor = font.fontDescriptor.addingAttributes([.traits: traits])
-
-    return UIFont(descriptor: descriptor, size: size)
+    
+    return .init(descriptor: descriptor, size: size)
   }
 }
 
