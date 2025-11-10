@@ -6,26 +6,6 @@
 // *
 
 import UIKit
-import Foundation
-
-// MARK: - StyleOptions
-public struct StyleOptions: Equatable {
-  public let colors: Colors
-  public let shapes: Shapes
-  public let typography: Typography
-  public let iconSet: IconSet?
-
-  public init(colors: Colors, shapes: Shapes, typography: Typography, iconSet: IconSet?) {
-    self.colors = colors
-    self.shapes = shapes
-    self.typography = typography
-    self.iconSet = iconSet
-  }
-
-  public static var `default`: StyleOptions {
-    .init(colors: .default, shapes: .default, typography: .default, iconSet: .none)
-  }
-}
 
 // MARK: - Colors
 public struct Colors: Equatable {
@@ -203,92 +183,15 @@ public struct ThemeColors: Equatable {
   }
 }
 
-// MARK: - Shapes
-public struct Shapes: Equatable {
-  public let cornerRadius: CGFloat
-
-  public init(cornerRadius: CGFloat) {
-    self.cornerRadius = cornerRadius
-  }
-
-  public static var `default`: Shapes {
-    .init(cornerRadius: 4.0)
-  }
-}
-
-// MARK: - Shadow
-public struct Shadow: Equatable {
-  public let elevation: ElevationLevel
-
-  public init(elevation: ElevationLevel) {
-    self.elevation = elevation
-  }
-
-  public static var `default`: Shadow {
-    .init(elevation: .none)
-  }
-}
-
-// MARK: - ElevationLevel
-public enum ElevationLevel: Equatable {
-  case none
-  case level1
-  case level2
-  case level3
-  case level4
-  case level5
-}
-
-// MARK: - Typography
-public struct Typography: Equatable {
-  public let font: UIFont
-  public var scale: CGFloat {
-    willSet {
-      if newValue <= 0.0 {
-        assertionFailure("scale must be a value greater than zero")
-      }
-    }
-  }
-
-  public init(font: UIFont, scale: CGFloat) {
-    self.font = font
-    self.scale = scale
-  }
-
-  public static var `default`: Typography {
-    .init(font: UIFont.systemFont(ofSize: 16, weight: .regular), scale: 1.0)
-  }
-
-  public var scaledFont: UIFont {
-    scaledFont(for: font)
-  }
-
-  func scaledFont(for font: UIFont) -> UIFont {
-    let customFont = font.withSize(font.pointSize * scale)
-    return UIFontMetrics.default.scaledFont(for: customFont)
-  }
-
-  func modifiedFont(size: CGFloat, weight: UIFont.Weight) -> UIFont {
-    let traits: [UIFontDescriptor.TraitKey: Any] = [.weight: weight]
-    let descriptor = font.fontDescriptor.addingAttributes([.traits: traits])
-
-    return .init(descriptor: descriptor, size: size)
-  }
-}
-
-// MARK: - IconSet
-public enum IconSet: Equatable {
-  case light
-  case dark
-}
-
-// MARK: - IconSet Extension
-public extension IconSet? {
-  func iconSet(for traitCollection: UITraitCollection) -> IconSet {
-    if let iconSet = self {
-      return iconSet
-    }
-    return traitCollection.userInterfaceStyle == .dark ? .dark : .light
+// MARK: - UIColor Extension
+private extension UIColor {
+  convenience init(
+    red255 red: CGFloat,
+    green255 green: CGFloat,
+    blue255 blue: CGFloat,
+    alpha: CGFloat = 1
+  ) {
+    self.init(red: red / 255, green: green / 255, blue: blue / 255, alpha: alpha)
   }
 }
 
@@ -330,17 +233,5 @@ public struct FieldColor: Equatable {
     self.focusValid = focusValid
     self.focusInvalid = focusInvalid
     self.invalid = invalid
-  }
-}
-
-// MARK: - UIColor Extension
-private extension UIColor {
-  convenience init(
-    red255 red: CGFloat,
-    green255 green: CGFloat,
-    blue255 blue: CGFloat,
-    alpha: CGFloat = 1
-  ) {
-    self.init(red: red / 255, green: green / 255, blue: blue / 255, alpha: alpha)
   }
 }
