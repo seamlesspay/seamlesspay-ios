@@ -6,26 +6,6 @@
 // *
 
 import UIKit
-import Foundation
-
-// MARK: - StyleOptions
-public struct StyleOptions: Equatable {
-  public let colors: Colors
-  public let shapes: Shapes
-  public let typography: Typography
-  public let iconSet: IconSet?
-
-  public init(colors: Colors, shapes: Shapes, typography: Typography, iconSet: IconSet?) {
-    self.colors = colors
-    self.shapes = shapes
-    self.typography = typography
-    self.iconSet = iconSet
-  }
-
-  public static var `default`: StyleOptions {
-    StyleOptions(colors: .default, shapes: .default, typography: .default, iconSet: .none)
-  }
-}
 
 // MARK: - Colors
 public struct Colors: Equatable {
@@ -38,7 +18,7 @@ public struct Colors: Equatable {
   }
 
   public static var `default`: Colors {
-    Colors(light: .init(theme: .light), dark: .init(theme: .dark))
+    .init(light: .init(theme: .light), dark: .init(theme: .dark))
   }
 
   public func palette(for traitCollection: UITraitCollection) -> ColorPalette {
@@ -66,7 +46,7 @@ public struct ColorPalette: Equatable {
   }
 
   public static var `default`: ColorPalette {
-    ColorPalette(theme: .default, fieldColors: .none)
+    .init(theme: .default, fieldColors: .none)
   }
 }
 
@@ -187,109 +167,31 @@ public struct ThemeColors: Equatable {
   }
 
   public static var light: ThemeColors {
-    ThemeColors(
-      neutral: UIColor(red: 42 / 255, green: 42 / 255, blue: 42 / 255, alpha: 1),
-      primary: UIColor(red: 59 / 255, green: 130 / 255, blue: 246 / 255, alpha: 1),
-      danger: UIColor(red: 186 / 255, green: 32 / 255, blue: 60 / 255, alpha: 1)
+    .init(
+      neutral: .init(red255: 42, green255: 42, blue255: 42),
+      primary: .init(red255: 37, green255: 99, blue255: 235),
+      danger: .init(red255: 186, green255: 32, blue255: 60)
     )
   }
 
   public static var dark: ThemeColors {
-    ThemeColors(
-      neutral: UIColor(red: 245 / 255, green: 245 / 255, blue: 245 / 255, alpha: 1),
-      primary: UIColor(red: 137 / 255, green: 180 / 255, blue: 255 / 255, alpha: 1),
-      danger: UIColor(red: 255 / 255, green: 94 / 255, blue: 105 / 255, alpha: 1)
+    .init(
+      neutral: .init(red255: 245, green255: 245, blue255: 245),
+      primary: .init(red255: 90, green255: 151, blue255: 242),
+      danger: .init(red255: 255, green255: 94, blue255: 105)
     )
   }
 }
 
-// MARK: - Shapes
-public struct Shapes: Equatable {
-  public let cornerRadius: CGFloat
-
-  public init(cornerRadius: CGFloat) {
-    self.cornerRadius = cornerRadius
-  }
-
-  public static var `default`: Shapes {
-    Shapes(cornerRadius: 4.0)
-  }
-}
-
-// MARK: - Shadow
-public struct Shadow: Equatable {
-  public let elevation: ElevationLevel
-
-  public init(elevation: ElevationLevel) {
-    self.elevation = elevation
-  }
-
-  public static var `default`: Shadow {
-    Shadow(elevation: .none)
-  }
-}
-
-// MARK: - ElevationLevel
-public enum ElevationLevel: Equatable {
-  case none
-  case level1
-  case level2
-  case level3
-  case level4
-  case level5
-}
-
-// MARK: - Typography
-public struct Typography: Equatable {
-  public let font: UIFont
-  public var scale: CGFloat {
-    willSet {
-      if newValue <= 0.0 {
-        assertionFailure("scale must be a value greater than zero")
-      }
-    }
-  }
-
-  public init(font: UIFont, scale: CGFloat) {
-    self.font = font
-    self.scale = scale
-  }
-
-  public static var `default`: Typography {
-    Typography(font: UIFont.systemFont(ofSize: 16, weight: .regular), scale: 1.0)
-  }
-
-  public var scaledFont: UIFont {
-    scaledFont(for: font)
-  }
-
-  func scaledFont(for font: UIFont) -> UIFont {
-    let customFont = font.withSize(font.pointSize * scale)
-    return UIFontMetrics.default.scaledFont(for: customFont)
-  }
-
-  func modifiedFont(size: CGFloat, weight: UIFont.Weight) -> UIFont {
-    let traits: [UIFontDescriptor.TraitKey: Any] = [.weight: weight]
-
-    let descriptor = font.fontDescriptor.addingAttributes([.traits: traits])
-
-    return UIFont(descriptor: descriptor, size: size)
-  }
-}
-
-// MARK: - IconSet
-public enum IconSet: Equatable {
-  case light
-  case dark
-}
-
-// MARK: - IconSet Extension
-public extension IconSet? {
-  func iconSet(for traitCollection: UITraitCollection) -> IconSet {
-    if let iconSet = self {
-      return iconSet
-    }
-    return traitCollection.userInterfaceStyle == .dark ? .dark : .light
+// MARK: - UIColor Extension
+private extension UIColor {
+  convenience init(
+    red255 red: CGFloat,
+    green255 green: CGFloat,
+    blue255 blue: CGFloat,
+    alpha: CGFloat = 1
+  ) {
+    self.init(red: red / 255, green: green / 255, blue: blue / 255, alpha: alpha)
   }
 }
 
