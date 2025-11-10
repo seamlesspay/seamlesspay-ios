@@ -189,7 +189,7 @@ public struct ThemeColors: Equatable {
   public static var light: ThemeColors {
     ThemeColors(
       neutral: UIColor(red: 42 / 255, green: 42 / 255, blue: 42 / 255, alpha: 1),
-      primary: UIColor(red: 59 / 255, green: 130 / 255, blue: 246 / 255, alpha: 1),
+      primary: UIColor(red: 37 / 255, green: 99 / 255, blue: 235 / 255, alpha: 1),
       danger: UIColor(red: 186 / 255, green: 32 / 255, blue: 60 / 255, alpha: 1)
     )
   }
@@ -197,7 +197,7 @@ public struct ThemeColors: Equatable {
   public static var dark: ThemeColors {
     ThemeColors(
       neutral: UIColor(red: 245 / 255, green: 245 / 255, blue: 245 / 255, alpha: 1),
-      primary: UIColor(red: 137 / 255, green: 180 / 255, blue: 255 / 255, alpha: 1),
+      primary: UIColor(red: 90 / 255, green: 151 / 255, blue: 242 / 255, alpha: 1),
       danger: UIColor(red: 255 / 255, green: 94 / 255, blue: 105 / 255, alpha: 1)
     )
   }
