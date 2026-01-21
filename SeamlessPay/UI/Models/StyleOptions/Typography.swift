@@ -32,8 +32,8 @@ public struct Typography: Equatable {
   }
 
   func scaledFont(for font: UIFont) -> UIFont {
-    let customFont = font.withSize(font.pointSize * scale)
-    return UIFontMetrics.default.scaledFont(for: customFont)
+    let scaledFont = font.withSize(font.pointSize * scale)
+    return scaledFont
   }
 
   func modifiedFont(size: CGFloat, weight: UIFont.Weight) -> UIFont {
