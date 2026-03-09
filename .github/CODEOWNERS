@@ -1,0 +1,9 @@
+# Claiming ownership over all files in the repository
+* @seamlesspay/client
+
+# Deployment protection
+/.circleci/ @seamlesspay/deployers
+/.github/ @seamlesspay/deployers
+/Brewfile @seamlesspay/deployers
+/Package.swift @seamlesspay/deployers
+/SeamlessPay.podspec @seamlesspay/deployers
