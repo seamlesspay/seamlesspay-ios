@@ -3,8 +3,8 @@ version: 2.1
 jobs:
   build:
     macos:
-      xcode: 15.2.0
-    resource_class: macos.m1.medium.gen1
+      xcode: 26.0.1
+    resource_class: macos.m2.medium.gen2
     working_directory: ~/seamlesspay-ios
     steps:
       - checkout
